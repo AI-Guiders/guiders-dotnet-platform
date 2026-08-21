@@ -41,3 +41,5 @@ jobs:
             --api-key "$key" --source "$src" --skip-duplicate
           dotnet nuget push artifacts/AIGuiders.Platform.Routing.*.nupkg \
             --api-key "$key" --source "$src" --skip-duplicate
+          dotnet nuget push artifacts/AIGuiders.Platform.Cockpit.*.nupkg \
+            --api-key "$key" --source "$src" --skip-duplicate

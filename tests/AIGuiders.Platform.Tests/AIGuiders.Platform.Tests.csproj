@@ -10,5 +10,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Abstractions\AIGuiders.Platform.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Routing\AIGuiders.Platform.Routing.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit\AIGuiders.Platform.Cockpit.csproj" />
   </ItemGroup>
 </Project>
