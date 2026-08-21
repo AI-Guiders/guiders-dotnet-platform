@@ -14,5 +14,8 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Ids\AIGuiders.Platform.Cockpit.Ids.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.DataBus\AIGuiders.Platform.Cockpit.DataBus.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Transport\AIGuiders.Platform.Cockpit.Transport.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Channels\AIGuiders.Platform.Cockpit.Channels.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Composition\AIGuiders.Platform.Cockpit.Composition.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Cds\AIGuiders.Platform.Cockpit.Cds.csproj" />
   </ItemGroup>
 </Project>

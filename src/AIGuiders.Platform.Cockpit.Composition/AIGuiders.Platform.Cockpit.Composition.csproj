@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Cockpit.Composition</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Cockpit.Composition</AssemblyName>
+    <PackageId>AIGuiders.Platform.Cockpit.Composition</PackageId>
+    <Description>Surface compositor scene/payload DTOs for desk seats/tiles (ADR 0036).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Cockpit.Abstractions\AIGuiders.Platform.Cockpit.Abstractions.csproj" />
+  </ItemGroup>
+</Project>
