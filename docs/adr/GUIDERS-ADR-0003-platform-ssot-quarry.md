@@ -63,7 +63,7 @@ CDP melody c: / cdp_glass run                    │
 | **W0** | 0.3.0 ✓ | Cockpit layer split, ER/IdeHealth input DTOs, CDS/Composition |
 | **W1** | 0.3.1 | IdeHealth DataBus events + DebugSessionSnapshot |
 | **W2** | 0.3.2 | **CommandPlane**: descriptor, ArgTail, catalog index, line resolver |
-| **W3** | 0.3.3 | IdeHealth CCU fold (headless) |
+| **W3** | 0.3.3 ✓ | IdeHealth CCU fold (headless) + output snapshot |
 | **W4** | 0.3.4 | EnvReady builder kit + path acquisition |
 | **W5** | 0.4.0 | DataBus async policy; product wire (Forge/CIDE/cdp-mcp) |
 
