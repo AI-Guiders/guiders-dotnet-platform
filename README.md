@@ -18,7 +18,10 @@ Planned: `CommandPlane`, `Correspondence`, `Desk`, `Testing`.
 ```bash
 dotnet build
 dotnet test
+dotnet pack -c Release
 ```
+
+Publish: **nuget.org** (`Guiders.Platform.*`), not GitHub Packages.
 
 ## ADR
 
@@ -26,6 +29,6 @@ dotnet test
 
 ## Consumers
 
-- `cdp-mcp` — habitat; adopt via `PackageReference` (wave 2)
+- `cdp-mcp` — habitat; adopt via `PackageReference` from nuget.org (wave 2)
 - `cascade-ide` / Glass — desk + command catalog (later)
 - Forge — MCP adapter on shared command ids (later)

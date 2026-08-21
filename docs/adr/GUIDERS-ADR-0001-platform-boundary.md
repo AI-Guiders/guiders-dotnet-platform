@@ -22,7 +22,7 @@ DashSpec is **out of scope** for platform v0 (separate product repo; no slash-co
 ## Decision
 
 1. **One platform monorepo** — `guiders-platform` publishing **4–6 NuGet packages**, not one package per organ and not one repo per package.
-2. **Products keep their repos** — consume platform via `PackageReference` + internal/GitHub Packages feed.
+2. **Products keep their repos** — consume platform via `PackageReference` on **nuget.org**.
 3. **GitHub + AMS/Forge hosts** — CI/deploy targets only; **one canonical git source** per product (no mirror repos).
 4. **Platform = contracts + kits**, not UI or habitat implementation:
    - Abstractions (outcome, route envelope, pulse)
