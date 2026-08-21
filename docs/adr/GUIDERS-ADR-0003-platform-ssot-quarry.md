@@ -71,6 +71,11 @@ CDP melody c: / cdp_glass run                    │
 
 ## Product adoption checklist
 
+### agent-nuget-pm (ANPM)
+- [x] Pin manifest `guiders-platform-0.4.0.pins.json` (10 packages)
+- [x] `scripts/Stage-GuidersPlatformFeed.ps1` — pack sibling + stage to offline feed
+- [ ] Operator feed sync + `anpm_feed_index` on deployment host
+
 ### agent-forge
 - [x] `ForgeCommandDescriptor` implements or maps to `SlashCommandDescriptor`
 - [ ] capabilities JSON stable camelCase per platform schema
