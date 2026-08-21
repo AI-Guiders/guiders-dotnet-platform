@@ -1,0 +1,98 @@
+# GUIDERS-ADR-0003: Platform SSOT quarry (cross-product)
+
+**Status:** accepted (2026-08-22)  
+**Tags:** #guiders #platform #slash #forge #cide #cdp #glass  
+**Related:** GUIDERS-ADR-0001 · GUIDERS-ADR-0002 · CIDE ADR-0150/0154/0160 · FORGE-ADR-0015
+
+---
+
+## Decision
+
+**guiders-platform** is SSOT for **headless mechanics** shared by CIDE, CDP, Glass, and Forge.
+
+| Layer | Platform owns | Products own |
+|-------|---------------|--------------|
+| Contracts | interfaces, DTOs, event records | — |
+| Mechanics | resolver, merge, fold CCU logic (headless) | — |
+| Catalog **content** | — | TOML, Forge plugins, Glass subset |
+| UI / host | — | Avalonia, WPF, forge-slash.js, MCP wire |
+| Execute | request/response **shape** | handlers, MCP, HTTP |
+
+**Done** = mechanics in platform package + product references it — not presence peel alone.
+
+---
+
+## Package map (target)
+
+| Package | SSOT for | Consumers |
+|---------|----------|-----------|
+| `Cockpit.Abstractions` | IChannel, ICdsRouter, ICockpitComputeUnit | all |
+| `Cockpit.DataBus` | IDataBus, events (Build/Tests/Debug/Git/IdeHost/Startup…) | CIDE, cdp-mcp |
+| `Cockpit.Channels` | IdeHealth/EnvReady DTOs + CCU kits | CIDE, cdp-mcp, Glass bind |
+| `Cockpit.Cds` / `Composition` | routing/compositor DTOs | cdp-mcp |
+| `Cockpit.Transport` | IngressEvent, BoundedIngressBus | cdp-mcp |
+| **`CommandPlane`** | Slash DOI, ArgTail, descriptor, catalog index, line resolver | **Forge, CIDE, CDP, Glass** |
+| `Routing` | IIntentOrgan | cdp-mcp Citizen |
+
+---
+
+## Cross-product: Slash
+
+```
+Forge host  ──capabilities.commands[]──►  Platform SlashCommandDescriptor
+       │                                          ▲
+       │ overlay (ADR-0160)                       │ merge
+       ▼                                          │
+CIDE TOML ──IntentCatalogLoader──► SlashCatalogIndex ──► SlashLineResolver
+       │                                          │
+Glass subset (GlassSlashCatalog)                 │
+CDP melody c: / cdp_glass run                    │
+```
+
+- **Forge** publishes descriptors; `/commands/execute` uses platform execute DTOs.
+- **CIDE** bundles spine catalog + runtime Forge overlay → same index.
+- **Glass** = thin path slice + WPF; no separate ArgTail enum.
+- **cdp-mcp** = wire only; resolver from platform when melody/slash runs headless.
+
+---
+
+## Quarry waves
+
+| Wave | Version | Scope |
+|------|---------|-------|
+| **W0** | 0.3.0 ✓ | Cockpit layer split, ER/IdeHealth input DTOs, CDS/Composition |
+| **W1** | 0.3.1 | IdeHealth DataBus events + DebugSessionSnapshot |
+| **W2** | 0.3.2 | **CommandPlane**: descriptor, ArgTail, catalog index, line resolver |
+| **W3** | 0.3.3 | IdeHealth CCU fold (headless) |
+| **W4** | 0.3.4 | EnvReady builder kit + path acquisition |
+| **W5** | 0.4.0 | DataBus async policy; product wire (Forge/CIDE/cdp-mcp) |
+
+---
+
+## Product adoption checklist
+
+### agent-forge
+- [ ] `ForgeCommandDescriptor` implements or maps to `SlashCommandDescriptor`
+- [ ] capabilities JSON stable camelCase per platform schema
+
+### cascade-ide
+- [ ] `SlashRouteEntry` → platform type + CIDE extension struct
+- [ ] `ForgeSlashCatalogOverlay` → `SlashCatalogIndex.Merge`
+- [ ] Deprecate local `SlashArgTailKind` duplicate
+
+### cdp-mcp
+- [ ] PackageReference CommandPlane when melody/slash headless
+- [ ] ER builder → platform kit (CDP rows = extension)
+- [ ] IdeHealth CCU + `cdp_ide_health`
+
+### Glass (cascade-ide GlassCore)
+- [ ] `GlassSlashCatalog` paths from platform slice
+- [ ] WH/ER glances bind channel snapshots, not FS-only peel
+
+---
+
+## Non-goals
+
+- Full `intent-catalog.toml` in NuGet
+- Avalonia/Glass UI in platform
+- Forge MCP executor / plugin host in platform

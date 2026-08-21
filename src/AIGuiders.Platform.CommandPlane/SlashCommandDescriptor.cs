@@ -1,0 +1,48 @@
+#nullable enable
+
+namespace AIGuiders.Platform.CommandPlane;
+
+/// <summary>
+/// Cross-product slash command descriptor (Forge capabilities + CIDE TOML + platform index).
+/// ADR-0154 DOI + ADR-0150 arg_tail.
+/// </summary>
+public sealed class SlashCommandDescriptor
+{
+    public required string Domain { get; init; }
+    public required string Object { get; init; }
+    public required string Intent { get; init; }
+    public required string CommandId { get; init; }
+    public required string Path { get; init; }
+    public IReadOnlyList<string> PathAliases { get; init; } = [];
+    public string? Help { get; init; }
+    public string? Group { get; init; }
+    public string ArgTail { get; init; } = "optional";
+    public string? ArgHint { get; init; }
+    public IReadOnlyList<SlashPickerChoice> ArgPickerChoices { get; init; } = [];
+    public IReadOnlyList<string> Surfaces { get; init; } = [];
+    public IReadOnlyList<string> RequiredCapabilities { get; init; } = [];
+    public string? Tier { get; init; }
+    public string? PluginId { get; init; }
+    public bool RequiresDestructiveConfirm { get; init; }
+
+    public SlashArgTailKind ArgTailKind => SlashArgTailPolicy.Parse(ArgTail);
+
+    public SlashSemanticFields Semantic => new(Domain, Object, Intent, SlashPathRole.Canonical);
+
+    public IEnumerable<string> AllPaths()
+    {
+        yield return Path;
+        foreach (var a in PathAliases)
+        {
+            if (!string.IsNullOrWhiteSpace(a))
+                yield return a;
+        }
+    }
+}
+
+public sealed class SlashPickerChoice
+{
+    public required string Value { get; init; }
+    public string? Label { get; init; }
+    public string? Hint { get; init; }
+}

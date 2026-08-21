@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.CommandPlane</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.CommandPlane</AssemblyName>
+    <PackageId>AIGuiders.Platform.CommandPlane</PackageId>
+    <Description>Slash/melody command plane SSOT: DOI descriptors, ArgTail (ADR-0150), catalog index, line resolver. Forge + CIDE + CDP.</Description>
+  </PropertyGroup>
+</Project>
