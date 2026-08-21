@@ -1,4 +1,4 @@
-namespace Guiders.Platform.Abstractions;
+namespace AIGuiders.Platform.Abstractions;
 
 /// <summary>
 /// Host-execute result — product-neutral shape aligned with CDP <c>CitizenRouteHost.Applied</c>.

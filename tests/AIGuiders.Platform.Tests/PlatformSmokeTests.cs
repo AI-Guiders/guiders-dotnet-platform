@@ -1,8 +1,8 @@
-using Guiders.Platform.Abstractions;
-using Guiders.Platform.Routing;
+using AIGuiders.Platform.Abstractions;
+using AIGuiders.Platform.Routing;
 using Xunit;
 
-namespace Guiders.Platform.Tests;
+namespace AIGuiders.Platform.Tests;
 
 public class PulseFormatTests
 {

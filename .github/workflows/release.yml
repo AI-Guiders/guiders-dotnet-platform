@@ -1,4 +1,4 @@
-# Публикация Guiders.Platform.* на nuget.org через Trusted Publishing (OIDC).
+# Публикация AIGuiders.Platform.* на nuget.org через Trusted Publishing (OIDC).
 # nuget.org (LonelySoul): Trusted Publishing → owner AI-Guiders, repo guiders-platform, workflow release.yml
 name: release
 
@@ -37,7 +37,7 @@ jobs:
           set -euo pipefail
           key="${{ steps.nuget_login.outputs.NUGET_API_KEY }}"
           src="https://api.nuget.org/v3/index.json"
-          dotnet nuget push artifacts/Guiders.Platform.Abstractions.*.nupkg \
+          dotnet nuget push artifacts/AIGuiders.Platform.Abstractions.*.nupkg \
             --api-key "$key" --source "$src" --skip-duplicate
-          dotnet nuget push artifacts/Guiders.Platform.Routing.*.nupkg \
+          dotnet nuget push artifacts/AIGuiders.Platform.Routing.*.nupkg \
             --api-key "$key" --source "$src" --skip-duplicate

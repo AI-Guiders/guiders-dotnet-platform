@@ -8,8 +8,8 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 
 | Package | Role |
 |---------|------|
-| `Guiders.Platform.Abstractions` | `IntentOutcome`, `RoutedIntent`, pulse truncation |
-| `Guiders.Platform.Routing` | `IIntentOrgan`, `DispatchCallOverride`, route refusal helpers |
+| `AIGuiders.Platform.Abstractions` | `IntentOutcome`, `RoutedIntent`, pulse truncation |
+| `AIGuiders.Platform.Routing` | `IIntentOrgan`, `DispatchCallOverride`, route refusal helpers |
 
 Planned: `CommandPlane`, `Correspondence`, `Desk`, `Testing`.
 
@@ -21,7 +21,7 @@ dotnet test
 dotnet pack -c Release
 ```
 
-Publish: **nuget.org** (`Guiders.Platform.*`), not GitHub Packages.
+Publish: **nuget.org** (`AIGuiders.Platform.*`), not GitHub Packages.
 
 ## ADR
 

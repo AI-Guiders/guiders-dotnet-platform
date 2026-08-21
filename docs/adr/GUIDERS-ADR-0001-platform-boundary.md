@@ -33,17 +33,17 @@ DashSpec is **out of scope** for platform v0 (separate product repo; no slash-co
 5. **Dependency DAG** — Abstractions ← Routing ← products; **no** WPF/Avalonia refs in platform; **no** habitat → glass cycles.
 
 ```
-Guiders.Platform.Abstractions
+AIGuiders.Platform.Abstractions
         ↑
-Guiders.Platform.Routing
+AIGuiders.Platform.Routing
         ↑
   cdp-mcp · GlassCore · Forge.*
 ```
 
 ## v0 deliverable (this repo)
 
-- `Guiders.Platform.Abstractions` — stable outcome/route/pulse types
-- `Guiders.Platform.Routing` — `IIntentOrgan<TRoute,TOutcome>`, `DispatchCallOverride`
+- `AIGuiders.Platform.Abstractions` — stable outcome/route/pulse types
+- `AIGuiders.Platform.Routing` — `IIntentOrgan<TRoute,TOutcome>`, `DispatchCallOverride`
 - ADR + CI build/test
 - **No** cdp-mcp wire yet (wave 2: ProjectReference → PackageReference after first pack)
 

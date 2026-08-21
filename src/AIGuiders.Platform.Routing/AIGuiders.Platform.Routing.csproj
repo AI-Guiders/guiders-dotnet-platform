@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Routing</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Routing</AssemblyName>
+    <Description>Route + Execute + test override seam for AI Guiders intent organs.</Description>
+    <PackageId>AIGuiders.Platform.Routing</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Abstractions\AIGuiders.Platform.Abstractions.csproj" />
+  </ItemGroup>
+</Project>

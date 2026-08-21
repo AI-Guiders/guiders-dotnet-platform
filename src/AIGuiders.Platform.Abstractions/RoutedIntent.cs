@@ -1,4 +1,4 @@
-namespace Guiders.Platform.Abstractions;
+namespace AIGuiders.Platform.Abstractions;
 
 /// <summary>
 /// Parsed intent before host execute — minimal cross-product envelope.

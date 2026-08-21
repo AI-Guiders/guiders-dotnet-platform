@@ -1,4 +1,4 @@
-namespace Guiders.Platform.Abstractions;
+namespace AIGuiders.Platform.Abstractions;
 
 /// <summary>Pulse truncation defaults — aligned with CDP inventory observe limits.</summary>
 public static class PulseFormat

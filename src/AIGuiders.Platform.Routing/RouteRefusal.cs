@@ -1,6 +1,6 @@
-using Guiders.Platform.Abstractions;
+using AIGuiders.Platform.Abstractions;
 
-namespace Guiders.Platform.Routing;
+namespace AIGuiders.Platform.Routing;
 
 /// <summary>Shared route refusal helpers for organs.</summary>
 public static class RouteRefusal

@@ -1,4 +1,4 @@
-namespace Guiders.Platform.Routing;
+namespace AIGuiders.Platform.Routing;
 
 /// <summary>
 /// Intent organ peel seam: parse wire → route; route + optional override → outcome.
