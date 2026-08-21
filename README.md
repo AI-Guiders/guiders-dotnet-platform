@@ -32,3 +32,7 @@ Publish: **nuget.org** (`Guiders.Platform.*`), not GitHub Packages.
 - `cdp-mcp` — habitat; adopt via `PackageReference` from nuget.org (wave 2)
 - `cascade-ide` / Glass — desk + command catalog (later)
 - Forge — MCP adapter on shared command ids (later)
+
+## License
+
+[Hippocratic License 2.1](LICENSE) (Ethical Source / SPDX `Hippocratic-2.1`).
