@@ -64,26 +64,26 @@ CDP melody c: / cdp_glass run                    │
 | **W1** | 0.3.1 | IdeHealth DataBus events + DebugSessionSnapshot |
 | **W2** | 0.3.2 | **CommandPlane**: descriptor, ArgTail, catalog index, line resolver |
 | **W3** | 0.3.3 ✓ | IdeHealth CCU fold (headless) + output snapshot |
-| **W4** | 0.3.4 | EnvReady builder kit + path acquisition |
-| **W5** | 0.4.0 | DataBus async policy; product wire (Forge/CIDE/cdp-mcp) |
+| **W4** | 0.3.4 ✓ | EnvReady builder kit + path acquisition |
+| **W5** | 0.4.0 ✓ | DataBus async policy; product wire (Forge/CIDE/cdp-mcp) |
 
 ---
 
 ## Product adoption checklist
 
 ### agent-forge
-- [ ] `ForgeCommandDescriptor` implements or maps to `SlashCommandDescriptor`
+- [x] `ForgeCommandDescriptor` implements or maps to `SlashCommandDescriptor`
 - [ ] capabilities JSON stable camelCase per platform schema
 
 ### cascade-ide
 - [ ] `SlashRouteEntry` → platform type + CIDE extension struct
-- [ ] `ForgeSlashCatalogOverlay` → `SlashCatalogIndex.Merge`
-- [ ] Deprecate local `SlashArgTailKind` duplicate
+- [x] `ForgeSlashCatalogOverlay` → `SlashArgTailPolicy` / CommandPlane
+- [x] Deprecate local `SlashArgTailKind` duplicate
 
 ### cdp-mcp
-- [ ] PackageReference CommandPlane when melody/slash headless
-- [ ] ER builder → platform kit (CDP rows = extension)
-- [ ] IdeHealth CCU + `cdp_ide_health`
+- [x] PackageReference CommandPlane when melody/slash headless
+- [x] ER builder → platform kit (CDP rows = extension)
+- [x] IdeHealth CCU + `cdp_ide_health`
 
 ### Glass (cascade-ide GlassCore)
 - [ ] `GlassSlashCatalog` paths from platform slice

@@ -1,0 +1,10 @@
+#nullable enable
+
+namespace AIGuiders.Platform.Cockpit.Channels.EnvironmentReadiness.DataAcquisition;
+
+/// <summary>Env var names for ER DAL (aligned with AgentNotes.Core / CIDE ADR 0023).</summary>
+public static class WellKnownEnv
+{
+    public const string AgentNotesFile = "AGENT_NOTES_FILE";
+    public const string NetcoreDbgPath = "NETCOREDBG_PATH";
+}
