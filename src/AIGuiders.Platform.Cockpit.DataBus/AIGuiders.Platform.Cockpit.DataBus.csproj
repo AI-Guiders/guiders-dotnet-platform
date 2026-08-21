@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Cockpit.DataBus</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Cockpit.DataBus</AssemblyName>
+    <PackageId>AIGuiders.Platform.Cockpit.DataBus</PackageId>
+    <Description>Typed in-process DataBus kit (CIDE ADR 0099).</Description>
+  </PropertyGroup>
+</Project>

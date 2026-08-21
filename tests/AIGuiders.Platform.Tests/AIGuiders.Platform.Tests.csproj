@@ -10,6 +10,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Abstractions\AIGuiders.Platform.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Routing\AIGuiders.Platform.Routing.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit\AIGuiders.Platform.Cockpit.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Abstractions\AIGuiders.Platform.Cockpit.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Ids\AIGuiders.Platform.Cockpit.Ids.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.DataBus\AIGuiders.Platform.Cockpit.DataBus.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Transport\AIGuiders.Platform.Cockpit.Transport.csproj" />
   </ItemGroup>
 </Project>

@@ -1,8 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <RootNamespace>AIGuiders.Platform.Cockpit</RootNamespace>
-    <AssemblyName>AIGuiders.Platform.Cockpit</AssemblyName>
-    <Description>UI-agnostic cockpit layer canon: DAL boundary, transport, CCU, channel, CDS, compositor, DataBus, IDS search (CIDE ADR 0036/0079/0094/0097/0099/0102 parity).</Description>
-    <PackageId>AIGuiders.Platform.Cockpit</PackageId>
-  </PropertyGroup>
-</Project>

@@ -21,7 +21,7 @@ Platform v0.1 initially shipped only Abstractions + Routing — **under-scoped**
 
 ## Decision
 
-1. **`AIGuiders.Platform.Cockpit`** holds UI-agnostic layer contracts + thin kits (`IDataBus`, `InMemoryDataBus`, `BoundedIngressBus`, `IChannel`, `ICdsRouter`, `ISurfaceCompositor`, `ICockpitComputeUnit`, `IIdsFeatureSearch`, `IDataAcquisition`).
+1. **Cockpit split packages** (not one monolith): `AIGuiders.Platform.Cockpit.Abstractions` (contracts), `.Ids`, `.DataBus`, `.Transport` (kits). Monolith `AIGuiders.Platform.Cockpit` 0.1.0 deprecated.
 2. **Products** implement domain CCUs, DAL adapters, and surface renderers — not duplicate layer interfaces.
 3. **Avalonia** = quarry to **distill** mechanics into platform + headless CDP; **not** extended on Windows primary.
 4. **Glass WPF** = `ISurfaceAdapter` / snapshot binders only; **no new mechanics** without platform contract or named `DIG REJECT`.
@@ -29,7 +29,7 @@ Platform v0.1 initially shipped only Abstractions + Routing — **under-scoped**
 
 ## Gap matrix — layer canon (2026-08-21)
 
-| Layer | Avalonia CIDE SSOT | Platform Cockpit v0.1 | cdp-mcp `Cockpit/` | Glass WPF | Miss |
+| Layer | Avalonia CIDE SSOT | Platform Cockpit v0.2 | cdp-mcp `Cockpit/` | Glass WPF | Miss |
 |-------|-------------------|----------------------|-------------------|-----------|------|
 | **DAL boundary** | `Features/*/DataAcquisition/` | `IDataAcquisition` marker | `ToolchainPathProbe` (local) | DAL-adjacent peels | Product DAL not wired to platform marker |
 | **Transport** | ADR 0094 ingestion | `IngressEvent`, `BoundedIngressBus<T>` | `DeskIngestionBus` (duplicate) | — | cdp-mcp not on platform transport yet |
@@ -72,7 +72,7 @@ From `glass.md` PreCondition + MFD matrix. **Presence CLOSED ≠ mechanics adopt
 
 ## Recovery order
 
-1. **Ship** `AIGuiders.Platform.Cockpit` 0.1.x (this ADR).
+1. **Ship** `AIGuiders.Platform.Cockpit.*` 0.2.x split (this ADR).
 2. **cdp-mcp** — replace `Cockpit/DataBus`, `Transport`, interface files with `PackageReference`; keep product CCUs.
 3. **Quarry batch A** — IdeHealth + EnvironmentReadiness CCU/channel from Avalonia → headless platform types + CDP CCU.
 4. **Quarry batch B** — Correspondence → `AIGuiders.Platform.Correspondence`.
