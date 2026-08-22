@@ -26,7 +26,20 @@ dotnet test
 dotnet pack -c Release
 ```
 
-Publish: **nuget.org** (`AIGuiders.Platform.*`). Trusted Publishing policy glob: `AIGuiders.Platform.*`.
+## NuGet Trusted Publishing (nuget.org)
+
+| Поле | Значение |
+|------|----------|
+| Owner | `AI-Guiders` |
+| Repository | `guiders-platform` |
+| Workflow | `release.yml` |
+| **Package scope (glob)** | **`AIGuiders.Platform.*`** |
+
+Один glob покрывает все семейства: `Abstractions`, `Routing`, `CommandPlane`, `Cockpit.*`, будущие `Correspondence`, `Desk`.
+
+Не используй только `AIGuiders.Platform.Cockpit.*` — CommandPlane и Routing туда не входят.
+
+`release.yml` пушит `artifacts/AIGuiders.Platform.*.nupkg` — новый пакет не нужно дописывать вручную.
 
 ## ADR
 
