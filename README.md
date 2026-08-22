@@ -10,12 +10,13 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 |---------|------|
 | `AIGuiders.Platform.Abstractions` | `IntentOutcome`, `RoutedIntent`, pulse truncation |
 | `AIGuiders.Platform.Routing` | `IIntentOrgan`, `DispatchCallOverride`, route refusal helpers |
+| `AIGuiders.Platform.CommandPlane` | Slash DOI, ArgTail, catalog index, line resolver |
 | `AIGuiders.Platform.Cockpit.Abstractions` | CCU, DAL, channel, CDS, compositor contracts |
 | `AIGuiders.Platform.Cockpit.Ids` | IDS overlay search (ADR 0079) |
 | `AIGuiders.Platform.Cockpit.DataBus` | `IDataBus`, `InMemoryDataBus` (ADR 0099) |
 | `AIGuiders.Platform.Cockpit.Transport` | `IngressEvent`, `BoundedIngressBus` (ADR 0094) |
 
-Planned: `CommandPlane`, `Correspondence`, `Desk`. Monolith `AIGuiders.Platform.Cockpit` 0.1.0 deprecated.
+Planned: `Correspondence`, `Desk`. Monolith `AIGuiders.Platform.Cockpit` 0.1.0 deprecated.
 
 ## Build
 
