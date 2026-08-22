@@ -78,21 +78,23 @@ CDP melody c: / cdp_glass run                    │
 
 ### agent-forge
 - [x] `ForgeCommandDescriptor` implements or maps to `SlashCommandDescriptor`
-- [ ] capabilities JSON stable camelCase per platform schema
+- [x] capabilities JSON stable camelCase per platform schema (`group`, normalized paths)
+- [x] `/commands/execute` accepts platform `SlashCommandExecuteRequest`
 
-### cascade-ide
+### cascade-ide (Avalonia — secondary; Forge overlay already wired for Lens)
 - [ ] `SlashRouteEntry` → platform type + CIDE extension struct
-- [x] `ForgeSlashCatalogOverlay` → `SlashArgTailPolicy` / CommandPlane
+- [x] `ForgeSlashCatalogOverlay` → `SlashCatalogIndex` + CommandPlane descriptors (Lens path; not primary product surface)
 - [x] Deprecate local `SlashArgTailKind` duplicate
+
+### Glass (WPF — primary human client beside forge-slash.js)
+- [ ] `GlassSlashCatalog` paths from platform slice
+- [ ] Forge capabilities overlay via `SlashCatalogIndex.Merge` (deferred)
+- [ ] WH/ER glances bind channel snapshots, not FS-only peel
 
 ### cdp-mcp
 - [x] PackageReference CommandPlane when melody/slash headless
 - [x] ER builder → platform kit (CDP rows = extension)
 - [x] IdeHealth CCU + `cdp_ide_health`
-
-### Glass (cascade-ide GlassCore)
-- [ ] `GlassSlashCatalog` paths from platform slice
-- [ ] WH/ER glances bind channel snapshots, not FS-only peel
 
 ---
 
