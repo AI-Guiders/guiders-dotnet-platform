@@ -2,6 +2,8 @@
 
 Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Forge).
 
+**Architecture:** sibling repos as sovereign **planets**; shared packages and ADR as **federation protocols** — see [GUIDERS-ADR-0006](docs/adr/GUIDERS-ADR-0006-confederation-charter.md).
+
 **Not in scope:** product apps, DashSpec, Avalonia UI forks.
 
 ## Packages (v0.2)
@@ -45,6 +47,10 @@ dotnet pack -c Release
 
 - [GUIDERS-ADR-0001 — Platform boundary](docs/adr/GUIDERS-ADR-0001-platform-boundary.md)
 - [GUIDERS-ADR-0002 — Avalonia quarry gap](docs/adr/GUIDERS-ADR-0002-avalonia-quarry-gap.md)
+- [GUIDERS-ADR-0003 — Platform SSOT quarry](docs/adr/GUIDERS-ADR-0003-platform-ssot-quarry.md)
+- [GUIDERS-ADR-0004 — Core monorepo](docs/adr/GUIDERS-ADR-0004-core-monorepo.md)
+- [GUIDERS-ADR-0005 — UI Platform monorepo](docs/adr/GUIDERS-ADR-0005-ui-platform-monorepo.md)
+- [GUIDERS-ADR-0006 — Confederation charter](docs/adr/GUIDERS-ADR-0006-confederation-charter.md)
 
 ## Consumers
 
