@@ -21,7 +21,7 @@ GUIDERS-ADR-0001 split **platform mechanics** (`guiders-platform`) from product 
 ## Non-goals
 
 - UI/product apps (`cdp-mcp` exe, Glass, Forge server) stay in their repos.
-- `ai-native-ui` (Anui) stays separate until explicitly folded.
+- `ai-native-ui` (Anui) — federation role: ASP evidence/ingest/audit; see GUIDERS-UI-0004 · ANUI-ADR-0004 (not «fold when convenient»).
 
 ## Consequences
 

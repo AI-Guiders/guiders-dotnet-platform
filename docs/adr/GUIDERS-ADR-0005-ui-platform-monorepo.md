@@ -29,3 +29,4 @@ AI Guiders products share human+agent UX principles (keyboard surfaces, grouping
 - v1 slice: PageChrome, EmptyStates, Tokens — see `guiders-ui-platform` GUIDERS-UI-0002.
 - Dual accessibility (human a11y + Agent AX): GUIDERS-UI-0003 in `guiders-ui-platform`.
 - Federation framing (sovereign repos, non-annexation): GUIDERS-ADR-0006.
+- Platform-neutral a11y (ASP): GUIDERS-UI-0004 in `guiders-ui-platform`; ANUI evolution ANUI-ADR-0004.
