@@ -27,3 +27,4 @@ AI Guiders products share human+agent UX principles (keyboard surfaces, grouping
 
 - GUIDERS-ADR-0003 «UI / host → products own» amended: **shared human kit** → ui-platform; host wiring stays in products.
 - v1 slice: PageChrome, EmptyStates, Tokens — see `guiders-ui-platform` GUIDERS-UI-0002.
+- Dual accessibility (human a11y + Agent AX): GUIDERS-UI-0003 in `guiders-ui-platform`.
