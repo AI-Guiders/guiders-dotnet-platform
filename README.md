@@ -57,7 +57,7 @@ dotnet pack -c Release
 
 ## Essays
 
-- [Why aviation, not Pair Programming](docs/essay/why-aviation-not-pair-programming.md) — human + agent ≠ pair; CRM, CDS, briefing vs checklist
+- [Why aviation, not Pair Programming](docs/essay/why-aviation-not-pair-programming.md) — Pair + CRM + cockpit: one subject, complementary domains (not either/or)
 
 ## Consumers
 
