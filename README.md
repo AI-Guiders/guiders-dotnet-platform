@@ -55,6 +55,10 @@ dotnet pack -c Release
 - [GUIDERS-ADR-0006 — Confederation charter](docs/adr/GUIDERS-ADR-0006-confederation-charter.md)
 - [GUIDERS-ADR-0007 — Aviation mental model](docs/adr/GUIDERS-ADR-0007-aviation-mental-model.md)
 
+## Essays
+
+- [Why aviation, not Pair Programming](docs/essay/why-aviation-not-pair-programming.md) — human + agent ≠ pair; CRM, CDS, briefing vs checklist
+
 ## Consumers
 
 - `cdp-mcp` — habitat; adopt via `PackageReference` from nuget.org

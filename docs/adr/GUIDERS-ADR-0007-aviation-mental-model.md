@@ -160,6 +160,8 @@ CDS (`ICdsRouter`, attention contour) routes **both** contours to displays. IDE/
 - ExploreCorr **Checklist** stays in Dev profile; KB authoring paths remain `explore_corr off` or briefing-only (CDP-ADR-0020).
 - CIDE ADR 0021 remains human cockpit SSOT for layout; this ADR is **federation-wide** semantics for agents and multi-repo canon.
 
+**Essay (FAQ for skeptics):** [Why aviation, not Pair Programming](../essay/why-aviation-not-pair-programming.md)
+
 ---
 
 ## vNext
