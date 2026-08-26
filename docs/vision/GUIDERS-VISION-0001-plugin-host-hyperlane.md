@@ -71,19 +71,21 @@ GUIDERS-ADR-0003 **Non-goals:** *Forge MCP executor / plugin host in platform* �
 
 **Governance only** (Vision P2): `GUIDERS-ADR-0008` markdown, conformance checklist template, federation table links. **No** runtime packages under `AIGuiders.Platform.*` in v1.
 
-### Repo home (Q1 — sibling vs core)
+### Repo home — **decided 2026-08-26**
 
-| Option | Verdict |
-|--------|---------|
-| **A. Sibling `guiders-plugin-host`** | **Recommended** — mirrors ui-platform |
-| **B. Folder in `guiders-core`** | Acceptable if we want fewer repos |
-| **C. Inside `guiders-platform`** | **Rejected** — ADR-0003 non-goals |
+| Layer | Name |
+|-------|------|
+| **GitHub repo** | `guiders-plugin-host` (sibling monorepo, mirrors `guiders-ui-platform`) |
+| **NuGet family** | `AIGuiders.PluginHost.*` (`Abstractions`, `Runtime`, `Build`, `Analyzers`) |
+| **Not** | `guiders-platform` src, not `AIGuiders.Platform.PluginHost` |
+
+Rejected: folder in `guiders-core` (organs ≠ host transport); loader inside `guiders-platform` (ADR-0003 non-goals).
 
 ---
 
 ## 4. Package family (target)
 
-Sibling monorepo candidate: **`guiders-plugin-host`** (name TBD) or packages under **`guiders-core`** — decision in GUIDERS-ADR-0008.
+Sibling monorepo: **`guiders-plugin-host`** → publishes **`AIGuiders.PluginHost.*`** (GUIDERS-ADR-0008 will ratify).
 
 | Package | Responsibility |
 |---------|----------------|
@@ -228,7 +230,7 @@ This vision uses **PluginHost phases P0–P4**. They are **not** the same as:
 
 | # | Question | Options |
 |---|----------|---------|
-| Q1 | Repo home: `guiders-plugin-host` vs folder in `guiders-core`? | Sibling (UI pattern) vs core organs |
+| Q1 | Repo home | **Closed:** sibling `guiders-plugin-host` + `AIGuiders.PluginHost.*` (2026-08-26) |
 | Q2 | Is ANPM the right **second consumer**, or CDP extension host first? | ANPM = verify-only is lighter; CDP = real load |
 | Q3 | Generic module interface name: `IPluginModule` vs keep Forge-only `IForgePlugin` forever? | Bridge interface in Abstractions vs Forge-specific forever |
 | Q4 | Analyzers: move all FORGE00x to PluginHost or split generic/product? | Split recommended |
@@ -252,3 +254,4 @@ This vision uses **PluginHost phases P0–P4**. They are **not** the same as:
 |------|--------|
 | 2026-08-25 | Initial vision draft from Forge 0.4.13 ldap-org / AIGuiders preload arc + confederation discussion |
 | 2026-08-25 | §3 Platform vs PluginHost; P2 ≠ Platform packages (operator clarification) |
+| 2026-08-26 | Q1 closed: sibling `guiders-plugin-host`, NuGet `AIGuiders.PluginHost.*` (operator sign-off) |
