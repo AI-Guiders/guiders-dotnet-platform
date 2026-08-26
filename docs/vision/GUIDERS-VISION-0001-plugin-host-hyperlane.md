@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Status** | **Vision · discussion** (not Accepted ADR yet) |
+| **Status** | **Vision · accepted** (Q1 closed 2026-08-26) |
 | **Date** | 2026-08-25 |
 | **Authors** | operator + agent (Composer session, Forge ldap-org / AIGuiders preload arc) |
 | **Supersedes** | chat-only proposals — keep this file when context compacts |

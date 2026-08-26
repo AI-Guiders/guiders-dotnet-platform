@@ -61,7 +61,8 @@ No requirement to merge repos or adopt a single UI framework.
 | Platform mechanics | `guiders-platform` | Intent, routing, cockpit contracts |
 | Backend cores | `guiders-core` (sibling) | Shared organs, MCP libs |
 | Human + Agent UX semantics | `guiders-ui-platform` | Core, Tokens, adapters |
-| Reference consumer | `agent-forge` | Proves UI + API integration path |
+| **Plugin transport** | **`guiders-plugin-host`** | ALC, staging, `host-runtime.manifest.json` ([GUIDERS-ADR-0008](GUIDERS-ADR-0008-plugin-host-hyperlane.md)) |
+| Reference modular host | `agent-forge` | `IForgePlugin` embassy |
 | Agent habitat | `cdp-mcp` | MCP/CDP tools, buffer plane |
 | Knowledge continuity | `agent-notes` | Operator KB, line/incarnation canon |
 

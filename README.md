@@ -53,7 +53,7 @@ dotnet pack -c Release
 - [GUIDERS-ADR-0004 — Core monorepo](docs/adr/GUIDERS-ADR-0004-core-monorepo.md)
 - [GUIDERS-ADR-0005 — UI Platform monorepo](docs/adr/GUIDERS-ADR-0005-ui-platform-monorepo.md)
 - [GUIDERS-ADR-0006 — Confederation charter](docs/adr/GUIDERS-ADR-0006-confederation-charter.md)
-- [GUIDERS-ADR-0007 — Aviation mental model](docs/adr/GUIDERS-ADR-0007-aviation-mental-model.md)
+- [GUIDERS-ADR-0008 — PluginHost hyperlane](docs/adr/GUIDERS-ADR-0008-plugin-host-hyperlane.md)
 
 ## Essays
 
