@@ -19,7 +19,51 @@ Two coupled ideas:
 
 Короткий ярлык: **Command–Surface** (не «одна полоса UI»).
 
-## Platform contract (GoF)
+## Pattern stack (Catalog · Registry · Command · Surface)
+
+Четыре именованных паттерна — **не один механизм**:
+
+```text
+  Catalog                    Registry                 Command
+  (что показать)             (как найти executor)     (как выполнить)
+       │                          │                        │
+  SlashCommandDescriptor    PlatformCommandRegistry   IPlatformCommand
+  SlashCatalogIndex         EditorCommandRegistry     PlatformCommand
+  capabilities.commands[]   Forge CommandCatalog
+       │                          │                        │
+       └─────────── path / id ────┴──── commandId ───────┘
+                                    ▲
+                    Invocation surfaces (slash, palette, CCL, toolbar, MCP)
+```
+
+| Pattern | Вопрос | SSOT в platform | Не делает |
+|---------|--------|-----------------|-----------|
+| **Catalog** | «Что пользователь *видит* и как *найти* по path?» | `SlashCommandDescriptor`, `SlashCatalogIndex`, `SlashLineResolver` | `Execute`, правки buffer, MCP |
+| **Registry** | «По `commandId` — какой executor?» | `PlatformCommandRegistry<TContext>`, product catalogs (`EditorCommandRegistry`, Forge `CommandCatalog`) | Autocomplete UI, wrap/insert math |
+| **Command** (GoF) | «Один эффект — один `Execute`» | `IPlatformCommand<T>`, `PlatformCommand<T>` | Парсинг slash-строки, popover layout |
+| **Surface** | «Откуда человек вызвал?» | Product UI (`forge-slash.js`, palette, Relay*) | Собственная бизнес-логика |
+
+\* Relay — invoker-адаптер для Glass/CIDE (deferred).
+
+### Catalog vs Registry (главная граница)
+
+| | Catalog | Registry |
+|---|---------|----------|
+| Ключ | slash **path**, tier, group, arg_tail, help | **commandId** |
+| Merge | `SlashCatalogIndex.Merge` (Forge overlay + TOML) | `Register(command)` per product |
+| Consumer | autocomplete, capabilities JSON, trie | `TryExecute(id, context)` |
+| Анти-паттерн | Выполнять действие из descriptor без registry | Дублировать path/help для discoverability |
+
+**Wire:** catalog entry несёт `CommandId` → surface резолвит path (catalog) → registry → command.
+
+### Registry of Commands
+
+**Registry** — отдельный паттерн: каталог *исполнителей*, не UI.
+
+- Новая bundled buffer command = **class** + `registry.Register(...)` — не ветка в surface handler.
+- Registry может держать singleton commands или factory per id (`EditorFormatInsertCommand` per format).
+
+## Platform contract (GoF Command + Registry)
 
 ```text
 IPlatformCommand<TContext>
@@ -36,7 +80,7 @@ PlatformCommandRegistry<TContext>  — register + TryExecute(commandId, context)
 | `PlatformCommand<TContext>` | Sync command base class |
 | `CommandOutcome` | Success / error + typed payloads (`EditorBufferOutcome`, …) |
 
-**Catalog** (`SlashCommandDescriptor`) = discoverability. **Command class** = execution. Map descriptor → command in product registry.
+Catalog entries (`SlashCommandDescriptor`) link to registry via `CommandId`; they do not replace registry lookup.
 
 ## Rules
 
@@ -59,6 +103,8 @@ Glass/CIDE migrate to `IPlatformCommand` + Relay **non-urgent**.
 - `applyFormat` / `applyX` per surface.
 - DTO + static executor without command classes when behavior is bundled and testable.
 - Surface disables another surface on the same host.
+- **Catalog as executor** — `capabilities.commands[]` handler with inline logic, no registry.
+- **Registry as catalog** — registering paths without `SlashCatalogIndex` / descriptor merge for UI.
 
 ## Prior art
 

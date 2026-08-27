@@ -38,7 +38,7 @@
 
 ## Cross-product: Slash
 
-**Pattern:** [GUIDERS-ADR-0009](GUIDERS-ADR-0009-command-surface-pattern.md) — **Command–Surface** (one command, many invocation surfaces).
+**Pattern:** [GUIDERS-ADR-0009](GUIDERS-ADR-0009-command-surface-pattern.md) — **Catalog · Registry · Command · Surface**.
 
 ```
 Forge host  ──capabilities.commands[]──►  Platform SlashCommandDescriptor
