@@ -69,6 +69,8 @@ CDP melody c: / cdp_glass run                    │
 | **W4** | 0.3.4 ✓ | EnvReady builder kit + path acquisition |
 | **W5** | 0.4.0 ✓ | DataBus async policy; product wire (Forge/CIDE/cdp-mcp) |
 
+**Forge command mechanics (all commands):** [FORGE-ADR-0066](https://github.com/AI-Guiders/agent-forge/blob/master/design/FORGE-ADR-0066-forge-all-commands-platform-pattern.md) — registry + catalog visitor + `IPlatformCommand` per wave; editor buffer W0 ✓.
+
 ---
 
 ## Product adoption checklist

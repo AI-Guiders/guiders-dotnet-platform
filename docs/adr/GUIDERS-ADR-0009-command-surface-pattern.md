@@ -98,6 +98,8 @@ Catalog entries (`SlashCommandDescriptor`) link to registry via `CommandId`; the
 
 Glass/CIDE migrate to `IPlatformCommand` + Relay **non-urgent**.
 
+**Forge all commands (roadmap):** [FORGE-ADR-0066](https://github.com/AI-Guiders/agent-forge/blob/master/design/FORGE-ADR-0066-forge-all-commands-platform-pattern.md) — W0 editor ✓, then catalog visitor, MCP-bound domain, executor dispatch only.
+
 ## Anti-patterns
 
 - `applyFormat` / `applyX` per surface.
