@@ -20,7 +20,7 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 
 Planned: `Correspondence`, `Desk`. Monolith `AIGuiders.Platform.Cockpit` 0.1.0 deprecated.
 
-**Mental model:** aviation-only phases, surfaces, CDS — [GUIDERS-ADR-0007](docs/adr/GUIDERS-ADR-0007-aviation-mental-model.md).
+**Mental model:** aviation phases — [GUIDERS-ADR-0007](docs/adr/GUIDERS-ADR-0007-aviation-mental-model.md); commands vs UI entry — [GUIDERS-ADR-0009](docs/adr/GUIDERS-ADR-0009-command-surface-pattern.md).
 
 ## Build
 

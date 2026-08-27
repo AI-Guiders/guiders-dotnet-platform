@@ -2,7 +2,7 @@
 
 **Status:** accepted (2026-08-22)  
 **Tags:** #guiders #platform #slash #forge #cide #cdp #glass  
-**Related:** GUIDERS-ADR-0001 · GUIDERS-ADR-0002 · CIDE ADR-0150/0154/0160 · FORGE-ADR-0015
+**Related:** GUIDERS-ADR-0001 · GUIDERS-ADR-0002 · GUIDERS-ADR-0009 · CIDE ADR-0150/0154/0160 · FORGE-ADR-0015
 
 ---
 
@@ -37,6 +37,8 @@
 ---
 
 ## Cross-product: Slash
+
+**Pattern:** [GUIDERS-ADR-0009](GUIDERS-ADR-0009-command-surface-pattern.md) — **Command–Surface** (one command, many invocation surfaces).
 
 ```
 Forge host  ──capabilities.commands[]──►  Platform SlashCommandDescriptor
