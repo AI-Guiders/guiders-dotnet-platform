@@ -30,4 +30,5 @@ AI Guiders products share human+agent UX principles (keyboard surfaces, grouping
 - Dual accessibility (human a11y + Agent AX): GUIDERS-UI-0003 in `guiders-ui-platform`.
 - Federation framing (sovereign repos, non-annexation): GUIDERS-ADR-0006.
 - Platform-neutral a11y (ASP): GUIDERS-UI-0004 in `guiders-ui-platform`; ANUI evolution ANUI-ADR-0004.
+- Adapter strategy (MPA / Blazor / SPA / native): GUIDERS-UI-0005 in `guiders-ui-platform`.
 - Aviation mental model (phases, CDS, briefing): GUIDERS-ADR-0007.
