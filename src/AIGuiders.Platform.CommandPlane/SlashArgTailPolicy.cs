@@ -5,6 +5,9 @@ namespace AIGuiders.Platform.CommandPlane;
 /// <summary>Parse ArgTail wire strings (Forge + CIDE TOML).</summary>
 public static class SlashArgTailPolicy
 {
+    public const string ImplicitSelection = "implicit:selection";
+    public const string ImplicitLineRange = "implicit:line_range";
+
     public static SlashArgTailKind Parse(string? raw)
     {
         if (string.IsNullOrWhiteSpace(raw))
@@ -17,6 +20,10 @@ public static class SlashArgTailPolicy
             return SlashArgTailKind.Required;
         if (t.Equals("optional", StringComparison.OrdinalIgnoreCase))
             return SlashArgTailKind.Optional;
+        if (t.Equals(ImplicitSelection, StringComparison.OrdinalIgnoreCase))
+            return SlashArgTailKind.ImplicitSelection;
+        if (t.Equals(ImplicitLineRange, StringComparison.OrdinalIgnoreCase))
+            return SlashArgTailKind.ImplicitLineRange;
         if (t.StartsWith("picker:", StringComparison.OrdinalIgnoreCase))
             return SlashArgTailKind.Picker;
 
@@ -30,9 +37,11 @@ public static class SlashArgTailPolicy
             SlashArgTailKind.Optional => isExactPath || endsWithSpace || hasArgTail,
             SlashArgTailKind.Required => hasArgTail,
             SlashArgTailKind.Picker => endsWithSpace || hasArgTail,
+            SlashArgTailKind.ImplicitSelection => isExactPath,
+            SlashArgTailKind.ImplicitLineRange => isExactPath || hasArgTail,
             _ => false,
         };
 
     public static bool InsertsTrailingSpaceOnCommit(SlashArgTailKind kind) =>
-        kind is not SlashArgTailKind.None;
+        kind is SlashArgTailKind.None;
 }
