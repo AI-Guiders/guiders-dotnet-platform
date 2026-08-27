@@ -2,7 +2,7 @@
 
 **Status:** accepted (2026-08-22)  
 **Tags:** #guiders #platform #slash #forge #cide #cdp #glass  
-**Related:** GUIDERS-ADR-0001 · GUIDERS-ADR-0002 · GUIDERS-ADR-0009 · CIDE ADR-0150/0154/0160 · FORGE-ADR-0015
+**Related:** GUIDERS-ADR-0001 · GUIDERS-ADR-0002 · GUIDERS-ADR-0009 · GUIDERS-ADR-0010 · CIDE ADR-0150/0154/0160 · FORGE-ADR-0015 · FORGE-ADR-0066
 
 ---
 
