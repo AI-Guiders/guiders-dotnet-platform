@@ -58,6 +58,81 @@ public sealed class CommandPlaneTests
     }
 
     [Fact]
+    public void StepCompletion_root_lists_domains_and_elision()
+    {
+        var catalog = SemanticTestCatalog();
+        var items = SlashStepCompletion.GetSuggestions(catalog, "");
+        var segments = items.Select(i => i.StepSegment).ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        Assert.Contains("intercom", segments);
+        Assert.Contains("build", segments);
+        Assert.Contains("git", segments);
+        Assert.DoesNotContain("run", segments);
+    }
+
+    [Fact]
+    public void StepCompletion_build_space_lists_intents()
+    {
+        var catalog = SemanticTestCatalog();
+        var items = SlashStepCompletion.GetSuggestions(catalog, "build ");
+        Assert.Contains(items, i => i.StepSegment == "run");
+        Assert.Contains(items, i => i.StepSegment == "ui");
+    }
+
+    [Fact]
+    public void StepCompletion_flat_path_catalog()
+    {
+        var catalog = SlashCatalogIndex.FromDescriptors([
+            new SlashCommandDescriptor
+            {
+                Domain = "", Object = "", Intent = "",
+                CommandId = "help", Path = "help", Help = "Help",
+            },
+            new SlashCommandDescriptor
+            {
+                Domain = "", Object = "", Intent = "",
+                CommandId = "file.open", Path = "file open", Help = "Open file", ArgTail = "required",
+            },
+        ]);
+
+        var root = SlashStepCompletion.GetSuggestions(catalog, "");
+        Assert.Contains(root, i => i.StepSegment == "help");
+        Assert.Contains(root, i => i.StepSegment == "file");
+
+        var fileStep = SlashStepCompletion.GetSuggestions(catalog, "file ");
+        Assert.Contains(fileStep, i => i.StepSegment == "open");
+    }
+
+    static SlashCatalogIndex SemanticTestCatalog() =>
+        SlashCatalogIndex.FromDescriptors([
+            new SlashCommandDescriptor
+            {
+                Domain = "intercom", Object = "topic", Intent = "list",
+                CommandId = "intercom.topic.list", Path = "intercom topic list", Help = "Topics",
+            },
+            new SlashCommandDescriptor
+            {
+                Domain = "intercom", Object = "server", Intent = "list",
+                CommandId = "intercom.server.list", Path = "intercom server list", Help = "Servers",
+            },
+            new SlashCommandDescriptor
+            {
+                Domain = "solution", Object = "build", Intent = "run",
+                CommandId = "build.run", Path = "solution build run", PathAliases = ["build run"], Help = "Build run",
+            },
+            new SlashCommandDescriptor
+            {
+                Domain = "solution", Object = "build", Intent = "ui",
+                CommandId = "build.ui", Path = "solution build ui", PathAliases = ["build ui"], Help = "Build UI",
+            },
+            new SlashCommandDescriptor
+            {
+                Domain = "git", Object = "status", Intent = "",
+                CommandId = "git.status", Path = "git status", Help = "Git status",
+            },
+        ]);
+
+    [Fact]
     public void DataBus_IdeHealth_events_exist()
     {
         var b = new AIGuiders.Platform.Cockpit.DataBus.BuildStateChanged(true, 0, true);

@@ -15,6 +15,9 @@ public readonly record struct SlashRouteEntry(
     string? Group = null)
 {
     public static SlashRouteEntry FromDescriptor(SlashCommandDescriptor d, string path) =>
+        FromDescriptor(d, path, ResolvePathRole(d, path));
+
+    public static SlashRouteEntry FromDescriptor(SlashCommandDescriptor d, string path, SlashPathRole pathRole) =>
         new(
             path,
             d.CommandId,
@@ -23,8 +26,21 @@ public readonly record struct SlashRouteEntry(
             d.Domain,
             d.Object,
             d.Intent,
-            SlashPathRole.Canonical,
+            pathRole,
             d.Group);
+
+    static SlashPathRole ResolvePathRole(SlashCommandDescriptor d, string path) =>
+        string.Equals(NormalizePath(path), NormalizePath(d.Path), StringComparison.OrdinalIgnoreCase)
+            ? SlashPathRole.Canonical
+            : SlashPathRole.Alias;
+
+    static string NormalizePath(string path)
+    {
+        var p = path.Trim();
+        if (p.StartsWith('/'))
+            p = p[1..];
+        return p.Trim();
+    }
 
     public SlashSemanticFields SemanticFields => new(Domain, Object, Intent, PathRole);
 }

@@ -30,6 +30,27 @@ public sealed class SlashCatalogIndex
             }
         }
 
+        return FromPathDictionary(byPath);
+    }
+
+    public static SlashCatalogIndex FromEntries(IEnumerable<SlashRouteEntry> entries)
+    {
+        var byPath = new Dictionary<string, SlashRouteEntry>(StringComparer.OrdinalIgnoreCase);
+        foreach (var entry in entries)
+        {
+            var normalized = NormalizePath(entry.SlashPath);
+            if (normalized.Length == 0)
+                continue;
+            byPath[normalized] = entry with { SlashPath = normalized };
+        }
+
+        return FromPathDictionary(byPath);
+    }
+
+    public IReadOnlyCollection<SlashRouteEntry> Routes => _byPath.Values;
+
+    static SlashCatalogIndex FromPathDictionary(Dictionary<string, SlashRouteEntry> byPath)
+    {
         var longest = byPath.Keys.OrderByDescending(p => p.Length).ThenBy(p => p, StringComparer.OrdinalIgnoreCase).ToArray();
         return new SlashCatalogIndex(byPath, longest);
     }

@@ -7,4 +7,8 @@ public readonly record struct SlashSemanticFields(
     string Domain,
     string Object,
     string Intent,
-    SlashPathRole PathRole = SlashPathRole.Canonical);
+    SlashPathRole PathRole = SlashPathRole.Canonical)
+{
+    public bool DomainOmittedInPath =>
+        PathRole == SlashPathRole.Alias && !string.IsNullOrEmpty(Domain);
+}
