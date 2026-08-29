@@ -111,6 +111,7 @@ Interim only for v1 CIDE subset. **Target:** replace with quarry lexer from `key
 - Shipping Neovim/Emacs binaries or GPL code blobs in NuGet
 - Matching every mapping corner case before a product needs it
 - UI key matching / `KeyBinding` — stay in product (renderer, `KeyGestureChordMatching`)
+- A **universal platform binding runtime** — native port per ecosystem; .NET packages are reference quarry only ([Constitution — Native ports](../GUIDERS-FEDERATION-CONSTITUTION.md#native-ports-not-platform-bindings))
 
 ## Consequences
 

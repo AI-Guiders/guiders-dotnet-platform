@@ -23,6 +23,23 @@ Any team, any stack, any planet — not only AI Guiders products — may:
 
 Federation sells **roads and signage**, not citizenship in a single app.
 
+### Native ports, not platform bindings
+
+**Already normative** in [GUIDERS-ADR-0006 §2](adr/GUIDERS-ADR-0006-confederation-charter.md) (*Native per ecosystem*), [GUIDERS-ADR-0016 non-goals](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md), [GUIDERS-ADR-0015 non-goals](adr/GUIDERS-ADR-0015-invocation-mechanics-slash-melody-binding.md) — promoted here so Constitution readers see it without ADR archaeology.
+
+| Layer | Federation ships | Planet implements **natively** |
+|-------|------------------|--------------------------------|
+| **Contract** | IR, schemas, `commandId`, catalog shape | — |
+| **Signage** | `notation/*.spec.json`, conformance vectors, oracle hooks | — |
+| **Reference quarry** | `.NET` packages (`InputNotation.*`, `CommandPlane.*`) — **embassy, not gate** | may pin NuGet as-is |
+| **Wire → IR** | spec + reference parser | **port** to TS (VS Code), Kotlin (JetBrains), PHP, … |
+| **IR → input** | — | key match, `KeyBinding`, `keydown`, OS shortcuts |
+| **Surface** | — | WPF, Avalonia, Blazor, extension host |
+
+**Rule:** Platform does **not** ship a universal binding runtime. `CommandPlane.Binding` (when it exists) = headless **catalog** (gesture → `commandId`, merge ship/user) — not `IKeyListener` for every UI stack.
+
+**Join pattern:** adopt schema/spec → implement native adapter → pass conformance. VS Code takes a JS port; JetBrains takes Kotlin; PHP takes PHP. Same IR, same vectors, different atmosphere.
+
 ---
 
 ## Confederation model
@@ -74,7 +91,7 @@ One `commandId`; mechanics are how you **play** it; `c:` is the **score on the w
 | Hyperlane | Package / home | Role | Reference mission |
 |-----------|----------------|------|-------------------|
 | **Command plane** | `AIGuiders.Platform.CommandPlane` (core) · `.Slash` · `.Sources` · `.Melody` | Registry hub; slash/melody/binding mechanics à la carte (ADR-0015) | Forge, CIDE, DashSpec |
-| **Input notation** | `InputNotation` (core) · `.Vim` · `.KeyGesture` · `.Emacs` (plan) | Quarry Neovim/Emacs → `NormalizedKeySequence` ([ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md)) | CIDE, Melody, Binding |
+| **Input notation** | `InputNotation` (core) · `.Quarry` · `.Neovim` · `.Emacs` · `.Vim` · `.KeyGesture` · `.All` | IR + spec JSON + .NET reference quarry; **native port** per stack ([ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md)) | CIDE (.NET); VS Code / JetBrains / … own ports |
 | **Intent / routing** | `AIGuiders.Platform.Routing`, `Abstractions` | Intent organs, outcome shapes | CDP habitat |
 | **Cockpit** | `AIGuiders.Platform.Cockpit.*` | Channels, DataBus, CCU contracts | Glass, CDP |
 | **UI semantics** | `guiders-ui-platform` (`AIGuiders.UI.*`) | Tokens, Agent AX, adapters | Forge View (embassy) |
@@ -140,6 +157,7 @@ Conformance is not paywalled. MIT packages, public ADRs, fork adapters — not f
 | Platform mechanics quarry | [GUIDERS-ADR-0010](adr/GUIDERS-ADR-0010-platform-mechanics.md) |
 | Command plane quarry | [GUIDERS-ADR-0003](adr/GUIDERS-ADR-0003-platform-ssot-quarry.md) |
 | Invocation mechanics (Slash · Melody · Binding) | [GUIDERS-ADR-0015](adr/GUIDERS-ADR-0015-invocation-mechanics-slash-melody-binding.md) |
+| Input notation quarry + native ports | [GUIDERS-ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md) |
 | Aviation mental model | [GUIDERS-ADR-0007](adr/GUIDERS-ADR-0007-aviation-mental-model.md) |
 | All ADRs | [docs/adr/](adr/) |
 
