@@ -63,6 +63,14 @@ Containers:
 
 Custom backends: implement `ICommandFormatReader` or `CommandSource.From(loader)`.
 
+Embedded plugin catalogs:
+
+```csharp
+pluginAssembly.FromAssemblyResource("commands.toml");
+```
+
+Extension on `Assembly` in `CommandPlane.Sources` — resolves manifest resource by suffix, format from file extension.
+
 ### 4. Non-goals
 
 - Full `intent-catalog.toml` CIDE schema in platform (nested slash forms stay in CIDE until migration)

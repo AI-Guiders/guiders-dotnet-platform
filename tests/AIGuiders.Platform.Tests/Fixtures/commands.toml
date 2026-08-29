@@ -1,0 +1,5 @@
+[[command]]
+command_id = "plugin.help"
+path = "plugin help"
+help = "Embedded plugin help"
+arg_tail = "none"

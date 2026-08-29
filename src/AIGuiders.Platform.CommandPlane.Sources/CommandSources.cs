@@ -29,18 +29,8 @@ public static class CommandSources
     public static ICommandSource FromFile(string path, string? sourceId = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(path);
-        var format = ResolveFormat(path);
+        var format = CommandSourceFormats.Resolve(path);
         var content = File.ReadAllText(path);
         return From(content, format, sourceId ?? $"file:{Path.GetFileName(path)}");
     }
-
-    static CommandDocumentFormat ResolveFormat(string path) =>
-        Path.GetExtension(path).ToLowerInvariant() switch
-        {
-            ".json" => CommandDocumentFormat.Json,
-            ".toml" => CommandDocumentFormat.Toml,
-            ".xml" => CommandDocumentFormat.Xml,
-            _ => throw new NotSupportedException(
-                $"Unsupported command catalog file extension '{Path.GetExtension(path)}'. Use .json, .toml, or .xml."),
-        };
 }

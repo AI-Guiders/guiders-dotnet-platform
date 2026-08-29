@@ -90,4 +90,14 @@ public sealed class CommandSourceTests
         Assert.True(catalog.TryGet("db echo", out var route));
         Assert.Equal("db.echo", route.CommandId);
     }
+
+    [Fact]
+    public void FromAssemblyResource_reads_embedded_toml_by_suffix()
+    {
+        var catalog = SlashCatalogComposer.Build(
+            typeof(CommandSourceTests).Assembly.FromAssemblyResource("commands.toml"));
+
+        Assert.True(catalog.TryGet("plugin help", out var route));
+        Assert.Equal("plugin.help", route.CommandId);
+    }
 }
