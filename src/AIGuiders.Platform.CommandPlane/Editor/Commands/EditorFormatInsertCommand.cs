@@ -4,9 +4,12 @@ using AIGuiders.Platform.CommandPlane.Commands;
 
 namespace AIGuiders.Platform.CommandPlane.Editor.Commands;
 
-public sealed class EditorFormatInsertCommand(TextInsertFormatDefinition format) : PlatformCommand<EditorBufferContext>
+public sealed class EditorFormatInsertCommand(TextInsertFormatDefinition format)
+    : PlatformCommand<EditorBufferContext>, ICatalogDescribed
 {
     public override string CommandId => format.Id;
+
+    public SlashCommandDescriptor ToSlashDescriptor() => format.ToSlashDescriptor();
 
     protected override CommandOutcome Execute(EditorBufferContext context)
     {

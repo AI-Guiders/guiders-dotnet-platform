@@ -5,16 +5,27 @@ namespace AIGuiders.Platform.CommandPlane.Commands;
 /// <summary>Registry of <see cref="IPlatformCommand{TContext}"/> by <see cref="IPlatformCommand{TContext}.CommandId"/>.</summary>
 public sealed class PlatformCommandRegistry<TContext> where TContext : ICommandContext
 {
-    private readonly Dictionary<string, IPlatformCommand<TContext>> _commands =
+    private readonly Dictionary<string, RegisteredPlatformCommand<TContext>> _commands =
         new(StringComparer.OrdinalIgnoreCase);
 
-    public void Register(IPlatformCommand<TContext> command)
+    public void Register(IPlatformCommand<TContext> command) =>
+        Store(command, explicitDescriptor: null);
+
+    public void Register(IPlatformCommand<TContext> command, SlashCommandDescriptor explicitDescriptor)
+    {
+        ArgumentNullException.ThrowIfNull(explicitDescriptor);
+        Store(command, explicitDescriptor);
+    }
+
+    void Store(IPlatformCommand<TContext> command, SlashCommandDescriptor? explicitDescriptor)
     {
         ArgumentNullException.ThrowIfNull(command);
         if (string.IsNullOrWhiteSpace(command.CommandId))
+        {
             throw new ArgumentException("CommandId is required.", nameof(command));
+        }
 
-        _commands[command.CommandId] = command;
+        _commands[command.CommandId] = new RegisteredPlatformCommand<TContext>(command, explicitDescriptor);
     }
 
     public bool Contains(string commandId) =>
@@ -22,13 +33,15 @@ public sealed class PlatformCommandRegistry<TContext> where TContext : ICommandC
 
     public bool TryGet(string commandId, out IPlatformCommand<TContext>? command)
     {
-        if (string.IsNullOrWhiteSpace(commandId))
+        if (string.IsNullOrWhiteSpace(commandId)
+            || !_commands.TryGetValue(commandId, out var registered))
         {
             command = null;
             return false;
         }
 
-        return _commands.TryGetValue(commandId, out command);
+        command = registered.Command;
+        return true;
     }
 
     public bool TryExecute(
@@ -51,6 +64,30 @@ public sealed class PlatformCommandRegistry<TContext> where TContext : ICommandC
 
         outcome = command.ExecuteAsync(context, cancellationToken).GetAwaiter().GetResult();
         return outcome.Success;
+    }
+
+    public void Accept(ICatalogVisitor visitor, Func<SlashCommandDescriptor, bool>? predicate = null)
+    {
+        ArgumentNullException.ThrowIfNull(visitor);
+
+        foreach (var registered in _commands.Values.OrderBy(x => x.Command.CommandId, StringComparer.OrdinalIgnoreCase))
+        {
+            var descriptor = registered.TryResolveDescriptor();
+            if (descriptor is null)
+            {
+                continue;
+            }
+
+            if (predicate is not null && !predicate(descriptor))
+            {
+                continue;
+            }
+
+            if (!visitor.Visit(descriptor))
+            {
+                break;
+            }
+        }
     }
 
     public IReadOnlyCollection<string> CommandIds => _commands.Keys.ToList();

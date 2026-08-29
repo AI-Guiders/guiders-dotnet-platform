@@ -4,11 +4,13 @@ using AIGuiders.Platform.CommandPlane.Commands;
 
 namespace AIGuiders.Platform.CommandPlane.Editor.Commands;
 
-public sealed class EditorLineSelectCommand : PlatformCommand<EditorBufferContext>
+public sealed class EditorLineSelectCommand : PlatformCommand<EditorBufferContext>, ICatalogDescribed
 {
     public const string Id = "editor.line.select";
 
     public override string CommandId => Id;
+
+    public SlashCommandDescriptor ToSlashDescriptor() => EditorCatalogProjections.EditorLineSelectDescriptor();
 
     protected override CommandOutcome Execute(EditorBufferContext context)
     {
