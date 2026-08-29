@@ -1,12 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <RootNamespace>AIGuiders.Platform.CommandPlane.Sources</RootNamespace>
-    <AssemblyName>AIGuiders.Platform.CommandPlane.Sources</AssemblyName>
-    <PackageId>AIGuiders.Platform.CommandPlane.Sources</PackageId>
-    <Description>Command catalog sources: JSON, TOML, XML, DB, file. Extends CommandPlane CommandSource (ADR-0013).</Description>
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
-    <PackageReference Include="Tomlyn" Version="0.19.0" />
-  </ItemGroup>
-</Project>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.CommandPlane.Sources</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.CommandPlane.Sources</AssemblyName>
+    <PackageId>AIGuiders.Platform.CommandPlane.Sources</PackageId>
+    <Description>Command catalog sources meta-bundle: JSON + TOML + XML + DB/file facades (GUIDERS-ADR-0013).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Sources.Json\AIGuiders.Platform.CommandPlane.Sources.Json.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Sources.Toml\AIGuiders.Platform.CommandPlane.Sources.Toml.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Sources.Xml\AIGuiders.Platform.CommandPlane.Sources.Xml.csproj" />
+  </ItemGroup>
+</Project>

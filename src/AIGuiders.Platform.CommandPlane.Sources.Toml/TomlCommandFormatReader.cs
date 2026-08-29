@@ -5,7 +5,7 @@ using Tomlyn.Model;
 
 namespace AIGuiders.Platform.CommandPlane.Sources;
 
-sealed class TomlCommandFormatReader : ICommandFormatReader
+public sealed class TomlCommandFormatReader : ICommandFormatReader
 {
     public static TomlCommandFormatReader Instance { get; } = new();
 

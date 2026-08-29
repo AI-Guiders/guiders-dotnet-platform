@@ -33,7 +33,10 @@
 | `Cockpit.Transport` | IngressEvent, BoundedIngressBus | cdp-mcp |
 | **`CommandPlane`** | GoF command, catalog descriptors, `ICommandSource`, `CommandSource` | all mechanics |
 | **`CommandPlane.Slash`** | Slash index, resolve, completion (→ Core) | **Forge, CIDE, DashSpec** |
-| **`CommandPlane.Sources`** | JSON/TOML/XML/DB format readers (→ Core) | embed products |
+| **`CommandPlane.Sources.Json`** | JSON reader → Core | Forge |
+| **`CommandPlane.Sources.Toml`** | TOML reader → Core | CIDE |
+| **`CommandPlane.Sources.Xml`** | XML reader → Core | — |
+| **`CommandPlane.Sources`** | Meta-bundle (all formats + file/embedded) | embed products |
 | **`InputNotation`** | Vim + KeyGesture → `NormalizedKeySequence` | Melody, Binding, docs/MCP |
 | **`CommandPlane.Melody`** | Melody descriptor, profile, policy | CIDE/Glass |
 | **`CommandPlane.Binding`** | (planned) hotkeys merge, gesture → id | CIDE |

@@ -1,6 +1,6 @@
 #nullable enable
 
-namespace AIGuiders.Platform.CommandPlane.Sources;
+namespace AIGuiders.Platform.CommandPlane;
 
 public enum CommandDocumentFormat
 {

@@ -4,7 +4,7 @@ using AIGuiders.Platform.CommandPlane;
 
 namespace AIGuiders.Platform.CommandPlane.Sources;
 
-sealed class JsonCommandFormatReader : ICommandFormatReader
+public sealed class JsonCommandFormatReader : ICommandFormatReader
 {
     public static JsonCommandFormatReader Instance { get; } = new();
 

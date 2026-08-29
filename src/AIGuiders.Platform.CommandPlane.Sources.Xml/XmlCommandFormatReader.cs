@@ -4,7 +4,7 @@ using AIGuiders.Platform.CommandPlane;
 
 namespace AIGuiders.Platform.CommandPlane.Sources;
 
-sealed class XmlCommandFormatReader : ICommandFormatReader
+public sealed class XmlCommandFormatReader : ICommandFormatReader
 {
     public static XmlCommandFormatReader Instance { get; } = new();
 

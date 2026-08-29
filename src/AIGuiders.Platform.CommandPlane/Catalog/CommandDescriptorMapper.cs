@@ -2,9 +2,10 @@
 using System.Text.Json;
 using AIGuiders.Platform.CommandPlane;
 
-namespace AIGuiders.Platform.CommandPlane.Sources;
+namespace AIGuiders.Platform.CommandPlane;
 
-static class CommandDescriptorMapper
+/// <summary>Maps flat command document fields to <see cref="SlashCommandDescriptor"/> (ADR-0013).</summary>
+public static class CommandDescriptorMapper
 {
     public static SlashCommandDescriptor FromDictionary(IReadOnlyDictionary<string, string> fields)
     {

@@ -26,10 +26,11 @@ Platform owns catalog **mechanics** (`SlashCatalogIndex`, merge, resolve). Conte
 
 | Layer | Package | Responsibility |
 |-------|---------|----------------|
-| **Contract** | `AIGuiders.Platform.CommandPlane` | `ICommandSource`, `CommandSource.From(...)`, `ICommandFormatReader`, `SlashCatalogComposer` |
-| **Built-in formats** | `AIGuiders.Platform.CommandPlane.Sources` | JSON, TOML, XML readers; `CommandSources.FromJson/Toml/Xml/Db/File` |
+| **Contract** | `AIGuiders.Platform.CommandPlane` | `ICommandSource`, `CommandSource.From(...)`, `ICommandFormatReader`, `SlashCommandDescriptor`, `CommandDescriptorMapper` |
+| **Format (à la carte)** | `CommandPlane.Sources.Json` · `.Toml` · `.Xml` | One reader per package → Core |
+| **Meta-bundle** | `AIGuiders.Platform.CommandPlane.Sources` | `CommandSources.FromJson/Toml/Xml/Db/File`, `CommandFormatReaders`, embedded resource ext |
 
-Core stays **zero-dependency**. Tomlyn only in Sources package.
+Core stays **zero-dependency** (except BCL). Tomlyn only in `Sources.Toml`.
 
 ### 2. API
 

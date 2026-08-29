@@ -208,7 +208,10 @@ IMelodyCatalogDescribed.ToMelodyDescriptor()
 | Package | Role |
 |---------|------|
 | `CommandPlane` | Core: registry, GoF command, catalog descriptors, `ICommandSource` |
-| `CommandPlane.Sources` | Format readers (JSON/TOML/XML/DB) → Core |
+| `CommandPlane.Sources.Json` | JSON reader → Core |
+| `CommandPlane.Sources.Toml` | TOML reader → Core |
+| `CommandPlane.Sources.Xml` | XML reader → Core |
+| `CommandPlane.Sources` | Meta-bundle (all formats + file/embedded) |
 | `CommandPlane.Slash` | Slash mechanic (index, resolve, completion) → Core |
 | `CommandPlane.Melody` | Melody mechanic → `InputNotation` |
 | `InputNotation` | Shared keyboard notation substrate |

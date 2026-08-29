@@ -15,7 +15,10 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.Routing` | `IIntentOrgan`, `DispatchCallOverride`, route refusal helpers |
 | `AIGuiders.Platform.CommandPlane` | Core: GoF command, catalog descriptors, `ICommandSource` |
 | `AIGuiders.Platform.CommandPlane.Slash` | Slash catalog index, resolve, completion, editor bundle |
-| `AIGuiders.Platform.CommandPlane.Sources` | Catalog loaders: JSON, TOML, XML, DB, embedded resource → Core |
+| `AIGuiders.Platform.CommandPlane.Sources.Json` | JSON catalog reader → Core |
+| `AIGuiders.Platform.CommandPlane.Sources.Toml` | TOML catalog reader → Core (+ Tomlyn) |
+| `AIGuiders.Platform.CommandPlane.Sources.Xml` | XML catalog reader → Core |
+| `AIGuiders.Platform.CommandPlane.Sources` | Meta-bundle: all formats + `FromFile` / embedded resource |
 | `AIGuiders.Platform.InputNotation` | Vim + KeyGesture parsers, `NormalizedKeySequence` (quarry from CIDE) |
 | `AIGuiders.Platform.CommandPlane.Melody` | Melody descriptors, line profile, policy (ADR-0015) |
 | `AIGuiders.Platform.Cockpit.Abstractions` | CCU, DAL, channel, CDS, compositor contracts |
