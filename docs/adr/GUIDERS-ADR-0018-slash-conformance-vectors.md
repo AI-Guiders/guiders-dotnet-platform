@@ -54,5 +54,5 @@ Test generators (xunit, vitest, …) are thin wrappers over the same spec file.
 
 - Platform **0.10.0+**
 - New vectors → edit spec + all ports' CI; breaking shape → `v2` spec or schema major
-- After phase E, canonical path → `guiders-conformance` monorepo ([ADR-0019](GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md)); bootstrap copy remains until extraction.
+- After phase E, canonical path → `aiguiders-conformance` monorepo ([ADR-0019](GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md)); bootstrap copy remains until extraction.
 - Quarry notation specs should gain JSON Schema in conformance repo (same pattern)

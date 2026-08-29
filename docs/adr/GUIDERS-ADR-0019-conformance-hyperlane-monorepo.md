@@ -16,9 +16,9 @@ Vectors change **relatively rarely** (new mechanics / edge cases), so a dedicate
 
 ## Decision
 
-### 1. Target: `guiders-conformance` sibling monorepo
+### 1. Target: `aiguiders-conformance` sibling monorepo
 
-| Lives in `guiders-conformance` | Stays in product / platform repos |
+| Lives in `aiguiders-conformance` | Stays in product / platform repos |
 |--------------------------------|----------------------------------|
 | `*.spec.json`, `*.schema.json`, `RULES.md` | `SlashSpecConformance`, `QuarrySpecConformance` (reference harness) |
 | Fixture catalogs (`fixture.*` command ids) | Ship catalogs, suggest HTTP, execute |
@@ -34,7 +34,7 @@ Monorepo layout: [conformance README](../conformance/README.md).
 | **B** | Cover Forge-critical slice: slash (arg + line resolve + merge), catalog wire |
 | **C** | Binding + melody specs (CIDE parity; Forge hotkeys later) |
 | **D** | Move notation quarry specs from `InputNotation.*` into conformance repo |
-| **E** | Create `AI-Guiders/guiders-conformance`; platform + Forge pin tags; remove duplicate `docs/conformance` canonical copy (keep redirect README) |
+| **E** | Create `AI-Guiders/aiguiders-conformance`; platform + Forge pin tags; remove duplicate `docs/conformance` canonical copy (keep redirect README) |
 
 ### 3. Versioning
 

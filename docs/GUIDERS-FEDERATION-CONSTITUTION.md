@@ -30,7 +30,7 @@ Federation sells **roads and signage**, not citizenship in a single app.
 | Layer | Federation ships | Planet implements **natively** |
 |-------|------------------|--------------------------------|
 | **Contract** | IR, schemas, `commandId`, catalog shape | — |
-| **Signage** | `guiders-conformance` repo (`*.spec.json`, schemas, RULES) — [ADR-0019](adr/GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md); bootstrap copy in `docs/conformance/` | — |
+| **Signage** | `aiguiders-conformance` repo (`*.spec.json`, schemas, RULES); npm `@aiguiders/conformance` — [ADR-0019](adr/GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md); bootstrap copy in `docs/conformance/` | — |
 | **Reference quarry** | `.NET` packages (`InputNotation.*`, `CommandPlane.*`) — **embassy, not gate** | may pin NuGet as-is |
 | **Wire → IR** | spec + reference parser | **port** to TS (VS Code), Kotlin (JetBrains), PHP, … |
 | **IR → input** | — | key match, `KeyBinding`, `keydown`, OS shortcuts |

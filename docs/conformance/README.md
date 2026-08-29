@@ -3,7 +3,7 @@
 Machine-readable **vectors + JSON Schema + determinism rules** for platform mechanics.  
 Product ship catalogs (`forge.repo.*`, CIDE intents) are **never** conformance input.
 
-**Target home (next step):** sibling repo [`guiders-conformance`](https://github.com/AI-Guiders/guiders-conformance) monorepo — see [GUIDERS-ADR-0019](../adr/GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md).
+**Target home (next step):** sibling repo [`aiguiders-conformance`](https://github.com/AI-Guiders/aiguiders-conformance) — see [GUIDERS-ADR-0019](../adr/GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md).
 
 **Today:** specs live here while reference harnesses ship in `guiders-platform` NuGet. Forge (JS) will pin tagged releases from the conformance repo once extracted.
 
@@ -35,13 +35,13 @@ src/.../slash/               ← copied into NuGet content
 src/.../Conformance/         ← reference harness (.NET only)
 ```
 
-### Target (`guiders-conformance` monorepo)
+### Target (`aiguiders-conformance` monorepo)
 
 ```text
-guiders-conformance/
+aiguiders-conformance/
 ├── README.md
 ├── RULES.md
-├── package.json             ← optional: @guiders/conformance meta
+├── package.json             ← optional: @aiguiders/conformance
 ├── schemas/
 │   ├── slash-arg-completion-v1.schema.json
 │   ├── slash-line-resolve-v1.schema.json
@@ -88,11 +88,11 @@ Implementations **do not** live in this repo — only contracts.
 
 ## Pin contract
 
-Consumers pin **git tag** or **npm package version** of `guiders-conformance`:
+Consumers pin **git tag** or **npm** `@aiguiders/conformance@1.x`:
 
 ```text
-guiders-platform CI    → checkout conformance@v1.0.0 → embed → SlashSpecConformance
-agent-forge CI         → pin conformance@v1.0.0 → vitest against same JSON
+guiders-platform CI    → checkout aiguiders-conformance@v1.0.0 → embed → SlashSpecConformance
+agent-forge CI         → @aiguiders/conformance@1.0.0 → vitest against same JSON
 ```
 
 Platform semver (`AIGuiders.Platform.*`) and conformance semver are **independent**.  
@@ -116,6 +116,15 @@ See [RULES.md](RULES.md). All specs must be:
 2. **Reference harness** must pass in `guiders-platform` CI.
 3. **Native port** (Forge JS) adds thin vitest — same spec path.
 4. **Extract** when slash + binding specs cover Forge's first port slice.
+
+### Naming (align with NuGet)
+
+| Ecosystem | Prefix | Example |
+|-----------|--------|---------|
+| NuGet | `AIGuiders.*` | `AIGuiders.Platform.CommandPlane.Slash` |
+| npm scope | `@aiguiders/*` | `@aiguiders/conformance`, `@aiguiders/command-plane-slash` |
+| GitHub org | `AI-Guiders` | `AI-Guiders/aiguiders-conformance` |
+| ADR / federation docs | `GUIDERS-*` | charter signage (product name «Guiders Federation») |
 
 ---
 
