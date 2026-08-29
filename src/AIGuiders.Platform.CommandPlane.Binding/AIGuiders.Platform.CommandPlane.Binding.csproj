@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.CommandPlane.Binding</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.CommandPlane.Binding</AssemblyName>
+    <PackageId>AIGuiders.Platform.CommandPlane.Binding</PackageId>
+    <Description>Binding mechanic core: gesture catalog, layered merge (GUIDERS-ADR-0017).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.InputNotation.KeyGesture\AIGuiders.Platform.InputNotation.KeyGesture.csproj" />
+  </ItemGroup>
+</Project>

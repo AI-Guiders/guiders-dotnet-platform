@@ -90,7 +90,7 @@ One `commandId`; mechanics are how you **play** it; `c:` is the **score on the w
 
 | Hyperlane | Package / home | Role | Reference mission |
 |-----------|----------------|------|-------------------|
-| **Command plane** | `AIGuiders.Platform.CommandPlane` (core) · `.Slash` · `.Sources` · `.Melody` | Registry hub; slash/melody/binding mechanics à la carte (ADR-0015) | Forge, CIDE, DashSpec |
+| **Command plane** | `CommandPlane` (core) · `.Slash` · `.Sources` · `.Melody` · `.Binding` · `.Binding.Sources` | Registry hub; slash/melody/binding mechanics à la carte (ADR-0015, ADR-0017) | Forge, CIDE, DashSpec |
 | **Input notation** | `InputNotation` (core) · `.Quarry` · `.Neovim` · `.Emacs` · `.Vim` · `.KeyGesture` · `.All` | IR + spec JSON + .NET reference quarry; **native port** per stack ([ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md)) | CIDE (.NET); VS Code / JetBrains / … own ports |
 | **Intent / routing** | `AIGuiders.Platform.Routing`, `Abstractions` | Intent organs, outcome shapes | CDP habitat |
 | **Cockpit** | `AIGuiders.Platform.Cockpit.*` | Channels, DataBus, CCU contracts | Glass, CDP |
@@ -157,6 +157,7 @@ Conformance is not paywalled. MIT packages, public ADRs, fork adapters — not f
 | Platform mechanics quarry | [GUIDERS-ADR-0010](adr/GUIDERS-ADR-0010-platform-mechanics.md) |
 | Command plane quarry | [GUIDERS-ADR-0003](adr/GUIDERS-ADR-0003-platform-ssot-quarry.md) |
 | Invocation mechanics (Slash · Melody · Binding) | [GUIDERS-ADR-0015](adr/GUIDERS-ADR-0015-invocation-mechanics-slash-melody-binding.md) |
+| Binding catalog family | [GUIDERS-ADR-0017](adr/GUIDERS-ADR-0017-binding-catalog-family.md) |
 | Input notation quarry + native ports | [GUIDERS-ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md) |
 | Aviation mental model | [GUIDERS-ADR-0007](adr/GUIDERS-ADR-0007-aviation-mental-model.md) |
 | All ADRs | [docs/adr/](adr/) |

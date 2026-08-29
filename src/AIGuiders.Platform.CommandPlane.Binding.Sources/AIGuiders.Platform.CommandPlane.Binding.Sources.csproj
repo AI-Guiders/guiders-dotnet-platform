@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.CommandPlane.Binding.Sources</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.CommandPlane.Binding.Sources</AssemblyName>
+    <PackageId>AIGuiders.Platform.CommandPlane.Binding.Sources</PackageId>
+    <Description>Binding catalog meta-bundle: Toml + Json + File + Database (GUIDERS-ADR-0017).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Binding.Sources.Database\AIGuiders.Platform.CommandPlane.Binding.Sources.Database.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Binding.Sources.File\AIGuiders.Platform.CommandPlane.Binding.Sources.File.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Binding.Sources.Json\AIGuiders.Platform.CommandPlane.Binding.Sources.Json.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Binding.Sources.Toml\AIGuiders.Platform.CommandPlane.Binding.Sources.Toml.csproj" />
+  </ItemGroup>
+</Project>

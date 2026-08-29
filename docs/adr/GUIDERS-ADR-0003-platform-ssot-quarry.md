@@ -45,7 +45,9 @@
 | **`InputNotation.Emacs`** | (planned) `C-x` wire (quarry Emacs key-parse) | — |
 | **`InputNotation`** (meta) | facade `InputNotationParser` | lazy embed |
 | **`CommandPlane.Melody`** | Melody descriptor, profile, policy | CIDE/Glass |
-| **`CommandPlane.Binding`** | (planned) hotkeys merge, gesture → id | CIDE |
+| **`CommandPlane.Binding`** | hotkeys catalog, layered merge, gesture normalize | CIDE |
+| **`CommandPlane.Binding.Sources.Toml`** | `hotkeys.toml` format | CIDE |
+| **`CommandPlane.Binding.Sources`** | meta-bundle | convenience |
 | `Routing` | IIntentOrgan | cdp-mcp Citizen |
 
 ---

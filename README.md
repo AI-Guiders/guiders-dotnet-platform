@@ -29,6 +29,12 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.InputNotation.KeyGesture` | KeyGesture wire (`Ctrl+K`) → Core |
 | `AIGuiders.Platform.InputNotation.All` | Meta-bundle: facade `InputNotationParser` |
 | `AIGuiders.Platform.CommandPlane.Melody` | Melody descriptors, line profile, policy (ADR-0015) |
+| `AIGuiders.Platform.CommandPlane.Binding` | Binding catalog core: merge, index, gesture normalize |
+| `AIGuiders.Platform.CommandPlane.Binding.Sources.Toml` | `hotkeys.toml` flat map (CIDE quarry) |
+| `AIGuiders.Platform.CommandPlane.Binding.Sources.Json` | JSON bindings object → Core |
+| `AIGuiders.Platform.CommandPlane.Binding.Sources.File` | File transport + extension dispatch |
+| `AIGuiders.Platform.CommandPlane.Binding.Sources.Database` | DB delegate → Core |
+| `AIGuiders.Platform.CommandPlane.Binding.Sources` | Meta-bundle: `BindingSources.*` |
 | `AIGuiders.Platform.Cockpit.Abstractions` | CCU, DAL, channel, CDS, compositor contracts |
 | `AIGuiders.Platform.Cockpit.Ids` | IDS overlay search (ADR 0079) |
 | `AIGuiders.Platform.Cockpit.DataBus` | `IDataBus`, `InMemoryDataBus` (ADR 0099) |

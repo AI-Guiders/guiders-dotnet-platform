@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.CommandPlane.Binding.Sources</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.CommandPlane.Binding.Sources.Json</AssemblyName>
+    <PackageId>AIGuiders.Platform.CommandPlane.Binding.Sources.Json</PackageId>
+    <Description>JSON binding catalog format (GUIDERS-ADR-0017).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Binding\AIGuiders.Platform.CommandPlane.Binding.csproj" />
+  </ItemGroup>
+</Project>

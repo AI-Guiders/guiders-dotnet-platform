@@ -223,7 +223,8 @@ IMelodyCatalogDescribed.ToMelodyDescriptor()
 | `InputNotation.Vim` | Vim-doc wire → Core (quarry Neovim) |
 | `InputNotation.Emacs` | (planned) Emacs kbd → Core |
 | `InputNotation` (meta) | all surfaces |
-| `CommandPlane.Binding` | (planned) hotkeys → commandId |
+| `CommandPlane.Binding` | hotkeys catalog merge, gesture → id (ADR-0017) |
+| `CommandPlane.Binding.Sources` | meta `BindingSources.*` |
 
 Slash embed: `CommandPlane.Slash` (+ optional `.Sources` for file backends); Sources does not depend on Slash.
 

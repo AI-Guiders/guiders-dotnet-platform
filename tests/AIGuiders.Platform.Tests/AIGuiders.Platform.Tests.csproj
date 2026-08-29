@@ -11,6 +11,7 @@
     <EmbeddedResource Include="Fixtures\commands.toml" />
     <EmbeddedResource Include="Fixtures\Quarry\neovim-kbd-v1.spec.json" />
     <EmbeddedResource Include="Fixtures\Quarry\emacs-kbd-v1.spec.json" />
+    <None Include="Fixtures\hotkeys.toml" CopyToOutputDirectory="PreserveNewest" Link="Fixtures\hotkeys.toml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Abstractions\AIGuiders.Platform.Abstractions.csproj" />
@@ -30,5 +31,6 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.InputNotation.Vim\AIGuiders.Platform.InputNotation.Vim.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.InputNotation.KeyGesture\AIGuiders.Platform.InputNotation.KeyGesture.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Melody\AIGuiders.Platform.CommandPlane.Melody.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Binding.Sources\AIGuiders.Platform.CommandPlane.Binding.Sources.csproj" />
   </ItemGroup>
 </Project>
