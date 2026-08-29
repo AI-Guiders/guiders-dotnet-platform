@@ -201,6 +201,61 @@ public sealed class CommandPlaneTests
         }
     }
 
+    [Fact]
+    public void CompletionResult_reports_free_text_mode_for_required_arg()
+    {
+        var catalog = SlashCatalogIndex.FromDescriptors([
+            new SlashCommandDescriptor
+            {
+                Domain = "", Object = "", Intent = "",
+                CommandId = "file.open",
+                Path = "file open",
+                ArgTail = "required",
+                ArgHint = "Path relative to repo root",
+            },
+        ]);
+
+        var result = SlashCompletion.GetResult(catalog, "file open ");
+        Assert.Equal(SlashInputMode.FreeText, result.Guidance.Mode);
+        Assert.Contains("free text", result.Guidance.Placeholder, StringComparison.OrdinalIgnoreCase);
+        Assert.Equal("Path relative to repo root", result.Guidance.Hint);
+    }
+
+    [Fact]
+    public void CompletionResult_reports_ready_mode_when_runnable()
+    {
+        var catalog = SlashCatalogIndex.FromDescriptors([
+            new SlashCommandDescriptor
+            {
+                Domain = "", Object = "", Intent = "",
+                CommandId = "help", Path = "help", ArgTail = "none",
+            },
+        ]);
+
+        var result = SlashCompletion.GetResult(catalog, "help");
+        Assert.Equal(SlashInputMode.Ready, result.Guidance.Mode);
+        Assert.Contains("Enter", result.Guidance.Placeholder, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void CompletionResult_reports_picker_mode_with_breadcrumb()
+    {
+        var catalog = SlashCatalogIndex.FromDescriptors([
+            new SlashCommandDescriptor
+            {
+                Domain = "editor", Object = "format", Intent = "mode",
+                CommandId = "editor.format.mode",
+                Path = "format mode",
+                ArgTail = "picker:enum:text_mode",
+                ArgPickerChoices = SlashPickerChoices.FromLabels(("md", "Markdown")),
+            },
+        ]);
+
+        var result = SlashCompletion.GetResult(catalog, "format mode ");
+        Assert.Equal(SlashInputMode.Picker, result.Guidance.Mode);
+        Assert.Contains("format › mode", result.Guidance.Breadcrumb, StringComparison.OrdinalIgnoreCase);
+    }
+
     static SlashCatalogIndex SemanticTestCatalog() =>
         SlashCatalogIndex.FromDescriptors([
             new SlashCommandDescriptor

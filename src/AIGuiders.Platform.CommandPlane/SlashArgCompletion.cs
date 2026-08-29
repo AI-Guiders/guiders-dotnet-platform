@@ -25,6 +25,21 @@ static class SlashArgCompletion
             return [];
         }
 
+        return BuildPickerItems(line, route, choices, partial);
+    }
+
+    public static bool HasChoices(
+        SlashRouteEntry route,
+        string partial,
+        ISlashPickerChoiceSource? pickerSource) =>
+        ResolveChoices(route, partial, pickerSource).Count > 0;
+
+    static IReadOnlyList<SlashCompletionItem> BuildPickerItems(
+        SlashLineResolver.SlashLineResolution line,
+        SlashRouteEntry route,
+        IReadOnlyList<SlashPickerChoice> choices,
+        string partial)
+    {
         var canonicalPath = "/" + line.CanonicalPath.TrimStart('/');
         var buckets = new Dictionary<string, SlashCompletionItem>(StringComparer.OrdinalIgnoreCase);
         foreach (var choice in choices)

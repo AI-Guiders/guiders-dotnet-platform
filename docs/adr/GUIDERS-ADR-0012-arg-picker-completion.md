@@ -53,7 +53,21 @@ Product examples: `picker:dash.field.app` → distinct values; Forge may keep HT
 
 `SlashCompletionItem` gains `Kind` + `PickValue`. Existing JSON fields remain; surfaces MAY render picker rows differently when `kind = picker`.
 
-`SlashRouteEntry` carries `ArgTail` + `ArgPickerChoices` from descriptor (refactor — no second lookup).
+`SlashRouteEntry` carries `ArgTail`, `ArgPickerChoices`, and `ArgHint` from descriptor.
+
+### 5. Input guidance (`SlashInputGuidance`)
+
+`SlashCompletion.GetResult(catalog, body, pickerSource?)` returns items **and** guidance:
+
+| `SlashInputMode` | When | Placeholder / hint |
+|------------------|------|---------------------|
+| `Path` | completing command path | `Next: <segment>` |
+| `Picker` | closed / dynamic picker | pick or filter |
+| `FreeText` | `required` without picker | `Type value (free text)` or `ArgHint` |
+| `Optional` | `optional` arg tail | Enter without arg |
+| `Ready` | `IsRunnable` | Press Enter to run |
+
+Surfaces show `Breadcrumb` (`/select › date › today`) + mode badge; no product-specific peel.
 
 ## Non-goals
 
