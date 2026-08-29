@@ -74,7 +74,7 @@ One `commandId`; mechanics are how you **play** it; `c:` is the **score on the w
 | Hyperlane | Package / home | Role | Reference mission |
 |-----------|----------------|------|-------------------|
 | **Command plane** | `AIGuiders.Platform.CommandPlane` (core) · `.Slash` · `.Sources` · `.Melody` | Registry hub; slash/melody/binding mechanics à la carte (ADR-0015) | Forge, CIDE, DashSpec |
-| **Input notation** | `AIGuiders.Platform.InputNotation` | Vim/KeyGesture parsers → normalized key sequence (Melody + Binding substrate) | CIDE quarry, future Binding |
+| **Input notation** | `InputNotation` (core) · `.Vim` · `.KeyGesture` · `.Emacs` (plan) | Quarry Neovim/Emacs → `NormalizedKeySequence` ([ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md)) | CIDE, Melody, Binding |
 | **Intent / routing** | `AIGuiders.Platform.Routing`, `Abstractions` | Intent organs, outcome shapes | CDP habitat |
 | **Cockpit** | `AIGuiders.Platform.Cockpit.*` | Channels, DataBus, CCU contracts | Glass, CDP |
 | **UI semantics** | `guiders-ui-platform` (`AIGuiders.UI.*`) | Tokens, Agent AX, adapters | Forge View (embassy) |

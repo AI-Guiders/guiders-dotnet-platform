@@ -39,7 +39,11 @@
 | **`CommandPlane.Sources.File`** | File transport (`FromFile`, embedded) | embed products |
 | **`CommandPlane.Sources.Database`** | DB transport (delegate) | DashSpec, portals |
 | **`CommandPlane.Sources`** | Meta-bundle | convenience |
-| **`InputNotation`** | Vim + KeyGesture → `NormalizedKeySequence` | Melody, Binding, docs/MCP |
+| **`InputNotation`** | Core IR: `NormalizedKeySequence`, `IInputNotationReader` | Melody, Binding |
+| **`InputNotation.KeyGesture`** | `Ctrl+K` wire (quarry CIDE) | hotkeys.toml, Forge |
+| **`InputNotation.Vim`** | `<C-k>` wire (quarry Neovim keycodes) | CIDE |
+| **`InputNotation.Emacs`** | (planned) `C-x` wire (quarry Emacs key-parse) | — |
+| **`InputNotation`** (meta) | facade `InputNotationParser` | lazy embed |
 | **`CommandPlane.Melody`** | Melody descriptor, profile, policy | CIDE/Glass |
 | **`CommandPlane.Binding`** | (planned) hotkeys merge, gesture → id | CIDE |
 | `Routing` | IIntentOrgan | cdp-mcp Citizen |

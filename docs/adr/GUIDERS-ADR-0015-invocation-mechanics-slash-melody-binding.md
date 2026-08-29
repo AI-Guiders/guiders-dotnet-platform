@@ -216,7 +216,11 @@ IMelodyCatalogDescribed.ToMelodyDescriptor()
 | `CommandPlane.Sources` | Meta-bundle |
 | `CommandPlane.Slash` | Slash mechanic (index, resolve, completion) → Core |
 | `CommandPlane.Melody` | Melody mechanic → `InputNotation` |
-| `InputNotation` | Shared keyboard notation substrate |
+| `InputNotation` | Core IR + reader contract |
+| `InputNotation.KeyGesture` | KeyGesture wire → Core |
+| `InputNotation.Vim` | Vim-doc wire → Core (quarry Neovim) |
+| `InputNotation.Emacs` | (planned) Emacs kbd → Core |
+| `InputNotation` (meta) | all surfaces |
 | `CommandPlane.Binding` | (planned) hotkeys → commandId |
 
 Slash embed: `CommandPlane.Slash` (+ optional `.Sources` for file backends); Sources does not depend on Slash.
