@@ -7,5 +7,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.InputNotation\AIGuiders.Platform.InputNotation.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.InputNotation.KeyGesture\AIGuiders.Platform.InputNotation.KeyGesture.csproj" />
   </ItemGroup>
 </Project>

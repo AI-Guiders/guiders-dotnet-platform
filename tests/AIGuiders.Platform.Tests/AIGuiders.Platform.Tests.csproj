@@ -24,7 +24,9 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Slash\AIGuiders.Platform.CommandPlane.Slash.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Sources.Database\AIGuiders.Platform.CommandPlane.Sources.Database.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Sources\AIGuiders.Platform.CommandPlane.Sources.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.InputNotation\AIGuiders.Platform.InputNotation.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.InputNotation.All\AIGuiders.Platform.InputNotation.All.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.InputNotation.Vim\AIGuiders.Platform.InputNotation.Vim.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.InputNotation.KeyGesture\AIGuiders.Platform.InputNotation.KeyGesture.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Melody\AIGuiders.Platform.CommandPlane.Melody.csproj" />
   </ItemGroup>
 </Project>

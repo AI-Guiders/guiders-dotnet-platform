@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.InputNotation</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.InputNotation.Vim</AssemblyName>
+    <PackageId>AIGuiders.Platform.InputNotation.Vim</PackageId>
+    <Description>Vim-doc wire notation: &lt;C-k&gt; (quarry Neovim, GUIDERS-ADR-0016).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.InputNotation\AIGuiders.Platform.InputNotation.csproj" />
+    <PackageReference Include="Eto.Parse" Version="1.0.0" />
+  </ItemGroup>
+</Project>

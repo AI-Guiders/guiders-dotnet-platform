@@ -69,11 +69,19 @@ public sealed class InputNotationParserTests
         Assert.Single(kg!.Steps);
 
         Assert.True(InputNotationParser.TryParseToSequence(
-            "b",
-            InputNotationSurface.MelodyNote,
-            out var note,
+            "<C-k>",
+            InputNotationSurface.VimDocument,
+            out var vim,
             out _));
-        AssertNormalizedPlain(note!.Steps[0], "B");
+        Assert.Single(vim!.Steps);
+    }
+
+    [Fact]
+    public void Melody_note_notation_parses_plain_token()
+    {
+        Assert.True(MelodyNoteNotation.TryParseStep("b", out var step, out _));
+        var plain = Assert.IsType<NormalizedPlainKeyStep>(step);
+        Assert.Equal("B", plain.KeySymbol);
     }
 
     [Fact]

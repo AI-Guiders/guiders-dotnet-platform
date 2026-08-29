@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.InputNotation</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.InputNotation.KeyGesture</AssemblyName>
+    <PackageId>AIGuiders.Platform.InputNotation.KeyGesture</PackageId>
+    <Description>KeyGesture wire notation: Ctrl+K, Cmd+Shift+P (GUIDERS-ADR-0016).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.InputNotation\AIGuiders.Platform.InputNotation.csproj" />
+  </ItemGroup>
+</Project>

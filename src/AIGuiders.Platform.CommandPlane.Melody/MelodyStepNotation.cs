@@ -12,7 +12,7 @@ public static class MelodyStepNotation
         error = "";
 
         if (step.Articulation == MelodyArticulation.ByNote)
-            return InputNotationParser.TryParseMelodyNoteStep(step.Wire, out normalized, out error);
+            return MelodyNoteNotation.TryParseStep(step.Wire, out normalized, out error);
 
         if (!KeyGestureChordSyntax.TryParseToNormalized(step.Wire, out var sequence, out error))
             return false;

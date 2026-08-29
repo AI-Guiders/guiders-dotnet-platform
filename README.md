@@ -21,7 +21,10 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.CommandPlane.Sources.File` | File transport: `FromFile`, embedded resource, extension dispatch |
 | `AIGuiders.Platform.CommandPlane.Sources.Database` | DB transport: delegate loader → Core |
 | `AIGuiders.Platform.CommandPlane.Sources` | Meta-bundle: all transports + formats |
-| `AIGuiders.Platform.InputNotation` | Vim + KeyGesture parsers, `NormalizedKeySequence` (quarry from CIDE) |
+| `AIGuiders.Platform.InputNotation` | Core IR: `NormalizedKeySequence`, `IInputNotationReader` |
+| `AIGuiders.Platform.InputNotation.Vim` | Vim-doc wire (`&lt;C-k&gt;`) → Core |
+| `AIGuiders.Platform.InputNotation.KeyGesture` | KeyGesture wire (`Ctrl+K`) → Core |
+| `AIGuiders.Platform.InputNotation.All` | Meta-bundle: facade `InputNotationParser` |
 | `AIGuiders.Platform.CommandPlane.Melody` | Melody descriptors, line profile, policy (ADR-0015) |
 | `AIGuiders.Platform.Cockpit.Abstractions` | CCU, DAL, channel, CDS, compositor contracts |
 | `AIGuiders.Platform.Cockpit.Ids` | IDS overlay search (ADR 0079) |

@@ -3,9 +3,6 @@
     <RootNamespace>AIGuiders.Platform.InputNotation</RootNamespace>
     <AssemblyName>AIGuiders.Platform.InputNotation</AssemblyName>
     <PackageId>AIGuiders.Platform.InputNotation</PackageId>
-    <Description>Keyboard input notation quarry: Vim + KeyGesture parsers, NormalizedKeySequence (CIDE ChordNotation SSOT).</Description>
+    <Description>Input notation core: NormalizedKeySequence IR, IInputNotationReader (GUIDERS-ADR-0016).</Description>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Eto.Parse" Version="1.0.0" />
-  </ItemGroup>
 </Project>

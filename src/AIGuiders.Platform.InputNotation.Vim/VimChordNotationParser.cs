@@ -57,7 +57,7 @@ public static class VimChordNotationParser
             return false;
         }
 
-        sequence = ChordSemanticNormalizer.FromVimSteps(r.Steps);
+        sequence = VimNotationNormalizer.FromVimSteps(r.Steps);
         error = "";
         return true;
     }
