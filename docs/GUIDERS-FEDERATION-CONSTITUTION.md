@@ -30,7 +30,7 @@ Federation sells **roads and signage**, not citizenship in a single app.
 | Layer | Federation ships | Planet implements **natively** |
 |-------|------------------|--------------------------------|
 | **Contract** | IR, schemas, `commandId`, catalog shape | — |
-| **Signage** | `notation/*.spec.json`, conformance vectors, oracle hooks | — |
+| **Signage** | `guiders-conformance` repo (`*.spec.json`, schemas, RULES) — [ADR-0019](adr/GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md); bootstrap copy in `docs/conformance/` | — |
 | **Reference quarry** | `.NET` packages (`InputNotation.*`, `CommandPlane.*`) — **embassy, not gate** | may pin NuGet as-is |
 | **Wire → IR** | spec + reference parser | **port** to TS (VS Code), Kotlin (JetBrains), PHP, … |
 | **IR → input** | — | key match, `KeyBinding`, `keydown`, OS shortcuts |
@@ -160,6 +160,7 @@ Conformance is not paywalled. MIT packages, public ADRs, fork adapters — not f
 | Binding catalog family | [GUIDERS-ADR-0017](adr/GUIDERS-ADR-0017-binding-catalog-family.md) |
 | Input notation quarry + native ports | [GUIDERS-ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md) |
 | Slash conformance vectors | [GUIDERS-ADR-0018](adr/GUIDERS-ADR-0018-slash-conformance-vectors.md) |
+| Conformance sibling monorepo | [GUIDERS-ADR-0019](adr/GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md) |
 | Aviation mental model | [GUIDERS-ADR-0007](adr/GUIDERS-ADR-0007-aviation-mental-model.md) |
 | All ADRs | [docs/adr/](adr/) |
 
