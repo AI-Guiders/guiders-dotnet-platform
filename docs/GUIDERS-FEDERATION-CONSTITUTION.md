@@ -51,6 +51,19 @@ Federation sells **roads and signage**, not citizenship in a single app.
 
 Pattern stack for commands: [GUIDERS-ADR-0009 — Catalog · Registry · Command · Surface](adr/GUIDERS-ADR-0009-command-surface-pattern.md).
 
+### Invocation glossary (Slash · Melody · Binding)
+
+Keyboard-as-instrument canon ([GUIDERS-ADR-0015](adr/GUIDERS-ADR-0015-invocation-mechanics-slash-melody-binding.md)):
+
+| Term | Meaning | Not |
+|------|---------|-----|
+| **Chord** | Simultaneous keys, or **chord root** gesture (e.g. `<Ctrl+K>`) | — |
+| **Melody** | Sequential line after root — e.g. `<Ctrl+K>` `b` `s` (+ optional parametric tail) | palette text mode |
+| **Binding** | Direct hotkey → `commandId` or surface opener (`Ctrl+Q`, chord root assignment) | slug/tail parser |
+| **`c:`** | Palette **discoverability** prefix (Ctrl+Q) — browse melody catalog, Help | **not** the melody mechanic |
+
+One `commandId`; mechanics are how you **play** it; `c:` is the **score on the wall**.
+
 ---
 
 ## Hyperlanes (living protocols)

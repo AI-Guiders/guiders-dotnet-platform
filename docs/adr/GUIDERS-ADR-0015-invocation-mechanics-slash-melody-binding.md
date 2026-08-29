@@ -11,13 +11,26 @@
 
 [GUIDERS-ADR-0009](GUIDERS-ADR-0009-command-surface-pattern.md) defines **Command–Surface**: one `commandId`, many invocation surfaces (slash, palette, hotkey, MCP).
 
-CIDE already runs **three distinct input languages** before platform extraction:
+CIDE already runs **three distinct input mechanics** before platform extraction:
 
-| Language | User input | Product SSOT today |
+| Mechanic | User input | Product SSOT today |
 |----------|------------|-------------------|
 | **Slash** | `/docs adr open` | `[[command.slash]]` in `intent-catalog.toml` |
-| **Melody** | `c:slug` + parametric tail | `melody_*` on `[[command]]`, `[[tail_wire_class]]` |
-| **Binding** | `Ctrl+Q`, chord root `Ctrl+K` + key | `Hotkeys/hotkeys.toml` + user overlay |
+| **Melody** | chord root, then sequential slug keys + optional parametric tail — e.g. `<Ctrl+K>` `b` `s` | `melody_*` on `[[command]]`, `[[tail_wire_class]]` |
+| **Binding** | direct gesture → `commandId` or surface opener — e.g. `Ctrl+Q` (palette), `Ctrl+K` (chord root) | `Hotkeys/hotkeys.toml` + user overlay |
+
+**Not a fourth mechanic:** palette prefix **`c:`** (Command Melody mode in Ctrl+Q) is **discoverability only** — it surfaces the same melody catalog (slug, Help, tail hints) so the user can learn what to play on the keyboard. It does **not** define melody execution. CIDE [ADR 0060](https://github.com/AI-Guiders/cascade-ide/blob/develop/docs/adr/0060-keyboard-chord-stack-fms-tactical-strategic.md): *GlassChord stays Ctrl+K*; Ctrl+Q `c:` is a catalog peel, not the performance lane.
+
+### Musical metaphor (product canon)
+
+Keyboard as instrument:
+
+| Musical | Invocation |
+|---------|------------|
+| **Note** | single key after chord root |
+| **Chord** | simultaneous keys, or **chord root** gesture (`<Ctrl+K>`) |
+| **Melody** | sequential line — `<Ctrl+K>` → `b` → `s` (slug + optional tail) |
+| **Score on the wall** | `c:` in palette — discoverability, not the instrument |
 
 Platform shipped **Slash mechanics** (catalog index, resolve, completion, sources, registry visitor). Melody and binding configuration remain on the planet — correctly.
 
@@ -41,31 +54,42 @@ Question: extend `SlashCommandDescriptor` with hotkeys and melody fields, or sib
                PlatformCommandRegistry.TryExecute
 ```
 
-| Mechanic | Discovery key | Platform package (target) | Execute |
-|----------|---------------|---------------------------|---------|
+| Mechanic | Discovery / resolve key | Platform package (target) | Execute |
+|----------|-------------------------|---------------------------|---------|
 | **Slash** | slash **path** | `CommandPlane` ✓ | via `commandId` |
-| **Melody** | melody **slug** + tail | `CommandPlane.Melody` (future) | via `commandId` |
-| **Binding** | **gesture** / chord step | `CommandPlane.Binding` (future) | via `commandId` or surface-only id |
+| **Melody** | melody **slug** + tail after chord root engaged | `CommandPlane.Melody` (future) | via `commandId` |
+| **Binding** | **gesture** → `commandId` or chord root / surface | `CommandPlane.Binding` (future) | via `commandId` or surface-only id |
 
 **Rejected:** stuffing `SuggestedHotkey`, `MelodySlug`, `WireClass`, chord policy into `SlashCommandDescriptor` as normative SSOT.
 
 **Allowed:** optional **display hints** on slash rows (`SuggestedHotkey` for capabilities JSON) — never override planetary binding SSOT.
 
-### 2. Platform owns mechanics; planets own configuration
+### 2. Discoverability surfaces vs mechanics
+
+| | Mechanic? | Role |
+|---|-----------|------|
+| **Slash** `/…` | yes | path resolve + execute |
+| **Melody** `<Ctrl+K> …` | yes | slug/tail resolve after root |
+| **Binding** hotkeys | yes | gesture → id or engage melody capture |
+| **Palette `c:`** | **no** | discoverability prefix in Ctrl+Q — browse melody catalog, Help, parametric hints; same SSOT rows, different surface |
+
+Do not document `c:` as «the melody input language». The melody input language is **sequential keys under chord root** (CIDE `CascadeChord` / Glass `AwaitMelodyTail`).
+
+### 3. Platform owns mechanics; planets own configuration
 
 | | **Platform (mechanics)** | **Planet (configuration / policy)** |
 |---|--------------------------|-------------------------------------|
 | **Slash** | `SlashCatalogIndex`, `SlashLineResolver`, `SlashStepCompletion`, `SlashArgCompletion`, `SlashInputGuidance`, `CommandSource`, `SlashCatalogComposer` | Path prefix (`/` in chat), ship TOML/JSON catalog, dynamic picker adapters, overlay merge rules |
-| **Melody** | `MelodyCatalogIndex`, slug resolve, `wire_class` tail parsers (pluggable), chord *protocol* (two-step resolve) | Entry prefix (`c:` in palette), `intent-catalog.toml` melody blocks, `[[tail_wire_class]]` tables, `chord_commit` defaults |
-| **Binding** | Gesture parse (`KeyGesture` wire), layered merge (ship + user), bind → `commandId` validation | `hotkeys.toml` ship file, `%LocalAppData%` overlay, chord root string (`Ctrl+K`), WPF tunnel / menu wiring |
+| **Melody** | `MelodyCatalogIndex`, slug resolve after root, `wire_class` tail parsers (pluggable), await-tail protocol | `intent-catalog.toml` melody blocks, `[[tail_wire_class]]`, `chord_commit` defaults |
+| **Binding** | Gesture parse (`KeyGesture` wire), layered merge (ship + user), bind → `commandId` validation, chord root → melody handoff | `hotkeys.toml` ship file, `%LocalAppData%` overlay, chord root string (`Ctrl+K`), palette `c:` prefix policy, WPF tunnel / menu wiring |
 
 **Rule (Prime protocol):**
 
 > **Configuration is planetary; composition is federated; mechanics are platform.**
 
-Platform does **not** ship default hotkeys, melody prefixes, or chord roots. It does **not** read product-specific overlay paths. The planet loads config and feeds platform DTOs / `ICommandSource`.
+Platform does **not** ship default hotkeys, melody slugs, chord roots, or palette discoverability prefixes. It does **not** read product-specific overlay paths. The planet loads config and feeds platform DTOs / `ICommandSource`.
 
-### 3. Catalog · Registry · Command · Surface (unchanged)
+### 4. Catalog · Registry · Command · Surface (unchanged)
 
 [GUIDERS-ADR-0009](GUIDERS-ADR-0009-command-surface-pattern.md) still governs all three mechanics:
 
@@ -74,9 +98,9 @@ Platform does **not** ship default hotkeys, melody prefixes, or chord roots. It 
 - **Command** — one effect, one `Execute`.
 - **Surface** — strips planetary prefix, calls resolver, then `TryExecute`.
 
-Binding catalog is **not** a fourth executor — it maps gestures to existing registry ids.
+Binding catalog is **not** a fourth executor — it maps gestures to existing registry ids. Palette `c:` rows are **catalog projection** for discoverability, not a separate executor.
 
-### 4. Projection from one product command block
+### 5. Projection from one product command block
 
 A single `[[command]]` in CIDE TOML may emit **multiple catalog projections**:
 
@@ -85,6 +109,8 @@ A single `[[command]]` in CIDE TOML may emit **multiple catalog projections**:
     ├── slash forms  → SlashCommandDescriptor[]  → SlashCatalogComposer
     ├── melody form  → MelodyDescriptor[]         → MelodyCatalogComposer (future)
     └── (no binding) — bindings live in hotkeys.toml by command_id
+
+MelodyDescriptor[] also feeds palette c: discoverability (same slug/Help; prefix is surface policy).
 ```
 
 `ICatalogDescribed` may grow optional projections:
@@ -94,14 +120,14 @@ A single `[[command]]` in CIDE TOML may emit **multiple catalog projections**:
 
 `IntentCatalogLoader` stays on CIDE until melody schema is extracted as **mechanics** only.
 
-### 5. Federation / Welcome to all
+### 6. Federation / Welcome to all
 
-| Planet | Slash | Melody | Binding |
-|--------|-------|--------|---------|
-| CIDE | full | full | full |
-| Forge | capabilities | optional | web shortcuts (product) |
-| DashSpec | `/select` filters | — | — |
-| Third party | JSON/TOML catalog | opt-in package | opt-in or none |
+| Planet | Slash | Melody | Binding | `c:` discoverability |
+|--------|-------|--------|---------|----------------------|
+| CIDE | full | full (`CascadeChord`) | full | palette |
+| Forge | capabilities | optional | web shortcuts (product) | — |
+| DashSpec | `/select` filters | — | — | — |
+| Third party | JSON/TOML catalog | opt-in package | opt-in or none | product choice |
 
 NuGet adoption is **à la carte** — no melody package required for slash-only embed.
 
@@ -116,11 +142,13 @@ NuGet adoption is **à la carte** — no melody package required for slash-only 
 
 - New slash features → `CommandPlane` / `CommandPlane.Sources`.
 - New melody/binding **mechanics** → sibling packages; **content** stays in product TOML/settings.
-- Integration reviews: ask **which mechanic**, **who owns config**, **shared commandId**.
+- Integration reviews: ask **which mechanic**, **who owns config**, **shared commandId**; do not conflate `c:` with melody mechanic.
 - CIDE migration map: `SlashRouteEntry` discovery fields → platform descriptors; execution fields (Intercom, MFD) stay CIDE.
 
 ## References
 
+- CIDE [ADR 0060](https://github.com/AI-Guiders/cascade-ide/blob/develop/docs/adr/0060-keyboard-chord-stack-fms-tactical-strategic.md) — CascadeChord, melody line, `c:` discoverability
 - CIDE [ADR 0030](https://github.com/AI-Guiders/cascade-ide/blob/develop/docs/adr/0030-command-ids-hotkeys-and-ui-registry-layers.md) — hotkeys vs command id layers
 - CIDE [ADR 0119](https://github.com/AI-Guiders/cascade-ide/blob/develop/docs/adr/0119-intent-catalog-command-first-forms.md) — command-first catalog
+- CIDE [intent-melody-language-v1.md](https://github.com/AI-Guiders/cascade-ide/blob/develop/docs/intent-melody-language-v1.md) — `c:` grammar (discoverability); keyboard melody is separate layer
 - CIDE `IntentMelody/intent-catalog.toml`, `Hotkeys/hotkeys.toml`
