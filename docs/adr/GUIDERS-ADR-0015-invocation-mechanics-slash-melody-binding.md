@@ -211,6 +211,7 @@ IMelodyCatalogDescribed.ToMelodyDescriptor()
 | `CommandPlane.Sources.Json` | JSON reader → Core |
 | `CommandPlane.Sources.Toml` | TOML reader → Core |
 | `CommandPlane.Sources.Xml` | XML reader → Core |
+| `CommandPlane.Sources.Database` | DB delegate loader → Core |
 | `CommandPlane.Sources` | Meta-bundle (all formats + file/embedded) |
 | `CommandPlane.Slash` | Slash mechanic (index, resolve, completion) → Core |
 | `CommandPlane.Melody` | Melody mechanic → `InputNotation` |

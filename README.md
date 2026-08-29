@@ -18,6 +18,7 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.CommandPlane.Sources.Json` | JSON catalog reader → Core |
 | `AIGuiders.Platform.CommandPlane.Sources.Toml` | TOML catalog reader → Core (+ Tomlyn) |
 | `AIGuiders.Platform.CommandPlane.Sources.Xml` | XML catalog reader → Core |
+| `AIGuiders.Platform.CommandPlane.Sources.Database` | DB delegate loader → Core |
 | `AIGuiders.Platform.CommandPlane.Sources` | Meta-bundle: all formats + `FromFile` / embedded resource |
 | `AIGuiders.Platform.InputNotation` | Vim + KeyGesture parsers, `NormalizedKeySequence` (quarry from CIDE) |
 | `AIGuiders.Platform.CommandPlane.Melody` | Melody descriptors, line profile, policy (ADR-0015) |

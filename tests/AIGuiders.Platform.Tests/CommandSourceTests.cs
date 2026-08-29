@@ -76,7 +76,7 @@ public sealed class CommandSourceTests
     [Fact]
     public void FromDb_wraps_delegate_loader()
     {
-        var catalog = SlashCatalogComposer.Build(CommandSources.FromDb(
+        var source = DatabaseCommandSources.From(
             () =>
             [
                 new SlashCommandDescriptor
@@ -85,7 +85,9 @@ public sealed class CommandSourceTests
                     CommandId = "db.echo", Path = "db echo", Help = "From DB", ArgTail = "none",
                 },
             ],
-            "db:test"));
+            "db:test");
+
+        var catalog = SlashCatalogComposer.Build(source);
 
         Assert.True(catalog.TryGet("db echo", out var route));
         Assert.Equal("db.echo", route.CommandId);

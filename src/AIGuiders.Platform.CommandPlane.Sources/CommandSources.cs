@@ -24,7 +24,7 @@ public static class CommandSources
     public static ICommandSource FromDb(
         Func<IReadOnlyList<SlashCommandDescriptor>> query,
         string? sourceId = null) =>
-        CommandSource.From(query, sourceId ?? "db");
+        DatabaseCommandSources.From(query, sourceId);
 
     public static ICommandSource FromFile(string path, string? sourceId = null)
     {

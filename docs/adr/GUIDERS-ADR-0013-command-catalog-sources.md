@@ -27,7 +27,7 @@ Platform owns catalog **mechanics** (`SlashCatalogIndex`, merge, resolve). Conte
 | Layer | Package | Responsibility |
 |-------|---------|----------------|
 | **Contract** | `AIGuiders.Platform.CommandPlane` | `ICommandSource`, `CommandSource.From(...)`, `ICommandFormatReader`, `SlashCommandDescriptor`, `CommandDescriptorMapper` |
-| **Format (à la carte)** | `CommandPlane.Sources.Json` · `.Toml` · `.Xml` | One reader per package → Core |
+| **Format (à la carte)** | `CommandPlane.Sources.Json` · `.Toml` · `.Xml` · `.Database` | One backend per package → Core |
 | **Meta-bundle** | `AIGuiders.Platform.CommandPlane.Sources` | `CommandSources.FromJson/Toml/Xml/Db/File`, `CommandFormatReaders`, embedded resource ext |
 
 Core stays **zero-dependency** (except BCL). Tomlyn only in `Sources.Toml`.
@@ -40,6 +40,7 @@ var catalog = SlashCatalogComposer.Build(
     CommandSources.FromJson(json),
     CommandSources.FromToml(toml),
     CommandSources.FromDb(() => repo.LoadCommands(), "db:PortalDB"),
+    // DB-only embed: DatabaseCommandSources.From(() => repo.LoadCommands(), "db:PortalDB"),
 );
 ```
 
@@ -62,7 +63,7 @@ Containers:
 - **TOML:** `[[command]]` or `[[commands]]`
 - **XML:** `<commands><command .../></commands>`
 
-Custom backends: implement `ICommandFormatReader` or `CommandSource.From(loader)`.
+Custom backends: implement `ICommandFormatReader`, `DatabaseCommandSources.From(loader)`, or a future `Sources.Database.*` provider package.
 
 Embedded plugin catalogs:
 
@@ -81,4 +82,4 @@ Extension on `Assembly` in `CommandPlane.Sources` — resolves manifest resource
 
 - CIDE `IntentCatalogLoader` can migrate to emit `SlashCommandDescriptor` + `CommandSources.FromToml` incrementally
 - Forge capabilities JSON can share `JsonCommandFormatReader` subset or stay bespoke until aligned
-- Products without file formats reference CommandPlane only; optional Sources package for JSON/TOML/XML
+- Products without file formats reference CommandPlane only; pin `Sources.Json` / `.Toml` / `.Xml` à la carte, or `Sources` meta-bundle for all formats

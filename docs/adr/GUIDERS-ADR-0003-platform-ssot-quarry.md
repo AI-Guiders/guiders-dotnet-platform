@@ -36,6 +36,7 @@
 | **`CommandPlane.Sources.Json`** | JSON reader → Core | Forge |
 | **`CommandPlane.Sources.Toml`** | TOML reader → Core | CIDE |
 | **`CommandPlane.Sources.Xml`** | XML reader → Core | — |
+| **`CommandPlane.Sources.Database`** | DB delegate loader → Core | DashSpec, portals |
 | **`CommandPlane.Sources`** | Meta-bundle (all formats + file/embedded) | embed products |
 | **`InputNotation`** | Vim + KeyGesture → `NormalizedKeySequence` | Melody, Binding, docs/MCP |
 | **`CommandPlane.Melody`** | Melody descriptor, profile, policy | CIDE/Glass |
