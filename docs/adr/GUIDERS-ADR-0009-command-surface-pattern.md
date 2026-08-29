@@ -5,7 +5,7 @@
 | **Status** | Accepted |
 | **Date** | 2026-08-27 |
 | **Tags** | #guiders #commandplane #slash #forge #cide #cdp #glass #pattern #gof |
-| **Related** | GUIDERS-ADR-0003 · GUIDERS-ADR-0007 · GUIDERS-ADR-0010 · CIDE ADR-0013/0030/0119 · FORGE-ADR-0065/0064/0066 |
+| **Related** | GUIDERS-ADR-0003 · GUIDERS-ADR-0007 · GUIDERS-ADR-0010 · GUIDERS-ADR-0015 · CIDE ADR-0013/0030/0119 · FORGE-ADR-0065/0064/0066 |
 
 ## Name
 

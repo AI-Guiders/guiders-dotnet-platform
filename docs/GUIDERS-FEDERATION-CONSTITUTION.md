@@ -57,7 +57,7 @@ Pattern stack for commands: [GUIDERS-ADR-0009 — Catalog · Registry · Command
 
 | Hyperlane | Package / home | Role | Reference mission |
 |-----------|----------------|------|-------------------|
-| **Command plane** | `AIGuiders.Platform.CommandPlane` (+ `.Sources`) | Slash discovery, completion, guidance, catalog merge | Forge capabilities, CIDE slash, DashSpec filters |
+| **Command plane** | `AIGuiders.Platform.CommandPlane` (+ `.Sources`) | Slash discovery, completion, guidance, catalog merge; Melody/Binding mechanics (ADR-0015) | Forge capabilities, CIDE slash, DashSpec filters |
 | **Intent / routing** | `AIGuiders.Platform.Routing`, `Abstractions` | Intent organs, outcome shapes | CDP habitat |
 | **Cockpit** | `AIGuiders.Platform.Cockpit.*` | Channels, DataBus, CCU contracts | Glass, CDP |
 | **UI semantics** | `guiders-ui-platform` (`AIGuiders.UI.*`) | Tokens, Agent AX, adapters | Forge View (embassy) |
@@ -122,6 +122,7 @@ Conformance is not paywalled. MIT packages, public ADRs, fork adapters — not f
 | Confederation charter (normative) | [GUIDERS-ADR-0006](adr/GUIDERS-ADR-0006-confederation-charter.md) |
 | Platform mechanics quarry | [GUIDERS-ADR-0010](adr/GUIDERS-ADR-0010-platform-mechanics.md) |
 | Command plane quarry | [GUIDERS-ADR-0003](adr/GUIDERS-ADR-0003-platform-ssot-quarry.md) |
+| Invocation mechanics (Slash · Melody · Binding) | [GUIDERS-ADR-0015](adr/GUIDERS-ADR-0015-invocation-mechanics-slash-melody-binding.md) |
 | Aviation mental model | [GUIDERS-ADR-0007](adr/GUIDERS-ADR-0007-aviation-mental-model.md) |
 | All ADRs | [docs/adr/](adr/) |
 

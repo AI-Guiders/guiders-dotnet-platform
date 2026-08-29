@@ -50,6 +50,7 @@ dotnet pack -c Release
 ## ADR
 
 - [Federation Constitution](docs/GUIDERS-FEDERATION-CONSTITUTION.md) — welcome to all, hyperlanes, how to join
+- [GUIDERS-ADR-0015 — Invocation mechanics (Slash · Melody · Binding)](docs/adr/GUIDERS-ADR-0015-invocation-mechanics-slash-melody-binding.md)
 - [GUIDERS-ADR-0001 — Platform boundary](docs/adr/GUIDERS-ADR-0001-platform-boundary.md)
 - [GUIDERS-ADR-0002 — Avalonia quarry gap](docs/adr/GUIDERS-ADR-0002-avalonia-quarry-gap.md)
 - [GUIDERS-ADR-0003 — Platform SSOT quarry](docs/adr/GUIDERS-ADR-0003-platform-ssot-quarry.md)
