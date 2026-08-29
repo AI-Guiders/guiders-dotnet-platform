@@ -159,6 +159,7 @@ Conformance is not paywalled. MIT packages, public ADRs, fork adapters — not f
 | Invocation mechanics (Slash · Melody · Binding) | [GUIDERS-ADR-0015](adr/GUIDERS-ADR-0015-invocation-mechanics-slash-melody-binding.md) |
 | Binding catalog family | [GUIDERS-ADR-0017](adr/GUIDERS-ADR-0017-binding-catalog-family.md) |
 | Input notation quarry + native ports | [GUIDERS-ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md) |
+| Slash conformance vectors | [GUIDERS-ADR-0018](adr/GUIDERS-ADR-0018-slash-conformance-vectors.md) |
 | Aviation mental model | [GUIDERS-ADR-0007](adr/GUIDERS-ADR-0007-aviation-mental-model.md) |
 | All ADRs | [docs/adr/](adr/) |
 

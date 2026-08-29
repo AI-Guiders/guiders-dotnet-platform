@@ -87,3 +87,5 @@ Surfaces show `Breadcrumb` (`/select › date › today`) + mode badge; no produ
 |------|-------|
 | **W4 platform** ✓ | `SlashArgCompletion`, `ISlashPickerChoiceSource`, route refactor, tests |
 | **W5 products** | DashSpec picker wiring; Forge converge JS → `/commands/complete` picker rows |
+| **W5a conformance** ✓ | `slash-arg-completion-v1.spec.json` + schema + `SlashSpecConformance` ([ADR-0018](GUIDERS-ADR-0018-slash-conformance-vectors.md)) |
+| **W5b Forge JS** | vitest harness on same spec |

@@ -11,6 +11,7 @@
     <EmbeddedResource Include="Fixtures\commands.toml" />
     <EmbeddedResource Include="Fixtures\Quarry\neovim-kbd-v1.spec.json" />
     <EmbeddedResource Include="Fixtures\Quarry\emacs-kbd-v1.spec.json" />
+    <EmbeddedResource Include="Fixtures\Slash\slash-arg-completion-v1.spec.json" />
     <None Include="Fixtures\hotkeys.toml" CopyToOutputDirectory="PreserveNewest" Link="Fixtures\hotkeys.toml" />
   </ItemGroup>
   <ItemGroup>
