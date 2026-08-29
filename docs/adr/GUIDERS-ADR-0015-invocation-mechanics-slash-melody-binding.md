@@ -186,13 +186,15 @@ MelodyLinePolicy.InferProfile / InferStepsFromSlug / Normalize / Validate
 IMelodyCatalogDescribed.ToMelodyDescriptor()
 ```
 
-**Input notation quarry** (W2e ✓ — package `AIGuiders.Platform.InputNotation`, from CIDE `Services/ChordNotation/`):
+**Input notation quarry** (W2e ✓ monolith; **W2f** family per [GUIDERS-ADR-0016](GUIDERS-ADR-0016-input-notation-quarry-family.md)):
 
 ```csharp
-enum InputNotationSurface { VimDocument, KeyGestureConfig, MelodyNote }
-class NormalizedKeySequence / NormalizedChordStep / NormalizedPlainKeyStep
-VimChordNotationParser / KeyGestureChordSyntax / InputNotationParser
+// Target: quarry Neovim keycodes / Emacs key-parse → platform IR
+InputNotation (Core) → NormalizedKeySequence, IInputNotationReader
+InputNotation.Vim / .KeyGesture / .Emacs
 ```
+
+Today: monolithic `InputNotation` (CIDE subset + Eto.Parse interim).
 
 **Melody mechanic** (package `AIGuiders.Platform.CommandPlane.Melody`):
 
