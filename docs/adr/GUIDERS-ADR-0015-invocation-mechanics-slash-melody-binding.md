@@ -149,26 +149,51 @@ Melody:   step₁ → step₂ → … → tail?   ← one line, one commandId
 
 Both rows are **the same mechanic (Melody)** with different per-step articulation. Palette `c:` still projects slug/Help for the line; it does not encode articulation unless the planet chooses to show it.
 
-**Target DTO sketch** ( `CommandPlane.Melody`, not implemented):
+### Line profile (capture contract)
+
+**Profile** is line-level policy — not a step articulation, not a fourth mechanic:
+
+| Profile | Capture after root | Steps rule |
+|---------|-------------------|------------|
+| **PureByNote** | await single keys (default) | all `ByNote`; slug may infer steps |
+| **PureByChord** | await full gestures | all `ByChord`; explicit steps required |
+| **Mixed** | await per `Steps[i].Articulation` | ≥2 articulations; explicit steps required |
+
+```text
+         Profile (constraint / UX mode)
+              │
+              ▼
+         Steps[] (normative for resolve)
+```
+
+- **Steps** are normative; **Profile** validates and selects capture state machine.
+- CIDE/Glass **v1 ship:** `PureByNote` only (current `melody_slug` letters).
+- **PureByChord** and **Mixed:** platform-ready; product catalog opt-in when a real command needs them.
+
+**Ship order:** M0 `PureByNote` + slug infer → M1 explicit steps + validation → M2 `PureByChord` capture → M3 `Mixed`.
+
+**Platform contracts** (`AIGuiders.Platform.CommandPlane.Melody`):
 
 ```csharp
 enum MelodyArticulation { ByNote, ByChord }
+enum MelodyLineProfile { PureByNote, PureByChord, Mixed }
 
-record MelodyStep(MelodyArticulation Articulation, string Wire, string? WireClass = null);
+class MelodyStep { Articulation, Wire, WireClass? }
+class MelodyLine { Slug, Profile, Steps, TailWireClass?, Help? }
+class MelodyDescriptor { CommandId, Slug, Profile, Steps, TailWireClass?, Help? }
 
-record MelodyLine(
-    string Slug,                         // canonical slug for catalog / c:
-    IReadOnlyList<MelodyStep> Steps);    // resolve + capture use Steps
+MelodyLinePolicy.InferProfile / InferStepsFromSlug / Normalize / Validate
+IMelodyCatalogDescribed.ToMelodyDescriptor()
 ```
 
-**Rules (proposed):**
+**Rules:**
 
 - Chord root (`<Ctrl+K>`) stays **Binding** — never a melody step.
-- One `commandId` may expose multiple `MelodyLine` aliases (same effect, different articulation).
-- Mixed lines (`ByNote` then `ByChord` in one sequence) are allowed at platform level; planets may restrict in UX.
-- Parametric tail after slug resolves on the same await-tail protocol; tail slots default to **ByNote** unless a `wire_class` says otherwise.
+- One `commandId` may expose multiple `MelodyDescriptor` aliases (same effect, different profile/steps).
+- Parametric tail after slug uses the same await-tail protocol; tail slots default to **ByNote** unless `TailWireClass` says otherwise.
+- Slug collision across profiles (e.g. `bs` ByNote vs chord-line alias) — defer to implementation wave / planet merge policy.
 
-**Open (defer to implementation wave):** slug SSOT when `bs` (ByNote) and chord-step lines collide; TOML fields for per-step articulation in `intent-catalog.toml`.
+**Open (defer):** TOML fields (`melody_profile`, explicit `melody_steps[]`) in `intent-catalog.toml`; chord wire notation SSOT.
 
 ## Non-goals (this ADR)
 

@@ -60,6 +60,7 @@ Keyboard-as-instrument canon ([GUIDERS-ADR-0015](adr/GUIDERS-ADR-0015-invocation
 | **Chord** | Simultaneous keys, or **chord root** gesture (e.g. `<Ctrl+K>`) | — |
 | **Melody** | Sequential line after root — e.g. `<Ctrl+K>` `b` `s` (+ optional tail) | palette text mode |
 | **Articulation** | Per-step play style inside a melody — **ByNote** (single key) or **ByChord** (gesture as one step) | not a fourth mechanic |
+| **Profile** | Line policy — **PureByNote** (default), **PureByChord**, or **Mixed** (explicit hybrid) | not a step type |
 | **Binding** | Direct hotkey → `commandId` or surface opener (`Ctrl+Q`, chord root assignment) | slug/tail parser |
 | **`c:`** | Palette **discoverability** prefix (Ctrl+Q) — browse melody catalog, Help | **not** the melody mechanic |
 
