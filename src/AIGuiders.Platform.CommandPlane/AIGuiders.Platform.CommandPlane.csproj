@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <RootNamespace>AIGuiders.Platform.CommandPlane</RootNamespace>
+    <RootNamespace>AIGuiders.Platform.CommandPlane.Commands</RootNamespace>
     <AssemblyName>AIGuiders.Platform.CommandPlane</AssemblyName>
     <PackageId>AIGuiders.Platform.CommandPlane</PackageId>
-    <Description>Slash command plane SSOT: DOI descriptors, ArgTail (ADR-0150), catalog index, line resolver. Forge + CIDE + CDP.</Description>
+    <Description>Command plane core: GoF command contracts, registry execute hub (GUIDERS-ADR-0009).</Description>
   </PropertyGroup>
 </Project>

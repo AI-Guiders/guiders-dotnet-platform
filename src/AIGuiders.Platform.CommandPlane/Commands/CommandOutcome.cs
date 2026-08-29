@@ -24,14 +24,6 @@ public sealed class EditorBufferOutcome
     public int? SelectionEnd { get; init; }
     public string? TextMode { get; init; }
 
-    public static EditorBufferOutcome FromEdit(Editor.EditorTextEditResult edit) =>
-        new()
-        {
-            Text = edit.Text,
-            SelectionStart = edit.SelectionStart,
-            SelectionEnd = edit.SelectionEnd,
-        };
-
     public static EditorBufferOutcome SetTextMode(string mode) =>
         new() { TextMode = mode };
 }

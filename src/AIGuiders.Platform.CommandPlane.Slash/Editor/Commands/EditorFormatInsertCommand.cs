@@ -18,6 +18,6 @@ public sealed class EditorFormatInsertCommand(TextInsertFormatDefinition format)
             context.Selection,
             format,
             context.TextMode);
-        return CommandOutcome.Ok(EditorBufferOutcome.FromEdit(edit));
+        return CommandOutcome.Ok(EditorBufferOutcomeExtensions.FromEdit(edit));
     }
 }

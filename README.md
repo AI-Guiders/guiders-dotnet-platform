@@ -13,7 +13,8 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 |---------|------|
 | `AIGuiders.Platform.Abstractions` | `IntentOutcome`, `RoutedIntent`, pulse truncation |
 | `AIGuiders.Platform.Routing` | `IIntentOrgan`, `DispatchCallOverride`, route refusal helpers |
-| `AIGuiders.Platform.CommandPlane` | Slash DOI, ArgTail, catalog index, line resolver, registry visitor |
+| `AIGuiders.Platform.CommandPlane` | Core: GoF command, registry execute hub |
+| `AIGuiders.Platform.CommandPlane.Slash` | Slash catalog, resolve, completion, editor bundle |
 | `AIGuiders.Platform.CommandPlane.Sources` | Catalog loaders: JSON, TOML, XML, DB, embedded resource |
 | `AIGuiders.Platform.InputNotation` | Vim + KeyGesture parsers, `NormalizedKeySequence` (quarry from CIDE) |
 | `AIGuiders.Platform.CommandPlane.Melody` | Melody descriptors, line profile, policy (ADR-0015) |

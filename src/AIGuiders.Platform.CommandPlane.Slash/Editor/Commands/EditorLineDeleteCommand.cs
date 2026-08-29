@@ -18,6 +18,6 @@ public sealed class EditorLineDeleteCommand : PlatformCommand<EditorBufferContex
             return CommandOutcome.Fail("Line range is required.");
 
         var edit = EditorLineTextOps.DeleteLineRange(context.Text, range);
-        return CommandOutcome.Ok(EditorBufferOutcome.FromEdit(edit));
+        return CommandOutcome.Ok(EditorBufferOutcomeExtensions.FromEdit(edit));
     }
 }

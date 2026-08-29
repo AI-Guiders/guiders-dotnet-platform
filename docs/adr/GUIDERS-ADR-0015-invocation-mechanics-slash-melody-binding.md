@@ -203,7 +203,17 @@ class MelodyDescriptor / MelodyLinePolicy / MelodyStepNotation
 IMelodyCatalogDescribed.ToMelodyDescriptor()
 ```
 
-À la carte: slash-only embed needs **CommandPlane** only; melody adds **CommandPlane.Melody** → **InputNotation**; binding (future) → **InputNotation** without melody.
+À la carte packages:
+
+| Package | Role |
+|---------|------|
+| `CommandPlane` | Core registry + GoF command contracts |
+| `CommandPlane.Slash` | Slash mechanic |
+| `CommandPlane.Melody` | Melody mechanic → `InputNotation` |
+| `InputNotation` | Shared keyboard notation substrate |
+| `CommandPlane.Binding` | (planned) hotkeys → commandId |
+
+Slash-only embed: `CommandPlane.Slash` (+ `.Sources`); no Melody, no Eto.Parse unless Melody/InputNotation added.
 
 CIDE keeps `ChordNotationRenderer` and `KeyGestureChordMatching` as product adapters until adapter swap.
 
