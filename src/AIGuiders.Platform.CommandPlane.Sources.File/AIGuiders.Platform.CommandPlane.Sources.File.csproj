@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.CommandPlane.Sources</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.CommandPlane.Sources.File</AssemblyName>
+    <PackageId>AIGuiders.Platform.CommandPlane.Sources.File</PackageId>
+    <Description>File-backed command catalog sources: path + extension dispatch, embedded resources (GUIDERS-ADR-0013).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Sources.Json\AIGuiders.Platform.CommandPlane.Sources.Json.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Sources.Toml\AIGuiders.Platform.CommandPlane.Sources.Toml.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Sources.Xml\AIGuiders.Platform.CommandPlane.Sources.Xml.csproj" />
+  </ItemGroup>
+</Project>

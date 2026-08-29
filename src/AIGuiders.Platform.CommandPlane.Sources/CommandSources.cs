@@ -1,36 +1,31 @@
-#nullable enable
-using AIGuiders.Platform.CommandPlane;
-
-namespace AIGuiders.Platform.CommandPlane.Sources;
-
-/// <summary>Format-specific <see cref="CommandSource"/> factories (JSON, TOML, XML, DB, file).</summary>
-public static class CommandSources
-{
-    public static ICommandSource From(
-        string content,
-        CommandDocumentFormat format,
-        string? sourceId = null) =>
-        CommandSource.FromText(content, CommandFormatReaders.For(format), sourceId ?? format.ToString().ToLowerInvariant());
-
-    public static ICommandSource FromJson(string content, string? sourceId = null) =>
-        CommandSource.FromText(content, CommandFormatReaders.Json, sourceId ?? "json");
-
-    public static ICommandSource FromToml(string content, string? sourceId = null) =>
-        CommandSource.FromText(content, CommandFormatReaders.Toml, sourceId ?? "toml");
-
-    public static ICommandSource FromXml(string content, string? sourceId = null) =>
-        CommandSource.FromText(content, CommandFormatReaders.Xml, sourceId ?? "xml");
-
-    public static ICommandSource FromDb(
-        Func<IReadOnlyList<SlashCommandDescriptor>> query,
-        string? sourceId = null) =>
-        DatabaseCommandSources.From(query, sourceId);
-
-    public static ICommandSource FromFile(string path, string? sourceId = null)
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(path);
-        var format = CommandSourceFormats.Resolve(path);
-        var content = File.ReadAllText(path);
-        return From(content, format, sourceId ?? $"file:{Path.GetFileName(path)}");
-    }
-}
+#nullable enable
+using AIGuiders.Platform.CommandPlane;
+
+namespace AIGuiders.Platform.CommandPlane.Sources;
+
+/// <summary>Command catalog source facades — meta-bundle re-exports (GUIDERS-ADR-0013).</summary>
+public static class CommandSources
+{
+    public static ICommandSource From(
+        string content,
+        CommandDocumentFormat format,
+        string? sourceId = null) =>
+        FileCommandSources.From(content, format, sourceId);
+
+    public static ICommandSource FromJson(string content, string? sourceId = null) =>
+        JsonCommandSources.FromJson(content, sourceId);
+
+    public static ICommandSource FromToml(string content, string? sourceId = null) =>
+        TomlCommandSources.FromToml(content, sourceId);
+
+    public static ICommandSource FromXml(string content, string? sourceId = null) =>
+        XmlCommandSources.FromXml(content, sourceId);
+
+    public static ICommandSource FromDb(
+        Func<IReadOnlyList<SlashCommandDescriptor>> query,
+        string? sourceId = null) =>
+        DatabaseCommandSources.From(query, sourceId);
+
+    public static ICommandSource FromFile(string path, string? sourceId = null) =>
+        FileCommandSources.FromFile(path, sourceId);
+}

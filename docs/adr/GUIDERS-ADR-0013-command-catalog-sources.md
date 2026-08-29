@@ -22,13 +22,16 @@ Platform owns catalog **mechanics** (`SlashCatalogIndex`, merge, resolve). Conte
 
 ## Decision
 
-### 1. Split contract vs format
+### 1. Split contract, transport, format
 
 | Layer | Package | Responsibility |
 |-------|---------|----------------|
-| **Contract** | `AIGuiders.Platform.CommandPlane` | `ICommandSource`, `CommandSource.From(...)`, `ICommandFormatReader`, `SlashCommandDescriptor`, `CommandDescriptorMapper` |
-| **Format (à la carte)** | `CommandPlane.Sources.Json` · `.Toml` · `.Xml` · `.Database` | One backend per package → Core |
-| **Meta-bundle** | `AIGuiders.Platform.CommandPlane.Sources` | `CommandSources.FromJson/Toml/Xml/Db/File`, `CommandFormatReaders`, embedded resource ext |
+| **Contract** | `AIGuiders.Platform.CommandPlane` | `ICommandSource`, `CommandSource.From*`, `SlashCommandDescriptor`, `CommandDescriptorMapper` |
+| **Format** | `Sources.Json` · `.Toml` · `.Xml` | `ICommandFormatReader` + `*CommandSources.From*` / `FromFile(.ext)` |
+| **Transport** | `Sources.File` · `.Database` | File path + extension dispatch, embedded resources; DB delegate |
+| **Meta-bundle** | `CommandPlane.Sources` | `CommandSources.*` re-exports for all-in-one embed |
+
+**FromFile is one transport** — only the format (JSON/TOML/XML/…) differs. `CommandSource.FromFile(path, reader)` is the Core primitive; `FileCommandSources.FromFile(path)` picks the reader by extension.
 
 Core stays **zero-dependency** (except BCL). Tomlyn only in `Sources.Toml`.
 
@@ -71,7 +74,7 @@ Embedded plugin catalogs:
 pluginAssembly.FromAssemblyResource("commands.toml");
 ```
 
-Extension on `Assembly` in `CommandPlane.Sources` — resolves manifest resource by suffix, format from file extension.
+Extension on `Assembly` in `CommandPlane.Sources.File` — resolves manifest resource by suffix, format from file extension.
 
 ### 4. Non-goals
 

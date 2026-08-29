@@ -15,11 +15,12 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.Routing` | `IIntentOrgan`, `DispatchCallOverride`, route refusal helpers |
 | `AIGuiders.Platform.CommandPlane` | Core: GoF command, catalog descriptors, `ICommandSource` |
 | `AIGuiders.Platform.CommandPlane.Slash` | Slash catalog index, resolve, completion, editor bundle |
-| `AIGuiders.Platform.CommandPlane.Sources.Json` | JSON catalog reader → Core |
-| `AIGuiders.Platform.CommandPlane.Sources.Toml` | TOML catalog reader → Core (+ Tomlyn) |
-| `AIGuiders.Platform.CommandPlane.Sources.Xml` | XML catalog reader → Core |
-| `AIGuiders.Platform.CommandPlane.Sources.Database` | DB delegate loader → Core |
-| `AIGuiders.Platform.CommandPlane.Sources` | Meta-bundle: all formats + `FromFile` / embedded resource |
+| `AIGuiders.Platform.CommandPlane.Sources.Json` | JSON format → Core |
+| `AIGuiders.Platform.CommandPlane.Sources.Toml` | TOML format → Core (+ Tomlyn) |
+| `AIGuiders.Platform.CommandPlane.Sources.Xml` | XML format → Core |
+| `AIGuiders.Platform.CommandPlane.Sources.File` | File transport: `FromFile`, embedded resource, extension dispatch |
+| `AIGuiders.Platform.CommandPlane.Sources.Database` | DB transport: delegate loader → Core |
+| `AIGuiders.Platform.CommandPlane.Sources` | Meta-bundle: all transports + formats |
 | `AIGuiders.Platform.InputNotation` | Vim + KeyGesture parsers, `NormalizedKeySequence` (quarry from CIDE) |
 | `AIGuiders.Platform.CommandPlane.Melody` | Melody descriptors, line profile, policy (ADR-0015) |
 | `AIGuiders.Platform.Cockpit.Abstractions` | CCU, DAL, channel, CDS, compositor contracts |

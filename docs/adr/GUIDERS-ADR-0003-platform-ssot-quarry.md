@@ -33,11 +33,12 @@
 | `Cockpit.Transport` | IngressEvent, BoundedIngressBus | cdp-mcp |
 | **`CommandPlane`** | GoF command, catalog descriptors, `ICommandSource`, `CommandSource` | all mechanics |
 | **`CommandPlane.Slash`** | Slash index, resolve, completion (→ Core) | **Forge, CIDE, DashSpec** |
-| **`CommandPlane.Sources.Json`** | JSON reader → Core | Forge |
-| **`CommandPlane.Sources.Toml`** | TOML reader → Core | CIDE |
-| **`CommandPlane.Sources.Xml`** | XML reader → Core | — |
-| **`CommandPlane.Sources.Database`** | DB delegate loader → Core | DashSpec, portals |
-| **`CommandPlane.Sources`** | Meta-bundle (all formats + file/embedded) | embed products |
+| **`CommandPlane.Sources.Json`** | JSON format → Core | Forge |
+| **`CommandPlane.Sources.Toml`** | TOML format → Core | CIDE |
+| **`CommandPlane.Sources.Xml`** | XML format → Core | — |
+| **`CommandPlane.Sources.File`** | File transport (`FromFile`, embedded) | embed products |
+| **`CommandPlane.Sources.Database`** | DB transport (delegate) | DashSpec, portals |
+| **`CommandPlane.Sources`** | Meta-bundle | convenience |
 | **`InputNotation`** | Vim + KeyGesture → `NormalizedKeySequence` | Melody, Binding, docs/MCP |
 | **`CommandPlane.Melody`** | Melody descriptor, profile, policy | CIDE/Glass |
 | **`CommandPlane.Binding`** | (planned) hotkeys merge, gesture → id | CIDE |

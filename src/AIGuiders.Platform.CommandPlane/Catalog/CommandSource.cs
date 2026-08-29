@@ -38,6 +38,15 @@ public static class CommandSource
             reader,
             leaveOpen);
 
+    public static ICommandSource FromFile(
+        string path,
+        ICommandFormatReader reader,
+        string? sourceId = null)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        return FromText(File.ReadAllText(path), reader, sourceId ?? $"file:{Path.GetFileName(path)}");
+    }
+
     sealed class DescriptorCommandSource(string sourceId, IReadOnlyList<SlashCommandDescriptor> descriptors)
         : ICommandSource
     {
