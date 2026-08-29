@@ -172,7 +172,7 @@ Both rows are **the same mechanic (Melody)** with different per-step articulatio
 
 **Ship order:** M0 `PureByNote` + slug infer → M1 explicit steps + validation → M2 `PureByChord` capture → M3 `Mixed`.
 
-**Platform contracts** (`AIGuiders.Platform.CommandPlane.Melody`):
+**Platform contracts** (`AIGuiders.Platform.CommandPlane.Melody` + `InputNotation`):
 
 ```csharp
 enum MelodyArticulation { ByNote, ByChord }
@@ -185,6 +185,17 @@ class MelodyDescriptor { CommandId, Slug, Profile, Steps, TailWireClass?, Help? 
 MelodyLinePolicy.InferProfile / InferStepsFromSlug / Normalize / Validate
 IMelodyCatalogDescribed.ToMelodyDescriptor()
 ```
+
+**Input notation quarry** (W2e ✓ — from CIDE `Services/ChordNotation/`):
+
+```csharp
+enum InputNotationSurface { VimDocument, KeyGestureConfig, MelodyNote }
+class NormalizedKeySequence / NormalizedChordStep / NormalizedPlainKeyStep
+VimChordNotationParser / KeyGestureChordSyntax / InputNotationParser
+MelodyStepNotation.TryNormalizeStep / TryNormalizeLine
+```
+
+CIDE keeps `ChordNotationRenderer` and platform key matching (`KeyGestureChordMatching`) as product adapters until a later wave. Tail `wire_class` parsers remain planet-local (ADR-0109).
 
 **Rules:**
 

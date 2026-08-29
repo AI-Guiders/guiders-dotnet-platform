@@ -31,7 +31,7 @@
 | `Cockpit.Channels` | IdeHealth/EnvReady DTOs + CCU kits | CIDE, cdp-mcp, Glass bind |
 | `Cockpit.Cds` / `Composition` | routing/compositor DTOs | cdp-mcp |
 | `Cockpit.Transport` | IngressEvent, BoundedIngressBus | cdp-mcp |
-| **`CommandPlane`** | Slash DOI, ArgTail, descriptor, catalog index, line resolver | **Forge, CIDE, CDP, Glass** |
+| **CommandPlane** | Slash DOI, ArgTail, descriptor, catalog index, line resolver, **Melody** + **InputNotation** quarry | **Forge, CIDE, CDP, Glass** |
 | `Routing` | IIntentOrgan | cdp-mcp Citizen |
 
 ---
