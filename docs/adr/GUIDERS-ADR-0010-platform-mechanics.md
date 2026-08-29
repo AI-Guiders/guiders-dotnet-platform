@@ -102,7 +102,7 @@ Descriptor DTOs (`SlashCommandDescriptor`) are **projection records**, not execu
 | **W2** ✓ | CommandPlane descriptors, ArgTail, catalog index, line resolver | Forge/CIDE capabilities |
 | **W2b** ✓ | Editor buffer `IPlatformCommand` + `EditorCommandRegistry` | Forge `forgeEditorCommand` |
 | **W2c** ✓ | `ICatalogVisitor`, `ICatalogDescribed`, registry catalog builder; editor catalog from registry | Forge [0066 W1](https://github.com/AI-Guiders/agent-forge/blob/master/design/FORGE-ADR-0066-forge-all-commands-platform-pattern.md) | capabilities = visit |
-| **W2e** ✓ | Melody descriptors + `InputNotation` quarry (CIDE `ChordNotation` parsers → platform) | CIDE adapter swap (pending) |
+| **W2e** ✓ | `InputNotation` + `CommandPlane.Melody` packages (quarry from CIDE) | CIDE adapter swap (pending) |
 | **W2d** | Forge domain commands as `IPlatformCommand<ForgeCommandContext>` | executor → registry dispatch |
 | **W1** ✓ | Cockpit DataBus / IdeHealth events | cdp-mcp, CIDE |
 | **W3+** | Correspondence, Desk latch mechanics | Glass, CDP |

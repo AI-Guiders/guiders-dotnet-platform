@@ -1,6 +1,6 @@
 #nullable enable
 
-namespace AIGuiders.Platform.CommandPlane.InputNotation;
+namespace AIGuiders.Platform.InputNotation;
 
 /// <summary>Facade over notation surfaces → <see cref="NormalizedKeySequence"/> (GUIDERS-ADR-0015 quarry).</summary>
 public static class InputNotationParser

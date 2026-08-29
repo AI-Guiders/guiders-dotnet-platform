@@ -1,5 +1,5 @@
 #nullable enable
-using AIGuiders.Platform.CommandPlane.InputNotation;
+using AIGuiders.Platform.InputNotation;
 using AIGuiders.Platform.CommandPlane.Melody;
 using Xunit;
 

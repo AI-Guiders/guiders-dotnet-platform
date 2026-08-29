@@ -22,5 +22,7 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Cds\AIGuiders.Platform.Cockpit.Cds.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Sources\AIGuiders.Platform.CommandPlane.Sources.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.InputNotation\AIGuiders.Platform.InputNotation.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Melody\AIGuiders.Platform.CommandPlane.Melody.csproj" />
   </ItemGroup>
 </Project>

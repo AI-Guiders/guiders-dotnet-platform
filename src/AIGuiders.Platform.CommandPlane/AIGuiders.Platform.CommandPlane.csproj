@@ -3,9 +3,6 @@
     <RootNamespace>AIGuiders.Platform.CommandPlane</RootNamespace>
     <AssemblyName>AIGuiders.Platform.CommandPlane</AssemblyName>
     <PackageId>AIGuiders.Platform.CommandPlane</PackageId>
-    <Description>Slash/melody command plane SSOT: DOI descriptors, ArgTail (ADR-0150), catalog index, line resolver, input notation quarry. Forge + CIDE + CDP.</Description>
+    <Description>Slash command plane SSOT: DOI descriptors, ArgTail (ADR-0150), catalog index, line resolver. Forge + CIDE + CDP.</Description>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Eto.Parse" Version="1.0.0" />
-  </ItemGroup>
 </Project>

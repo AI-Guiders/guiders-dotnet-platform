@@ -1,7 +1,7 @@
 #nullable enable
-using AIGuiders.Platform.CommandPlane.Melody;
+using AIGuiders.Platform.InputNotation;
 
-namespace AIGuiders.Platform.CommandPlane.InputNotation;
+namespace AIGuiders.Platform.CommandPlane.Melody;
 
 /// <summary>Bridge <see cref="MelodyStep"/> wires to normalized input steps.</summary>
 public static class MelodyStepNotation

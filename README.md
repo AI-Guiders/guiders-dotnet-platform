@@ -15,6 +15,8 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.Routing` | `IIntentOrgan`, `DispatchCallOverride`, route refusal helpers |
 | `AIGuiders.Platform.CommandPlane` | Slash DOI, ArgTail, catalog index, line resolver, registry visitor |
 | `AIGuiders.Platform.CommandPlane.Sources` | Catalog loaders: JSON, TOML, XML, DB, embedded resource |
+| `AIGuiders.Platform.InputNotation` | Vim + KeyGesture parsers, `NormalizedKeySequence` (quarry from CIDE) |
+| `AIGuiders.Platform.CommandPlane.Melody` | Melody descriptors, line profile, policy (ADR-0015) |
 | `AIGuiders.Platform.Cockpit.Abstractions` | CCU, DAL, channel, CDS, compositor contracts |
 | `AIGuiders.Platform.Cockpit.Ids` | IDS overlay search (ADR 0079) |
 | `AIGuiders.Platform.Cockpit.DataBus` | `IDataBus`, `InMemoryDataBus` (ADR 0099) |

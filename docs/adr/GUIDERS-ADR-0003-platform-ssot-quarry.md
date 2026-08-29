@@ -31,7 +31,11 @@
 | `Cockpit.Channels` | IdeHealth/EnvReady DTOs + CCU kits | CIDE, cdp-mcp, Glass bind |
 | `Cockpit.Cds` / `Composition` | routing/compositor DTOs | cdp-mcp |
 | `Cockpit.Transport` | IngressEvent, BoundedIngressBus | cdp-mcp |
-| **CommandPlane** | Slash DOI, ArgTail, descriptor, catalog index, line resolver, **Melody** + **InputNotation** quarry | **Forge, CIDE, CDP, Glass** |
+| **`CommandPlane`** | Slash DOI, ArgTail, descriptor, catalog index, line resolver | **Forge, CIDE, CDP, Glass** |
+| **`CommandPlane.Sources`** | JSON/TOML/XML/DB catalog loaders | embed products |
+| **`InputNotation`** | Vim + KeyGesture → `NormalizedKeySequence` | Melody, Binding, docs/MCP |
+| **`CommandPlane.Melody`** | Melody descriptor, profile, policy | CIDE/Glass |
+| **`CommandPlane.Binding`** | (planned) hotkeys merge, gesture → id | CIDE |
 | `Routing` | IIntentOrgan | cdp-mcp Citizen |
 
 ---

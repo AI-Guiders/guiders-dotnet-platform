@@ -1,6 +1,6 @@
 #nullable enable
 
-namespace AIGuiders.Platform.CommandPlane.InputNotation;
+namespace AIGuiders.Platform.InputNotation;
 
 public static class ChordSemanticNormalizer
 {

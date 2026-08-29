@@ -1,7 +1,7 @@
 #nullable enable
 using System.Diagnostics.CodeAnalysis;
 
-namespace AIGuiders.Platform.CommandPlane.InputNotation;
+namespace AIGuiders.Platform.InputNotation;
 
 /// <summary>KeyGesture / hotkeys.toml wire syntax (quarry from CIDE).</summary>
 public static class KeyGestureChordSyntax

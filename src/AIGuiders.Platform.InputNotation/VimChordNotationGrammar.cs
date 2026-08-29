@@ -1,7 +1,7 @@
 #nullable enable
 using Eto.Parse;
 
-namespace AIGuiders.Platform.CommandPlane.InputNotation;
+namespace AIGuiders.Platform.InputNotation;
 
 internal static class VimChordNotationGrammar
 {

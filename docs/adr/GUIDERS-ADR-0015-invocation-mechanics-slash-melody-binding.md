@@ -186,16 +186,26 @@ MelodyLinePolicy.InferProfile / InferStepsFromSlug / Normalize / Validate
 IMelodyCatalogDescribed.ToMelodyDescriptor()
 ```
 
-**Input notation quarry** (W2e ✓ — from CIDE `Services/ChordNotation/`):
+**Input notation quarry** (W2e ✓ — package `AIGuiders.Platform.InputNotation`, from CIDE `Services/ChordNotation/`):
 
 ```csharp
 enum InputNotationSurface { VimDocument, KeyGestureConfig, MelodyNote }
 class NormalizedKeySequence / NormalizedChordStep / NormalizedPlainKeyStep
 VimChordNotationParser / KeyGestureChordSyntax / InputNotationParser
-MelodyStepNotation.TryNormalizeStep / TryNormalizeLine
 ```
 
-CIDE keeps `ChordNotationRenderer` and platform key matching (`KeyGestureChordMatching`) as product adapters until a later wave. Tail `wire_class` parsers remain planet-local (ADR-0109).
+**Melody mechanic** (package `AIGuiders.Platform.CommandPlane.Melody`):
+
+```csharp
+enum MelodyArticulation { ByNote, ByChord }
+enum MelodyLineProfile { PureByNote, PureByChord, Mixed }
+class MelodyDescriptor / MelodyLinePolicy / MelodyStepNotation
+IMelodyCatalogDescribed.ToMelodyDescriptor()
+```
+
+À la carte: slash-only embed needs **CommandPlane** only; melody adds **CommandPlane.Melody** → **InputNotation**; binding (future) → **InputNotation** without melody.
+
+CIDE keeps `ChordNotationRenderer` and `KeyGestureChordMatching` as product adapters until adapter swap.
 
 **Rules:**
 

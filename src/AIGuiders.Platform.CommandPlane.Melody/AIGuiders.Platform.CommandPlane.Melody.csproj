@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.CommandPlane.Melody</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.CommandPlane.Melody</AssemblyName>
+    <PackageId>AIGuiders.Platform.CommandPlane.Melody</PackageId>
+    <Description>Melody invocation mechanic: descriptors, line profile, policy (GUIDERS-ADR-0015).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.InputNotation\AIGuiders.Platform.InputNotation.csproj" />
+  </ItemGroup>
+</Project>

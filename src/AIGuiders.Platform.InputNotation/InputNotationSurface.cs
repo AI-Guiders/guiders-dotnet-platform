@@ -1,6 +1,6 @@
 #nullable enable
 
-namespace AIGuiders.Platform.CommandPlane.InputNotation;
+namespace AIGuiders.Platform.InputNotation;
 
 /// <summary>Text surface for input notation parsers (quarry from CIDE <c>Services/ChordNotation</c>).</summary>
 public enum InputNotationSurface
