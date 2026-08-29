@@ -18,5 +18,6 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Composition\AIGuiders.Platform.Cockpit.Composition.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Cds\AIGuiders.Platform.Cockpit.Cds.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Sources\AIGuiders.Platform.CommandPlane.Sources.csproj" />
   </ItemGroup>
 </Project>
