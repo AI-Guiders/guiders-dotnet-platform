@@ -3,7 +3,7 @@
     <RootNamespace>AIGuiders.Platform.CommandPlane</RootNamespace>
     <AssemblyName>AIGuiders.Platform.CommandPlane.Slash</AssemblyName>
     <PackageId>AIGuiders.Platform.CommandPlane.Slash</PackageId>
-    <Description>Slash invocation mechanic: catalog, resolve, completion, guidance, sources (GUIDERS-ADR-0015).</Description>
+    <Description>Slash invocation mechanic: catalog index, resolve, completion, guidance (GUIDERS-ADR-0015).</Description>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />

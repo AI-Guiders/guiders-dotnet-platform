@@ -3,6 +3,6 @@
     <RootNamespace>AIGuiders.Platform.CommandPlane.Commands</RootNamespace>
     <AssemblyName>AIGuiders.Platform.CommandPlane</AssemblyName>
     <PackageId>AIGuiders.Platform.CommandPlane</PackageId>
-    <Description>Command plane core: GoF command contracts, registry execute hub (GUIDERS-ADR-0009).</Description>
+    <Description>Command plane core: GoF command contracts, catalog descriptors, command sources (GUIDERS-ADR-0009, ADR-0013).</Description>
   </PropertyGroup>
 </Project>

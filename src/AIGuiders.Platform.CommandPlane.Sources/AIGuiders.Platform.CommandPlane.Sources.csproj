@@ -6,7 +6,7 @@
     <Description>Command catalog sources: JSON, TOML, XML, DB, file. Extends CommandPlane CommandSource (ADR-0013).</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Slash\AIGuiders.Platform.CommandPlane.Slash.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
     <PackageReference Include="Tomlyn" Version="0.19.0" />
   </ItemGroup>
 </Project>

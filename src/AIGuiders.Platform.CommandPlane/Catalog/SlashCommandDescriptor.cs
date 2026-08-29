@@ -27,8 +27,6 @@ public sealed class SlashCommandDescriptor
 
     public SlashArgTailKind ArgTailKind => SlashArgTailPolicy.Parse(ArgTail);
 
-    public SlashSemanticFields Semantic => new(Domain, Object, Intent, SlashPathRole.Canonical);
-
     public IEnumerable<string> AllPaths()
     {
         yield return Path;

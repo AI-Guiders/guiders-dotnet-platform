@@ -207,13 +207,14 @@ IMelodyCatalogDescribed.ToMelodyDescriptor()
 
 | Package | Role |
 |---------|------|
-| `CommandPlane` | Core registry + GoF command contracts |
-| `CommandPlane.Slash` | Slash mechanic |
+| `CommandPlane` | Core: registry, GoF command, catalog descriptors, `ICommandSource` |
+| `CommandPlane.Sources` | Format readers (JSON/TOML/XML/DB) → Core |
+| `CommandPlane.Slash` | Slash mechanic (index, resolve, completion) → Core |
 | `CommandPlane.Melody` | Melody mechanic → `InputNotation` |
 | `InputNotation` | Shared keyboard notation substrate |
 | `CommandPlane.Binding` | (planned) hotkeys → commandId |
 
-Slash-only embed: `CommandPlane.Slash` (+ `.Sources`); no Melody, no Eto.Parse unless Melody/InputNotation added.
+Slash embed: `CommandPlane.Slash` (+ optional `.Sources` for file backends); Sources does not depend on Slash.
 
 CIDE keeps `ChordNotationRenderer` and `KeyGestureChordMatching` as product adapters until adapter swap.
 
