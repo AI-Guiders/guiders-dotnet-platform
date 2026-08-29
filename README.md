@@ -2,7 +2,8 @@
 
 Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Forge).
 
-**Architecture:** sibling repos as sovereign **planets**; shared packages and ADR as **federation protocols** — see [GUIDERS-ADR-0006](docs/adr/GUIDERS-ADR-0006-confederation-charter.md).
+**Start here:** [Federation Constitution](docs/GUIDERS-FEDERATION-CONSTITUTION.md) — sovereign planets, open embed, hyperlanes.  
+**Normative charter:** [GUIDERS-ADR-0006](docs/adr/GUIDERS-ADR-0006-confederation-charter.md).
 
 **Not in scope:** product apps, DashSpec, Avalonia UI forks.
 
@@ -12,7 +13,8 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 |---------|------|
 | `AIGuiders.Platform.Abstractions` | `IntentOutcome`, `RoutedIntent`, pulse truncation |
 | `AIGuiders.Platform.Routing` | `IIntentOrgan`, `DispatchCallOverride`, route refusal helpers |
-| `AIGuiders.Platform.CommandPlane` | Slash DOI, ArgTail, catalog index, line resolver |
+| `AIGuiders.Platform.CommandPlane` | Slash DOI, ArgTail, catalog index, line resolver, registry visitor |
+| `AIGuiders.Platform.CommandPlane.Sources` | Catalog loaders: JSON, TOML, XML, DB, embedded resource |
 | `AIGuiders.Platform.Cockpit.Abstractions` | CCU, DAL, channel, CDS, compositor contracts |
 | `AIGuiders.Platform.Cockpit.Ids` | IDS overlay search (ADR 0079) |
 | `AIGuiders.Platform.Cockpit.DataBus` | `IDataBus`, `InMemoryDataBus` (ADR 0099) |
@@ -47,6 +49,7 @@ dotnet pack -c Release
 
 ## ADR
 
+- [Federation Constitution](docs/GUIDERS-FEDERATION-CONSTITUTION.md) — welcome to all, hyperlanes, how to join
 - [GUIDERS-ADR-0001 — Platform boundary](docs/adr/GUIDERS-ADR-0001-platform-boundary.md)
 - [GUIDERS-ADR-0002 — Avalonia quarry gap](docs/adr/GUIDERS-ADR-0002-avalonia-quarry-gap.md)
 - [GUIDERS-ADR-0003 — Platform SSOT quarry](docs/adr/GUIDERS-ADR-0003-platform-ssot-quarry.md)

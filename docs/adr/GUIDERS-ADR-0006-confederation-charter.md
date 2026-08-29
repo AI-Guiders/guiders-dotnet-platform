@@ -106,6 +106,7 @@ Conformance is not paywalled:
 - README and onboarding should describe **planets + protocols**, not «the platform repo is the app».
 - New shared extraction → sibling monorepo or package family + charter ADR (pattern: GUIDERS-ADR-0005).
 - Integration reviews ask: **hyperlane exists? signage? reference mission? annexation risk?**
+- **Federation hub for humans:** [GUIDERS-FEDERATION-CONSTITUTION.md](../GUIDERS-FEDERATION-CONSTITUTION.md) (this ADR remains normative charter).
 - Operator/agent KB may use federation vocabulary alongside line/incarnation canon (agent-notes, personal layer).
 
 ---
