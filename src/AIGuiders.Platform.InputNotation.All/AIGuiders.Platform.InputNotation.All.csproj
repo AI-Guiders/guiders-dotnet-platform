@@ -3,10 +3,12 @@
     <RootNamespace>AIGuiders.Platform.InputNotation</RootNamespace>
     <AssemblyName>AIGuiders.Platform.InputNotation.All</AssemblyName>
     <PackageId>AIGuiders.Platform.InputNotation.All</PackageId>
-    <Description>Input notation meta-bundle: Vim + KeyGesture facades (GUIDERS-ADR-0016).</Description>
+    <Description>Input notation meta-bundle: Vim + KeyGesture + Neovim + Emacs facades (GUIDERS-ADR-0016).</Description>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.InputNotation.Emacs\AIGuiders.Platform.InputNotation.Emacs.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.InputNotation.KeyGesture\AIGuiders.Platform.InputNotation.KeyGesture.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.InputNotation.Neovim\AIGuiders.Platform.InputNotation.Neovim.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.InputNotation.Vim\AIGuiders.Platform.InputNotation.Vim.csproj" />
   </ItemGroup>
 </Project>

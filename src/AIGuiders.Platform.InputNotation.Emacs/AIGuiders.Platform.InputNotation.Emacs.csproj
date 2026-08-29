@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.InputNotation</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.InputNotation.Emacs</AssemblyName>
+    <PackageId>AIGuiders.Platform.InputNotation.Emacs</PackageId>
+    <Description>Emacs kbd wire notation: C-x, M-RET (quarry key-parse, GUIDERS-ADR-0016).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.InputNotation.Quarry\AIGuiders.Platform.InputNotation.Quarry.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="notation\emacs-kbd-v1.spec.json" Pack="true" PackagePath="notation\" />
+  </ItemGroup>
+</Project>

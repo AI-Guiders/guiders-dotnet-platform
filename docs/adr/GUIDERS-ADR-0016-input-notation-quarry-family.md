@@ -34,9 +34,11 @@ Parsers for Vim/Emacs notation are **older than most frameworks** — but they l
 ```text
 InputNotation (Core)     ← IR + IInputNotationReader contract
     ├── .KeyGesture      ← Ctrl+K, Cmd+Shift+P
-    ├── .Vim             ← vim-doc subset; quarry Neovim keycodes
-    ├── .Emacs           ← (future) quarry Emacs key-parse
-    └── InputNotation    ← optional meta-bundle
+    ├── .Vim             ← CIDE quarry (Eto.Parse interim)
+    ├── .Neovim          ← :help key-notation quarry (v1)
+    ├── .Emacs           ← kbd / key-parse quarry (v1)
+    ├── .Quarry          ← shared lexer, normalizer, spec conformance
+    └── InputNotation.All ← optional meta-bundle
 ```
 
 `CommandPlane.Melody` and `CommandPlane.Binding` **consume** InputNotation packages; they do not own wire parsers.
@@ -89,9 +91,11 @@ Interim only for v1 CIDE subset. **Target:** replace with quarry lexer from `key
 |---------|------|
 | `InputNotation` | Core IR + `IInputNotationReader` |
 | `InputNotation.KeyGesture` | `KeyGestureChordSyntax`, `Ctrl+K` wire |
-| `InputNotation.Vim` | Vim-doc wire; quarry Neovim |
-| `InputNotation.Emacs` | (future) Emacs kbd wire |
-| `InputNotation` meta | `InputNotationParser` facade (optional) |
+| `InputNotation.Quarry` | Shared quarry pattern: lexer, normalizer, spec JSON |
+| `InputNotation.Vim` | Vim-doc wire; CIDE quarry (Eto.Parse interim) |
+| `InputNotation.Neovim` | Neovim key-notation wire; quarry v1 + spec |
+| `InputNotation.Emacs` | Emacs kbd wire; quarry v1 + spec |
+| `InputNotation.All` | `InputNotationParser` facade (optional) |
 
 ## Embed
 

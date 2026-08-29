@@ -22,7 +22,10 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.CommandPlane.Sources.Database` | DB transport: delegate loader → Core |
 | `AIGuiders.Platform.CommandPlane.Sources` | Meta-bundle: all transports + formats |
 | `AIGuiders.Platform.InputNotation` | Core IR: `NormalizedKeySequence`, `IInputNotationReader` |
-| `AIGuiders.Platform.InputNotation.Vim` | Vim-doc wire (`&lt;C-k&gt;`) → Core |
+| `AIGuiders.Platform.InputNotation.Quarry` | Shared quarry lexer, normalizer, spec conformance |
+| `AIGuiders.Platform.InputNotation.Vim` | Vim-doc wire (`&lt;C-k&gt;`, CIDE quarry) → Core |
+| `AIGuiders.Platform.InputNotation.Neovim` | Neovim `:help key-notation` wire → Core |
+| `AIGuiders.Platform.InputNotation.Emacs` | Emacs `kbd` wire (`C-x`) → Core |
 | `AIGuiders.Platform.InputNotation.KeyGesture` | KeyGesture wire (`Ctrl+K`) → Core |
 | `AIGuiders.Platform.InputNotation.All` | Meta-bundle: facade `InputNotationParser` |
 | `AIGuiders.Platform.CommandPlane.Melody` | Melody descriptors, line profile, policy (ADR-0015) |

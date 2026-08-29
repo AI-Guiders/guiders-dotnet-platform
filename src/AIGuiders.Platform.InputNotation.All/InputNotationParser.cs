@@ -18,6 +18,8 @@ public static class InputNotationParser
         {
             InputNotationSurface.VimDocument => VimChordNotationParser.TryParseToNormalized(wire, out sequence, out error),
             InputNotationSurface.KeyGestureConfig => KeyGestureChordSyntax.TryParseToNormalized(wire, out sequence, out error),
+            InputNotationSurface.NeovimKbd => NeovimKeyNotationParser.TryParseToNormalized(wire, out sequence, out error),
+            InputNotationSurface.EmacsKbd => EmacsKbdNotationParser.TryParseToNormalized(wire, out sequence, out error),
             _ => Fail($"Unknown notation surface: {surface}", out sequence, out error),
         };
     }

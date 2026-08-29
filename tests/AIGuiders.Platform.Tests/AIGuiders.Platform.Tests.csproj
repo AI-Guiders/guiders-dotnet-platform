@@ -9,6 +9,8 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Fixtures\commands.toml" />
+    <EmbeddedResource Include="Fixtures\Quarry\neovim-kbd-v1.spec.json" />
+    <EmbeddedResource Include="Fixtures\Quarry\emacs-kbd-v1.spec.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Abstractions\AIGuiders.Platform.Abstractions.csproj" />

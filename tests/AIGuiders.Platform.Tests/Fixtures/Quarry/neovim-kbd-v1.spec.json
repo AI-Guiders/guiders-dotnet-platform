@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "surface": "neovim-kbd",
+  "tier": "v1",
+  "source": "Neovim :help key-notation (clean-room quarry; oracle: vim.keycode(str, true))",
+  "vectors": [
+    { "wire": "<C-x>", "chords": [{ "mods": "Control", "key": "X" }] },
+    { "wire": "<C-x> <C-f>", "chords": [{ "mods": "Control", "key": "X" }, { "mods": "Control", "key": "F" }] },
+    { "wire": "<C-k> s p", "chords": [{ "mods": "Control", "key": "K" }], "plain": ["S", "P"] },
+    { "wire": "<Space>", "chords": [{ "mods": "", "key": "Space" }] },
+    { "wire": "<C-S-P>", "chords": [{ "mods": "Control|Shift", "key": "P" }] }
+  ]
+}

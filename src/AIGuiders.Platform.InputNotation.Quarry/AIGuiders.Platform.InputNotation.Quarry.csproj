@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.InputNotation</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.InputNotation.Quarry</AssemblyName>
+    <PackageId>AIGuiders.Platform.InputNotation.Quarry</PackageId>
+    <Description>Shared quarry pattern: wire lexer, normalizer, spec conformance (GUIDERS-ADR-0016).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.InputNotation\AIGuiders.Platform.InputNotation.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.InputNotation</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.InputNotation.Neovim</AssemblyName>
+    <PackageId>AIGuiders.Platform.InputNotation.Neovim</PackageId>
+    <Description>Neovim key-notation wire: &lt;C-k&gt; (quarry keycodes v1, GUIDERS-ADR-0016).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.InputNotation.Quarry\AIGuiders.Platform.InputNotation.Quarry.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="notation\neovim-kbd-v1.spec.json" Pack="true" PackagePath="notation\" />
+  </ItemGroup>
+</Project>
