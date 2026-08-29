@@ -5,7 +5,7 @@
 | **Status** | Draft (open questions) |
 | **Date** | 2026-08-29 |
 | **Tags** | #guiders #platform #mcp #mcplane #agent #pulse #commandplane #conformance |
-| **Relates to** | GUIDERS-ADR-0009 · GUIDERS-ADR-0014 · GUIDERS-ADR-0018 · GUIDERS-ADR-0019 · GUIDERS-ADR-0007 · CDP-ADR-0020 · CDP-ADR-0028 · FORGE-ADR-0025 |
+| **Relates to** | GUIDERS-ADR-0009 · GUIDERS-ADR-0014 · GUIDERS-ADR-0018 · GUIDERS-ADR-0019 · GUIDERS-ADR-0007 · CDP-ADR-0020 · FORGE-ADR-0025 |
 
 ## Context
 
@@ -28,7 +28,7 @@ Operators also need **agent context economy** (not JSON walls on every turn):
 
 Platform already has **seed types** in `AIGuiders.Platform.Abstractions`:
 
-- `IntentOutcome` — product-neutral execute result (aligned with CDP `CitizenRouteHost.Applied`)
+- `IntentOutcome` — product-neutral execute result (CDP is one reference impl)
 - `PulseFormat` — truncation defaults (`DefaultMaxChars = 240`)
 
 These are **not** CommandPlane (no catalog/resolve). They are **agent ingress envelope** — today duplicated across CDP Meta tool docs and Forge `/capabilities`.
@@ -86,6 +86,7 @@ These are **not** CommandPlane (no catalog/resolve). They are **agent ingress en
 | Execute / `IPlatformCommand` | CommandPlane registry + product host |
 | QRH/ECL **content** | Product + future HelpSurfaces quarry |
 | Aviation UI symbology | `guiders-ui-platform` / ASP |
+| **Citizen wire** (`cdp_citizen`, `@frame`/`@intent` pulse frames) | CDP in-house habitat only ([CDP-ADR-0028](https://github.com/AI-Guiders/cdp-mcp/blob/main/docs/adr/CDP-ADR-0028-citizen-agent-wire.md)); not federation ingress |
 
 ### 4. Detail / folding model (canonical)
 
@@ -125,7 +126,7 @@ Harness: reference types in platform; vectors in `aiguiders-conformance` when re
 
 | | CommandPlane | MCPlane |
 |---|--------------|---------|
-| Ingress | slash, melody, binding, palette | MCP (+ future ACP/agent wire) |
+| Ingress | slash, melody, binding, palette | MCP `CallTool` result · Forge `/capabilities` |
 | Primary key | `commandId`, slash path | tool name + `commandId` map |
 | Output | `CommandOutcome` (effect) | `IntentOutcome` / agent envelope (observation) |
 | Conformance | slash-arg-completion, line-resolve | pulse, detail, next, catalog projection |
@@ -136,9 +137,8 @@ One registry, two projections: **execute** via CommandPlane; **describe + observ
 
 1. **Package name:** `MCPlane` vs `AgentIngress` vs extend `Abstractions` only?
 2. **Forge:** `/api/v1/capabilities` schema — normative in MCPlane or Forge-owned with MCPlane conformance?
-3. **Citizen wire** ([CDP-ADR-0028](https://github.com/AI-Guiders/cdp-mcp/blob/main/docs/adr/CDP-ADR-0028-citizen-agent-wire.md)): pulse **frames** vs MCP JSON — same envelope, different transport?
-4. **CDP-specific knobs** (`go=`, `pane_full`, `course=`): map to neutral MCPlane names or product extensions?
-5. **When to quarry:** after CommandPlane registry visitor stable (W2c ✓) + first conformance tag?
+3. **CDP-specific knobs** (`go=`, `pane_full`, `course=`): map to neutral MCPlane names or product extensions?
+4. **When to quarry:** after CommandPlane registry visitor stable (W2c ✓) + first conformance tag?
 
 ## Consequences
 
@@ -148,7 +148,6 @@ One registry, two projections: **execute** via CommandPlane; **describe + observ
 
 ## References
 
-- [CDP-ADR-0020 desk vs organ path](https://github.com/AI-Guiders/cdp-mcp/blob/main/docs/adr/CDP-ADR-0020-desk-vs-organ-path.md)
-- [CDP-ADR-0028 citizen agent wire](https://github.com/AI-Guiders/cdp-mcp/blob/main/docs/adr/CDP-ADR-0028-citizen-agent-wire.md)
+- [CDP-ADR-0020 desk vs organ path](https://github.com/AI-Guiders/cdp-mcp/blob/main/docs/adr/CDP-ADR-0020-desk-vs-organ-path.md) — lived semantics; federation types stay neutral
 - [GUIDERS-ADR-0019 conformance monorepo](GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md)
 - `AIGuiders.Platform.Abstractions` — `IntentOutcome.cs`, `PulseFormat.cs`
