@@ -44,4 +44,28 @@ public static class SlashArgTailPolicy
 
     public static bool InsertsTrailingSpaceOnCommit(SlashArgTailKind kind) =>
         kind is SlashArgTailKind.None;
+
+    public static string? ExtractPickerId(string? raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw))
+        {
+            return null;
+        }
+
+        var text = raw.Trim();
+        if (!text.StartsWith("picker:", StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        var id = text["picker:".Length..].Trim();
+        return id.Length == 0 ? null : id;
+    }
+
+    public static bool IsStaticEnumPicker(string? raw)
+    {
+        var id = ExtractPickerId(raw);
+        return id is not null
+               && id.StartsWith("enum", StringComparison.OrdinalIgnoreCase);
+    }
 }

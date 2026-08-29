@@ -12,8 +12,12 @@ public readonly record struct SlashRouteEntry(
     string Object = "",
     string Intent = "",
     SlashPathRole PathRole = SlashPathRole.Canonical,
-    string? Group = null)
+    string? Group = null,
+    string ArgTail = "",
+    IReadOnlyList<SlashPickerChoice>? ArgPickerChoices = null)
 {
+    public IReadOnlyList<SlashPickerChoice> ResolvedPickerChoices => ArgPickerChoices ?? [];
+
     public static SlashRouteEntry FromDescriptor(SlashCommandDescriptor d, string path) =>
         FromDescriptor(d, path, ResolvePathRole(d, path));
 
@@ -27,7 +31,9 @@ public readonly record struct SlashRouteEntry(
             d.Object,
             d.Intent,
             pathRole,
-            d.Group);
+            d.Group,
+            d.ArgTail,
+            d.ArgPickerChoices);
 
     static SlashPathRole ResolvePathRole(SlashCommandDescriptor d, string path) =>
         string.Equals(NormalizePath(path), NormalizePath(d.Path), StringComparison.OrdinalIgnoreCase)

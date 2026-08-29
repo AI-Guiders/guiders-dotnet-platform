@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace AIGuiders.Platform.CommandPlane;
 
-/// <summary>Domain → object → intent step autocomplete (GUIDERS-ADR-0011).</summary>
+/// <summary>Domain → object → intent → arg step autocomplete (GUIDERS-ADR-0011 / ADR-0012).</summary>
 public static class SlashStepCompletion
 {
     enum CompletionStep
@@ -25,15 +25,40 @@ public static class SlashStepCompletion
     public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
         SlashCatalogIndex catalog,
         string typedBody) =>
-        GetSuggestions(catalog, ParseTokens(typedBody, out var endsWithSpace), endsWithSpace, typedBody);
+        GetSuggestions(catalog, typedBody, pickerSource: null);
+
+    public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
+        SlashCatalogIndex catalog,
+        string typedBody,
+        ISlashPickerChoiceSource? pickerSource) =>
+        GetSuggestions(catalog, ParseTokens(typedBody, out var endsWithSpace), endsWithSpace, typedBody, pickerSource);
 
     public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
         SlashCatalogIndex catalog,
         IReadOnlyList<string> tokens,
         bool endsWithSpace,
-        string typedBody)
+        string typedBody) =>
+        GetSuggestions(catalog, tokens, endsWithSpace, typedBody, pickerSource: null);
+
+    public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
+        SlashCatalogIndex catalog,
+        IReadOnlyList<string> tokens,
+        bool endsWithSpace,
+        string typedBody,
+        ISlashPickerChoiceSource? pickerSource)
     {
-        if (SlashLineResolver.TryResolveBody(typedBody, catalog, out var line) && line.ShouldHideSegmentSuggestions)
+        if (SlashLineResolver.TryResolveBody(typedBody, catalog, out var line)
+            && catalog.TryGet(line.CanonicalPath, out var route)
+            && SlashArgCompletion.ShouldComplete(line, route))
+        {
+            var argItems = SlashArgCompletion.GetSuggestions(line, route, pickerSource);
+            if (argItems.Count > 0 || line.ShouldHideSegmentSuggestions)
+            {
+                return argItems;
+            }
+        }
+
+        if (SlashLineResolver.TryResolveBody(typedBody, catalog, out line) && line.ShouldHideSegmentSuggestions)
             return [];
 
         var snap = Snapshots.GetValue(catalog, BuildSnapshot);
@@ -53,6 +78,7 @@ public static class SlashStepCompletion
                 state.PartialToken,
                 tokens,
                 endsWithSpace),
+            CompletionStep.Arg => [],
             _ => [],
         };
     }

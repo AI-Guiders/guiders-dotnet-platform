@@ -14,6 +14,14 @@ public sealed class CommandPlaneTests
         Assert.Equal(expected, SlashArgTailPolicy.Parse(raw));
 
     [Fact]
+    public void ArgTailPolicy_extract_picker_id()
+    {
+        Assert.Equal("repo", SlashArgTailPolicy.ExtractPickerId("picker:repo"));
+        Assert.Equal("enum:text_mode", SlashArgTailPolicy.ExtractPickerId("picker:enum:text_mode"));
+        Assert.Null(SlashArgTailPolicy.ExtractPickerId("required"));
+    }
+
+    [Fact]
     public void CatalogIndex_longest_prefix_and_merge()
     {
         var bundled = SlashCatalogIndex.FromDescriptors([
@@ -101,6 +109,96 @@ public sealed class CommandPlaneTests
 
         var fileStep = SlashStepCompletion.GetSuggestions(catalog, "file ");
         Assert.Contains(fileStep, i => i.StepSegment == "open");
+    }
+
+    [Fact]
+    public void StepCompletion_static_enum_picker_filters_by_partial()
+    {
+        var catalog = SlashCatalogIndex.FromDescriptors([
+            new SlashCommandDescriptor
+            {
+                Domain = "editor", Object = "format", Intent = "mode",
+                CommandId = "editor.format.mode",
+                Path = "format mode",
+                ArgTail = "picker:enum:text_mode",
+                ArgPickerChoices = SlashPickerChoices.FromLabels(
+                    ("md", "Markdown"),
+                    ("html", "HTML")),
+            },
+        ]);
+
+        var items = SlashStepCompletion.GetSuggestions(catalog, "format mode ");
+        Assert.Equal(2, items.Count);
+        Assert.All(items, item => Assert.Equal(SlashCompletionItemKind.Picker, item.Kind));
+        Assert.Contains(items, item => item.PickValue == "md");
+
+        var filtered = SlashStepCompletion.GetSuggestions(catalog, "format mode h");
+        Assert.Single(filtered);
+        Assert.Equal("html", filtered[0].PickValue);
+        Assert.Equal("/format mode html", filtered[0].InsertText);
+    }
+
+    [Fact]
+    public void StepCompletion_dynamic_picker_uses_choice_source()
+    {
+        var catalog = SlashCatalogIndex.FromDescriptors([
+            new SlashCommandDescriptor
+            {
+                Domain = "dash", Object = "select", Intent = "app",
+                CommandId = "dash.select.app",
+                Path = "select app",
+                ArgTail = "picker:dash.field.app",
+            },
+        ]);
+
+        ISlashPickerChoiceSource source = new StubPickerSource(
+            "dash.field.app",
+            [
+                new SlashPickerChoice { Value = "AutoCAD", Label = "AutoCAD" },
+                new SlashPickerChoice { Value = "Revit", Label = "Revit" },
+            ]);
+
+        var items = SlashStepCompletion.GetSuggestions(catalog, "select app ", source);
+        Assert.Equal(2, items.Count);
+        Assert.Contains(items, item => item.PickValue == "AutoCAD");
+
+        var filtered = SlashStepCompletion.GetSuggestions(catalog, "select app rev", source);
+        Assert.Single(filtered);
+        Assert.Equal("Revit", filtered[0].PickValue);
+    }
+
+    [Fact]
+    public void PickerChoices_FromEnum_builds_values()
+    {
+        var choices = SlashPickerChoices.FromEnum<TextModes>();
+        Assert.Equal(["Md", "Html"], choices.Select(choice => choice.Value));
+    }
+
+    private enum TextModes
+    {
+        Md,
+        Html,
+    }
+
+    sealed class StubPickerSource(string pickerId, IReadOnlyList<SlashPickerChoice> choices) : ISlashPickerChoiceSource
+    {
+        public IReadOnlyList<SlashPickerChoice> GetChoices(string requestedPickerId, string partial)
+        {
+            if (!string.Equals(pickerId, requestedPickerId, StringComparison.OrdinalIgnoreCase))
+            {
+                return [];
+            }
+
+            if (string.IsNullOrWhiteSpace(partial))
+            {
+                return choices;
+            }
+
+            return choices
+                .Where(choice => choice.Value.Contains(partial, StringComparison.OrdinalIgnoreCase)
+                                 || (choice.Label?.Contains(partial, StringComparison.OrdinalIgnoreCase) ?? false))
+                .ToList();
+        }
     }
 
     static SlashCatalogIndex SemanticTestCatalog() =>
