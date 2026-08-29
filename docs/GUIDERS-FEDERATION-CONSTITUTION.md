@@ -91,6 +91,7 @@ One `commandId`; mechanics are how you **play** it; `c:` is the **score on the w
 | Hyperlane | Package / home | Role | Reference mission |
 |-----------|----------------|------|-------------------|
 | **Command plane** | `CommandPlane` (core) · `.Slash` · `.Sources` · `.Melody` · `.Binding` · `.Binding.Sources` | Registry hub; slash/melody/binding mechanics à la carte (ADR-0015, ADR-0017) | Forge, CIDE, DashSpec |
+| **Agent ingress (MCPlane)** | `Abstractions` today → `MCPlane` (draft) | Pulse/default, `next[]`, detail tiers, catalog projection — **not** MCP wire ([ADR-0020](adr/GUIDERS-ADR-0020-mcplane-agent-ingress.md)) | cdp-mcp, Forge MCP |
 | **Input notation** | `InputNotation` (core) · `.Quarry` · `.Neovim` · `.Emacs` · `.Vim` · `.KeyGesture` · `.All` | IR + spec JSON + .NET reference quarry; **native port** per stack ([ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md)) | CIDE (.NET); VS Code / JetBrains / … own ports |
 | **Intent / routing** | `AIGuiders.Platform.Routing`, `Abstractions` | Intent organs, outcome shapes | CDP habitat |
 | **Cockpit** | `AIGuiders.Platform.Cockpit.*` | Channels, DataBus, CCU contracts | Glass, CDP |
@@ -161,6 +162,7 @@ Conformance is not paywalled. MIT packages, public ADRs, fork adapters — not f
 | Input notation quarry + native ports | [GUIDERS-ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md) |
 | Slash conformance vectors | [GUIDERS-ADR-0018](adr/GUIDERS-ADR-0018-slash-conformance-vectors.md) |
 | Conformance sibling monorepo | [GUIDERS-ADR-0019](adr/GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md) |
+| MCPlane (agent ingress draft) | [GUIDERS-ADR-0020](adr/GUIDERS-ADR-0020-mcplane-agent-ingress.md) |
 | Aviation mental model | [GUIDERS-ADR-0007](adr/GUIDERS-ADR-0007-aviation-mental-model.md) |
 | All ADRs | [docs/adr/](adr/) |
 
