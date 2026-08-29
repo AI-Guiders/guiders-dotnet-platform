@@ -29,7 +29,8 @@ Keyboard as instrument:
 |---------|------------|
 | **Note** | single key after chord root |
 | **Chord** | simultaneous keys, or **chord root** gesture (`<Ctrl+K>`) |
-| **Melody** | sequential line — `<Ctrl+K>` → `b` → `s` (slug + optional tail) |
+| **Melody** | sequential line — `<Ctrl+K>` → steps → execute (slug + optional tail) |
+| **Articulation** | how each melody **step** is played — by note or by chord (see §7) |
 | **Score on the wall** | `c:` in palette — discoverability, not the instrument |
 
 Platform shipped **Slash mechanics** (catalog index, resolve, completion, sources, registry visitor). Melody and binding configuration remain on the planet — correctly.
@@ -130,6 +131,44 @@ MelodyDescriptor[] also feeds palette c: discoverability (same slug/Help; prefix
 | Third party | JSON/TOML catalog | opt-in package | opt-in or none | product choice |
 
 NuGet adoption is **à la carte** — no melody package required for slash-only embed.
+
+### 7. Melody articulation (future platform shape)
+
+**Melody** is always a **sequence** after chord root. **Articulation** names how each step in that sequence is played — not a fourth invocation mechanic.
+
+```text
+Binding:  <Ctrl+K>                    ← chord root (enters melody capture)
+Melody:   step₁ → step₂ → … → tail?   ← one line, one commandId
+          └─ each step has Articulation
+```
+
+| Articulation | Step input | Example line |
+|--------------|------------|----------------|
+| **ByNote** | single key | `<Ctrl+K>` `b` `s` |
+| **ByChord** | simultaneous / modifier+key as one step | `<Ctrl+K>` `<Ctrl+R>` `<Ctrl+R>` |
+
+Both rows are **the same mechanic (Melody)** with different per-step articulation. Palette `c:` still projects slug/Help for the line; it does not encode articulation unless the planet chooses to show it.
+
+**Target DTO sketch** ( `CommandPlane.Melody`, not implemented):
+
+```csharp
+enum MelodyArticulation { ByNote, ByChord }
+
+record MelodyStep(MelodyArticulation Articulation, string Wire, string? WireClass = null);
+
+record MelodyLine(
+    string Slug,                         // canonical slug for catalog / c:
+    IReadOnlyList<MelodyStep> Steps);    // resolve + capture use Steps
+```
+
+**Rules (proposed):**
+
+- Chord root (`<Ctrl+K>`) stays **Binding** — never a melody step.
+- One `commandId` may expose multiple `MelodyLine` aliases (same effect, different articulation).
+- Mixed lines (`ByNote` then `ByChord` in one sequence) are allowed at platform level; planets may restrict in UX.
+- Parametric tail after slug resolves on the same await-tail protocol; tail slots default to **ByNote** unless a `wire_class` says otherwise.
+
+**Open (defer to implementation wave):** slug SSOT when `bs` (ByNote) and chord-step lines collide; TOML fields for per-step articulation in `intent-catalog.toml`.
 
 ## Non-goals (this ADR)
 
