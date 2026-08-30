@@ -1,7 +1,6 @@
 {
   "version": 1,
   "surface": "neovim-kbd",
-  "tier": "v1",
   "source": "Neovim :help key-notation (clean-room quarry; oracle: vim.keycode(str, true))",
   "vectors": [
     { "wire": "<C-x>", "chords": [{ "mods": "Control", "key": "X" }] },

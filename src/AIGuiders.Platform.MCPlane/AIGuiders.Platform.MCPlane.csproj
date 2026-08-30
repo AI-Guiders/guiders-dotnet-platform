@@ -9,7 +9,7 @@
     <ProjectReference Include="..\AIGuiders.Platform.Abstractions\AIGuiders.Platform.Abstractions.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="mcplane\pulse-default-v1.spec.json" Pack="true" PackagePath="mcplane\" />
-    <None Include="mcplane\next-hints-v1.spec.json" Pack="true" PackagePath="mcplane\" />
+    <None Include="mcplane\pulse-default.spec.json" Pack="true" PackagePath="mcplane\" />
+    <None Include="mcplane\next-hints.spec.json" Pack="true" PackagePath="mcplane\" />
   </ItemGroup>
 </Project>

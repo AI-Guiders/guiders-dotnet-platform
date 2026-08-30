@@ -16,11 +16,11 @@ Per-ecosystem native ports (JS for Forge slash, Kotlin, …) need a **single SSO
 
 | Artifact | Role |
 |----------|------|
-| `docs/conformance/slash-arg-completion-v1.spec.json` | Vectors + fixture catalogs (`fixture.*` command ids) |
-| `docs/conformance/slash-arg-completion-v1.schema.json` | JSON Schema for spec documents |
+| `docs/conformance/slash-arg-completion.spec.json` | Vectors + fixture catalogs (`fixture.*` command ids) |
+| `docs/conformance/slash-arg-completion.schema.json` | JSON Schema for spec documents |
 | `docs/conformance/RULES.md` | Determinism rules (ordinal compare, sort order, stub filter) |
 | `SlashSpecConformance` in `CommandPlane.Slash` | Reference harness (.NET) |
-| NuGet content `slash/slash-arg-completion-v1.spec.json` | Same file shipped with package |
+| NuGet content `slash/slash-arg-completion.spec.json` | Same file shipped with package |
 
 **Not in scope:** product ship catalogs (Forge `/repo`, CIDE `/build`, …).
 

@@ -42,9 +42,10 @@ Platform `SlashArgCompletion` applies a second filter (`value` prefix, `label`/`
 
 ## Versioning
 
-- `version` in spec = document format major.
-- Breaking vector or schema change → new spec file (`slash-arg-completion-v2.spec.json`) or new `tier`.
-- Products pin platform semver; conformance pack version is independent of product catalog.
+- `version` in spec = **document JSON shape** major (not product semver).
+- **Spec identity** = `surface` field + git path (`docs/conformance/<surface>.spec.json`). No `-v1`/`-v2` filename suffix — history lives in git.
+- Breaking vector or schema shape → bump in-file `version` and/or split `surface`; consumers pin **git tag** or conformance repo commit.
+- Platform NuGet semver and conformance vectors are **independent**.
 
 ## Harness
 

@@ -9,6 +9,6 @@
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard.Quarry\AIGuiders.Platform.Notations.Keyboard.Quarry.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="notation\emacs-kbd-v1.spec.json" Pack="true" PackagePath="notation\" />
+    <None Include="notation\emacs-kbd.spec.json" Pack="true" PackagePath="notation\" />
   </ItemGroup>
 </Project>

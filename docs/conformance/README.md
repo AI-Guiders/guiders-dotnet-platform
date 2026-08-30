@@ -27,7 +27,7 @@ Product ship catalogs (`forge.repo.*`, CIDE intents) are **never** conformance i
 docs/conformance/
 ├── README.md
 ├── RULES.md
-├── slash-arg-completion-v1.{spec,schema}.json
+├── slash-arg-completion.{spec,schema}.json
 └── … (growing)
 
 tests/.../Fixtures/          ← embedded for .NET CI
@@ -43,24 +43,24 @@ aiguiders-conformance/
 ├── RULES.md
 ├── package.json             ← optional: @aiguiders/conformance
 ├── schemas/
-│   ├── slash-arg-completion-v1.schema.json
-│   ├── slash-line-resolve-v1.schema.json
-│   ├── binding-catalog-v1.schema.json
-│   ├── melody-line-v1.schema.json
-│   ├── command-catalog-wire-v1.schema.json
-│   └── notation-quarry-v1.schema.json
+│   ├── slash-arg-completion.schema.json
+│   ├── slash-line-resolve.schema.json
+│   ├── binding-catalog.schema.json
+│   ├── melody-line.schema.json
+│   ├── command-catalog-wire.schema.json
+│   └── notation-quarry.schema.json
 ├── slash/
-│   ├── arg-completion-v1.spec.json
-│   └── line-resolve-v1.spec.json
+│   ├── arg-completion.spec.json
+│   └── line-resolve.spec.json
 ├── binding/
-│   └── catalog-v1.spec.json
+│   └── catalog.spec.json
 ├── melody/
-│   └── line-policy-v1.spec.json
+│   └── line-policy.spec.json
 ├── catalog/
-│   └── command-wire-v1.spec.json
+│   └── command-wire.spec.json
 ├── notation/
-│   ├── neovim-kbd-v1.spec.json
-│   └── emacs-kbd-v1.spec.json
+│   ├── neovim-kbd.spec.json
+│   └── emacs-kbd.spec.json
 └── harness/                 ← optional later: language-agnostic CLI
     └── README.md
 ```
@@ -73,20 +73,24 @@ Implementations **do not** live in this repo — only contracts.
 
 | Spec | Surface | Status | Source tests today | Forge relevance |
 |------|---------|--------|-------------------|-----------------|
-| `slash/arg-completion-v1` | picker + path steps + guidance | **shipped** | `SlashConformanceTests` | `forge-slash-resolve.js` peel |
-| `slash/line-resolve-v1` | path + argTail + runnable | **shipped** | `SlashLineResolveConformanceTests` | execute / suggest routing |
-| `slash/catalog-merge-v1` | overlay wins longest prefix | planned | `CatalogIndex_longest_prefix_and_merge` | capabilities merge |
-| `binding/catalog-v1` | wire → gesture, overlay, chord root | planned | `BindingCatalogTests` | hotkeys (later) |
-| `melody/line-policy-v1` | profile, articulation, normalize | planned | `MelodyLinePolicyTests` | palette `c:` discoverability |
-| `catalog/command-wire-v1` | TOML/JSON → descriptor IR | planned | `CommandSourceTests` | `/commands/complete` catalog load |
-| `notation/command-slash-v1` | slash body tokenize | **shipped** | `NotationConformanceTests` | — |
-| `notation/argument-kv-v1` | kv tail → slots | **shipped** | `NotationConformanceTests` | — |
-| `notation/argument-delimited-v1` | colon-delimited tail → slots | **shipped** | `NotationConformanceTests` | — |
-| `notation/invocation-parity-v1` | slash vs console → same path | **shipped** | `NotationConformanceTests` | execute routing |
-| `notation/neovim-kbd-v1` | wire → IR | **exists** (move) | `QuarryNotationConformanceTests` | — |
-| `notation/emacs-kbd-v1` | wire → IR | **exists** (move) | `QuarryNotationConformanceTests` | — |
-| `mcplane/pulse-default-v1` | agent envelope pulse | **shipped** | `McPlaneConformanceTests` | Forge `/capabilities` |
-| `mcplane/next-hints-v1` | `next[]` shape | **shipped** | `McPlaneConformanceTests` | agent follow-ups |
+| `slash/arg-completion` | picker + path steps + guidance | **shipped** | `SlashConformanceTests` | `forge-slash-resolve.js` peel |
+| `slash/line-resolve` | path + argTail + runnable | **shipped** | `SlashLineResolveConformanceTests` | execute / suggest routing |
+| `slash/catalog-merge` | overlay wins longest prefix | planned | `CatalogIndex_longest_prefix_and_merge` | capabilities merge |
+| `binding/catalog` | wire → gesture, overlay, chord root | planned | `BindingCatalogTests` | hotkeys (later) |
+| `melody/line-policy` | profile, articulation, normalize | planned | `MelodyLinePolicyTests` | palette `c:` discoverability |
+| `catalog/command-wire` | TOML/JSON → descriptor IR | planned | `CommandSourceTests` | `/commands/complete` catalog load |
+| `notation/command-console` | console path + kv split | planned | — | CDP meta parity |
+| `notation/argument-positional` | ordered tail tokens | planned | — | slash remainder |
+| `notation/argument-cli` | POSIX/GNU flags (System.CommandLine quarry) | planned | — | `example.exe -h` |
+| `notation/quarry-oracle` | regenerate keyboard vectors from vim/emacs oracle | planned | manual vectors today | clean-room quarry |
+| `notation/command-slash` | slash body tokenize | **shipped** | `NotationConformanceTests` | — |
+| `notation/argument-kv` | kv tail → slots | **shipped** | `NotationConformanceTests` | — |
+| `notation/argument-delimited` | colon-delimited tail → slots | **shipped** | `NotationConformanceTests` | — |
+| `notation/invocation-parity` | slash vs console → same path | **shipped** | `NotationConformanceTests` | execute routing |
+| `notation/neovim-kbd` | wire → IR | **exists** (move) | `QuarryNotationConformanceTests` | — |
+| `notation/emacs-kbd` | wire → IR | **exists** (move) | `QuarryNotationConformanceTests` | — |
+| `mcplane/pulse-default` | agent envelope pulse | **shipped** | `McPlaneConformanceTests` | Forge `/capabilities` |
+| `mcplane/next-hints` | `next[]` shape | **shipped** | `McPlaneConformanceTests` | agent follow-ups |
 
 **Out of scope:** execute handlers, MCP wire, plugin host layout, product picker HTTP, UI popover.
 

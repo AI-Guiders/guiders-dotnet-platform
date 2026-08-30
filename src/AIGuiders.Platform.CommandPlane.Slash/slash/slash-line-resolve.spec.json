@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "surface": "slash-line-resolve",
+  "source": "GUIDERS-ADR-0015 SlashLineResolver; fixture catalogs only",
+  "catalogs": {
+    "build-run": [
+      {
+        "domain": "solution",
+        "object": "build",
+        "intent": "run",
+        "commandId": "fixture.build.run",
+        "path": "build run",
+        "argTail": "optional"
+      }
+    ],
+    "forge-create": [
+      {
+        "domain": "forge",
+        "object": "repo",
+        "intent": "create",
+        "commandId": "fixture.forge.repo.create",
+        "path": "forge repo create",
+        "pathAliases": ["/repo create"],
+        "argTail": "required"
+      }
+    ],
+    "flat-help": [
+      {
+        "domain": "",
+        "object": "",
+        "intent": "",
+        "commandId": "fixture.help",
+        "path": "help",
+        "argTail": "none"
+      }
+    ]
+  },
+  "vectors": [
+    {
+      "id": "build-run-with-config",
+      "catalog": "build-run",
+      "slashLine": "/build run Release",
+      "expect": {
+        "canonicalPath": "build run",
+        "argTail": "Release",
+        "isRunnable": true,
+        "isCatalogMatch": true,
+        "argTailKind": "Optional"
+      }
+    },
+    {
+      "id": "build-run-exact-no-tail",
+      "catalog": "build-run",
+      "slashLine": "/build run",
+      "expect": {
+        "canonicalPath": "build run",
+        "argTail": "",
+        "isRunnable": true,
+        "isCatalogMatch": true,
+        "argTailKind": "Optional"
+      }
+    },
+    {
+      "id": "forge-create-missing-required-arg",
+      "catalog": "forge-create",
+      "slashLine": "/forge repo create",
+      "expect": {
+        "canonicalPath": "forge repo create",
+        "argTail": "",
+        "isRunnable": false,
+        "isCatalogMatch": true,
+        "argTailKind": "Required"
+      }
+    },
+    {
+      "id": "forge-create-with-arg",
+      "catalog": "forge-create",
+      "slashLine": "/repo create my-app",
+      "expect": {
+        "canonicalPath": "repo create",
+        "argTail": "my-app",
+        "isRunnable": true,
+        "isCatalogMatch": true,
+        "argTailKind": "Required"
+      }
+    },
+    {
+      "id": "flat-help-exact",
+      "catalog": "flat-help",
+      "slashLine": "/help",
+      "expect": {
+        "canonicalPath": "help",
+        "argTail": "",
+        "isRunnable": true,
+        "isCatalogMatch": true,
+        "argTailKind": "None"
+      }
+    }
+  ]
+}

@@ -107,9 +107,9 @@ Federation tier names stay **neutral** in types; aviation terms live in glossary
 
 | Spec (future) | Proves |
 |---------------|--------|
-| `mcplane/pulse-default-v1` | Default call returns pulse tier; no full payload |
+| `mcplane/pulse-default` | Default call returns pulse tier; no full payload |
 | `mcplane/detail-expand-v1` | explicit target expands only that target |
-| `mcplane/next-hints-v1` | `next[]` ordering and shape |
+| `mcplane/next-hints` | `next[]` ordering and shape |
 | `agent-catalog-projection-v1` | Descriptor → capabilities JSON round-trip |
 
 Harness: reference types in platform; vectors in `aiguiders-conformance` when repo splits.

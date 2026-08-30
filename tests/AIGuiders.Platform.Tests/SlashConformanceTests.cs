@@ -8,9 +8,9 @@ namespace AIGuiders.Platform.Tests;
 public sealed class SlashConformanceTests
 {
     [Fact]
-    public void Slash_arg_completion_v1_vectors_conform()
+    public void Slash_arg_completion_vectors_conform()
     {
-        var spec = LoadSpec("AIGuiders.Platform.Tests.Fixtures.Slash.slash-arg-completion-v1.spec.json");
+        var spec = LoadSpec("AIGuiders.Platform.Tests.Fixtures.Slash.slash-arg-completion.spec.json");
         Assert.Equal("slash-arg-completion", spec.Surface);
         Assert.Empty(SlashSpecConformance.ValidateDocument(spec));
     }

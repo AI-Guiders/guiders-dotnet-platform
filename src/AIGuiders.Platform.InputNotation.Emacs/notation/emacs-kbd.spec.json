@@ -1,7 +1,6 @@
 {
   "version": 1,
   "surface": "emacs-kbd",
-  "tier": "v1",
   "source": "GNU Emacs Manual — Key Sequences / (kbd \"…\") (clean-room quarry; oracle: batch key-parse)",
   "vectors": [
     { "wire": "C-x", "chords": [{ "mods": "Control", "key": "X" }] },

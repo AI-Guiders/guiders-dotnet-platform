@@ -169,7 +169,7 @@ MIT (and peers) enable take-without-return **legally** — they do not create **
 
 | Pact element | What it means |
 |--------------|----------------|
-| **What** | Named hyperlane + semver spec tag (e.g. `slash-arg-completion-v1`, `notation/command-slash-v1`) |
+| **What** | Named hyperlane + semver spec tag (e.g. `slash-arg-completion`, `notation/command-slash`) |
 | **Who adopts** | Which planet pins quarry vs ports vectors natively |
 | **How to contribute** | Issues, bugs, PRs to spec or reference quarry — expected, not guaranteed SDLC in one throat |
 | **No warranty (read honestly)** | Shield from **litigation** and impossible solo-SDLC at scale — **not** «we ignore you»; alliance = shared maintenance **intent** without enterprise indemnity in LICENSE |

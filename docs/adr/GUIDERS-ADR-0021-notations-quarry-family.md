@@ -144,7 +144,7 @@ Do not block Slash/Console quarry on MCP JSON grammar.
 | **Now** | Ship this ADR; keep publishing `InputNotation.*` |
 | **W2g** | Add `Notations.*` packages; **type-forward** or duplicate-publish aliases `InputNotation → Notations.Keyboard` |
 | **W2h** | Move `SlashLineResolver` body/tokenize into `Notations.Command.Slash`; CommandPlane.Slash calls Notations |
-| **W2i** | Conformance vectors under `notation/keyboard-*`, `notation/command-slash-v1`, `notation/argument-kv-v1` ([ADR-0019](GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md)) |
+| **W2i** | Conformance vectors under `notation/keyboard-*`, `notation/command-slash`, `notation/argument-kv` ([ADR-0019](GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md)) |
 | **Later** | Obsolete `InputNotation` package IDs after CIDE/Forge pin Notations |
 
 [GUIDERS-ADR-0016](GUIDERS-ADR-0016-input-notation-quarry-family.md) remains accepted for **keyboard quarry semantics**; **package naming target** moves to this ADR.
@@ -175,12 +175,12 @@ record NormalizedArgTail(
 |------|--------|
 | `notation/keyboard-vim-v1` | Vim wire → `NormalizedKeySequence` (move from platform embed) |
 | `notation/keyboard-keygesture-v1` | `Ctrl+K` wire ≡ Vim subset where defined |
-| `notation/command-slash-v1` | path tokenization + longest-prefix body |
-| `notation/argument-kv-v1` | `key=value` pairs → slots |
+| `notation/command-slash` | path tokenization + longest-prefix body |
+| `notation/argument-kv` | `key=value` pairs → slots |
 | `notation/argument-positional-v1` | ordered tokens after path |
-| `notation/argument-delimited-v1` | `wire_class=colon` → slots |
+| `notation/argument-delimited` | `wire_class=colon` → slots |
 | `notation/argument-cli-v1` | (v2) `-`/`--` flags → slots (System.CommandLine quarry) |
-| `notation/invocation-parity-v1` | slash + kv readers → same `commandId` for fixture catalog |
+| `notation/invocation-parity` | slash + kv readers → same `commandId` for fixture catalog |
 
 ### 10. Notation families inventory
 

@@ -8,17 +8,17 @@ namespace AIGuiders.Platform.Tests;
 public sealed class QuarryNotationConformanceTests
 {
     [Fact]
-    public void Neovim_spec_v1_vectors_conform()
+    public void Neovim_spec_vectors_conform()
     {
-        var spec = LoadSpec("AIGuiders.Platform.Tests.Fixtures.Quarry.neovim-kbd-v1.spec.json");
+        var spec = LoadSpec("AIGuiders.Platform.Tests.Fixtures.Quarry.neovim-kbd.spec.json");
         Assert.Equal("neovim-kbd", spec.Surface);
         Assert.Empty(QuarrySpecConformance.ValidateDocument(NeovimNotationReader.Instance, spec));
     }
 
     [Fact]
-    public void Emacs_spec_v1_vectors_conform()
+    public void Emacs_spec_vectors_conform()
     {
-        var spec = LoadSpec("AIGuiders.Platform.Tests.Fixtures.Quarry.emacs-kbd-v1.spec.json");
+        var spec = LoadSpec("AIGuiders.Platform.Tests.Fixtures.Quarry.emacs-kbd.spec.json");
         Assert.Equal("emacs-kbd", spec.Surface);
         Assert.Empty(QuarrySpecConformance.ValidateDocument(EmacsNotationReader.Instance, spec));
     }

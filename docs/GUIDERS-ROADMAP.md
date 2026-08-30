@@ -17,7 +17,7 @@ Legend: ✅ done · 🚧 in progress · 📋 planned · ⏸ defer · 👤 operat
 | ✅ Notations ADR (draft) | ADR-0021 |
 | ✅ GUIDERS pain inventory + alliance / license pains | G-001–G-008 |
 | ✅ Adoption alliance automation | ADR-0022, `Utilities.Adoption.*`, `ADOPTION-ALLIANCE.generated.md` |
-| ✅ Slash arg-completion conformance | ADR-0018, `slash-arg-completion-v1` |
+| ✅ Slash arg-completion conformance | ADR-0018, `slash-arg-completion` |
 | ✅ CommandPlane registry visitor + Sources | ADR-0013/0014, v0.10 |
 | ✅ Wave 4 Notations.Keyboard + Argument.Delimited | v0.12.0, ADR-0021 W2g |
 
@@ -33,7 +33,7 @@ Legend: ✅ done · 🚧 in progress · 📋 planned · ⏸ defer · 👤 operat
 | 1.2 | `Notations.Command.Slash` — body tokenize | ADR-0021 | ✅ |
 | 1.3 | `Notations.Argument.Kv` + `Notations.Command.Console` | G-011 | ✅ |
 | 1.4 | `CommandPlane.Slash` delegates tokenize → Notations | ADR-0021 W2h | ✅ |
-| 1.5 | `invocation-parity-v1` vectors (slash vs kv → same path) | G-011 | ✅ |
+| 1.5 | `invocation-parity` vectors (slash vs kv → same path) | G-011 | ✅ |
 | 1.6 | CI: `ADOPTION-ALLIANCE.generated.md` drift check | G-008 | ✅ |
 | 1.7 | Conformance README: notation + mcplane backlog rows | G-010 | ✅ |
 
@@ -43,8 +43,8 @@ Legend: ✅ done · 🚧 in progress · 📋 planned · ⏸ defer · 👤 operat
 
 | # | Deliverable | Status |
 |---|-------------|--------|
-| 2.1 | `slash/line-resolve-v1` spec + harness | ✅ |
-| 2.2 | `notation/command-slash-v1`, `argument-kv-v1`, `invocation-parity-v1` specs | ✅ |
+| 2.1 | `slash/line-resolve` spec + harness | ✅ |
+| 2.2 | `notation/command-slash`, `argument-kv`, `invocation-parity` specs | ✅ |
 | 2.3 | Repo `aiguiders-conformance` extract (ADR-0019) | 📋 |
 | 2.4 | Forge JS vitest pin `@aiguiders/conformance` | 📋 |
 
@@ -55,7 +55,7 @@ Legend: ✅ done · 🚧 in progress · 📋 planned · ⏸ defer · 👤 operat
 | # | Deliverable | Maps to | Status |
 |---|-------------|---------|--------|
 | 3.1 | `MCPlane` package (`DetailTier`, `NextHint`, `AgentResponseEnvelope`) | G-020 | ✅ |
-| 3.2 | `mcplane/pulse-default-v1`, `next-hints-v1` vectors | G-020 | ✅ |
+| 3.2 | `mcplane/pulse-default`, `next-hints` vectors | G-020 | ✅ |
 | 3.3 | `agent-catalog-projection-v1` | G-021 | 📋 |
 | 3.4 | Accept ADR-0020 after first conformance tag | | ⏸ |
 

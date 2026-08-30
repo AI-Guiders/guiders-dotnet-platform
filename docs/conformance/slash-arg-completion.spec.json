@@ -1,0 +1,278 @@
+{
+  "version": 1,
+  "surface": "slash-arg-completion",
+  "source": "GUIDERS-ADR-0012 platform mechanics; fixture catalogs only — not product ship catalogs",
+  "catalogs": {
+    "format-mode": [
+      {
+        "domain": "editor",
+        "object": "format",
+        "intent": "mode",
+        "commandId": "fixture.editor.format.mode",
+        "path": "format mode",
+        "argTail": "picker:enum:text_mode",
+        "argPickerChoices": [
+          { "value": "md", "label": "Markdown" },
+          { "value": "html", "label": "HTML" }
+        ]
+      }
+    ],
+    "dash-select-app": [
+      {
+        "domain": "dash",
+        "object": "select",
+        "intent": "app",
+        "commandId": "fixture.dash.select.app",
+        "path": "select app",
+        "argTail": "picker:dash.field.app"
+      }
+    ],
+    "semantic-path": [
+      {
+        "domain": "intercom",
+        "object": "topic",
+        "intent": "list",
+        "commandId": "fixture.intercom.topic.list",
+        "path": "intercom topic list",
+        "help": "Topics"
+      },
+      {
+        "domain": "intercom",
+        "object": "server",
+        "intent": "list",
+        "commandId": "fixture.intercom.server.list",
+        "path": "intercom server list",
+        "help": "Servers"
+      },
+      {
+        "domain": "solution",
+        "object": "build",
+        "intent": "run",
+        "commandId": "fixture.build.run",
+        "path": "solution build run",
+        "pathAliases": ["build run"],
+        "help": "Build run"
+      },
+      {
+        "domain": "solution",
+        "object": "build",
+        "intent": "ui",
+        "commandId": "fixture.build.ui",
+        "path": "solution build ui",
+        "pathAliases": ["build ui"],
+        "help": "Build UI"
+      },
+      {
+        "domain": "git",
+        "object": "status",
+        "intent": "",
+        "commandId": "fixture.git.status",
+        "path": "git status",
+        "help": "Git status"
+      }
+    ],
+    "flat-path": [
+      {
+        "domain": "",
+        "object": "",
+        "intent": "",
+        "commandId": "fixture.help",
+        "path": "help",
+        "help": "Help",
+        "argTail": "none"
+      },
+      {
+        "domain": "",
+        "object": "",
+        "intent": "",
+        "commandId": "fixture.file.open",
+        "path": "file open",
+        "help": "Open file",
+        "argTail": "required"
+      }
+    ],
+    "file-open-required": [
+      {
+        "domain": "",
+        "object": "",
+        "intent": "",
+        "commandId": "fixture.file.open",
+        "path": "file open",
+        "argTail": "required",
+        "argHint": "Path relative to repo root"
+      }
+    ],
+    "help-ready": [
+      {
+        "domain": "",
+        "object": "",
+        "intent": "",
+        "commandId": "fixture.help",
+        "path": "help",
+        "argTail": "none"
+      }
+    ]
+  },
+  "pickerStubs": {
+    "dash.field.app": {
+      "choices": [
+        { "value": "AutoCAD", "label": "AutoCAD" },
+        { "value": "Revit", "label": "Revit" }
+      ]
+    }
+  },
+  "vectors": [
+    {
+      "id": "static-picker-all-choices",
+      "catalog": "format-mode",
+      "body": "format mode ",
+      "expect": {
+        "suggestions": {
+          "items": [
+            {
+              "kind": "picker",
+              "insertText": "/format mode md",
+              "slashPath": "/format mode",
+              "help": "Markdown",
+              "group": null,
+              "stepSegment": "Markdown",
+              "pickValue": "md"
+            },
+            {
+              "kind": "picker",
+              "insertText": "/format mode html",
+              "slashPath": "/format mode",
+              "help": "HTML",
+              "group": null,
+              "stepSegment": "HTML",
+              "pickValue": "html"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "static-picker-filter-by-partial",
+      "catalog": "format-mode",
+      "body": "format mode h",
+      "expect": {
+        "suggestions": {
+          "items": [
+            {
+              "kind": "picker",
+              "insertText": "/format mode html",
+              "slashPath": "/format mode",
+              "help": "HTML",
+              "group": null,
+              "stepSegment": "HTML",
+              "pickValue": "html"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "dynamic-picker-all-choices",
+      "catalog": "dash-select-app",
+      "body": "select app ",
+      "expect": {
+        "suggestions": {
+          "items": [
+            {
+              "kind": "picker",
+              "insertText": "/select app AutoCAD",
+              "slashPath": "/select app",
+              "help": "AutoCAD",
+              "group": null,
+              "stepSegment": "AutoCAD",
+              "pickValue": "AutoCAD"
+            },
+            {
+              "kind": "picker",
+              "insertText": "/select app Revit",
+              "slashPath": "/select app",
+              "help": "Revit",
+              "group": null,
+              "stepSegment": "Revit",
+              "pickValue": "Revit"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "dynamic-picker-filter-by-partial",
+      "catalog": "dash-select-app",
+      "body": "select app rev",
+      "expect": {
+        "suggestions": {
+          "items": [
+            {
+              "kind": "picker",
+              "insertText": "/select app Revit",
+              "slashPath": "/select app",
+              "help": "Revit",
+              "group": null,
+              "stepSegment": "Revit",
+              "pickValue": "Revit"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "path-root-lists-domains",
+      "catalog": "semantic-path",
+      "body": "",
+      "expect": {
+        "suggestions": {
+          "stepSegments": ["build", "git", "intercom", "solution"]
+        }
+      }
+    },
+    {
+      "id": "path-build-lists-intents",
+      "catalog": "semantic-path",
+      "body": "build ",
+      "expect": {
+        "suggestions": {
+          "stepSegments": ["run", "ui"]
+        }
+      }
+    },
+    {
+      "id": "guidance-free-text-required",
+      "catalog": "file-open-required",
+      "body": "file open ",
+      "expect": {
+        "guidance": {
+          "mode": "FreeText",
+          "placeholderContains": "free text",
+          "hint": "Path relative to repo root"
+        }
+      }
+    },
+    {
+      "id": "guidance-ready-when-runnable",
+      "catalog": "help-ready",
+      "body": "help",
+      "expect": {
+        "guidance": {
+          "mode": "Ready",
+          "placeholderContains": "Enter"
+        }
+      }
+    },
+    {
+      "id": "guidance-picker-breadcrumb",
+      "catalog": "format-mode",
+      "body": "format mode ",
+      "expect": {
+        "guidance": {
+          "mode": "Picker",
+          "breadcrumbContains": "format › mode"
+        }
+      }
+    }
+  ]
+}

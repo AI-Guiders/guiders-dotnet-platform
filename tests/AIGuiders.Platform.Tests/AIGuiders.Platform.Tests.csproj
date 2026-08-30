@@ -9,16 +9,16 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Fixtures\commands.toml" />
-    <EmbeddedResource Include="Fixtures\Quarry\neovim-kbd-v1.spec.json" />
-    <EmbeddedResource Include="Fixtures\Quarry\emacs-kbd-v1.spec.json" />
-    <EmbeddedResource Include="Fixtures\Slash\slash-arg-completion-v1.spec.json" />
-    <EmbeddedResource Include="Fixtures\Slash\slash-line-resolve-v1.spec.json" />
-    <EmbeddedResource Include="Fixtures\Notation\command-slash-v1.spec.json" />
-    <EmbeddedResource Include="Fixtures\Notation\argument-kv-v1.spec.json" />
-    <EmbeddedResource Include="Fixtures\Notation\invocation-parity-v1.spec.json" />
-    <EmbeddedResource Include="Fixtures\Notation\argument-delimited-v1.spec.json" />
-    <EmbeddedResource Include="Fixtures\MCPlane\pulse-default-v1.spec.json" />
-    <EmbeddedResource Include="Fixtures\MCPlane\next-hints-v1.spec.json" />
+    <EmbeddedResource Include="Fixtures\Quarry\neovim-kbd.spec.json" />
+    <EmbeddedResource Include="Fixtures\Quarry\emacs-kbd.spec.json" />
+    <EmbeddedResource Include="Fixtures\Slash\slash-arg-completion.spec.json" />
+    <EmbeddedResource Include="Fixtures\Slash\slash-line-resolve.spec.json" />
+    <EmbeddedResource Include="Fixtures\Notation\command-slash.spec.json" />
+    <EmbeddedResource Include="Fixtures\Notation\argument-kv.spec.json" />
+    <EmbeddedResource Include="Fixtures\Notation\invocation-parity.spec.json" />
+    <EmbeddedResource Include="Fixtures\Notation\argument-delimited.spec.json" />
+    <EmbeddedResource Include="Fixtures\MCPlane\pulse-default.spec.json" />
+    <EmbeddedResource Include="Fixtures\MCPlane\next-hints.spec.json" />
     <None Include="Fixtures\hotkeys.toml" CopyToOutputDirectory="PreserveNewest" Link="Fixtures\hotkeys.toml" />
   </ItemGroup>
   <ItemGroup>

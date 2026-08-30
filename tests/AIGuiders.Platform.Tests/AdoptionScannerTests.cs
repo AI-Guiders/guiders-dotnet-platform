@@ -76,13 +76,13 @@ public sealed class AdoptionScannerTests
         var rows = new[]
         {
             new PlanetAdoptionRow("forge", "Agent Forge", "CommandPlane", "dotnet-nuget (0.4.2)",
-                "AIGuiders.Platform.CommandPlane", "slash-arg-completion-v1",
+                "AIGuiders.Platform.CommandPlane", "slash-arg-completion",
                 "https://github.com/AI-Guiders/agent-forge/issues"),
         };
 
         var md = new MarkdownAllianceReportWriter().Write(rows, new DateTimeOffset(2026, 8, 30, 3, 0, 0, TimeSpan.Zero));
         Assert.Contains("| Planet | Hyperlane | Port |", md);
         Assert.Contains("Agent Forge", md);
-        Assert.Contains("slash-arg-completion-v1", md);
+        Assert.Contains("slash-arg-completion", md);
     }
 }

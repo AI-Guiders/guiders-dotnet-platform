@@ -1,7 +1,6 @@
 {
   "version": 1,
   "surface": "argument-delimited",
-  "tier": "v1",
   "source": "GUIDERS-ADR-0021",
   "vectors": [
     {

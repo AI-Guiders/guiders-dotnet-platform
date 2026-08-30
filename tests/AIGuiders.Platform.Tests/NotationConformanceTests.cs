@@ -8,33 +8,33 @@ namespace AIGuiders.Platform.Tests;
 public sealed class NotationConformanceTests
 {
     [Fact]
-    public void Command_slash_v1_vectors_conform()
+    public void Command_slash_vectors_conform()
     {
-        var spec = LoadSpec("AIGuiders.Platform.Tests.Fixtures.Notation.command-slash-v1.spec.json");
+        var spec = LoadSpec("AIGuiders.Platform.Tests.Fixtures.Notation.command-slash.spec.json");
         Assert.Equal("command-slash", spec.Surface);
         Assert.Empty(NotationSpecConformance.ValidateDocument(spec));
     }
 
     [Fact]
-    public void Argument_kv_v1_vectors_conform()
+    public void Argument_kv_vectors_conform()
     {
-        var spec = LoadSpec("AIGuiders.Platform.Tests.Fixtures.Notation.argument-kv-v1.spec.json");
+        var spec = LoadSpec("AIGuiders.Platform.Tests.Fixtures.Notation.argument-kv.spec.json");
         Assert.Equal("argument-kv", spec.Surface);
         Assert.Empty(NotationSpecConformance.ValidateDocument(spec));
     }
 
     [Fact]
-    public void Invocation_parity_v1_vectors_conform()
+    public void Invocation_parity_vectors_conform()
     {
-        var spec = LoadSpec("AIGuiders.Platform.Tests.Fixtures.Notation.invocation-parity-v1.spec.json");
+        var spec = LoadSpec("AIGuiders.Platform.Tests.Fixtures.Notation.invocation-parity.spec.json");
         Assert.Equal("invocation-parity", spec.Surface);
         Assert.Empty(NotationSpecConformance.ValidateDocument(spec));
     }
 
     [Fact]
-    public void Argument_delimited_v1_vectors_conform()
+    public void Argument_delimited_vectors_conform()
     {
-        var spec = LoadSpec("AIGuiders.Platform.Tests.Fixtures.Notation.argument-delimited-v1.spec.json");
+        var spec = LoadSpec("AIGuiders.Platform.Tests.Fixtures.Notation.argument-delimited.spec.json");
         Assert.Equal("argument-delimited", spec.Surface);
         Assert.Empty(NotationSpecConformance.ValidateDocument(spec));
     }
