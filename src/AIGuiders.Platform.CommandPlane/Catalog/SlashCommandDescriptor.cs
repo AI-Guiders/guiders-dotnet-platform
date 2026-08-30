@@ -1,10 +1,12 @@
 #nullable enable
+using AIGuiders.Platform.Notations;
 
 namespace AIGuiders.Platform.CommandPlane;
 
 /// <summary>
 /// Cross-product slash command descriptor (Forge capabilities + CIDE TOML + platform index).
 /// ADR-0154 DOI + ADR-0150 arg_tail.
+/// <para><see cref="ArgTail"/> — slash UI mechanics (optional/required/picker). Wire + slots — <see cref="TailWireClass"/> + <see cref="ArgParameters"/>.</para>
 /// </summary>
 public sealed class SlashCommandDescriptor
 {
@@ -17,6 +19,10 @@ public sealed class SlashCommandDescriptor
     public string? Help { get; init; }
     public string? Group { get; init; }
     public string ArgTail { get; init; } = "optional";
+    /// <summary>Invocation tail wire alphabet: kv | cli | positional | delimited | raw.</summary>
+    public string? TailWireClass { get; init; }
+    /// <summary>Per-commandId arg slot schema; interpretation is application-owned.</summary>
+    public IReadOnlyList<InvocationArgParameter> ArgParameters { get; init; } = [];
     public string? ArgHint { get; init; }
     public IReadOnlyList<SlashPickerChoice> ArgPickerChoices { get; init; } = [];
     public IReadOnlyList<string> Surfaces { get; init; } = [];
@@ -26,6 +32,8 @@ public sealed class SlashCommandDescriptor
     public bool RequiresDestructiveConfirm { get; init; }
 
     public SlashArgTailKind ArgTailKind => SlashArgTailPolicy.Parse(ArgTail);
+
+    public InvocationArgDescriptor ToInvocationArgDescriptor() => new(TailWireClass, ArgParameters);
 
     public IEnumerable<string> AllPaths()
     {

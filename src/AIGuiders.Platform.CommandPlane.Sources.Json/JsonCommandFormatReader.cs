@@ -39,6 +39,12 @@ public sealed class JsonCommandFormatReader : ICommandFormatReader
         throw new InvalidOperationException("JSON command document must be a commands[] array or { \"commands\": [] }.");
     }
 
-    static SlashCommandDescriptor ParseCommand(JsonElement element) =>
-        CommandDescriptorMapper.FromDictionary(CommandDescriptorMapper.JsonToDictionary(element));
+    static SlashCommandDescriptor ParseCommand(JsonElement element)
+    {
+        var descriptor = CommandDescriptorMapper.FromDictionary(CommandDescriptorMapper.JsonToDictionary(element));
+        return CommandDescriptorMapper.WithInvocationSchema(
+            descriptor,
+            CommandDescriptorMapper.GetTailWireClassFromJson(element),
+            CommandDescriptorMapper.ParseArgParametersFromJson(element));
+    }
 }

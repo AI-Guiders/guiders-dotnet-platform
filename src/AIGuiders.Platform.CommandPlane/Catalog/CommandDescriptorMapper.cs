@@ -1,6 +1,6 @@
 #nullable enable
 using System.Text.Json;
-using AIGuiders.Platform.CommandPlane;
+using AIGuiders.Platform.Notations;
 
 namespace AIGuiders.Platform.CommandPlane;
 
@@ -22,6 +22,7 @@ public static class CommandDescriptorMapper
             Help = Get(fields, "help"),
             Group = Get(fields, "group", "slash_group"),
             ArgTail = Get(fields, "argTail", "arg_tail") ?? "optional",
+            TailWireClass = Get(fields, "tailWireClass", "tail_wire_class"),
             ArgHint = Get(fields, "argHint", "arg_hint"),
             ArgPickerChoices = ParsePickerChoices(Get(fields, "argPickerChoices", "arg_picker_choices")),
             Surfaces = ParseList(Get(fields, "surfaces")),
@@ -31,6 +32,53 @@ public static class CommandDescriptorMapper
             RequiresDestructiveConfirm = ParseBool(Get(fields, "requiresDestructiveConfirm", "requires_destructive_confirm")),
         };
     }
+
+    public static SlashCommandDescriptor WithInvocationSchema(
+        SlashCommandDescriptor descriptor,
+        string? tailWireClass,
+        IReadOnlyList<InvocationArgParameter>? argParameters)
+    {
+        if (tailWireClass is null && (argParameters is null || argParameters.Count == 0))
+            return descriptor;
+
+        return new SlashCommandDescriptor
+        {
+            Domain = descriptor.Domain,
+            Object = descriptor.Object,
+            Intent = descriptor.Intent,
+            CommandId = descriptor.CommandId,
+            Path = descriptor.Path,
+            PathAliases = descriptor.PathAliases,
+            Help = descriptor.Help,
+            Group = descriptor.Group,
+            ArgTail = descriptor.ArgTail,
+            TailWireClass = tailWireClass ?? descriptor.TailWireClass,
+            ArgParameters = argParameters is { Count: > 0 } ? argParameters : descriptor.ArgParameters,
+            ArgHint = descriptor.ArgHint,
+            ArgPickerChoices = descriptor.ArgPickerChoices,
+            Surfaces = descriptor.Surfaces,
+            RequiredCapabilities = descriptor.RequiredCapabilities,
+            Tier = descriptor.Tier,
+            PluginId = descriptor.PluginId,
+            RequiresDestructiveConfirm = descriptor.RequiresDestructiveConfirm,
+        };
+    }
+
+    public static IReadOnlyList<InvocationArgParameter> ParseArgParametersFromJson(JsonElement element)
+    {
+        if (!TryGetProperty(element, "argParameters", "arg_parameters", out var parameters)
+            || parameters.ValueKind != JsonValueKind.Array)
+        {
+            return [];
+        }
+
+        return parameters.EnumerateArray().Select(ParseArgParameterJson).ToList();
+    }
+
+    public static string? GetTailWireClassFromJson(JsonElement element) =>
+        TryGetProperty(element, "tailWireClass", "tail_wire_class", out var wireClass) && wireClass.ValueKind == JsonValueKind.String
+            ? wireClass.GetString()?.Trim()
+            : null;
 
     public static Dictionary<string, string> JsonToDictionary(JsonElement element)
     {
@@ -109,4 +157,44 @@ public static class CommandDescriptorMapper
 
     static bool ParseBool(string? raw) =>
         bool.TryParse(raw, out var value) && value;
+
+    static InvocationArgParameter ParseArgParameterJson(JsonElement element)
+    {
+        var name = element.TryGetProperty("name", out var nameNode) ? nameNode.GetString() : null;
+        if (string.IsNullOrWhiteSpace(name))
+            throw new InvalidOperationException("argParameters[] entry requires 'name'.");
+
+        return new InvocationArgParameter(
+            name.Trim(),
+            ParseArgParameterKind(ReadJsonString(element, "kind")),
+            ReadJsonString(element, "longOption", "long_option"),
+            ReadJsonString(element, "shortOption", "short_option"));
+    }
+
+    static InvocationArgParameterKind ParseArgParameterKind(string? raw) =>
+        raw?.Trim().ToLowerInvariant() switch
+        {
+            "flag" => InvocationArgParameterKind.Flag,
+            "positional" => InvocationArgParameterKind.Positional,
+            _ => InvocationArgParameterKind.Value,
+        };
+
+    static string? ReadJsonString(JsonElement element, params string[] keys)
+    {
+        foreach (var key in keys)
+        {
+            if (element.TryGetProperty(key, out var node) && node.ValueKind == JsonValueKind.String)
+                return node.GetString()?.Trim();
+        }
+
+        return null;
+    }
+
+    static bool TryGetProperty(JsonElement element, string camelKey, string snakeKey, out JsonElement value)
+    {
+        if (element.TryGetProperty(camelKey, out value))
+            return true;
+
+        return element.TryGetProperty(snakeKey, out value);
+    }
 }

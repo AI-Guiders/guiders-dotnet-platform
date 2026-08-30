@@ -1,3 +1,5 @@
+using AIGuiders.Platform.Notations;
+
 namespace AIGuiders.Platform.Notations.Argument.Cli;
 
 /// <summary>
@@ -50,6 +52,120 @@ public static class CliArgumentNotation
         return slots.Count > 0
             ? NormalizedArgTail.FromSlots(slots, WireClassCli)
             : NormalizedArgTail.FromRaw(tail.Trim(), WireClassCli);
+    }
+
+    /// <summary>Schema-aware CLI parse: <c>--config release</c>, value flags, positional slots by name.</summary>
+    public static NormalizedArgTail ParseWithSchema(string tail, IReadOnlyList<InvocationArgParameter> schema)
+    {
+        if (string.IsNullOrWhiteSpace(tail))
+            return NormalizedArgTail.FromRaw("", WireClassCli);
+
+        var byLong = new Dictionary<string, InvocationArgParameter>(StringComparer.Ordinal);
+        var byShort = new Dictionary<string, InvocationArgParameter>(StringComparer.Ordinal);
+        var positionals = new List<InvocationArgParameter>();
+        foreach (var parameter in schema)
+        {
+            if (!string.IsNullOrWhiteSpace(parameter.LongOption))
+                byLong[parameter.LongOption] = parameter;
+            if (!string.IsNullOrWhiteSpace(parameter.ShortOption))
+                byShort[parameter.ShortOption] = parameter;
+            if (parameter.Kind == InvocationArgParameterKind.Positional)
+                positionals.Add(parameter);
+        }
+
+        var slots = new Dictionary<string, string>(StringComparer.Ordinal);
+        var tokens = Tokenize(tail);
+        var positionalIndex = 0;
+
+        for (var i = 0; i < tokens.Count; i++)
+        {
+            var token = tokens[i];
+            if (token.StartsWith("--", StringComparison.Ordinal))
+            {
+                var eq = token.IndexOf('=');
+                if (eq > 2 && eq < token.Length - 1)
+                {
+                    AssignLongOption(slots, token[..eq], token[(eq + 1)..], byLong);
+                    continue;
+                }
+
+                if (byLong.TryGetValue(token, out var longParam))
+                {
+                    if (longParam.Kind == InvocationArgParameterKind.Flag)
+                    {
+                        slots[longParam.Name] = "true";
+                        continue;
+                    }
+
+                    if (i + 1 < tokens.Count && !IsOptionToken(tokens[i + 1]))
+                    {
+                        slots[longParam.Name] = tokens[++i];
+                        continue;
+                    }
+                }
+
+                slots[token] = "true";
+                continue;
+            }
+
+            if (token.Length > 1 && token[0] == '-')
+            {
+                if (token.Length == 2)
+                {
+                    if (byShort.TryGetValue(token, out var shortParam))
+                    {
+                        if (shortParam.Kind == InvocationArgParameterKind.Flag)
+                            slots[shortParam.Name] = "true";
+                        else if (i + 1 < tokens.Count && !IsOptionToken(tokens[i + 1]))
+                            slots[shortParam.Name] = tokens[++i];
+                    }
+                    else
+                    {
+                        slots[token] = "true";
+                    }
+
+                    continue;
+                }
+
+                for (var c = 1; c < token.Length; c++)
+                {
+                    var shortToken = "-" + token[c];
+                    if (byShort.TryGetValue(shortToken, out var clustered))
+                        slots[clustered.Name] = "true";
+                    else
+                        slots[shortToken] = "true";
+                }
+
+                continue;
+            }
+
+            if (positionalIndex < positionals.Count)
+            {
+                slots[positionals[positionalIndex++].Name] = token;
+                continue;
+            }
+
+            slots[$"@{slots.Count}"] = token;
+        }
+
+        return slots.Count > 0
+            ? NormalizedArgTail.FromSlots(slots, WireClassCli)
+            : NormalizedArgTail.FromRaw(tail.Trim(), WireClassCli);
+    }
+
+    static void AssignLongOption(
+        Dictionary<string, string> slots,
+        string option,
+        string value,
+        IReadOnlyDictionary<string, InvocationArgParameter> byLong)
+    {
+        if (byLong.TryGetValue(option, out var parameter))
+        {
+            slots[parameter.Name] = parameter.Kind == InvocationArgParameterKind.Flag ? "true" : value;
+            return;
+        }
+
+        slots[option] = value;
     }
 
     static bool IsOptionToken(string token) =>

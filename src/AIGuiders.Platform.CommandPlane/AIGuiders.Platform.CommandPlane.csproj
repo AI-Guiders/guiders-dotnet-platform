@@ -5,4 +5,7 @@
     <PackageId>AIGuiders.Platform.CommandPlane</PackageId>
     <Description>Command plane core: GoF command contracts, catalog descriptors, command sources (GUIDERS-ADR-0009, ADR-0013).</Description>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
+  </ItemGroup>
 </Project>
