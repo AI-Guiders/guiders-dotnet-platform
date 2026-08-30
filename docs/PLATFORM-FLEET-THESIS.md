@@ -156,9 +156,42 @@ How scopes are **rendered** is a product decision; scopes are architectural.
 
 Seamless product integration (Forge inside CIDE, etc.) remains **planet choice** — not federation law. Fleet attention can **observe** integrations without owning product domains.
 
+**Not what we mean by «heavy desktop»:** federation is **not** betting on WPF/Avalonia as the primary thesis. See §7 — the industry joke about desktop is about **hiding production**, not picking a UI stack.
+
 ---
 
-## 7. Recommended build order
+## 7. «Good luck fitting this in web» — demo channel vs production
+
+*Friction-book [ch.24 — Invisible desktop production](https://github.com/AI-Guiders/friction-book/blob/main/src/24-invisible-desktop-production.md): we ship behind the monitor, demo in the pocket, pretend the first doesn't exist.*
+
+Fleet ops surfaces the same split:
+
+| | Demo channel | Production channel |
+|---|--------------|-------------------|
+| **Narrative** | «Fleet dashboard in the browser», MAU, one screen | alliance graph, 46 packages × drift, TP orphans, conformance diff |
+| **What gets funded** | web vitrine, agent-in-chat | IDE, multi-repo drill-down, hours-in-seat review |
+| **Honest reaction** | looks shippable in a sprint | *«ха-ха, удачи поместить **всё это** в web»* |
+
+That skepticism is **not** anti-web. It is anti **pretending production doesn't exist** — collapsing ingress (alert, pulse, registry glance) into cockpit (formation view, blame-width diff, long session).
+
+Fleet-first telemetry is **production-class**:
+
+- adoption alliance is not a KPI tile — it is a **living graph** with stale-row EICAS;
+- Live/Ecosystem (TP, symbols, CI) is not «settings» — it is **life support** you debug for hours;
+- Fleet scope without Planet zoom is a **screenshot**, not an operator posture.
+
+**Federation stance** (aligned with friction-book environment-first):
+
+1. **Ingress ≠ cockpit** — web/ANPM/MCPlane pulse for triage; desktop-class surface for review and drill-down when scope demands it.  
+2. **PAN, not phone OR desktop** — phone for alert/2FA; laptop/cockpit for production session; continuity, not forced device switch.  
+3. **Artifact without viewer is garbage** — generated alliance table without diff/history is demo fluff.  
+4. **Do not shame hours-in-seat** — fleet operator at three monitors is not legacy; it is where confederation state is **understood**, not merely displayed.
+
+CIDE/Glass as embassy = **respect production channel**, not «we chose heavy desktop over web».
+
+---
+
+## 8. Recommended build order
 
 ```text
 L1  Machine telemetry — manifests, conformance CI, adoption drift, pain→ADR
@@ -171,18 +204,18 @@ L0  Protocol hyperlanes — planets sovereign
 
 ---
 
-## 8. Tensions to keep explicit
+## 9. Tensions to keep explicit
 
 | Tension | Resolution |
 |---------|------------|
 | Fast AI throughput vs invariants | Pain inventory + conformance gates + wave roadmap |
-| Desktop power vs federation openness | Cockpit = embassy; protocols work without it |
+| Demo channel vs production posture | Ingress on web/agent; cockpit on desktop-class when drill-down is real work (ch.24) |
 | Operator UX vs nuget.org UX | ANPM / local manifest SSOT; nuget.org is upstream, not control plane |
 | Agent throughput vs human clarity | MCPlane pulse default; full detail on demand |
 
 ---
 
-## 9. Open questions
+## 10. Open questions
 
 1. **Scope switch UX:** one Attention desk with Fleet/Planet/Live tabs, or CDS contour keys (like CIDE today)?  
 2. **Fleet PFD default:** roadmap wave vs alliance drift vs release train?  
@@ -191,12 +224,13 @@ L0  Protocol hyperlanes — planets sovereign
 
 ---
 
-## 10. Related
+## 11. Related
 
 - [GUIDERS-ADR-0007](adr/GUIDERS-ADR-0007-aviation-mental-model.md) — phases, displays, CDS, EICAS  
 - [GUIDERS-ADR-0001](adr/GUIDERS-ADR-0001-platform-boundary.md) — Desk → Attention, Cockpit contracts  
 - [GUIDERS-FEDERATION-CONSTITUTION.md](GUIDERS-FEDERATION-CONSTITUTION.md) — planets sovereign  
 - [GUIDERS-ROADMAP.md](GUIDERS-ROADMAP.md) · [GUIDERS-pain-inventory.md](GUIDERS-pain-inventory.md)  
 - [ANPM pain inventory](https://github.com/AI-Guiders/agent-nuget-pm/blob/main/docs/ANPM-pain-inventory.md) — Live/Ecosystem pains (N-xxx)  
+- [Friction-book ch.24](https://github.com/AI-Guiders/friction-book/blob/main/src/24-invisible-desktop-production.md) — invisible desktop, demo vs production channel  
 
 **Next:** `GUIDERS-ADR-0023` — normative scope model + Cockpit channel IDs for Fleet/Planet/Live telemetry.
