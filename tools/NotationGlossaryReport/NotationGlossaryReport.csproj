@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <Description>CLI: notation vocabulary glossary generator.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Reports\AIGuiders.Platform.Documentation.Reports.csproj" />
+  </ItemGroup>
+</Project>

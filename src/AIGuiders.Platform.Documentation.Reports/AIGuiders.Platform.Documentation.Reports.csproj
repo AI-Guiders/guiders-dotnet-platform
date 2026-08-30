@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Documentation.Reports</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Documentation.Reports</AssemblyName>
+    <PackageId>AIGuiders.Platform.Documentation.Reports</PackageId>
+    <Description>Generated notation vocabulary reports (ReaderId, catalog aliases).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument\AIGuiders.Platform.Notations.Argument.csproj" />
+  </ItemGroup>
+</Project>

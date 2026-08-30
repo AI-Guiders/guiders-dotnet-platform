@@ -28,7 +28,11 @@ jobs:
           dotnet run --project tools/QuarryOracle -- audit --spec tests/AIGuiders.Platform.Tests/Fixtures/Quarry/neovim-kbd.spec.json --require
           dotnet run --project tools/QuarryOracle -- audit --spec tests/AIGuiders.Platform.Tests/Fixtures/Quarry/emacs-kbd.spec.json --require
       - name: MdLinker doc anchors (ADR-0027)
-        run: dotnet run --project tools/MdLinker -- --check docs/adr/GUIDERS-ADR-0027-mdlinker-doc-anchor-check.md
+        run: dotnet run --project tools/MdLinker -- --check docs/adr/
+      - name: Notation vocabulary report
+        run: |
+          dotnet run --project tools/NotationGlossaryReport -- --write docs/NOTATION-VOCABULARY.generated.md
+          git diff --exit-code docs/NOTATION-VOCABULARY.generated.md
       - name: Adoption alliance report
         run: |
           dotnet run --project tools/AdoptionReport -- --write docs/ADOPTION-ALLIANCE.generated.md

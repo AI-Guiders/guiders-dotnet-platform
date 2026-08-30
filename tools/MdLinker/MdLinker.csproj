@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.LinkCheck\AIGuiders.Platform.Documentation.LinkCheck.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.LinkMutate\AIGuiders.Platform.Documentation.LinkMutate.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Language.CSharp.Symbols\AIGuiders.Platform.Language.CSharp.Symbols.csproj" />
   </ItemGroup>
 </Project>

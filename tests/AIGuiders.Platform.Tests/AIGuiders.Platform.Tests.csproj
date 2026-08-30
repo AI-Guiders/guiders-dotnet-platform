@@ -25,6 +25,7 @@
     <EmbeddedResource Include="Fixtures\MCPlane\pulse-default.spec.json" />
     <EmbeddedResource Include="Fixtures\MCPlane\next-hints.spec.json" />
     <None Include="Fixtures\hotkeys.toml" CopyToOutputDirectory="PreserveNewest" Link="Fixtures\hotkeys.toml" />
+    <None Include="Fixtures\Documentation\*.md" CopyToOutputDirectory="PreserveNewest" Link="Fixtures\Documentation\%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Abstractions\AIGuiders.Platform.Abstractions.csproj" />
@@ -65,6 +66,8 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.LanguageIntelligence.Anchors\AIGuiders.Platform.LanguageIntelligence.Anchors.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Anchors\AIGuiders.Platform.Documentation.Anchors.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.LinkCheck\AIGuiders.Platform.Documentation.LinkCheck.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.LinkMutate\AIGuiders.Platform.Documentation.LinkMutate.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Reports\AIGuiders.Platform.Documentation.Reports.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Language.CSharp.Anchors\AIGuiders.Platform.Language.CSharp.Anchors.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Language.CSharp.Symbols\AIGuiders.Platform.Language.CSharp.Symbols.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Bracket\AIGuiders.Platform.Notations.Bracket.csproj" />

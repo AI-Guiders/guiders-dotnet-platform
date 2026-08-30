@@ -109,7 +109,9 @@ Parse: `BracketNotationProfile` with `ListSeparator`;`, `KvSign`:` — axis keys
 | **C# syntax resolve** | `Language.CSharp.Anchors` (`CSharpBracketAnchorResolve`) | F/M/L/S → syntax range |
 | **C# symbol catalog** | `Language.CSharp.Symbols` (`RoslynDocSymbolCatalog`) | doc anchor symbol index |
 | **Link check** | `Documentation.LinkCheck` (`DocAnchorChecker`) | markdown scan + resolve |
-| **CLI** | `tools/MdLinker` | walk paths, orchestrate, `--check` / `--write` |
+| **Link mutate** | `Documentation.LinkMutate` (`DocAnchorRenamer`) | `--apply-rename` on Type/Member axes |
+| **Vocabulary** | `Documentation.Reports` + `tools/NotationGlossaryReport` | `NOTATION-VOCABULARY.generated.md` |
+| **CLI** | `tools/MdLinker` | `--check` / `--apply-rename` |
 | **Meta** | `AIGuiders.Platform.Utilities.DocLink` (v1.1 pack) | contracts if reused outside CLI |
 | **Conformance** | `notation/bracket-doc-symbol` | wire vectors → resolve ok (planned) |
 | **Planet façade** | `Cdp.ScriptableIde.BracketLocate` | thin forwarder; not SSOT |
@@ -132,6 +134,9 @@ MdLinker does **not** replace XMLDoc or AdoptionReport; it closes the **inline r
 
 ```bash
 dotnet run --project tools/MdLinker -- --check docs/ README.md
+dotnet run --project tools/NotationGlossaryReport -- --write docs/NOTATION-VOCABULARY.generated.md
+# after Language.CSharp rename (or manual symbol rename):
+dotnet run --project tools/MdLinker -- --apply-rename OldMember NewMember --kind member docs/
 ```
 
 Same drift gate as ADOPTION-ALLIANCE: fail if unresolved anchors after renames.
@@ -150,8 +155,9 @@ Pilot scope: this ADR + `Notations.Argument.*` symbols after **ReaderId** rename
 |-------|-------------|
 | **P0** | This ADR accepted; ReaderId rename in code (v0.21) |
 | **P1** | `BracketNotationProfile` `bracket.doc-symbol`; stub `DocSymbolAnchorResolver`; `tools/MdLinker --check` on one ADR |
-| **P2** | Roslyn adapter; CI job; migrate ADR-0021 sketch refs to anchor wire |
-| **P3** | Conformance `notation/bracket-doc-symbol`; optional `--write` linkify for GitHub |
+| **P2** | `Language.CSharp.Symbols`; CI on `docs/adr/`; `NotationGlossaryReport` + drift gate |
+| **P3** | Conformance `notation/bracket-doc-symbol`; `Documentation.LinkMutate --apply-rename`; migrate ADR-0021 refs |
+| **P4** | optional `--write` linkify for GitHub |
 
 **Out of scope v1:** full markdown AST compiler; Pandoc plugin; planet-specific anchor families beyond `doc` + reuse `code`.
 
@@ -160,9 +166,9 @@ Pilot scope: this ADR + `Notations.Argument.*` symbols after **ReaderId** rename
 ## Open questions (review)
 
 1. ~~**`Family:doc` axis canon**~~ — **decided §2.1:** full-word axes (`Type`, `Member`, `Package`); no required one-char aliases.
-2. ~~**Scan / mechanics split**~~ — **decided §3:** `BracketEnvelopeScan` + `BracketReader` in **Notations.Bracket**; wire→span in **LI.Anchors**; C# resolve in **LI.Adapters.Roslyn**; `ScriptableIde` = façade only (v0.20.4 extraction).
+2. ~~**Scan / mechanics split**~~ — **decided §3:** `Notations.Bracket`; wire IR in **LI.Anchors**; doc in **Documentation.***; C# in **Language.CSharp.***; planets = façades only.
 3. ~~**Packaging**~~ — **decided:** CLI-only v1 (`tools/MdLinker`); `Utilities.DocLink` deferred to v1.1.
-4. ~~**Generated glossary**~~ — **decided:** anchors primary in ADR; `*.generated.md` tables remain optional parallel (AdoptionReport pattern).
+4. ~~**Generated glossary**~~ — **decided + shipped v0.23:** `NOTATION-VOCABULARY.generated.md` via `NotationGlossaryReport`; anchors remain primary in ADR prose.
 
 ---
 

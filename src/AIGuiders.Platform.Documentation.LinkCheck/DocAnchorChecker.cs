@@ -16,20 +16,39 @@ public static class DocAnchorChecker
         var profile = BracketProfiles.DocSymbol;
         var failures = new List<string>();
 
-        foreach (var path in rootPaths)
+        foreach (var path in ExpandPaths(rootPaths))
         {
-            if (File.Exists(path) && path.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
-                CheckFile(path, profile, resolver, failures);
-            else if (Directory.Exists(path))
+            if (path.EndsWith(": not found", StringComparison.Ordinal))
             {
-                foreach (var file in Directory.EnumerateFiles(path, "*.md", SearchOption.AllDirectories))
-                    CheckFile(file, profile, resolver, failures);
+                failures.Add(path);
+                continue;
             }
-            else
-                failures.Add($"{path}: not found");
+
+            CheckFile(path, profile, resolver, failures);
         }
 
         return failures;
+    }
+
+    static IEnumerable<string> ExpandPaths(IEnumerable<string> rootPaths)
+    {
+        foreach (var path in rootPaths)
+        {
+            if (File.Exists(path) && path.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
+            {
+                yield return path;
+                continue;
+            }
+
+            if (Directory.Exists(path))
+            {
+                foreach (var file in Directory.EnumerateFiles(path, "*.md", SearchOption.AllDirectories))
+                    yield return file;
+                continue;
+            }
+
+            yield return $"{path}: not found";
+        }
     }
 
     static void CheckFile(
@@ -41,7 +60,7 @@ public static class DocAnchorChecker
         var text = File.ReadAllText(filePath);
         foreach (var envelope in BracketEnvelopeScan.LocateInText(text))
         {
-            if (!LooksLikeDocAnchor(envelope.Inner))
+            if (!DocAnchorWire.LooksLikeDocEnvelope(envelope.Inner))
                 continue;
 
             if (!BracketReader.Default.TryRead(
@@ -55,7 +74,7 @@ public static class DocAnchorChecker
                 continue;
             }
 
-            if (!HasDocFamily(wire))
+            if (!DocAnchorWire.HasDocFamily(wire))
                 continue;
 
             if (!resolver.TryResolve(wire, out var resolveError))
@@ -64,20 +83,4 @@ public static class DocAnchorChecker
     }
 
     static int LineNumber(string text, int index) => text.Take(index).Count(c => c == '\n') + 1;
-
-    static bool LooksLikeDocAnchor(string inner) =>
-        inner.Contains("Family:", StringComparison.OrdinalIgnoreCase)
-        && inner.Contains("doc", StringComparison.OrdinalIgnoreCase);
-
-    static bool HasDocFamily(NormalizedBracketWire wire)
-    {
-        foreach (var axis in wire.Axes)
-        {
-            if (axis.Key.Equals("Family", StringComparison.OrdinalIgnoreCase)
-                && axis.Value.Equals("doc", StringComparison.OrdinalIgnoreCase))
-                return true;
-        }
-
-        return false;
-    }
 }
