@@ -1,15 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
+
     <RootNamespace>AIGuiders.Platform.Combinations</RootNamespace>
+
     <AssemblyName>AIGuiders.Platform.Combinations.All</AssemblyName>
+
     <PackageId>AIGuiders.Platform.Combinations.All</PackageId>
-    <Description>Combinations meta-bundle: kernel, Sources bridge, Workspace, Slash, Binding (GUIDERS-ADR-0030).</Description>
+
+    <Description>Combinations meta-bundle: kernel, Overlay, Sources, Workspace, Slash, Binding (GUIDERS-ADR-0030/0031).</Description>
+
   </PropertyGroup>
+
   <ItemGroup>
+
     <ProjectReference Include="..\AIGuiders.Platform.Combinations.Binding\AIGuiders.Platform.Combinations.Binding.csproj" />
+
     <ProjectReference Include="..\AIGuiders.Platform.Combinations.Slash\AIGuiders.Platform.Combinations.Slash.csproj" />
+
+    <ProjectReference Include="..\AIGuiders.Platform.Combinations.Overlay\AIGuiders.Platform.Combinations.Overlay.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Combinations.Sources\AIGuiders.Platform.Combinations.Sources.csproj" />
+
     <ProjectReference Include="..\AIGuiders.Platform.Combinations.Workspace\AIGuiders.Platform.Combinations.Workspace.csproj" />
+
     <ProjectReference Include="..\AIGuiders.Platform.Combinations\AIGuiders.Platform.Combinations.csproj" />
+
   </ItemGroup>
+
 </Project>
+

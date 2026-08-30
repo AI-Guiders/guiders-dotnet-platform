@@ -171,6 +171,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.Combinat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.Combinations.All", "src\AIGuiders.Platform.Combinations.All\AIGuiders.Platform.Combinations.All.csproj", "{450CB7BA-EEDB-4325-A227-C9A8270C6344}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.Combinations.Overlay", "src\AIGuiders.Platform.Combinations.Overlay\AIGuiders.Platform.Combinations.Overlay.csproj", "{1385DB3F-9775-4A23-BFFE-08450DE4F84C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1177,6 +1179,18 @@ Global
 		{450CB7BA-EEDB-4325-A227-C9A8270C6344}.Release|x64.Build.0 = Release|Any CPU
 		{450CB7BA-EEDB-4325-A227-C9A8270C6344}.Release|x86.ActiveCfg = Release|Any CPU
 		{450CB7BA-EEDB-4325-A227-C9A8270C6344}.Release|x86.Build.0 = Release|Any CPU
+		{1385DB3F-9775-4A23-BFFE-08450DE4F84C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1385DB3F-9775-4A23-BFFE-08450DE4F84C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1385DB3F-9775-4A23-BFFE-08450DE4F84C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1385DB3F-9775-4A23-BFFE-08450DE4F84C}.Debug|x64.Build.0 = Debug|Any CPU
+		{1385DB3F-9775-4A23-BFFE-08450DE4F84C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1385DB3F-9775-4A23-BFFE-08450DE4F84C}.Debug|x86.Build.0 = Debug|Any CPU
+		{1385DB3F-9775-4A23-BFFE-08450DE4F84C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1385DB3F-9775-4A23-BFFE-08450DE4F84C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1385DB3F-9775-4A23-BFFE-08450DE4F84C}.Release|x64.ActiveCfg = Release|Any CPU
+		{1385DB3F-9775-4A23-BFFE-08450DE4F84C}.Release|x64.Build.0 = Release|Any CPU
+		{1385DB3F-9775-4A23-BFFE-08450DE4F84C}.Release|x86.ActiveCfg = Release|Any CPU
+		{1385DB3F-9775-4A23-BFFE-08450DE4F84C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1258,5 +1272,6 @@ Global
 		{6DC2B003-6B4F-4AA0-BB83-2E574D9A3DEA} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{E5BA99DB-E67A-488B-8CCF-1B6283E8D3BF} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{450CB7BA-EEDB-4325-A227-C9A8270C6344} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{1385DB3F-9775-4A23-BFFE-08450DE4F84C} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 EndGlobal

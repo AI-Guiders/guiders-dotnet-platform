@@ -68,7 +68,8 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.LinkCheck\AIGuiders.Platform.Documentation.LinkCheck.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.LinkMutate\AIGuiders.Platform.Documentation.LinkMutate.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Reports\AIGuiders.Platform.Documentation.Reports.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Combinations.All\AIGuiders.Platform.Combinations.All.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Combinations.Overlay\AIGuiders.Platform.Combinations.Overlay.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Combinations.Workspace\AIGuiders.Platform.Combinations.Workspace.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Combinations.Sources\AIGuiders.Platform.Combinations.Sources.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Configurations.Workspace.Sources\AIGuiders.Platform.Configurations.Workspace.Sources.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Correspondence.Core\AIGuiders.Platform.Documentation.Correspondence.Core.csproj" />

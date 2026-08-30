@@ -5,41 +5,6 @@ namespace AIGuiders.Platform.Configurations.Workspace;
 public sealed class WorkspaceDocument
 {
     public WorkspaceSection? Workspace { get; set; }
-
-    public WorkspaceDocument MergeOver(WorkspaceDocument overlay) =>
-        new()
-        {
-            Workspace = MergeSection(Workspace, overlay.Workspace),
-        };
-
-    static WorkspaceSection? MergeSection(WorkspaceSection? baseline, WorkspaceSection? overlay)
-    {
-        if (overlay is null)
-            return baseline;
-        if (baseline is null)
-            return overlay;
-        return new WorkspaceSection
-        {
-            Adr = MergeAdr(baseline.Adr, overlay.Adr),
-            Features = overlay.Features ?? baseline.Features,
-            Correspondence = overlay.Correspondence ?? baseline.Correspondence,
-        };
-    }
-
-    static WorkspaceAdrSettings? MergeAdr(WorkspaceAdrSettings? baseline, WorkspaceAdrSettings? overlay)
-    {
-        if (overlay is null)
-            return baseline;
-        if (baseline is null)
-            return overlay;
-        return new WorkspaceAdrSettings
-        {
-            AutoInclude = overlay.AutoInclude ?? baseline.AutoInclude,
-            MaxRelated = overlay.MaxRelated ?? baseline.MaxRelated,
-            RootDir = overlay.RootDir ?? baseline.RootDir,
-            Map = overlay.Map ?? baseline.Map,
-        };
-    }
 }
 
 public sealed class WorkspaceSection
@@ -85,3 +50,4 @@ public sealed class WorkspaceCodeAnchor
     public string? Kind { get; set; }
     public string? MemberKey { get; set; }
 }
+

@@ -3,10 +3,11 @@
     <RootNamespace>AIGuiders.Platform.Combinations.Workspace</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Combinations.Workspace</AssemblyName>
     <PackageId>AIGuiders.Platform.Combinations.Workspace</PackageId>
-    <Description>Workspace document overlay combinator (GUIDERS-ADR-0030).</Description>
+    <Description>Workspace overlay policies and combinators (GUIDERS-ADR-0030/0031).</Description>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Combinations\AIGuiders.Platform.Combinations.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Combinations.Overlay\AIGuiders.Platform.Combinations.Overlay.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Configurations.Workspace\AIGuiders.Platform.Configurations.Workspace.csproj" />
   </ItemGroup>
 </Project>

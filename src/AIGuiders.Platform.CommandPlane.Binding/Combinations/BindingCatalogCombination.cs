@@ -1,17 +1,25 @@
 #nullable enable
 
 using AIGuiders.Platform.Combinations;
+using AIGuiders.Platform.Combinations.Overlay;
 using AIGuiders.Platform.CommandPlane.Binding;
 
 namespace AIGuiders.Platform.Combinations.Binding;
 
+public static class BindingOverlay
+{
+    public static OverlayPolicy<BindingCatalogIndex> OverlayWins { get; } =
+        OverlayProfile.For<BindingCatalogIndex>("binding.overlay-wins", CombinationSemantics.OverlayWins)
+            .Rule(static (baseline, overlay) => baseline.Merge(overlay))
+            .Build();
+}
+
 public static class BindingCombinators
 {
-    public static CombinationSemantics Semantics => CombinationSemantics.OverlayWins;
+    public static CombinationSemantics Semantics => BindingOverlay.OverlayWins.Semantics;
 
-    /// <summary>Later binding layers override the same binding key (ADR-0017).</summary>
-    public static Combinator<BindingCatalogIndex> OverlayWins { get; } = static (baseline, overlay) =>
-        baseline.Merge(overlay);
+    public static Combinator<BindingCatalogIndex> OverlayWins { get; } =
+        BindingOverlay.OverlayWins.Combinator;
 }
 
 public static class BindingCatalogCombination

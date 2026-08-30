@@ -13,6 +13,7 @@
     <Project Path="src/AIGuiders.Platform.Combinations/AIGuiders.Platform.Combinations.csproj" />
     <Project Path="src/AIGuiders.Platform.Combinations.All/AIGuiders.Platform.Combinations.All.csproj" />
     <Project Path="src/AIGuiders.Platform.Combinations.Binding/AIGuiders.Platform.Combinations.Binding.csproj" />
+    <Project Path="src/AIGuiders.Platform.Combinations.Overlay/AIGuiders.Platform.Combinations.Overlay.csproj" />
     <Project Path="src/AIGuiders.Platform.Combinations.Slash/AIGuiders.Platform.Combinations.Slash.csproj" />
     <Project Path="src/AIGuiders.Platform.Combinations.Sources/AIGuiders.Platform.Combinations.Sources.csproj" />
     <Project Path="src/AIGuiders.Platform.Combinations.Workspace/AIGuiders.Platform.Combinations.Workspace.csproj" />

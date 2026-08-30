@@ -1,17 +1,25 @@
 #nullable enable
 
 using AIGuiders.Platform.Combinations;
+using AIGuiders.Platform.Combinations.Overlay;
 using AIGuiders.Platform.CommandPlane;
 
 namespace AIGuiders.Platform.Combinations.Slash;
 
+public static class SlashOverlay
+{
+    public static OverlayPolicy<SlashCatalogIndex> ShipFirst { get; } =
+        OverlayProfile.For<SlashCatalogIndex>("slash.ship-first", CombinationSemantics.ShipFirst)
+            .Rule(static (baseline, overlay) => baseline.Merge(overlay))
+            .Build();
+}
+
 public static class SlashCombinators
 {
-    public static CombinationSemantics Semantics => CombinationSemantics.ShipFirst;
+    public static CombinationSemantics Semantics => SlashOverlay.ShipFirst.Semantics;
 
-    /// <summary>Baseline slash paths win; overlay adds routes only (ADR-0015 ship + extension).</summary>
-    public static Combinator<SlashCatalogIndex> ShipFirst { get; } = static (baseline, overlay) =>
-        baseline.Merge(overlay);
+    public static Combinator<SlashCatalogIndex> ShipFirst { get; } =
+        SlashOverlay.ShipFirst.Combinator;
 }
 
 public static class SlashCatalogCombination

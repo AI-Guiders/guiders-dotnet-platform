@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Combinations\AIGuiders.Platform.Combinations.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Combinations.Overlay\AIGuiders.Platform.Combinations.Overlay.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Command.Slash\AIGuiders.Platform.Notations.Command.Slash.csproj" />
   </ItemGroup>
