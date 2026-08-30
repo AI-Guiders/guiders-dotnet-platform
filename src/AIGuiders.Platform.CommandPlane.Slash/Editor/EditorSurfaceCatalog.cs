@@ -3,6 +3,7 @@
 namespace AIGuiders.Platform.CommandPlane.Editor;
 
 /// <summary>Capabilities slice: text dialects + bundled editor-local slash commands.</summary>
+/// <remarks>Deprecated quarry — migrate to <c>LanguageIntelligence.*</c> per GUIDERS-ADR-0025 Phase 1.</remarks>
 public static class EditorSurfaceCatalog
 {
     public static IReadOnlyList<TextDialectCapabilitiesDto> BuildTextDialects() =>

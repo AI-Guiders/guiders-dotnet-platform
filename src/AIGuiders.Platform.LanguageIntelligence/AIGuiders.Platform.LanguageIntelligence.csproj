@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.LanguageIntelligence</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.LanguageIntelligence</AssemblyName>
+    <PackageId>AIGuiders.Platform.LanguageIntelligence</PackageId>
+    <Description>Language-neutral locate/edit IR: Anchor, Locus, TextEdit, tiers (GUIDERS-ADR-0025 Phase 0).</Description>
+  </PropertyGroup>
+</Project>
