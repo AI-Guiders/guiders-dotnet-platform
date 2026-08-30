@@ -43,7 +43,7 @@
 | **Rocket pulls foundation** | хочешь agent parity → тащишь notation, catalog, envelope | federation build-out 2026-08 |
 | **Blame the model** | «агент недетерминирован» | скрывает fragmented invoke/observe |
 | **NIH vs MIT on disk** | `getopt`/LSP/OpenAPI есть, adopt не бесплатен | integrators, platform teams |
-| **License friction** | GPL/viral, AS-IS/warranty, closed fork on MIT — слабый adopt при открытом коде | legal + platform teams |
+| **License friction** | GPL/viral, AS-IS misread, closed fork on MIT, **fake alliances** | legal + platform teams |
 | **Planet as empire** | один experimental habitat становится «каноном» | in-house tools leaking into NuGet docs |
 
 ---
@@ -66,8 +66,13 @@
 |----|------|-----|--------|---------------|--------|
 | G-006 | Эпоха MIT/открытых лицензий дала **шанс кооперации как никогда** — но GPL и «заразные» лицензии снова строят барьеры; боль сохранения открытости понятна, побочный эффект — **плохой adopt**, clean-room, обход вместо pin | human+ops | operator chat 2026-08-30; Neovim/Emacs quarry ([ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md)) | **Conformance-first:** vectors + neutral IR (MIT); quarry = behavior port, не GPL blob в NuGet; license review per package; Constitution: public ADRs, fork adapters not fork semantics in secret | open |
 | G-006a | Permissive (MIT) **разрешает закрытый форк без отдачи** — кооперация на уровне spec, не на уровне «все в одном commons»; мотивация upstream слабая, если value ушло в proprietary adapter | human+ops | operator chat 2026-08-30 | Hyperlane = **roads/signage** (spec semver), не monorepo empire; conformance tag + embassy proof; ethical-use / attribution в charter, не copyleft в core packages | open |
-| G-006b | **AS-IS / no warranty** в LICENSE — юристы и procurement цепляются; «мы не можем pin без indemnity/support» → обходной in-house rewrite | ops | operator chat 2026-08-30; enterprise embed pilots | Spec + vectors отдельно от runtime; документировать **supported embed surface** (packages + semver); не обещать warranty в OSS — зато **predictable contract** (conformance, ADR signage) | open |
+| G-006b | **AS-IS / no warranty** читают как «нельзя зависеть»; чаще это **отказ от судебных тяжб** и нереального solo-SDLC на всех пользователей сразу — не отказ от issues/bugs/contrib | ops+human | operator chat 2026-08-30 | **Adoption alliance** ([Constitution § Adoption alliances](GUIDERS-FEDERATION-CONSTITUTION.md#adoption-alliances-real-not-decorative)): supported embed surface + semver spec; issues/PR welcome; warranty stays in LICENSE, **cooperation** — в пакте | open |
 | G-007 | Enterprise/legal блокирует dependency на «не тот» license → команда пишет свой `Split(' ')` вместо embassy quarry | ops | integrator pilots | À la carte packages; minimal deps in v1 Notations; document **what** is pinned vs **what** is ported; `@aiguiders/conformance` без runtime GPL | open |
+| G-008 | **Рисованные альянсы** (логотипы, «ecosystem») без договорённости **кто как адоптит** MIT-штуку → снова обход и closed fork | human+ops | operator chat 2026-08-30 | Confederation = настоящий слой: hyperlane + conformance tag + embassy + documented **who ports what**; bilateral planet pacts; не monorepo empire | open |
+
+### G-008 {#g-008}
+
+Anchor for Constitution § Adoption alliances. Alliance ≠ shared repo; alliance = shared **spec semver**, visible adopters, issue path, optional reference quarry.
 
 ### Invocation & notation (surface stitch)
 
