@@ -57,7 +57,7 @@ public static class MelodyLinePolicy
             Slug = descriptor.Slug,
             Profile = profile,
             Steps = steps,
-            TailWireClass = descriptor.TailWireClass,
+            ArgumentNotation = descriptor.ArgumentNotation,
             Help = descriptor.Help,
         };
     }

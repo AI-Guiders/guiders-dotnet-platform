@@ -3,6 +3,6 @@
     <RootNamespace>AIGuiders.Platform.Notations.Argument</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Notations.Argument</AssemblyName>
     <PackageId>AIGuiders.Platform.Notations.Argument</PackageId>
-    <Description>Argument notation core IR: NormalizedArgumentWire (GUIDERS-ADR-0021).</Description>
+    <Description>Argument notation core: profile, slots, NormalizedArguments IR (GUIDERS-ADR-0021).</Description>
   </PropertyGroup>
 </Project>

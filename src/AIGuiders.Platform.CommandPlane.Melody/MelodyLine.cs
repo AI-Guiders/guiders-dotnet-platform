@@ -1,5 +1,7 @@
 #nullable enable
 
+using AIGuiders.Platform.Notations.Argument;
+
 namespace AIGuiders.Platform.CommandPlane.Melody;
 
 /// <summary>Sequential play line for one melody alias (slug + steps + profile).</summary>
@@ -11,8 +13,8 @@ public sealed class MelodyLine
 
     public IReadOnlyList<MelodyStep> Steps { get; init; } = [];
 
-    /// <summary>Parametric tail wire class after slug resolves (planet SSOT).</summary>
-    public string? TailWireClass { get; init; }
+    /// <summary>Parametric argument notation after slug resolves.</summary>
+    public ArgumentNotationProfile? ArgumentNotation { get; init; }
 
     public string? Help { get; init; }
 }

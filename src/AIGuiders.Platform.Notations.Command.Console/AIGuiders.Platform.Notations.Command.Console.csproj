@@ -2,17 +2,13 @@
   <PropertyGroup>
     <RootNamespace>AIGuiders.Platform.Notations.Command.Console</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Notations.Command.Console</AssemblyName>
-    <Description>Console command notation — path tokens + kv tail (GUIDERS-ADR-0021).</Description>
+    <Description>Console command notation — path tokens + argument profile parse (GUIDERS-ADR-0021).</Description>
     <PackageId>AIGuiders.Platform.Notations.Command.Console</PackageId>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Command\AIGuiders.Platform.Notations.Command.csproj" />
-    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument\AIGuiders.Platform.Notations.Argument.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
-    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument.Kv\AIGuiders.Platform.Notations.Argument.Kv.csproj" />
-    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument.Cli\AIGuiders.Platform.Notations.Argument.Cli.csproj" />
-    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument.Delimited\AIGuiders.Platform.Notations.Argument.Delimited.csproj" />
-    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument.Positional\AIGuiders.Platform.Notations.Argument.Positional.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument.All\AIGuiders.Platform.Notations.Argument.All.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Command.Slash\AIGuiders.Platform.Notations.Command.Slash.csproj" />
   </ItemGroup>
 </Project>

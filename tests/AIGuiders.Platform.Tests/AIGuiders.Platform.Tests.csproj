@@ -57,7 +57,7 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Command\AIGuiders.Platform.Notations.Command.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Command.Slash\AIGuiders.Platform.Notations.Command.Slash.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Argument.Kv\AIGuiders.Platform.Notations.Argument.Kv.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Argument.All\AIGuiders.Platform.Notations.Argument.All.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Command.Console\AIGuiders.Platform.Notations.Command.Console.csproj" />
     <ProjectReference Include="..\..\tools\QuarryOracle\QuarryOracle.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.LanguageIntelligence\AIGuiders.Platform.LanguageIntelligence.csproj" />

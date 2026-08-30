@@ -139,7 +139,7 @@ public static class NotationSpecConformance
         return SlotsMatch(vector.Expect.Slots, actual, out error);
     }
 
-    static bool SlotsMatch(IReadOnlyDictionary<string, string> expect, NormalizedArgumentWire actual, out string error)
+    static bool SlotsMatch(IReadOnlyDictionary<string, string> expect, NormalizedArguments actual, out string error)
     {
         error = "";
         if (actual.Slots is null)

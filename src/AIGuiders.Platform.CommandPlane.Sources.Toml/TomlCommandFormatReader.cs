@@ -54,10 +54,17 @@ public sealed class TomlCommandFormatReader : ICommandFormatReader
         }
 
         var descriptor = CommandDescriptorMapper.FromDictionary(dict);
-        return CommandDescriptorMapper.WithInvocationSchema(
-            descriptor,
-            GetTailWireClass(table),
-            ParseArgParameters(table));
+        return CommandDescriptorMapper.WithArgumentNotation(descriptor, ParseArgumentNotation(table));
+    }
+
+    static ArgumentNotationProfile? ParseArgumentNotation(TomlTable table)
+    {
+        var wireClass = GetTailWireClass(table);
+        var slots = ParseArgumentSlots(table);
+        if (wireClass is null && slots.Count == 0)
+            return null;
+
+        return new ArgumentNotationProfile(wireClass, slots.Count > 0 ? slots : null);
     }
 
     static string? GetTailWireClass(TomlTable table)
@@ -71,7 +78,7 @@ public sealed class TomlCommandFormatReader : ICommandFormatReader
         return null;
     }
 
-    static IReadOnlyList<InvocationArgParameter> ParseArgParameters(TomlTable table)
+    static IReadOnlyList<ArgumentSlot> ParseArgumentSlots(TomlTable table)
     {
         if (!table.TryGetValue("arg_parameters", out var node) && !table.TryGetValue("argParameters", out node))
             return [];
@@ -79,28 +86,28 @@ public sealed class TomlCommandFormatReader : ICommandFormatReader
         if (node is not TomlTableArray array)
             return [];
 
-        return array.Select(ParseArgParameter).ToList();
+        return array.Select(ParseArgumentSlot).ToList();
     }
 
-    static InvocationArgParameter ParseArgParameter(TomlTable table)
+    static ArgumentSlot ParseArgumentSlot(TomlTable table)
     {
         var name = ReadString(table, "name");
         if (string.IsNullOrWhiteSpace(name))
             throw new InvalidOperationException("arg_parameters[] entry requires 'name'.");
 
-        return new InvocationArgParameter(
+        return new ArgumentSlot(
             name.Trim(),
             ParseKind(ReadString(table, "kind")),
             ReadString(table, "long_option", "longOption"),
             ReadString(table, "short_option", "shortOption"));
     }
 
-    static InvocationArgParameterKind ParseKind(string? raw) =>
+    static ArgumentSlotKind ParseKind(string? raw) =>
         raw?.Trim().ToLowerInvariant() switch
         {
-            "flag" => InvocationArgParameterKind.Flag,
-            "positional" => InvocationArgParameterKind.Positional,
-            _ => InvocationArgParameterKind.Value,
+            "flag" => ArgumentSlotKind.Flag,
+            "positional" => ArgumentSlotKind.Positional,
+            _ => ArgumentSlotKind.Value,
         };
 
     static string? ReadString(TomlTable table, params string[] keys)

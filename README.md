@@ -30,8 +30,9 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.InputNotation.Emacs` | Legacy metapackage → `Notations.Keyboard.Emacs` |
 | `AIGuiders.Platform.InputNotation.KeyGesture` | Legacy metapackage → `Notations.Keyboard.KeyGesture` |
 | `AIGuiders.Platform.InputNotation.All` | Legacy metapackage → `Notations.Keyboard.All` |
-| `AIGuiders.Platform.Notations` | Shared primitives: `NotationKvPair`, list split; legacy aliases (`NormalizedArgTail` → `Notations.Argument`) |
-| `AIGuiders.Platform.Notations.Argument` | Argument core IR: `NormalizedArgumentWire`, `InvocationArgDescriptor` |
+| `AIGuiders.Platform.Notations` | Shared primitives: `NotationKvPair`, list split; legacy Command aliases |
+| `AIGuiders.Platform.Notations.Argument` | Profile (`ArgumentNotationProfile`), slots, IR (`NormalizedArguments`) |
+| `AIGuiders.Platform.Notations.Argument.All` | Profile-driven parse facade (`ArgumentNotation.Parse`) |
 | `AIGuiders.Platform.Notations.Keyboard` | Keyboard core IR: `NormalizedKeySequence`, `IKeyboardNotationReader` |
 | `AIGuiders.Platform.Notations.Keyboard.Quarry` | Shared quarry lexer, normalizer, spec conformance |
 | `AIGuiders.Platform.Notations.Keyboard.Vim` | Vim-doc wire (`&lt;C-k&gt;`, CIDE quarry) → Core |

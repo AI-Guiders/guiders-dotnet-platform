@@ -42,9 +42,8 @@ public sealed class JsonCommandFormatReader : ICommandFormatReader
     static SlashCommandDescriptor ParseCommand(JsonElement element)
     {
         var descriptor = CommandDescriptorMapper.FromDictionary(CommandDescriptorMapper.JsonToDictionary(element));
-        return CommandDescriptorMapper.WithInvocationSchema(
+        return CommandDescriptorMapper.WithArgumentNotation(
             descriptor,
-            CommandDescriptorMapper.GetTailWireClassFromJson(element),
-            CommandDescriptorMapper.ParseArgParametersFromJson(element));
+            CommandDescriptorMapper.ParseArgumentNotationFromJson(element));
     }
 }

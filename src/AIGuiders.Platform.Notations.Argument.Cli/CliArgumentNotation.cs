@@ -10,10 +10,10 @@ public static class CliArgumentNotation
 {
     public const string WireClassCli = "cli";
 
-    public static NormalizedArgumentWire Parse(string tail)
+    public static NormalizedArguments Parse(string tail)
     {
         if (string.IsNullOrWhiteSpace(tail))
-            return NormalizedArgumentWire.FromRaw("", WireClassCli);
+            return NormalizedArguments.FromRaw("", WireClassCli);
 
         var slots = new Dictionary<string, string>(StringComparer.Ordinal);
         var tokens = Tokenize(tail);
@@ -50,26 +50,26 @@ public static class CliArgumentNotation
         }
 
         return slots.Count > 0
-            ? NormalizedArgumentWire.FromSlots(slots, WireClassCli)
-            : NormalizedArgumentWire.FromRaw(tail.Trim(), WireClassCli);
+            ? NormalizedArguments.FromSlots(slots, WireClassCli)
+            : NormalizedArguments.FromRaw(tail.Trim(), WireClassCli);
     }
 
     /// <summary>Schema-aware CLI parse: <c>--config release</c>, value flags, positional slots by name.</summary>
-    public static NormalizedArgumentWire ParseWithSchema(string tail, IReadOnlyList<InvocationArgParameter> schema)
+    public static NormalizedArguments ParseWithSchema(string tail, IReadOnlyList<ArgumentSlot> schema)
     {
         if (string.IsNullOrWhiteSpace(tail))
-            return NormalizedArgumentWire.FromRaw("", WireClassCli);
+            return NormalizedArguments.FromRaw("", WireClassCli);
 
-        var byLong = new Dictionary<string, InvocationArgParameter>(StringComparer.Ordinal);
-        var byShort = new Dictionary<string, InvocationArgParameter>(StringComparer.Ordinal);
-        var positionals = new List<InvocationArgParameter>();
+        var byLong = new Dictionary<string, ArgumentSlot>(StringComparer.Ordinal);
+        var byShort = new Dictionary<string, ArgumentSlot>(StringComparer.Ordinal);
+        var positionals = new List<ArgumentSlot>();
         foreach (var parameter in schema)
         {
             if (!string.IsNullOrWhiteSpace(parameter.LongOption))
                 byLong[parameter.LongOption] = parameter;
             if (!string.IsNullOrWhiteSpace(parameter.ShortOption))
                 byShort[parameter.ShortOption] = parameter;
-            if (parameter.Kind == InvocationArgParameterKind.Positional)
+            if (parameter.Kind == ArgumentSlotKind.Positional)
                 positionals.Add(parameter);
         }
 
@@ -91,7 +91,7 @@ public static class CliArgumentNotation
 
                 if (byLong.TryGetValue(token, out var longParam))
                 {
-                    if (longParam.Kind == InvocationArgParameterKind.Flag)
+                    if (longParam.Kind == ArgumentSlotKind.Flag)
                     {
                         slots[longParam.Name] = "true";
                         continue;
@@ -114,7 +114,7 @@ public static class CliArgumentNotation
                 {
                     if (byShort.TryGetValue(token, out var shortParam))
                     {
-                        if (shortParam.Kind == InvocationArgParameterKind.Flag)
+                        if (shortParam.Kind == ArgumentSlotKind.Flag)
                             slots[shortParam.Name] = "true";
                         else if (i + 1 < tokens.Count && !IsOptionToken(tokens[i + 1]))
                             slots[shortParam.Name] = tokens[++i];
@@ -149,19 +149,19 @@ public static class CliArgumentNotation
         }
 
         return slots.Count > 0
-            ? NormalizedArgumentWire.FromSlots(slots, WireClassCli)
-            : NormalizedArgumentWire.FromRaw(tail.Trim(), WireClassCli);
+            ? NormalizedArguments.FromSlots(slots, WireClassCli)
+            : NormalizedArguments.FromRaw(tail.Trim(), WireClassCli);
     }
 
     static void AssignLongOption(
         Dictionary<string, string> slots,
         string option,
         string value,
-        IReadOnlyDictionary<string, InvocationArgParameter> byLong)
+        IReadOnlyDictionary<string, ArgumentSlot> byLong)
     {
         if (byLong.TryGetValue(option, out var parameter))
         {
-            slots[parameter.Name] = parameter.Kind == InvocationArgParameterKind.Flag ? "true" : value;
+            slots[parameter.Name] = parameter.Kind == ArgumentSlotKind.Flag ? "true" : value;
             return;
         }
 

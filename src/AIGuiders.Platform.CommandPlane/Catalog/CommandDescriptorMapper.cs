@@ -22,7 +22,7 @@ public static class CommandDescriptorMapper
             Help = Get(fields, "help"),
             Group = Get(fields, "group", "slash_group"),
             ArgTail = Get(fields, "argTail", "arg_tail") ?? "optional",
-            TailWireClass = Get(fields, "tailWireClass", "tail_wire_class"),
+            ArgumentNotation = ParseArgumentNotationFromFields(fields),
             ArgHint = Get(fields, "argHint", "arg_hint"),
             ArgPickerChoices = ParsePickerChoices(Get(fields, "argPickerChoices", "arg_picker_choices")),
             Surfaces = ParseList(Get(fields, "surfaces")),
@@ -33,12 +33,12 @@ public static class CommandDescriptorMapper
         };
     }
 
-    public static SlashCommandDescriptor WithInvocationSchema(
+    public static SlashCommandDescriptor WithArgumentNotation(
         SlashCommandDescriptor descriptor,
-        string? tailWireClass,
-        IReadOnlyList<InvocationArgParameter>? argParameters)
+        ArgumentNotationProfile? notation)
     {
-        if (tailWireClass is null && (argParameters is null || argParameters.Count == 0))
+        var merged = ArgumentNotationProfile.Merge(descriptor.ArgumentNotation, notation);
+        if (merged == descriptor.ArgumentNotation)
             return descriptor;
 
         return new SlashCommandDescriptor
@@ -52,8 +52,7 @@ public static class CommandDescriptorMapper
             Help = descriptor.Help,
             Group = descriptor.Group,
             ArgTail = descriptor.ArgTail,
-            TailWireClass = tailWireClass ?? descriptor.TailWireClass,
-            ArgParameters = argParameters is { Count: > 0 } ? argParameters : descriptor.ArgParameters,
+            ArgumentNotation = merged,
             ArgHint = descriptor.ArgHint,
             ArgPickerChoices = descriptor.ArgPickerChoices,
             Surfaces = descriptor.Surfaces,
@@ -64,7 +63,17 @@ public static class CommandDescriptorMapper
         };
     }
 
-    public static IReadOnlyList<InvocationArgParameter> ParseArgParametersFromJson(JsonElement element)
+    public static ArgumentNotationProfile? ParseArgumentNotationFromJson(JsonElement element)
+    {
+        var wireClass = GetTailWireClassFromJson(element);
+        var slots = ParseArgumentSlotsFromJson(element);
+        if (wireClass is null && slots.Count == 0)
+            return null;
+
+        return new ArgumentNotationProfile(wireClass, slots.Count > 0 ? slots : null);
+    }
+
+    public static IReadOnlyList<ArgumentSlot> ParseArgumentSlotsFromJson(JsonElement element)
     {
         if (!TryGetProperty(element, "argParameters", "arg_parameters", out var parameters)
             || parameters.ValueKind != JsonValueKind.Array)
@@ -72,13 +81,19 @@ public static class CommandDescriptorMapper
             return [];
         }
 
-        return parameters.EnumerateArray().Select(ParseArgParameterJson).ToList();
+        return parameters.EnumerateArray().Select(ParseArgumentSlotJson).ToList();
     }
 
     public static string? GetTailWireClassFromJson(JsonElement element) =>
         TryGetProperty(element, "tailWireClass", "tail_wire_class", out var wireClass) && wireClass.ValueKind == JsonValueKind.String
             ? wireClass.GetString()?.Trim()
             : null;
+
+    static ArgumentNotationProfile? ParseArgumentNotationFromFields(IReadOnlyDictionary<string, string> fields)
+    {
+        var wireClass = Get(fields, "tailWireClass", "tail_wire_class");
+        return string.IsNullOrWhiteSpace(wireClass) ? null : new ArgumentNotationProfile(wireClass);
+    }
 
     public static Dictionary<string, string> JsonToDictionary(JsonElement element)
     {
@@ -158,25 +173,25 @@ public static class CommandDescriptorMapper
     static bool ParseBool(string? raw) =>
         bool.TryParse(raw, out var value) && value;
 
-    static InvocationArgParameter ParseArgParameterJson(JsonElement element)
+    static ArgumentSlot ParseArgumentSlotJson(JsonElement element)
     {
         var name = element.TryGetProperty("name", out var nameNode) ? nameNode.GetString() : null;
         if (string.IsNullOrWhiteSpace(name))
             throw new InvalidOperationException("argParameters[] entry requires 'name'.");
 
-        return new InvocationArgParameter(
+        return new ArgumentSlot(
             name.Trim(),
-            ParseArgParameterKind(ReadJsonString(element, "kind")),
+            ParseArgumentSlotKind(ReadJsonString(element, "kind")),
             ReadJsonString(element, "longOption", "long_option"),
             ReadJsonString(element, "shortOption", "short_option"));
     }
 
-    static InvocationArgParameterKind ParseArgParameterKind(string? raw) =>
+    static ArgumentSlotKind ParseArgumentSlotKind(string? raw) =>
         raw?.Trim().ToLowerInvariant() switch
         {
-            "flag" => InvocationArgParameterKind.Flag,
-            "positional" => InvocationArgParameterKind.Positional,
-            _ => InvocationArgParameterKind.Value,
+            "flag" => ArgumentSlotKind.Flag,
+            "positional" => ArgumentSlotKind.Positional,
+            _ => ArgumentSlotKind.Value,
         };
 
     static string? ReadJsonString(JsonElement element, params string[] keys)

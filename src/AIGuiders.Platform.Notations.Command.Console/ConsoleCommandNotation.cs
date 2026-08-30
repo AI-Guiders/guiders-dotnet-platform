@@ -10,10 +10,10 @@ public static class ConsoleCommandNotation
     /// Splits <paramref name="line"/> into path tokens (before first kv token) and kv tail.
     /// Example: <c>buffer open doc=README.md</c> → path <c>buffer open</c>, slot <c>doc=README.md</c>.
     /// </summary>
-    public static bool TryParse(string line, out SlashWireBody pathWire, out NormalizedArgumentWire argTail)
+    public static bool TryParse(string line, out SlashWireBody pathWire, out NormalizedArguments args)
     {
         pathWire = new SlashWireBody([], false);
-        argTail = NormalizedArgumentWire.FromRaw("");
+        args = NormalizedArguments.FromRaw("");
 
         if (string.IsNullOrWhiteSpace(line))
             return false;
@@ -43,22 +43,22 @@ public static class ConsoleCommandNotation
         var kvTail = kvStart < tokens.Count
             ? string.Join(' ', tokens.Skip(kvStart))
             : "";
-        argTail = KvArgumentNotation.Parse(kvTail);
+        args = KvArgumentNotation.Parse(kvTail);
         return true;
     }
 
-    /// <summary>Path/tail split + descriptor-driven tail parse (kv default path split).</summary>
-    public static bool TryParse(string line, InvocationArgDescriptor? descriptor, out SlashWireBody pathWire, out NormalizedArgumentWire argTail)
+    /// <summary>Path/tail split + profile-driven argument parse (kv default path split).</summary>
+    public static bool TryParse(string line, ArgumentNotationProfile? profile, out SlashWireBody pathWire, out NormalizedArguments args)
     {
         pathWire = new SlashWireBody([], false);
-        argTail = NormalizedArgumentWire.FromRaw("");
+        args = NormalizedArguments.FromRaw("");
 
         if (string.IsNullOrWhiteSpace(line))
             return false;
 
-        var wireClass = descriptor?.TailWireClass ?? InvocationArgWireClasses.Kv;
-        if (wireClass == InvocationArgWireClasses.Kv)
-            return TryParse(line, out pathWire, out argTail);
+        var wireClass = profile?.WireClass ?? ArgumentWireClasses.Kv;
+        if (wireClass == ArgumentWireClasses.Kv)
+            return TryParse(line, out pathWire, out args);
 
         var endsWithSpace = line.EndsWith(' ');
         var tokens = line.TrimEnd().Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -75,15 +75,15 @@ public static class ConsoleCommandNotation
 
         pathWire = new SlashWireBody(pathTokens, endsWithSpace && tailStart >= tokens.Count);
         var tail = tailStart < tokens.Count ? string.Join(' ', tokens.Skip(tailStart)) : "";
-        argTail = DescriptorArgumentNotation.ParseTail(tail, descriptor);
+        args = ArgumentNotation.Parse(tail, profile);
         return true;
     }
 
     static int FindTailStart(IReadOnlyList<string> tokens, string wireClass) =>
         wireClass switch
         {
-            InvocationArgWireClasses.Cli => IndexOfFirst(tokens, IsCliOptionToken),
-            InvocationArgWireClasses.Kv => IndexOfFirst(tokens, IsKvToken),
+            ArgumentWireClasses.Cli => IndexOfFirst(tokens, IsCliOptionToken),
+            ArgumentWireClasses.Kv => IndexOfFirst(tokens, IsKvToken),
             _ => tokens.Count,
         };
 
@@ -107,3 +107,4 @@ public static class ConsoleCommandNotation
         return eq > 0 && eq < token.Length - 1;
     }
 }
+

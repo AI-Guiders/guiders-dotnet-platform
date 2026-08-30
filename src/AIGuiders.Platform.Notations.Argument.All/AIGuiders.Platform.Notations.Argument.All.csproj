@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Notations.Argument</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Notations.Argument.All</AssemblyName>
+    <PackageId>AIGuiders.Platform.Notations.Argument.All</PackageId>
+    <Description>Argument notation facade: profile-driven parse (GUIDERS-ADR-0021).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument\AIGuiders.Platform.Notations.Argument.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument.Kv\AIGuiders.Platform.Notations.Argument.Kv.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument.Cli\AIGuiders.Platform.Notations.Argument.Cli.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument.Positional\AIGuiders.Platform.Notations.Argument.Positional.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument.Delimited\AIGuiders.Platform.Notations.Argument.Delimited.csproj" />
+  </ItemGroup>
+</Project>

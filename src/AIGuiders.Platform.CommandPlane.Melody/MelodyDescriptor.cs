@@ -1,5 +1,7 @@
 #nullable enable
 
+using AIGuiders.Platform.Notations.Argument;
+
 namespace AIGuiders.Platform.CommandPlane.Melody;
 
 /// <summary>
@@ -16,7 +18,7 @@ public sealed class MelodyDescriptor
 
     public IReadOnlyList<MelodyStep> Steps { get; init; } = [];
 
-    public string? TailWireClass { get; init; }
+    public ArgumentNotationProfile? ArgumentNotation { get; init; }
 
     public string? Help { get; init; }
 
@@ -25,7 +27,7 @@ public sealed class MelodyDescriptor
         Slug = Slug,
         Profile = Profile,
         Steps = Steps,
-        TailWireClass = TailWireClass,
+        ArgumentNotation = ArgumentNotation,
         Help = Help,
     };
 

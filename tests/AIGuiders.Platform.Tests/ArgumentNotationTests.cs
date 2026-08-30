@@ -1,0 +1,98 @@
+using AIGuiders.Platform.CommandPlane;
+using AIGuiders.Platform.CommandPlane.Sources;
+using AIGuiders.Platform.Notations.Argument;
+using AIGuiders.Platform.Notations.Command.Console;
+using Xunit;
+
+namespace AIGuiders.Platform.Tests;
+
+public sealed class ArgumentNotationTests
+{
+    static readonly ArgumentSlot ConfigSlot = new(
+        "config",
+        ArgumentSlotKind.Value,
+        LongOption: "--config");
+
+    static readonly ArgumentSlot VerboseSlot = new(
+        "verbose",
+        ArgumentSlotKind.Flag,
+        LongOption: "--verbose",
+        ShortOption: "-v");
+
+    [Fact]
+    public void Parse_cli_schema_assigns_spaced_value_flag()
+    {
+        var profile = new ArgumentNotationProfile(ArgumentWireClasses.Cli, [ConfigSlot, VerboseSlot]);
+        var args = ArgumentNotation.Parse("--config release --verbose", profile);
+
+        Assert.Equal("cli", args.WireClass);
+        Assert.Equal("release", args.Slots!["config"]);
+        Assert.Equal("true", args.Slots!["verbose"]);
+    }
+
+    [Fact]
+    public void Parse_uses_profile_wire_class_over_inference()
+    {
+        var profile = new ArgumentNotationProfile(ArgumentWireClasses.Positional, []);
+        var args = ArgumentNotation.Parse("one two", profile);
+
+        Assert.Equal("positional", args.WireClass);
+        Assert.Equal("one", args.Slots!["0"]);
+    }
+
+    [Fact]
+    public void SlashCommandDescriptor_carries_argument_notation_profile()
+    {
+        var command = new SlashCommandDescriptor
+        {
+            Domain = "build",
+            Object = "run",
+            Intent = "execute",
+            CommandId = "build.run",
+            Path = "build run",
+            ArgumentNotation = new ArgumentNotationProfile(ArgumentWireClasses.Cli, [ConfigSlot]),
+        };
+
+        Assert.Equal(ArgumentWireClasses.Cli, command.ArgumentNotation!.WireClass);
+        Assert.Single(command.ArgumentNotation.Slots!);
+        Assert.Equal("config", command.ArgumentNotation.Slots![0].Name);
+    }
+
+    [Fact]
+    public void Json_catalog_reads_tail_wire_class_and_arg_parameters()
+    {
+        const string json = """
+            [
+              {
+                "commandId": "build.run",
+                "path": "build run",
+                "tailWireClass": "cli",
+                "argParameters": [
+                  { "name": "config", "kind": "value", "longOption": "--config" }
+                ]
+              }
+            ]
+            """;
+
+        var commands = JsonCommandFormatReader.Instance.Read(json);
+        var command = Assert.Single(commands);
+
+        Assert.Equal(ArgumentWireClasses.Cli, command.ArgumentNotation!.WireClass);
+        Assert.Equal("config", command.ArgumentNotation.Slots![0].Name);
+        Assert.Equal("--config", command.ArgumentNotation.Slots![0].LongOption);
+    }
+
+    [Fact]
+    public void Console_try_parse_with_cli_profile_splits_path_and_schema_tail()
+    {
+        var profile = new ArgumentNotationProfile(ArgumentWireClasses.Cli, [ConfigSlot]);
+        Assert.True(ConsoleCommandNotation.TryParse(
+            "build run --config release",
+            profile,
+            out var path,
+            out var args));
+
+        Assert.Equal(["build", "run"], path.Tokens);
+        Assert.Equal("release", args.Slots!["config"]);
+    }
+}

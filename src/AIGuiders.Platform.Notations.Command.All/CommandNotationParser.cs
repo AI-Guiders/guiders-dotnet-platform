@@ -13,10 +13,10 @@ public static class CommandNotationParser
         string? line,
         CommandNotationSurface surface,
         out SlashWireBody pathWire,
-        out NormalizedArgumentWire argTail)
+        out NormalizedArguments args)
     {
         pathWire = new SlashWireBody([], false);
-        argTail = NormalizedArgumentWire.FromRaw("");
+        args = NormalizedArguments.FromRaw("");
 
         if (string.IsNullOrWhiteSpace(line))
             return false;
@@ -24,7 +24,7 @@ public static class CommandNotationParser
         return surface switch
         {
             CommandNotationSurface.Slash => SlashCommandNotation.TryParseLine(line, out pathWire),
-            CommandNotationSurface.Console => ConsoleCommandNotation.TryParse(line, out pathWire, out argTail),
+            CommandNotationSurface.Console => ConsoleCommandNotation.TryParse(line, out pathWire, out args),
             _ => false,
         };
     }

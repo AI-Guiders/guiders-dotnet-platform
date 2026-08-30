@@ -1,5 +1,6 @@
 #nullable enable
 using AIGuiders.Platform.CommandPlane.Melody;
+using AIGuiders.Platform.Notations.Argument;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;
@@ -117,13 +118,13 @@ public sealed class MelodyLinePolicyTests
             CommandId = "git.status",
             Slug = "gs",
             Help = "Git Status",
-            TailWireClass = "line_range",
+            ArgumentNotation = new ArgumentNotationProfile("line_range"),
         };
 
         var line = descriptor.ToLine();
 
         Assert.Equal("gs", line.Slug);
         Assert.Equal("Git Status", line.Help);
-        Assert.Equal("line_range", line.TailWireClass);
+        Assert.Equal("line_range", line.ArgumentNotation!.WireClass);
     }
 }
