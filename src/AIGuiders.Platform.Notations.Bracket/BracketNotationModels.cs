@@ -34,13 +34,38 @@ public sealed record BracketNotationProfile(
     IReadOnlyList<string>? NestedAxisKeys = null);
 
 /// <summary>One axis inside a bracket pair. KV axes use <see cref="Key"/> + <see cref="Value"/>.</summary>
+/// <param name="ValueWireClass">
+/// Optional second-pass notation (compose Command/Argument micro-readers). See <see cref="BracketAxisValueClasses"/>.
+/// </param>
 /// <param name="Nested">
-/// Populated when <see cref="Key"/> is listed in profile <c>NestedAxisKeys</c> and value parses as nested wire.
+/// Populated when <see cref="ValueWireClass"/> is <see cref="BracketAxisValueClasses.NestedBracket"/>
+/// or key is in profile <c>NestedAxisKeys</c>.
 /// </param>
 public sealed record BracketAxis(
     string Key,
     string Value,
+    string ValueWireClass = BracketAxisValueClasses.Opaque,
     NormalizedBracketWire? Nested = null);
+
+/// <summary>
+/// Second-pass value notation inside an axis (same pattern as Argument <c>wire_class</c> — ADR-0021).
+/// Bracket splits envelope; value class selects Command/Argument/Bracket micro-reader.
+/// </summary>
+public static class BracketAxisValueClasses
+{
+    public const string Opaque = "opaque";
+    /// <summary>Slash-like segments: <c>pilot/issues/7</c>, <c>src/Foo.cs</c> (Notations.Command path).</summary>
+    public const string CommandPath = "command.path";
+    /// <summary>Colon slots in value: <c>for:2</c>, <c>Parameter:Run</c> (Notations.Argument colon delimited).</summary>
+    public const string ArgumentColon = "argument.colon";
+    /// <summary>Line span: <c>12</c>, <c>12-34</c>.</summary>
+    public const string LineRange = "line.range";
+    /// <summary>Recursive bracket envelope on axis value.</summary>
+    public const string NestedBracket = "bracket.nested";
+}
+
+/// <summary>Planet table: axis key → <see cref="BracketAxisValueClasses"/> for value second-pass.</summary>
+public sealed record BracketAxisValuePlan(IReadOnlyDictionary<string, string> ByAxisKey);
 
 /// <summary>Neutral bracket wire after lexing — axis meaning stays in planet / LanguageIntelligence.</summary>
 public sealed record NormalizedBracketWire(
@@ -82,4 +107,41 @@ public static class BracketProfiles
         "<",
         ">",
         AxisShape: BracketAxisShape.Opaque);
+}
+
+/// <summary>Well-known axis value plans (compose Notations Command/Argument inside bracket axes).</summary>
+public static class BracketAxisValuePlans
+{
+    /// <summary>CDP code + navigation axes (0128/0186).</summary>
+    public static BracketAxisValuePlan CdpCode { get; } = new(
+        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["F"] = BracketAxisValueClasses.CommandPath,
+            ["File"] = BracketAxisValueClasses.CommandPath,
+            ["M"] = BracketAxisValueClasses.Opaque,
+            ["Member"] = BracketAxisValueClasses.Opaque,
+            ["L"] = BracketAxisValueClasses.LineRange,
+            ["Line"] = BracketAxisValueClasses.LineRange,
+            ["S"] = BracketAxisValueClasses.ArgumentColon,
+            ["Scope"] = BracketAxisValueClasses.ArgumentColon,
+            ["K"] = BracketAxisValueClasses.ArgumentColon,
+            ["Kind"] = BracketAxisValueClasses.ArgumentColon,
+            ["T"] = BracketAxisValueClasses.Opaque,
+            ["Text"] = BracketAxisValueClasses.Opaque,
+            ["X"] = BracketAxisValueClasses.CommandPath,
+            ["Element"] = BracketAxisValueClasses.CommandPath,
+            ["A"] = BracketAxisValueClasses.Opaque,
+            ["Attribute"] = BracketAxisValueClasses.Opaque,
+            ["Anchor"] = BracketAxisValueClasses.NestedBracket,
+            ["Command"] = BracketAxisValueClasses.Opaque,
+            ["Go"] = BracketAxisValueClasses.Opaque,
+            ["Family"] = BracketAxisValueClasses.Opaque,
+        });
+
+    /// <summary>Forge FRG head axis + optional CDP code tail (ADR 0159).</summary>
+    public static BracketAxisValuePlan ForgeFrgCompound { get; } = new(
+        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["FRG"] = BracketAxisValueClasses.CommandPath,
+        });
 }

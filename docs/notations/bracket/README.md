@@ -2,45 +2,31 @@
 
 Canonical plan: [GUIDERS-ADR-0026](../adr/GUIDERS-ADR-0026-notations-bracket-branch.md).
 
-## Contract (federation SSOT)
+## Two-pass parse
 
-| Field | CDP default | Role |
-|-------|-------------|------|
-| `StartTerminal` / `EndTerminal` | `[` `]` | paired delimiters |
-| `AxisSeparator` | `;` | splits **axes** (depth-aware) |
-| `PairDelimiter` | `:` | splits **key** / **value** (first only) |
-| `StripOuterTerminals` | true | `[F:…]` or inner |
-| `RespectBracketDepthOnAxisSplit` | true | nested `[` inside values |
-| `NestedAxisKeys` | `Anchor` | recursive bracket parse |
-| `Axes[]` | — | `BracketAxis { Key, Value, Nested? }` |
+```text
+Pass 1 — Bracket envelope:  [  key:value ; key:value  ]
+Pass 2 — Axis value class:  command.path | argument.colon | line.range | bracket.nested
+```
 
-Planet-owned: `BracketAxisAliasMap` (F/M/L/…), axis value micro-grammar (`L:12-34`, `S:if:2`), family classify (code/xml/nav).
+Examples:
 
-## CDP/CIDE alignment
+| Wire fragment | Pass 1 | Pass 2 |
+|---------------|--------|--------|
+| `FRG:pilot/issues/7` | axis FRG | `command.path` → repo/issues/N |
+| `F:src/Foo.cs` | axis F | `command.path` (file) |
+| `S:for:2` | axis S, value `for:2` | `argument.colon` → kind + index |
+| `L:12-34` | axis L | `line.range` |
 
-| Source | Profile | Status |
-|--------|---------|--------|
-| `Cdp.ScriptableIde.BracketLocate` | `bracket.cdp-square-kv` | **matches** contract fields |
-| EditSniper / peek / land | same wire | reuse profile |
-| CIDE `BracketCodeReferenceParser` H1 | `bracket.cide-h1` (space) | **defer** — not in Core v1 |
-| Forge `[FRG:…; F:…]` | `bracket.forge-frg-compound` | **defer** — head + tail re-parse |
+`:` at envelope = axis KV delimiter. `:` inside `S:for:2` = **Argument colon** micro-grammar (not `=`).
+
+## Contract fields
+
+See ADR-0026. Planet tables: `BracketAxisValuePlans.CdpCode`, `ForgeFrgCompound`.
 
 ## Phase 1
 
 ```
-Implement BracketReader(wire, profile) — port SplitTopLevel + SplitAxes from BracketLocate
-Keyboard.Quarry → BracketProfiles.AngleOpaque
+BracketReader pass 1 → BracketAxis[]
+Optional pass 2 via BracketAxisValuePlan + Notations.Command/Argument readers
 ```
-
-## Phase 2
-
-```
-notation/bracket-cdp-square-kv fixtures (nested Anchor, K:Parameter:x, S:if:2)
-LI IAnchorResolver ← Axes[] + BracketAxisAliasMap
-```
-
-## Anti-patterns
-
-- Hard-coded `[` `]` parser per product
-- Family classify (code/xml/nav) inside Notations
-- Duplicating bracket lexers inside `LanguageIntelligence.*`

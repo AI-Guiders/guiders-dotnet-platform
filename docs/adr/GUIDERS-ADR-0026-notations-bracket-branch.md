@@ -70,6 +70,41 @@ NormalizedBracketWire
 
 **Pair split rule (CDP-aligned):** only the **first** `PairDelimiter` separates key from value. Values may contain `:` (`K:Parameter:Run`, `S:if:2`).
 
+### 2.1 Compose Command / Argument inside axis values
+
+Bracket is the **envelope** (`[` `]` + axes). Axis **values** often reuse other Notations micro-readers — same idea as Argument `wire_class`:
+
+```text
+Pass 1 (Bracket):  [FRG:pilot/issues/7; F:src/Foo.cs; S:for:2]
+                      │                │              │
+Pass 2 (value):    command.path    command.path   argument.colon
+                      │                │              ├─ kind=for
+                      ├─ repo          └─ file path  └─ index=2
+                      ├─ issues
+                      └─ 7
+```
+
+| Example value | `ValueWireClass` | Composes |
+|---------------|------------------|----------|
+| `pilot/issues/7` | `command.path` | `Notations.Command` path segments (`/` ) |
+| `src/Foo.cs` | `command.path` | file path (planet: relative to root) |
+| `for:2` (axis `S:`) | `argument.colon` | colon slots — like `key=value` but `:` not `=` |
+| `Parameter:Run` (axis `K:`) | `argument.colon` | role + payload |
+| `12-34` (axis `L:`) | `line.range` | range delimiter `-` |
+| `[F:…;M:…]` (axis `Anchor:`) | `bracket.nested` | recursive bracket profile |
+
+Planet supplies **`BracketAxisValuePlan`** (axis key → wire class). Federation ships constants (`BracketAxisValuePlans.CdpCode`, `ForgeFrgCompound`).
+
+**Forge compound** (ADR 0159): one bracket, two passes —
+
+```text
+[FRG:pilot/issues/7; F:src/Foo.cs; M:Run]
+  Axis FRG → command.path (pilot / issues / 7)
+  Tail axes → re-parse with bracket.cdp-square-kv (same as code bracket)
+```
+
+**Not** one universal `=` grammar: bracket axis uses `:` at envelope level; inner `S:for:2` uses **`argument.colon`** (distinct from `Argument.Kv` which uses `=`).
+
 Example CDP profile `bracket.cdp-square-kv`:
 
 ```text
@@ -91,9 +126,8 @@ Example keyboard angle profile (`Start=`<`, End=`>`, **Opaque** inner — no axi
 | Extension | CDP/CIDE usage | Owner |
 |-----------|----------------|-------|
 | `BracketAxisAliasMap` | `F`↔`File`, `M`↔`Member`, case-insensitive | CIDE ADR 0186 / `BracketLocate.AxisAlias` |
-| Axis value micro-grammar | `L:12-34`, `S:if:2`, `T:` sanitize | LI / planet resolve (post-parse) |
-| H1 layout (space, no `;`) | `[M:Run S:for:2]`, `[file.cs M:Run]` | CIDE `BracketCodeReferenceParser` — **separate profile** or product parser |
-| Forge `FRG:` family | `[FRG:pilot/issues/7; F:…]` | Forge ADR 0159 — **compound profile** (head axis + tail re-parse) |
+| `BracketAxisValuePlan` | `S`→`argument.colon`, `F`→`command.path`, … | Planet profile table |
+| H1 layout (space, no `;`) | `[M:Run S:for:2]`, `[file.cs M:Run]` | CIDE — separate profile `bracket.cide-h1` (defer) |
 | Family classify (code/xml/nav) | `BracketLocate.ClassifyFamily` | **LanguageIntelligence** / CDP resolve — not notation |
 
 **Rule:** Platform owns **contract + reference parser + IR**. Planets own **profiles**, alias maps, and conformance vectors.
@@ -135,7 +169,7 @@ Notations.Bracket.All   optional meta-bundle
 
 SSOT parser: `guiders-core` **`BracketLocate`** (`Cdp.ScriptableIde`).
 
-| Behavior | In CDP code | In contract v0.19.3 |
+| Behavior | In CDP code | In contract v0.19.4 |
 |----------|-------------|---------------------|
 | `[` `]` + `;` + first-`:` KV | ✓ `SplitAxes` | ✓ profile defaults |
 | Depth-aware `;` split | ✓ `SplitTopLevel` | ✓ `RespectBracketDepthOnAxisSplit` |
@@ -143,8 +177,7 @@ SSOT parser: `guiders-core` **`BracketLocate`** (`Cdp.ScriptableIde`).
 | Nested `Anchor:[…]` | ✓ recursive `Parse` | ✓ `NestedAxisKeys` + `BracketAxis.Nested` |
 | Axis aliases F/M/L/… | ✓ `AxisAlias` | ✓ `BracketAxisAliasMap` (planet) |
 | Value `:` after first | ✓ `K:Parameter:x`, `S:if:2` | ✓ first-colon rule documented |
-| H1 space layout | CIDE regex parser | **gap** — separate profile `bracket.cide-h1` (defer) |
-| `[FRG:…]` forge family | Forge ADR 0159 | **gap** — compound tail profile (defer) |
+| Value compose (path / colon / range) | ✓ ad hoc in resolve | ✓ `BracketAxisValueClasses` + `ValuePlan` |
 | Family classify code/xml/nav | `ClassifyFamily` | **LI/CDP** — out of Notations |
 
 EditSniper / peek / land reuse **`BracketLocate.Parse`** — same profile, not a second grammar.

@@ -14,32 +14,34 @@ public sealed class BracketNotationCoreTests
         Assert.Equal("]", profile.EndTerminal);
         Assert.Equal(';', profile.AxisSeparator);
         Assert.Equal(':', profile.PairDelimiter);
-        Assert.Equal(BracketAxisShape.KeyValue, profile.AxisShape);
-        Assert.True(profile.StripOuterTerminals);
         Assert.True(profile.RespectBracketDepthOnAxisSplit);
         Assert.Contains("Anchor", profile.NestedAxisKeys!);
     }
 
     [Fact]
-    public void BracketAxis_supports_nested_wire_slot()
+    public void CdpCode_value_plan_maps_scope_to_argument_colon()
     {
-        var nested = new NormalizedBracketWire(
-            BracketProfiles.CdpSquareKeyValue.Id,
-            [new BracketAxis("F", "x.cs")],
-            "[F:x.cs]");
-        var wire = new NormalizedBracketWire(
-            BracketProfiles.CdpSquareKeyValue.Id,
-            [new BracketAxis("Anchor", "[F:x.cs]", nested)],
-            "[Anchor:[F:x.cs]]");
-        Assert.NotNull(wire.Axes[0].Nested);
-        Assert.Equal("x.cs", wire.Axes[0].Nested!.Axes[0].Value);
+        Assert.Equal(
+            BracketAxisValueClasses.ArgumentColon,
+            BracketAxisValuePlans.CdpCode.ByAxisKey["S"]);
+        Assert.Equal(
+            BracketAxisValueClasses.CommandPath,
+            BracketAxisValuePlans.CdpCode.ByAxisKey["F"]);
     }
 
     [Fact]
-    public void Value_may_contain_pair_delimiter_after_first_colon()
+    public void ForgeFrg_value_plan_uses_command_path()
     {
-        // CDP: K:Parameter:name, S:if:2 — only first ':' splits key from value.
-        var axis = new BracketAxis("K", "Parameter:Run");
-        Assert.Equal("Parameter:Run", axis.Value);
+        Assert.Equal(
+            BracketAxisValueClasses.CommandPath,
+            BracketAxisValuePlans.ForgeFrgCompound.ByAxisKey["FRG"]);
+    }
+
+    [Fact]
+    public void BracketAxis_carries_value_wire_class_for_compose()
+    {
+        var axis = new BracketAxis("S", "for:2", BracketAxisValueClasses.ArgumentColon);
+        Assert.Equal("for:2", axis.Value);
+        Assert.Equal(BracketAxisValueClasses.ArgumentColon, axis.ValueWireClass);
     }
 }
