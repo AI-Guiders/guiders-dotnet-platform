@@ -3,10 +3,10 @@
     <RootNamespace>AIGuiders.Platform.InputNotation</RootNamespace>
     <AssemblyName>AIGuiders.Platform.InputNotation.Vim</AssemblyName>
     <PackageId>AIGuiders.Platform.InputNotation.Vim</PackageId>
-    <Description>Vim-doc wire notation: &lt;C-k&gt; (quarry Neovim, GUIDERS-ADR-0016).</Description>
+    <Description>Legacy alias package — use AIGuiders.Platform.Notations.Keyboard.Vim (GUIDERS-ADR-0021 Wave 4).</Description>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.InputNotation\AIGuiders.Platform.InputNotation.csproj" />
-    <PackageReference Include="Eto.Parse" Version="1.0.0" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard.Vim\AIGuiders.Platform.Notations.Keyboard.Vim.csproj" />
   </ItemGroup>
 </Project>

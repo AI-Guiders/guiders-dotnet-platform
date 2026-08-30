@@ -81,6 +81,7 @@ Implementations **do not** live in this repo — only contracts.
 | `catalog/command-wire-v1` | TOML/JSON → descriptor IR | planned | `CommandSourceTests` | `/commands/complete` catalog load |
 | `notation/command-slash-v1` | slash body tokenize | **shipped** | `NotationConformanceTests` | — |
 | `notation/argument-kv-v1` | kv tail → slots | **shipped** | `NotationConformanceTests` | — |
+| `notation/argument-delimited-v1` | colon-delimited tail → slots | **shipped** | `NotationConformanceTests` | — |
 | `notation/invocation-parity-v1` | slash vs console → same path | **shipped** | `NotationConformanceTests` | execute routing |
 | `notation/neovim-kbd-v1` | wire → IR | **exists** (move) | `QuarryNotationConformanceTests` | — |
 | `notation/emacs-kbd-v1` | wire → IR | **exists** (move) | `QuarryNotationConformanceTests` | — |

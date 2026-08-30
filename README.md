@@ -23,13 +23,25 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.CommandPlane.Sources.File` | File transport: `FromFile`, embedded resource, extension dispatch |
 | `AIGuiders.Platform.CommandPlane.Sources.Database` | DB transport: delegate loader → Core |
 | `AIGuiders.Platform.CommandPlane.Sources` | Meta-bundle: all transports + formats |
-| `AIGuiders.Platform.InputNotation` | Core IR: `NormalizedKeySequence`, `IInputNotationReader` |
-| `AIGuiders.Platform.InputNotation.Quarry` | Shared quarry lexer, normalizer, spec conformance |
-| `AIGuiders.Platform.InputNotation.Vim` | Vim-doc wire (`&lt;C-k&gt;`, CIDE quarry) → Core |
-| `AIGuiders.Platform.InputNotation.Neovim` | Neovim `:help key-notation` wire → Core |
-| `AIGuiders.Platform.InputNotation.Emacs` | Emacs `kbd` wire (`C-x`) → Core |
-| `AIGuiders.Platform.InputNotation.KeyGesture` | KeyGesture wire (`Ctrl+K`) → Core |
-| `AIGuiders.Platform.InputNotation.All` | Meta-bundle: facade `InputNotationParser` |
+| `AIGuiders.Platform.InputNotation` | **Legacy alias** → `Notations.Keyboard` (obsolete type forwards) |
+| `AIGuiders.Platform.InputNotation.Quarry` | Legacy metapackage → `Notations.Keyboard.Quarry` |
+| `AIGuiders.Platform.InputNotation.Vim` | Legacy metapackage → `Notations.Keyboard.Vim` |
+| `AIGuiders.Platform.InputNotation.Neovim` | Legacy metapackage → `Notations.Keyboard.Neovim` |
+| `AIGuiders.Platform.InputNotation.Emacs` | Legacy metapackage → `Notations.Keyboard.Emacs` |
+| `AIGuiders.Platform.InputNotation.KeyGesture` | Legacy metapackage → `Notations.Keyboard.KeyGesture` |
+| `AIGuiders.Platform.InputNotation.All` | Legacy metapackage → `Notations.Keyboard.All` |
+| `AIGuiders.Platform.Notations` | Core IR: `NormalizedArgTail`, notation surfaces |
+| `AIGuiders.Platform.Notations.Keyboard` | Core IR: `NormalizedKeySequence`, `IKeyboardNotationReader` |
+| `AIGuiders.Platform.Notations.Keyboard.Quarry` | Shared quarry lexer, normalizer, spec conformance |
+| `AIGuiders.Platform.Notations.Keyboard.Vim` | Vim-doc wire (`&lt;C-k&gt;`, CIDE quarry) → Core |
+| `AIGuiders.Platform.Notations.Keyboard.Neovim` | Neovim `:help key-notation` wire → Core |
+| `AIGuiders.Platform.Notations.Keyboard.Emacs` | Emacs `kbd` wire (`C-x`) → Core |
+| `AIGuiders.Platform.Notations.Keyboard.KeyGesture` | KeyGesture wire (`Ctrl+K`) → Core |
+| `AIGuiders.Platform.Notations.Keyboard.All` | Meta-bundle: facade `KeyboardNotationParser` |
+| `AIGuiders.Platform.Notations.Argument.Kv` | `key=value` tail → slots |
+| `AIGuiders.Platform.Notations.Argument.Delimited` | Colon-delimited tail (`wire_class=colon`) → slots |
+| `AIGuiders.Platform.Notations.Command.Slash` | Slash body tokenize → path + tail |
+| `AIGuiders.Platform.Notations.Command.Console` | Console invocation parity harness |
 | `AIGuiders.Platform.CommandPlane.Melody` | Melody descriptors, line profile, policy (ADR-0015) |
 | `AIGuiders.Platform.CommandPlane.Binding` | Binding catalog core: merge, index, gesture normalize |
 | `AIGuiders.Platform.CommandPlane.Binding.Sources.Toml` | `hotkeys.toml` flat map (CIDE quarry) |

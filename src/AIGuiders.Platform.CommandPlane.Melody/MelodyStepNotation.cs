@@ -1,5 +1,5 @@
 #nullable enable
-using AIGuiders.Platform.InputNotation;
+using AIGuiders.Platform.Notations.Keyboard;
 
 namespace AIGuiders.Platform.CommandPlane.Melody;
 

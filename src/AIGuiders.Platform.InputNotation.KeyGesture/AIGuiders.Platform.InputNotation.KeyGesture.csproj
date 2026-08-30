@@ -3,9 +3,10 @@
     <RootNamespace>AIGuiders.Platform.InputNotation</RootNamespace>
     <AssemblyName>AIGuiders.Platform.InputNotation.KeyGesture</AssemblyName>
     <PackageId>AIGuiders.Platform.InputNotation.KeyGesture</PackageId>
-    <Description>KeyGesture wire notation: Ctrl+K, Cmd+Shift+P (GUIDERS-ADR-0016).</Description>
+    <Description>Legacy alias package — use AIGuiders.Platform.Notations.Keyboard.KeyGesture (GUIDERS-ADR-0021 Wave 4).</Description>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.InputNotation\AIGuiders.Platform.InputNotation.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard.KeyGesture\AIGuiders.Platform.Notations.Keyboard.KeyGesture.csproj" />
   </ItemGroup>
 </Project>

@@ -31,6 +31,14 @@ public sealed class NotationConformanceTests
         Assert.Empty(NotationSpecConformance.ValidateDocument(spec));
     }
 
+    [Fact]
+    public void Argument_delimited_v1_vectors_conform()
+    {
+        var spec = LoadSpec("AIGuiders.Platform.Tests.Fixtures.Notation.argument-delimited-v1.spec.json");
+        Assert.Equal("argument-delimited", spec.Surface);
+        Assert.Empty(NotationSpecConformance.ValidateDocument(spec));
+    }
+
     static NotationSpecDocument LoadSpec(string resourceName)
     {
         var asm = Assembly.GetExecutingAssembly();

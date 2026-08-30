@@ -1,7 +1,7 @@
 #nullable enable
 using AIGuiders.Platform.CommandPlane.Binding;
 using AIGuiders.Platform.CommandPlane.Binding.Sources;
-using AIGuiders.Platform.InputNotation;
+using AIGuiders.Platform.Notations.Keyboard;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

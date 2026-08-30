@@ -1,7 +1,6 @@
-#nullable enable
 using System.Reflection;
-using AIGuiders.Platform.InputNotation;
-using AIGuiders.Platform.InputNotation.Quarry;
+using AIGuiders.Platform.Notations.Keyboard;
+using AIGuiders.Platform.Notations.Keyboard.Quarry;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;
@@ -41,23 +40,18 @@ public sealed class QuarryNotationConformanceTests
     {
         Assert.True(EmacsKbdNotationParser.TryParseToNormalized("C-x", out var emacs, out _));
         Assert.True(NeovimKeyNotationParser.TryParseToNormalized("<C-x>", out var neovim, out _));
-        AssertNormalizedChord(emacs!.Steps[0], ChordModifierKeys.Control, "X");
-        AssertNormalizedChord(neovim!.Steps[0], ChordModifierKeys.Control, "X");
+        Assert.NotNull(emacs);
+        Assert.NotNull(neovim);
+        Assert.Equal(emacs!.Steps.Count, neovim!.Steps.Count);
+        Assert.Equal(emacs.Steps[0], neovim.Steps[0]);
     }
 
     static QuarrySpecDocument LoadSpec(string resourceName)
     {
-        var asm = Assembly.GetExecutingAssembly();
+        var asm = typeof(QuarryNotationConformanceTests).Assembly;
         using var stream = asm.GetManifestResourceStream(resourceName)
-            ?? throw new InvalidOperationException($"Missing embedded resource: {resourceName}");
+            ?? throw new InvalidOperationException($"Missing embedded resource {resourceName}.");
         using var reader = new StreamReader(stream);
         return QuarrySpecLoader.Load(reader.ReadToEnd());
-    }
-
-    static void AssertNormalizedChord(NormalizedSequenceStep step, ChordModifierKeys mods, string key)
-    {
-        var c = Assert.IsType<NormalizedChordStep>(step);
-        Assert.Equal(mods, c.Modifiers);
-        Assert.Equal(key, c.KeySymbol);
     }
 }

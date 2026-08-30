@@ -3,6 +3,9 @@
     <RootNamespace>AIGuiders.Platform.InputNotation</RootNamespace>
     <AssemblyName>AIGuiders.Platform.InputNotation</AssemblyName>
     <PackageId>AIGuiders.Platform.InputNotation</PackageId>
-    <Description>Input notation core: NormalizedKeySequence IR, IInputNotationReader (GUIDERS-ADR-0016).</Description>
+    <Description>Legacy alias package for keyboard notation core — use AIGuiders.Platform.Notations.Keyboard (GUIDERS-ADR-0021 Wave 4).</Description>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard\AIGuiders.Platform.Notations.Keyboard.csproj" />
+  </ItemGroup>
 </Project>

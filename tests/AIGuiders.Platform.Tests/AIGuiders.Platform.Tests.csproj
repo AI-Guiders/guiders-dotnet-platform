@@ -16,6 +16,7 @@
     <EmbeddedResource Include="Fixtures\Notation\command-slash-v1.spec.json" />
     <EmbeddedResource Include="Fixtures\Notation\argument-kv-v1.spec.json" />
     <EmbeddedResource Include="Fixtures\Notation\invocation-parity-v1.spec.json" />
+    <EmbeddedResource Include="Fixtures\Notation\argument-delimited-v1.spec.json" />
     <EmbeddedResource Include="Fixtures\MCPlane\pulse-default-v1.spec.json" />
     <EmbeddedResource Include="Fixtures\MCPlane\next-hints-v1.spec.json" />
     <None Include="Fixtures\hotkeys.toml" CopyToOutputDirectory="PreserveNewest" Link="Fixtures\hotkeys.toml" />
@@ -34,9 +35,12 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Slash\AIGuiders.Platform.CommandPlane.Slash.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Sources.Database\AIGuiders.Platform.CommandPlane.Sources.Database.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Sources\AIGuiders.Platform.CommandPlane.Sources.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.InputNotation.All\AIGuiders.Platform.InputNotation.All.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.InputNotation.Vim\AIGuiders.Platform.InputNotation.Vim.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.InputNotation.KeyGesture\AIGuiders.Platform.InputNotation.KeyGesture.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.All\AIGuiders.Platform.Notations.Keyboard.All.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.Vim\AIGuiders.Platform.Notations.Keyboard.Vim.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.KeyGesture\AIGuiders.Platform.Notations.Keyboard.KeyGesture.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.Neovim\AIGuiders.Platform.Notations.Keyboard.Neovim.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.Emacs\AIGuiders.Platform.Notations.Keyboard.Emacs.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Argument.Delimited\AIGuiders.Platform.Notations.Argument.Delimited.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Melody\AIGuiders.Platform.CommandPlane.Melody.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Binding.Sources\AIGuiders.Platform.CommandPlane.Binding.Sources.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Utilities.Adoption\AIGuiders.Platform.Utilities.Adoption.csproj" />

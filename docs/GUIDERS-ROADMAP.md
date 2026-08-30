@@ -19,6 +19,7 @@ Legend: ✅ done · 🚧 in progress · 📋 planned · ⏸ defer · 👤 operat
 | ✅ Adoption alliance automation | ADR-0022, `Utilities.Adoption.*`, `ADOPTION-ALLIANCE.generated.md` |
 | ✅ Slash arg-completion conformance | ADR-0018, `slash-arg-completion-v1` |
 | ✅ CommandPlane registry visitor + Sources | ADR-0013/0014, v0.10 |
+| ✅ Wave 4 Notations.Keyboard + Argument.Delimited | v0.12.0, ADR-0021 W2g |
 
 ---
 
@@ -64,9 +65,9 @@ Legend: ✅ done · 🚧 in progress · 📋 planned · ⏸ defer · 👤 operat
 
 | # | Deliverable | Status |
 |---|-------------|--------|
-| 4.1 | `InputNotation` → `Notations.Keyboard.*` aliases | 📋 |
+| 4.1 | `InputNotation` → `Notations.Keyboard.*` aliases | ✅ |
 | 4.2 | `Argument.Cli` (System.CommandLine quarry) | G-004, defer v2 |
-| 4.3 | `Argument.Delimited` (colon wire_class) | 📋 |
+| 4.3 | `Argument.Delimited` (colon wire_class) | ✅ |
 
 ---
 

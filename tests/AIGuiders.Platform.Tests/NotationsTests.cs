@@ -1,4 +1,5 @@
 using AIGuiders.Platform.Notations;
+using AIGuiders.Platform.Notations.Argument.Delimited;
 using AIGuiders.Platform.Notations.Argument.Kv;
 using AIGuiders.Platform.Notations.Command.Console;
 using AIGuiders.Platform.Notations.Command.Slash;
@@ -31,6 +32,16 @@ public sealed class NotationsTests
         Assert.True(ConsoleCommandNotation.TryParse("buffer open doc=README.md", out var path, out var args));
         Assert.Equal(["buffer", "open"], path.Tokens);
         Assert.Equal("README.md", args.Slots!["doc"]);
+    }
+
+    [Fact]
+    public void Delimited_parses_colon_slots()
+    {
+        var tail = DelimitedArgumentNotation.Parse("5:10");
+        Assert.Equal(DelimitedArgumentNotation.WireClassColon, tail.WireClass);
+        Assert.NotNull(tail.Slots);
+        Assert.Equal("5", tail.Slots!["0"]);
+        Assert.Equal("10", tail.Slots!["1"]);
     }
 
     [Theory]

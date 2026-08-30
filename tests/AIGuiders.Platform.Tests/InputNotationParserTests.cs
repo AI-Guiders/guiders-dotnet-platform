@@ -1,5 +1,4 @@
-#nullable enable
-using AIGuiders.Platform.InputNotation;
+using AIGuiders.Platform.Notations.Keyboard;
 using AIGuiders.Platform.CommandPlane.Melody;
 using Xunit;
 
@@ -61,16 +60,16 @@ public sealed class InputNotationParserTests
     [Fact]
     public void Facade_dispatches_by_surface()
     {
-        Assert.True(InputNotationParser.TryParseToSequence(
+        Assert.True(KeyboardNotationParser.TryParseToSequence(
             "Ctrl+K",
-            InputNotationSurface.KeyGestureConfig,
+            KeyboardNotationSurface.KeyGestureConfig,
             out var kg,
             out _));
         Assert.Single(kg!.Steps);
 
-        Assert.True(InputNotationParser.TryParseToSequence(
+        Assert.True(KeyboardNotationParser.TryParseToSequence(
             "<C-k>",
-            InputNotationSurface.VimDocument,
+            KeyboardNotationSurface.VimDocument,
             out var vim,
             out _));
         Assert.Single(vim!.Steps);

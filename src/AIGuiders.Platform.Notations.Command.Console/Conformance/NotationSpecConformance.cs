@@ -1,5 +1,6 @@
 #nullable enable
 using System.Text.Json;
+using AIGuiders.Platform.Notations.Argument.Delimited;
 using AIGuiders.Platform.Notations.Argument.Kv;
 using AIGuiders.Platform.Notations.Command.Console;
 using AIGuiders.Platform.Notations.Command.Slash;
@@ -31,6 +32,7 @@ public static class NotationSpecConformance
         {
             "command-slash" => TryValidateCommandSlash(vector, out error),
             "argument-kv" => TryValidateArgumentKv(vector, out error),
+            "argument-delimited" => TryValidateArgumentDelimited(vector, out error),
             "invocation-parity" => TryValidateInvocationParity(vector, out error),
             _ => Fail($"unknown surface \"{surface}\".", out error),
         };
@@ -68,6 +70,42 @@ public static class NotationSpecConformance
             return Fail("tail is required.", out error);
 
         var actual = KvArgumentNotation.Parse(vector.Tail);
+        var expect = vector.Expect.Slots;
+        if (expect is null)
+            return Fail("expect.slots is required.", out error);
+
+        if (actual.Slots is null)
+        {
+            error = "parser returned no slots.";
+            return false;
+        }
+
+        foreach (var (key, value) in expect)
+        {
+            if (!actual.Slots.TryGetValue(key, out var got) || got != value)
+            {
+                error = $"slot {key} expected \"{value}\", got \"{got}\".";
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    static bool TryValidateArgumentDelimited(NotationSpecVector vector, out string error)
+    {
+        error = "";
+        if (vector.Tail is null)
+            return Fail("tail is required.", out error);
+
+        var actual = DelimitedArgumentNotation.Parse(vector.Tail);
+        if (vector.Expect.WireClass is not null
+            && !string.Equals(vector.Expect.WireClass, actual.WireClass, StringComparison.Ordinal))
+        {
+            error = $"wireClass expected \"{vector.Expect.WireClass}\", got \"{actual.WireClass}\".";
+            return false;
+        }
+
         var expect = vector.Expect.Slots;
         if (expect is null)
             return Fail("expect.slots is required.", out error);

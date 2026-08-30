@@ -1,7 +1,9 @@
 {
   "rules": [
     { "prefix": "AIGuiders.Platform.CommandPlane", "hyperlane": "CommandPlane", "portHint": "dotnet-nuget" },
-    { "prefix": "AIGuiders.Platform.InputNotation", "hyperlane": "Notations.Keyboard", "portHint": "dotnet-nuget" },
+    { "prefix": "AIGuiders.Platform.InputNotation", "hyperlane": "Notations.Keyboard", "portHint": "dotnet-nuget", "note": "legacy alias; prefer Notations.Keyboard.*" },
+    { "prefix": "AIGuiders.Platform.Notations.Keyboard", "hyperlane": "Notations.Keyboard", "portHint": "dotnet-nuget" },
+    { "prefix": "AIGuiders.Platform.Notations.Argument.Delimited", "hyperlane": "Notations.Argument", "portHint": "dotnet-nuget" },
     { "prefix": "AIGuiders.Platform.Notations", "hyperlane": "Notations", "portHint": "dotnet-nuget" },
     { "prefix": "AIGuiders.Platform.Abstractions", "hyperlane": "MCPlane (seeds)", "portHint": "dotnet-nuget" },
     { "prefix": "AIGuiders.Platform.Routing", "hyperlane": "Intent/Routing", "portHint": "dotnet-nuget" },

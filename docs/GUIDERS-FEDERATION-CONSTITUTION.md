@@ -132,7 +132,7 @@ One `commandId`; mechanics are how you **play** it; `c:` is the **score on the w
 | **Command plane** | `CommandPlane` (core) · `.Slash` · `.Sources` · `.Melody` · `.Binding` · `.Binding.Sources` | Registry hub; slash/melody/binding mechanics à la carte (ADR-0015, ADR-0017) | Forge, CIDE, DashSpec |
 | **Agent ingress (MCPlane)** | `Abstractions` today → `MCPlane` (draft) | Pulse/default, `next[]`, detail tiers, catalog projection — **not** MCP wire ([ADR-0020](adr/GUIDERS-ADR-0020-mcplane-agent-ingress.md)) | Forge MCP (embassy), any agent host |
 | **Notations** | `Notations` (core) · `.Quarry` · `.Keyboard.*` · `.Command.*` · `.Argument.*` · `.All` — supersedes `InputNotation.*` naming ([ADR-0021](adr/GUIDERS-ADR-0021-notations-quarry-family.md)); `InputNotation.*` ships until alias wave | Wire → IR quarry; keyboard + command-line + arg tails; native port per stack | CIDE, Forge slash JS port |
-| **Input notation** (legacy label) | `InputNotation.*` → migrate to `Notations.Keyboard.*` ([ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md)) | Same keyboard IR; rename in progress | CIDE (.NET) |
+| **Input notation** (legacy label) | `InputNotation.*` → migrate to `Notations.Keyboard.*` ([ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md)); alias metapackages ship in v0.12+ | Same keyboard IR; CIDE pin migration pending | CIDE (.NET) |
 | **Intent / routing** | `AIGuiders.Platform.Routing`, `Abstractions` | Intent organ **contracts** (neutral) | planets that embed organs |
 | **Cockpit** | `AIGuiders.Platform.Cockpit.*` | Channels, DataBus, CCU contracts | CIDE, Glass (CDP may pin; not SSOT) |
 | **UI semantics** | `guiders-ui-platform` (`AIGuiders.UI.*`) | Tokens, Agent AX, adapters | Forge View (embassy) |
