@@ -5,7 +5,7 @@
 | **Status** | Draft (open questions) |
 | **Date** | 2026-08-29 |
 | **Tags** | #guiders #platform #mcp #mcplane #agent #pulse #commandplane #conformance |
-| **Relates to** | GUIDERS-ADR-0009 · GUIDERS-ADR-0014 · GUIDERS-ADR-0018 · GUIDERS-ADR-0019 · GUIDERS-ADR-0007 · CDP-ADR-0020 · FORGE-ADR-0025 |
+| **Relates to** | GUIDERS-ADR-0015 · GUIDERS-ADR-0016 · GUIDERS-ADR-0018 · GUIDERS-ADR-0019 · GUIDERS-ADR-0020 · GUIDERS-ADR-0021 |
 
 ## Context
 

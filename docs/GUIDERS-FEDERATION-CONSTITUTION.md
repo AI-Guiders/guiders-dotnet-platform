@@ -31,7 +31,7 @@ Federation sells **roads and signage**, not citizenship in a single app.
 |-------|------------------|--------------------------------|
 | **Contract** | IR, schemas, `commandId`, catalog shape | — |
 | **Signage** | `aiguiders-conformance` repo (`*.spec.json`, schemas, RULES); npm `@aiguiders/conformance` — [ADR-0019](adr/GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md); bootstrap copy in `docs/conformance/` | — |
-| **Reference quarry** | `.NET` packages (`InputNotation.*`, `CommandPlane.*`) — **embassy, not gate** | may pin NuGet as-is |
+| **Reference quarry** | `.NET` packages (`Notations.*`, `InputNotation.*` legacy alias, `CommandPlane.*`) — **embassy, not gate** | may pin NuGet as-is |
 | **Wire → IR** | spec + reference parser | **port** to TS (VS Code), Kotlin (JetBrains), PHP, … |
 | **IR → input** | — | key match, `KeyBinding`, `keydown`, OS shortcuts |
 | **Surface** | — | WPF, Avalonia, Blazor, extension host |
@@ -78,7 +78,8 @@ Keyboard-as-instrument canon ([GUIDERS-ADR-0015](adr/GUIDERS-ADR-0015-invocation
 | **Melody** | Sequential line after root — e.g. `<Ctrl+K>` `b` `s` (+ optional tail) | palette text mode |
 | **Articulation** | Per-step play style inside a melody — **ByNote** (single key) or **ByChord** (gesture as one step) | not a fourth mechanic |
 | **Profile** | Line policy — **PureByNote** (default), **PureByChord**, or **Mixed** (explicit hybrid) | not a step type |
-| **Input notation** | Quarry: Vim + KeyGesture → `NormalizedKeySequence` (`InputNotationParser`) | UI render / key match stay product |
+| **Input notation** | Quarry: Vim + KeyGesture → `NormalizedKeySequence` (`InputNotationParser`; target **`Notations.Keyboard.*`** — [ADR-0021](adr/GUIDERS-ADR-0021-notations-quarry-family.md)) | UI render / key match stay product |
+| **Command / argument notation** | Quarry: slash + console wire → `NormalizedCommandLine` + `NormalizedArgTail` (`Notations.Command.*`, `Notations.Argument.*` — [ADR-0021](adr/GUIDERS-ADR-0021-notations-quarry-family.md)) | path resolve / execute stay CommandPlane |
 | **Binding** | Direct hotkey → `commandId` or surface opener (`Ctrl+Q`, chord root assignment) | slug/tail parser |
 | **`c:`** | Palette **discoverability** prefix (Ctrl+Q) — browse melody catalog, Help | **not** the melody mechanic |
 
@@ -92,7 +93,8 @@ One `commandId`; mechanics are how you **play** it; `c:` is the **score on the w
 |-----------|----------------|------|-------------------|
 | **Command plane** | `CommandPlane` (core) · `.Slash` · `.Sources` · `.Melody` · `.Binding` · `.Binding.Sources` | Registry hub; slash/melody/binding mechanics à la carte (ADR-0015, ADR-0017) | Forge, CIDE, DashSpec |
 | **Agent ingress (MCPlane)** | `Abstractions` today → `MCPlane` (draft) | Pulse/default, `next[]`, detail tiers, catalog projection — **not** MCP wire ([ADR-0020](adr/GUIDERS-ADR-0020-mcplane-agent-ingress.md)) | cdp-mcp, Forge MCP |
-| **Input notation** | `InputNotation` (core) · `.Quarry` · `.Neovim` · `.Emacs` · `.Vim` · `.KeyGesture` · `.All` | IR + spec JSON + .NET reference quarry; **native port** per stack ([ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md)) | CIDE (.NET); VS Code / JetBrains / … own ports |
+| **Notations** | `Notations` (core) · `.Quarry` · `.Keyboard.*` · `.Command.*` · `.Argument.*` · `.All` — supersedes `InputNotation.*` naming ([ADR-0021](adr/GUIDERS-ADR-0021-notations-quarry-family.md)); `InputNotation.*` ships until alias wave | Wire → IR quarry; keyboard + command-line + arg tails; native port per stack | CIDE, Forge slash JS port |
+| **Input notation** (legacy label) | `InputNotation.*` → migrate to `Notations.Keyboard.*` ([ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md)) | Same keyboard IR; rename in progress | CIDE (.NET) |
 | **Intent / routing** | `AIGuiders.Platform.Routing`, `Abstractions` | Intent organs, outcome shapes | CDP habitat |
 | **Cockpit** | `AIGuiders.Platform.Cockpit.*` | Channels, DataBus, CCU contracts | Glass, CDP |
 | **UI semantics** | `guiders-ui-platform` (`AIGuiders.UI.*`) | Tokens, Agent AX, adapters | Forge View (embassy) |
