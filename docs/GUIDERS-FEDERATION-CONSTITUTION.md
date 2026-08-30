@@ -25,9 +25,31 @@ Federation sells **roads and signage**, not citizenship in a single app.
 
 **Friction log:** [GUIDERS pain inventory](GUIDERS-pain-inventory.md) — why hyperlanes exist (notation stitch, agent ingress, «инженер заебался» tier).  
 **Roadmap:** [GUIDERS-ROADMAP.md](GUIDERS-ROADMAP.md) — living backlog across waves.  
-**Fleet thesis:** [PLATFORM-FLEET-THESIS.md](PLATFORM-FLEET-THESIS.md) — throughput, management, Cockpit vs web vs embed (draft).
+**Fleet thesis:** [PLATFORM-FLEET-THESIS.md](PLATFORM-FLEET-THESIS.md) — AI Era stack: Aviation + Agent Env + CASE (draft).
 
-### Native ports, not platform bindings
+### AI Era stack — three pillars, neighbors not war
+
+The product center is **not** one planet eating others. Three traditions compose the candy AI Era needs; each has a **home planet or hyperlane**, wired by protocol — not merger:
+
+| Pillar | What it gives | Question answered | Home |
+|--------|---------------|-------------------|------|
+| **Aviation** | Crew interaction — attention split, cognitive budget, pressure, briefing, CRM between humans and agents | *Who watches what, under load, before we act?* | Platform `Cockpit.*` + CIDE/Glass (ADR-0007) |
+| **Agent Env** | Agent habitat — memory, gates, packs, journal; mutate habitat outside raw chat context | *Where does the agent live and remember?* | **CDP** (`cdp-mcp`) — sovereign planet |
+| **CASE** | SE **Vision / Decision Environment** — estate topology, multi-view workbench, trace, review-before-commit | *What are we steering, and what changes if we ship?* | Platform workbench + conformance (ADR-0023) |
+
+```text
+     Human crew (Aviation)          Vision / Decision (CASE)
+              \                            /
+               \   hyperlanes (platform)   /
+                \   MCPlane · Cockpit ·   /
+                 \  Notations · vectors  /
+                  \                      /
+                   Agent Env (CDP) — memory & habitat
+```
+
+**Neighbors collaborate:** Platform ships **roads** (neutral IR, conformance, MCPlane tiers). CDP dogfoods Agent Env and **pins** platform packages — its Citizen/buffer wire stays on CDP. CIDE/Glass dogfood **human embassy** (aviation attention over CASE estate views). Forge, ANPM, third parties adopt hyperlanes at their pace. **Informative ≠ normative** (see § Planets are not federation SSOT). Compete on product; integrate on protocol.
+
+---
 
 **Already normative** in [GUIDERS-ADR-0006 §2](adr/GUIDERS-ADR-0006-confederation-charter.md) (*Native per ecosystem*), [GUIDERS-ADR-0016 non-goals](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md), [GUIDERS-ADR-0015 non-goals](adr/GUIDERS-ADR-0015-invocation-mechanics-slash-melody-binding.md) — promoted here so Constitution readers see it without ADR archaeology.
 

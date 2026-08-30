@@ -1,32 +1,33 @@
-# GUIDERS-ADR-0023: CASE workbench heritage — platform center (draft)
+# GUIDERS-ADR-0023: CASE workbench — Vision / Decision Environment (draft)
 
 **Status:** draft (2026-08-30)  
-**Tags:** #guiders #platform #case #workbench #fleet #rose #model-driven #mcplane  
+**Tags:** #guiders #platform #case #workbench #fleet #rose #agent-env #aviation #mcplane  
 **Related:** GUIDERS-ADR-0007 · GUIDERS-ADR-0001 · GUIDERS-ADR-0006 · GUIDERS-ADR-0020 · GUIDERS-ADR-0022 · [PLATFORM-FLEET-THESIS](../PLATFORM-FLEET-THESIS.md)
 
 ---
 
 ## Context
 
-Guiders Platform product center is a **desktop workbench** for fleet / protocol-estate operations (see fleet thesis §3.1, §6).
+Guiders AI Era product center composes **three pillars** (fleet thesis §3.1–3.2):
 
-Two heritages compose it — **not** competing metaphors:
+| Pillar | Role | Home |
+|--------|------|------|
+| **Aviation** | Crew attention — cognitive budget, pressure, briefing, human+agent CRM | ADR-0007 · `Cockpit.*` · CIDE/Glass |
+| **Agent Env** | Agent habitat — memory, gates, packs, journal | **CDP planet** (`cdp-mcp`); MCPlane = federation ingress |
+| **CASE** (this ADR) | **Vision / Decision Environment** for SE — estate model, views, trace, review | Platform workbench + conformance |
 
-| Heritage | Question answered | Normative home |
-|----------|-------------------|----------------|
-| **Aviation** (ADR-0007) | How does operator **attention** route? | CDS, displays, phases, briefing, EICAS |
-| **CASE** (this ADR) | What **estate object** is being steered? | Scopes, topology, traceability, workbench posture |
+This ADR normates the **CASE pillar** only. It does not subsume Aviation glossary (ADR-0007) or CDP product law.
 
-ADR-0007 remains **aviation-only** for attention and accessibility glossary. CASE vocabulary applies to **estate modeling and workbench semantics** — topology, views, sync, trace — not to replace PFD/MFD/EICAS terms.
+**Neighbors, not war:** Platform ships hyperlanes; CDP ships Agent Env; CIDE/Glass ship human embassy. Compose on protocol — see Constitution § AI Era stack.
 
 ---
 
 ## Decision
 
-1. **Platform center = CASE-class workbench** on desktop, architecturally non-optional for full fleet ops (ingress satellites allowed; replacement not).
-2. **Aviation + CASE compose:** CDS routes attention **over** CASE-shaped estate views (Fleet / Planet / Live scopes).
+1. **CASE pillar = desktop Vision/Decision Environment** for protocol estates — architecturally non-optional for full fleet ops (ingress satellites allowed; replacement not).
+2. **Three pillars compose:** Aviation routes **crew attention** over CASE **decision views**, while Agent Env maintains **model hygiene** and habitat (CDP + MCPlane).
 3. **Living model** is machine-maintained SSOT under test — not hand-drawn UML as source of truth.
-4. **AI + conformance** provide the round-trip sync layer the Rose era lacked.
+4. **AI + conformance + Agent Env** provide the sync layer the Rose era lacked.
 
 ---
 
@@ -41,7 +42,7 @@ ADR-0007 remains **aviation-only** for attention and accessibility glossary. CAS
 | Round-trip engineering | Conformance harness + adoption drift CI | Fail on pin ≠ reality |
 | Impact analysis | Briefing before release (pins, alliance row, pains) | Aviation briefing slot |
 | Workbench session | CIDE/Glass embassy, hours-in-seat | friction-book ch.24 production channel |
-| Forward / reverse engineering | Agent maintains vectors; human reviews in workbench | MCPlane clerk, not autopilot |
+| Forward / reverse engineering | Agent Env maintains vectors; human reviews in workbench | MCPlane + CDP habitat; not autopilot |
 
 **Explicit non-goals (v1):** resurrect UML as primary notation; code-gen from diagrams as center; web-only «fleet dashboard» as workbench substitute.
 
@@ -64,15 +65,15 @@ The federation is already building the Rose **that syncs** — without requiring
 
 ---
 
-## Attention scopes (CASE object × aviation instruments)
+## Attention scopes (CASE object × aviation crew discipline)
 
-| Scope | CASE «view» | Aviation instruments (fill) |
-|-------|-------------|----------------------------|
-| **Fleet** | Formation / portfolio topology | Course, attractions, fleet health rollup |
-| **Planet / Ship** | Product / release-train view | Local course, health, ship briefing |
-| **Live / Ecosystem** | Infrastructure / platform substrate | Life-support fuel, pressure, hull |
+| Scope | CASE «view» | Aviation crew role |
+|-------|-------------|-------------------|
+| **Fleet** | Formation / portfolio topology | Shared picture; who owns fleet course |
+| **Planet / Ship** | Product / release-train view | Local PFD; ship crew briefing |
+| **Live / Ecosystem** | Infrastructure substrate | Engineering / ground crew contour |
 
-Scope switch = change **model root**; display grammar unchanged (ADR-0007).
+Scope switch = change **decision root**; crew attention rules unchanged (ADR-0007).
 
 ---
 
@@ -92,7 +93,7 @@ Normative channel IDs and DTOs — follow-on quarry after L1 telemetry stable (r
 ## Consequences
 
 - Roadmap **Wave 6** tracks workbench center explicitly (not only protocol waves).
-- Product positioning: **Platform Workbench** for protocol estates — aviation UX on CASE object model.
+- Product positioning: **Vision/Decision workbench** for protocol estates — aviation crew discipline on CASE estate model, Agent Env as neighbor habitat.
 - Essays and friction-book may cite this ADR; **normative behavior lives here and in fleet thesis**.
 
 ---
