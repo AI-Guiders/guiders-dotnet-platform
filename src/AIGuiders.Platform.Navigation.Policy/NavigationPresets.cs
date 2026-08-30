@@ -12,13 +12,20 @@ public static class NavigationPresets
     static readonly IReadOnlyDictionary<string, NavigationPresetDefinition> Catalog =
         new Dictionary<string, NavigationPresetDefinition>(StringComparer.Ordinal)
         {
-            ["peers_only"] = new(["partial_peer", "project_peer"], null),
-            ["no_namespace_noise"] = new(null, ["same_namespace", "same_directory"]),
-            ["tests_and_peers"] = new(["partial_peer", "project_peer", "test_counterpart"], null),
-            ["structure_only"] = new(
-                ["partial_peer", "project_peer", "xaml_codebehind_pair", "same_directory"],
+            ["peers_only"] = new([NavigationRelatedKinds.PartialPeer, NavigationRelatedKinds.ProjectPeer], null),
+            ["no_namespace_noise"] = new(null, [NavigationRelatedKinds.SameNamespace, NavigationRelatedKinds.SameDirectory]),
+            ["tests_and_peers"] = new(
+                [NavigationRelatedKinds.PartialPeer, NavigationRelatedKinds.ProjectPeer, NavigationRelatedKinds.TestCounterpart],
                 null),
-            ["explore_default"] = new(null, ["project_peer"]),
+            ["structure_only"] = new(
+                [
+                    NavigationRelatedKinds.PartialPeer,
+                    NavigationRelatedKinds.ProjectPeer,
+                    NavigationRelatedKinds.XamlCodeBehindPair,
+                    NavigationRelatedKinds.SameDirectory,
+                ],
+                null),
+            ["explore_default"] = new(null, [NavigationRelatedKinds.ProjectPeer]),
         };
 
     public static bool TryGet(string? presetId, out NavigationPresetDefinition definition)

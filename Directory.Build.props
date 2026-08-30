@@ -8,7 +8,7 @@
     <Authors>AI Guiders</Authors>
     <Company>AI Guiders</Company>
     <Product>Guiders Platform</Product>
-    <Version>0.29.0</Version>
+    <Version>0.29.1</Version>
     <TomlynVersion>2.10.1</TomlynVersion>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>

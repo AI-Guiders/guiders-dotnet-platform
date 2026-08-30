@@ -11,6 +11,38 @@ namespace AIGuiders.Platform.Tests;
 public sealed class NavigationTests
 {
     [Fact]
+    public void Preset_merge_peers_only_yields_include_partial_and_project_peer()
+    {
+        var (inc, exc, err) = NavigationPresetMerge.Merge("peers_only", null, null);
+        Assert.Null(err);
+        Assert.NotNull(inc);
+        Assert.Contains(NavigationRelatedKinds.PartialPeer, inc);
+        Assert.Contains(NavigationRelatedKinds.ProjectPeer, inc);
+        Assert.Equal(2, inc!.Count);
+        Assert.Empty(exc!);
+    }
+
+    [Fact]
+    public void Preset_merge_unknown_preset_returns_error()
+    {
+        var (_, _, err) = NavigationPresetMerge.Merge("no_such_preset", null, null);
+        Assert.NotNull(err);
+        Assert.Contains("Неизвестный пресет", err, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Kind_filter_unions_preset_and_request_exclude()
+    {
+        var (_, exc, err) = NavigationPresetMerge.Merge(
+            "explore_default",
+            null,
+            ["same_directory"]);
+        Assert.Null(err);
+        Assert.Contains(NavigationRelatedKinds.ProjectPeer, exc!);
+        Assert.Contains(NavigationRelatedKinds.SameDirectory, exc!);
+    }
+
+    [Fact]
     public void Explore_default_preset_excludes_project_peer()
     {
         const string wire = """

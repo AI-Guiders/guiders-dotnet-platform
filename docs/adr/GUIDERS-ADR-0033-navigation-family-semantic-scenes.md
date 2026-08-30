@@ -41,7 +41,10 @@ Roslyn MCP JSON (`mode=related`, `items[]`) is an **input dialect** parsed by `N
 
 ### Presets (shared with roslyn-mcp)
 
-Bundled ids aligned with Cascade IDE / `BundledWorkspaceNavigationPresets`:
+SSOT: `NavigationPresets` + `NavigationPresetMerge` + `NavigationKindFilter` + `NavigationRelatedKinds` in **Navigation.Policy**.  
+`RoslynMcp.Core` consumes the platform package (v0.29.1+); no duplicate bundled JSON in the host.
+
+Bundled ids aligned with Cascade IDE `WorkspaceNavigation/presets.toml`:
 
 | Preset | Role |
 |--------|------|
@@ -51,7 +54,7 @@ Bundled ids aligned with Cascade IDE / `BundledWorkspaceNavigationPresets`:
 | `no_namespace_noise` | exclude loose directory/namespace |
 | `tests_and_peers` | tests + peers |
 
-Kind caps (related mode): `same_directory≤4`, `same_namespace≤4`, `project_peer≤3`.
+Kind caps (related mode): `NavigationKindCaps.DefaultRelated` — `same_directory≤4`, `same_namespace≤4`, `project_peer≤3`.
 
 ### Conformance
 
