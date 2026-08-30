@@ -66,7 +66,7 @@ WIRE FORMAT(s)  →  IR (branch Core)  →  MECHANIC / product
 | **Keyboard** | How is a key/gesture written? | `NormalizedKeySequence` | Vim, Neovim, Emacs, KeyGesture |
 | **Command** | How is a command **named** in text? | `NormalizedCommandLine` | Slash path, console path, flat verb |
 | **Argument** | How are **params** written after the name? | `NormalizedArgTail` | slash remainder, `key=value`, JSON (optional) |
-| **Bracket** | How is a **paired-delimiter** payload written? | `NormalizedBracketWire` | `<C-k>`, `[inner]`, CSX `[F:…;M:…]` |
+| **Bracket** | How is a **paired-delimiter** payload written? | `NormalizedBracketWire` + `BracketNotationProfile` | `[F:…;M:…]`, `<C-k>` (profile-specific) |
 
 **Compose at resolve time:**
 
@@ -104,10 +104,8 @@ Notations.Argument.Cli      (v2) POSIX/GNU-like flags via System.CommandLine qua
 Notations.Argument.PowerShell (defer) `-Name Value` grammar
 Notations.Argument.Json     (defer) schema-shaped args for MCP symmetry
 
-Notations.Bracket           NormalizedBracketWire, IBracketNotationReader ([ADR-0026](GUIDERS-ADR-0026-notations-bracket-branch.md))
-Notations.Bracket.Angle     `<…>` keyboard special-key (migrate QuarryBracketTokenParser)
-Notations.Bracket.Square    `[…]` generic inner
-Notations.Bracket.Anchor    CSX slot grammar `[F:…;M:…]`
+Notations.Bracket           BracketNotationProfile, BracketAxis, NormalizedBracketWire ([ADR-0026](GUIDERS-ADR-0026-notations-bracket-branch.md))
+Notations.Bracket.All       optional meta-bundle; planet profiles via conformance specs
 
 Notations.All               optional meta-bundle
 ```

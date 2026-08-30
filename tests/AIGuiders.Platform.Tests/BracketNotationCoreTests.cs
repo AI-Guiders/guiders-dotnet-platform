@@ -7,11 +7,25 @@ namespace AIGuiders.Platform.Tests;
 public sealed class BracketNotationCoreTests
 {
     [Fact]
-    public void NormalizedBracketWire_carries_pair_and_inner()
+    public void SquareKeyValue_profile_uses_default_delimiters()
     {
-        var wire = new NormalizedBracketWire(BracketPairKind.Angle, "C-k", Raw: "<C-k>");
-        Assert.Equal(BracketPairKind.Angle, wire.Pair);
-        Assert.Equal("C-k", wire.Inner);
-        Assert.Equal("<C-k>", wire.Raw);
+        var profile = BracketProfiles.SquareKeyValue;
+        Assert.Equal("[", profile.StartTerminal);
+        Assert.Equal("]", profile.EndTerminal);
+        Assert.Equal(';', profile.AxisSeparator);
+        Assert.Equal(':', profile.PairDelimiter);
+        Assert.Equal(BracketAxisShape.KeyValue, profile.AxisShape);
+    }
+
+    [Fact]
+    public void NormalizedBracketWire_carries_axes_and_profile()
+    {
+        var wire = new NormalizedBracketWire(
+            BracketProfiles.SquareKeyValue.Id,
+            [new BracketAxis("F", "Program.cs"), new BracketAxis("M", "Foo")],
+            "[F:Program.cs;M:Foo]");
+        Assert.Equal(2, wire.Axes.Count);
+        Assert.Equal("F", wire.Axes[0].Key);
+        Assert.Equal("Program.cs", wire.Axes[0].Value);
     }
 }

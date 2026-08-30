@@ -2,30 +2,41 @@
 
 Canonical plan: [GUIDERS-ADR-0026](../adr/GUIDERS-ADR-0026-notations-bracket-branch.md).
 
+## Contract (federation SSOT)
+
+| Field | Default | Role |
+|-------|---------|------|
+| `StartTerminal` / `EndTerminal` | `[` `]` | paired delimiters |
+| `AxisSeparator` | `;` | splits **axes** |
+| `PairDelimiter` | `:` | splits **key** / **value** within an axis |
+| `Axes[]` | — | normalized output (`BracketAxis`) |
+
+Planets ship **profiles** (concrete terminals + delimiters + axis key vocabulary). Platform ships **contract + IR + reference parser**.
+
 ## Current state (Phase 0)
 
 | Location | Status |
 |----------|--------|
-| `Notations.Keyboard.Quarry/QuarryBracketTokenParser` | **Angle bracket** lexer — stays until Phase 1 extract |
-| `Notations.Keyboard.Vim/VimChordNotationParser` | **Square** inner parse — candidate for `Bracket.Square` |
-| CIDE CSX `[F:…;M:…]` | Planet wire — target `Notations.Bracket.Anchor` |
-| `Notations.Bracket` Core | IR stubs (`NormalizedBracketWire`, …) |
+| `Notations.Bracket` Core | `BracketNotationProfile`, `BracketAxis`, `BracketProfiles` constants |
+| `Notations.Keyboard.Quarry/QuarryBracketTokenParser` | Angle opaque profile seed — Phase 1 → `BracketReader` |
+| CIDE CSX `[F:…;M:…]` | Planet profile `bracket.square-kv` — conformance Phase 2 |
 
-## Phase 1 move list
+## Phase 1
 
 ```
-Notations.Keyboard.Quarry/QuarryBracketTokenParser  → Notations.Bracket.Angle (delegate from Keyboard)
+Implement BracketReader(wire, profile) in Core
+Keyboard.Quarry → BracketProfiles.AngleOpaque
 ```
 
 ## Phase 2
 
 ```
-CIDE CSX anchor wire grammar  → Notations.Bracket.Anchor
-LI.Anchors IAnchorResolver    ← consumes NormalizedBracketWire (not raw parse)
+notation/bracket-square-kv fixtures (CSX anchor wire)
+LI IAnchorResolver ← NormalizedBracketWire.Axes (F/M meaning in adapter)
 ```
 
 ## Anti-patterns
 
-- New bracket lexers inside `LanguageIntelligence.*`
-- Duplicating `<…>` parse in every keyboard dialect package
-- Treating CSX bracket wire as federation SSOT before conformance vectors exist
+- Hard-coded `[` `]` parser per product
+- Axis key semantics (`F`, `M`, `L`) in Notations package
+- Duplicating bracket lexers inside `LanguageIntelligence.*`

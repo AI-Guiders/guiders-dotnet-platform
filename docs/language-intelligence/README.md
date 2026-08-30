@@ -23,7 +23,7 @@ CommandPlane.Slash/Editor/Commands/*         → product registry (CIDE/Forge) o
 
 ## Phase 2+
 
-- Bracket wire parse: [Notations.Bracket](../notations/bracket/README.md) (`Bracket.Anchor` dialect)
+- Bracket wire parse: [Notations.Bracket](../notations/bracket/README.md) — profile contract; axis key meaning in LI adapter
 - Anchor resolve conformance + `IAnchorResolver` implementations per adapter package
 - Sniper scope alignment with CDP `EditSniper`
 

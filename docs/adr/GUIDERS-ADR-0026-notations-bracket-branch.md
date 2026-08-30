@@ -16,17 +16,16 @@
 | Wire | Example | Today | Consumer |
 |------|---------|-------|----------|
 | Keyboard angle | `<C-k>`, `<S-Tab>` | `QuarryBracketTokenParser`, Vim grammar | `Notations.Keyboard.*` → chord step |
-| Keyboard square | `[inner]` (Vim chord) | `VimChordNotationParser.ParseBracketInner` | Melody / Vim reader |
 | CSX Anchor | `[F:file.cs;M:Foo]` | CIDE CSX (planet) | locate / sniper corridor |
-| Sniper pad | `L:12-34` (defer) | CDP EditSniper | corridor scope |
+| Keyboard square | `[inner]` (Vim chord) | `VimChordNotationParser` | Melody / Vim reader |
 
 Operator insight (2026-08-30): **bracket lexing is notation**, not language intelligence. Same hyperlane as Keyboard / Command / Argument:
 
 ```text
-WIRE (paired delimiters)  →  IR (NormalizedBracketWire)  →  MECHANIC / resolve
+WIRE + profile  →  IR (NormalizedBracketWire)  →  MECHANIC / resolve
 ```
 
-**LanguageIntelligence** resolves **meaning** (Anchor → `Locus`, tier). **Notations.Bracket** parses **surface** (delimiters, inner text, slot split).
+**LanguageIntelligence** resolves **meaning** (Anchor → `Locus`, tier). **Notations.Bracket** parses **surface** only.
 
 ---
 
@@ -44,75 +43,107 @@ Notations
 └── Bracket.*          ← NEW (this ADR)
 ```
 
-### 2. Core IR
+### 2. General wire contract (federation SSOT)
+
+Bracket is **not** a fixed `[` `]` grammar. Federation ships a **parameterized contract**; **planets** (and conformance specs) supply **profiles**:
+
+| Field | Role | Default (CSX-style) |
+|-------|------|---------------------|
+| **StartTerminal** | opening delimiter | `[` |
+| **EndTerminal** | closing delimiter | `]` |
+| **AxisSeparator** | splits **axes** inside the pair | `;` |
+| **PairDelimiter** | splits **key** vs **value** within an axis | `:` |
+| **AxisShape** | how inner tokenizes into axes | `KeyValue` |
+
+Parsed IR:
 
 ```text
-Notations.Bracket (Core)     NormalizedBracketWire, BracketPairKind, BracketSlot, IBracketNotationReader
-    ├── .Angle               `<…>` keyboard special-key (migrate QuarryBracketTokenParser)
-    ├── .Square              `[…]` generic inner (Vim chord subset)
-    ├── .Anchor              CSX `[F:…;M:…]` slot grammar → slots + inner
-    └── .All                 optional meta-bundle
+NormalizedBracketWire
+├── ProfileId          (which contract instance was used)
+├── Axes[]           ordered axis records
+│   └── BracketAxis  { Key, Value }   // KV pair per axis when AxisShape = KeyValue
+└── Raw                original wire
 ```
 
-```csharp
-record NormalizedBracketWire(
-    BracketPairKind Pair,           // Angle | Square
-    string Inner,
-    IReadOnlyList<BracketSlot>? Slots,
-    string? Raw);
+Example CSX anchor profile (`Start=`[`, End=`]`, `;`, `:`):
 
-record BracketSlot(string Key, string Value);
+```text
+[F:Program.cs;M:Foo.Bar]
+  → Axes[0] { Key=F, Value=Program.cs }
+  → Axes[1] { Key=M, Value=Foo.Bar }
 ```
 
-**Compose with other branches:** Keyboard readers may call `Bracket.Angle` internally; Anchor builders emit raw wire → `Bracket.Anchor` reader → LI resolver.
+Example keyboard angle profile (`Start=`<`, End=`>`, **Opaque** inner — no axis split):
 
-### 3. Boundary vs LanguageIntelligence
+```text
+<C-S-Tab>
+  → Axes[0] { Key=_ , Value=C-S-Tab }   // or planet maps inner → Keyboard IR
+```
+
+**Rule:** Platform owns **contract + reference parser + IR**. Planets own **profile values**, axis key vocabulary (`F`, `M`, `L`, …), and conformance vectors — same pattern as `wire_class` on Argument.
+
+### 3. Package map (target)
+
+```text
+Notations.Bracket (Core)
+    BracketNotationProfile, BracketAxis, NormalizedBracketWire
+    IBracketNotationReader(wire, profile)
+    BracketProfiles.*     well-known federation profiles (optional constants)
+    BracketReader         reference lexer (Phase 1+)
+
+Notations.Bracket.All   optional meta-bundle
+```
+
+**No** mandatory per-shape NuGet splits — profiles are **IDs** in conformance specs (`notation/bracket-square-kv`, `notation/bracket-angle-opaque`). Products may ship extra profiles locally until promoted to federation.
+
+### 4. Boundary vs LanguageIntelligence
 
 | Layer | Owns |
 |-------|------|
-| **Notations.Bracket.*** | Delimiter pair, inner string, slot tokenization (`;`, `:` rules per dialect) |
-| **LanguageIntelligence.Anchors** | `AnchorIntent`, `IAnchorResolver`, `Locus`, `ResolveTier` |
+| **Notations.Bracket** | Terminals, axis split, KV split, `NormalizedBracketWire` |
+| **LanguageIntelligence.Anchors** | Axis **meaning** (`F` → file path), `IAnchorResolver`, `Locus`, `ResolveTier` |
 | **CDP / CIDE** | Live buffer, EditSniper UI, CSX public `Anchor` entity name |
 
-`LanguageIntelligence.AnchorWire` (Phase 0 stub) remains the **resolve input bag**; Phase 2 prefer **`NormalizedBracketWire`** from Notations as the typed handoff (raw string fallback ok for one release).
+`LanguageIntelligence.AnchorWire` (Phase 0 stub) remains a resolve input bag; Phase 2 handoff is **`NormalizedBracketWire`** + profile id.
 
-### 4. Migration phases
+### 5. Migration phases
 
 | Phase | Action |
 |-------|--------|
-| **0 (now, v0.19.1)** | This ADR; `Notations.Bracket` Core stub; cross-links in ADR-0021/0025 |
-| **1** | Shared angle lexer in `Notations.Bracket.Angle`; Keyboard.Quarry delegates (no behavior change) |
-| **2** | `Notations.Bracket.Anchor` + conformance `notation/bracket-anchor`; LI `IAnchorResolver` consumes IR |
-| **3** | Optional `Bracket.Square` unify Vim inner parse; sniper `L:` wire as product or `Bracket.Corridor` defer |
+| **0 (now)** | This ADR; Core IR (`BracketNotationProfile`, `BracketAxis`, …) |
+| **1** | `BracketReader` implements contract; Keyboard.Quarry angle path uses **Opaque** profile; behavior unchanged |
+| **2** | Conformance `notation/bracket-square-kv` (CSX anchor fixtures); LI resolver consumes `Axes[]`, not raw parse |
+| **3** | Planet-specific profiles promoted to federation only when vectors exist |
 
-### 5. Conformance backlog
+### 6. Conformance backlog
 
-| Spec | Proves | Phase |
-|------|--------|-------|
-| `notation/bracket-angle` | `<C-a>` → inner + modifier split | 1 |
-| `notation/bracket-anchor` | `[F:x;M:y]` → slots | 2 |
-| `language-intelligence/anchor-resolve` | normalized wire → locus + tier | 2 (ADR-0025) |
+| Spec | Profile | Proves |
+|------|---------|--------|
+| `notation/bracket-square-kv` | `[` `]` `;` `:` | axis + KV split |
+| `notation/bracket-angle-opaque` | `<` `>` opaque | inner blob (keyboard quarry) |
+| `language-intelligence/anchor-resolve` | (LI) | `Axes[]` → locus + tier |
 
 ---
 
 ## Non-goals
 
-- Replacing `NormalizedKeySequence` — angle brackets stay **input** to keyboard IR, not a second keyboard IR
+- Federation SSOT for axis **key semantics** (`F`, `M`, `L`) — planet / LI adapter
+- Replacing `NormalizedKeySequence` — angle brackets feed Keyboard, not a parallel keyboard IR
 - Anchor semantic resolve inside Notations (Roslyn stays LI adapter)
-- Mandating one delimiter pair for all domains
+- One global delimiter table for all domains (profiles differ)
 
 ---
 
 ## Consequences
 
-- Keyboard quarry and CSX anchor share **bracket lexicon** docs + optional shared lexer — less drift between Neovim oracle and C# quarry
-- ADR-0025 Phase 2 anchor wire conformance splits: **parse** (Notations) vs **resolve** (LanguageIntelligence)
-- Forge / CIDE native ports target **notation/bracket-*** vectors first
+- One parser engine, many profiles — less duplication between CSX, sniper pad, keyboard quarry
+- ADR-0025 Phase 2 splits: **parse** (Notations axes) vs **resolve** (LI)
+- Forge / CIDE native ports implement **contract + profile table**, not forked lexers
 
 ---
 
 ## References
 
-- `QuarryBracketTokenParser`, `VimChordNotationParser` — angle/square seeds
+- `QuarryBracketTokenParser`, `VimChordNotationParser` — seeds for opaque / square profiles
 - CIDE Anchor rename (Bracket → Anchor entity; wire stays bracket-shaped)
 - [GUIDERS-ADR-0025 LanguageIntelligence boundary](GUIDERS-ADR-0025-language-intelligence-boundary.md)
