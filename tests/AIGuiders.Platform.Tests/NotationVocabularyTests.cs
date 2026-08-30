@@ -39,7 +39,8 @@ public sealed class NotationVocabularyTests
         var dir = new DirectoryInfo(Path.GetFullPath(start));
         while (dir is not null)
         {
-            if (File.Exists(Path.Combine(dir.FullName, "AIGuiders.Platform.slnx")))
+            if (File.Exists(Path.Combine(dir.FullName, "AIGuiders.Platform.slnx"))
+                || File.Exists(Path.Combine(dir.FullName, "AIGuiders.Platform.sln")))
                 return dir.FullName;
             dir = dir.Parent;
         }
