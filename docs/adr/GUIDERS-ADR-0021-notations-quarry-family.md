@@ -94,6 +94,10 @@ Notations.Command.Console   neutral path tokens (no `@intent` — product extens
 Notations.Argument.Core     NormalizedArgTail { Raw, Slots?, WireClass? }
 Notations.Argument.Slash    space-separated tail + picker token passthrough
 Notations.Argument.Kv       `key=value` rest-of-line (console parity)
+Notations.Argument.Positional ordered tokens (v1)
+Notations.Argument.Delimited colon/csv via wire_class (v1)
+Notations.Argument.Cli      (v2) POSIX/GNU-like flags via System.CommandLine quarry
+Notations.Argument.PowerShell (defer) `-Name Value` grammar
 Notations.Argument.Json     (defer) schema-shaped args for MCP symmetry
 
 Notations.All               optional meta-bundle
@@ -171,14 +175,102 @@ record NormalizedArgTail(
 | `notation/keyboard-keygesture-v1` | `Ctrl+K` wire ≡ Vim subset where defined |
 | `notation/command-slash-v1` | path tokenization + longest-prefix body |
 | `notation/argument-kv-v1` | `key=value` pairs → slots |
+| `notation/argument-positional-v1` | ordered tokens after path |
+| `notation/argument-delimited-v1` | `wire_class=colon` → slots |
+| `notation/argument-cli-v1` | (v2) `-`/`--` flags → slots (System.CommandLine quarry) |
 | `notation/invocation-parity-v1` | slash + kv readers → same `commandId` for fixture catalog |
 
-## Non-goals
+### 10. Notation families inventory
+
+Wire families operators named in the wild — and federation stance.  
+**Command** = how the verb/path is written; **Argument** = everything after the path is resolved.
+
+#### Command (path / verb)
+
+| Family | Example | Federation | Notes |
+|--------|---------|------------|-------|
+| **Positional path** | `git remote add` | **v1** (`Command.Console`) | Subcommand chains → `PathSegments[]` |
+| **Slash path** | `/docs adr open` | **v1** (`Command.Slash`) | Leading `/` = surface policy |
+| **Sigil path** | `:w`, `!help`, `@intent …` | product strip | After strip → Console or Slash IR |
+| **Dotted path** | `module.sub.command` | defer | Optional `Command.Dotted` if catalog uses it |
+| **Tool name** | `cdp_buffer`, `example.exe` | projection | MCP / Win `.exe` = surface; maps to `commandId` |
+| **REST path** | `/api/v1/users/123` | defer | HTTP surface, not slash catalog |
+| **Palette fuzzy** | `fmt ins` | product | Discovery UI, not linear wire |
+
+#### Argument (tail / params)
+
+| Family | Example | Federation | Notes |
+|--------|---------|------------|-------|
+| **Raw / space tail** | `open README.md` | **v1** (`Argument.Slash`) | Remainder string + catalog `ArgTail` policy |
+| **Positional args** | `arg1 arg2` | **v1** (`Argument.Positional`) | Ordered tokens after path |
+| **Key=value** | `doc=README.md op=scene` | **v1** (`Argument.Kv`) | CDP Meta parity |
+| **Colon-delimited** | `arg1:arg2:arg3` | **v1** (`wire_class`) | `Argument.Delimited` + `WireClass=colon` |
+| **GNU/POSIX-like flags** | `-h`, `--out=file`, `-abc` | **v2** (`Argument.Cli`) | See §11 — quarry, not v1 blocker |
+| **Windows `/switch`** | `program /S /P` | **v2** | Often merged into `Argument.Cli` subset or product |
+| **PowerShell params** | `-Name Value`, `-Name:Value` | **defer** (`Argument.PowerShell`) | Heavy grammar; see §11 |
+| **JSON object** | `{ "op": "scene" }` | defer | MCP / schema; MCPlane projection |
+| **Shell meta** | `\|`, `&&`, `>` | product | `Notations.Shell` out of scope |
+| **CSV / `;` query** | `a=1;b=2` | defer | `WireClass` extension |
+
+#### Operator examples mapped
+
+| Wire | Command reader | Argument reader |
+|------|----------------|-----------------|
+| `example.exe -exampleArg` | tool name (surface) | `Argument.Cli` (v2) |
+| `example.exe exampleArg` | tool name | `Argument.Positional` |
+| `/example exampleArg` | `Command.Slash` | `Argument.Slash` / Positional |
+| `/example arg1:arg2:…` | `Command.Slash` | `Argument.Delimited` (`colon`) |
+| `buffer open doc=README.md` | `Command.Console` | `Argument.Kv` |
+
+### 11. Parser quarry (POSIX · PowerShell · System.CommandLine)
+
+Keyboard notation had **no** standalone NuGet SSOT (parsers live inside Neovim/Emacs). **Command-line argument** notation is better served — but mature packages are **CLI app frameworks**, not federation **wire → `NormalizedArgTail`** adapters.
+
+| Layer | What exists | Federation use |
+|-------|-------------|----------------|
+| **SSOT behavior** | POSIX/SUS `getopt`, GNU `getopt_long`, BSD variants, PowerShell language spec | Conformance vectors + docs — not one true binary |
+| **.NET reference** | [`System.CommandLine`](https://www.nuget.org/packages/System.CommandLine) (Microsoft; `dotnet` CLI stack) | **Quarry for modern `-` / `--` tokenization** into slots |
+| **Alternates** | `CommandLineParser`, `McMaster.Extensions.CommandLineUtils`, `Mono.Options` | App builders; do **not** multi-pin — pick one quarry or own subset |
+| **PowerShell** | `System.Management.Automation` parser | **Too heavy** for `Notations` core; optional product dep or **native port only** (JS/Kotlin never pull PS SDK) |
+| **Kv / slash tail** | Small lexers (CDP Meta, `SlashLineResolver`) | **Own v1** — not worth a NuGet framework |
+
+**Decision:**
+
+1. **v1 ship without** `System.CommandLine` dependency — `Argument.Slash`, `Argument.Kv`, `Argument.Positional`, `Argument.Delimited` are small owned quarries + spec JSON.
+2. **`Notations.Argument.Cli` (v2)** — thin adapter over **System.CommandLine** token model (or ported subset of its test vectors):
+   - Input: `string[]` or tail string **after** `commandId` / path is known.
+   - Output: `NormalizedArgTail` with `Slots` + positional remainder + `UnparsedTokens` for completion.
+   - **Not** a hosted `RootCommand` per federation consumer — ephemeral parse against **descriptor-supplied** option schema (`SlashCommandDescriptor` / capabilities arg schema).
+3. **POSIX vs GNU:** federation documents **tier tables** (like Vim v1/v2 in ADR-0016): v1 = `System.CommandLine`-aligned modern CLI; v2 = GNU edge cases (`--opt=value`, clustered shorts) from upstream vectors where license permits.
+4. **PowerShell:** defer dedicated package; planets that need PS wire implement **native port** or optional `Notations.Argument.PowerShell` with **explicit** dependency on PowerShell SDK (not in meta `Notations.All`).
+5. **Windows `/switch`:** do not invent a third grammar in v1 — map product rules in adapter; conformance only where CIDE/Forge need parity.
+
+```text
+v1 (owned, no heavy deps)          v2 (quarry)                 defer
+─────────────────────────          ─────────────                 ─────
+Command.Slash / Console            Argument.Cli                  Argument.PowerShell
+Argument.Slash / Kv / Positional     ← System.CommandLine          Argument.Json
+Argument.Delimited (wire_class)      (descriptor-driven parse)     Shell / REST
+```
+
+**Rule (same as InputNotation):** Platform ships **IR + spec + reference quarry**; VS Code / Forge JS **port vectors**, they do not embed `System.CommandLine`.
+
+Updated package map (Argument branch):
+
+```text
+Notations.Argument.Positional   argv-style tokens
+Notations.Argument.Delimited    colon/csv wire_class
+Notations.Argument.Cli            (v2) System.CommandLine quarry → NormalizedArgTail
+Notations.Argument.PowerShell     (defer) optional heavy package
+```
+
 
 - Renaming packages in this wave (ADR only).
 - Replacing CommandPlane mechanics or MCPlane.
 - Normative CDP `@intent` / Citizen frame grammar.
 - Universal MCP JSON Schema → Notations (defer).
+- Pulling **PowerShell SDK** into default `Notations.All` bundle.
+- Shipping a full **CLI app host** inside Notations (use System.CommandLine in products; Notations only parses tail → IR).
 
 ## Consequences
 
@@ -192,6 +284,7 @@ record NormalizedArgTail(
 2. **`Console` reader:** path tokens only, or also accept single-token tool names (`buffer`)?
 3. **Argument.Json:** ship with MCPlane conformance or stay product-local?
 4. **Obsoletion timeline** for `InputNotation` NuGet IDs?
+5. **`Argument.Cli`:** pin `System.CommandLine` major in quarry package vs vendor a minimal lexer from its tests?
 
 ## References
 
@@ -199,3 +292,4 @@ record NormalizedArgTail(
 - [GUIDERS-ADR-0015 invocation mechanics](GUIDERS-ADR-0015-invocation-mechanics-slash-melody-binding.md)
 - [GUIDERS-ADR-0018 slash conformance vectors](GUIDERS-ADR-0018-slash-conformance-vectors.md)
 - `SlashLineResolver`, `InputNotationParser` — reference quarry seeds
+- [System.CommandLine](https://www.nuget.org/packages/System.CommandLine) — v2 quarry candidate for `Argument.Cli` (not v1 dependency)
