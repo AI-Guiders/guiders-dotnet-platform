@@ -8,5 +8,6 @@
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument.Kv\AIGuiders.Platform.Notations.Argument.Kv.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Command.Slash\AIGuiders.Platform.Notations.Command.Slash.csproj" />
   </ItemGroup>
 </Project>
