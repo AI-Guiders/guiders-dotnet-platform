@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Conformance.Policies</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Conformance.Policies</AssemblyName>
+    <PackageId>AIGuiders.Platform.Conformance.Policies</PackageId>
+    <Description>Policy overlay conformance harness: vectors vs Combinations overlay profiles (GUIDERS-ADR-0032).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Combinations.Binding\AIGuiders.Platform.Combinations.Binding.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Combinations.Slash\AIGuiders.Platform.Combinations.Slash.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Combinations.Workspace\AIGuiders.Platform.Combinations.Workspace.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Conformance.Schemas\AIGuiders.Platform.Conformance.Schemas.csproj" />
+    <PackageReference Include="Tomlyn" Version="$(TomlynVersion)" />
+  </ItemGroup>
+</Project>

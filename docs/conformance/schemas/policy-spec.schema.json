@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guiders.dev/conformance/schemas/policy-spec.schema.json",
+  "title": "Policy overlay conformance spec",
+  "type": "object",
+  "required": ["kind", "policy", "semantics", "version", "vectors"],
+  "additionalProperties": false,
+  "properties": {
+    "kind": { "type": "string", "const": "policy" },
+    "policy": { "type": "string", "minLength": 1, "pattern": "^[a-z0-9][a-z0-9.-]*$" },
+    "semantics": {
+      "type": "string",
+      "enum": ["FieldOverlay", "SectionReplace", "ShipFirst", "OverlayWins"]
+    },
+    "version": { "$ref": "conformance-common.schema.json#/$defs/specVersion" },
+    "source": { "$ref": "conformance-common.schema.json#/$defs/specSource" },
+    "vectors": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/policyVector" }
+    }
+  },
+  "$defs": {
+    "policyVector": {
+      "type": "object",
+      "required": ["id"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "$ref": "conformance-common.schema.json#/$defs/vectorId" }
+      }
+    }
+  }
+}

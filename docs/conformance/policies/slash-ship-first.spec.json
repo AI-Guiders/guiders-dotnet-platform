@@ -1,0 +1,29 @@
+{
+  "kind": "policy",
+  "policy": "slash.ship-first",
+  "semantics": "ShipFirst",
+  "version": 1,
+  "source": "GUIDERS-ADR-0031",
+  "vectors": [
+    {
+      "id": "baseline-path-wins-on-collision",
+      "baseline": {
+        "paths": [
+          { "path": "ship", "commandId": "ship.cmd" }
+        ]
+      },
+      "overlay": {
+        "paths": [
+          { "path": "ship", "commandId": "user.cmd" },
+          { "path": "extra", "commandId": "extra.cmd" }
+        ]
+      },
+      "expect": {
+        "paths": {
+          "ship": "ship.cmd",
+          "extra": "extra.cmd"
+        }
+      }
+    }
+  ]
+}

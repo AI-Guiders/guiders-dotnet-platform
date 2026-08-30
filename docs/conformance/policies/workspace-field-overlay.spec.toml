@@ -1,0 +1,31 @@
+kind = "policy"
+policy = "workspace.field-overlay"
+semantics = "FieldOverlay"
+version = 1
+source = "GUIDERS-ADR-0031"
+
+[[vectors]]
+id = "adr-fields-overlay-preserve-baseline"
+
+[vectors.baseline.workspace.adr]
+root_dir = "docs/adr"
+max_related = 3
+
+[vectors.overlay.workspace.adr]
+max_related = 7
+
+[vectors.expect.workspace.adr]
+root_dir = "docs/adr"
+max_related = 7
+
+[[vectors]]
+id = "features-section-replaced"
+
+[[vectors.baseline.workspace.features.feature]]
+id = "ship"
+
+[[vectors.overlay.workspace.features.feature]]
+id = "user"
+
+[[vectors.expect.workspace.features.feature]]
+id = "user"

@@ -77,6 +77,19 @@ public static class ConformanceSchemaValidator
         return result.IsValid ? [] : CollectErrors(result);
     }
 
+    public static IReadOnlyList<string> ValidatePolicyJson(string json)
+    {
+        if (!CatalogSchemas.TryGetValue("policy-spec.schema.json", out var schema))
+            return ["Missing embedded schema policy-spec.schema.json."];
+
+        using var document = JsonDocument.Parse(json);
+        var result = schema.Evaluate(
+            document.RootElement,
+            new EvaluationOptions { OutputFormat = OutputFormat.List });
+
+        return result.IsValid ? [] : CollectErrors(result);
+    }
+
     public static IReadOnlyList<string> ValidateCatalogJson(string json)
     {
         if (!CatalogSchemas.TryGetValue("command-catalog-wire.schema.json", out var schema))

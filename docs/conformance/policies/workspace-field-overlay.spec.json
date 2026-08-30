@@ -1,0 +1,51 @@
+{
+  "kind": "policy",
+  "policy": "workspace.field-overlay",
+  "semantics": "FieldOverlay",
+  "version": 1,
+  "source": "GUIDERS-ADR-0031",
+  "vectors": [
+    {
+      "id": "adr-fields-overlay-preserve-baseline",
+      "baseline": {
+        "workspace": {
+          "adr": { "root_dir": "docs/adr", "max_related": 3 }
+        }
+      },
+      "overlay": {
+        "workspace": {
+          "adr": { "max_related": 7 }
+        }
+      },
+      "expect": {
+        "workspace": {
+          "adr": { "root_dir": "docs/adr", "max_related": 7 }
+        }
+      }
+    },
+    {
+      "id": "features-section-replaced",
+      "baseline": {
+        "workspace": {
+          "features": {
+            "feature": [{ "id": "ship" }]
+          }
+        }
+      },
+      "overlay": {
+        "workspace": {
+          "features": {
+            "feature": [{ "id": "user" }]
+          }
+        }
+      },
+      "expect": {
+        "workspace": {
+          "features": {
+            "feature": [{ "id": "user" }]
+          }
+        }
+      }
+    }
+  ]
+}

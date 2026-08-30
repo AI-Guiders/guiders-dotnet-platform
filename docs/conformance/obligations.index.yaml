@@ -1,0 +1,31 @@
+version: 1
+obligations:
+  - id: combinations.slash.ship-first
+    kind: policy
+    adr: GUIDERS-ADR-0031
+    semantics: ShipFirst
+    source: policies/slash-ship-first.spec.json
+
+  - id: combinations.binding.overlay-wins
+    kind: policy
+    adr: GUIDERS-ADR-0031
+    semantics: OverlayWins
+    source: policies/binding-overlay-wins.spec.json
+
+  - id: combinations.workspace.field-overlay
+    kind: policy
+    adr: GUIDERS-ADR-0031
+    semantics: FieldOverlay
+    source: policies/workspace-field-overlay.spec.json
+
+  - id: combinations.workspace.field-overlay-toml
+    kind: policy
+    adr: GUIDERS-ADR-0032
+    semantics: FieldOverlay
+    source: policies/workspace-field-overlay.spec.toml
+
+  - id: combinations.proof.ship-first
+    kind: proof
+    adr: GUIDERS-ADR-0032
+    semantics: ShipFirst
+    tool: combinations-proof
