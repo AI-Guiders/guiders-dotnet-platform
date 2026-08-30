@@ -2,7 +2,7 @@
 
 **Status:** draft (2026-08-30)  
 **Tags:** #guiders #platform #case #workbench #fleet #rose #agent-env #aviation #mcplane  
-**Related:** GUIDERS-ADR-0007 · GUIDERS-ADR-0001 · GUIDERS-ADR-0006 · GUIDERS-ADR-0020 · GUIDERS-ADR-0022 · [PLATFORM-FLEET-THESIS](../PLATFORM-FLEET-THESIS.md)
+**KB:** `agent-notes/knowledge/worlds/software-case-workbench/` — fundamentals, reading map, transfer matrix
 
 ---
 
