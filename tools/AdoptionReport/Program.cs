@@ -1,4 +1,6 @@
 using AIGuiders.Platform.Utilities.Adoption;
+using AIGuiders.Platform.Utilities.Adoption.Reports.Markdown;
+using AIGuiders.Platform.Utilities.Adoption.Sources;
 
 var repoRoot = FindRepoRoot(Directory.GetCurrentDirectory())
     ?? FindRepoRoot(AppContext.BaseDirectory)
@@ -30,8 +32,9 @@ if (!File.Exists(planetsPath) || !File.Exists(hyperlanePath))
 }
 
 var config = AdoptionConfigLoader.Load(planetsPath, hyperlanePath);
-var rows = PlanetAdoptionScanner.ScanAll(config, Path.GetDirectoryName(planetsPath)!);
-var markdown = AllianceReportWriter.ToMarkdown(rows, DateTimeOffset.UtcNow);
+var sources = new IAdoptionSource[] { AdoptionSources.FromPlanetTree() };
+var rows = AdoptionAllianceBuilder.BuildAll(config, Path.GetDirectoryName(planetsPath)!, sources);
+var markdown = new MarkdownAllianceReportWriter().Write(rows, DateTimeOffset.UtcNow);
 
 if (writePath is not null)
 {

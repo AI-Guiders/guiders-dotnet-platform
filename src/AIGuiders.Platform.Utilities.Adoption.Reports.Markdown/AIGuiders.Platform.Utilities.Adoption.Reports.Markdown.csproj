@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Utilities.Adoption.Reports.Markdown</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Utilities.Adoption.Reports.Markdown</AssemblyName>
+    <Description>Markdown report writer for adoption alliance tables.</Description>
+    <PackageId>AIGuiders.Platform.Utilities.Adoption.Reports.Markdown</PackageId>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Utilities.Adoption\AIGuiders.Platform.Utilities.Adoption.csproj" />
+  </ItemGroup>
+</Project>

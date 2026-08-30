@@ -34,5 +34,7 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Melody\AIGuiders.Platform.CommandPlane.Melody.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Binding.Sources\AIGuiders.Platform.CommandPlane.Binding.Sources.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Utilities.Adoption\AIGuiders.Platform.Utilities.Adoption.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Utilities.Adoption.Sources\AIGuiders.Platform.Utilities.Adoption.Sources.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Utilities.Adoption.Reports.Markdown\AIGuiders.Platform.Utilities.Adoption.Reports.Markdown.csproj" />
   </ItemGroup>
 </Project>

@@ -3,10 +3,12 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>AIGuiders.Platform.Utilities.AdoptionReport</RootNamespace>
     <AssemblyName>adoption-report</AssemblyName>
-    <Description>CLI: scan federation planets and emit adoption alliance markdown.</Description>
+    <Description>CLI: Source → IR → Report for federation adoption alliance.</Description>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Utilities.Adoption\AIGuiders.Platform.Utilities.Adoption.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Utilities.Adoption.Sources\AIGuiders.Platform.Utilities.Adoption.Sources.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Utilities.Adoption.Reports.Markdown\AIGuiders.Platform.Utilities.Adoption.Reports.Markdown.csproj" />
   </ItemGroup>
 </Project>
