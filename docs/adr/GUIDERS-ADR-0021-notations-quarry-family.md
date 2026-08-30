@@ -21,13 +21,14 @@ Federation already treats **wire alphabets** as quarryable siblings of **mechani
 
 Operators asked: if Vim and KeyGesture are two **notations** for the same keyboard IR, why not treat **slash** and **console** as two **notations** for the same command-line IR?
 
-**Working umbrella:** **`Notations.*`** — one quarry family, three branches:
+**Working umbrella:** **`Notations.*`** — one quarry family, four branches:
 
 ```text
 Notations
 ├── Keyboard.*     ← today InputNotation.* (rename target)
 ├── Command.*      ← path / verb wire → NormalizedCommandLine
-└── Argument.*     ← tail / params wire → NormalizedArgTail
+├── Argument.*     ← tail / params wire → NormalizedArgTail
+└── Bracket.*      ← paired delimiters `<…>` `[…]` → NormalizedBracketWire ([ADR-0026](GUIDERS-ADR-0026-notations-bracket-branch.md))
 ```
 
 **Mechanics** (Slash, Melody, Binding) and **planes** (CommandPlane, MCPlane) **consume** Notations; they do not own wire parsers.
@@ -65,6 +66,7 @@ WIRE FORMAT(s)  →  IR (branch Core)  →  MECHANIC / product
 | **Keyboard** | How is a key/gesture written? | `NormalizedKeySequence` | Vim, Neovim, Emacs, KeyGesture |
 | **Command** | How is a command **named** in text? | `NormalizedCommandLine` | Slash path, console path, flat verb |
 | **Argument** | How are **params** written after the name? | `NormalizedArgTail` | slash remainder, `key=value`, JSON (optional) |
+| **Bracket** | How is a **paired-delimiter** payload written? | `NormalizedBracketWire` | `<C-k>`, `[inner]`, CSX `[F:…;M:…]` |
 
 **Compose at resolve time:**
 
@@ -101,6 +103,11 @@ Notations.Argument.Delimited colon/csv via wire_class (v1)
 Notations.Argument.Cli      (v2) POSIX/GNU-like flags via System.CommandLine quarry
 Notations.Argument.PowerShell (defer) `-Name Value` grammar
 Notations.Argument.Json     (defer) schema-shaped args for MCP symmetry
+
+Notations.Bracket           NormalizedBracketWire, IBracketNotationReader ([ADR-0026](GUIDERS-ADR-0026-notations-bracket-branch.md))
+Notations.Bracket.Angle     `<…>` keyboard special-key (migrate QuarryBracketTokenParser)
+Notations.Bracket.Square    `[…]` generic inner
+Notations.Bracket.Anchor    CSX slot grammar `[F:…;M:…]`
 
 Notations.All               optional meta-bundle
 ```

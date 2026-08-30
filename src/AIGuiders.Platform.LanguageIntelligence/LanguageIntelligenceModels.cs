@@ -18,7 +18,7 @@ public sealed record Locus(
     string? SymbolId = null,
     string? FilePath = null);
 
-/// <summary>Bracket or structured anchor wire before resolve (CIDE: bracket notation is projection).</summary>
+/// <summary>Resolve input for anchor (raw wire). Prefer NormalizedBracketWire from Notations.Bracket (ADR-0026).</summary>
 public sealed record AnchorWire(string Value);
 
 /// <summary>LSP-shaped single edit (language-neutral).</summary>

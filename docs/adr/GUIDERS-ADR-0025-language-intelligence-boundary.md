@@ -59,7 +59,8 @@ Pulse/MCPlane can surface tier in agent ingress (align ADR-0020).
 ### 3. Anchor model (target)
 
 - **Entity:** `Anchor` (locate locus) — CIDE CSX public name; bracket `[F:…;M:…]` = **wire projection only**.
-- **Platform IR:** `AnchorWire` + parse → `AnchorIntent` → `IAnchorResolver` → `Locus`.
+- **Wire parse:** [GUIDERS-ADR-0026](GUIDERS-ADR-0026-notations-bracket-branch.md) **`Notations.Bracket.Anchor`** → `NormalizedBracketWire` (slots, inner).
+- **Resolve:** `AnchorIntent` → `IAnchorResolver` → `Locus` (LanguageIntelligence — **no bracket lexing here**).
 - **Not** a slash path; consumed by mutate/sniper/CSX, MCPlane, Forge Lens (FORGE-ADR-0003).
 
 ### 4. What stays where (boundary)
@@ -99,7 +100,8 @@ Move without semantic change:
 
 ### Phase 2 — Anchor + Sniper IR (v0.21+)
 
-- `LanguageIntelligence.Anchors`: wire grammar subset, `IAnchorResolver`, conformance vectors (`notation/anchor-wire.spec.json`).
+- `Notations.Bracket.Anchor`: CSX wire grammar → `NormalizedBracketWire` ([ADR-0026](GUIDERS-ADR-0026-notations-bracket-branch.md)).
+- `LanguageIntelligence.Anchors`: `IAnchorResolver`, conformance `language-intelligence/anchor-resolve` (wire parse spec lives under `notation/bracket-anchor`).
 - `LanguageIntelligence.Sniper`: `SniperScope`, corridor peek rules; align CDP `EditSniper` / CIDE bracket L: line corridor tests.
 - CIDE CSX `Anchor.*` builder emits platform `AnchorWire`.
 
@@ -140,7 +142,8 @@ Products:
 |------|---------|-------|
 | `language-intelligence/line-range` | parse + delete line range | 1 |
 | `language-intelligence/markup-wrap` | bold/wrap transform | 1 |
-| `language-intelligence/anchor-wire` | bracket → intent | 2 |
+| `notation/bracket-anchor` | CSX wire → slots | 2 ([ADR-0026](GUIDERS-ADR-0026-notations-bracket-branch.md)) |
+| `language-intelligence/anchor-resolve` | normalized wire → locus + tier | 2 |
 | `language-intelligence/sniper-scope` | from/till/wire | 2 |
 | `language-intelligence/locus-tier` | resolver advertises tier | 2 |
 

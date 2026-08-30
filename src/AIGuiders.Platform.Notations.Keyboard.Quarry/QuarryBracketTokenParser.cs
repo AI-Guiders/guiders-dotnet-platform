@@ -2,6 +2,7 @@
 
 namespace AIGuiders.Platform.Notations.Keyboard.Quarry;
 
+/// <remarks>Migrate to <c>Notations.Bracket.Angle</c> per GUIDERS-ADR-0026 Phase 1.</remarks>
 public static class QuarryBracketTokenParser
 {
     public static bool TryParse(

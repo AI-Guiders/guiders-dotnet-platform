@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Notations.Bracket</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Notations.Bracket</AssemblyName>
+    <PackageId>AIGuiders.Platform.Notations.Bracket</PackageId>
+    <Description>Paired-delimiter wire IR: NormalizedBracketWire, slot split (GUIDERS-ADR-0026 Phase 0).</Description>
+  </PropertyGroup>
+</Project>

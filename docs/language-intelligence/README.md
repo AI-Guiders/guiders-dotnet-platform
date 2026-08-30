@@ -23,7 +23,8 @@ CommandPlane.Slash/Editor/Commands/*         → product registry (CIDE/Forge) o
 
 ## Phase 2+
 
-- Anchor wire conformance + `IAnchorResolver` implementations per adapter package
+- Bracket wire parse: [Notations.Bracket](../notations/bracket/README.md) (`Bracket.Anchor` dialect)
+- Anchor resolve conformance + `IAnchorResolver` implementations per adapter package
 - Sniper scope alignment with CDP `EditSniper`
 
 ## Anti-patterns

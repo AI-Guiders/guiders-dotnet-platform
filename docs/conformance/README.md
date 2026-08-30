@@ -99,7 +99,9 @@ Implementations **do not** live in this repo — only contracts.
 | `notation/neovim-kbd` | wire → IR | **exists** (move) | `QuarryNotationConformanceTests` | — |
 | `notation/emacs-kbd` | wire → IR | **exists** (move) | `QuarryNotationConformanceTests` | — |
 | `language-intelligence/line-range` | line range parse + text delete | planned (ADR-0025 P1) | `EditorSurfaceTests` (quarry) | Forge/CIDE buffer |
-| `language-intelligence/anchor-wire` | bracket wire → locus + tier | planned (ADR-0025 P2) | — | CSX Anchor, CDP sniper |
+| `notation/bracket-angle` | `<…>` → inner + mods | planned (ADR-0026 P1) | `QuarryBracketTokenParser` (quarry) | keyboard oracle |
+| `notation/bracket-anchor` | CSX `[F:…;M:…]` → slots | planned (ADR-0026 P2) | — | CSX Anchor |
+| `language-intelligence/anchor-resolve` | normalized wire → locus + tier | planned (ADR-0025 P2) | — | CDP sniper |
 | `mcplane/pulse-default` | agent envelope pulse | **shipped** | `McPlaneConformanceTests` | Forge `/capabilities` |
 | `mcplane/next-hints` | `next[]` shape | **shipped** | `McPlaneConformanceTests` | agent follow-ups |
 
