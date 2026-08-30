@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Configurations.Workspace</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Configurations.Workspace</AssemblyName>
+    <PackageId>AIGuiders.Platform.Configurations.Workspace</PackageId>
+    <Description>workspace.toml document IR (format-agnostic).</Description>
+  </PropertyGroup>
+</Project>

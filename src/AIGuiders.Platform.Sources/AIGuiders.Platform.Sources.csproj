@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Sources</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Sources</AssemblyName>
+    <PackageId>AIGuiders.Platform.Sources</PackageId>
+    <Description>Platform source contract: ISource, IFormatReader, transport + merge combinator (GUIDERS-ADR-0029).</Description>
+  </PropertyGroup>
+</Project>

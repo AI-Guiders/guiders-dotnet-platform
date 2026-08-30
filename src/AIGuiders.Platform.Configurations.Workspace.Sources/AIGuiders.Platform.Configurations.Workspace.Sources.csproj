@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Configurations.Workspace</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Configurations.Workspace.Sources</AssemblyName>
+    <PackageId>AIGuiders.Platform.Configurations.Workspace.Sources</PackageId>
+    <Description>Source-aware loaders for workspace.toml → WorkspaceDocument.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Configurations.Workspace\AIGuiders.Platform.Configurations.Workspace.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Sources\AIGuiders.Platform.Sources.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Sources.Toml\AIGuiders.Platform.Sources.Toml.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Sources.File\AIGuiders.Platform.Sources.File.csproj" />
+  </ItemGroup>
+</Project>
