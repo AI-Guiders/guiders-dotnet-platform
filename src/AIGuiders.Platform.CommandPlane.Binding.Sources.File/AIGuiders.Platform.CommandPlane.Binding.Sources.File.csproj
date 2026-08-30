@@ -6,6 +6,7 @@
     <Description>File transport for binding catalogs (GUIDERS-ADR-0017).</Description>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Sources.File\AIGuiders.Platform.Sources.File.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Binding.Sources.Json\AIGuiders.Platform.CommandPlane.Binding.Sources.Json.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Binding.Sources.Toml\AIGuiders.Platform.CommandPlane.Binding.Sources.Toml.csproj" />
   </ItemGroup>

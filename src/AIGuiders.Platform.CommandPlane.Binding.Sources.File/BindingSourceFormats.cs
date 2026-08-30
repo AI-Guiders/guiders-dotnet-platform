@@ -1,16 +1,22 @@
 #nullable enable
 
+using AIGuiders.Platform.Sources;
+
 namespace AIGuiders.Platform.CommandPlane.Binding.Sources;
 
 internal static class BindingSourceFormats
 {
     public static BindingDocumentFormat Resolve(string pathOrResourceName) =>
-        Path.GetExtension(pathOrResourceName).ToLowerInvariant() switch
+        ToBindingFormat(DocumentFormats.Resolve(pathOrResourceName));
+
+    internal static BindingDocumentFormat ToBindingFormat(DocumentFormat format) =>
+        format switch
         {
-            ".json" => BindingDocumentFormat.Json,
-            ".toml" => BindingDocumentFormat.Toml,
-            _ => throw new NotSupportedException(
-                $"Unsupported binding catalog extension '{Path.GetExtension(pathOrResourceName)}'. Use .json or .toml."),
+            DocumentFormat.Json => BindingDocumentFormat.Json,
+            DocumentFormat.Toml => BindingDocumentFormat.Toml,
+            DocumentFormat.Xml => throw new NotSupportedException(
+                "Binding catalogs do not support .xml. Use .json or .toml."),
+            _ => throw new ArgumentOutOfRangeException(nameof(format), format, null),
         };
 }
 

@@ -1,12 +1,11 @@
 #nullable enable
 
+using AIGuiders.Platform.Sources;
+
 namespace AIGuiders.Platform.CommandPlane.Binding;
 
-public interface IBindingSource
+public interface IBindingSource : ISource<IReadOnlyList<BindingDescriptor>>
 {
-    string SourceId { get; }
-
-    IReadOnlyList<BindingDescriptor> Load();
 }
 
 public interface IBindingFormatReader

@@ -8,5 +8,6 @@
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard.KeyGesture\AIGuiders.Platform.Notations.Keyboard.KeyGesture.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Sources\AIGuiders.Platform.Sources.csproj" />
   </ItemGroup>
 </Project>

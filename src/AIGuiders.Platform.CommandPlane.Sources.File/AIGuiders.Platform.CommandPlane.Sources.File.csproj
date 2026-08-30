@@ -6,6 +6,7 @@
     <Description>File-backed command catalog sources: path + extension dispatch, embedded resources (GUIDERS-ADR-0013).</Description>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Sources.File\AIGuiders.Platform.Sources.File.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Sources.Json\AIGuiders.Platform.CommandPlane.Sources.Json.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Sources.Toml\AIGuiders.Platform.CommandPlane.Sources.Toml.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Sources.Xml\AIGuiders.Platform.CommandPlane.Sources.Xml.csproj" />

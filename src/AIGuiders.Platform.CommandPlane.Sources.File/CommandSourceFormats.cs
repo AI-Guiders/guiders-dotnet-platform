@@ -1,16 +1,20 @@
 #nullable enable
 
+using AIGuiders.Platform.Sources;
+
 namespace AIGuiders.Platform.CommandPlane.Sources;
 
 internal static class CommandSourceFormats
 {
     public static CommandDocumentFormat Resolve(string pathOrResourceName) =>
-        Path.GetExtension(pathOrResourceName).ToLowerInvariant() switch
+        ToCommandFormat(DocumentFormats.Resolve(pathOrResourceName));
+
+    internal static CommandDocumentFormat ToCommandFormat(DocumentFormat format) =>
+        format switch
         {
-            ".json" => CommandDocumentFormat.Json,
-            ".toml" => CommandDocumentFormat.Toml,
-            ".xml" => CommandDocumentFormat.Xml,
-            _ => throw new NotSupportedException(
-                $"Unsupported command catalog extension '{Path.GetExtension(pathOrResourceName)}'. Use .json, .toml, or .xml."),
+            DocumentFormat.Json => CommandDocumentFormat.Json,
+            DocumentFormat.Toml => CommandDocumentFormat.Toml,
+            DocumentFormat.Xml => CommandDocumentFormat.Xml,
+            _ => throw new ArgumentOutOfRangeException(nameof(format), format, null),
         };
 }
