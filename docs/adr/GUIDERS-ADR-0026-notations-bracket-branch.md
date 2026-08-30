@@ -52,35 +52,51 @@ Bracket is **not** a fixed `[` `]` grammar. Federation ships a **parameterized c
 | **StartTerminal** | opening delimiter | `[` |
 | **EndTerminal** | closing delimiter | `]` |
 | **AxisSeparator** | splits **axes** inside the pair | `;` |
-| **PairDelimiter** | splits **key** vs **value** within an axis | `:` |
+| **PairDelimiter** | splits **key** vs **value** within an axis (first only) | `:` |
 | **AxisShape** | how inner tokenizes into axes | `KeyValue` |
+| **StripOuterTerminals** | accept inner or wrapped wire | `true` |
+| **RespectBracketDepthOnAxisSplit** | `;` only at `[` `]` depth 0 | `true` |
+| **NestedAxisKeys** | keys whose value re-parses as bracket | `Anchor` (CDP) |
 
 Parsed IR:
 
 ```text
 NormalizedBracketWire
-├── ProfileId          (which contract instance was used)
-├── Axes[]           ordered axis records
-│   └── BracketAxis  { Key, Value }   // KV pair per axis when AxisShape = KeyValue
-└── Raw                original wire
+├── ProfileId
+├── Axes[]
+│   └── BracketAxis { Key, Value, Nested? }
+└── Raw
 ```
 
-Example CSX anchor profile (`Start=`[`, End=`]`, `;`, `:`):
+**Pair split rule (CDP-aligned):** only the **first** `PairDelimiter` separates key from value. Values may contain `:` (`K:Parameter:Run`, `S:if:2`).
+
+Example CDP profile `bracket.cdp-square-kv`:
 
 ```text
-[F:Program.cs;M:Foo.Bar]
-  → Axes[0] { Key=F, Value=Program.cs }
-  → Axes[1] { Key=M, Value=Foo.Bar }
+[F:Program.cs;M:Foo.Bar;Anchor:[F:Inner.cs;L:10]]
+  → Axes[0] { F, Program.cs }
+  → Axes[1] { M, Foo.Bar }
+  → Axes[2] { Anchor, [F:Inner.cs;L:10], Nested=… }
 ```
 
 Example keyboard angle profile (`Start=`<`, End=`>`, **Opaque** inner — no axis split):
 
 ```text
 <C-S-Tab>
-  → Axes[0] { Key=_ , Value=C-S-Tab }   // or planet maps inner → Keyboard IR
+  → Axes[0] { Key=_ , Value=C-S-Tab }   // planet maps inner → Keyboard IR
 ```
 
-**Rule:** Platform owns **contract + reference parser + IR**. Planets own **profile values**, axis key vocabulary (`F`, `M`, `L`, …), and conformance vectors — same pattern as `wire_class` on Argument.
+**Planet extensions (not federation Core):**
+
+| Extension | CDP/CIDE usage | Owner |
+|-----------|----------------|-------|
+| `BracketAxisAliasMap` | `F`↔`File`, `M`↔`Member`, case-insensitive | CIDE ADR 0186 / `BracketLocate.AxisAlias` |
+| Axis value micro-grammar | `L:12-34`, `S:if:2`, `T:` sanitize | LI / planet resolve (post-parse) |
+| H1 layout (space, no `;`) | `[M:Run S:for:2]`, `[file.cs M:Run]` | CIDE `BracketCodeReferenceParser` — **separate profile** or product parser |
+| Forge `FRG:` family | `[FRG:pilot/issues/7; F:…]` | Forge ADR 0159 — **compound profile** (head axis + tail re-parse) |
+| Family classify (code/xml/nav) | `BracketLocate.ClassifyFamily` | **LanguageIntelligence** / CDP resolve — not notation |
+
+**Rule:** Platform owns **contract + reference parser + IR**. Planets own **profiles**, alias maps, and conformance vectors.
 
 ### 3. Package map (target)
 
@@ -112,15 +128,33 @@ Notations.Bracket.All   optional meta-bundle
 |-------|--------|
 | **0 (now)** | This ADR; Core IR (`BracketNotationProfile`, `BracketAxis`, …) |
 | **1** | `BracketReader` implements contract; Keyboard.Quarry angle path uses **Opaque** profile; behavior unchanged |
-| **2** | Conformance `notation/bracket-square-kv` (CSX anchor fixtures); LI resolver consumes `Axes[]`, not raw parse |
-| **3** | Planet-specific profiles promoted to federation only when vectors exist |
+| **2** | Conformance `notation/bracket-cdp-square-kv`; LI resolver consumes `Axes[]` |
+| **3** | Forge `FRG` compound profile; CIDE H1 profile — promote when vectors exist |
 
-### 6. Conformance backlog
+### 6. CDP/CIDE audit (2026-08-30)
+
+SSOT parser: `guiders-core` **`BracketLocate`** (`Cdp.ScriptableIde`).
+
+| Behavior | In CDP code | In contract v0.19.3 |
+|----------|-------------|---------------------|
+| `[` `]` + `;` + first-`:` KV | ✓ `SplitAxes` | ✓ profile defaults |
+| Depth-aware `;` split | ✓ `SplitTopLevel` | ✓ `RespectBracketDepthOnAxisSplit` |
+| Strip outer `[` `]` | ✓ `StripOuterBrackets` | ✓ `StripOuterTerminals` |
+| Nested `Anchor:[…]` | ✓ recursive `Parse` | ✓ `NestedAxisKeys` + `BracketAxis.Nested` |
+| Axis aliases F/M/L/… | ✓ `AxisAlias` | ✓ `BracketAxisAliasMap` (planet) |
+| Value `:` after first | ✓ `K:Parameter:x`, `S:if:2` | ✓ first-colon rule documented |
+| H1 space layout | CIDE regex parser | **gap** — separate profile `bracket.cide-h1` (defer) |
+| `[FRG:…]` forge family | Forge ADR 0159 | **gap** — compound tail profile (defer) |
+| Family classify code/xml/nav | `ClassifyFamily` | **LI/CDP** — out of Notations |
+
+EditSniper / peek / land reuse **`BracketLocate.Parse`** — same profile, not a second grammar.
+
+### 7. Conformance backlog
 
 | Spec | Profile | Proves |
 |------|---------|--------|
-| `notation/bracket-square-kv` | `[` `]` `;` `:` | axis + KV split |
-| `notation/bracket-angle-opaque` | `<` `>` opaque | inner blob (keyboard quarry) |
+| `notation/bracket-cdp-square-kv` | `bracket.cdp-square-kv` | axes + nested Anchor |
+| `notation/bracket-angle-opaque` | `bracket.angle-opaque` | keyboard inner |
 | `language-intelligence/anchor-resolve` | (LI) | `Axes[]` → locus + tier |
 
 ---
@@ -144,6 +178,8 @@ Notations.Bracket.All   optional meta-bundle
 
 ## References
 
-- `QuarryBracketTokenParser`, `VimChordNotationParser` — seeds for opaque / square profiles
-- CIDE Anchor rename (Bracket → Anchor entity; wire stays bracket-shaped)
+- `QuarryBracketTokenParser`, `VimChordNotationParser` — opaque profile seeds
+- `Cdp.ScriptableIde.BracketLocate` — reference quarry for `bracket.cdp-square-kv`
+- CIDE `BracketCodeReferenceParser` — H1 defer profile
+- Forge ADR 0159 `[FRG:…]` — compound profile defer
 - [GUIDERS-ADR-0025 LanguageIntelligence boundary](GUIDERS-ADR-0025-language-intelligence-boundary.md)

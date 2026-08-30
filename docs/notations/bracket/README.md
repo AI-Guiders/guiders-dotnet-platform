@@ -4,39 +4,43 @@ Canonical plan: [GUIDERS-ADR-0026](../adr/GUIDERS-ADR-0026-notations-bracket-bra
 
 ## Contract (federation SSOT)
 
-| Field | Default | Role |
-|-------|---------|------|
+| Field | CDP default | Role |
+|-------|-------------|------|
 | `StartTerminal` / `EndTerminal` | `[` `]` | paired delimiters |
-| `AxisSeparator` | `;` | splits **axes** |
-| `PairDelimiter` | `:` | splits **key** / **value** within an axis |
-| `Axes[]` | — | normalized output (`BracketAxis`) |
+| `AxisSeparator` | `;` | splits **axes** (depth-aware) |
+| `PairDelimiter` | `:` | splits **key** / **value** (first only) |
+| `StripOuterTerminals` | true | `[F:…]` or inner |
+| `RespectBracketDepthOnAxisSplit` | true | nested `[` inside values |
+| `NestedAxisKeys` | `Anchor` | recursive bracket parse |
+| `Axes[]` | — | `BracketAxis { Key, Value, Nested? }` |
 
-Planets ship **profiles** (concrete terminals + delimiters + axis key vocabulary). Platform ships **contract + IR + reference parser**.
+Planet-owned: `BracketAxisAliasMap` (F/M/L/…), axis value micro-grammar (`L:12-34`, `S:if:2`), family classify (code/xml/nav).
 
-## Current state (Phase 0)
+## CDP/CIDE alignment
 
-| Location | Status |
-|----------|--------|
-| `Notations.Bracket` Core | `BracketNotationProfile`, `BracketAxis`, `BracketProfiles` constants |
-| `Notations.Keyboard.Quarry/QuarryBracketTokenParser` | Angle opaque profile seed — Phase 1 → `BracketReader` |
-| CIDE CSX `[F:…;M:…]` | Planet profile `bracket.square-kv` — conformance Phase 2 |
+| Source | Profile | Status |
+|--------|---------|--------|
+| `Cdp.ScriptableIde.BracketLocate` | `bracket.cdp-square-kv` | **matches** contract fields |
+| EditSniper / peek / land | same wire | reuse profile |
+| CIDE `BracketCodeReferenceParser` H1 | `bracket.cide-h1` (space) | **defer** — not in Core v1 |
+| Forge `[FRG:…; F:…]` | `bracket.forge-frg-compound` | **defer** — head + tail re-parse |
 
 ## Phase 1
 
 ```
-Implement BracketReader(wire, profile) in Core
+Implement BracketReader(wire, profile) — port SplitTopLevel + SplitAxes from BracketLocate
 Keyboard.Quarry → BracketProfiles.AngleOpaque
 ```
 
 ## Phase 2
 
 ```
-notation/bracket-square-kv fixtures (CSX anchor wire)
-LI IAnchorResolver ← NormalizedBracketWire.Axes (F/M meaning in adapter)
+notation/bracket-cdp-square-kv fixtures (nested Anchor, K:Parameter:x, S:if:2)
+LI IAnchorResolver ← Axes[] + BracketAxisAliasMap
 ```
 
 ## Anti-patterns
 
 - Hard-coded `[` `]` parser per product
-- Axis key semantics (`F`, `M`, `L`) in Notations package
+- Family classify (code/xml/nav) inside Notations
 - Duplicating bracket lexers inside `LanguageIntelligence.*`

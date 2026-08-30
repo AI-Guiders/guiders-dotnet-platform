@@ -142,7 +142,7 @@ Products:
 |------|---------|-------|
 | `language-intelligence/line-range` | parse + delete line range | 1 |
 | `language-intelligence/markup-wrap` | bold/wrap transform | 1 |
-| `notation/bracket-square-kv` | `[F:…;M:…]` profile → axes | 2 ([ADR-0026](GUIDERS-ADR-0026-notations-bracket-branch.md)) |
+| `notation/bracket-cdp-square-kv` | CDP profile → axes | 2 ([ADR-0026](GUIDERS-ADR-0026-notations-bracket-branch.md)) |
 | `notation/bracket-angle-opaque` | `<…>` opaque inner | 1 |
 | `language-intelligence/anchor-resolve` | normalized wire → locus + tier | 2 |
 | `language-intelligence/sniper-scope` | from/till/wire | 2 |
