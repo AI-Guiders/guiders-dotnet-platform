@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Language.Xml.Anchors</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Language.Xml.Anchors</AssemblyName>
+    <PackageId>AIGuiders.Platform.Language.Xml.Anchors</PackageId>
+    <Description>XML/XAML bracket anchor resolve (X:/A:) via text walk.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.LanguageIntelligence.Anchors\AIGuiders.Platform.LanguageIntelligence.Anchors.csproj" />
+  </ItemGroup>
+</Project>

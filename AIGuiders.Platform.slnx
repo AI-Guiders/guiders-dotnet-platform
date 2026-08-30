@@ -10,6 +10,8 @@
     <Project Path="src/AIGuiders.Platform.Cockpit.Composition/AIGuiders.Platform.Cockpit.Composition.csproj" />
     <Project Path="src/AIGuiders.Platform.Configurations.Workspace/AIGuiders.Platform.Configurations.Workspace.csproj" />
     <Project Path="src/AIGuiders.Platform.Configurations.Workspace.Sources/AIGuiders.Platform.Configurations.Workspace.Sources.csproj" />
+    <Project Path="src/AIGuiders.Platform.Configurations.Project/AIGuiders.Platform.Configurations.Project.csproj" />
+    <Project Path="src/AIGuiders.Platform.Configurations.Project.Sources/AIGuiders.Platform.Configurations.Project.Sources.csproj" />
     <Project Path="src/AIGuiders.Platform.Combinations/AIGuiders.Platform.Combinations.csproj" />
     <Project Path="src/AIGuiders.Platform.Combinations.All/AIGuiders.Platform.Combinations.All.csproj" />
     <Project Path="src/AIGuiders.Platform.Combinations.Binding/AIGuiders.Platform.Combinations.Binding.csproj" />
@@ -54,6 +56,7 @@
     <Project Path="src/AIGuiders.Platform.InputNotation.Vim/AIGuiders.Platform.InputNotation.Vim.csproj" />
     <Project Path="src/AIGuiders.Platform.InputNotation/AIGuiders.Platform.InputNotation.csproj" />
     <Project Path="src/AIGuiders.Platform.Language.CSharp.Anchors/AIGuiders.Platform.Language.CSharp.Anchors.csproj" />
+    <Project Path="src/AIGuiders.Platform.Language.Xml.Anchors/AIGuiders.Platform.Language.Xml.Anchors.csproj" />
     <Project Path="src/AIGuiders.Platform.Language.CSharp.Symbols/AIGuiders.Platform.Language.CSharp.Symbols.csproj" />
     <Project Path="src/AIGuiders.Platform.LanguageIntelligence.Anchors/AIGuiders.Platform.LanguageIntelligence.Anchors.csproj" />
     <Project Path="src/AIGuiders.Platform.LanguageIntelligence/AIGuiders.Platform.LanguageIntelligence.csproj" />

@@ -81,10 +81,15 @@ public static class NavigationSceneBuilder
     {
         var kindCounts = new Dictionary<string, int>(StringComparer.Ordinal);
         var caps = NavigationKindCaps.DefaultRelated;
+        var (include, exclude, _) = NavigationPresetMerge.Merge(
+            profile.Preset,
+            profile.IncludeKinds,
+            profile.ExcludeKinds);
+        var kindFilter = NavigationKindFilter.Create(include, exclude);
 
         foreach (var item in candidates)
         {
-            if (!NavigationPresets.AllowsKind(profile.Preset, item.Kind))
+            if (!kindFilter.Allows(item.Kind))
                 continue;
 
             if (caps.TryGetValue(item.Kind, out var cap))

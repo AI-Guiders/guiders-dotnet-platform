@@ -76,6 +76,8 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Combinations.Workspace\AIGuiders.Platform.Combinations.Workspace.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Combinations.Sources\AIGuiders.Platform.Combinations.Sources.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Configurations.Workspace.Sources\AIGuiders.Platform.Configurations.Workspace.Sources.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Configurations.Project.Sources\AIGuiders.Platform.Configurations.Project.Sources.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Language.Xml.Anchors\AIGuiders.Platform.Language.Xml.Anchors.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Correspondence.Core\AIGuiders.Platform.Documentation.Correspondence.Core.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Correspondence.Reverse\AIGuiders.Platform.Documentation.Correspondence.Reverse.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Correspondence.Resolve\AIGuiders.Platform.Documentation.Correspondence.Resolve.csproj" />
