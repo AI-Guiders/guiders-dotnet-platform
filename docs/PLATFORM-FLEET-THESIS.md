@@ -54,6 +54,46 @@ Tools optimize **first publish** (one package, one service), not **fleet ops**:
 
 ---
 
+## 3.1 Platform center — dual heritage (product, not essay)
+
+Guiders Platform is not «IDE + some federation docs». The **center of the product** is a **desktop workbench** for operating a protocol estate — composed from two mature traditions that each accumulated decades of human-factors and tooling R&D, and that **AI finally makes practical together**:
+
+| Heritage | What it contributes | Platform home |
+|----------|---------------------|---------------|
+| **Aviation** ([ADR-0007](adr/GUIDERS-ADR-0007-aviation-mental-model.md)) | Attention routing, CDS, PFD/MFD/EICAS, briefing, dark cockpit, phases 0–5 | `Cockpit.*`, CIDE/Glass contours, MCPlane tiers |
+| **CASE** (Computer-Aided Software Engineering) | Estate-wide model, multi-view workbench, round-trip discipline, review-before-commit | Fleet / Planet / Live scopes, conformance, adoption graph, pain→ADR trace |
+
+Aviation answers **how operator attention flows**. CASE answers **what object you are steering** when the «system» is dozens of repos, packages, and policies — not one app backlog.
+
+This is **platform product center**, not friction-book color. The book names the demo/production split; the **workbench is what we ship**.
+
+### Why CASE waited
+
+Rational Rose and the CASE wave (~1990s–2000s) invested heavily in:
+
+- visual architecture and dependency topology;
+- multiple synchronized views of one estate;
+- traceability from requirement → design → implementation;
+- desktop sessions measured in hours, not minutes.
+
+They stalled because **humans could not keep the model honest** against code at agile speed. The model became wallpaper; text-first IDEs won; web ate the demo channel.
+
+**AI era unlock:** agents + machine vectors + conformance CI are the **sync layer CASE never had**. Federation primitives are already Rose-shaped — without hand-drawn UML:
+
+| CASE promise (era) | Federation primitive (now) |
+|--------------------|----------------------------|
+| Living architecture model | Adoption alliance + hyperlane pins |
+| View consistency | Attention scopes (Fleet / Planet / Live) on one CDS |
+| Round-trip to code | `*.spec.json` conformance + drift gates |
+| Impact analysis before change | Briefing: pains closed, pins, alliance row |
+| Repository of truth | Pain inventory, ADRs, generated manifests |
+
+The hour CASE waited for is **high-throughput fleet ops with enforced model hygiene** — not nostalgia for diagrams.
+
+See draft [GUIDERS-ADR-0023](adr/GUIDERS-ADR-0023-case-workbench-heritage.md) · roadmap Wave 6.
+
+---
+
 ## 4. Fleet-first = same Attention model, different fill
 
 CIDE/Glass already solve **how attention is routed** — CDS, displays, course/health, briefing, EICAS-only-when-drift ([ADR-0007](adr/GUIDERS-ADR-0007-aviation-mental-model.md)).  
@@ -71,7 +111,7 @@ Product work fills those instruments with **buffers, LSP, Glass projection, slas
 | **Course / near-course** | navigation intent | roadmap wave, hyperlane direction |
 | **Health** | env ready, build | CI, conformance, pain status per planet |
 
-Desktop vs web is **host choice**, not the model. Glass/WPF, Avalonia CIDE, ANPM Human View, or agent MCPlane pulse can all project the **same attention scopes** with different renderers.
+Aviation supplies the **instrument grammar**. CASE supplies the **estate object** those instruments observe. Ingress (web, MCPlane pulse) projects slices; the **workbench** is desktop-class — see §6.
 
 ---
 
@@ -258,4 +298,4 @@ L0  Protocol hyperlanes — planets sovereign
 - [ANPM pain inventory](https://github.com/AI-Guiders/agent-nuget-pm/blob/main/docs/ANPM-pain-inventory.md) — Live/Ecosystem pains (N-xxx)  
 - [Friction-book ch.24](https://github.com/AI-Guiders/friction-book/blob/main/src/24-invisible-desktop-production.md) — invisible desktop, demo vs production channel  
 
-**Next:** `GUIDERS-ADR-0023` — normative scope model + Cockpit channel IDs for Fleet/Planet/Live telemetry.
+- [GUIDERS-ADR-0023](adr/GUIDERS-ADR-0023-case-workbench-heritage.md) — CASE heritage, platform workbench center  

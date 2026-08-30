@@ -200,6 +200,7 @@ Conformance is not paywalled. MIT packages, public ADRs, fork adapters — not f
 | Conformance sibling monorepo | [GUIDERS-ADR-0019](adr/GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md) |
 | MCPlane (agent ingress draft) | [GUIDERS-ADR-0020](adr/GUIDERS-ADR-0020-mcplane-agent-ingress.md) |
 | Aviation mental model | [GUIDERS-ADR-0007](adr/GUIDERS-ADR-0007-aviation-mental-model.md) |
+| Platform workbench (CASE heritage, draft) | [GUIDERS-ADR-0023](adr/GUIDERS-ADR-0023-case-workbench-heritage.md) · [fleet thesis](PLATFORM-FLEET-THESIS.md) |
 | All ADRs | [docs/adr/](adr/) |
 
 Planet-level constitutions (local law) remain in each repo — e.g. CIDE [ADR 0100](https://github.com/AI-Guiders/cascade-ide/blob/develop/docs/adr/0100-project-constitution.md).

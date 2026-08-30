@@ -80,6 +80,23 @@ Legend: ✅ done · 🚧 in progress · 📋 planned · ⏸ defer · 👤 operat
 
 ---
 
+## Wave 6 — Platform Workbench center (CASE × Aviation)
+
+**Goal:** ship the **product center** — desktop estate workbench; aviation attention over CASE-shaped model; AI-maintained sync.
+
+| # | Deliverable | Maps to | Status |
+|---|-------------|---------|--------|
+| 6.1 | ADR-0023 CASE workbench heritage (accept after first scope slice) | fleet thesis §3.1 | 🚧 draft |
+| 6.2 | Cockpit channel contracts: Fleet / Planet / Live scope IDs | ADR-0023 | 📋 |
+| 6.3 | Alliance + hyperlane graph projection (workbench MFD) | G-008, adoption | 📋 |
+| 6.4 | Release **briefing** bundle (pins + alliance row + open pains) | ADR-0007 briefing | 📋 |
+| 6.5 | CIDE embassy: scope switch + fleet formation view (dogfood) | CIDE planet | 📋 |
+| 6.6 | MCPlane model-hygiene hints (stale alliance, spec lag) | ADR-0020, Rose sync thesis | 📋 |
+
+**Heritage:** aviation = attention (ADR-0007); CASE = estate object (ADR-0023). Not a third metaphor — two composable traditions.
+
+---
+
 ## ANPM / NuGet (parallel track — 👤 + ops)
 
 | # | Deliverable | Pain | Status |
