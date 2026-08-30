@@ -60,7 +60,7 @@ Guiders AI Era product is not «IDE + agent chat». It is **human+agent pair + a
 
 | Pillar | Heritage | What it contributes | Federation home |
 |--------|----------|---------------------|-----------------|
-| **Aviation** | CRM, cockpit human factors | **Human + agent pair** — **PM/PF** (Pilot Monitoring / Pilot Flying): complementary roles that **rotate**, not boss + subordinate | [ADR-0007](adr/GUIDERS-ADR-0007-aviation-mental-model.md) · [essay](essay/why-aviation-not-pair-programming.md) · `Cockpit.*` |
+| **Aviation** | CRM, cockpit human factors, **incident investigation culture** | **Human + agent pair** — **PM/PF**; **system investigation** (layers, not single blame) when things go wrong | [ADR-0007](adr/GUIDERS-ADR-0007-aviation-mental-model.md) · [essay](essay/why-aviation-not-pair-programming.md) · `Cockpit.*` |
 | **Agent Env** | Agent-native habitat (CDP arc) | **Agent side of the pair** — memory, gates, packs, journal; habitat outside raw LLM window | **CDP planet** (`cdp-mcp`); [MCPlane](adr/GUIDERS-ADR-0020-mcplane-agent-ingress.md) = pair wire hyperlane |
 | **CASE** | Rose, MDA, architecture workbench | **Vision / Decision Environment** for SE — estate topology, multi-view, trace, impact before ship | Workbench + conformance · [ADR-0023](adr/GUIDERS-ADR-0023-case-workbench-heritage.md) |
 
@@ -71,6 +71,8 @@ Aviation is **not** «pretty displays» and **not** generic team management. It 
 - Roles **swap** by phase — not a fixed hierarchy. No product «PIC» knob; operator accountability (merge, prod) is **legal**, not cockpit rank.
 
 Pair programming is the first layer; aviation adds **complementary roles under load** when one pair cannot watch everything at once.
+
+**Investigation culture (stronger than typical SE):** aviation treats incidents as **system signals** — Swiss-cheese layers, independent findings, recommendations that change procedure, Just Culture (learn vs reckless). SE «five whys to one root cause» and optional blameless retro are weaker cousins. Federation maps: pain inventory = near-miss reporting; ADR = safety recommendation; drift CI = independent check; EICAS = holes aligning before crash. KB: `agent-notes/.../kb-aviation-incident-investigation-fundamentals-v1.md`.
 
 **Operator texture (not in the manual):** for many sessions the pair feels like **two engineers in the break room** — talking through architecture, friction, wild ideas. Code appearing is a **bonus pack**, not the job description. They are engineers, not secretaries. PM/PF kicks in when load rises; the default social contract is **peer**. See [essay §3.1](essay/why-aviation-not-pair-programming.md).
 
