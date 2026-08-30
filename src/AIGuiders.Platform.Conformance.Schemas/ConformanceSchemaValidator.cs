@@ -170,7 +170,11 @@ public static class ConformanceSchemaValidator
         };
 
         if (surface is not null)
+        {
             bySurface[surface] = schema;
+            if (fileName == "bracket-spec.schema.json")
+                bySurface["bracket-doc-symbol"] = schema;
+        }
     }
 
     static readonly string[] NotationSurfaces =

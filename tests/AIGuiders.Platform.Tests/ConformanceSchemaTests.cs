@@ -16,6 +16,7 @@ public sealed class ConformanceSchemaTests
     [InlineData("AIGuiders.Platform.Tests.Fixtures.Notation.argument-cli.spec.json")]
     [InlineData("AIGuiders.Platform.Tests.Fixtures.Notation.invocation-parity.spec.json")]
     [InlineData("AIGuiders.Platform.Tests.Fixtures.Notation.bracket-cdp-square-kv.spec.json")]
+    [InlineData("AIGuiders.Platform.Tests.Fixtures.Notation.bracket-doc-symbol.spec.json")]
     [InlineData("AIGuiders.Platform.Tests.Fixtures.Slash.slash-arg-completion.spec.json")]
     [InlineData("AIGuiders.Platform.Tests.Fixtures.Slash.slash-line-resolve.spec.json")]
     [InlineData("AIGuiders.Platform.Tests.Fixtures.Quarry.neovim-kbd.spec.json")]

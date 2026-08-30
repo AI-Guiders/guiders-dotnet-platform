@@ -73,6 +73,11 @@ public static class BracketProfiles
         "<",
         ">",
         AxisShape: BracketAxisShape.Opaque);
+
+    public static BracketNotationProfile DocSymbol { get; } = new(
+        "bracket.doc-symbol",
+        "[",
+        "]");
 }
 
 public static class BracketAxisValuePlans
@@ -106,5 +111,16 @@ public static class BracketAxisValuePlans
         new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
             ["FRG"] = BracketAxisValueClasses.CommandPath,
+        });
+
+    public static BracketAxisValuePlan DocSymbol { get; } = new(
+        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["Family"] = BracketAxisValueClasses.Opaque,
+            ["Package"] = BracketAxisValueClasses.Opaque,
+            ["Type"] = BracketAxisValueClasses.Opaque,
+            ["Member"] = BracketAxisValueClasses.Opaque,
+            ["CatalogField"] = BracketAxisValueClasses.Opaque,
+            ["Reader"] = BracketAxisValueClasses.Opaque,
         });
 }

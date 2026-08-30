@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "surface": "bracket-doc-symbol",
+  "source": "GUIDERS-ADR-0027",
+  "vectors": [
+    {
+      "id": "doc-type-only",
+      "wire": "[Family:doc; Type:NormalizedArguments]",
+      "expect": {
+        "axes": [
+          { "key": "Family", "value": "doc" },
+          { "key": "Type", "value": "NormalizedArguments" }
+        ]
+      }
+    },
+    {
+      "id": "doc-type-member",
+      "wire": "[Family:doc; Package:Notations.Argument; Type:ArgumentReaders; Member:Kv]",
+      "expect": {
+        "axes": [
+          { "key": "Family", "value": "doc" },
+          { "key": "Package", "value": "Notations.Argument" },
+          { "key": "Type", "value": "ArgumentReaders" },
+          { "key": "Member", "value": "Kv" }
+        ]
+      }
+    }
+  ]
+}
