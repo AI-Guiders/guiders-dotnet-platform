@@ -3,6 +3,9 @@
     <RootNamespace>AIGuiders.Platform.Notations.Bracket</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Notations.Bracket</AssemblyName>
     <PackageId>AIGuiders.Platform.Notations.Bracket</PackageId>
-    <Description>Paired-delimiter wire IR: NormalizedBracketWire, slot split (GUIDERS-ADR-0026 Phase 0).</Description>
+    <Description>Bracket notation parser + IR (GUIDERS-ADR-0026).</Description>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
+  </ItemGroup>
 </Project>

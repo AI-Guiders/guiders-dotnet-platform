@@ -1,22 +1,16 @@
-# Notations.Bracket migration checklist
+# Notations.Bracket
 
 Canonical plan: [GUIDERS-ADR-0026](../adr/GUIDERS-ADR-0026-notations-bracket-branch.md).
 
-## Primitives
+## Shipped (v0.20.0)
 
-```text
-KV       = Key + Sign + Value     (first Sign only)
-List     = KV { ListSeparator KV } wrapped in Start/End terminals
-```
+- `NotationKvPair`, `NotationListSplit` in **`AIGuiders.Platform.Notations`**
+- **`BracketReader`** in `AIGuiders.Platform.Notations.Bracket`
+- Conformance **`notation/bracket-cdp-square-kv`**
+- `Argument.Kv` uses shared `NotationKvPair`
 
-| Surface | ListSeparator | KvSign |
-|---------|---------------|--------|
-| `[F:a; S:for:2]` | `;` | `:` |
-| `doc=README op=scene` | space | `=` |
+## Remaining
 
-Inner `for:2` on axis `S:` = same KV with `Sign=':'` on the value substring.
-
-## Two-pass (optional)
-
-1. Bracket list → `BracketAxis` (envelope KV)
-2. Value class → `command.path` | `notation.kv` | `line.range` | `bracket.nested`
+- guiders-core `BracketLocate` → pin/consume `Notations.Bracket` (planet migration)
+- CIDE H1 profile, Forge FRG compound tail
+- Pass 2 structured parse (path segments, inner KV objects)

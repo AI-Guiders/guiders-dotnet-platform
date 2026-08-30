@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "surface": "bracket-cdp-square-kv",
+  "source": "GUIDERS-ADR-0026 Notations.Bracket + Cdp.ScriptableIde.BracketLocate",
+  "vectors": [
+    {
+      "id": "file-member",
+      "wire": "[F:Program.cs;M:Foo]",
+      "expect": {
+        "axes": [
+          { "key": "F", "value": "Program.cs", "valueWireClass": "command.path" },
+          { "key": "M", "value": "Foo" }
+        ]
+      }
+    },
+    {
+      "id": "scope-inner-kv",
+      "wire": "[F:a.cs;S:for:2]",
+      "expect": {
+        "axes": [
+          { "key": "F", "value": "a.cs", "valueWireClass": "command.path" },
+          { "key": "S", "value": "for:2", "valueWireClass": "notation.kv" }
+        ]
+      }
+    },
+    {
+      "id": "nested-anchor",
+      "wire": "[Family:navigation;Command:open;Anchor:[F:README.md;L:10]]",
+      "expect": {
+        "axes": [
+          { "key": "Family", "value": "navigation" },
+          { "key": "Command", "value": "open" },
+          {
+            "key": "Anchor",
+            "value": "[F:README.md;L:10]",
+            "valueWireClass": "bracket.nested",
+            "nestedAxes": [
+              { "key": "F", "value": "README.md", "valueWireClass": "command.path" },
+              { "key": "L", "value": "10", "valueWireClass": "line.range" }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

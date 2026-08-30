@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guiders.dev/conformance/schemas/bracket-spec.schema.json",
+  "title": "Bracket notation conformance spec",
+  "type": "object",
+  "required": ["version", "surface", "vectors"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "$ref": "conformance-common.schema.json#/$defs/specVersion" },
+    "surface": { "const": "bracket-cdp-square-kv" },
+    "source": { "$ref": "conformance-common.schema.json#/$defs/specSource" },
+    "vectors": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/bracketVector" }
+    }
+  },
+  "$defs": {
+    "bracketVector": {
+      "type": "object",
+      "required": ["id", "wire", "expect"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "conformance-common.schema.json#/$defs/vectorId" },
+        "wire": { "type": "string", "minLength": 1 },
+        "expect": {
+          "type": "object",
+          "required": ["axes"],
+          "additionalProperties": false,
+          "properties": {
+            "axes": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "$ref": "#/$defs/bracketAxis" }
+            }
+          }
+        }
+      }
+    },
+    "bracketAxis": {
+      "type": "object",
+      "required": ["key"],
+      "additionalProperties": false,
+      "properties": {
+        "key": { "type": "string", "minLength": 1 },
+        "value": { "type": "string" },
+        "valueWireClass": { "type": "string" },
+        "nestedAxes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/bracketAxis" }
+        }
+      }
+    }
+  }
+}

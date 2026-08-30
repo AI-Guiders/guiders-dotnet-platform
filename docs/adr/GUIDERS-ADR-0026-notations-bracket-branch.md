@@ -147,7 +147,7 @@ Notations.Bracket.All   optional meta-bundle
 | Phase | Action |
 |-------|--------|
 | **0 (now)** | This ADR; Core IR (`BracketNotationProfile`, `BracketAxis`, …) |
-| **1** | `BracketReader` implements contract; Keyboard.Quarry angle path uses **Opaque** profile; behavior unchanged |
+| **1** | ✓ `BracketReader` + `NotationKvPair`/`NotationListSplit` in Core; conformance `notation/bracket-cdp-square-kv` |
 | **2** | Conformance `notation/bracket-cdp-square-kv`; LI resolver consumes `Axes[]` |
 | **3** | Forge `FRG` compound profile; CIDE H1 profile — promote when vectors exist |
 

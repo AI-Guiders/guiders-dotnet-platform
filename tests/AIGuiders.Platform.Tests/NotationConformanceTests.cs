@@ -1,5 +1,6 @@
 #nullable enable
 using System.Reflection;
+using AIGuiders.Platform.Notations.Bracket.Conformance;
 using AIGuiders.Platform.Notations.Conformance;
 using Xunit;
 
@@ -56,6 +57,15 @@ public sealed class NotationConformanceTests
     }
 
     [Fact]
+    public void Bracket_cdp_square_kv_vectors_conform()
+    {
+        var json = LoadEmbedded("AIGuiders.Platform.Tests.Fixtures.Notation.bracket-cdp-square-kv.spec.json");
+        var spec = BracketSpecConformance.Load(json);
+        Assert.Equal("bracket-cdp-square-kv", spec.Surface);
+        Assert.Empty(BracketSpecConformance.ValidateDocument(spec));
+    }
+
+    [Fact]
     public void Argument_cli_vectors_conform()
     {
         var spec = LoadSpec("AIGuiders.Platform.Tests.Fixtures.Notation.argument-cli.spec.json");
@@ -63,12 +73,15 @@ public sealed class NotationConformanceTests
         Assert.Empty(NotationSpecConformance.ValidateDocument(spec));
     }
 
-    static NotationSpecDocument LoadSpec(string resourceName)
+    static NotationSpecDocument LoadSpec(string resourceName) =>
+        NotationSpecConformance.Load(LoadEmbedded(resourceName));
+
+    static string LoadEmbedded(string resourceName)
     {
         var asm = Assembly.GetExecutingAssembly();
         using var stream = asm.GetManifestResourceStream(resourceName)
             ?? throw new InvalidOperationException($"Missing embedded resource: {resourceName}");
         using var reader = new StreamReader(stream);
-        return NotationSpecConformance.Load(reader.ReadToEnd());
+        return reader.ReadToEnd();
     }
 }

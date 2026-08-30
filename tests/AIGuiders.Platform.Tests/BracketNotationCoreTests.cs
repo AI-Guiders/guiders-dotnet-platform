@@ -1,4 +1,5 @@
 #nullable enable
+using AIGuiders.Platform.Notations;
 using AIGuiders.Platform.Notations.Bracket;
 using Xunit;
 
@@ -11,7 +12,6 @@ public sealed class BracketNotationCoreTests
     {
         Assert.True(NotationKvPair.TrySplitFirst("S:for:2", ':', out var kv, out _));
         Assert.Equal("S", kv.Key);
-        Assert.Equal(':', kv.Sign);
         Assert.Equal("for:2", kv.Value);
 
         Assert.True(NotationKvPair.TrySplitFirst("doc=README.md", '=', out var console, out _));
@@ -20,29 +20,47 @@ public sealed class BracketNotationCoreTests
     }
 
     [Fact]
-    public void Bracket_profile_uses_colon_kv_sign_and_semicolon_list()
+    public void BracketReader_parses_cdp_square_kv()
     {
-        var profile = BracketProfiles.CdpSquareKeyValue;
-        Assert.Equal("[", profile.StartTerminal);
-        Assert.Equal(':', profile.KvSign);
-        Assert.Equal(';', profile.ListSeparator);
+        Assert.True(
+            BracketReader.Default.TryRead(
+                "[F:Program.cs;M:Foo]",
+                BracketProfiles.CdpSquareKeyValue,
+                out var wire,
+                out var error),
+            error);
+
+        Assert.NotNull(wire);
+        Assert.Equal(2, wire!.Axes.Count);
+        Assert.Equal("F", wire.Axes[0].Key);
+        Assert.Equal("Program.cs", wire.Axes[0].Value);
+        Assert.Equal(BracketAxisValueClasses.CommandPath, wire.Axes[0].ValueWireClass);
     }
 
     [Fact]
-    public void Inner_scope_value_is_kv_with_same_sign()
+    public void BracketReader_parses_nested_anchor_at_depth()
     {
-        Assert.True(NotationKvPair.TrySplitFirst("for:2", ':', out var scope, out _));
-        Assert.Equal("for", scope.Key);
-        Assert.Equal("2", scope.Value);
-        Assert.Equal(
-            BracketAxisValueClasses.Kv,
-            BracketAxisValuePlans.CdpCode.ByAxisKey["S"]);
+        Assert.True(
+            BracketReader.Default.TryRead(
+                "[Family:navigation;Command:open;Anchor:[F:README.md;L:10]]",
+                BracketProfiles.CdpSquareKeyValue,
+                out var wire,
+                out var error),
+            error);
+
+        Assert.NotNull(wire);
+        var anchor = wire!.Axes[2];
+        Assert.Equal("Anchor", anchor.Key);
+        Assert.NotNull(anchor.Nested);
+        Assert.Equal("README.md", anchor.Nested!.Axes[0].Value);
     }
 
     [Fact]
-    public void BracketAxis_is_envelope_kv()
+    public void BracketReader_angle_opaque_profile()
     {
-        var axis = new BracketAxis("F", ':', "src/Foo.cs");
-        Assert.Equal(new NotationKvPair("F", ':', "src/Foo.cs"), axis.ToKvPair());
+        Assert.True(
+            BracketReader.Default.TryRead("<C-k>", BracketProfiles.AngleOpaque, out var wire, out var error),
+            error);
+        Assert.Equal("C-k", wire!.Axes[0].Value);
     }
 }

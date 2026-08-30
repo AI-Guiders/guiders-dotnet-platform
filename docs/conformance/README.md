@@ -99,7 +99,7 @@ Implementations **do not** live in this repo — only contracts.
 | `notation/neovim-kbd` | wire → IR | **exists** (move) | `QuarryNotationConformanceTests` | — |
 | `notation/emacs-kbd` | wire → IR | **exists** (move) | `QuarryNotationConformanceTests` | — |
 | `language-intelligence/line-range` | line range parse + text delete | planned (ADR-0025 P1) | `EditorSurfaceTests` (quarry) | Forge/CIDE buffer |
-| `notation/bracket-cdp-square-kv` | CDP wire → axes + nested | planned (ADR-0026 P2) | `BracketLocate` (quarry) | CSX, sniper, peek |
+| `notation/bracket-cdp-square-kv` | CDP wire → axes + nested | **shipped** | `BracketConformanceTests` | CSX, sniper, peek |
 | `notation/bracket-angle-opaque` | `<…>` opaque inner | planned (ADR-0026 P1) | `QuarryBracketTokenParser` (quarry) | keyboard oracle |
 | `language-intelligence/anchor-resolve` | normalized wire → locus + tier | planned (ADR-0025 P2) | — | CDP sniper |
 | `mcplane/pulse-default` | agent envelope pulse | **shipped** | `McPlaneConformanceTests` | Forge `/capabilities` |

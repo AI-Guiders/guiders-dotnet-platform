@@ -2,7 +2,7 @@
   <PropertyGroup>
     <RootNamespace>AIGuiders.Platform.Notations</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Notations</AssemblyName>
-    <Description>Notations argument core IR — NormalizedArgTail (GUIDERS-ADR-0021). Command IR moved to Notations.Command.</Description>
+    <Description>Notations core IR — NormalizedArgTail, NotationKvPair, list split (GUIDERS-ADR-0021/0026).</Description>
     <PackageId>AIGuiders.Platform.Notations</PackageId>
   </PropertyGroup>
   <ItemGroup>

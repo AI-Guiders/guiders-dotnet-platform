@@ -10,13 +10,8 @@ public static class KvArgumentNotation
         var slots = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         foreach (var token in tail.Split(' ', StringSplitOptions.RemoveEmptyEntries))
         {
-            var eq = token.IndexOf('=');
-            if (eq <= 0 || eq >= token.Length - 1)
-                continue;
-
-            var key = token[..eq];
-            var value = token[(eq + 1)..];
-            slots[key] = value;
+            if (NotationKvPair.TrySplitFirst(token, '=', out var kv, out _))
+                slots[kv.Key] = kv.Value;
         }
 
         return slots.Count > 0

@@ -32,6 +32,7 @@ public static class ConformanceSchemaValidator
         MapConstSurface(CatalogSchemas, "slash-line-resolve.schema.json", bySurface);
         MapConstSurface(CatalogSchemas, "mcplane-pulse-default.schema.json", bySurface);
         MapConstSurface(CatalogSchemas, "mcplane-next-hints.schema.json", bySurface);
+        MapConstSurface(CatalogSchemas, "bracket-spec.schema.json", bySurface);
 
         if (CatalogSchemas.TryGetValue("notation-spec.schema.json", out var notationSchema))
         {
@@ -164,6 +165,7 @@ public static class ConformanceSchemaValidator
             "slash-line-resolve.schema.json" => "slash-line-resolve",
             "mcplane-pulse-default.schema.json" => "mcplane-pulse-default",
             "mcplane-next-hints.schema.json" => "mcplane-next-hints",
+            "bracket-spec.schema.json" => "bracket-cdp-square-kv",
             _ => null,
         };
 
