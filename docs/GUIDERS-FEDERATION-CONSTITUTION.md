@@ -33,12 +33,12 @@ The product center is **not** one planet eating others. Three traditions compose
 
 | Pillar | What it gives | Question answered | Home |
 |--------|---------------|-------------------|------|
-| **Aviation** | Crew interaction — attention split, cognitive budget, pressure, briefing, CRM between humans and agents | *Who watches what, under load, before we act?* | Platform `Cockpit.*` + CIDE/Glass (ADR-0007) |
+| **Aviation** | CRM for **human + agent pair** — asymmetric crew, attention split, cognitive budget, pressure, briefing before act | *In this pair, who watches what, under load?* | Platform `Cockpit.*` + CIDE/Glass (ADR-0007) |
 | **Agent Env** | Agent habitat — memory, gates, packs, journal; mutate habitat outside raw chat context | *Where does the agent live and remember?* | **CDP** (`cdp-mcp`) — sovereign planet |
 | **CASE** | SE **Vision / Decision Environment** — estate topology, multi-view workbench, trace, review-before-commit | *What are we steering, and what changes if we ship?* | Platform workbench + conformance (ADR-0023) |
 
 ```text
-     Human crew (Aviation)          Vision / Decision (CASE)
+     Human + agent pair (Aviation)     Vision / Decision (CASE)
               \                            /
                \   hyperlanes (platform)   /
                 \   MCPlane · Cockpit ·   /

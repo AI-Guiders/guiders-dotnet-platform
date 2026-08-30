@@ -12,9 +12,9 @@ Guiders AI Era product center composes **three pillars** (fleet thesis §3.1–3
 
 | Pillar | Role | Home |
 |--------|------|------|
-| **Aviation** | Crew attention — cognitive budget, pressure, briefing, human+agent CRM | ADR-0007 · `Cockpit.*` · CIDE/Glass |
-| **Agent Env** | Agent habitat — memory, gates, packs, journal | **CDP planet** (`cdp-mcp`); MCPlane = federation ingress |
-| **CASE** (this ADR) | **Vision / Decision Environment** for SE — estate model, views, trace, review | Platform workbench + conformance |
+| **Aviation** | **Human + agent pair** — CRM, asymmetric crew, cognitive budget, briefing, pressure | ADR-0007 · [essay](../essay/why-aviation-not-pair-programming.md) · `Cockpit.*` |
+| **Agent Env** | **Agent half** of the pair — memory, gates, packs, journal | **CDP planet** (`cdp-mcp`); MCPlane = pair wire hyperlane |
+| **CASE** (this ADR) | **Vision / Decision Environment** — shared estate model the pair steers | Platform workbench + conformance |
 
 This ADR normates the **CASE pillar** only. It does not subsume Aviation glossary (ADR-0007) or CDP product law.
 
@@ -25,7 +25,7 @@ This ADR normates the **CASE pillar** only. It does not subsume Aviation glossar
 ## Decision
 
 1. **CASE pillar = desktop Vision/Decision Environment** for protocol estates — architecturally non-optional for full fleet ops (ingress satellites allowed; replacement not).
-2. **Three pillars compose:** Aviation routes **crew attention** over CASE **decision views**, while Agent Env maintains **model hygiene** and habitat (CDP + MCPlane).
+2. **Three pillars compose:** Aviation governs the **human+agent pair**; CASE is the **shared decision surface**; Agent Env is the **agent half's habitat** (CDP + MCPlane pair wire).
 3. **Living model** is machine-maintained SSOT under test — not hand-drawn UML as source of truth.
 4. **AI + conformance + Agent Env** provide the sync layer the Rose era lacked.
 
@@ -65,15 +65,15 @@ The federation is already building the Rose **that syncs** — without requiring
 
 ---
 
-## Attention scopes (CASE object × aviation crew discipline)
+## Attention scopes (CASE object × aviation pair discipline)
 
-| Scope | CASE «view» | Aviation crew role |
-|-------|-------------|-------------------|
-| **Fleet** | Formation / portfolio topology | Shared picture; who owns fleet course |
-| **Planet / Ship** | Product / release-train view | Local PFD; ship crew briefing |
-| **Live / Ecosystem** | Infrastructure substrate | Engineering / ground crew contour |
+| Scope | CASE «view» | Human+agent pair role |
+|-------|-------------|----------------------|
+| **Fleet** | Formation / portfolio topology | Shared picture; who owns fleet course in this pair |
+| **Planet / Ship** | Product / release-train view | Local PFD; pair briefing before ship |
+| **Live / Ecosystem** | Infrastructure substrate | Agent triage + human escalation contour |
 
-Scope switch = change **decision root**; crew attention rules unchanged (ADR-0007).
+Scope switch = change **decision root**; pair attention rules unchanged (ADR-0007).
 
 ---
 
@@ -93,7 +93,7 @@ Normative channel IDs and DTOs — follow-on quarry after L1 telemetry stable (r
 ## Consequences
 
 - Roadmap **Wave 6** tracks workbench center explicitly (not only protocol waves).
-- Product positioning: **Vision/Decision workbench** for protocol estates — aviation crew discipline on CASE estate model, Agent Env as neighbor habitat.
+- Product positioning: **Vision/Decision workbench** for the human+agent pair — aviation pair protocols on CASE estate model; Agent Env as agent half's neighbor habitat.
 - Essays and friction-book may cite this ADR; **normative behavior lives here and in fleet thesis**.
 
 ---

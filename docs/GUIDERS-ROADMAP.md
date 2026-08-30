@@ -93,7 +93,7 @@ Legend: ✅ done · 🚧 in progress · 📋 planned · ⏸ defer · 👤 operat
 | 6.5 | CIDE embassy: scope switch + fleet formation view (dogfood) | CIDE planet | 📋 |
 | 6.6 | MCPlane model-hygiene hints (stale alliance, spec lag) | ADR-0020, Rose sync thesis | 📋 |
 
-**Heritage:** aviation = crew attention (ADR-0007); CASE = vision/decision (ADR-0023); Agent Env = CDP neighbor + MCPlane ingress. Three pillars, hyperlane glue.
+**Heritage:** aviation = human+agent pair (ADR-0007); CASE = shared vision/decision (ADR-0023); Agent Env = agent half + MCPlane pair wire.
 
 ---
 

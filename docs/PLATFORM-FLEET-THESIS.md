@@ -56,21 +56,21 @@ Tools optimize **first publish** (one package, one service), not **fleet ops**:
 
 ## 3.1 Platform center — three pillars (product, not essay)
 
-Guiders AI Era product is not «IDE + agent chat». It is **human crew + agent habitat + decision environment** — three bodies of R&D that each waited decades, now composable because AI changes sync cost and throughput:
+Guiders AI Era product is not «IDE + agent chat». It is **human+agent pair + agent habitat + decision environment** — three bodies of R&D that each waited decades, now composable because AI changes sync cost and throughput:
 
 | Pillar | Heritage | What it contributes | Federation home |
 |--------|----------|---------------------|-----------------|
-| **Aviation** | CRM, cockpit human factors | **Team attention** — who holds what, cognitive budget, work under pressure, briefing before act, dark cockpit until drift | [ADR-0007](adr/GUIDERS-ADR-0007-aviation-mental-model.md) · `Cockpit.*` · CIDE/Glass |
-| **Agent Env** | Agent-native habitat (CDP arc) | **Agent environment** — memory, gates, packs, journal; habitat outside raw LLM window | **CDP planet** (`cdp-mcp`); [MCPlane](adr/GUIDERS-ADR-0020-mcplane-agent-ingress.md) = neutral ingress hyperlane |
+| **Aviation** | CRM, cockpit human factors | **Human + agent pair** — asymmetric crew (operator + agent), who holds what attention, shared cognitive budget, work under pressure, briefing before act | [ADR-0007](adr/GUIDERS-ADR-0007-aviation-mental-model.md) · [essay](essay/why-aviation-not-pair-programming.md) · `Cockpit.*` |
+| **Agent Env** | Agent-native habitat (CDP arc) | **Agent side of the pair** — memory, gates, packs, journal; habitat outside raw LLM window | **CDP planet** (`cdp-mcp`); [MCPlane](adr/GUIDERS-ADR-0020-mcplane-agent-ingress.md) = pair wire hyperlane |
 | **CASE** | Rose, MDA, architecture workbench | **Vision / Decision Environment** for SE — estate topology, multi-view, trace, impact before ship | Workbench + conformance · [ADR-0023](adr/GUIDERS-ADR-0023-case-workbench-heritage.md) |
 
-Aviation is **not** «pretty displays». It is **crew resource management** for human+agent teams: distribute attention, protect cognitive budget, survive pressure without losing the picture.
+Aviation is **not** «pretty displays» and **not** generic team management. It is **CRM for the human+agent pair**: pair programming is the first layer; aviation adds **asymmetry** (human PIC, agent second pilot), overload, and protocols when stakes rise. See [why-aviation-not-pair-programming](essay/why-aviation-not-pair-programming.md).
 
-CASE is **not** UML nostalgia. It is the **decision surface** — what the estate looks like, what moves if you release, what trace you break.
+CASE is **not** UML nostalgia. It is the **shared decision surface** the pair steers against — what the estate looks like, what moves if you ship.
 
-Agent Env is **not** federation SSOT. CDP is a **sovereign neighbor** that ships habitat; platform ships **neutral envelopes** agents can speak across planets.
+Agent Env is **not** federation SSOT. CDP is the **agent half's home**; platform ships neutral envelopes the pair speaks through.
 
-Together = the candy AI Era actually needs: **steer together, remember together, decide together**.
+Together = the candy AI Era needs: **one operator and one agent, steering together, remembering together, deciding on evidence**.
 
 ### 3.2 Neighbors — collaborate on hyperlanes, not annexation
 
@@ -88,7 +88,7 @@ We are **next-door products**, not one repo to rule them all:
 1. **Compete on planet, integrate on protocol** — no Borg merge for convenience.  
 2. **Dogfood early, normative late** — CDP experiments inform; vectors + neutral types gate.  
 3. **Embassy, not capital** — reference consumers prove lanes; no planet becomes federation law by being first.  
-4. **MCPlane bridges Agent Env to crew** — pulse/default for agents; aviation briefing for humans; CASE model underneath both.
+4. **MCPlane = pair wire** — pulse/default on agent side; briefing + displays on human side; CASE model is what both look at.
 
 See [Constitution — AI Era stack](GUIDERS-FEDERATION-CONSTITUTION.md#ai-era-stack--three-pillars-neighbors-not-war).
 
@@ -103,7 +103,7 @@ Rational Rose and the CASE wave (~1990s–2000s) invested heavily in:
 
 They stalled because **humans could not keep the model honest** against code at agile speed. The model became wallpaper; text-first IDEs won; web ate the demo channel.
 
-**AI era unlock:** Agent Env maintains vectors; conformance CI judges; human crew reviews in CASE workbench under aviation attention rules:
+**AI era unlock:** Agent Env holds the agent side of the pair; conformance CI judges; the **human+agent pair** reviews in CASE workbench under aviation pair protocols:
 
 | CASE promise (era) | Federation primitive (now) |
 |--------------------|----------------------------|
@@ -114,7 +114,7 @@ They stalled because **humans could not keep the model honest** against code at 
 | Repository of truth | Pain inventory, ADRs, generated manifests |
 | Model clerk | Agent Env + MCPlane hygiene hints |
 
-The hour all three waited for: **high-throughput human+agent crew, with enforced model hygiene and a real decision environment** — not chat replacing the workbench.
+The hour all three waited for: **human+agent pair at fleet throughput**, with enforced model hygiene and a real decision environment — not chat replacing the workbench.
 
 See [ADR-0023](adr/GUIDERS-ADR-0023-case-workbench-heritage.md) · roadmap Wave 6.
 
@@ -137,7 +137,7 @@ Product work fills those instruments with **buffers, LSP, Glass projection, slas
 | **Course / near-course** | navigation intent | roadmap wave, hyperlane direction |
 | **Health** | env ready, build | CI, conformance, pain status per planet |
 
-Aviation supplies **crew discipline** (who watches what, under pressure). CASE supplies the **estate object** and decision views. Agent Env supplies **agent memory and habitat**. Ingress (web, MCPlane pulse) projects slices; the **workbench** is desktop-class — see §6.
+Aviation supplies **pair discipline** (human PIC + agent second pilot — who watches what, under pressure). CASE supplies the **shared decision surface**. Agent Env supplies the **agent half's habitat**. Ingress (web, MCPlane pulse) projects slices; the **workbench** is desktop-class — see §6.
 
 ---
 
