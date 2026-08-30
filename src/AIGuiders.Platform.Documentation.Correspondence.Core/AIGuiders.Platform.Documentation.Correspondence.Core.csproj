@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Documentation.Correspondence</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Documentation.Correspondence.Core</AssemblyName>
+    <PackageId>AIGuiders.Platform.Documentation.Correspondence.Core</PackageId>
+    <Description>Correspondence IR: forward/reverse anchors, result bundle (GUIDERS-ADR-0028).</Description>
+  </PropertyGroup>
+</Project>

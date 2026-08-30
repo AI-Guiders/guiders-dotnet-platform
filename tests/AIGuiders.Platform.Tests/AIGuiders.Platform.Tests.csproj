@@ -68,6 +68,9 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.LinkCheck\AIGuiders.Platform.Documentation.LinkCheck.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.LinkMutate\AIGuiders.Platform.Documentation.LinkMutate.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Reports\AIGuiders.Platform.Documentation.Reports.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Correspondence.Core\AIGuiders.Platform.Documentation.Correspondence.Core.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Correspondence.Reverse\AIGuiders.Platform.Documentation.Correspondence.Reverse.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Correspondence.Resolve\AIGuiders.Platform.Documentation.Correspondence.Resolve.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Language.CSharp.Anchors\AIGuiders.Platform.Language.CSharp.Anchors.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Language.CSharp.Symbols\AIGuiders.Platform.Language.CSharp.Symbols.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Bracket\AIGuiders.Platform.Notations.Bracket.csproj" />
