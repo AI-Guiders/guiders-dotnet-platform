@@ -2,10 +2,11 @@
   <PropertyGroup>
     <RootNamespace>AIGuiders.Platform.Notations</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Notations</AssemblyName>
-    <Description>Notations core IR — NormalizedArgTail, NotationKvPair, list split (GUIDERS-ADR-0021/0026).</Description>
+    <Description>Notations shared primitives — NotationKvPair, list split; legacy aliases (GUIDERS-ADR-0021).</Description>
     <PackageId>AIGuiders.Platform.Notations</PackageId>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument\AIGuiders.Platform.Notations.Argument.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Command\AIGuiders.Platform.Notations.Command.csproj" />
   </ItemGroup>
 </Project>

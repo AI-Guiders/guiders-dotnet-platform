@@ -1,11 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
+
     <RootNamespace>AIGuiders.Platform.Notations.Argument.Delimited</RootNamespace>
+
     <AssemblyName>AIGuiders.Platform.Notations.Argument.Delimited</AssemblyName>
+
     <Description>Colon-delimited argument notation (GUIDERS-ADR-0021 Wave 4).</Description>
+
     <PackageId>AIGuiders.Platform.Notations.Argument.Delimited</PackageId>
+
   </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
+
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument\AIGuiders.Platform.Notations.Argument.csproj" />
+
   </ItemGroup>
+
 </Project>
+

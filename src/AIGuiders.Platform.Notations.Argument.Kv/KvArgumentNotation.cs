@@ -1,11 +1,14 @@
+using AIGuiders.Platform.Notations;
+using AIGuiders.Platform.Notations.Argument;
+
 namespace AIGuiders.Platform.Notations.Argument.Kv;
 
 public static class KvArgumentNotation
 {
-    public static NormalizedArgTail Parse(string tail)
+    public static NormalizedArgumentWire Parse(string tail)
     {
         if (string.IsNullOrWhiteSpace(tail))
-            return NormalizedArgTail.FromRaw("");
+            return NormalizedArgumentWire.FromRaw("");
 
         var slots = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         foreach (var token in tail.Split(' ', StringSplitOptions.RemoveEmptyEntries))
@@ -15,7 +18,7 @@ public static class KvArgumentNotation
         }
 
         return slots.Count > 0
-            ? NormalizedArgTail.FromSlots(slots)
-            : NormalizedArgTail.FromRaw(tail);
+            ? NormalizedArgumentWire.FromSlots(slots)
+            : NormalizedArgumentWire.FromRaw(tail);
     }
 }

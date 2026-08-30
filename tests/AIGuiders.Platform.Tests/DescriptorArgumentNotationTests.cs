@@ -1,6 +1,6 @@
 using AIGuiders.Platform.CommandPlane;
 using AIGuiders.Platform.CommandPlane.Sources;
-using AIGuiders.Platform.Notations;
+using AIGuiders.Platform.Notations.Argument;
 using AIGuiders.Platform.Notations.Command.Console;
 using Xunit;
 

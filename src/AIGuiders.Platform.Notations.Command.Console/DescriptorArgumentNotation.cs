@@ -1,4 +1,4 @@
-using AIGuiders.Platform.Notations;
+using AIGuiders.Platform.Notations.Argument;
 using AIGuiders.Platform.Notations.Argument.Cli;
 using AIGuiders.Platform.Notations.Argument.Delimited;
 using AIGuiders.Platform.Notations.Argument.Kv;
@@ -9,10 +9,10 @@ namespace AIGuiders.Platform.Notations.Command.Console;
 /// <summary>Descriptor-driven tail parse: wireClass + per-command arg schema (GUIDERS-ADR-0021).</summary>
 public static class DescriptorArgumentNotation
 {
-    public static NormalizedArgTail ParseTail(string? tail, InvocationArgDescriptor? descriptor = null)
+    public static NormalizedArgumentWire ParseTail(string? tail, InvocationArgDescriptor? descriptor = null)
     {
         if (string.IsNullOrWhiteSpace(tail))
-            return NormalizedArgTail.FromRaw("", descriptor?.TailWireClass);
+            return NormalizedArgumentWire.FromRaw("", descriptor?.TailWireClass);
 
         var wireClass = ResolveWireClass(tail, descriptor);
         return wireClass switch
@@ -24,7 +24,7 @@ public static class DescriptorArgumentNotation
             InvocationArgWireClasses.Positional => PositionalArgumentNotation.Parse(tail),
             InvocationArgWireClasses.Delimited or InvocationArgWireClasses.Colon =>
                 DelimitedArgumentNotation.Parse(tail),
-            _ => NormalizedArgTail.FromRaw(tail.Trim(), wireClass),
+            _ => NormalizedArgumentWire.FromRaw(tail.Trim(), wireClass),
         };
     }
 

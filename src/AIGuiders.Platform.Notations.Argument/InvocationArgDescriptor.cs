@@ -1,4 +1,4 @@
-namespace AIGuiders.Platform.Notations;
+namespace AIGuiders.Platform.Notations.Argument;
 
 public enum InvocationArgParameterKind
 {
@@ -14,7 +14,7 @@ public sealed record InvocationArgParameter(
     string? LongOption = null,
     string? ShortOption = null);
 
-/// <summary>How to parse invocation tail wire for a resolved command.</summary>
+/// <summary>How to parse invocation argument wire for a resolved command.</summary>
 public sealed record InvocationArgDescriptor(
     string? TailWireClass = null,
     IReadOnlyList<InvocationArgParameter>? Parameters = null);

@@ -1,4 +1,4 @@
-using AIGuiders.Platform.Notations;
+using AIGuiders.Platform.Notations.Argument;
 using AIGuiders.Platform.Notations.Argument.Kv;
 using AIGuiders.Platform.Notations.Command;
 
@@ -10,10 +10,10 @@ public static class ConsoleCommandNotation
     /// Splits <paramref name="line"/> into path tokens (before first kv token) and kv tail.
     /// Example: <c>buffer open doc=README.md</c> → path <c>buffer open</c>, slot <c>doc=README.md</c>.
     /// </summary>
-    public static bool TryParse(string line, out SlashWireBody pathWire, out NormalizedArgTail argTail)
+    public static bool TryParse(string line, out SlashWireBody pathWire, out NormalizedArgumentWire argTail)
     {
         pathWire = new SlashWireBody([], false);
-        argTail = NormalizedArgTail.FromRaw("");
+        argTail = NormalizedArgumentWire.FromRaw("");
 
         if (string.IsNullOrWhiteSpace(line))
             return false;
@@ -48,10 +48,10 @@ public static class ConsoleCommandNotation
     }
 
     /// <summary>Path/tail split + descriptor-driven tail parse (kv default path split).</summary>
-    public static bool TryParse(string line, InvocationArgDescriptor? descriptor, out SlashWireBody pathWire, out NormalizedArgTail argTail)
+    public static bool TryParse(string line, InvocationArgDescriptor? descriptor, out SlashWireBody pathWire, out NormalizedArgumentWire argTail)
     {
         pathWire = new SlashWireBody([], false);
-        argTail = NormalizedArgTail.FromRaw("");
+        argTail = NormalizedArgumentWire.FromRaw("");
 
         if (string.IsNullOrWhiteSpace(line))
             return false;

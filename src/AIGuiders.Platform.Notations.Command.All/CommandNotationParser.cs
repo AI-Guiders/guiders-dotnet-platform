@@ -1,6 +1,6 @@
 #nullable enable
 
-using AIGuiders.Platform.Notations;
+using AIGuiders.Platform.Notations.Argument;
 using AIGuiders.Platform.Notations.Command.Console;
 using AIGuiders.Platform.Notations.Command.Slash;
 
@@ -13,10 +13,10 @@ public static class CommandNotationParser
         string? line,
         CommandNotationSurface surface,
         out SlashWireBody pathWire,
-        out NormalizedArgTail argTail)
+        out NormalizedArgumentWire argTail)
     {
         pathWire = new SlashWireBody([], false);
-        argTail = NormalizedArgTail.FromRaw("");
+        argTail = NormalizedArgumentWire.FromRaw("");
 
         if (string.IsNullOrWhiteSpace(line))
             return false;

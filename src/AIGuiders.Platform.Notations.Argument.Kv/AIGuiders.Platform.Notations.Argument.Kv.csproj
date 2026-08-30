@@ -6,6 +6,7 @@
     <PackageId>AIGuiders.Platform.Notations.Argument.Kv</PackageId>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument\AIGuiders.Platform.Notations.Argument.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
   </ItemGroup>
 </Project>

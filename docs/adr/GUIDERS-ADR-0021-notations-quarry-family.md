@@ -27,7 +27,7 @@ Operators asked: if Vim and KeyGesture are two **notations** for the same keyboa
 Notations
 ├── Keyboard.*     ← today InputNotation.* (rename target)
 ├── Command.*      ← path / verb wire → NormalizedCommandLine
-├── Argument.*     ← tail / params wire → NormalizedArgTail
+├── Argument.*     ← params wire → NormalizedArgumentWire (`Notations.Argument`)
 └── Bracket.*      ← paired delimiters `<…>` `[…]` → NormalizedBracketWire ([ADR-0026](GUIDERS-ADR-0026-notations-bracket-branch.md))
 ```
 
@@ -65,13 +65,13 @@ WIRE FORMAT(s)  →  IR (branch Core)  →  MECHANIC / product
 |--------|----------|---------|---------------|
 | **Keyboard** | How is a key/gesture written? | `NormalizedKeySequence` | Vim, Neovim, Emacs, KeyGesture |
 | **Command** | How is a command **named** in text? | `NormalizedCommandLine` | Slash path, console path, flat verb |
-| **Argument** | How are **params** written after the name? | `NormalizedArgTail` | slash remainder, `key=value`, JSON (optional) |
+| **Argument** | How are **params** written after the name? | `NormalizedArgumentWire` | slash remainder, `key=value`, JSON (optional) |
 | **Bracket** | How is a **paired-delimiter** payload written? | `NormalizedBracketWire` + `BracketNotationProfile` | `[F:…;M:…]`, `<C-k>` (profile-specific) |
 
 **Compose at resolve time:**
 
 ```text
-NormalizedInvocation = NormalizedCommandLine + NormalizedArgTail?
+NormalizedInvocation = NormalizedCommandLine + NormalizedArgumentWire?
        │
        └──► SlashCatalogIndex / registry  ──► commandId  ──► Execute
 ```
@@ -95,7 +95,7 @@ Notations.Command.Core      NormalizedCommandLine { Path, PathSegments[] }
 Notations.Command.Slash     `/domain/object/intent` body (no leading `/` policy in reader)
 Notations.Command.Console   neutral path tokens (no `@intent` — product extension)
 
-Notations.Argument.Core     NormalizedArgTail { Raw, Slots?, WireClass? }
+Notations.Argument            NormalizedArgumentWire { Raw, Slots?, WireClass? } (+ InvocationArgDescriptor)
 Notations.Argument.Slash    space-separated tail + picker token passthrough
 Notations.Argument.Kv       `key=value` rest-of-line (console parity)
 Notations.Argument.Positional ordered tokens (v1)

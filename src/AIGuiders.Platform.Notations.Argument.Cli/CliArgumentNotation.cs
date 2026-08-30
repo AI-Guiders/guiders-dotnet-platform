@@ -1,4 +1,4 @@
-using AIGuiders.Platform.Notations;
+using AIGuiders.Platform.Notations.Argument;
 
 namespace AIGuiders.Platform.Notations.Argument.Cli;
 
@@ -10,10 +10,10 @@ public static class CliArgumentNotation
 {
     public const string WireClassCli = "cli";
 
-    public static NormalizedArgTail Parse(string tail)
+    public static NormalizedArgumentWire Parse(string tail)
     {
         if (string.IsNullOrWhiteSpace(tail))
-            return NormalizedArgTail.FromRaw("", WireClassCli);
+            return NormalizedArgumentWire.FromRaw("", WireClassCli);
 
         var slots = new Dictionary<string, string>(StringComparer.Ordinal);
         var tokens = Tokenize(tail);
@@ -50,15 +50,15 @@ public static class CliArgumentNotation
         }
 
         return slots.Count > 0
-            ? NormalizedArgTail.FromSlots(slots, WireClassCli)
-            : NormalizedArgTail.FromRaw(tail.Trim(), WireClassCli);
+            ? NormalizedArgumentWire.FromSlots(slots, WireClassCli)
+            : NormalizedArgumentWire.FromRaw(tail.Trim(), WireClassCli);
     }
 
     /// <summary>Schema-aware CLI parse: <c>--config release</c>, value flags, positional slots by name.</summary>
-    public static NormalizedArgTail ParseWithSchema(string tail, IReadOnlyList<InvocationArgParameter> schema)
+    public static NormalizedArgumentWire ParseWithSchema(string tail, IReadOnlyList<InvocationArgParameter> schema)
     {
         if (string.IsNullOrWhiteSpace(tail))
-            return NormalizedArgTail.FromRaw("", WireClassCli);
+            return NormalizedArgumentWire.FromRaw("", WireClassCli);
 
         var byLong = new Dictionary<string, InvocationArgParameter>(StringComparer.Ordinal);
         var byShort = new Dictionary<string, InvocationArgParameter>(StringComparer.Ordinal);
@@ -149,8 +149,8 @@ public static class CliArgumentNotation
         }
 
         return slots.Count > 0
-            ? NormalizedArgTail.FromSlots(slots, WireClassCli)
-            : NormalizedArgTail.FromRaw(tail.Trim(), WireClassCli);
+            ? NormalizedArgumentWire.FromSlots(slots, WireClassCli)
+            : NormalizedArgumentWire.FromRaw(tail.Trim(), WireClassCli);
     }
 
     static void AssignLongOption(

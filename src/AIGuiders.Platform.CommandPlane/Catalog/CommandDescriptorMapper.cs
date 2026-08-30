@@ -1,6 +1,6 @@
 #nullable enable
 using System.Text.Json;
-using AIGuiders.Platform.Notations;
+using AIGuiders.Platform.Notations.Argument;
 
 namespace AIGuiders.Platform.CommandPlane;
 
