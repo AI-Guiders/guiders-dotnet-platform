@@ -12,6 +12,12 @@
     <EmbeddedResource Include="Fixtures\Quarry\neovim-kbd-v1.spec.json" />
     <EmbeddedResource Include="Fixtures\Quarry\emacs-kbd-v1.spec.json" />
     <EmbeddedResource Include="Fixtures\Slash\slash-arg-completion-v1.spec.json" />
+    <EmbeddedResource Include="Fixtures\Slash\slash-line-resolve-v1.spec.json" />
+    <EmbeddedResource Include="Fixtures\Notation\command-slash-v1.spec.json" />
+    <EmbeddedResource Include="Fixtures\Notation\argument-kv-v1.spec.json" />
+    <EmbeddedResource Include="Fixtures\Notation\invocation-parity-v1.spec.json" />
+    <EmbeddedResource Include="Fixtures\MCPlane\pulse-default-v1.spec.json" />
+    <EmbeddedResource Include="Fixtures\MCPlane\next-hints-v1.spec.json" />
     <None Include="Fixtures\hotkeys.toml" CopyToOutputDirectory="PreserveNewest" Link="Fixtures\hotkeys.toml" />
   </ItemGroup>
   <ItemGroup>
@@ -40,5 +46,6 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Command.Slash\AIGuiders.Platform.Notations.Command.Slash.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Argument.Kv\AIGuiders.Platform.Notations.Argument.Kv.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Command.Console\AIGuiders.Platform.Notations.Command.Console.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.MCPlane\AIGuiders.Platform.MCPlane.csproj" />
   </ItemGroup>
 </Project>

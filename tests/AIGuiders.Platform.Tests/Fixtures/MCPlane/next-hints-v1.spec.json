@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "surface": "mcplane-next-hints",
+  "tier": "v1",
+  "source": "GUIDERS-ADR-0020 next[] hints shape",
+  "vectors": [
+    {
+      "id": "command-and-tool-hints",
+      "outcome": {
+        "raw": "Repo created",
+        "verb": "observe",
+        "ok": true,
+        "pulse": "Repo created"
+      },
+      "next": [
+        { "kind": "command", "commandId": "forge.repo.open", "label": "Open repo" },
+        { "kind": "tool", "toolName": "forge_issue_list", "label": "List issues" }
+      ],
+      "expect": {
+        "nextCount": 2,
+        "nextKinds": ["command", "tool"]
+      }
+    }
+  ]
+}

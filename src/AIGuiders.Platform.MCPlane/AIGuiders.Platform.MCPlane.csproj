@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.MCPlane</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.MCPlane</AssemblyName>
+    <Description>MCPlane agent ingress envelope — pulse, detail tiers, next hints (GUIDERS-ADR-0020).</Description>
+    <PackageId>AIGuiders.Platform.MCPlane</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Abstractions\AIGuiders.Platform.Abstractions.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mcplane\pulse-default-v1.spec.json" Pack="true" PackagePath="mcplane\" />
+    <None Include="mcplane\next-hints-v1.spec.json" Pack="true" PackagePath="mcplane\" />
+  </ItemGroup>
+</Project>
