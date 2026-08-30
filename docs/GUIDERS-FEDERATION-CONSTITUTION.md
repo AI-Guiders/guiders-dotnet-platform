@@ -33,7 +33,7 @@ The product center is **not** one planet eating others. Three traditions compose
 
 | Pillar | What it gives | Question answered | Home |
 |--------|---------------|-------------------|------|
-| **Aviation** | CRM for **human + agent pair** — **PM/PF** role split (who flies vs who monitors), shared cognitive budget, pressure, briefing before act | *In this pair, who flies and who monitors right now?* | Platform `Cockpit.*` + CIDE/Glass (ADR-0007) |
+| **Aviation** | CRM **PM/PF** pair + **incident investigation** (layers, Just Culture) | *Who flies/monitors; what system layers aligned?* | Platform `Cockpit.*` + CIDE/Glass (ADR-0007) |
 | **Agent Env** | Agent habitat — memory, gates, packs, journal; mutate habitat outside raw chat context | *Where does the agent live and remember?* | **CDP** (`cdp-mcp`) — sovereign planet |
 | **CASE** | SE **Vision / Decision Environment** — estate topology, multi-view workbench, trace, review-before-commit | *What are we steering, and what changes if we ship?* | Platform workbench + conformance (ADR-0023) |
 
