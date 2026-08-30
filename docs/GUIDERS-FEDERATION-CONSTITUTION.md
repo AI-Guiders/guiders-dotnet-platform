@@ -23,6 +23,8 @@ Any team, any stack, any planet — not only AI Guiders products — may:
 
 Federation sells **roads and signage**, not citizenship in a single app.
 
+**Friction log:** [GUIDERS pain inventory](GUIDERS-pain-inventory.md) — why hyperlanes exist (notation stitch, agent ingress, «инженер заебался» tier).
+
 ### Native ports, not platform bindings
 
 **Already normative** in [GUIDERS-ADR-0006 §2](adr/GUIDERS-ADR-0006-confederation-charter.md) (*Native per ecosystem*), [GUIDERS-ADR-0016 non-goals](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md), [GUIDERS-ADR-0015 non-goals](adr/GUIDERS-ADR-0015-invocation-mechanics-slash-melody-binding.md) — promoted here so Constitution readers see it without ADR archaeology.

@@ -279,6 +279,7 @@ Notations.Argument.PowerShell     (defer) optional heavy package
 - One mental model: **Notation = wire alphabet**, **Mechanic = how user invokes**, **Plane = federation contract layer**.
 - Forge JS slash port targets **Notations.Command/Argument** specs, not `CommandPlane.Slash` internals.
 - Constitution hyperlane row evolves: `Notations.*` supersedes `InputNotation.*` label when packages ship.
+- Root pains: [GUIDERS pain inventory](../GUIDERS-pain-inventory.md) **G-001**, **G-003**, **G-011**.
 
 ## Open questions
 

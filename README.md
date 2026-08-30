@@ -3,6 +3,7 @@
 Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Forge).
 
 **Start here:** [Federation Constitution](docs/GUIDERS-FEDERATION-CONSTITUTION.md) — sovereign planets, open embed, hyperlanes.  
+**Living pains:** [GUIDERS pain inventory](docs/GUIDERS-pain-inventory.md) — friction → hyperlane (notation, conformance, MCPlane).  
 **Normative charter:** [GUIDERS-ADR-0006](docs/adr/GUIDERS-ADR-0006-confederation-charter.md).
 
 **Not in scope:** product apps, DashSpec, Avalonia UI forks.

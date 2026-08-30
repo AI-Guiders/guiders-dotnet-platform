@@ -147,6 +147,7 @@ One registry, two projections: **execute** via CommandPlane; **describe + observ
 - Clear home for pulse/next/folding **without** bloating CommandPlane or cloning MCP in platform.
 - Any planet MCP host can implement MCPlane tiers — drift detectable via conformance, not via one product's tool docs.
 - Third-party planets: adopt MCPlane schema + CommandPlane `commandId`; bring own MCP tools.
+- Root pains: [GUIDERS pain inventory](../GUIDERS-pain-inventory.md) **G-001**–**G-005**.
 
 ## References
 
