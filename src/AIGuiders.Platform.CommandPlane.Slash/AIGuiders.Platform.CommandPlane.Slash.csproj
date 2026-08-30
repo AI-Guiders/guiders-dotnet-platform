@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Command.Slash\AIGuiders.Platform.Notations.Command.Slash.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="slash\slash-arg-completion-v1.spec.json" Pack="true" PackagePath="slash\" />

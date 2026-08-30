@@ -23,7 +23,8 @@ Any team, any stack, any planet — not only AI Guiders products — may:
 
 Federation sells **roads and signage**, not citizenship in a single app.
 
-**Friction log:** [GUIDERS pain inventory](GUIDERS-pain-inventory.md) — why hyperlanes exist (notation stitch, agent ingress, «инженер заебался» tier).
+**Friction log:** [GUIDERS pain inventory](GUIDERS-pain-inventory.md) — why hyperlanes exist (notation stitch, agent ingress, «инженер заебался» tier).  
+**Roadmap:** [GUIDERS-ROADMAP.md](GUIDERS-ROADMAP.md) — living backlog across waves.
 
 ### Native ports, not platform bindings
 

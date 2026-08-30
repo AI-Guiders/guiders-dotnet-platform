@@ -68,7 +68,7 @@
 | G-006a | Permissive (MIT) **разрешает закрытый форк без отдачи** — кооперация на уровне spec, не на уровне «все в одном commons»; мотивация upstream слабая, если value ушло в proprietary adapter | human+ops | operator chat 2026-08-30 | Hyperlane = **roads/signage** (spec semver), не monorepo empire; conformance tag + embassy proof; ethical-use / attribution в charter, не copyleft в core packages | open |
 | G-006b | **AS-IS / no warranty** читают как «нельзя зависеть»; чаще это **отказ от судебных тяжб** и нереального solo-SDLC на всех пользователей сразу — не отказ от issues/bugs/contrib | ops+human | operator chat 2026-08-30 | **Adoption alliance** ([Constitution § Adoption alliances](GUIDERS-FEDERATION-CONSTITUTION.md#adoption-alliances-real-not-decorative)): supported embed surface + semver spec; issues/PR welcome; warranty stays in LICENSE, **cooperation** — в пакте | open |
 | G-007 | Enterprise/legal блокирует dependency на «не тот» license → команда пишет свой `Split(' ')` вместо embassy quarry | ops | integrator pilots | À la carte packages; minimal deps in v1 Notations; document **what** is pinned vs **what** is ported; `@aiguiders/conformance` без runtime GPL | open |
-| G-008 | **Рисованные альянсы** (логотипы, «ecosystem») без договорённости **кто как адоптит** MIT-штуку → снова обход и closed fork | human+ops | operator chat 2026-08-30 | Confederation = настоящий слой: hyperlane + conformance tag + embassy + **`AdoptionReport`** → `ADOPTION-ALLIANCE.generated.md` ([ADR-0022](adr/GUIDERS-ADR-0022-utilities-adoption-report.md)) | in-progress |
+| G-008 | **Рисованные альянсы** (логотипы, «ecosystem») без договорённости **кто как адоптит** MIT-штуку → снова обход и closed fork | human+ops | operator chat 2026-08-30 | Confederation = настоящий слой: hyperlane + conformance tag + embassy + **`AdoptionReport`** → `ADOPTION-ALLIANCE.generated.md` ([ADR-0022](adr/GUIDERS-ADR-0022-utilities-adoption-report.md)); CI drift gate | in-progress |
 
 ### G-008 {#g-008}
 
@@ -79,7 +79,7 @@ Anchor for Constitution § Adoption alliances. Alliance ≠ shared repo; allianc
 | ID | Боль | Кто | Откуда | GUIDERS-ответ | Статус |
 |----|------|-----|--------|---------------|--------|
 | G-010 | Slash resolve/logic копируется в Forge JS, CIDE, тестах — нет одного spec | agent+human | ADR-0018; CommandPlaneTests-only harness | `slash-*-v1` specs + conformance repo ([ADR-0019](adr/GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md)) | in-progress |
-| G-011 | Console `key=value` и slash `/path tail` — два resolve, один `commandId` | agent | CDP-style meta vs slash catalog | **Notations.Command.*** + **Argument.Kv** + `invocation-parity-v1` vector ([ADR-0021](adr/GUIDERS-ADR-0021-notations-quarry-family.md)) | open |
+| G-011 | Console `key=value` и slash `/path tail` — два resolve, один `commandId` | agent | CDP-style meta vs slash catalog | **Notations.Command.*** + **Argument.Kv** + `invocation-parity-v1` vector ([ADR-0021](adr/GUIDERS-ADR-0021-notations-quarry-family.md)) | in-progress |
 | G-012 | Keyboard wire: Vim vs KeyGesture vs Emacs — три алфавита, один chord | human | CIDE hotkeys + melody | **Notations.Keyboard.*** ([ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md) → 0021 rename) | in-progress |
 
 ### Agent ingress (observe path)

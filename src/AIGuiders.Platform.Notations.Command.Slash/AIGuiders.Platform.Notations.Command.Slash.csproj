@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Notations.Command.Slash</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Notations.Command.Slash</AssemblyName>
+    <Description>Slash command notation — space-tokenized body wire (GUIDERS-ADR-0021).</Description>
+    <PackageId>AIGuiders.Platform.Notations.Command.Slash</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
+  </ItemGroup>
+</Project>

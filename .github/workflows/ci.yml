@@ -17,3 +17,7 @@ jobs:
       - run: dotnet restore
       - run: dotnet build --no-restore -c Release
       - run: dotnet test --no-build -c Release
+      - name: Adoption alliance report up to date
+        run: |
+          dotnet run --project tools/AdoptionReport -- --write docs/ADOPTION-ALLIANCE.generated.md
+          git diff --exit-code docs/ADOPTION-ALLIANCE.generated.md

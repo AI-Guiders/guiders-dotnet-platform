@@ -1,5 +1,7 @@
 #nullable enable
 
+using AIGuiders.Platform.Notations.Command.Slash;
+
 namespace AIGuiders.Platform.CommandPlane;
 
 /// <summary>Canonical path + arg tail from slash body (ADR-0150 quarry).</summary>
@@ -63,7 +65,8 @@ public static class SlashLineResolver
 
     internal static void ParseTypedBody(string body, out List<string> tokens, out bool endsWithSpace)
     {
-        endsWithSpace = body.EndsWith(' ');
-        tokens = body.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
+        var wire = SlashCommandNotation.ParseBody(body);
+        endsWithSpace = wire.EndsWithSpaceAfterTokens;
+        tokens = wire.Tokens.ToList();
     }
 }

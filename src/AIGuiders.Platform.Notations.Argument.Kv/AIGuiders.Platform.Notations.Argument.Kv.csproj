@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Notations.Argument.Kv</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Notations.Argument.Kv</AssemblyName>
+    <Description>Key=value argument notation (GUIDERS-ADR-0021).</Description>
+    <PackageId>AIGuiders.Platform.Notations.Argument.Kv</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
+  </ItemGroup>
+</Project>

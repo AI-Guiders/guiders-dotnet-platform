@@ -36,5 +36,9 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Utilities.Adoption\AIGuiders.Platform.Utilities.Adoption.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Utilities.Adoption.Sources\AIGuiders.Platform.Utilities.Adoption.Sources.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Utilities.Adoption.Reports.Markdown\AIGuiders.Platform.Utilities.Adoption.Reports.Markdown.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Command.Slash\AIGuiders.Platform.Notations.Command.Slash.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Argument.Kv\AIGuiders.Platform.Notations.Argument.Kv.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Command.Console\AIGuiders.Platform.Notations.Command.Console.csproj" />
   </ItemGroup>
 </Project>

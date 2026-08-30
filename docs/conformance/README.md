@@ -79,8 +79,10 @@ Implementations **do not** live in this repo — only contracts.
 | `binding/catalog-v1` | wire → gesture, overlay, chord root | planned | `BindingCatalogTests` | hotkeys (later) |
 | `melody/line-policy-v1` | profile, articulation, normalize | planned | `MelodyLinePolicyTests` | palette `c:` discoverability |
 | `catalog/command-wire-v1` | TOML/JSON → descriptor IR | planned | `CommandSourceTests` | `/commands/complete` catalog load |
-| `notation/neovim-kbd-v1` | wire → IR | **exists** (move) | `QuarryNotationConformanceTests` | — |
-| `notation/emacs-kbd-v1` | wire → IR | **exists** (move) | `QuarryNotationConformanceTests` | — |
+| `notation/command-slash-v1` | slash body tokenize | planned | `NotationsTests` | — |
+| `notation/argument-kv-v1` | kv tail → slots | planned | `NotationsTests` | — |
+| `notation/invocation-parity-v1` | slash vs console → same path | planned | `NotationsTests` | execute routing |
+| `mcplane/pulse-default-v1` | agent envelope pulse | planned | — | Forge `/capabilities` |
 
 **Out of scope:** execute handlers, MCP wire, plugin host layout, product picker HTTP, UI popover.
 
