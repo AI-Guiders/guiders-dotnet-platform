@@ -5,33 +5,35 @@
 | **Status** | Draft (open questions) |
 | **Date** | 2026-08-29 |
 | **Tags** | #guiders #platform #mcp #mcplane #agent #pulse #commandplane #conformance |
-| **Relates to** | GUIDERS-ADR-0015 · GUIDERS-ADR-0016 · GUIDERS-ADR-0018 · GUIDERS-ADR-0019 · GUIDERS-ADR-0020 · GUIDERS-ADR-0021 |
+| **Relates to** | GUIDERS-ADR-0009 · GUIDERS-ADR-0014 · GUIDERS-ADR-0018 · GUIDERS-ADR-0019 · GUIDERS-ADR-0021 · [Constitution § Planets are not SSOT](../GUIDERS-FEDERATION-CONSTITUTION.md#planets-are-not-federation-ssot) |
 
 ## Context
 
 Federation already splits **command semantics** from **invocation surfaces**:
 
 - **CommandPlane** — Catalog · Registry · Command (GoF); slash/melody/binding mechanics; `commandId` SSOT ([GUIDERS-ADR-0009](GUIDERS-ADR-0009-command-surface-pattern.md)).
-- **MCP** — product wire (`cdp-mcp`, Forge MCP): `ListTools`, `CallTool`, JSON-RPC, domain tools.
+- **MCP** — **product** wire (Forge MCP, planet MCP hosts): `ListTools`, `CallTool`, JSON-RPC, domain tools.
 
 Constitution: hyperlane = «NuGet, schema, **MCP surface**» — surface as **join protocol**, not a monorepo MCP server.
 
-Operators also need **agent context economy** (not JSON walls on every turn):
+Agents need **context economy** (not JSON walls on every turn). Federation defines **neutral** requirements — not imported from any single planet:
 
-| Requirement (lived in CDP) | Meaning |
-|----------------------------|---------|
-| **Pulse default** | Thin response: SA line, seats one-liners, truncation (~240 chars) — [CDP-ADR-0020](https://github.com/AI-Guiders/cdp-mcp/blob/main/docs/adr/CDP-ADR-0020-desk-vs-organ-path.md) |
-| **`next[]`** | Suggested follow-ups on pulse (e.g. elevate `go=pressure`) — [CDP-ADR-0018](https://github.com/AI-Guiders/cdp-mcp/blob/main/docs/adr/CDP-ADR-0018-pressure-precompact-desk.md) |
-| **On-demand full** | `detail=full`, `go_detail=full`, `pane_full=` — expand **one** organ/seat, not full spray |
-| **Refuse thrash** | `seats_detail=full` alone stays pulse; no multi-channel glass spray on default desk path |
-| **Why / course** | Sealed operator priority, continuity pointer — habitat product, but **shape** is agent-facing |
+| Requirement | Meaning |
+|-------------|---------|
+| **Pulse default** | Thin response: one-line summary, truncation policy (`PulseFormat`, default ~240 chars) |
+| **`next[]`** | Suggested follow-ups on pulse — hints only, not execution |
+| **On-demand full** | Expand **one** target to full detail; explicit opt-in |
+| **Refuse thrash** | No multi-channel / full spray on default path |
+| **Why / course** | Optional structured continuity slots — **shape** in envelope; content is product |
 
-Platform already has **seed types** in `AIGuiders.Platform.Abstractions`:
+Platform **seed types** in `AIGuiders.Platform.Abstractions`:
 
-- `IntentOutcome` — product-neutral execute result (CDP is one reference impl)
+- `IntentOutcome` — product-neutral execute/observation result
 - `PulseFormat` — truncation defaults (`DefaultMaxChars = 240`)
 
-These are **not** CommandPlane (no catalog/resolve). They are **agent ingress envelope** — today duplicated across CDP Meta tool docs and Forge `/capabilities`.
+These are **not** CommandPlane (no catalog/resolve). They are **agent ingress envelope** — today also projected in Forge `/capabilities` and various MCP tool hosts.
+
+**Planet boundary:** experimental habitats (e.g. CDP buffer/Citizen/Meta tools) may dogfood tiers first. Their ADRs and knob names are **informative**, not federation SSOT. See [Constitution — Planets are not federation SSOT](../GUIDERS-FEDERATION-CONSTITUTION.md#planets-are-not-federation-ssot).
 
 **Working name:** **MCPlane** (Model Context / agent **ingress plane**) — sibling hyperlane to CommandPlane, not a package inside it.
 
@@ -54,7 +56,7 @@ These are **not** CommandPlane (no catalog/resolve). They are **agent ingress en
                              │                  │
                     ┌────────┴──────────────────┴─────────┐
                     │  Product: registry host + wire       │
-                    │  cdp-mcp · Forge MCP · DashSpec    │
+                    │  Forge MCP · CIDE · DashSpec · …     │
                     └────────────────────────────────────┘
 ```
 
@@ -71,42 +73,42 @@ These are **not** CommandPlane (no catalog/resolve). They are **agent ingress en
 |------------|-------|
 | **Agent response envelope** | `IntentOutcome` (+ extensions): `ok`, `pulse`, `reason`, structured slots |
 | **Detail tiers** | `pulse` (default) · `slim` · `full` — explicit opt-in; default never implies full spray |
-| **`next[]` hints** | Ordered suggestions (`go=…`, `commandId`, tool name) — not execution |
+| **`next[]` hints** | Ordered suggestions (`commandId`, tool name, neutral hint tokens) — not execution |
 | **Pulse truncation** | `PulseFormat` policy; per-surface max chars |
 | **Catalog projection** | Agent catalog slice from `ICatalogVisitor` / descriptors — schema for `capabilities.commands[]` |
 | **`commandId` parity** | MCP tool name / capabilities entry maps to same id as slash ([FORGE-ADR-0025](https://github.com/AI-Guiders/agent-forge/blob/master/design/FORGE-ADR-0025-human-command-parity.md)) |
-| **Cost-path enum** | Desk-thin vs organ-deep vs pane-full (normative names; CDP is reference impl) |
+| **Cost-path enum** | Neutral: `thin` · `targeted-full` · `wide` (discouraged) — product maps own knobs via extensions |
 
 ### 3. MCPlane does not own
 
 | Non-goal | Owner |
 |----------|--------|
-| MCP server, stdio bridge, `ListTools`/`CallTool` | `guiders-core` libs + product host |
-| Domain tool bodies (`cdp_buffer`, `forge_issue_*`) | `cdp-mcp`, `agent-forge` |
+| MCP server, stdio bridge, `ListTools`/`CallTool` | `guiders-core` libs + **product** host |
+| Domain tool bodies (`forge_issue_*`, planet-specific tools) | sovereign planets |
 | Execute / `IPlatformCommand` | CommandPlane registry + product host |
 | QRH/ECL **content** | Product + future HelpSurfaces quarry |
 | Aviation UI symbology | `guiders-ui-platform` / ASP |
-| **Citizen wire** (`cdp_citizen`, `@frame`/`@intent` pulse frames) | CDP in-house habitat only ([CDP-ADR-0028](https://github.com/AI-Guiders/cdp-mcp/blob/main/docs/adr/CDP-ADR-0028-citizen-agent-wire.md)); not federation ingress |
+| **Planet in-house agent wire** (Citizen frames, `@intent`, buffer Meta grammar) | that planet only — not federation ingress |
 
 ### 4. Detail / folding model (canonical)
 
-Align with lived CDP contract; federation names stay **neutral** in types, aviation in glossary ([GUIDERS-ADR-0007](GUIDERS-ADR-0007-aviation-mental-model.md)):
+Federation tier names stay **neutral** in types; aviation terms live in glossary ([GUIDERS-ADR-0007](GUIDERS-ADR-0007-aviation-mental-model.md)). Products may use local knob names as **extensions** mapped to tiers.
 
 | Tier | Agent gets | When |
 |------|------------|------|
-| **Pulse** (default) | Truncated summary, `next[]`, seat one-liners | Every routine call |
-| **Slim** | Structured fields without full organ dump | Optional middle tier (tools may alias pulse) |
-| **Full** | One pane/organ expanded (`pane_full`, `go_detail=full`) | Explicit request only |
-| **Wide** (discouraged) | Multi-channel / full desk spray | Separate slow path; never default |
+| **Pulse** (default) | Truncated summary, `next[]`, compact child summaries | Every routine call |
+| **Slim** | Structured fields without full dump | Optional middle tier |
+| **Full** | One named target expanded | Explicit request only |
+| **Wide** (discouraged) | Multi-target / full spray | Separate slow path; never default |
 
-**Folding:** default response is **folded** (pulse). Unfold is **on-demand** per pane/organ, not global `detail=full` on desk.
+**Folding:** default response is **folded** (pulse). Unfold is **on-demand** per target, not global implicit full.
 
 ### 5. Conformance (with ADR-0019)
 
 | Spec (future) | Proves |
 |---------------|--------|
 | `mcplane/pulse-default-v1` | Default call returns pulse tier; no full payload |
-| `mcplane/detail-expand-v1` | `pane_full` / `go_detail=full` expands only named target |
+| `mcplane/detail-expand-v1` | explicit target expands only that target |
 | `mcplane/next-hints-v1` | `next[]` ordering and shape |
 | `agent-catalog-projection-v1` | Descriptor → capabilities JSON round-trip |
 
@@ -137,17 +139,21 @@ One registry, two projections: **execute** via CommandPlane; **describe + observ
 
 1. **Package name:** `MCPlane` vs `AgentIngress` vs extend `Abstractions` only?
 2. **Forge:** `/api/v1/capabilities` schema — normative in MCPlane or Forge-owned with MCPlane conformance?
-3. **CDP-specific knobs** (`go=`, `pane_full`, `course=`): map to neutral MCPlane names or product extensions?
+3. **Product extension map:** how planets register local detail knobs → neutral `DetailTier` (registry in product, not CDP names in platform)?
 4. **When to quarry:** after CommandPlane registry visitor stable (W2c ✓) + first conformance tag?
 
 ## Consequences
 
 - Clear home for pulse/next/folding **without** bloating CommandPlane or cloning MCP in platform.
-- CDP Meta tool descriptions become **implementations** of MCPlane tiers — drift detectable via conformance.
+- Any planet MCP host can implement MCPlane tiers — drift detectable via conformance, not via one product's tool docs.
 - Third-party planets: adopt MCPlane schema + CommandPlane `commandId`; bring own MCP tools.
 
 ## References
 
-- [CDP-ADR-0020 desk vs organ path](https://github.com/AI-Guiders/cdp-mcp/blob/main/docs/adr/CDP-ADR-0020-desk-vs-organ-path.md) — lived semantics; federation types stay neutral
 - [GUIDERS-ADR-0019 conformance monorepo](GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md)
+- [FORGE-ADR-0025 human command parity](https://github.com/AI-Guiders/agent-forge/blob/master/design/FORGE-ADR-0025-human-command-parity.md)
 - `AIGuiders.Platform.Abstractions` — `IntentOutcome.cs`, `PulseFormat.cs`
+
+### Informative only (planets — not federation SSOT)
+
+- CDP product ADRs (desk/organ, pressure, citizen wire) — early dogfood; neutral names in MCPlane do not require CDP vocabulary

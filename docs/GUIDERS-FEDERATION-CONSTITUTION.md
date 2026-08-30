@@ -54,6 +54,18 @@ Federation sells **roads and signage**, not citizenship in a single app.
 
 **Rejected:** one city, one empire, one repo to rule them all. See [GUIDERS-ADR-0006 §1](adr/GUIDERS-ADR-0006-confederation-charter.md).
 
+### Planets are not federation SSOT
+
+Any **planet** (Forge, CIDE, DashSpec, CDP, Glass, …) may ship **early** or **experimental** behavior. That does **not** make its wire, tools, or ADRs normative for federation.
+
+| | Federation | Planet (e.g. CDP) |
+|---|------------|-------------------|
+| **Normative** | IR, schemas, conformance vectors, neutral tier names | — |
+| **Informative** | — | lived dogfood, product ADRs, tool docs |
+| **Embassy** | reference .NET quarry (optional pin) | may implement first; others port vectors |
+
+**CDP** (`cdp-mcp`) is a **sovereign experimental habitat** — buffer plane, Citizen, Meta tools stay on the planet. Federation cites CDP only as *informative* precedent, never as gate. Prefer **Forge** (open embed) and **CIDE** (slash/melody) as embassy examples in new ADRs.
+
 ---
 
 ## What the federation owns vs what planets own
@@ -92,11 +104,11 @@ One `commandId`; mechanics are how you **play** it; `c:` is the **score on the w
 | Hyperlane | Package / home | Role | Reference mission |
 |-----------|----------------|------|-------------------|
 | **Command plane** | `CommandPlane` (core) · `.Slash` · `.Sources` · `.Melody` · `.Binding` · `.Binding.Sources` | Registry hub; slash/melody/binding mechanics à la carte (ADR-0015, ADR-0017) | Forge, CIDE, DashSpec |
-| **Agent ingress (MCPlane)** | `Abstractions` today → `MCPlane` (draft) | Pulse/default, `next[]`, detail tiers, catalog projection — **not** MCP wire ([ADR-0020](adr/GUIDERS-ADR-0020-mcplane-agent-ingress.md)) | cdp-mcp, Forge MCP |
+| **Agent ingress (MCPlane)** | `Abstractions` today → `MCPlane` (draft) | Pulse/default, `next[]`, detail tiers, catalog projection — **not** MCP wire ([ADR-0020](adr/GUIDERS-ADR-0020-mcplane-agent-ingress.md)) | Forge MCP (embassy), any agent host |
 | **Notations** | `Notations` (core) · `.Quarry` · `.Keyboard.*` · `.Command.*` · `.Argument.*` · `.All` — supersedes `InputNotation.*` naming ([ADR-0021](adr/GUIDERS-ADR-0021-notations-quarry-family.md)); `InputNotation.*` ships until alias wave | Wire → IR quarry; keyboard + command-line + arg tails; native port per stack | CIDE, Forge slash JS port |
 | **Input notation** (legacy label) | `InputNotation.*` → migrate to `Notations.Keyboard.*` ([ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md)) | Same keyboard IR; rename in progress | CIDE (.NET) |
-| **Intent / routing** | `AIGuiders.Platform.Routing`, `Abstractions` | Intent organs, outcome shapes | CDP habitat |
-| **Cockpit** | `AIGuiders.Platform.Cockpit.*` | Channels, DataBus, CCU contracts | Glass, CDP |
+| **Intent / routing** | `AIGuiders.Platform.Routing`, `Abstractions` | Intent organ **contracts** (neutral) | planets that embed organs |
+| **Cockpit** | `AIGuiders.Platform.Cockpit.*` | Channels, DataBus, CCU contracts | CIDE, Glass (CDP may pin; not SSOT) |
 | **UI semantics** | `guiders-ui-platform` (`AIGuiders.UI.*`) | Tokens, Agent AX, adapters | Forge View (embassy) |
 | **Plugin transport** | `guiders-plugin-host` | ALC, staging, manifest | Forge plugins |
 

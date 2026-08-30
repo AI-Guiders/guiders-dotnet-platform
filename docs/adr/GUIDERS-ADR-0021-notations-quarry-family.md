@@ -5,7 +5,7 @@
 | **Status** | Draft |
 | **Date** | 2026-08-30 |
 | **Tags** | #guiders #notations #quarry #inputnotation #slash #commandplane #conformance |
-| **Relates to** | GUIDERS-ADR-0015 · GUIDERS-ADR-0016 · GUIDERS-ADR-0018 · GUIDERS-ADR-0019 · GUIDERS-ADR-0020 |
+| **Relates to** | GUIDERS-ADR-0015 · GUIDERS-ADR-0016 · GUIDERS-ADR-0018 · GUIDERS-ADR-0019 · GUIDERS-ADR-0020 · [Constitution § Planets are not SSOT](../GUIDERS-FEDERATION-CONSTITUTION.md#planets-are-not-federation-ssot) |
 
 ## Context
 
@@ -15,7 +15,7 @@ Federation already treats **wire alphabets** as quarryable siblings of **mechani
 |-------|---------------|------------|----------|
 | `InputNotation.*` | `<C-k>`, `Ctrl+K`, `C-x` | `NormalizedKeySequence` | Melody, Binding |
 | `CommandPlane.Slash` (inline) | `/docs adr open` | `CanonicalPath` + `ArgTail` string | Slash catalog, completion |
-| Product console | `buffer open doc=README.md`, `@intent …` | ad hoc parsers | CDP habitat (in-house) |
+| Product console | `buffer open doc=README.md` | ad hoc parsers | sovereign planets |
 
 [GUIDERS-ADR-0016](GUIDERS-ADR-0016-input-notation-quarry-family.md) named **InputNotation** as a sibling guild. Slash path parsing lives inside **CommandPlane.Slash** (`SlashLineResolver`). Argument tails are policy strings (`ArgTail`, `picker:…`, `tail_wire_class`) without a shared IR package.
 
@@ -31,6 +31,8 @@ Notations
 ```
 
 **Mechanics** (Slash, Melody, Binding) and **planes** (CommandPlane, MCPlane) **consume** Notations; they do not own wire parsers.
+
+**Planet boundary:** no planet wire (CDP Citizen, Forge-only quirks, CIDE palette) is federation SSOT. Conformance vectors and neutral IR are SSOT; planets are early implementers at most.
 
 ## Decision (proposed)
 
@@ -122,9 +124,9 @@ Notations.All               optional meta-bundle
 | Slash | `/buffer open README.md` | `Notations.Command.Slash` + `Argument.Slash` | path `buffer/open`, tail `README.md` |
 | Console (neutral) | `buffer open doc=README.md` | `Notations.Command.Console` + `Argument.Kv` | same path + structured slots |
 
-Product-specific prefixes (`/`, `@intent`, tool name) are **surface policy** — strip before reader or live in product adapter, not federation SSOT.
+Product-specific prefixes (`/`, `@mention`, tool name) are **surface policy** — strip before reader or live in product adapter, not federation SSOT.
 
-**CDP Citizen / `@frame` wire:** in-house only ([GUIDERS-ADR-0020](GUIDERS-ADR-0020-mcplane-agent-ingress.md)); not a Notations package.
+**Planet in-house wires** (e.g. experimental habitat frames, product-only sigils) stay on that planet — not Notations packages.
 
 ### 6. MCP boundary
 
@@ -203,7 +205,7 @@ Wire families operators named in the wild — and federation stance.
 |--------|---------|------------|-------|
 | **Raw / space tail** | `open README.md` | **v1** (`Argument.Slash`) | Remainder string + catalog `ArgTail` policy |
 | **Positional args** | `arg1 arg2` | **v1** (`Argument.Positional`) | Ordered tokens after path |
-| **Key=value** | `doc=README.md op=scene` | **v1** (`Argument.Kv`) | CDP Meta parity |
+| **Key=value** | `doc=README.md op=scene` | **v1** (`Argument.Kv`) | Console / agent meta parity |
 | **Colon-delimited** | `arg1:arg2:arg3` | **v1** (`wire_class`) | `Argument.Delimited` + `WireClass=colon` |
 | **GNU/POSIX-like flags** | `-h`, `--out=file`, `-abc` | **v2** (`Argument.Cli`) | See §11 — quarry, not v1 blocker |
 | **Windows `/switch`** | `program /S /P` | **v2** | Often merged into `Argument.Cli` subset or product |
@@ -232,7 +234,7 @@ Keyboard notation had **no** standalone NuGet SSOT (parsers live inside Neovim/E
 | **.NET reference** | [`System.CommandLine`](https://www.nuget.org/packages/System.CommandLine) (Microsoft; `dotnet` CLI stack) | **Quarry for modern `-` / `--` tokenization** into slots |
 | **Alternates** | `CommandLineParser`, `McMaster.Extensions.CommandLineUtils`, `Mono.Options` | App builders; do **not** multi-pin — pick one quarry or own subset |
 | **PowerShell** | `System.Management.Automation` parser | **Too heavy** for `Notations` core; optional product dep or **native port only** (JS/Kotlin never pull PS SDK) |
-| **Kv / slash tail** | Small lexers (CDP Meta, `SlashLineResolver`) | **Own v1** — not worth a NuGet framework |
+| **Kv / slash tail** | Small lexers (`SlashLineResolver`, planet consoles) | **Own v1** — not worth a NuGet framework |
 
 **Decision:**
 
@@ -267,7 +269,7 @@ Notations.Argument.PowerShell     (defer) optional heavy package
 
 - Renaming packages in this wave (ADR only).
 - Replacing CommandPlane mechanics or MCPlane.
-- Normative CDP `@intent` / Citizen frame grammar.
+- Normative **planet** grammars (`@intent`, Citizen frames, buffer Meta tools).
 - Universal MCP JSON Schema → Notations (defer).
 - Pulling **PowerShell SDK** into default `Notations.All` bundle.
 - Shipping a full **CLI app host** inside Notations (use System.CommandLine in products; Notations only parses tail → IR).
