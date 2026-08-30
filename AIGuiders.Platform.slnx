@@ -8,6 +8,8 @@
     <Project Path="src/AIGuiders.Platform.Cockpit.Cds/AIGuiders.Platform.Cockpit.Cds.csproj" />
     <Project Path="src/AIGuiders.Platform.Cockpit.Channels/AIGuiders.Platform.Cockpit.Channels.csproj" />
     <Project Path="src/AIGuiders.Platform.Cockpit.Composition/AIGuiders.Platform.Cockpit.Composition.csproj" />
+    <Project Path="src/AIGuiders.Platform.Configurations.Workspace/AIGuiders.Platform.Configurations.Workspace.csproj" />
+    <Project Path="src/AIGuiders.Platform.Configurations.Workspace.Sources/AIGuiders.Platform.Configurations.Workspace.Sources.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Binding.Sources.Database/AIGuiders.Platform.CommandPlane.Binding.Sources.Database.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Binding.Sources.File/AIGuiders.Platform.CommandPlane.Binding.Sources.File.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Binding.Sources.Json/AIGuiders.Platform.CommandPlane.Binding.Sources.Json.csproj" />
@@ -63,6 +65,9 @@
     <Project Path="src/AIGuiders.Platform.Notations.Keyboard.Vim/AIGuiders.Platform.Notations.Keyboard.Vim.csproj" />
     <Project Path="src/AIGuiders.Platform.Notations.Keyboard/AIGuiders.Platform.Notations.Keyboard.csproj" />
     <Project Path="src/AIGuiders.Platform.Notations/AIGuiders.Platform.Notations.csproj" />
+    <Project Path="src/AIGuiders.Platform.Sources/AIGuiders.Platform.Sources.csproj" />
+    <Project Path="src/AIGuiders.Platform.Sources.File/AIGuiders.Platform.Sources.File.csproj" />
+    <Project Path="src/AIGuiders.Platform.Sources.Toml/AIGuiders.Platform.Sources.Toml.csproj" />
     <Project Path="src/AIGuiders.Platform.Utilities.Adoption.Reports.Markdown/AIGuiders.Platform.Utilities.Adoption.Reports.Markdown.csproj" />
     <Project Path="src/AIGuiders.Platform.Utilities.Adoption.Sources/AIGuiders.Platform.Utilities.Adoption.Sources.csproj" />
     <Project Path="src/AIGuiders.Platform.Utilities.Adoption/AIGuiders.Platform.Utilities.Adoption.csproj" />
