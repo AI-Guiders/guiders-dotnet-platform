@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Navigation.Policy</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Navigation.Policy</AssemblyName>
+    <PackageId>AIGuiders.Platform.Navigation.Policy</PackageId>
+    <Description>Navigation presets, kind filters, and explore profiles (GUIDERS-ADR-0033).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Navigation\AIGuiders.Platform.Navigation.csproj" />
+  </ItemGroup>
+</Project>

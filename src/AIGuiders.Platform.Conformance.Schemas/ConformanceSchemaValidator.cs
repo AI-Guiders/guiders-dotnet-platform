@@ -90,6 +90,19 @@ public static class ConformanceSchemaValidator
         return result.IsValid ? [] : CollectErrors(result);
     }
 
+    public static IReadOnlyList<string> ValidateNavigationJson(string json)
+    {
+        if (!CatalogSchemas.TryGetValue("navigation-spec.schema.json", out var schema))
+            return ["Missing embedded schema navigation-spec.schema.json."];
+
+        using var document = JsonDocument.Parse(json);
+        var result = schema.Evaluate(
+            document.RootElement,
+            new EvaluationOptions { OutputFormat = OutputFormat.List });
+
+        return result.IsValid ? [] : CollectErrors(result);
+    }
+
     public static IReadOnlyList<string> ValidateCatalogJson(string json)
     {
         if (!CatalogSchemas.TryGetValue("command-catalog-wire.schema.json", out var schema))

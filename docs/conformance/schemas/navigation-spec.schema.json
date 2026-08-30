@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guiders.dev/conformance/schemas/navigation-spec.schema.json",
+  "title": "Navigation explore conformance spec",
+  "type": "object",
+  "required": ["kind", "surface", "version", "vectors"],
+  "additionalProperties": false,
+  "properties": {
+    "kind": { "type": "string", "const": "navigation" },
+    "surface": { "type": "string", "minLength": 1 },
+    "version": { "$ref": "conformance-common.schema.json#/$defs/specVersion" },
+    "source": { "$ref": "conformance-common.schema.json#/$defs/specSource" },
+    "vectors": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/navigationVector" }
+    }
+  },
+  "$defs": {
+    "navigationVector": {
+      "type": "object",
+      "required": ["id"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "$ref": "conformance-common.schema.json#/$defs/vectorId" }
+      }
+    }
+  }
+}

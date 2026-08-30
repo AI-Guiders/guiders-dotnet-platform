@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>AIGuiders.Platform.Tools.NavigationOracle</RootNamespace>
+    <AssemblyName>navigation-oracle</AssemblyName>
+    <Description>Navigation explore conformance oracle (GUIDERS-ADR-0033).</Description>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="YamlDotNet" Version="16.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Conformance.Navigation\AIGuiders.Platform.Conformance.Navigation.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Conformance.Schemas\AIGuiders.Platform.Conformance.Schemas.csproj" />
+  </ItemGroup>
+</Project>

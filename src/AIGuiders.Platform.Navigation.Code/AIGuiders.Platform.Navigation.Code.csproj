@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Navigation.Code</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Navigation.Code</AssemblyName>
+    <PackageId>AIGuiders.Platform.Navigation.Code</PackageId>
+    <Description>Code navigation: Roslyn wire parser and in-memory related explore (GUIDERS-ADR-0033).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Navigation.Policy\AIGuiders.Platform.Navigation.Policy.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Navigation\AIGuiders.Platform.Navigation.csproj" />
+  </ItemGroup>
+</Project>

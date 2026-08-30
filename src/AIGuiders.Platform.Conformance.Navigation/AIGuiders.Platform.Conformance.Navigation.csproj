@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Conformance.Navigation</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Conformance.Navigation</AssemblyName>
+    <PackageId>AIGuiders.Platform.Conformance.Navigation</PackageId>
+    <Description>Navigation explore conformance harness (GUIDERS-ADR-0033).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Conformance.Schemas\AIGuiders.Platform.Conformance.Schemas.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Navigation.Code\AIGuiders.Platform.Navigation.Code.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Navigation.Policy\AIGuiders.Platform.Navigation.Policy.csproj" />
+  </ItemGroup>
+</Project>

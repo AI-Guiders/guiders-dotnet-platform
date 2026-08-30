@@ -34,6 +34,10 @@
     <Project Path="src/AIGuiders.Platform.CommandPlane/AIGuiders.Platform.CommandPlane.csproj" />
     <Project Path="src/AIGuiders.Platform.Conformance.Schemas/AIGuiders.Platform.Conformance.Schemas.csproj" />
     <Project Path="src/AIGuiders.Platform.Conformance.Policies/AIGuiders.Platform.Conformance.Policies.csproj" />
+    <Project Path="src/AIGuiders.Platform.Conformance.Navigation/AIGuiders.Platform.Conformance.Navigation.csproj" />
+    <Project Path="src/AIGuiders.Platform.Navigation/AIGuiders.Platform.Navigation.csproj" />
+    <Project Path="src/AIGuiders.Platform.Navigation.Policy/AIGuiders.Platform.Navigation.Policy.csproj" />
+    <Project Path="src/AIGuiders.Platform.Navigation.Code/AIGuiders.Platform.Navigation.Code.csproj" />
     <Project Path="src/AIGuiders.Platform.Documentation.Anchors/AIGuiders.Platform.Documentation.Anchors.csproj" />
     <Project Path="src/AIGuiders.Platform.Documentation.Correspondence.Core/AIGuiders.Platform.Documentation.Correspondence.Core.csproj" />
     <Project Path="src/AIGuiders.Platform.Documentation.Correspondence.Resolve/AIGuiders.Platform.Documentation.Correspondence.Resolve.csproj" />
@@ -87,6 +91,7 @@
     <Project Path="tools/QuarryOracle/QuarryOracle.csproj" />
     <Project Path="tools/ContractOracle/ContractOracle.csproj" />
     <Project Path="tools/CombinationsProof/CombinationsProof.csproj" />
+    <Project Path="tools/NavigationOracle/NavigationOracle.csproj" />
   </Folder>
   <Project Path="src/AIGuiders.Platform.Abstractions/AIGuiders.Platform.Abstractions.csproj" />
   <Project Path="src/AIGuiders.Platform.Cockpit.Abstractions/AIGuiders.Platform.Cockpit.Abstractions.csproj" />

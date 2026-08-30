@@ -1,0 +1,46 @@
+{
+  "kind": "navigation",
+  "surface": "code.explore-scene",
+  "version": 1,
+  "source": "GUIDERS-ADR-0033",
+  "vectors": [
+    {
+      "id": "explore-default-excludes-project-peer",
+      "wire": {
+        "mode": "related",
+        "anchor_path": "src/Widget.cs",
+        "items": [
+          { "path": "src/Widget.Part.cs", "kind": "partial_peer", "rationale": "partial" },
+          { "path": "src/Other.cs", "kind": "project_peer", "rationale": "peer" },
+          { "path": "src/WidgetTests.cs", "kind": "test_counterpart", "rationale": "tests" }
+        ]
+      },
+      "profile": { "preset": "explore_default", "max_related": 8 },
+      "expect": {
+        "node_count": 3,
+        "kinds": ["anchor", "partial_peer", "test_counterpart"],
+        "excluded_kinds": ["project_peer"]
+      }
+    },
+    {
+      "id": "same-directory-cap",
+      "wire": {
+        "mode": "related",
+        "anchor_path": "src/Alpha.cs",
+        "items": [
+          { "path": "src/Beta.cs", "kind": "same_directory" },
+          { "path": "src/Gamma.cs", "kind": "same_directory" },
+          { "path": "src/Delta.cs", "kind": "same_directory" },
+          { "path": "src/Epsilon.cs", "kind": "same_directory" },
+          { "path": "src/Zeta.cs", "kind": "same_directory" }
+        ]
+      },
+      "profile": { "max_related": 8 },
+      "expect": {
+        "node_count": 5,
+        "kinds": ["anchor", "same_directory"],
+        "max_kind_count": { "same_directory": 4 }
+      }
+    }
+  ]
+}

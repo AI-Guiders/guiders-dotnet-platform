@@ -31,6 +31,8 @@ jobs:
         run: dotnet run --project tools/ContractOracle -- index --root docs/conformance
       - name: Combinations Z3 proof (ShipFirst)
         run: dotnet run --project tools/CombinationsProof -- ship-first
+      - name: Navigation oracle (obligations index)
+        run: dotnet run --project tools/NavigationOracle -- index --root docs/conformance
       - name: MdLinker doc anchors (ADR-0027)
         run: dotnet run --project tools/MdLinker -- --check docs/adr/
       - name: Notation vocabulary report

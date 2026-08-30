@@ -29,3 +29,9 @@ obligations:
     adr: GUIDERS-ADR-0032
     semantics: ShipFirst
     tool: combinations-proof
+
+  - id: navigation.code.explore-scene
+    kind: navigation
+    adr: GUIDERS-ADR-0033
+    surface: code.explore-scene
+    source: navigation/code-explore-scene.spec.json

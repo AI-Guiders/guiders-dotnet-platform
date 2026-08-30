@@ -30,6 +30,7 @@ docs/conformance/
 ├── schemas/                 ← JSON Schema (normative shape)
 │   ├── conformance-common.schema.json
 │   ├── policy-spec.schema.json
+│   ├── navigation-spec.schema.json
 │   ├── slash-arg-completion.schema.json
 │   ├── slash-line-resolve.schema.json
 │   ├── notation-spec.schema.json
@@ -40,6 +41,7 @@ docs/conformance/
 ├── *.spec.json              ← vectors (validate against schemas/)
 ├── obligations.index.yaml   ← ADR → spec / proof obligations (ADR-0032)
 ├── policies/                ← overlay policy vectors (JSON + TOML)
+├── navigation/              ← explore scene vectors (Navigation family)
 └── … (growing)
 
 tests/.../Fixtures/          ← embedded for .NET CI
@@ -99,6 +101,7 @@ Implementations **do not** live in this repo — only contracts.
 | `combinations/binding-overlay-wins` | overlay gesture wins on key | **shipped** | `ContractOracle` | hotkey override |
 | `combinations/workspace-field-overlay` | ADR field overlay + section replace | **shipped** | `ContractOracle` (JSON + TOML) | workspace.toml hub |
 | `combinations/proof-ship-first` | Z3 abstract ShipFirst invariants | **shipped** | `tools/CombinationsProof` | CI-only proof |
+| `navigation/code-explore-scene` | Roslyn wire → bounded scene + presets | **shipped** | `NavigationOracle` + `Navigation.Code` | SemanticMap / agents |
 | `notation/command-slash` | slash body tokenize | **shipped** | `NotationConformanceTests` | — |
 | `notation/argument-kv` | kv tail → slots | **shipped** | `NotationConformanceTests` | — |
 | `notation/argument-delimited` | colon-delimited tail → slots | **shipped** | `NotationConformanceTests` | — |
@@ -162,6 +165,7 @@ See [RULES.md](RULES.md). All specs must be:
 
 - [GUIDERS-ADR-0018](../adr/GUIDERS-ADR-0018-slash-conformance-vectors.md) — slash arg-completion v1
 - [GUIDERS-ADR-0019](../adr/GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md) — sibling repo plan
+- [GUIDERS-ADR-0033](../adr/GUIDERS-ADR-0033-navigation-family-semantic-scenes.md) — Navigation family + explore scenes
 - [GUIDERS-ADR-0032](../adr/GUIDERS-ADR-0032-conformance-obligations-policy-specs.md) — obligations index + policy specs + Z3 proofs
 - [GUIDERS-ADR-0012](../adr/GUIDERS-ADR-0012-arg-picker-completion.md) — slash mechanics
 - [GUIDERS-ADR-0016](../adr/GUIDERS-ADR-0016-input-notation-quarry-family.md) — notation quarry

@@ -43,6 +43,8 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Sources\AIGuiders.Platform.CommandPlane.Sources.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Conformance.Schemas\AIGuiders.Platform.Conformance.Schemas.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Conformance.Policies\AIGuiders.Platform.Conformance.Policies.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Conformance.Navigation\AIGuiders.Platform.Conformance.Navigation.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Navigation.Code\AIGuiders.Platform.Navigation.Code.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.All\AIGuiders.Platform.Notations.Keyboard.All.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.Vim\AIGuiders.Platform.Notations.Keyboard.Vim.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.KeyGesture\AIGuiders.Platform.Notations.Keyboard.KeyGesture.csproj" />
