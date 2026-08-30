@@ -70,7 +70,9 @@ Aviation is **not** «pretty displays» and **not** generic team management. It 
 - **PM (Monitoring)** — watches instruments, catches drift, calls out, briefs before act.  
 - Roles **swap** by phase — not a fixed hierarchy. No product «PIC» knob; operator accountability (merge, prod) is **legal**, not cockpit rank.
 
-Pair programming is the first layer; aviation adds **complementary roles under load** when one pair cannot watch everything at once. See [why-aviation-not-pair-programming](essay/why-aviation-not-pair-programming.md).
+Pair programming is the first layer; aviation adds **complementary roles under load** when one pair cannot watch everything at once.
+
+**Operator texture (not in the manual):** for many sessions the pair feels like **two engineers in the break room** — talking through architecture, friction, wild ideas. Code appearing is a **bonus pack**, not the job description. They are engineers, not secretaries. PM/PF kicks in when load rises; the default social contract is **peer**. See [essay §3.1](essay/why-aviation-not-pair-programming.md).
 
 CASE is **not** UML nostalgia. It is the **shared decision surface** the pair steers against — what the estate looks like, what moves if you ship.
 
