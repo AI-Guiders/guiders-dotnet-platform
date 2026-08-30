@@ -1,7 +1,10 @@
 #nullable enable
 using System.Text.Json;
+using AIGuiders.Platform.Notations;
+using AIGuiders.Platform.Notations.Argument.Cli;
 using AIGuiders.Platform.Notations.Argument.Delimited;
 using AIGuiders.Platform.Notations.Argument.Kv;
+using AIGuiders.Platform.Notations.Argument.Positional;
 using AIGuiders.Platform.Notations.Command;
 using AIGuiders.Platform.Notations.Command.Console;
 using AIGuiders.Platform.Notations.Command.Slash;
@@ -32,8 +35,11 @@ public static class NotationSpecConformance
         return surface switch
         {
             "command-slash" => TryValidateCommandSlash(vector, out error),
+            "command-console" => TryValidateCommandConsole(vector, out error),
             "argument-kv" => TryValidateArgumentKv(vector, out error),
             "argument-delimited" => TryValidateArgumentDelimited(vector, out error),
+            "argument-positional" => TryValidateArgumentPositional(vector, out error),
+            "argument-cli" => TryValidateArgumentCli(vector, out error),
             "invocation-parity" => TryValidateInvocationParity(vector, out error),
             _ => Fail($"unknown surface \"{surface}\".", out error),
         };
@@ -64,17 +70,78 @@ public static class NotationSpecConformance
         return true;
     }
 
-    static bool TryValidateArgumentKv(NotationSpecVector vector, out string error)
+    static bool TryValidateCommandConsole(NotationSpecVector vector, out string error)
+    {
+        error = "";
+        if (vector.Line is null)
+            return Fail("line is required.", out error);
+
+        if (!ConsoleCommandNotation.TryParse(vector.Line, out var pathWire, out var argTail))
+            return Fail($"invalid line \"{vector.Line}\".", out error);
+
+        var expect = vector.Expect;
+        if (expect.Tokens is not null
+            && !pathWire.Tokens.SequenceEqual(expect.Tokens, StringComparer.Ordinal))
+        {
+            error = $"tokens expected [{string.Join(", ", expect.Tokens)}], got [{string.Join(", ", pathWire.Tokens)}].";
+            return false;
+        }
+
+        if (expect.EndsWithSpace is not null && expect.EndsWithSpace != pathWire.EndsWithSpaceAfterTokens)
+        {
+            error = $"endsWithSpace expected {expect.EndsWithSpace}, got {pathWire.EndsWithSpaceAfterTokens}.";
+            return false;
+        }
+
+        if (expect.Slots is not null && !SlotsMatch(expect.Slots, argTail, out error))
+            return false;
+
+        return true;
+    }
+
+    static bool TryValidateArgumentPositional(NotationSpecVector vector, out string error)
     {
         error = "";
         if (vector.Tail is null)
             return Fail("tail is required.", out error);
 
-        var actual = KvArgumentNotation.Parse(vector.Tail);
-        var expect = vector.Expect.Slots;
-        if (expect is null)
+        var actual = PositionalArgumentNotation.Parse(vector.Tail);
+        if (vector.Expect.WireClass is not null
+            && !string.Equals(vector.Expect.WireClass, actual.WireClass, StringComparison.Ordinal))
+        {
+            error = $"wireClass expected \"{vector.Expect.WireClass}\", got \"{actual.WireClass}\".";
+            return false;
+        }
+
+        if (vector.Expect.Slots is null)
             return Fail("expect.slots is required.", out error);
 
+        return SlotsMatch(vector.Expect.Slots, actual, out error);
+    }
+
+    static bool TryValidateArgumentCli(NotationSpecVector vector, out string error)
+    {
+        error = "";
+        if (vector.Tail is null)
+            return Fail("tail is required.", out error);
+
+        var actual = CliArgumentNotation.Parse(vector.Tail);
+        if (vector.Expect.WireClass is not null
+            && !string.Equals(vector.Expect.WireClass, actual.WireClass, StringComparison.Ordinal))
+        {
+            error = $"wireClass expected \"{vector.Expect.WireClass}\", got \"{actual.WireClass}\".";
+            return false;
+        }
+
+        if (vector.Expect.Slots is null)
+            return Fail("expect.slots is required.", out error);
+
+        return SlotsMatch(vector.Expect.Slots, actual, out error);
+    }
+
+    static bool SlotsMatch(IReadOnlyDictionary<string, string> expect, NormalizedArgTail actual, out string error)
+    {
+        error = "";
         if (actual.Slots is null)
         {
             error = "parser returned no slots.";
@@ -91,6 +158,19 @@ public static class NotationSpecConformance
         }
 
         return true;
+    }
+
+    static bool TryValidateArgumentKv(NotationSpecVector vector, out string error)
+    {
+        error = "";
+        if (vector.Tail is null)
+            return Fail("tail is required.", out error);
+
+        var actual = KvArgumentNotation.Parse(vector.Tail);
+        if (vector.Expect.Slots is null)
+            return Fail("expect.slots is required.", out error);
+
+        return SlotsMatch(vector.Expect.Slots, actual, out error);
     }
 
     static bool TryValidateArgumentDelimited(NotationSpecVector vector, out string error)
@@ -111,22 +191,7 @@ public static class NotationSpecConformance
         if (expect is null)
             return Fail("expect.slots is required.", out error);
 
-        if (actual.Slots is null)
-        {
-            error = "parser returned no slots.";
-            return false;
-        }
-
-        foreach (var (key, value) in expect)
-        {
-            if (!actual.Slots.TryGetValue(key, out var got) || got != value)
-            {
-                error = $"slot {key} expected \"{value}\", got \"{got}\".";
-                return false;
-            }
-        }
-
-        return true;
+        return SlotsMatch(expect, actual, out error);
     }
 
     static bool TryValidateInvocationParity(NotationSpecVector vector, out string error)
@@ -138,7 +203,7 @@ public static class NotationSpecConformance
         if (!SlashCommandNotation.TryParseLine(vector.SlashLine, out var slashWire))
             return Fail($"invalid slashLine \"{vector.SlashLine}\".", out error);
 
-        if (!ConsoleCommandNotation.TryParse(vector.ConsoleLine, out var consoleWire, out _))
+        if (!ConsoleCommandNotation.TryParse(vector.ConsoleLine, out var consoleWire, out var consoleArgs))
             return Fail($"invalid consoleLine \"{vector.ConsoleLine}\".", out error);
 
         var slashPath = global::AIGuiders.Platform.Notations.Command.InvocationNotation.FromPathSegments(slashWire.Tokens);
@@ -156,6 +221,9 @@ public static class NotationSpecConformance
             error = $"canonicalPath expected \"{vector.Expect.CanonicalPath}\", got \"{slashPath.CanonicalPath}\".";
             return false;
         }
+
+        if (vector.Expect.Slots is not null && !SlotsMatch(vector.Expect.Slots, consoleArgs, out error))
+            return false;
 
         return true;
     }

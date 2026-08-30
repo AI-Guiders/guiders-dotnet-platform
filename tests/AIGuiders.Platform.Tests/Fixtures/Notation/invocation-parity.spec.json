@@ -1,7 +1,7 @@
 {
   "version": 1,
   "surface": "invocation-parity",
-  "source": "GUIDERS-ADR-0021 slash vs console path parity",
+  "source": "GUIDERS-ADR-0021 slash vs console path + kv parity",
   "vectors": [
     {
       "id": "buffer-open",
@@ -25,6 +25,24 @@
       "consoleLine": "forge repo create",
       "expect": {
         "canonicalPath": "forge repo create"
+      }
+    },
+    {
+      "id": "buffer-open-doc-kv",
+      "slashLine": "/buffer open",
+      "consoleLine": "buffer open doc=README.md",
+      "expect": {
+        "canonicalPath": "buffer open",
+        "slots": { "doc": "README.md" }
+      }
+    },
+    {
+      "id": "scene-focus-op-kv",
+      "slashLine": "/scene focus",
+      "consoleLine": "scene focus op=build config=release",
+      "expect": {
+        "canonicalPath": "scene focus",
+        "slots": { "op": "build", "config": "release" }
       }
     }
   ]

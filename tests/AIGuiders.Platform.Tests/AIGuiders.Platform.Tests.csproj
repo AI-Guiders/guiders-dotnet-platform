@@ -17,6 +17,9 @@
     <EmbeddedResource Include="Fixtures\Notation\argument-kv.spec.json" />
     <EmbeddedResource Include="Fixtures\Notation\invocation-parity.spec.json" />
     <EmbeddedResource Include="Fixtures\Notation\argument-delimited.spec.json" />
+    <EmbeddedResource Include="Fixtures\Notation\command-console.spec.json" />
+    <EmbeddedResource Include="Fixtures\Notation\argument-positional.spec.json" />
+    <EmbeddedResource Include="Fixtures\Notation\argument-cli.spec.json" />
     <EmbeddedResource Include="Fixtures\MCPlane\pulse-default.spec.json" />
     <EmbeddedResource Include="Fixtures\MCPlane\next-hints.spec.json" />
     <None Include="Fixtures\hotkeys.toml" CopyToOutputDirectory="PreserveNewest" Link="Fixtures\hotkeys.toml" />
@@ -40,6 +43,8 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.KeyGesture\AIGuiders.Platform.Notations.Keyboard.KeyGesture.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.Neovim\AIGuiders.Platform.Notations.Keyboard.Neovim.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.Emacs\AIGuiders.Platform.Notations.Keyboard.Emacs.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Argument.Cli\AIGuiders.Platform.Notations.Argument.Cli.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Argument.Positional\AIGuiders.Platform.Notations.Argument.Positional.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Argument.Delimited\AIGuiders.Platform.Notations.Argument.Delimited.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Melody\AIGuiders.Platform.CommandPlane.Melody.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Binding.Sources\AIGuiders.Platform.CommandPlane.Binding.Sources.csproj" />

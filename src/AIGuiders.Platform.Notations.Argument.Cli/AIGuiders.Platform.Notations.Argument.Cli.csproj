@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Notations.Argument.Cli</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Notations.Argument.Cli</AssemblyName>
+    <PackageId>AIGuiders.Platform.Notations.Argument.Cli</PackageId>
+    <Description>CLI/POSIX-like flag notation quarry (GUIDERS-ADR-0021).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
+  </ItemGroup>
+</Project>

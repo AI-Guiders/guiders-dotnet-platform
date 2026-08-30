@@ -1,5 +1,7 @@
+using AIGuiders.Platform.Notations.Argument.Cli;
 using AIGuiders.Platform.Notations.Argument.Delimited;
 using AIGuiders.Platform.Notations.Argument.Kv;
+using AIGuiders.Platform.Notations.Argument.Positional;
 using AIGuiders.Platform.Notations.Command;
 using AIGuiders.Platform.Notations.Command.Console;
 using AIGuiders.Platform.Notations.Command.Slash;
@@ -52,6 +54,22 @@ public sealed class NotationsTests
         Assert.True(CommandNotationParser.TryParse("buffer open doc=README.md", CommandNotationSurface.Console, out var consolePath, out var consoleArgs));
         Assert.Equal(["buffer", "open"], consolePath.Tokens);
         Assert.Equal("README.md", consoleArgs.Slots!["doc"]);
+    }
+
+    [Fact]
+    public void Positional_parses_ordered_tokens()
+    {
+        var tail = PositionalArgumentNotation.Parse("arg1 arg2");
+        Assert.Equal("arg1", tail.Slots!["0"]);
+        Assert.Equal("arg2", tail.Slots["1"]);
+    }
+
+    [Fact]
+    public void Cli_parses_flags_and_positional()
+    {
+        var tail = CliArgumentNotation.Parse("-h --out=release");
+        Assert.Equal("true", tail.Slots!["-h"]);
+        Assert.Equal("release", tail.Slots["--out"]);
     }
 
     [Theory]

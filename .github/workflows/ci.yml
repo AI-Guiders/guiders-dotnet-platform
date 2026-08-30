@@ -17,6 +17,10 @@ jobs:
       - run: dotnet restore
       - run: dotnet build --no-restore -c Release
       - run: dotnet test --no-build -c Release
+      - name: Quarry oracle verify (keyboard specs)
+        run: |
+          dotnet run --project tools/QuarryOracle -- verify --spec tests/AIGuiders.Platform.Tests/Fixtures/Quarry/neovim-kbd.spec.json
+          dotnet run --project tools/QuarryOracle -- verify --spec tests/AIGuiders.Platform.Tests/Fixtures/Quarry/emacs-kbd.spec.json
       - name: Adoption alliance report up to date
         run: |
           dotnet run --project tools/AdoptionReport -- --write docs/ADOPTION-ALLIANCE.generated.md

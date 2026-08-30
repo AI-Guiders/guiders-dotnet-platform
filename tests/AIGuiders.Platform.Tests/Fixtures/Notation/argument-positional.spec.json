@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "surface": "argument-positional",
+  "source": "GUIDERS-ADR-0021 Notations.Argument.Positional",
+  "vectors": [
+    {
+      "id": "readme-open",
+      "tail": "README.md",
+      "expect": {
+        "wireClass": "positional",
+        "slots": { "0": "README.md" }
+      }
+    },
+    {
+      "id": "three-args",
+      "tail": "arg1 arg2 arg3",
+      "expect": {
+        "wireClass": "positional",
+        "slots": { "0": "arg1", "1": "arg2", "2": "arg3" }
+      }
+    }
+  ]
+}

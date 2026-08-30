@@ -79,10 +79,10 @@ Implementations **do not** live in this repo — only contracts.
 | `binding/catalog` | wire → gesture, overlay, chord root | planned | `BindingCatalogTests` | hotkeys (later) |
 | `melody/line-policy` | profile, articulation, normalize | planned | `MelodyLinePolicyTests` | palette `c:` discoverability |
 | `catalog/command-wire` | TOML/JSON → descriptor IR | planned | `CommandSourceTests` | `/commands/complete` catalog load |
-| `notation/command-console` | console path + kv split | planned | — | CDP meta parity |
-| `notation/argument-positional` | ordered tail tokens | planned | — | slash remainder |
-| `notation/argument-cli` | POSIX/GNU flags (System.CommandLine quarry) | planned | — | `example.exe -h` |
-| `notation/quarry-oracle` | regenerate keyboard vectors from vim/emacs oracle | planned | manual vectors today | clean-room quarry |
+| `notation/command-console` | console path + kv split | **shipped** | `NotationConformanceTests` | CDP meta parity |
+| `notation/argument-positional` | ordered tail tokens | **shipped** | `NotationConformanceTests` | slash remainder |
+| `notation/argument-cli` | POSIX/GNU flags quarry | **shipped** | `NotationConformanceTests` | `example.exe -h` |
+| `notation/quarry-oracle` | optional neovim/emacs subprocess audit | **shipped** | `tools/QuarryOracle` | clean-room quarry |
 | `notation/command-slash` | slash body tokenize | **shipped** | `NotationConformanceTests` | — |
 | `notation/argument-kv` | kv tail → slots | **shipped** | `NotationConformanceTests` | — |
 | `notation/argument-delimited` | colon-delimited tail → slots | **shipped** | `NotationConformanceTests` | — |

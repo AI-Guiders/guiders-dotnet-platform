@@ -4,6 +4,8 @@
     { "prefix": "AIGuiders.Platform.InputNotation", "hyperlane": "Notations.Keyboard", "portHint": "dotnet-nuget", "note": "legacy alias; prefer Notations.Keyboard.*" },
     { "prefix": "AIGuiders.Platform.Notations.Keyboard", "hyperlane": "Notations.Keyboard", "portHint": "dotnet-nuget" },
     { "prefix": "AIGuiders.Platform.Notations.Command", "hyperlane": "Notations.Command", "portHint": "dotnet-nuget" },
+    { "prefix": "AIGuiders.Platform.Notations.Argument.Cli", "hyperlane": "Notations.Argument", "portHint": "dotnet-nuget" },
+    { "prefix": "AIGuiders.Platform.Notations.Argument.Positional", "hyperlane": "Notations.Argument", "portHint": "dotnet-nuget" },
     { "prefix": "AIGuiders.Platform.Notations.Argument.Delimited", "hyperlane": "Notations.Argument", "portHint": "dotnet-nuget" },
     { "prefix": "AIGuiders.Platform.Notations", "hyperlane": "Notations", "portHint": "dotnet-nuget" },
     { "prefix": "AIGuiders.Platform.Abstractions", "hyperlane": "MCPlane (seeds)", "portHint": "dotnet-nuget" },

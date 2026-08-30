@@ -69,6 +69,8 @@ Legend: ✅ done · 🚧 in progress · 📋 planned · ⏸ defer · 👤 operat
 | 4.2 | `Argument.Cli` (System.CommandLine quarry) | G-004, defer v2 |
 | 4.3 | `Argument.Delimited` (colon wire_class) | ✅ |
 | 4.4 | `Notations.Command` Core + `Command.All` facade | ✅ |
+| 4.5 | Console/CLI conformance + `Argument.Cli` + `Argument.Positional` | ✅ |
+| 4.6 | `tools/QuarryOracle` (verify + optional neovim/emacs audit) | ✅ |
 
 ---
 

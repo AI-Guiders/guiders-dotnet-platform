@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>AIGuiders.Platform.Tools.QuarryOracle</RootNamespace>
+    <AssemblyName>quarry-oracle</AssemblyName>
+    <Description>Keyboard quarry oracle audit: spec conformance + optional Neovim/Emacs subprocess checks.</Description>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.Emacs\AIGuiders.Platform.Notations.Keyboard.Emacs.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.Neovim\AIGuiders.Platform.Notations.Keyboard.Neovim.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.Quarry\AIGuiders.Platform.Notations.Keyboard.Quarry.csproj" />
+  </ItemGroup>
+</Project>

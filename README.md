@@ -40,6 +40,8 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.Notations.Keyboard.All` | Meta-bundle: facade `KeyboardNotationParser` |
 | `AIGuiders.Platform.Notations.Command` | Command core IR: `NormalizedCommandLine`, `SlashWireBody`, `InvocationNotation` |
 | `AIGuiders.Platform.Notations.Argument.Kv` | `key=value` tail → slots |
+| `AIGuiders.Platform.Notations.Argument.Positional` | Ordered tail tokens → slots |
+| `AIGuiders.Platform.Notations.Argument.Cli` | POSIX-like flags (`-h`, `--out=release`) → slots |
 | `AIGuiders.Platform.Notations.Argument.Delimited` | Colon-delimited tail (`wire_class=colon`) → slots |
 | `AIGuiders.Platform.Notations.Command.Slash` | Slash body tokenize → path + tail |
 | `AIGuiders.Platform.Notations.Command.Console` | Console path + kv tail wire |

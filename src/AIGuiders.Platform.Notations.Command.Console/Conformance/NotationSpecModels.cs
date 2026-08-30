@@ -12,6 +12,7 @@ public sealed record NotationSpecDocument(
 
 public sealed record NotationSpecVector(
     [property: JsonPropertyName("id")] string Id,
+    [property: JsonPropertyName("line")] string? Line,
     [property: JsonPropertyName("body")] string? Body,
     [property: JsonPropertyName("tail")] string? Tail,
     [property: JsonPropertyName("slashLine")] string? SlashLine,

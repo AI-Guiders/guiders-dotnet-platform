@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "surface": "command-console",
+  "source": "GUIDERS-ADR-0021 Notations.Command.Console",
+  "vectors": [
+    {
+      "id": "path-only",
+      "line": "buffer open",
+      "expect": {
+        "tokens": ["buffer", "open"],
+        "endsWithSpace": false
+      }
+    },
+    {
+      "id": "path-kv-split",
+      "line": "buffer open doc=README.md",
+      "expect": {
+        "tokens": ["buffer", "open"],
+        "slots": { "doc": "README.md" }
+      }
+    },
+    {
+      "id": "path-kv-multi",
+      "line": "scene focus op=build config=release",
+      "expect": {
+        "tokens": ["scene", "focus"],
+        "slots": { "op": "build", "config": "release" }
+      }
+    },
+    {
+      "id": "path-trailing-space",
+      "line": "buffer open ",
+      "expect": {
+        "tokens": ["buffer", "open"],
+        "endsWithSpace": true
+      }
+    }
+  ]
+}

@@ -9,7 +9,9 @@
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Command\AIGuiders.Platform.Notations.Command.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument.Kv\AIGuiders.Platform.Notations.Argument.Kv.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument.Cli\AIGuiders.Platform.Notations.Argument.Cli.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument.Delimited\AIGuiders.Platform.Notations.Argument.Delimited.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument.Positional\AIGuiders.Platform.Notations.Argument.Positional.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Command.Slash\AIGuiders.Platform.Notations.Command.Slash.csproj" />
   </ItemGroup>
 </Project>
