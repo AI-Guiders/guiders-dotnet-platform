@@ -11,5 +11,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="slash\slash-arg-completion-v1.spec.json" Pack="true" PackagePath="slash\" />
+    <None Include="slash\slash-line-resolve-v1.spec.json" Pack="true" PackagePath="slash\" />
   </ItemGroup>
 </Project>
