@@ -43,6 +43,7 @@
 | **Rocket pulls foundation** | хочешь agent parity → тащишь notation, catalog, envelope | federation build-out 2026-08 |
 | **Blame the model** | «агент недетерминирован» | скрывает fragmented invoke/observe |
 | **NIH vs MIT on disk** | `getopt`/LSP/OpenAPI есть, adopt не бесплатен | integrators, platform teams |
+| **License friction** | GPL/viral → обход, clean-room, слабый adopt при шансе на кооперацию | legal + platform teams |
 | **Planet as empire** | один experimental habitat становится «каноном» | in-house tools leaking into NuGet docs |
 
 ---
@@ -58,6 +59,13 @@
 | G-003 | **Инженер заебался:** getopt/slash/keymaps/OpenAPI/LSP — по отдельности; **нет нейтрального IR** между human notation, IDE binding и MCP JSON; «должны были сделать 100500 лет назад» | human | operator chat 2026-08-30; industry archaeology | **Notations.*** quarry family ([ADR-0021](adr/GUIDERS-ADR-0021-notations-quarry-family.md)); native ports по vectors, не копипаста C# | in-progress |
 | G-004 | NIH при MIT на диске: `System.CommandLine`/GNU vectors есть, но adopt ≠ `NormalizedArgTail` для slash-catalog; каждый пишет `Split(' ')` | human+ops | ADR-0021 §11; pilot embeds | v1 owned lexers (slash/kv); v2 **Argument.Cli** as quarry wrapper; spec semver — adopt дешевле rewrite | open |
 | G-005 | Experimental **planet** (habitat MCP, in-house wire) **утекает в federation** как normative → третьи планеты не приходят | human+agent | MCPlane/Notations drafts 2026-08 | [Constitution § Planets are not SSOT](GUIDERS-FEDERATION-CONSTITUTION.md#planets-are-not-federation-ssot); embassy = Forge/CIDE; CDP informative only | in-progress |
+
+### Licensing & cooperation
+
+| ID | Боль | Кто | Откуда | GUIDERS-ответ | Статус |
+|----|------|-----|--------|---------------|--------|
+| G-006 | Эпоха MIT/открытых лицензий дала **шанс кооперации как никогда** — но GPL и «заразные» лицензии снова строят барьеры; боль сохранения открытости понятна, побочный эффект — **плохой adopt**, clean-room, обход вместо pin | human+ops | operator chat 2026-08-30; Neovim/Emacs quarry ([ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md)) | **Conformance-first:** vectors + neutral IR (MIT); quarry = behavior port, не GPL blob в NuGet; license review per package; Constitution: public ADRs, fork adapters not fork semantics in secret | open |
+| G-007 | Enterprise/legal блокирует dependency на «не тот» license → команда пишет свой `Split(' ')` вместо embassy quarry | ops | integrator pilots | À la carte packages; minimal deps in v1 Notations; document **what** is pinned vs **what** is ported; `@aiguiders/conformance` без runtime GPL | open |
 
 ### Invocation & notation (surface stitch)
 
