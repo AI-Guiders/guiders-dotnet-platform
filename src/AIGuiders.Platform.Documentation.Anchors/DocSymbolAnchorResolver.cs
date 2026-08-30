@@ -2,14 +2,7 @@
 
 using AIGuiders.Platform.Notations.Bracket;
 
-namespace AIGuiders.Platform.LanguageIntelligence.Anchors;
-
-public interface IDocSymbolCatalog
-{
-    bool TypeExists(string typeName, string? packageHint);
-
-    bool MemberExists(string typeName, string memberName, string? packageHint);
-}
+namespace AIGuiders.Platform.Documentation.Anchors;
 
 /// <summary>Resolve <c>Family:doc</c> bracket wires against a symbol catalog (GUIDERS-ADR-0027).</summary>
 public sealed class DocSymbolAnchorResolver

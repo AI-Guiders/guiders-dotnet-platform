@@ -105,14 +105,16 @@ Parse: `BracketNotationProfile` with `ListSeparator`;`, `KvSign`:` — axis keys
 | **Scan** | `Notations.Bracket` (`BracketEnvelopeScan`) | depth-aware `[ … ]` in prose/md |
 | **Lex** | `Notations.Bracket` (`BracketReader`, profiles) | wire → `NormalizedBracketWire` |
 | **Wire IR** | `LanguageIntelligence.Anchors` (`BracketAnchorWire`, `BracketAnchorSpan`) | axis aliases, classify, format |
-| **Resolve** | `LanguageIntelligence.Anchors` (`DocSymbolAnchorResolver`) + adapters | `IAnchorResolver` per family |
-| **C# syntax resolve** | `LanguageIntelligence.Adapters.Roslyn` (`CSharpBracketAnchorResolve`) | F/M/L/S → syntax range (optional Roslyn package) |
+| **Doc resolve** | `Documentation.Anchors` (`DocSymbolAnchorResolver`) | `Family:doc` dry-resolve |
+| **C# syntax resolve** | `Language.CSharp.Anchors` (`CSharpBracketAnchorResolve`) | F/M/L/S → syntax range |
+| **C# symbol catalog** | `Language.CSharp.Symbols` (`RoslynDocSymbolCatalog`) | doc anchor symbol index |
+| **Link check** | `Documentation.LinkCheck` (`DocAnchorChecker`) | markdown scan + resolve |
 | **CLI** | `tools/MdLinker` | walk paths, orchestrate, `--check` / `--write` |
 | **Meta** | `AIGuiders.Platform.Utilities.DocLink` (v1.1 pack) | contracts if reused outside CLI |
 | **Conformance** | `notation/bracket-doc-symbol` | wire vectors → resolve ok (planned) |
 | **Planet façade** | `Cdp.ScriptableIde.BracketLocate` | thin forwarder; not SSOT |
 
-MdLinker v1 refs **Notations.Bracket + LI.Anchors + LI.Adapters.Roslyn** (à la carte) — not `ScriptableIde`.
+MdLinker v1 refs **Notations.Bracket + Documentation.* + Language.CSharp.Symbols** (à la carte) — not `ScriptableIde`.
 
 CLI is **not** a NuGet product in v1 — dogfood like `AdoptionReport`.
 

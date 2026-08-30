@@ -1,11 +1,11 @@
 #nullable enable
 
-using AIGuiders.Platform.LanguageIntelligence.Anchors;
+using AIGuiders.Platform.Documentation.Anchors;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace AIGuiders.Platform.LanguageIntelligence.Adapters.Roslyn;
+namespace AIGuiders.Platform.Language.CSharp.Symbols;
 
 /// <summary>Syntax-tree symbol index for platform doc anchors (no MSBuild).</summary>
 public sealed class RoslynDocSymbolCatalog : IDocSymbolCatalog

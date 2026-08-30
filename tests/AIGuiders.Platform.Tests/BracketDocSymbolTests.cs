@@ -1,6 +1,6 @@
 #nullable enable
-using AIGuiders.Platform.LanguageIntelligence.Adapters.Roslyn;
-using AIGuiders.Platform.LanguageIntelligence.Anchors;
+using AIGuiders.Platform.Documentation.Anchors;
+using AIGuiders.Platform.Language.CSharp.Symbols;
 using AIGuiders.Platform.Notations.Bracket;
 using Xunit;
 

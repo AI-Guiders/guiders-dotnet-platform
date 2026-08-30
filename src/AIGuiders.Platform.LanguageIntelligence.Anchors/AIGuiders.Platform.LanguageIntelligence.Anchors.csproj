@@ -3,7 +3,7 @@
     <RootNamespace>AIGuiders.Platform.LanguageIntelligence.Anchors</RootNamespace>
     <AssemblyName>AIGuiders.Platform.LanguageIntelligence.Anchors</AssemblyName>
     <PackageId>AIGuiders.Platform.LanguageIntelligence.Anchors</PackageId>
-    <Description>Anchor wire IR: bracket span projection, family classify, format (GUIDERS-ADR-0025 Phase 1).</Description>
+    <Description>Anchor wire IR: bracket span projection, family classify, format (code/xml/navigation).</Description>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.LanguageIntelligence\AIGuiders.Platform.LanguageIntelligence.csproj" />

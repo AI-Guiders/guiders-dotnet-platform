@@ -63,7 +63,10 @@
     <ProjectReference Include="..\..\tools\QuarryOracle\QuarryOracle.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.LanguageIntelligence\AIGuiders.Platform.LanguageIntelligence.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.LanguageIntelligence.Anchors\AIGuiders.Platform.LanguageIntelligence.Anchors.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.LanguageIntelligence.Adapters.Roslyn\AIGuiders.Platform.LanguageIntelligence.Adapters.Roslyn.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Anchors\AIGuiders.Platform.Documentation.Anchors.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.LinkCheck\AIGuiders.Platform.Documentation.LinkCheck.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Language.CSharp.Anchors\AIGuiders.Platform.Language.CSharp.Anchors.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Language.CSharp.Symbols\AIGuiders.Platform.Language.CSharp.Symbols.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Bracket\AIGuiders.Platform.Notations.Bracket.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.MCPlane\AIGuiders.Platform.MCPlane.csproj" />
   </ItemGroup>

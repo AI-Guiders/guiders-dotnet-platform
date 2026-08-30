@@ -1,6 +1,5 @@
-using AIGuiders.Platform.LanguageIntelligence.Adapters.Roslyn;
-using AIGuiders.Platform.LanguageIntelligence.Anchors;
-using AIGuiders.Platform.Notations.Bracket;
+using AIGuiders.Platform.Documentation.LinkCheck;
+using AIGuiders.Platform.Language.CSharp.Symbols;
 
 var repoRoot = FindRepoRoot(Directory.GetCurrentDirectory())
     ?? FindRepoRoot(AppContext.BaseDirectory)
@@ -31,28 +30,11 @@ if (!check)
 }
 
 if (paths.Count == 0)
-{
     paths.Add(Path.Combine(repoRoot, "docs", "adr"));
-}
 
 var srcRoot = Path.Combine(repoRoot, "src");
 var catalog = RoslynDocSymbolCatalog.BuildFromSourceRoot(srcRoot);
-var resolver = new DocSymbolAnchorResolver(catalog);
-var profile = BracketProfiles.DocSymbol;
-var failures = new List<string>();
-
-foreach (var path in paths)
-{
-    if (File.Exists(path) && path.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
-        CheckFile(path, profile, resolver, failures);
-    else if (Directory.Exists(path))
-    {
-        foreach (var file in Directory.EnumerateFiles(path, "*.md", SearchOption.AllDirectories))
-            CheckFile(file, profile, resolver, failures);
-    }
-    else
-        failures.Add($"{path}: not found");
-}
+var failures = DocAnchorChecker.CheckMarkdownRoots(paths, catalog);
 
 if (failures.Count > 0)
 {
@@ -63,56 +45,6 @@ if (failures.Count > 0)
 
 Console.WriteLine($"mdlinker: ok ({paths.Count} root path(s))");
 return 0;
-
-static void CheckFile(
-    string filePath,
-    BracketNotationProfile profile,
-    DocSymbolAnchorResolver resolver,
-    List<string> failures)
-{
-    var text = File.ReadAllText(filePath);
-    foreach (var envelope in BracketEnvelopeScan.LocateInText(text))
-    {
-        if (!LooksLikeDocAnchor(envelope.Inner))
-            continue;
-
-        if (!BracketReader.Default.TryRead(
-                envelope.Wire,
-                profile,
-                BracketAxisValuePlans.DocSymbol,
-                out var wire,
-                out var parseError) || wire is null)
-        {
-            failures.Add($"{filePath}:{text.Take(envelope.Start).Count(c => c == '\n') + 1}: parse:{parseError}");
-            continue;
-        }
-
-        if (!HasDocFamily(wire))
-            continue;
-
-        if (!resolver.TryResolve(wire, out var resolveError))
-        {
-            var line = text.Take(envelope.Start).Count(c => c == '\n') + 1;
-            failures.Add($"{filePath}:{line}: {resolveError} wire={envelope.Wire}");
-        }
-    }
-}
-
-static bool LooksLikeDocAnchor(string inner) =>
-    inner.Contains("Family:", StringComparison.OrdinalIgnoreCase)
-    && inner.Contains("doc", StringComparison.OrdinalIgnoreCase);
-
-static bool HasDocFamily(NormalizedBracketWire wire)
-{
-    foreach (var axis in wire.Axes)
-    {
-        if (axis.Key.Equals("Family", StringComparison.OrdinalIgnoreCase)
-            && axis.Value.Equals("doc", StringComparison.OrdinalIgnoreCase))
-            return true;
-    }
-
-    return false;
-}
 
 static string? FindRepoRoot(string start)
 {
@@ -140,5 +72,6 @@ static void PrintHelp()
           --help, -h       Show help
 
         Default path: docs/adr/
+        Packages: Documentation.LinkCheck + Language.CSharp.Symbols
         """);
 }

@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace AIGuiders.Platform.LanguageIntelligence.Adapters.Roslyn;
+namespace AIGuiders.Platform.Language.CSharp.Anchors;
 
 
 /// <summary>Resolve S(+K) to line/column range via local C# parse (no MSBuild).</summary>
