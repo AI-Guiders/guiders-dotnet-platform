@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guiders.dev/conformance/schemas/conformance-common.schema.json",
+  "title": "Guiders conformance shared definitions",
+  "$defs": {
+    "specVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "specSource": {
+      "type": "string",
+      "minLength": 1
+    },
+    "vectorId": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "slotMap": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "type": "string" }
+    },
+    "wireClass": {
+      "type": "string",
+      "enum": ["kv", "cli", "positional", "delimited", "colon", "raw"]
+    },
+    "invocationArgParameter": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "kind": { "type": "string", "enum": ["flag", "value", "positional"], "default": "value" },
+        "longOption": { "type": "string", "minLength": 1 },
+        "shortOption": { "type": "string", "minLength": 1 }
+      }
+    },
+    "catalogEntry": {
+      "type": "object",
+      "required": ["domain", "object", "intent", "commandId", "path"],
+      "additionalProperties": false,
+      "properties": {
+        "domain": { "type": "string" },
+        "object": { "type": "string" },
+        "intent": { "type": "string" },
+        "commandId": { "type": "string", "minLength": 1, "pattern": "^fixture\\." },
+        "path": { "type": "string", "minLength": 1 },
+        "pathAliases": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "help": { "type": "string" },
+        "group": { "type": "string" },
+        "argTail": { "type": "string" },
+        "tailWireClass": { "$ref": "#/$defs/wireClass" },
+        "argParameters": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/invocationArgParameter" }
+        },
+        "argHint": { "type": "string" },
+        "argPickerChoices": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/pickerChoice" }
+        }
+      }
+    },
+    "catalogEntryWire": {
+      "type": "object",
+      "required": ["commandId", "path"],
+      "additionalProperties": false,
+      "properties": {
+        "domain": { "type": "string" },
+        "object": { "type": "string" },
+        "intent": { "type": "string" },
+        "commandId": { "type": "string", "minLength": 1 },
+        "path": { "type": "string", "minLength": 1 },
+        "pathAliases": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "help": { "type": "string" },
+        "group": { "type": "string" },
+        "argTail": { "type": "string" },
+        "tailWireClass": { "$ref": "#/$defs/wireClass" },
+        "argParameters": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/invocationArgParameter" }
+        },
+        "argHint": { "type": "string" },
+        "argPickerChoices": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/pickerChoice" }
+        },
+        "surfaces": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "requiredCapabilities": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "tier": { "type": "string" },
+        "pluginId": { "type": "string" },
+        "requiresDestructiveConfirm": { "type": "boolean" }
+      }
+    },
+    "catalogMap": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "array",
+        "minItems": 1,
+        "items": { "$ref": "#/$defs/catalogEntry" }
+      }
+    },
+    "pickerChoice": {
+      "type": "object",
+      "required": ["value"],
+      "additionalProperties": false,
+      "properties": {
+        "value": { "type": "string", "minLength": 1 },
+        "label": { "type": "string" },
+        "hint": { "type": "string" }
+      }
+    },
+    "pickerStub": {
+      "type": "object",
+      "required": ["choices"],
+      "additionalProperties": false,
+      "properties": {
+        "choices": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/pickerChoice" }
+        }
+      }
+    },
+    "pickerStubMap": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/pickerStub" }
+    },
+    "completionItem": {
+      "type": "object",
+      "required": ["kind", "insertText", "slashPath", "help"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "type": "string", "enum": ["segment", "picker"] },
+        "insertText": { "type": "string" },
+        "slashPath": { "type": "string" },
+        "help": { "type": "string" },
+        "group": { "type": ["string", "null"] },
+        "stepSegment": { "type": ["string", "null"] },
+        "pickValue": { "type": ["string", "null"] }
+      }
+    },
+    "suggestionsExpectation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/completionItem" }
+        },
+        "stepSegments": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "guidanceExpectation": {
+      "type": "object",
+      "required": ["mode"],
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["Path", "Picker", "FreeText", "Optional", "Ready"]
+        },
+        "breadcrumbContains": { "type": "string" },
+        "placeholderContains": { "type": "string" },
+        "hint": { "type": "string" }
+      }
+    },
+    "quarryChord": {
+      "type": "object",
+      "required": ["mods", "key"],
+      "additionalProperties": false,
+      "properties": {
+        "mods": { "type": "string" },
+        "key": { "type": "string", "minLength": 1 }
+      }
+    },
+    "mcplaneOutcome": {
+      "type": "object",
+      "required": ["raw", "verb", "ok"],
+      "additionalProperties": false,
+      "properties": {
+        "raw": { "type": "string" },
+        "verb": { "type": "string", "minLength": 1 },
+        "ok": { "type": "boolean" },
+        "pulse": { "type": "string" },
+        "reason": { "type": "string" }
+      }
+    },
+    "mcplaneNextHint": {
+      "type": "object",
+      "required": ["kind"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "type": "string", "enum": ["command", "tool"] },
+        "commandId": { "type": "string" },
+        "toolName": { "type": "string" },
+        "label": { "type": "string" }
+      }
+    }
+  }
+}

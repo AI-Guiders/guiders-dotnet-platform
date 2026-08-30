@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guiders.dev/conformance/schemas/mcplane-next-hints.schema.json",
+  "title": "MCPlane next-hints conformance spec",
+  "type": "object",
+  "required": ["version", "surface", "vectors"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "$ref": "conformance-common.schema.json#/$defs/specVersion" },
+    "surface": { "type": "string", "const": "mcplane-next-hints" },
+    "source": { "$ref": "conformance-common.schema.json#/$defs/specSource" },
+    "vectors": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/vector" }
+    }
+  },
+  "$defs": {
+    "vector": {
+      "type": "object",
+      "required": ["id", "outcome", "next", "expect"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "conformance-common.schema.json#/$defs/vectorId" },
+        "outcome": { "$ref": "conformance-common.schema.json#/$defs/mcplaneOutcome" },
+        "next": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "conformance-common.schema.json#/$defs/mcplaneNextHint" }
+        },
+        "expect": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "nextCount": { "type": "integer", "minimum": 0 },
+            "nextKinds": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["command", "tool"] }
+            }
+          }
+        }
+      }
+    }
+  }
+}

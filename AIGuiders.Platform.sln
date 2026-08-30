@@ -113,6 +113,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.Notation
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuarryOracle", "tools\QuarryOracle\QuarryOracle.csproj", "{0B14A12A-BA47-4776-BC1A-3CFA95B813FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.Conformance.Schemas", "src\AIGuiders.Platform.Conformance.Schemas\AIGuiders.Platform.Conformance.Schemas.csproj", "{3EFA442E-6581-4DC7-B865-5155F018EE20}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -771,6 +773,18 @@ Global
 		{0B14A12A-BA47-4776-BC1A-3CFA95B813FD}.Release|x64.Build.0 = Release|Any CPU
 		{0B14A12A-BA47-4776-BC1A-3CFA95B813FD}.Release|x86.ActiveCfg = Release|Any CPU
 		{0B14A12A-BA47-4776-BC1A-3CFA95B813FD}.Release|x86.Build.0 = Release|Any CPU
+		{3EFA442E-6581-4DC7-B865-5155F018EE20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EFA442E-6581-4DC7-B865-5155F018EE20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EFA442E-6581-4DC7-B865-5155F018EE20}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3EFA442E-6581-4DC7-B865-5155F018EE20}.Debug|x64.Build.0 = Debug|Any CPU
+		{3EFA442E-6581-4DC7-B865-5155F018EE20}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3EFA442E-6581-4DC7-B865-5155F018EE20}.Debug|x86.Build.0 = Debug|Any CPU
+		{3EFA442E-6581-4DC7-B865-5155F018EE20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EFA442E-6581-4DC7-B865-5155F018EE20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EFA442E-6581-4DC7-B865-5155F018EE20}.Release|x64.ActiveCfg = Release|Any CPU
+		{3EFA442E-6581-4DC7-B865-5155F018EE20}.Release|x64.Build.0 = Release|Any CPU
+		{3EFA442E-6581-4DC7-B865-5155F018EE20}.Release|x86.ActiveCfg = Release|Any CPU
+		{3EFA442E-6581-4DC7-B865-5155F018EE20}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -823,5 +837,6 @@ Global
 		{458D762B-3D75-4ECC-A3E2-3B30A69C760B} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{841EF5C0-FB77-416D-BFAE-E8C8B5598E52} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{0B14A12A-BA47-4776-BC1A-3CFA95B813FD} = {07C2787E-EAC7-C090-1BA3-A61EC2A24D84}
+		{3EFA442E-6581-4DC7-B865-5155F018EE20} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 EndGlobal

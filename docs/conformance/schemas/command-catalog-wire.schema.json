@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guiders.dev/conformance/schemas/command-catalog-wire.schema.json",
+  "title": "Command catalog wire document (JSON)",
+  "oneOf": [
+    {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "conformance-common.schema.json#/$defs/catalogEntryWire" }
+    },
+    {
+      "type": "object",
+      "required": ["commands"],
+      "additionalProperties": false,
+      "properties": {
+        "commands": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "conformance-common.schema.json#/$defs/catalogEntryWire" }
+        }
+      }
+    }
+  ],
+  "$defs": {}
+}

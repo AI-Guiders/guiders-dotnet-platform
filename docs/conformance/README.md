@@ -27,7 +27,16 @@ Product ship catalogs (`forge.repo.*`, CIDE intents) are **never** conformance i
 docs/conformance/
 ├── README.md
 ├── RULES.md
-├── slash-arg-completion.{spec,schema}.json
+├── schemas/                 ← JSON Schema (normative shape)
+│   ├── conformance-common.schema.json
+│   ├── slash-arg-completion.schema.json
+│   ├── slash-line-resolve.schema.json
+│   ├── notation-spec.schema.json
+│   ├── notation-quarry.schema.json
+│   ├── mcplane-pulse-default.schema.json
+│   ├── mcplane-next-hints.schema.json
+│   └── command-catalog-wire.schema.json
+├── *.spec.json              ← vectors (validate against schemas/)
 └── … (growing)
 
 tests/.../Fixtures/          ← embedded for .NET CI

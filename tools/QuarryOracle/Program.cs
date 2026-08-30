@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Text.Json;
+using AIGuiders.Platform.Conformance.Schemas;
 using AIGuiders.Platform.Notations.Keyboard;
 using AIGuiders.Platform.Notations.Keyboard.Quarry;
 
@@ -27,6 +28,14 @@ static class Program
     {
         var specPath = RequireOption(args, "--spec");
         var json = File.ReadAllText(specPath);
+        var schemaErrors = ConformanceSchemaValidator.ValidateJson(json);
+        if (schemaErrors.Count > 0)
+        {
+            foreach (var error in schemaErrors)
+                Console.Error.WriteLine(error);
+            return 1;
+        }
+
         var spec = QuarrySpecLoader.Load(json);
         var reader = ResolveReader(spec.Surface);
         var errors = QuarrySpecConformance.ValidateDocument(reader, spec);
@@ -46,6 +55,14 @@ static class Program
         var specPath = RequireOption(args, "--spec");
         var require = args.Contains("--require");
         var json = File.ReadAllText(specPath);
+        var schemaErrors = ConformanceSchemaValidator.ValidateJson(json);
+        if (schemaErrors.Count > 0)
+        {
+            foreach (var error in schemaErrors)
+                Console.Error.WriteLine(error);
+            return 1;
+        }
+
         var spec = QuarrySpecLoader.Load(json);
         var reader = ResolveReader(spec.Surface);
 

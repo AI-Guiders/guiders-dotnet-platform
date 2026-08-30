@@ -7,6 +7,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Conformance.Schemas\AIGuiders.Platform.Conformance.Schemas.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.Emacs\AIGuiders.Platform.Notations.Keyboard.Emacs.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.Neovim\AIGuiders.Platform.Notations.Keyboard.Neovim.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.Quarry\AIGuiders.Platform.Notations.Keyboard.Quarry.csproj" />

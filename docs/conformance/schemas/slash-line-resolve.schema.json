@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guiders.dev/conformance/schemas/slash-line-resolve.schema.json",
+  "title": "Slash line-resolve conformance spec",
+  "type": "object",
+  "required": ["version", "surface", "catalogs", "vectors"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "$ref": "conformance-common.schema.json#/$defs/specVersion" },
+    "surface": { "type": "string", "const": "slash-line-resolve" },
+    "source": { "$ref": "conformance-common.schema.json#/$defs/specSource" },
+    "catalogs": { "$ref": "conformance-common.schema.json#/$defs/catalogMap" },
+    "vectors": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/vector" }
+    }
+  },
+  "$defs": {
+    "vector": {
+      "type": "object",
+      "required": ["id", "catalog", "slashLine", "expect"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "conformance-common.schema.json#/$defs/vectorId" },
+        "catalog": { "type": "string", "minLength": 1 },
+        "slashLine": { "type": "string", "minLength": 1 },
+        "expect": { "$ref": "#/$defs/expectation" }
+      }
+    },
+    "expectation": {
+      "type": "object",
+      "required": ["canonicalPath", "isRunnable", "isCatalogMatch"],
+      "additionalProperties": false,
+      "properties": {
+        "canonicalPath": { "type": "string" },
+        "argTail": { "type": "string" },
+        "isRunnable": { "type": "boolean" },
+        "isCatalogMatch": { "type": "boolean" },
+        "argTailKind": {
+          "type": "string",
+          "enum": ["None", "Optional", "Required", "Picker", "ImplicitSelection", "ImplicitLineRange"]
+        }
+      }
+    }
+  }
+}

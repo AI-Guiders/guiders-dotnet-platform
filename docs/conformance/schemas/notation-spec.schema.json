@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guiders.dev/conformance/schemas/notation-spec.schema.json",
+  "title": "Notation conformance spec (command + argument surfaces)",
+  "oneOf": [
+    { "$ref": "#/$defs/commandSlashSpec" },
+    { "$ref": "#/$defs/commandConsoleSpec" },
+    { "$ref": "#/$defs/argumentKvSpec" },
+    { "$ref": "#/$defs/argumentDelimitedSpec" },
+    { "$ref": "#/$defs/argumentPositionalSpec" },
+    { "$ref": "#/$defs/argumentCliSpec" },
+    { "$ref": "#/$defs/invocationParitySpec" }
+  ],
+  "$defs": {
+    "specHeader": {
+      "type": "object",
+      "required": ["version", "surface", "vectors"],
+      "additionalProperties": false,
+      "properties": {
+        "version": { "$ref": "conformance-common.schema.json#/$defs/specVersion" },
+        "surface": { "type": "string" },
+        "source": { "$ref": "conformance-common.schema.json#/$defs/specSource" },
+        "vectors": { "type": "array", "minItems": 1 }
+      }
+    },
+    "commandSlashSpec": {
+      "allOf": [
+        { "$ref": "#/$defs/specHeader" },
+        {
+          "properties": {
+            "surface": { "const": "command-slash" },
+            "vectors": { "items": { "$ref": "#/$defs/commandSlashVector" } }
+          }
+        }
+      ]
+    },
+    "commandSlashVector": {
+      "type": "object",
+      "required": ["id", "body", "expect"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "conformance-common.schema.json#/$defs/vectorId" },
+        "body": { "type": "string" },
+        "expect": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "tokens": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "endsWithSpace": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "commandConsoleSpec": {
+      "allOf": [
+        { "$ref": "#/$defs/specHeader" },
+        {
+          "properties": {
+            "surface": { "const": "command-console" },
+            "vectors": { "items": { "$ref": "#/$defs/commandConsoleVector" } }
+          }
+        }
+      ]
+    },
+    "commandConsoleVector": {
+      "type": "object",
+      "required": ["id", "line", "expect"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "conformance-common.schema.json#/$defs/vectorId" },
+        "line": { "type": "string" },
+        "expect": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "tokens": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "endsWithSpace": { "type": "boolean" },
+            "slots": { "$ref": "conformance-common.schema.json#/$defs/slotMap" }
+          }
+        }
+      }
+    },
+    "argumentKvSpec": {
+      "allOf": [
+        { "$ref": "#/$defs/specHeader" },
+        {
+          "properties": {
+            "surface": { "const": "argument-kv" },
+            "vectors": { "items": { "$ref": "#/$defs/argumentTailVector" } }
+          }
+        }
+      ]
+    },
+    "argumentDelimitedSpec": {
+      "allOf": [
+        { "$ref": "#/$defs/specHeader" },
+        {
+          "properties": {
+            "surface": { "const": "argument-delimited" },
+            "vectors": { "items": { "$ref": "#/$defs/argumentTailVectorWithWireClass" } }
+          }
+        }
+      ]
+    },
+    "argumentPositionalSpec": {
+      "allOf": [
+        { "$ref": "#/$defs/specHeader" },
+        {
+          "properties": {
+            "surface": { "const": "argument-positional" },
+            "vectors": { "items": { "$ref": "#/$defs/argumentTailVectorWithWireClass" } }
+          }
+        }
+      ]
+    },
+    "argumentCliSpec": {
+      "allOf": [
+        { "$ref": "#/$defs/specHeader" },
+        {
+          "properties": {
+            "surface": { "const": "argument-cli" },
+            "vectors": { "items": { "$ref": "#/$defs/argumentTailVectorWithWireClass" } }
+          }
+        }
+      ]
+    },
+    "argumentTailVector": {
+      "type": "object",
+      "required": ["id", "tail", "expect"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "conformance-common.schema.json#/$defs/vectorId" },
+        "tail": { "type": "string" },
+        "expect": {
+          "type": "object",
+          "required": ["slots"],
+          "additionalProperties": false,
+          "properties": {
+            "wireClass": { "$ref": "conformance-common.schema.json#/$defs/wireClass" },
+            "slots": { "$ref": "conformance-common.schema.json#/$defs/slotMap" }
+          }
+        }
+      }
+    },
+    "argumentTailVectorWithWireClass": {
+      "allOf": [
+        { "$ref": "#/$defs/argumentTailVector" },
+        {
+          "properties": {
+            "expect": {
+              "required": ["wireClass", "slots"]
+            }
+          }
+        }
+      ]
+    },
+    "invocationParitySpec": {
+      "allOf": [
+        { "$ref": "#/$defs/specHeader" },
+        {
+          "properties": {
+            "surface": { "const": "invocation-parity" },
+            "vectors": { "items": { "$ref": "#/$defs/invocationParityVector" } }
+          }
+        }
+      ]
+    },
+    "invocationParityVector": {
+      "type": "object",
+      "required": ["id", "slashLine", "consoleLine", "expect"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "conformance-common.schema.json#/$defs/vectorId" },
+        "slashLine": { "type": "string", "minLength": 1 },
+        "consoleLine": { "type": "string", "minLength": 1 },
+        "expect": {
+          "type": "object",
+          "required": ["canonicalPath"],
+          "additionalProperties": false,
+          "properties": {
+            "canonicalPath": { "type": "string", "minLength": 1 },
+            "slots": { "$ref": "conformance-common.schema.json#/$defs/slotMap" }
+          }
+        }
+      }
+    }
+  }
+}

@@ -51,10 +51,10 @@ Platform `SlashArgCompletion` applies a second filter (`value` prefix, `label`/`
 
 Any test generator MUST:
 
-1. Load spec JSON (+ JSON Schema validate when tooling available).
-2. Build catalog from `catalogs[<name>]`.
-3. Build picker source from `pickerStubs`.
-4. Run `SlashStepCompletion` / `SlashCompletion` equivalent.
+1. Load spec JSON and **validate against the surface JSON Schema** (`docs/conformance/schemas/`; .NET: `ConformanceSchemaValidator`).
+2. Build catalog from `catalogs[<name>]` (slash surfaces).
+3. Build picker source from `pickerStubs` (slash arg-completion).
+4. Run the reference harness (`SlashSpecConformance`, `NotationSpecConformance`, …).
 5. Compare with rules above.
 
-Reference: `SlashSpecConformance` in `AIGuiders.Platform.CommandPlane.Slash`.
+Reference packages: `AIGuiders.Platform.Conformance.Schemas` (schema registry), harnesses in respective NuGet slices.

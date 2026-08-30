@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guiders.dev/conformance/schemas/mcplane-pulse-default.schema.json",
+  "title": "MCPlane pulse-default conformance spec",
+  "type": "object",
+  "required": ["version", "surface", "vectors"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "$ref": "conformance-common.schema.json#/$defs/specVersion" },
+    "surface": { "type": "string", "const": "mcplane-pulse-default" },
+    "source": { "$ref": "conformance-common.schema.json#/$defs/specSource" },
+    "vectors": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/vector" }
+    }
+  },
+  "$defs": {
+    "vector": {
+      "type": "object",
+      "required": ["id", "outcome", "expect"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "conformance-common.schema.json#/$defs/vectorId" },
+        "outcome": { "$ref": "conformance-common.schema.json#/$defs/mcplaneOutcome" },
+        "expect": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "tier": { "type": "string", "const": "Pulse" },
+            "pulseMaxChars": { "type": "integer", "minimum": 1 },
+            "pulseEndsWithEllipsis": { "type": "boolean" },
+            "outcomeIncluded": { "type": "boolean" }
+          }
+        }
+      }
+    }
+  }
+}
