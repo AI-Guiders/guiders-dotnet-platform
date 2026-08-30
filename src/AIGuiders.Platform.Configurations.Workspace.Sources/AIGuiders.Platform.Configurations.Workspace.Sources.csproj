@@ -6,6 +6,8 @@
     <Description>Source-aware loaders for workspace.toml → WorkspaceDocument.</Description>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Combinations.Sources\AIGuiders.Platform.Combinations.Sources.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Combinations.Workspace\AIGuiders.Platform.Combinations.Workspace.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Configurations.Workspace\AIGuiders.Platform.Configurations.Workspace.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Sources\AIGuiders.Platform.Sources.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Sources.Toml\AIGuiders.Platform.Sources.Toml.csproj" />

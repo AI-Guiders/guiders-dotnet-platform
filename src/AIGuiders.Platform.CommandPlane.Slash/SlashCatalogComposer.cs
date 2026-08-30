@@ -6,16 +6,8 @@ namespace AIGuiders.Platform.CommandPlane;
 public static class SlashCatalogComposer
 {
     public static SlashCatalogIndex Build(params ICommandSource[] sources) =>
-        Build((IEnumerable<ICommandSource>)sources);
+        Combinations.Slash.SlashCatalogCombination.Compose(sources);
 
-    public static SlashCatalogIndex Build(IEnumerable<ICommandSource> sources)
-    {
-        SlashCatalogIndex index = SlashCatalogIndex.Empty;
-        foreach (var source in sources)
-        {
-            index = index.Merge(SlashCatalogIndex.FromDescriptors(source.Load()));
-        }
-
-        return index;
-    }
+    public static SlashCatalogIndex Build(IEnumerable<ICommandSource> sources) =>
+        Combinations.Slash.SlashCatalogCombination.Compose(sources);
 }

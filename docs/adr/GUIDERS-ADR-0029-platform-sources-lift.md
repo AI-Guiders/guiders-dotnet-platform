@@ -37,7 +37,7 @@ Platform.Sources              ISource<T>, IFormatReader<TOut>, DocumentFormat
 ```
 
 - **`ISource<T>`** — stable `SourceId` + `Load()`.
-- **`SourceCatalog.Merge(baseline, overlay, combiner)`** — merge policy is **only** the combinator function; no hidden merge semantics in loaders.
+- **`SourceCatalog.Merge(baseline, overlay, combiner)`** — moved to **`Combinations.Sources.SourceCombination`** (GUIDERS-ADR-0030).
 - **`DocumentFormats`** — single extension dispatch for file transport.
 
 ### Domain hub (`Configurations.Workspace`)

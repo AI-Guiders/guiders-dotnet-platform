@@ -1,5 +1,7 @@
 #nullable enable
 
+using AIGuiders.Platform.Combinations.Sources;
+using AIGuiders.Platform.Combinations.Workspace;
 using AIGuiders.Platform.Sources;
 
 namespace AIGuiders.Platform.Configurations.Workspace;
@@ -45,9 +47,10 @@ public static class WorkspaceSources
         ISource<WorkspaceDocument> baseline,
         ISource<WorkspaceDocument> overlay,
         string? sourceId = null) =>
-        SourceCatalog.Merge(
+        SourceCombination.Merge(
             baseline,
             overlay,
-            static (b, o) => b.MergeOver(o),
+            WorkspaceCombinators.FieldOverlay,
             sourceId ?? $"{baseline.SourceId}+{overlay.SourceId}");
 }
+

@@ -1,4 +1,6 @@
 #nullable enable
+using AIGuiders.Platform.Combinations.Sources;
+using AIGuiders.Platform.Combinations.Workspace;
 using AIGuiders.Platform.Configurations.Workspace;
 using AIGuiders.Platform.Sources;
 using Xunit;
@@ -41,8 +43,8 @@ public sealed class SourceMergeTests
     [Fact]
     public void Merge_three_layers_accumulates()
     {
-        var layers = new ISource<WorkspaceDocument>[]
-        {
+        ISource<WorkspaceDocument>[] layers =
+        [
             SourceCatalog.From(new WorkspaceDocument
             {
                 Workspace = new WorkspaceSection { Adr = new WorkspaceAdrSettings { RootDir = "a" } },
@@ -61,9 +63,9 @@ public sealed class SourceMergeTests
                     },
                 },
             }, "l2"),
-        };
+        ];
 
-        var merged = SourceCatalog.Merge(layers, static (b, o) => b.MergeOver(o));
+        var merged = SourceCombination.Merge(layers, WorkspaceCombinators.FieldOverlay);
         var doc = merged.Load();
 
         Assert.Equal("a", doc.Workspace!.Adr!.RootDir);

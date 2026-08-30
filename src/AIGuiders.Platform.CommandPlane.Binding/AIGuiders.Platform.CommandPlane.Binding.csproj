@@ -6,6 +6,7 @@
     <Description>Binding mechanic core: gesture catalog, layered merge (GUIDERS-ADR-0017).</Description>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Combinations\AIGuiders.Platform.Combinations.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard.KeyGesture\AIGuiders.Platform.Notations.Keyboard.KeyGesture.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Sources\AIGuiders.Platform.Sources.csproj" />
