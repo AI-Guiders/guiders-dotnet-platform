@@ -8,12 +8,12 @@ namespace AIGuiders.Platform.Notations.Argument.Cli;
 /// </summary>
 public static class CliArgumentNotation
 {
-    public const string WireClassCli = "cli";
+    public const string ReaderIdCli = "cli";
 
     public static NormalizedArguments Parse(string tail)
     {
         if (string.IsNullOrWhiteSpace(tail))
-            return NormalizedArguments.FromRaw("", WireClassCli);
+            return NormalizedArguments.FromRaw("", ReaderIdCli);
 
         var slots = new Dictionary<string, string>(StringComparer.Ordinal);
         var tokens = Tokenize(tail);
@@ -50,15 +50,15 @@ public static class CliArgumentNotation
         }
 
         return slots.Count > 0
-            ? NormalizedArguments.FromSlots(slots, WireClassCli)
-            : NormalizedArguments.FromRaw(tail.Trim(), WireClassCli);
+            ? NormalizedArguments.FromSlots(slots, ReaderIdCli)
+            : NormalizedArguments.FromRaw(tail.Trim(), ReaderIdCli);
     }
 
     /// <summary>Schema-aware CLI parse: <c>--config release</c>, value flags, positional slots by name.</summary>
     public static NormalizedArguments ParseWithSchema(string tail, IReadOnlyList<ArgumentSlot> schema)
     {
         if (string.IsNullOrWhiteSpace(tail))
-            return NormalizedArguments.FromRaw("", WireClassCli);
+            return NormalizedArguments.FromRaw("", ReaderIdCli);
 
         var byLong = new Dictionary<string, ArgumentSlot>(StringComparer.Ordinal);
         var byShort = new Dictionary<string, ArgumentSlot>(StringComparer.Ordinal);
@@ -149,8 +149,8 @@ public static class CliArgumentNotation
         }
 
         return slots.Count > 0
-            ? NormalizedArguments.FromSlots(slots, WireClassCli)
-            : NormalizedArguments.FromRaw(tail.Trim(), WireClassCli);
+            ? NormalizedArguments.FromSlots(slots, ReaderIdCli)
+            : NormalizedArguments.FromRaw(tail.Trim(), ReaderIdCli);
     }
 
     static void AssignLongOption(

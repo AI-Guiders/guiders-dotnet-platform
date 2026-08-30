@@ -125,6 +125,6 @@ public sealed class MelodyLinePolicyTests
 
         Assert.Equal("gs", line.Slug);
         Assert.Equal("Git Status", line.Help);
-        Assert.Equal("line_range", line.ArgumentNotation!.WireClass);
+        Assert.Equal("line_range", line.ArgumentNotation!.ReaderId);
     }
 }

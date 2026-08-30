@@ -11,5 +11,5 @@ public sealed class MelodyStep
     public required string Wire { get; init; }
 
     /// <summary>Optional tail slot parser id for parametric steps.</summary>
-    public string? WireClass { get; init; }
+    public string? ReaderId { get; init; }
 }

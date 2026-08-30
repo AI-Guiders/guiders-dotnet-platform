@@ -5,11 +5,11 @@ namespace AIGuiders.Platform.Notations.Argument;
 /// Mirrors <c>BracketNotationProfile</c> for the Argument branch.
 /// </summary>
 public sealed record ArgumentNotationProfile(
-    string? WireClass = null,
+    string? ReaderId = null,
     IReadOnlyList<ArgumentSlot>? Slots = null)
 {
     public bool IsEmpty =>
-        string.IsNullOrWhiteSpace(WireClass) && (Slots is null || Slots.Count == 0);
+        string.IsNullOrWhiteSpace(ReaderId) && (Slots is null || Slots.Count == 0);
 
     public static ArgumentNotationProfile? Merge(ArgumentNotationProfile? existing, ArgumentNotationProfile? incoming)
     {
@@ -20,7 +20,7 @@ public sealed record ArgumentNotationProfile(
             return incoming;
 
         return new ArgumentNotationProfile(
-            incoming.WireClass ?? existing.WireClass,
+            incoming.ReaderId ?? existing.ReaderId,
             incoming.Slots is { Count: > 0 } ? incoming.Slots : existing.Slots);
     }
 }

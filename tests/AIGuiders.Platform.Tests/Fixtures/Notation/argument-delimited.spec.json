@@ -7,7 +7,7 @@
       "id": "melody-parametric-colon",
       "tail": "5:10",
       "expect": {
-        "wireClass": "colon",
+        "readerId": "colon",
         "slots": { "0": "5", "1": "10" }
       }
     },
@@ -15,7 +15,7 @@
       "id": "three-part-colon",
       "tail": "a:b:c",
       "expect": {
-        "wireClass": "colon",
+        "readerId": "colon",
         "slots": { "0": "a", "1": "b", "2": "c" }
       }
     }

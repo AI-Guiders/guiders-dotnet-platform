@@ -1,7 +1,7 @@
 namespace AIGuiders.Platform.Notations.Argument;
 
-/// <summary>Known argument wire alphabets (catalog <c>tail_wire_class</c> / profile <see cref="ArgumentNotationProfile.WireClass"/>).</summary>
-public static class ArgumentWireClasses
+/// <summary>Known argument reader ids (catalog <c>tail_wire_class</c> / profile <see cref="ArgumentNotationProfile.ReaderId"/>).</summary>
+public static class ArgumentReaders
 {
     public const string Kv = "kv";
     public const string Cli = "cli";

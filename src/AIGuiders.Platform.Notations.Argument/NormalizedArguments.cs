@@ -4,10 +4,10 @@ namespace AIGuiders.Platform.Notations.Argument;
 public sealed record NormalizedArguments(
     string? Raw,
     IReadOnlyDictionary<string, string>? Slots,
-    string? WireClass = null)
+    string? ReaderId = null)
 {
-    public static NormalizedArguments FromRaw(string? raw, string? wireClass = null) => new(raw, null, wireClass);
+    public static NormalizedArguments FromRaw(string? raw, string? readerId = null) => new(raw, null, readerId);
 
-    public static NormalizedArguments FromSlots(IReadOnlyDictionary<string, string> slots, string? wireClass = null) =>
-        new(null, slots, wireClass);
+    public static NormalizedArguments FromSlots(IReadOnlyDictionary<string, string> slots, string? readerId = null) =>
+        new(null, slots, readerId);
 }

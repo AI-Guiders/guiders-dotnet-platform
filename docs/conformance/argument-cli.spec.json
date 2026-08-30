@@ -7,7 +7,7 @@
       "id": "help-flag",
       "tail": "-h",
       "expect": {
-        "wireClass": "cli",
+        "readerId": "cli",
         "slots": { "-h": "true" }
       }
     },
@@ -15,7 +15,7 @@
       "id": "long-equals",
       "tail": "--out=release",
       "expect": {
-        "wireClass": "cli",
+        "readerId": "cli",
         "slots": { "--out": "release" }
       }
     },
@@ -23,7 +23,7 @@
       "id": "config-equals",
       "tail": "--config=release",
       "expect": {
-        "wireClass": "cli",
+        "readerId": "cli",
         "slots": { "--config": "release" }
       }
     },
@@ -31,7 +31,7 @@
       "id": "clustered-shorts",
       "tail": "-abc",
       "expect": {
-        "wireClass": "cli",
+        "readerId": "cli",
         "slots": { "-a": "true", "-b": "true", "-c": "true" }
       }
     },
@@ -39,7 +39,7 @@
       "id": "mixed-tail",
       "tail": "-h --verbose file.txt",
       "expect": {
-        "wireClass": "cli",
+        "readerId": "cli",
         "slots": { "-h": "true", "--verbose": "true", "@2": "file.txt" }
       }
     }

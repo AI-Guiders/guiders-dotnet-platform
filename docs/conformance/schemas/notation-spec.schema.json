@@ -142,7 +142,7 @@
           "required": ["slots"],
           "additionalProperties": false,
           "properties": {
-            "wireClass": { "$ref": "conformance-common.schema.json#/$defs/wireClass" },
+            "readerId": { "$ref": "conformance-common.schema.json#/$defs/readerId" },
             "slots": { "$ref": "conformance-common.schema.json#/$defs/slotMap" }
           }
         }
@@ -154,7 +154,7 @@
         {
           "properties": {
             "expect": {
-              "required": ["wireClass", "slots"]
+              "required": ["readerId", "slots"]
             }
           }
         }

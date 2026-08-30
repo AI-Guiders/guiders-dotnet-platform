@@ -21,7 +21,7 @@
       "minProperties": 1,
       "additionalProperties": { "type": "string" }
     },
-    "wireClass": {
+    "readerId": {
       "type": "string",
       "enum": ["kv", "cli", "positional", "delimited", "colon", "raw"]
     },
@@ -53,7 +53,7 @@
         "help": { "type": "string" },
         "group": { "type": "string" },
         "argTail": { "type": "string" },
-        "tailWireClass": { "$ref": "#/$defs/wireClass" },
+        "tailWireClass": { "$ref": "#/$defs/readerId" },
         "argParameters": {
           "type": "array",
           "items": { "$ref": "#/$defs/invocationArgParameter" }
@@ -82,7 +82,7 @@
         "help": { "type": "string" },
         "group": { "type": "string" },
         "argTail": { "type": "string" },
-        "tailWireClass": { "$ref": "#/$defs/wireClass" },
+        "tailWireClass": { "$ref": "#/$defs/readerId" },
         "argParameters": {
           "type": "array",
           "items": { "$ref": "#/$defs/invocationArgParameter" }

@@ -22,10 +22,10 @@ public sealed class ArgumentNotationTests
     [Fact]
     public void Parse_cli_schema_assigns_spaced_value_flag()
     {
-        var profile = new ArgumentNotationProfile(ArgumentWireClasses.Cli, [ConfigSlot, VerboseSlot]);
+        var profile = new ArgumentNotationProfile(ArgumentReaders.Cli, [ConfigSlot, VerboseSlot]);
         var args = ArgumentNotation.Parse("--config release --verbose", profile);
 
-        Assert.Equal("cli", args.WireClass);
+        Assert.Equal("cli", args.ReaderId);
         Assert.Equal("release", args.Slots!["config"]);
         Assert.Equal("true", args.Slots!["verbose"]);
     }
@@ -33,10 +33,10 @@ public sealed class ArgumentNotationTests
     [Fact]
     public void Parse_uses_profile_wire_class_over_inference()
     {
-        var profile = new ArgumentNotationProfile(ArgumentWireClasses.Positional, []);
+        var profile = new ArgumentNotationProfile(ArgumentReaders.Positional, []);
         var args = ArgumentNotation.Parse("one two", profile);
 
-        Assert.Equal("positional", args.WireClass);
+        Assert.Equal("positional", args.ReaderId);
         Assert.Equal("one", args.Slots!["0"]);
     }
 
@@ -50,10 +50,10 @@ public sealed class ArgumentNotationTests
             Intent = "execute",
             CommandId = "build.run",
             Path = "build run",
-            ArgumentNotation = new ArgumentNotationProfile(ArgumentWireClasses.Cli, [ConfigSlot]),
+            ArgumentNotation = new ArgumentNotationProfile(ArgumentReaders.Cli, [ConfigSlot]),
         };
 
-        Assert.Equal(ArgumentWireClasses.Cli, command.ArgumentNotation!.WireClass);
+        Assert.Equal(ArgumentReaders.Cli, command.ArgumentNotation!.ReaderId);
         Assert.Single(command.ArgumentNotation.Slots!);
         Assert.Equal("config", command.ArgumentNotation.Slots![0].Name);
     }
@@ -77,7 +77,7 @@ public sealed class ArgumentNotationTests
         var commands = JsonCommandFormatReader.Instance.Read(json);
         var command = Assert.Single(commands);
 
-        Assert.Equal(ArgumentWireClasses.Cli, command.ArgumentNotation!.WireClass);
+        Assert.Equal(ArgumentReaders.Cli, command.ArgumentNotation!.ReaderId);
         Assert.Equal("config", command.ArgumentNotation.Slots![0].Name);
         Assert.Equal("--config", command.ArgumentNotation.Slots![0].LongOption);
     }
@@ -85,7 +85,7 @@ public sealed class ArgumentNotationTests
     [Fact]
     public void Console_try_parse_with_cli_profile_splits_path_and_schema_tail()
     {
-        var profile = new ArgumentNotationProfile(ArgumentWireClasses.Cli, [ConfigSlot]);
+        var profile = new ArgumentNotationProfile(ArgumentReaders.Cli, [ConfigSlot]);
         Assert.True(ConsoleCommandNotation.TryParse(
             "build run --config release",
             profile,

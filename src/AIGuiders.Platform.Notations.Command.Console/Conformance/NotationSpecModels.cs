@@ -23,5 +23,5 @@ public sealed record NotationSpecExpectation(
     [property: JsonPropertyName("tokens")] IReadOnlyList<string>? Tokens,
     [property: JsonPropertyName("endsWithSpace")] bool? EndsWithSpace,
     [property: JsonPropertyName("slots")] IReadOnlyDictionary<string, string>? Slots,
-    [property: JsonPropertyName("wireClass")] string? WireClass,
+    [property: JsonPropertyName("readerId")] string? ReaderId,
     [property: JsonPropertyName("canonicalPath")] string? CanonicalPath);

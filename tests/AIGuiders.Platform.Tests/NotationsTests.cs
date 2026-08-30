@@ -38,7 +38,7 @@ public sealed class NotationsTests
     public void Delimited_parses_colon_slots()
     {
         var tail = DelimitedArgumentNotation.Parse("5:10");
-        Assert.Equal(DelimitedArgumentNotation.WireClassColon, tail.WireClass);
+        Assert.Equal(DelimitedArgumentNotation.ReaderIdColon, tail.ReaderId);
         Assert.NotNull(tail.Slots);
         Assert.Equal("5", tail.Slots!["0"]);
         Assert.Equal("10", tail.Slots!["1"]);

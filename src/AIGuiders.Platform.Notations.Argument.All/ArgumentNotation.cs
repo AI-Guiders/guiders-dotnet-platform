@@ -11,36 +11,36 @@ public static class ArgumentNotation
     public static NormalizedArguments Parse(string? wire, ArgumentNotationProfile? profile = null)
     {
         if (string.IsNullOrWhiteSpace(wire))
-            return NormalizedArguments.FromRaw("", profile?.WireClass);
+            return NormalizedArguments.FromRaw("", profile?.ReaderId);
 
-        var wireClass = ResolveWireClass(wire, profile);
-        return wireClass switch
+        var readerId = ResolveReaderId(wire, profile);
+        return readerId switch
         {
-            ArgumentWireClasses.Kv => KvArgumentNotation.Parse(wire),
-            ArgumentWireClasses.Cli when profile?.Slots is { Count: > 0 } =>
+            ArgumentReaders.Kv => KvArgumentNotation.Parse(wire),
+            ArgumentReaders.Cli when profile?.Slots is { Count: > 0 } =>
                 CliArgumentNotation.ParseWithSchema(wire, profile.Slots),
-            ArgumentWireClasses.Cli => CliArgumentNotation.Parse(wire),
-            ArgumentWireClasses.Positional => PositionalArgumentNotation.Parse(wire),
-            ArgumentWireClasses.Delimited or ArgumentWireClasses.Colon =>
+            ArgumentReaders.Cli => CliArgumentNotation.Parse(wire),
+            ArgumentReaders.Positional => PositionalArgumentNotation.Parse(wire),
+            ArgumentReaders.Delimited or ArgumentReaders.Colon =>
                 DelimitedArgumentNotation.Parse(wire),
-            _ => NormalizedArguments.FromRaw(wire.Trim(), wireClass),
+            _ => NormalizedArguments.FromRaw(wire.Trim(), readerId),
         };
     }
 
-    public static string ResolveWireClass(string wire, ArgumentNotationProfile? profile)
+    public static string ResolveReaderId(string wire, ArgumentNotationProfile? profile)
     {
-        if (!string.IsNullOrWhiteSpace(profile?.WireClass))
-            return profile.WireClass!;
+        if (!string.IsNullOrWhiteSpace(profile?.ReaderId))
+            return profile.ReaderId!;
 
         if (wire.Contains('=') && !wire.TrimStart().StartsWith('-'))
-            return ArgumentWireClasses.Kv;
+            return ArgumentReaders.Kv;
 
         if (wire.TrimStart().StartsWith('-'))
-            return ArgumentWireClasses.Cli;
+            return ArgumentReaders.Cli;
 
         if (wire.Contains(':'))
-            return ArgumentWireClasses.Colon;
+            return ArgumentReaders.Colon;
 
-        return ArgumentWireClasses.Raw;
+        return ArgumentReaders.Raw;
     }
 }

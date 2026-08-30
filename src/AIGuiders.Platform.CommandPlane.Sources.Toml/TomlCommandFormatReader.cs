@@ -59,12 +59,12 @@ public sealed class TomlCommandFormatReader : ICommandFormatReader
 
     static ArgumentNotationProfile? ParseArgumentNotation(TomlTable table)
     {
-        var wireClass = GetTailWireClass(table);
+        var readerId = GetTailWireClass(table);
         var slots = ParseArgumentSlots(table);
-        if (wireClass is null && slots.Count == 0)
+        if (readerId is null && slots.Count == 0)
             return null;
 
-        return new ArgumentNotationProfile(wireClass, slots.Count > 0 ? slots : null);
+        return new ArgumentNotationProfile(readerId, slots.Count > 0 ? slots : null);
     }
 
     static string? GetTailWireClass(TomlTable table)

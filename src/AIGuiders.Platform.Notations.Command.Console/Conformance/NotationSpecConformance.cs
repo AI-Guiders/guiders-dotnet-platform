@@ -106,10 +106,10 @@ public static class NotationSpecConformance
             return Fail("tail is required.", out error);
 
         var actual = PositionalArgumentNotation.Parse(vector.Tail);
-        if (vector.Expect.WireClass is not null
-            && !string.Equals(vector.Expect.WireClass, actual.WireClass, StringComparison.Ordinal))
+        if (vector.Expect.ReaderId is not null
+            && !string.Equals(vector.Expect.ReaderId, actual.ReaderId, StringComparison.Ordinal))
         {
-            error = $"wireClass expected \"{vector.Expect.WireClass}\", got \"{actual.WireClass}\".";
+            error = $"readerId expected \"{vector.Expect.ReaderId}\", got \"{actual.ReaderId}\".";
             return false;
         }
 
@@ -126,10 +126,10 @@ public static class NotationSpecConformance
             return Fail("tail is required.", out error);
 
         var actual = CliArgumentNotation.Parse(vector.Tail);
-        if (vector.Expect.WireClass is not null
-            && !string.Equals(vector.Expect.WireClass, actual.WireClass, StringComparison.Ordinal))
+        if (vector.Expect.ReaderId is not null
+            && !string.Equals(vector.Expect.ReaderId, actual.ReaderId, StringComparison.Ordinal))
         {
-            error = $"wireClass expected \"{vector.Expect.WireClass}\", got \"{actual.WireClass}\".";
+            error = $"readerId expected \"{vector.Expect.ReaderId}\", got \"{actual.ReaderId}\".";
             return false;
         }
 
@@ -180,10 +180,10 @@ public static class NotationSpecConformance
             return Fail("tail is required.", out error);
 
         var actual = DelimitedArgumentNotation.Parse(vector.Tail);
-        if (vector.Expect.WireClass is not null
-            && !string.Equals(vector.Expect.WireClass, actual.WireClass, StringComparison.Ordinal))
+        if (vector.Expect.ReaderId is not null
+            && !string.Equals(vector.Expect.ReaderId, actual.ReaderId, StringComparison.Ordinal))
         {
-            error = $"wireClass expected \"{vector.Expect.WireClass}\", got \"{actual.WireClass}\".";
+            error = $"readerId expected \"{vector.Expect.ReaderId}\", got \"{actual.ReaderId}\".";
             return false;
         }
 
