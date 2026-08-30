@@ -30,18 +30,20 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.InputNotation.Emacs` | Legacy metapackage → `Notations.Keyboard.Emacs` |
 | `AIGuiders.Platform.InputNotation.KeyGesture` | Legacy metapackage → `Notations.Keyboard.KeyGesture` |
 | `AIGuiders.Platform.InputNotation.All` | Legacy metapackage → `Notations.Keyboard.All` |
-| `AIGuiders.Platform.Notations` | Core IR: `NormalizedArgTail`, notation surfaces |
-| `AIGuiders.Platform.Notations.Keyboard` | Core IR: `NormalizedKeySequence`, `IKeyboardNotationReader` |
+| `AIGuiders.Platform.Notations` | Argument core IR: `NormalizedArgTail` (legacy command aliases → `Notations.Command`) |
+| `AIGuiders.Platform.Notations.Keyboard` | Keyboard core IR: `NormalizedKeySequence`, `IKeyboardNotationReader` |
 | `AIGuiders.Platform.Notations.Keyboard.Quarry` | Shared quarry lexer, normalizer, spec conformance |
 | `AIGuiders.Platform.Notations.Keyboard.Vim` | Vim-doc wire (`&lt;C-k&gt;`, CIDE quarry) → Core |
 | `AIGuiders.Platform.Notations.Keyboard.Neovim` | Neovim `:help key-notation` wire → Core |
 | `AIGuiders.Platform.Notations.Keyboard.Emacs` | Emacs `kbd` wire (`C-x`) → Core |
 | `AIGuiders.Platform.Notations.Keyboard.KeyGesture` | KeyGesture wire (`Ctrl+K`) → Core |
 | `AIGuiders.Platform.Notations.Keyboard.All` | Meta-bundle: facade `KeyboardNotationParser` |
+| `AIGuiders.Platform.Notations.Command` | Command core IR: `NormalizedCommandLine`, `SlashWireBody`, `InvocationNotation` |
 | `AIGuiders.Platform.Notations.Argument.Kv` | `key=value` tail → slots |
 | `AIGuiders.Platform.Notations.Argument.Delimited` | Colon-delimited tail (`wire_class=colon`) → slots |
 | `AIGuiders.Platform.Notations.Command.Slash` | Slash body tokenize → path + tail |
-| `AIGuiders.Platform.Notations.Command.Console` | Console invocation parity harness |
+| `AIGuiders.Platform.Notations.Command.Console` | Console path + kv tail wire |
+| `AIGuiders.Platform.Notations.Command.All` | Meta-bundle: facade `CommandNotationParser` |
 | `AIGuiders.Platform.CommandPlane.Melody` | Melody descriptors, line profile, policy (ADR-0015) |
 | `AIGuiders.Platform.CommandPlane.Binding` | Binding catalog core: merge, index, gesture normalize |
 | `AIGuiders.Platform.CommandPlane.Binding.Sources.Toml` | `hotkeys.toml` flat map (CIDE quarry) |

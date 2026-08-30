@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Notations.Command</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Notations.Command</AssemblyName>
+    <PackageId>AIGuiders.Platform.Notations.Command</PackageId>
+    <Description>Command notation core: NormalizedCommandLine IR, SlashWireBody (GUIDERS-ADR-0021).</Description>
+  </PropertyGroup>
+</Project>

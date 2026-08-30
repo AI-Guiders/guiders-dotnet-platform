@@ -1,11 +1,9 @@
-using AIGuiders.Platform.Notations;
 using AIGuiders.Platform.Notations.Argument.Delimited;
 using AIGuiders.Platform.Notations.Argument.Kv;
+using AIGuiders.Platform.Notations.Command;
 using AIGuiders.Platform.Notations.Command.Console;
 using AIGuiders.Platform.Notations.Command.Slash;
-using Xunit;
-
-namespace AIGuiders.Platform.Tests;
+using Xunit;namespace AIGuiders.Platform.Tests;
 
 public sealed class NotationsTests
 {
@@ -42,6 +40,18 @@ public sealed class NotationsTests
         Assert.NotNull(tail.Slots);
         Assert.Equal("5", tail.Slots!["0"]);
         Assert.Equal("10", tail.Slots!["1"]);
+    }
+
+    [Fact]
+    public void Command_parser_facade_routes_slash_and_console()
+    {
+        Assert.True(CommandNotationParser.TryParse("/buffer open", CommandNotationSurface.Slash, out var slashPath, out var slashArgs));
+        Assert.Equal(["buffer", "open"], slashPath.Tokens);
+        Assert.Null(slashArgs.Slots);
+
+        Assert.True(CommandNotationParser.TryParse("buffer open doc=README.md", CommandNotationSurface.Console, out var consolePath, out var consoleArgs));
+        Assert.Equal(["buffer", "open"], consolePath.Tokens);
+        Assert.Equal("README.md", consoleArgs.Slots!["doc"]);
     }
 
     [Theory]

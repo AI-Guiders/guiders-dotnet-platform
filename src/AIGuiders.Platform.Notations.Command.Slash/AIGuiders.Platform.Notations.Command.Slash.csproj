@@ -6,6 +6,6 @@
     <PackageId>AIGuiders.Platform.Notations.Command.Slash</PackageId>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Command\AIGuiders.Platform.Notations.Command.csproj" />
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 using System.Text.Json;
 using AIGuiders.Platform.Notations.Argument.Delimited;
 using AIGuiders.Platform.Notations.Argument.Kv;
+using AIGuiders.Platform.Notations.Command;
 using AIGuiders.Platform.Notations.Command.Console;
 using AIGuiders.Platform.Notations.Command.Slash;
 
@@ -140,10 +141,10 @@ public static class NotationSpecConformance
         if (!ConsoleCommandNotation.TryParse(vector.ConsoleLine, out var consoleWire, out _))
             return Fail($"invalid consoleLine \"{vector.ConsoleLine}\".", out error);
 
-        var slashPath = InvocationNotation.FromPathSegments(slashWire.Tokens);
-        var consolePath = InvocationNotation.FromPathSegments(consoleWire.Tokens);
+        var slashPath = global::AIGuiders.Platform.Notations.Command.InvocationNotation.FromPathSegments(slashWire.Tokens);
+        var consolePath = global::AIGuiders.Platform.Notations.Command.InvocationNotation.FromPathSegments(consoleWire.Tokens);
 
-        if (!InvocationNotation.PathsEqual(slashPath, consolePath))
+        if (!global::AIGuiders.Platform.Notations.Command.InvocationNotation.PathsEqual(slashPath, consolePath))
         {
             error = $"paths differ: slash \"{slashPath.CanonicalPath}\" vs console \"{consolePath.CanonicalPath}\".";
             return false;

@@ -2,7 +2,10 @@
   <PropertyGroup>
     <RootNamespace>AIGuiders.Platform.Notations</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Notations</AssemblyName>
-    <Description>Notations Core IR — command line and argument tails (GUIDERS-ADR-0021).</Description>
+    <Description>Notations argument core IR — NormalizedArgTail (GUIDERS-ADR-0021). Command IR moved to Notations.Command.</Description>
     <PackageId>AIGuiders.Platform.Notations</PackageId>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Command\AIGuiders.Platform.Notations.Command.csproj" />
+  </ItemGroup>
 </Project>

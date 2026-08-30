@@ -6,6 +6,7 @@
     <PackageId>AIGuiders.Platform.Notations.Command.Console</PackageId>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Command\AIGuiders.Platform.Notations.Command.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument.Kv\AIGuiders.Platform.Notations.Argument.Kv.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument.Delimited\AIGuiders.Platform.Notations.Argument.Delimited.csproj" />

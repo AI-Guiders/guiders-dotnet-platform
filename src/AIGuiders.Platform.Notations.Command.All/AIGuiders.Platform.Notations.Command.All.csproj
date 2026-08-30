@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Notations.Command</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Notations.Command.All</AssemblyName>
+    <PackageId>AIGuiders.Platform.Notations.Command.All</PackageId>
+    <Description>Command notation meta-bundle: Slash + Console facades (GUIDERS-ADR-0021).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Command.Console\AIGuiders.Platform.Notations.Command.Console.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Command.Slash\AIGuiders.Platform.Notations.Command.Slash.csproj" />
+  </ItemGroup>
+</Project>

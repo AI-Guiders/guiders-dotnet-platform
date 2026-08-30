@@ -68,6 +68,7 @@ Legend: ✅ done · 🚧 in progress · 📋 planned · ⏸ defer · 👤 operat
 | 4.1 | `InputNotation` → `Notations.Keyboard.*` aliases | ✅ |
 | 4.2 | `Argument.Cli` (System.CommandLine quarry) | G-004, defer v2 |
 | 4.3 | `Argument.Delimited` (colon wire_class) | ✅ |
+| 4.4 | `Notations.Command` Core + `Command.All` facade | ✅ |
 
 ---
 

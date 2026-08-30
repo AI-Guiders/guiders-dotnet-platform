@@ -1,3 +1,5 @@
+using AIGuiders.Platform.Notations.Command;
+
 namespace AIGuiders.Platform.Notations.Command.Slash;
 
 public static class SlashCommandNotation
