@@ -87,6 +87,8 @@ Interim only for v1 CIDE subset. **Target:** replace with quarry lexer from `key
 
 ## Package map (target)
 
+> **Naming:** package IDs move to `Notations.Keyboard.*` per [GUIDERS-ADR-0021](GUIDERS-ADR-0021-notations-quarry-family.md). Table below is the interim `InputNotation` layout until alias wave.
+
 | Package | Role |
 |---------|------|
 | `InputNotation` | Core IR + `IInputNotationReader` |
