@@ -6,7 +6,7 @@
     <Description>Forward ADR/feature map from workspace.toml (GUIDERS-ADR-0028).</Description>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Tomlyn" Version="0.19.0" />
+    <PackageReference Include="Tomlyn" Version="$(TomlynVersion)" />
     <ProjectReference Include="..\AIGuiders.Platform.Documentation.Correspondence.Core\AIGuiders.Platform.Documentation.Correspondence.Core.csproj" />
   </ItemGroup>
 </Project>

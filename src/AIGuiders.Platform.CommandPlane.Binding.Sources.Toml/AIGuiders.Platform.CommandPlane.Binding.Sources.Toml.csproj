@@ -7,6 +7,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Binding\AIGuiders.Platform.CommandPlane.Binding.csproj" />
-    <PackageReference Include="Tomlyn" Version="0.19.0" />
+    <PackageReference Include="Tomlyn" Version="$(TomlynVersion)" />
   </ItemGroup>
 </Project>

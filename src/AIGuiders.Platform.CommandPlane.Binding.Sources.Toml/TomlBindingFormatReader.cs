@@ -15,7 +15,7 @@ public sealed class TomlBindingFormatReader : IBindingFormatReader
         if (string.IsNullOrWhiteSpace(text))
             return [];
 
-        var model = Toml.ToModel(text);
+        var model = TomlSerializer.Deserialize<TomlTable>(text)!;
         var bindings = new List<BindingDescriptor>();
 
         foreach (var pair in model)

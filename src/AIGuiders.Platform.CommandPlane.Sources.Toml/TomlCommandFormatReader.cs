@@ -19,7 +19,7 @@ public sealed class TomlCommandFormatReader : ICommandFormatReader
             return [];
         }
 
-        var model = Toml.ToModel(text);
+        var model = TomlSerializer.Deserialize<TomlTable>(text)!;
         var commands = new List<SlashCommandDescriptor>();
 
         foreach (var key in new[] { "commands", "command" })
