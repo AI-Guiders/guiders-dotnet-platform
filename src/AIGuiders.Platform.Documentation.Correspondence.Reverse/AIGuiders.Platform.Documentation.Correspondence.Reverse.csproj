@@ -6,6 +6,7 @@
     <Description>Reverse doc↔code scan in markdown (GUIDERS-ADR-0028).</Description>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Configurations.Workspace\AIGuiders.Platform.Configurations.Workspace.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Documentation.Correspondence.Core\AIGuiders.Platform.Documentation.Correspondence.Core.csproj" />
   </ItemGroup>
 </Project>

@@ -5,4 +5,7 @@
     <PackageId>AIGuiders.Platform.Documentation.Correspondence.Core</PackageId>
     <Description>Correspondence IR: forward/reverse anchors, result bundle (GUIDERS-ADR-0028).</Description>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Configurations.Workspace\AIGuiders.Platform.Configurations.Workspace.csproj" />
+  </ItemGroup>
 </Project>

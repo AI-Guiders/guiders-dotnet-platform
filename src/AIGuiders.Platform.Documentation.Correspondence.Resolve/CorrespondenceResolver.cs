@@ -1,5 +1,7 @@
 #nullable enable
 
+using AIGuiders.Platform.Configurations.Workspace;
+
 namespace AIGuiders.Platform.Documentation.Correspondence;
 
 /// <summary>
@@ -12,7 +14,7 @@ public static class CorrespondenceResolver
     {
         foreach (var candidate in CandidateRoots(startPath, hintRoot))
         {
-            var toml = WorkspaceTomlLoader.WorkspaceTomlPath(candidate);
+            var toml = WorkspaceSources.CascadeTomlPath(candidate);
             if (File.Exists(toml))
                 return candidate;
         }
@@ -33,8 +35,8 @@ public static class CorrespondenceResolver
         if (root is null)
             return null;
 
-        var tomlPath = WorkspaceTomlLoader.WorkspaceTomlPath(root);
-        var doc = WorkspaceTomlLoader.TryLoad(tomlPath);
+        var tomlPath = WorkspaceSources.CascadeTomlPath(root);
+        var doc = WorkspaceSources.TryLoadCascade(root);
         if (doc is null)
             return null;
 

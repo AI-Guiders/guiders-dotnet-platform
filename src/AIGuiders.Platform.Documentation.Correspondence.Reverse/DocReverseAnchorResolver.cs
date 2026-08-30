@@ -25,7 +25,7 @@ public static partial class DocReverseAnchorResolver
     }
 
     public static ReverseAnchor[] ResolveFromToml(
-        WorkspaceTomlDoc? doc,
+        WorkspaceDocument? doc,
         string workspaceRoot,
         IReadOnlyList<string> forwardDocPaths,
         string fileRel) =>
@@ -35,7 +35,7 @@ public static partial class DocReverseAnchorResolver
         string workspaceRoot,
         string fileRel,
         IReadOnlyList<string> forwardDocPaths,
-        WorkspaceTomlDoc? doc = null,
+        WorkspaceDocument? doc = null,
         IReadOnlyList<ExplicitCodeAnchor>? explicitAnchors = null)
     {
         var fileNorm = CorrespondencePaths.NormalizePath(fileRel);
@@ -273,7 +273,7 @@ public static partial class DocReverseAnchorResolver
     }
 
     static bool TryParseAnchor(
-        CodeAnchorToml row,
+        WorkspaceCodeAnchor row,
         out string file,
         out int? lineStart,
         out int? lineEnd,

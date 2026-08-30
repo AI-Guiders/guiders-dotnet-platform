@@ -6,6 +6,7 @@
     <Description>Compose forward + reverse correspondence bundle (GUIDERS-ADR-0028).</Description>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Configurations.Workspace.Sources\AIGuiders.Platform.Configurations.Workspace.Sources.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Documentation.Correspondence.Core\AIGuiders.Platform.Documentation.Correspondence.Core.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Documentation.Correspondence.Reverse\AIGuiders.Platform.Documentation.Correspondence.Reverse.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Documentation.Correspondence.Workspace\AIGuiders.Platform.Documentation.Correspondence.Workspace.csproj" />

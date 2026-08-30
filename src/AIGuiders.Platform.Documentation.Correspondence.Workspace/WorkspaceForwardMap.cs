@@ -6,7 +6,7 @@ namespace AIGuiders.Platform.Documentation.Correspondence;
 
 public static partial class WorkspaceForwardMap
 {
-    public static ForwardMapResult Resolve(WorkspaceTomlDoc? doc, string workspaceRoot, string fileRel)
+    public static ForwardMapResult Resolve(WorkspaceDocument? doc, string workspaceRoot, string fileRel)
     {
         var feature = ResolveFeature(doc, fileRel);
         var featureLine = BuildFeatureLine(feature);
@@ -58,14 +58,14 @@ public static partial class WorkspaceForwardMap
             forward);
     }
 
-    static FeatureToml? ResolveFeature(WorkspaceTomlDoc? doc, string rel)
+    static WorkspaceFeature? ResolveFeature(WorkspaceDocument? doc, string rel)
     {
         var features = doc?.Workspace?.Features?.Feature;
         if (features is not { Count: > 0 })
             return null;
 
         var normalized = CorrespondencePaths.NormalizePath(rel);
-        FeatureToml? best = null;
+        WorkspaceFeature? best = null;
         var bestLen = -1;
         foreach (var f in features)
         {
@@ -89,7 +89,7 @@ public static partial class WorkspaceForwardMap
         return best;
     }
 
-    static string BuildFeatureLine(FeatureToml? feature)
+    static string BuildFeatureLine(WorkspaceFeature? feature)
     {
         if (feature is null) return "";
         var title = (feature.Title ?? "").Trim();
@@ -100,7 +100,7 @@ public static partial class WorkspaceForwardMap
         return "";
     }
 
-    static List<string> ResolveAdrMap(WorkspaceTomlDoc? doc, string rel)
+    static List<string> ResolveAdrMap(WorkspaceDocument? doc, string rel)
     {
         var map = doc?.Workspace?.Adr?.Map;
         if (map is not { Count: > 0 })
