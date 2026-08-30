@@ -51,8 +51,8 @@ Bracket is **not** a fixed `[` `]` grammar. Federation ships a **parameterized c
 |-------|------|---------------------|
 | **StartTerminal** | opening delimiter | `[` |
 | **EndTerminal** | closing delimiter | `]` |
-| **AxisSeparator** | splits **axes** inside the pair | `;` |
-| **PairDelimiter** | splits **key** vs **value** within an axis (first only) | `:` |
+| **ListSeparator** | splits axes in the pair | `;` |
+| **KvSign** | **KV = Key + Sign + Value** (first sign only) | `:` |
 | **AxisShape** | how inner tokenizes into axes | `KeyValue` |
 | **StripOuterTerminals** | accept inner or wrapped wire | `true` |
 | **RespectBracketDepthOnAxisSplit** | `;` only at `[` `]` depth 0 | `true` |
@@ -68,42 +68,28 @@ NormalizedBracketWire
 └── Raw
 ```
 
-**Pair split rule (CDP-aligned):** only the **first** `PairDelimiter` separates key from value. Values may contain `:` (`K:Parameter:Run`, `S:if:2`).
+**Universal KV atom:** `Key` + `Sign` + `Value` — only the **first** `Sign` splits (value may contain more).
 
-### 2.1 Compose Command / Argument inside axis values
+| Surface | ListSeparator | KvSign | Example |
+|---------|---------------|--------|---------|
+| Bracket envelope | `;` | `:` | `[F:file; S:for:2]` |
+| Console args | space | `=` | `doc=README op=scene` |
+| Inner axis value (pass 2) | — | `:` (planet default) | `for:2` inside `S:` |
 
-Bracket is the **envelope** (`[` `]` + axes). Axis **values** often reuse other Notations micro-readers — same idea as Argument `wire_class`:
+Same primitive (`NotationKvPair`); different profile signs. Not separate grammars for «colon vs equals».
 
-```text
-Pass 1 (Bracket):  [FRG:pilot/issues/7; F:src/Foo.cs; S:for:2]
-                      │                │              │
-Pass 2 (value):    command.path    command.path   argument.colon
-                      │                │              ├─ kind=for
-                      ├─ repo          └─ file path  └─ index=2
-                      ├─ issues
-                      └─ 7
-```
+### 2.1 Compose path / nested bracket inside values
 
-| Example value | `ValueWireClass` | Composes |
-|---------------|------------------|----------|
-| `pilot/issues/7` | `command.path` | `Notations.Command` path segments (`/` ) |
-| `src/Foo.cs` | `command.path` | file path (planet: relative to root) |
-| `for:2` (axis `S:`) | `argument.colon` | colon slots — like `key=value` but `:` not `=` |
-| `Parameter:Run` (axis `K:`) | `argument.colon` | role + payload |
-| `12-34` (axis `L:`) | `line.range` | range delimiter `-` |
-| `[F:…;M:…]` (axis `Anchor:`) | `bracket.nested` | recursive bracket profile |
+Bracket list pass yields KV axes. Value pass (optional):
 
-Planet supplies **`BracketAxisValuePlan`** (axis key → wire class). Federation ships constants (`BracketAxisValuePlans.CdpCode`, `ForgeFrgCompound`).
+| Example | Pass 2 class |
+|---------|----------------|
+| `pilot/issues/7` | `command.path` |
+| `for:2` | `notation.kv` with `KvSign ':'` |
+| `[F:…;M:…]` | `bracket.nested` |
+| `12-34` | `line.range` |
 
-**Forge compound** (ADR 0159): one bracket, two passes —
-
-```text
-[FRG:pilot/issues/7; F:src/Foo.cs; M:Run]
-  Axis FRG → command.path (pilot / issues / 7)
-  Tail axes → re-parse with bracket.cdp-square-kv (same as code bracket)
-```
-
-**Not** one universal `=` grammar: bracket axis uses `:` at envelope level; inner `S:for:2` uses **`argument.colon`** (distinct from `Argument.Kv` which uses `=`).
+Forge compound: `[FRG:pilot/issues/7; F:…]` — FRG value is path; tail axes reuse same bracket profile.
 
 Example CDP profile `bracket.cdp-square-kv`:
 

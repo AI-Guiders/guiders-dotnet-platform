@@ -7,41 +7,42 @@ namespace AIGuiders.Platform.Tests;
 public sealed class BracketNotationCoreTests
 {
     [Fact]
-    public void CdpSquareKeyValue_profile_matches_BracketLocate_defaults()
+    public void NotationKvPair_splits_on_first_sign_only()
+    {
+        Assert.True(NotationKvPair.TrySplitFirst("S:for:2", ':', out var kv, out _));
+        Assert.Equal("S", kv.Key);
+        Assert.Equal(':', kv.Sign);
+        Assert.Equal("for:2", kv.Value);
+
+        Assert.True(NotationKvPair.TrySplitFirst("doc=README.md", '=', out var console, out _));
+        Assert.Equal("doc", console.Key);
+        Assert.Equal("README.md", console.Value);
+    }
+
+    [Fact]
+    public void Bracket_profile_uses_colon_kv_sign_and_semicolon_list()
     {
         var profile = BracketProfiles.CdpSquareKeyValue;
         Assert.Equal("[", profile.StartTerminal);
-        Assert.Equal("]", profile.EndTerminal);
-        Assert.Equal(';', profile.AxisSeparator);
-        Assert.Equal(':', profile.PairDelimiter);
-        Assert.True(profile.RespectBracketDepthOnAxisSplit);
-        Assert.Contains("Anchor", profile.NestedAxisKeys!);
+        Assert.Equal(':', profile.KvSign);
+        Assert.Equal(';', profile.ListSeparator);
     }
 
     [Fact]
-    public void CdpCode_value_plan_maps_scope_to_argument_colon()
+    public void Inner_scope_value_is_kv_with_same_sign()
     {
+        Assert.True(NotationKvPair.TrySplitFirst("for:2", ':', out var scope, out _));
+        Assert.Equal("for", scope.Key);
+        Assert.Equal("2", scope.Value);
         Assert.Equal(
-            BracketAxisValueClasses.ArgumentColon,
+            BracketAxisValueClasses.Kv,
             BracketAxisValuePlans.CdpCode.ByAxisKey["S"]);
-        Assert.Equal(
-            BracketAxisValueClasses.CommandPath,
-            BracketAxisValuePlans.CdpCode.ByAxisKey["F"]);
     }
 
     [Fact]
-    public void ForgeFrg_value_plan_uses_command_path()
+    public void BracketAxis_is_envelope_kv()
     {
-        Assert.Equal(
-            BracketAxisValueClasses.CommandPath,
-            BracketAxisValuePlans.ForgeFrgCompound.ByAxisKey["FRG"]);
-    }
-
-    [Fact]
-    public void BracketAxis_carries_value_wire_class_for_compose()
-    {
-        var axis = new BracketAxis("S", "for:2", BracketAxisValueClasses.ArgumentColon);
-        Assert.Equal("for:2", axis.Value);
-        Assert.Equal(BracketAxisValueClasses.ArgumentColon, axis.ValueWireClass);
+        var axis = new BracketAxis("F", ':', "src/Foo.cs");
+        Assert.Equal(new NotationKvPair("F", ':', "src/Foo.cs"), axis.ToKvPair());
     }
 }

@@ -2,31 +2,21 @@
 
 Canonical plan: [GUIDERS-ADR-0026](../adr/GUIDERS-ADR-0026-notations-bracket-branch.md).
 
-## Two-pass parse
+## Primitives
 
 ```text
-Pass 1 — Bracket envelope:  [  key:value ; key:value  ]
-Pass 2 — Axis value class:  command.path | argument.colon | line.range | bracket.nested
+KV       = Key + Sign + Value     (first Sign only)
+List     = KV { ListSeparator KV } wrapped in Start/End terminals
 ```
 
-Examples:
+| Surface | ListSeparator | KvSign |
+|---------|---------------|--------|
+| `[F:a; S:for:2]` | `;` | `:` |
+| `doc=README op=scene` | space | `=` |
 
-| Wire fragment | Pass 1 | Pass 2 |
-|---------------|--------|--------|
-| `FRG:pilot/issues/7` | axis FRG | `command.path` → repo/issues/N |
-| `F:src/Foo.cs` | axis F | `command.path` (file) |
-| `S:for:2` | axis S, value `for:2` | `argument.colon` → kind + index |
-| `L:12-34` | axis L | `line.range` |
+Inner `for:2` on axis `S:` = same KV with `Sign=':'` on the value substring.
 
-`:` at envelope = axis KV delimiter. `:` inside `S:for:2` = **Argument colon** micro-grammar (not `=`).
+## Two-pass (optional)
 
-## Contract fields
-
-See ADR-0026. Planet tables: `BracketAxisValuePlans.CdpCode`, `ForgeFrgCompound`.
-
-## Phase 1
-
-```
-BracketReader pass 1 → BracketAxis[]
-Optional pass 2 via BracketAxisValuePlan + Notations.Command/Argument readers
-```
+1. Bracket list → `BracketAxis` (envelope KV)
+2. Value class → `command.path` | `notation.kv` | `line.range` | `bracket.nested`
