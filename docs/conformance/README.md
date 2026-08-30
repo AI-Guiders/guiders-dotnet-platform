@@ -74,17 +74,18 @@ Implementations **do not** live in this repo — only contracts.
 | Spec | Surface | Status | Source tests today | Forge relevance |
 |------|---------|--------|-------------------|-----------------|
 | `slash/arg-completion-v1` | picker + path steps + guidance | **shipped** | `SlashConformanceTests` | `forge-slash-resolve.js` peel |
-| `slash/line-resolve-v1` | path + argTail + runnable | planned | `CommandPlaneTests` LineResolver | execute / suggest routing |
+| `slash/line-resolve-v1` | path + argTail + runnable | **shipped** | `SlashLineResolveConformanceTests` | execute / suggest routing |
 | `slash/catalog-merge-v1` | overlay wins longest prefix | planned | `CatalogIndex_longest_prefix_and_merge` | capabilities merge |
 | `binding/catalog-v1` | wire → gesture, overlay, chord root | planned | `BindingCatalogTests` | hotkeys (later) |
 | `melody/line-policy-v1` | profile, articulation, normalize | planned | `MelodyLinePolicyTests` | palette `c:` discoverability |
 | `catalog/command-wire-v1` | TOML/JSON → descriptor IR | planned | `CommandSourceTests` | `/commands/complete` catalog load |
-| `notation/command-slash-v1` | slash body tokenize | planned | `NotationsTests` | — |
-| `notation/argument-kv-v1` | kv tail → slots | planned | `NotationsTests` | — |
-| `notation/invocation-parity-v1` | slash vs console → same path | planned | `NotationsTests` | execute routing |
+| `notation/command-slash-v1` | slash body tokenize | **shipped** | `NotationConformanceTests` | — |
+| `notation/argument-kv-v1` | kv tail → slots | **shipped** | `NotationConformanceTests` | — |
+| `notation/invocation-parity-v1` | slash vs console → same path | **shipped** | `NotationConformanceTests` | execute routing |
 | `notation/neovim-kbd-v1` | wire → IR | **exists** (move) | `QuarryNotationConformanceTests` | — |
 | `notation/emacs-kbd-v1` | wire → IR | **exists** (move) | `QuarryNotationConformanceTests` | — |
-| `mcplane/pulse-default-v1` | agent envelope pulse | planned | — | Forge `/capabilities` |
+| `mcplane/pulse-default-v1` | agent envelope pulse | **shipped** | `McPlaneConformanceTests` | Forge `/capabilities` |
+| `mcplane/next-hints-v1` | `next[]` shape | **shipped** | `McPlaneConformanceTests` | agent follow-ups |
 
 **Out of scope:** execute handlers, MCP wire, plugin host layout, product picker HTTP, UI popover.
 

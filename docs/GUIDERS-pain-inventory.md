@@ -78,7 +78,7 @@ Anchor for Constitution § Adoption alliances. Alliance ≠ shared repo; allianc
 
 | ID | Боль | Кто | Откуда | GUIDERS-ответ | Статус |
 |----|------|-----|--------|---------------|--------|
-| G-010 | Slash resolve/logic копируется в Forge JS, CIDE, тестах — нет одного spec | agent+human | ADR-0018; CommandPlaneTests-only harness | `slash-*-v1` specs + conformance repo ([ADR-0019](adr/GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md)) | in-progress |
+| G-010 | Slash resolve/logic копируется в Forge JS, CIDE, тестах — нет одного spec | agent+human | ADR-0018; CommandPlaneTests-only harness | `slash-line-resolve-v1` + notation specs + conformance repo ([ADR-0019](adr/GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md)) | in-progress |
 | G-011 | Console `key=value` и slash `/path tail` — два resolve, один `commandId` | agent | CDP-style meta vs slash catalog | **Notations.Command.*** + **Argument.Kv** + `invocation-parity-v1` vector ([ADR-0021](adr/GUIDERS-ADR-0021-notations-quarry-family.md)) | in-progress |
 | G-012 | Keyboard wire: Vim vs KeyGesture vs Emacs — три алфавита, один chord | human | CIDE hotkeys + melody | **Notations.Keyboard.*** ([ADR-0016](adr/GUIDERS-ADR-0016-input-notation-quarry-family.md) → 0021 rename) | in-progress |
 
@@ -86,7 +86,7 @@ Anchor for Constitution § Adoption alliances. Alliance ≠ shared repo; allianc
 
 | ID | Боль | Кто | Откуда | GUIDERS-ответ | Статус |
 |----|------|-----|--------|---------------|--------|
-| G-020 | MCP `CallTool` возвращает JSON wall — контекст агента горит | agent | agent-era pilots | **MCPlane**: pulse default, `next[]`, detail tiers ([ADR-0020](adr/GUIDERS-ADR-0020-mcplane-agent-ingress.md)) | in-progress |
+| G-020 | MCP `CallTool` возвращает JSON wall — контекст агента горит | agent | agent-era pilots | **MCPlane**: pulse default, `next[]`, detail tiers ([ADR-0020](adr/GUIDERS-ADR-0020-mcplane-agent-ingress.md)); package + pulse/next conformance | in-progress |
 | G-021 | Tool docs в Meta/README ≠ slash `commandId` — drift | agent+human | multi-surface products | `commandId` parity + `agent-catalog-projection-v1`; Forge [FORGE-ADR-0025](https://github.com/AI-Guiders/agent-forge/blob/master/design/FORGE-ADR-0025-human-command-parity.md) | open |
 
 ---
