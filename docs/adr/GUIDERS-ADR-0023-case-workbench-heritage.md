@@ -12,7 +12,7 @@ Guiders AI Era product center composes **three pillars** (fleet thesis §3.1–3
 
 | Pillar | Role | Home |
 |--------|------|------|
-| **Aviation** | **Human + agent pair** — CRM, asymmetric crew, cognitive budget, briefing, pressure | ADR-0007 · [essay](../essay/why-aviation-not-pair-programming.md) · `Cockpit.*` |
+| **Aviation** | **Human + agent pair** — **PM/PF**, cognitive budget, briefing, pressure | ADR-0007 · [essay](../essay/why-aviation-not-pair-programming.md) · `Cockpit.*` |
 | **Agent Env** | **Agent half** of the pair — memory, gates, packs, journal | **CDP planet** (`cdp-mcp`); MCPlane = pair wire hyperlane |
 | **CASE** (this ADR) | **Vision / Decision Environment** — shared estate model the pair steers | Platform workbench + conformance |
 
@@ -25,7 +25,7 @@ This ADR normates the **CASE pillar** only. It does not subsume Aviation glossar
 ## Decision
 
 1. **CASE pillar = desktop Vision/Decision Environment** for protocol estates — architecturally non-optional for full fleet ops (ingress satellites allowed; replacement not).
-2. **Three pillars compose:** Aviation governs the **human+agent pair**; CASE is the **shared decision surface**; Agent Env is the **agent half's habitat** (CDP + MCPlane pair wire).
+2. **Three pillars compose:** Aviation governs the **human+agent pair** on **PM/PF**; CASE is the **shared decision surface**; Agent Env is the **agent half's habitat** (CDP + MCPlane pair wire).
 3. **Living model** is machine-maintained SSOT under test — not hand-drawn UML as source of truth.
 4. **AI + conformance + Agent Env** provide the sync layer the Rose era lacked.
 

@@ -60,11 +60,17 @@ Guiders AI Era product is not «IDE + agent chat». It is **human+agent pair + a
 
 | Pillar | Heritage | What it contributes | Federation home |
 |--------|----------|---------------------|-----------------|
-| **Aviation** | CRM, cockpit human factors | **Human + agent pair** — asymmetric crew (operator + agent), who holds what attention, shared cognitive budget, work under pressure, briefing before act | [ADR-0007](adr/GUIDERS-ADR-0007-aviation-mental-model.md) · [essay](essay/why-aviation-not-pair-programming.md) · `Cockpit.*` |
+| **Aviation** | CRM, cockpit human factors | **Human + agent pair** — **PM/PF** (Pilot Monitoring / Pilot Flying): complementary roles that **rotate**, not boss + subordinate | [ADR-0007](adr/GUIDERS-ADR-0007-aviation-mental-model.md) · [essay](essay/why-aviation-not-pair-programming.md) · `Cockpit.*` |
 | **Agent Env** | Agent-native habitat (CDP arc) | **Agent side of the pair** — memory, gates, packs, journal; habitat outside raw LLM window | **CDP planet** (`cdp-mcp`); [MCPlane](adr/GUIDERS-ADR-0020-mcplane-agent-ingress.md) = pair wire hyperlane |
 | **CASE** | Rose, MDA, architecture workbench | **Vision / Decision Environment** for SE — estate topology, multi-view, trace, impact before ship | Workbench + conformance · [ADR-0023](adr/GUIDERS-ADR-0023-case-workbench-heritage.md) |
 
-Aviation is **not** «pretty displays» and **not** generic team management. It is **CRM for the human+agent pair**: pair programming is the first layer; aviation adds **asymmetry** (human PIC, agent second pilot), overload, and protocols when stakes rise. See [why-aviation-not-pair-programming](essay/why-aviation-not-pair-programming.md).
+Aviation is **not** «pretty displays» and **not** generic team management. It is **CRM for the human+agent pair** on the **PM/PF** model:
+
+- **PF (Flying)** — hands on controls now: mutate, execute, draft, tool calls.  
+- **PM (Monitoring)** — watches instruments, catches drift, calls out, briefs before act.  
+- Roles **swap** by phase — not a fixed hierarchy. No product «PIC» knob; operator accountability (merge, prod) is **legal**, not cockpit rank.
+
+Pair programming is the first layer; aviation adds **complementary roles under load** when one pair cannot watch everything at once. See [why-aviation-not-pair-programming](essay/why-aviation-not-pair-programming.md).
 
 CASE is **not** UML nostalgia. It is the **shared decision surface** the pair steers against — what the estate looks like, what moves if you ship.
 
@@ -137,7 +143,7 @@ Product work fills those instruments with **buffers, LSP, Glass projection, slas
 | **Course / near-course** | navigation intent | roadmap wave, hyperlane direction |
 | **Health** | env ready, build | CI, conformance, pain status per planet |
 
-Aviation supplies **pair discipline** (human PIC + agent second pilot — who watches what, under pressure). CASE supplies the **shared decision surface**. Agent Env supplies the **agent half's habitat**. Ingress (web, MCPlane pulse) projects slices; the **workbench** is desktop-class — see §6.
+Aviation supplies **PM/PF pair discipline** (who flies vs monitors *right now*, roles may rotate). CASE supplies the **shared decision surface**. Agent Env supplies the **agent half's habitat**. Ingress (web, MCPlane pulse) projects slices; the **workbench** is desktop-class — see §6.
 
 ---
 
