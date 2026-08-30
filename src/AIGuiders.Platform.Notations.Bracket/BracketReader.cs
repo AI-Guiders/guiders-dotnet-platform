@@ -38,10 +38,7 @@ public sealed class BracketReader : IBracketNotationReader
         if (profile.StripOuterTerminals)
         {
             if (!TryStripTerminals(raw, profile, out inner))
-            {
-                error = "Missing bracket terminals.";
-                return false;
-            }
+                inner = raw;
         }
 
         if (!TryParseInner(inner, profile, valuePlan, raw, out normalized, out error))

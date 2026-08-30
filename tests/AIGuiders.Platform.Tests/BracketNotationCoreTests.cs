@@ -56,6 +56,19 @@ public sealed class BracketNotationCoreTests
     }
 
     [Fact]
+    public void BracketReader_accepts_bare_inner_without_terminals()
+    {
+        Assert.True(
+            BracketReader.Default.TryRead(
+                "F:Program.cs;M:Foo",
+                BracketProfiles.CdpSquareKeyValue,
+                out var wire,
+                out var error),
+            error);
+        Assert.Equal(2, wire!.Axes.Count);
+    }
+
+    [Fact]
     public void BracketReader_angle_opaque_profile()
     {
         Assert.True(
