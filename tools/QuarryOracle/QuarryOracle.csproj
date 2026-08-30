@@ -12,4 +12,7 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.Neovim\AIGuiders.Platform.Notations.Keyboard.Neovim.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Keyboard.Quarry\AIGuiders.Platform.Notations.Keyboard.Quarry.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="scripts\**\*" CopyToOutputDirectory="PreserveNewest" LinkBase="scripts" />
+  </ItemGroup>
 </Project>

@@ -73,7 +73,7 @@ public static class QuarrySpecConformance
 
         for (var i = 0; i < expected.Count; i++)
         {
-            if (!StepsEqual(expected[i], sequence.Steps[i], out var stepError))
+            if (!QuarryIrComparer.StepsEqual(expected[i], sequence.Steps[i], out var stepError))
             {
                 error = $"wire \"{vector.Wire}\" step {i}: {stepError}";
                 return false;
@@ -102,57 +102,5 @@ public static class QuarrySpecConformance
         return steps;
     }
 
-    static bool StepsEqual(NormalizedSequenceStep expected, NormalizedSequenceStep actual, out string error)
-    {
-        error = "";
-        switch (expected)
-        {
-            case NormalizedChordStep expChord when actual is NormalizedChordStep actChord:
-                if (expChord.Modifiers != actChord.Modifiers)
-                {
-                    error = $"modifiers expected {expChord.Modifiers}, got {actChord.Modifiers}.";
-                    return false;
-                }
-
-                if (expChord.KeySymbol != actChord.KeySymbol)
-                {
-                    error = $"key expected {expChord.KeySymbol}, got {actChord.KeySymbol}.";
-                    return false;
-                }
-
-                return true;
-            case NormalizedPlainKeyStep expPlain when actual is NormalizedPlainKeyStep actPlain:
-                if (expPlain.KeySymbol != actPlain.KeySymbol)
-                {
-                    error = $"plain key expected {expPlain.KeySymbol}, got {actPlain.KeySymbol}.";
-                    return false;
-                }
-
-                return true;
-            default:
-                error = $"step kind mismatch: expected {expected.GetType().Name}, got {actual.GetType().Name}.";
-                return false;
-        }
-    }
-
-    public static ChordModifierKeys ParseMods(string mods)
-    {
-        if (string.IsNullOrWhiteSpace(mods))
-            return ChordModifierKeys.None;
-
-        ChordModifierKeys m = 0;
-        foreach (var part in mods.Split('|', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))
-        {
-            m |= part switch
-            {
-                "Control" or "Ctrl" => ChordModifierKeys.Control,
-                "Alt" => ChordModifierKeys.Alt,
-                "Shift" => ChordModifierKeys.Shift,
-                "Meta" or "Super" or "Command" => ChordModifierKeys.Meta,
-                _ => throw new ArgumentException($"Unknown modifier token: {part}", nameof(mods)),
-            };
-        }
-
-        return m;
-    }
+    public static ChordModifierKeys ParseMods(string mods) => QuarryOracleIrMapper.ParseMods(mods);
 }

@@ -28,13 +28,8 @@ static class Program
     {
         var specPath = RequireOption(args, "--spec");
         var json = File.ReadAllText(specPath);
-        var schemaErrors = ConformanceSchemaValidator.ValidateJson(json);
-        if (schemaErrors.Count > 0)
-        {
-            foreach (var error in schemaErrors)
-                Console.Error.WriteLine(error);
-            return 1;
-        }
+        if (!ValidateSchema(json, out var schemaExit))
+            return schemaExit;
 
         var spec = QuarrySpecLoader.Load(json);
         var reader = ResolveReader(spec.Surface);
@@ -55,13 +50,8 @@ static class Program
         var specPath = RequireOption(args, "--spec");
         var require = args.Contains("--require");
         var json = File.ReadAllText(specPath);
-        var schemaErrors = ConformanceSchemaValidator.ValidateJson(json);
-        if (schemaErrors.Count > 0)
-        {
-            foreach (var error in schemaErrors)
-                Console.Error.WriteLine(error);
-            return 1;
-        }
+        if (!ValidateSchema(json, out var schemaExit))
+            return schemaExit;
 
         var spec = QuarrySpecLoader.Load(json);
         var reader = ResolveReader(spec.Surface);
@@ -74,157 +64,71 @@ static class Program
             return 1;
         }
 
-        var oracle = spec.Surface switch
+        if (!TryResolveOracle(spec.Surface, require, out var resolveError))
         {
-            "neovim-kbd" => TryAuditNeovim(spec, require),
-            "emacs-kbd" => TryAuditEmacs(spec, require),
-            _ => (Skipped: true, Errors: new List<string>()),
-        };
+            if (require)
+            {
+                Console.Error.WriteLine(resolveError);
+                return 1;
+            }
 
-        if (oracle.Errors.Count > 0)
+            Console.WriteLine($"OK {spec.Surface} (parser conformance; external oracle skipped — {resolveError})");
+            return 0;
+        }
+
+        var oracleErrors = new List<string>();
+        var matched = 0;
+        foreach (var vector in spec.Vectors)
         {
-            foreach (var error in oracle.Errors)
+            if (!ExternalOracleClient.TryCompareWireOnce(
+                    spec.Surface,
+                    reader,
+                    vector.Wire,
+                    out var platform,
+                    out var oracle,
+                    out var error))
+            {
+                oracleErrors.Add(error);
+                continue;
+            }
+
+            matched++;
+            Console.WriteLine($"  match {vector.Wire} -> {QuarryIrComparer.FormatSequence(platform!)}");
+        }
+
+        if (oracleErrors.Count > 0)
+        {
+            foreach (var error in oracleErrors)
                 Console.Error.WriteLine(error);
             return 1;
         }
 
-        if (oracle.Skipped)
-            Console.WriteLine($"OK {spec.Surface} (parser conformance; oracle skipped — install neovim/emacs for external audit)");
-
-        else
-            Console.WriteLine($"OK {spec.Surface} (parser + oracle)");
-
+        Console.WriteLine($"OK {spec.Surface} (parser + external oracle IR, {matched}/{spec.Vectors.Count} vectors)");
         return 0;
     }
 
-    static (bool Skipped, List<string> Errors) TryAuditNeovim(QuarrySpecDocument spec, bool require)
+    static bool ValidateSchema(string json, out int exitCode)
     {
-        var nvim = FindOnPath("nvim") ?? FindOnPath("vim");
-        if (nvim is null)
-        {
-            if (require)
-                return (false, ["neovim/vim not found on PATH (--require)."]);
-            return (true, []);
-        }
-
-        var errors = new List<string>();
-        foreach (var vector in spec.Vectors)
-        {
-            if (!TryRunNeovimKeytrans(nvim, vector.Wire, out var trans, out var runError))
-            {
-                errors.Add($"[{vector.Wire}] oracle failed: {runError}");
-                continue;
-            }
-
-            if (string.IsNullOrWhiteSpace(trans))
-                errors.Add($"[{vector.Wire}] oracle returned empty keytrans.");
-        }
-
-        return (false, errors);
-    }
-
-    static (bool Skipped, List<string> Errors) TryAuditEmacs(QuarrySpecDocument spec, bool require)
-    {
-        var emacs = FindOnPath("emacs");
-        if (emacs is null)
-        {
-            if (require)
-                return (false, ["emacs not found on PATH (--require)."]);
-            return (true, []);
-        }
-
-        var errors = new List<string>();
-        foreach (var vector in spec.Vectors)
-        {
-            var wire = vector.Wire.Replace("\\", "\\\\").Replace("\"", "\\\"");
-            var expr = $"(progn (key-parse \"{wire}\") (print \"OK\"))";
-            if (!TryRunProcess(emacs, ["-batch", "--eval", expr], out var stdout, out var stderr, out var exitCode)
-                || exitCode != 0)
-            {
-                errors.Add($"[{vector.Wire}] emacs key-parse failed: {stderr.Trim()} {stdout.Trim()}");
-            }
-        }
-
-        return (false, errors);
-    }
-
-    static bool TryRunNeovimKeytrans(string nvim, string wire, out string trans, out string error)
-    {
-        trans = "";
-        error = "";
-        var escaped = JsonSerializer.Serialize(wire);
-        var lua = $"print(vim.fn.keytrans({escaped}))";
-        if (!TryRunProcess(nvim, ["--headless", "-u", "NONE", "--cmd", $"lua {lua}", "--cmd", "qa!"],
-                out var stdout, out var stderr, out var exitCode)
-            || exitCode != 0)
-        {
-            error = stderr.Trim();
-            return false;
-        }
-
-        trans = stdout.Trim();
-        return true;
-    }
-
-    static bool TryRunProcess(string file, string[] args, out string stdout, out string stderr, out int exitCode)
-    {
-        stdout = "";
-        stderr = "";
-        try
-        {
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = file,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-            };
-            foreach (var arg in args)
-                startInfo.ArgumentList.Add(arg);
-
-            using var process = Process.Start(startInfo);
-            if (process is null)
-            {
-                exitCode = -1;
-                return false;
-            }
-
-            stdout = process.StandardOutput.ReadToEnd();
-            stderr = process.StandardError.ReadToEnd();
-            process.WaitForExit();
-            exitCode = process.ExitCode;
+        exitCode = 0;
+        var schemaErrors = ConformanceSchemaValidator.ValidateJson(json);
+        if (schemaErrors.Count == 0)
             return true;
-        }
-        catch (Exception ex)
-        {
-            stderr = ex.Message;
-            exitCode = -1;
-            return false;
-        }
+
+        foreach (var error in schemaErrors)
+            Console.Error.WriteLine(error);
+        exitCode = 1;
+        return false;
     }
 
-    static string? FindOnPath(string name)
+    static bool TryResolveOracle(string surface, bool require, out string error)
     {
-        var path = Environment.GetEnvironmentVariable("PATH");
-        if (string.IsNullOrEmpty(path))
-            return null;
-
-        var extensions = OperatingSystem.IsWindows()
-            ? new[] { "", ".exe", ".cmd", ".bat" }
-            : new[] { "" };
-
-        foreach (var dir in path.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries))
+        error = "";
+        return surface switch
         {
-            foreach (var ext in extensions)
-            {
-                var candidate = Path.Combine(dir, name + ext);
-                if (File.Exists(candidate))
-                    return candidate;
-            }
-        }
-
-        return null;
+            "neovim-kbd" => ExternalOracleClient.TryResolveNeovim(out _, out error),
+            "emacs-kbd" => ExternalOracleClient.TryResolveEmacs(out _, out error),
+            _ => true,
+        };
     }
 
     static IKeyboardNotationReader ResolveReader(string surface) => surface switch
@@ -255,11 +159,11 @@ static class Program
     static void PrintHelp()
     {
         Console.WriteLine("""
-            quarry-oracle — keyboard quarry spec + optional external oracle audit
+            quarry-oracle — keyboard quarry spec + external IR oracle audit
 
             Commands:
-              verify --spec <path>           Parser vs frozen vectors (QuarrySpecConformance)
-              audit  --spec <path> [--require] Parser + neovim/emacs key-parse/keytrans when on PATH
+              verify --spec <path>              JSON Schema + parser vs frozen vectors
+              audit  --spec <path> [--require] Parser + external neovim/emacs IR compare
 
             Surfaces: neovim-kbd, emacs-kbd
             """);
