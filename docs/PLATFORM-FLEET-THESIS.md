@@ -143,20 +143,44 @@ DevSecOps / SRE / platform ops **live here** by default. Product devs visit on E
 
 ---
 
-## 6. Delivery hosts (secondary — same model)
+## 6. Architectural invariant: desktop-class workbench
 
-How scopes are **rendered** is a product decision; scopes are architectural.
+**There is no architectural fork.** Fleet / platform development environment is **desktop-class by physics**, the way mechanical design is CAD-class and 1990s–2000s architecture modeling was **CASE-class**.
 
-| Host | Fits |
-|------|------|
-| **CIDE / Glass** (desktop embassy) | Full attention stack; fleet scope as formation display + planet zoom |
-| **ANPM / web Attention desk** | Live + Fleet registry slices; lighter MFD |
-| **MCPlane** (agents) | Pulse per scope; `next[]` crosses Fleet → Planet → Live |
-| **Embed / hyperlane** | Planet products stay sovereign; fleet view is optional contour |
+| Physical world | Software engineering | Federation fleet ops |
+|----------------|----------------------|----------------------|
+| CAD (SolidWorks, …) | **CASE** — Computer-Aided Software Engineering | Platform cockpit (CIDE/Glass + attention scopes) |
+| Blueprint, constraints, assembly | Visual model, round-trip, multi-view (Rational Rose, Together, …) | Alliance graph, conformance pins, hyperlane topology, pain→ADR trace |
+| Cannot «fit the plant» in a phone widget | Cannot «fit the estate» in a dashboard tile | Ingress yes; **cockpit** no |
 
-Seamless product integration (Forge inside CIDE, etc.) remains **planet choice** — not federation law. Fleet attention can **observe** integrations without owning product domains.
+**CASE** is the term you were reaching for — not «CAD for code» as a product name, but the same **professional workbench** posture: large surface, long session, navigable graph, review before commit.
 
-**Not what we mean by «heavy desktop»:** federation is **not** betting on WPF/Avalonia as the primary thesis. See §7 — the industry joke about desktop is about **hiding production**, not picking a UI stack.
+Rational Rose and kin died in the market — not because the **problem** was wrong, but because **manual model↔code sync** could not keep pace. Models became lying wallpaper; agile shipped text-first IDEs; web ate the demo channel.
+
+**AI era thesis:** this class gets a second breath when **agents maintain the living model**:
+
+| Rose era (failed sync) | Fleet-first + AI era |
+|------------------------|----------------------|
+| UML diagram hand-edited | Machine vectors: `*.spec.json`, adoption manifest, pain inventory |
+| Round-trip promised, rarely true | Conformance CI + drift gates enforce pin ↔ reality |
+| Model = documentation | Model = **SSOT under test**; code is one projection |
+| One architect, slow updates | High-throughput vacuum **requires** automated model hygiene |
+
+Fleet attention scopes are not «another dashboard». They are **CASE for a protocol confederation** — formation view, drill-down, briefing before release — with MCPlane as the clerk that keeps the blueprint from rotting.
+
+### 6.1 What is not the workbench (ingress only)
+
+Web, mobile, chat, MCPlane pulse — **valid ingress**, not substitutes for the workbench:
+
+| Surface | Role |
+|---------|------|
+| **ANPM / web** | Live scope triage — TP status, registry glance, alert |
+| **MCPlane** | Agent pulse, `next[]`, scoped observe |
+| **Forge / planet UIs** | Sovereign product surfaces |
+
+**CIDE / Glass** (or future Avalonia embassy) hosts the **full attention stack** — Fleet, Planet, Live scopes on one desktop-class surface. That is not a product preference; it is the same constraint as reviewing a 400-line diff or a forty-node dependency graph.
+
+Seamless product integration (Forge inside CIDE, etc.) remains **planet choice**. Federation ships hyperlanes and cockpit contracts; it does not mandate merged executables.
 
 ---
 
@@ -187,7 +211,7 @@ Fleet-first telemetry is **production-class**:
 3. **Artifact without viewer is garbage** — generated alliance table without diff/history is demo fluff.  
 4. **Do not shame hours-in-seat** — fleet operator at three monitors is not legacy; it is where confederation state is **understood**, not merely displayed.
 
-CIDE/Glass as embassy = **respect production channel**, not «we chose heavy desktop over web».
+CIDE/Glass as embassy = **the workbench exists** — not shame about desktop, not a stack bet against web.
 
 ---
 
@@ -195,12 +219,13 @@ CIDE/Glass as embassy = **respect production channel**, not «we chose heavy des
 
 ```text
 L1  Machine telemetry — manifests, conformance CI, adoption drift, pain→ADR
-L2  Attention scopes  — Fleet / Planet / Live data model on Cockpit.* channels
-L3  Human hosts       — web desk (Live+Fleet), desktop embassy (all scopes)
+L2  Attention scopes  — Fleet / Planet / Live on Cockpit.* channels (CASE layer)
+L3  Desktop workbench — CIDE/Glass embassy; full scope stack
 L0  Protocol hyperlanes — planets sovereign
+     Ingress satellites — ANPM web, MCPlane (parallel, not replacement)
 ```
 
-**L1** is non-negotiable. **L2** is the golden vein: **reuse CDS, new feeds**. **L3** is where CIDE/Glass or ANPM View plug in.
+**L1** is non-negotiable. **L2** is the golden vein: reuse CDS, new feeds, **living model**. **L3** is the architectural home — desktop workbench. Ingress ships in parallel for triage, not instead of L3.
 
 ---
 
@@ -209,7 +234,7 @@ L0  Protocol hyperlanes — planets sovereign
 | Tension | Resolution |
 |---------|------------|
 | Fast AI throughput vs invariants | Pain inventory + conformance gates + wave roadmap |
-| Demo channel vs production posture | Ingress on web/agent; cockpit on desktop-class when drill-down is real work (ch.24) |
+| Demo channel vs production posture | Ingress on web/agent; workbench on desktop (ch.24); no architectural «web cockpit» |
 | Operator UX vs nuget.org UX | ANPM / local manifest SSOT; nuget.org is upstream, not control plane |
 | Agent throughput vs human clarity | MCPlane pulse default; full detail on demand |
 
@@ -219,8 +244,8 @@ L0  Protocol hyperlanes — planets sovereign
 
 1. **Scope switch UX:** one Attention desk with Fleet/Planet/Live tabs, or CDS contour keys (like CIDE today)?  
 2. **Fleet PFD default:** roadmap wave vs alliance drift vs release train?  
-3. **Live scope owner:** ANPM as primary host, or Cockpit channel in CIDE status bar?  
-4. **Agent parity:** MCPlane `next[]` across scopes — one envelope or scoped pulse per contour?
+3. **CASE projection:** which views are graph-native (alliance, hyperlane) vs table-native (pain, registry)?  
+4. **Agent parity:** MCPlane maintains model hygiene — enough to avoid Rose-era wallpaper drift?
 
 ---
 
