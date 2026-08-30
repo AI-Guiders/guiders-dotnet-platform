@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Combinations.Overlay</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Combinations.Overlay</AssemblyName>
+    <PackageId>AIGuiders.Platform.Combinations.Overlay</PackageId>
+    <Description>Policy-as-readable-code: fluent overlay profiles (GUIDERS-ADR-0031).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Combinations\AIGuiders.Platform.Combinations.csproj" />
+  </ItemGroup>
+</Project>
