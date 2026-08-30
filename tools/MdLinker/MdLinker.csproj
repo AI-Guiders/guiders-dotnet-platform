@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>AIGuiders.Platform.Utilities.MdLinker</RootNamespace>
+    <AssemblyName>mdlinker</AssemblyName>
+    <Description>CLI: markdown doc anchor check on Bracket + LanguageIntelligence (GUIDERS-ADR-0027).</Description>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.LanguageIntelligence.Anchors\AIGuiders.Platform.LanguageIntelligence.Anchors.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.LanguageIntelligence.Adapters.Roslyn\AIGuiders.Platform.LanguageIntelligence.Adapters.Roslyn.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Bracket\AIGuiders.Platform.Notations.Bracket.csproj" />
+  </ItemGroup>
+</Project>

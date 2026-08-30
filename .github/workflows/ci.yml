@@ -27,7 +27,9 @@ jobs:
         run: |
           dotnet run --project tools/QuarryOracle -- audit --spec tests/AIGuiders.Platform.Tests/Fixtures/Quarry/neovim-kbd.spec.json --require
           dotnet run --project tools/QuarryOracle -- audit --spec tests/AIGuiders.Platform.Tests/Fixtures/Quarry/emacs-kbd.spec.json --require
-      - name: Adoption alliance report up to date
+      - name: MdLinker doc anchors (ADR-0027)
+        run: dotnet run --project tools/MdLinker -- --check docs/adr/GUIDERS-ADR-0027-mdlinker-doc-anchor-check.md
+      - name: Adoption alliance report
         run: |
           dotnet run --project tools/AdoptionReport -- --write docs/ADOPTION-ALLIANCE.generated.md
           git diff --exit-code docs/ADOPTION-ALLIANCE.generated.md

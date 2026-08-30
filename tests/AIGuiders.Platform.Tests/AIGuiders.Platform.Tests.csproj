@@ -21,6 +21,7 @@
     <EmbeddedResource Include="Fixtures\Notation\argument-positional.spec.json" />
     <EmbeddedResource Include="Fixtures\Notation\argument-cli.spec.json" />
     <EmbeddedResource Include="Fixtures\Notation\bracket-cdp-square-kv.spec.json" />
+    <EmbeddedResource Include="Fixtures\Notation\bracket-doc-symbol.spec.json" />
     <EmbeddedResource Include="Fixtures\MCPlane\pulse-default.spec.json" />
     <EmbeddedResource Include="Fixtures\MCPlane\next-hints.spec.json" />
     <None Include="Fixtures\hotkeys.toml" CopyToOutputDirectory="PreserveNewest" Link="Fixtures\hotkeys.toml" />

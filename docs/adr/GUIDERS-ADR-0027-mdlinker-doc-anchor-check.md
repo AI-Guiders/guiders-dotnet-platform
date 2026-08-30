@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Status** | Draft (for review) |
+| **Status** | Accepted |
 | **Date** | 2026-08-30 |
 | **Tags** | #guiders #utilities #documentation #anchor #bracket #mdlinker #drift |
 | **Relates to** | GUIDERS-ADR-0022 · GUIDERS-ADR-0025 · GUIDERS-ADR-0026 · CIDE ADR-0128 · CIDE ADR-0186 · G-008 |
@@ -105,7 +105,7 @@ Parse: `BracketNotationProfile` with `ListSeparator`;`, `KvSign`:` — axis keys
 | **Scan** | `Notations.Bracket` (`BracketEnvelopeScan`) | depth-aware `[ … ]` in prose/md |
 | **Lex** | `Notations.Bracket` (`BracketReader`, profiles) | wire → `NormalizedBracketWire` |
 | **Wire IR** | `LanguageIntelligence.Anchors` (`BracketAnchorWire`, `BracketAnchorSpan`) | axis aliases, classify, format |
-| **Resolve** | `LanguageIntelligence.Anchors` + adapters | `IAnchorResolver` per family; `DocSymbolAnchorResolver` (planned) |
+| **Resolve** | `LanguageIntelligence.Anchors` (`DocSymbolAnchorResolver`) + adapters | `IAnchorResolver` per family |
 | **C# syntax resolve** | `LanguageIntelligence.Adapters.Roslyn` (`CSharpBracketAnchorResolve`) | F/M/L/S → syntax range (optional Roslyn package) |
 | **CLI** | `tools/MdLinker` | walk paths, orchestrate, `--check` / `--write` |
 | **Meta** | `AIGuiders.Platform.Utilities.DocLink` (v1.1 pack) | contracts if reused outside CLI |
@@ -134,7 +134,11 @@ dotnet run --project tools/MdLinker -- --check docs/ README.md
 
 Same drift gate as ADOPTION-ALLIANCE: fail if unresolved anchors after renames.
 
-Pilot scope: `docs/adr/GUIDERS-ADR-0021*.md`, `docs/adr/GUIDERS-ADR-0027*.md`, `Notations.Argument.*` symbols after **ReaderId** rename (v0.21).
+Pilot scope: this ADR + `Notations.Argument.*` symbols after **ReaderId** rename (v0.21). Inline refs:
+
+- [Family:doc; Package:Notations.Argument; Type:NormalizedArguments]
+- [Family:doc; Package:Notations.Argument; Type:ArgumentReaders; Member:Kv]
+- [Family:doc; Package:Notations.Argument; Type:ArgumentNotationProfile; Member:ReaderId]
 
 ---
 
@@ -155,8 +159,8 @@ Pilot scope: `docs/adr/GUIDERS-ADR-0021*.md`, `docs/adr/GUIDERS-ADR-0027*.md`, `
 
 1. ~~**`Family:doc` axis canon**~~ — **decided §2.1:** full-word axes (`Type`, `Member`, `Package`); no required one-char aliases.
 2. ~~**Scan / mechanics split**~~ — **decided §3:** `BracketEnvelopeScan` + `BracketReader` in **Notations.Bracket**; wire→span in **LI.Anchors**; C# resolve in **LI.Adapters.Roslyn**; `ScriptableIde` = façade only (v0.20.4 extraction).
-3. **Packaging** — keep CLI-only v1 or ship `Utilities.DocLink` immediately?
-4. **Generated glossary** — still emit `NOTATION-VOCAB.generated.md` for tables, or only anchors?
+3. ~~**Packaging**~~ — **decided:** CLI-only v1 (`tools/MdLinker`); `Utilities.DocLink` deferred to v1.1.
+4. ~~**Generated glossary**~~ — **decided:** anchors primary in ADR; `*.generated.md` tables remain optional parallel (AdoptionReport pattern).
 
 ---
 
