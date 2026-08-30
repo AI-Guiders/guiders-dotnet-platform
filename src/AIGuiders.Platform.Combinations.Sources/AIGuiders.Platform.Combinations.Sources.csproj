@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Combinations.Sources</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Combinations.Sources</AssemblyName>
+    <PackageId>AIGuiders.Platform.Combinations.Sources</PackageId>
+    <Description>Lazy ISource layer merge via combinator (GUIDERS-ADR-0030).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Combinations\AIGuiders.Platform.Combinations.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Sources\AIGuiders.Platform.Sources.csproj" />
+  </ItemGroup>
+</Project>

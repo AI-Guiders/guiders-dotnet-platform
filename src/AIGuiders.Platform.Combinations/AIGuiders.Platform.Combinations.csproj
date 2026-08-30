@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Combinations</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Combinations</AssemblyName>
+    <PackageId>AIGuiders.Platform.Combinations</PackageId>
+    <Description>Ordered layer fold and combinator contracts (GUIDERS-ADR-0030).</Description>
+  </PropertyGroup>
+</Project>
