@@ -98,7 +98,7 @@ static string? FindRepoRoot(string start)
     var dir = new DirectoryInfo(Path.GetFullPath(start));
     while (dir is not null)
     {
-        if (File.Exists(Path.Combine(dir.FullName, "AIGuiders.Platform.sln")))
+        if (File.Exists(Path.Combine(dir.FullName, "AIGuiders.Platform.slnx")))
             return dir.FullName;
         dir = dir.Parent;
     }

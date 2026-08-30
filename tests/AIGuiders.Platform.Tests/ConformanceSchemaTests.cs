@@ -80,7 +80,7 @@ public sealed class ConformanceSchemaTests
         var dir = new DirectoryInfo(AppContext.BaseDirectory);
         while (dir is not null)
         {
-            if (File.Exists(Path.Combine(dir.FullName, "AIGuiders.Platform.sln")))
+            if (File.Exists(Path.Combine(dir.FullName, "AIGuiders.Platform.slnx")))
                 return dir.FullName;
             dir = dir.Parent;
         }

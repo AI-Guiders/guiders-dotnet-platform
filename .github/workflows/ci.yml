@@ -14,9 +14,9 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
-      - run: dotnet restore
-      - run: dotnet build --no-restore -c Release
-      - run: dotnet test --no-build -c Release
+      - run: dotnet restore AIGuiders.Platform.slnx
+      - run: dotnet build AIGuiders.Platform.slnx --no-restore -c Release
+      - run: dotnet test AIGuiders.Platform.slnx --no-build -c Release
       - name: Install keyboard oracles
         run: sudo apt-get update && sudo apt-get install -y neovim emacs-nox
       - name: Quarry oracle verify (keyboard specs)
