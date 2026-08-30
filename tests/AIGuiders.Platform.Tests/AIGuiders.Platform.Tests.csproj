@@ -33,5 +33,6 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.InputNotation.KeyGesture\AIGuiders.Platform.InputNotation.KeyGesture.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Melody\AIGuiders.Platform.CommandPlane.Melody.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Binding.Sources\AIGuiders.Platform.CommandPlane.Binding.Sources.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Utilities.Adoption\AIGuiders.Platform.Utilities.Adoption.csproj" />
   </ItemGroup>
 </Project>

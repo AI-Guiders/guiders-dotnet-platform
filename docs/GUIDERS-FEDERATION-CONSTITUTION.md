@@ -153,6 +153,8 @@ MIT (and peers) enable take-without-return **legally** — they do not create **
 
 Federation is structured for this: confederation charter, embassy planets (Forge, CIDE), conformance repo — **alliance mechanics**, not a single vendor support desk. Planets may add bilateral pacts (e.g. Forge + DashSpec on CommandPlane); platform docs record **who** ships which port.
 
+**Automation (v1):** [`AdoptionReport`](../tools/AdoptionReport) scans `docs/adoption/planets.json` + NuGet pins → [`ADOPTION-ALLIANCE.generated.md`](../ADOPTION-ALLIANCE.generated.md). See [GUIDERS-ADR-0022](adr/GUIDERS-ADR-0022-utilities-adoption-report.md).
+
 See [GUIDERS pain inventory — G-008](GUIDERS-pain-inventory.md#g-008).
 
 ---

@@ -1,0 +1,28 @@
+{
+  "planets": [
+    {
+      "id": "forge",
+      "name": "Agent Forge",
+      "root": "../../../agent-forge",
+      "issuesUrl": "https://github.com/AI-Guiders/agent-forge/issues"
+    },
+    {
+      "id": "cide",
+      "name": "Cascade IDE",
+      "root": "../../../cascade-ide",
+      "issuesUrl": "https://github.com/AI-Guiders/cascade-ide/issues"
+    },
+    {
+      "id": "dashspec",
+      "name": "DashSpec",
+      "root": "../../../dash-spec",
+      "issuesUrl": "https://github.com/AI-Guiders/dash-spec/issues"
+    },
+    {
+      "id": "platform",
+      "name": "Guiders Platform",
+      "root": "../..",
+      "issuesUrl": "https://github.com/AI-Guiders/guiders-platform/issues"
+    }
+  ]
+}

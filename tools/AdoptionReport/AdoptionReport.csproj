@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>AIGuiders.Platform.Utilities.AdoptionReport</RootNamespace>
+    <AssemblyName>adoption-report</AssemblyName>
+    <Description>CLI: scan federation planets and emit adoption alliance markdown.</Description>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Utilities.Adoption\AIGuiders.Platform.Utilities.Adoption.csproj" />
+  </ItemGroup>
+</Project>
