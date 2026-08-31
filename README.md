@@ -2,7 +2,8 @@
 
 Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Forge).
 
-**Start here:** [Federation Constitution](docs/GUIDERS-FEDERATION-CONSTITUTION.md) — sovereign planets, open embed, hyperlanes.  
+**Start here:** [Architecture Hub](docs/GUIDERS-PLATFORM-ARCHITECTURE-HUB.md) (MD · [DOCX](docs/GUIDERS-PLATFORM-ARCHITECTURE-HUB.docx)) — full platform map, capabilities, federation principles.  
+**Constitution:** [Federation Constitution](docs/GUIDERS-FEDERATION-CONSTITUTION.md) — sovereign planets, open embed, hyperlanes.  
 **Living pains:** [GUIDERS pain inventory](docs/GUIDERS-pain-inventory.md) — friction → hyperlane (notation, conformance, MCPlane).  
 **Adoption alliance (generated):** [ADOPTION-ALLIANCE.generated.md](docs/ADOPTION-ALLIANCE.generated.md) — `dotnet run --project tools/AdoptionReport -- --write docs/ADOPTION-ALLIANCE.generated.md`  
 **Notation vocabulary (generated):** [NOTATION-VOCABULARY.generated.md](docs/NOTATION-VOCABULARY.generated.md) — `dotnet run --project tools/NotationGlossaryReport -- --write docs/NOTATION-VOCABULARY.generated.md`  
