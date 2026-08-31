@@ -2,6 +2,7 @@ using AIGuiders.Platform.IntermediateRepresentation.Command;
 #nullable enable
 
 using AIGuiders.Platform.CommandPlane;
+using AIGuiders.Platform.IntermediateRepresentation.Invocation;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;
@@ -34,13 +35,14 @@ public sealed class VisualCommandTreeSlashProjectionTests
                 "Pick a value",
                 "Choose a value — Tab to insert",
                 InvocationLinePhase.Arg,
-                InvocationArgMechanic.Picker,
+                ArgMechanic.Picker,
                 "select filter usage_date",
                 nameof(CommandArgTailKind.Picker)));
 
         var projection = SlashVisualCommandTreeProjector.Project(result);
 
-        Assert.Equal(VisualCommandTreeEngageKind.SlashLine, projection.EngageKind);
+        Assert.Equal(InvocationEngageKind.Slash, projection.EngageKind);
+        Assert.Equal(ArgMechanic.Picker, projection.ArgMechanic);
         Assert.Equal("/select › filter › usage_date", projection.BreadcrumbDisplay);
         Assert.Equal("Pick a value", projection.Placeholder);
         Assert.Equal(2, projection.NextOptions.Count);
@@ -49,7 +51,7 @@ public sealed class VisualCommandTreeSlashProjectionTests
     }
 
     [Fact]
-    public void Constructor_mode_uses_constructor_engage_kind()
+    public void Constructor_mode_sets_arg_mechanic_on_slash_projection()
     {
         var result = new SlashCompletionResult(
             [],
@@ -58,13 +60,14 @@ public sealed class VisualCommandTreeSlashProjectionTests
                 "Год",
                 "Дата (с): Год",
                 InvocationLinePhase.Arg,
-                InvocationArgMechanic.Constructor,
+                ArgMechanic.Constructor,
                 "select filter usage_date",
-                nameof(InvocationArgMechanic.Constructor)));
+                nameof(ArgMechanic.Constructor)));
 
         var projection = SlashVisualCommandTreeProjector.Project(result);
 
-        Assert.Equal(VisualCommandTreeEngageKind.Constructor, projection.EngageKind);
-        Assert.Equal(nameof(InvocationArgMechanic.Constructor), projection.InputMode);
+        Assert.Equal(InvocationEngageKind.Slash, projection.EngageKind);
+        Assert.Equal(ArgMechanic.Constructor, projection.ArgMechanic);
+        Assert.Equal(nameof(ArgMechanic.Constructor), projection.InputMode);
     }
 }

@@ -31,15 +31,16 @@ Arg mechanic (guilds) Picker | Constructor | TypedInput | PrefixArmed | …
 |------|------|----------|
 | **Engage** | Planet peel + mechanic entry | `/`, chord root, hotkey |
 | **Line phase** | `IR.Invocation` | `InvocationLinePhase` |
-| **Arg mechanic** | `IR.Invocation` enum; behavior in `CommandPlane.*` guilds | `InvocationArgMechanic` |
+| **Arg mechanic** | `IR.Invocation` enum; behavior in `CommandPlane.*` guilds | `ArgMechanic` |
 
 ### 2. IR.Invocation types
 
 ```text
 IntermediateRepresentation.Invocation
   NormalizedCommandLine      (existing)
+  InvocationEngageKind         Slash | Melody | Binding (engage — notation-bound)
   InvocationLinePhase        Path | Arg | Ready
-  InvocationArgMechanic      Picker | FreeText | Optional | Constructor | TypedInput
+  ArgMechanic                  Picker | FreeText | Optional | Constructor | TypedInput
 ```
 
 Mechanic **implementations** stay in guild packages (`Constructors`, `PrefixArmed`, `ArgSuggestions`). IR owns labels only.
@@ -52,7 +53,7 @@ Mechanic **implementations** stay in guild packages (`Constructors`, `PrefixArme
 | Melody | (future) `MelodyInputGuidance` | chord tree labels |
 | Binding | n/a at line level | direct execute |
 
-Neutral tail guidance: `ArgInputGuidance` (`Phase`, `Mechanic`, placeholder, hint) in `CommandPlane.Constructors` until a dedicated `IR.Invocation.Guidance` package is warranted.
+Neutral tail guidance: `ArgInputGuidance` (`Phase`, `ArgMechanic`, placeholder, hint) in `CommandPlane.Constructors` until a dedicated `IR.Invocation.Guidance` package is warranted.
 
 `SlashInputGuidance.Mode` (computed string) preserves conformance wire labels (`Path`, `Picker`, `Ready`, …).
 
@@ -81,4 +82,4 @@ Guilds MUST NOT define line-phase enums. Slash MUST NOT own neutral constructor/
 
 - Melody and Binding can adopt `InvocationLinePhase` without referencing `CommandPlane.Slash`.
 - Visual Command Tree ([ADR-0024](GUIDERS-ADR-0024-visual-command-tree-capture-stack.md)) keys engage kind separately from line phase.
-- Hub §8.3 arg modes table maps to `InvocationLinePhase.Arg` + `InvocationArgMechanic`.
+- Hub §8.3 arg modes table maps to `InvocationLinePhase.Arg` + `ArgMechanic`.

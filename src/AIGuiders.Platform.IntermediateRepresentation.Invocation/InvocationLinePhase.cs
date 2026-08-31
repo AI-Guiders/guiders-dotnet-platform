@@ -11,7 +11,7 @@ public enum InvocationLinePhase
     /// <summary>Completing command path or melody slug steps.</summary>
     Path = 0,
 
-    /// <summary>Collecting arg tail — <see cref="InvocationArgMechanic"/> applies here.</summary>
+    /// <summary>Collecting arg tail — <see cref="ArgMechanic"/> applies here.</summary>
     Arg = 1,
 
     /// <summary>Line is runnable — Enter executes.</summary>

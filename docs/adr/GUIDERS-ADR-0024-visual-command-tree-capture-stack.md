@@ -40,7 +40,7 @@ Native surfaces (Glass, Blazor, WPF) consume **`VisualCommandTreeProjection`** o
 ### 2. Shared types (`AIGuiders.Platform.CommandPlane`)
 
 ```csharp
-VisualCommandTreeEngageKind { MelodyChord, SlashLine, Constructor }
+InvocationEngageKind { Slash, Melody, Binding } on `VisualCommandTreeProjection`; `ArgMechanic?` for arg-tail (no engage conflation).
 VisualCommandTreeViewMode { Minimal, Neighborhood, Full }
 VisualCommandTreeFrame, VisualCommandTreeEdge, VisualCommandTreeProjection
 IVisualCommandTreeCatalog

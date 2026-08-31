@@ -3,10 +3,11 @@
 namespace AIGuiders.Platform.IntermediateRepresentation.Invocation;
 
 /// <summary>
-/// Arg-tail mechanic active during <see cref="InvocationLinePhase.Arg"/> (GUIDERS-ADR-0043).
+/// Arg-tail interaction during <see cref="InvocationLinePhase.Arg"/> (GUIDERS-ADR-0043).
+/// Notation-agnostic — distinct from <see cref="InvocationEngageKind"/>.
 /// Implemented by CommandPlane guilds (Constructors, PrefixArmed, ArgSuggestions, …).
 /// </summary>
-public enum InvocationArgMechanic
+public enum ArgMechanic
 {
     Picker = 1,
     FreeText = 2,

@@ -13,10 +13,6 @@ public static class SlashVisualCommandTreeProjector
         ArgumentNullException.ThrowIfNull(result);
 
         var guidance = result.Guidance;
-        var engageKind = guidance.Phase == InvocationLinePhase.Arg && guidance.ArgMechanic == InvocationArgMechanic.Constructor
-            ? VisualCommandTreeEngageKind.Constructor
-            : VisualCommandTreeEngageKind.SlashLine;
-
         var breadcrumbSegments = ParseBreadcrumbSegments(guidance.Breadcrumb);
         var edges = result.Items.Select(ToEdge).ToArray();
         var limit = optionLimit ?? LimitFor(viewMode);
@@ -24,7 +20,8 @@ public static class SlashVisualCommandTreeProjector
 
         return new VisualCommandTreeProjection(
             viewMode,
-            engageKind,
+            InvocationEngageKind.Slash,
+            guidance.ArgMechanic,
             breadcrumbSegments,
             guidance.Breadcrumb,
             ConsumedPrefix: ExtractConsumedPrefix(guidance.Breadcrumb),

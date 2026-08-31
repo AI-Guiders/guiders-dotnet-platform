@@ -44,7 +44,7 @@ static class ArgInputGuidanceSlashExtensions
             guidance.Placeholder,
             guidance.Hint,
             guidance.Phase,
-            guidance.Mechanic,
+            guidance.ArgMechanic,
             guidance.CanonicalPath,
             guidance.ArgTailKind,
             guidance.ReadyWire,

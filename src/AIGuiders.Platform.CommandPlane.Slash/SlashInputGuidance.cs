@@ -11,7 +11,7 @@ public sealed record SlashInputGuidance(
     string Placeholder,
     string Hint,
     InvocationLinePhase Phase,
-    InvocationArgMechanic? ArgMechanic = null,
+    ArgMechanic? ArgMechanic = null,
     string? CanonicalPath = null,
     string ArgTailKind = "",
     string? ReadyWire = null,
@@ -193,7 +193,7 @@ static class SlashInputGuidanceResolver
                 localeProfile?.InputPlaceholder ?? "Type value",
                 route.ArgHint ?? "Continue typing — prefix arms constructor or completes wire",
                 InvocationLinePhase.Arg,
-                InvocationArgMechanic.TypedInput,
+                ArgMechanic.TypedInput,
                 line.CanonicalPath,
                 argTailKind,
                 DisplayTail: partial);
@@ -210,7 +210,7 @@ static class SlashInputGuidanceResolver
                 localeProfile.InputPlaceholder,
                 route.ArgHint ?? "Type date in locale format",
                 InvocationLinePhase.Arg,
-                InvocationArgMechanic.TypedInput,
+                ArgMechanic.TypedInput,
                 line.CanonicalPath,
                 argTailKind,
                 DisplayTail: partial);
@@ -235,8 +235,8 @@ static class SlashInputGuidanceResolver
                                   ? "Pick a value or type locale date"
                                   : "Type to filter choices");
             var mechanic = partial.Length > 0 && hasConstructors
-                ? InvocationArgMechanic.TypedInput
-                : InvocationArgMechanic.Picker;
+                ? ArgMechanic.TypedInput
+                : ArgMechanic.Picker;
             return new SlashInputGuidance(
                 breadcrumb,
                 placeholder,
@@ -255,7 +255,7 @@ static class SlashInputGuidanceResolver
                 FormatFreeTextPlaceholder(route.ArgHint),
                 route.ArgHint ?? "Type the required argument and press Enter",
                 InvocationLinePhase.Arg,
-                InvocationArgMechanic.FreeText,
+                ArgMechanic.FreeText,
                 line.CanonicalPath,
                 argTailKind),
             CommandArgTailKind.Optional => new SlashInputGuidance(
@@ -263,7 +263,7 @@ static class SlashInputGuidanceResolver
                 route.ArgHint ?? "Optional argument — Enter to run",
                 route.ArgHint ?? "Add an argument or press Enter to run without it",
                 InvocationLinePhase.Arg,
-                InvocationArgMechanic.Optional,
+                ArgMechanic.Optional,
                 line.CanonicalPath,
                 argTailKind),
             _ => new SlashInputGuidance(

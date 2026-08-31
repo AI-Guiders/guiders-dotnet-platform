@@ -15,11 +15,11 @@ public static class ConstructorNavigatorGuidance
             var segment = leaf.Segments[segmentIndex];
             return new ArgInputGuidance(
                 InvocationLinePhase.Arg,
-                InvocationArgMechanic.Constructor,
+                ArgMechanic.Constructor,
                 segment.Label,
                 $"{slotLabel}: {segment.Label}",
                 draft.CanonicalPath,
-                nameof(InvocationArgMechanic.Constructor),
+                nameof(ArgMechanic.Constructor),
                 DisplayTail: draft.DisplayBuffer);
         }
 
@@ -31,18 +31,18 @@ public static class ConstructorNavigatorGuidance
                 "Press Enter to run",
                 draft.DisplayBuffer,
                 draft.CanonicalPath,
-                nameof(InvocationArgMechanic.Constructor),
+                nameof(ArgMechanic.Constructor),
                 wire,
                 draft.DisplayBuffer);
         }
 
         return new ArgInputGuidance(
             InvocationLinePhase.Arg,
-            InvocationArgMechanic.Constructor,
+            ArgMechanic.Constructor,
             profile?.InputPlaceholder ?? "Value",
             "Choose the next step",
             draft.CanonicalPath,
-            nameof(InvocationArgMechanic.Constructor),
+            nameof(ArgMechanic.Constructor),
             DisplayTail: draft.DisplayBuffer);
     }
 }

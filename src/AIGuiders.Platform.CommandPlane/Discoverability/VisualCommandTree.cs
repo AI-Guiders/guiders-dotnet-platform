@@ -1,14 +1,8 @@
 #nullable enable
 
-namespace AIGuiders.Platform.CommandPlane;
+using AIGuiders.Platform.IntermediateRepresentation.Invocation;
 
-/// <summary>Invocation engage that owns a capture stack / typed line (GUIDERS-ADR-0024).</summary>
-public enum VisualCommandTreeEngageKind
-{
-    MelodyChord,
-    SlashLine,
-    Constructor,
-}
+namespace AIGuiders.Platform.CommandPlane;
 
 /// <summary>Next-hop kind in a projected command tree.</summary>
 public enum VisualCommandTreeNodeKind
@@ -50,7 +44,8 @@ public sealed record VisualCommandTreeEdge(
 /// </summary>
 public sealed record VisualCommandTreeProjection(
     VisualCommandTreeViewMode ViewMode,
-    VisualCommandTreeEngageKind EngageKind,
+    InvocationEngageKind EngageKind,
+    ArgMechanic? ArgMechanic,
     IReadOnlyList<string> BreadcrumbSegments,
     string BreadcrumbDisplay,
     string ConsumedPrefix,
@@ -75,7 +70,8 @@ public static class VisualCommandTreeProjector
     public static VisualCommandTreeProjection ProjectCapture(
         IReadOnlyList<VisualCommandTreeFrame> frames,
         IVisualCommandTreeCatalog catalog,
-        VisualCommandTreeEngageKind engageKind = VisualCommandTreeEngageKind.MelodyChord,
+        InvocationEngageKind engageKind = InvocationEngageKind.Melody,
+        ArgMechanic? argMechanic = null,
         VisualCommandTreeViewMode viewMode = VisualCommandTreeViewMode.Neighborhood,
         int? optionLimit = null)
     {
@@ -102,12 +98,13 @@ public static class VisualCommandTreeProjector
         return new VisualCommandTreeProjection(
             viewMode,
             engageKind,
+            argMechanic,
             breadcrumbSegments,
             BuildBreadcrumbDisplay(breadcrumbSegments),
             current.ConsumedPrefix,
             Placeholder: "Continue input",
             NextStepHint: next.Length > 0 ? next[0].Hint ?? next[0].Label : "Continue",
-            InputMode: engageKind.ToString(),
+            InputMode: argMechanic?.ToString() ?? engageKind.ToString(),
             next,
             viewMode == VisualCommandTreeViewMode.Full ? filtered : null);
     }

@@ -59,7 +59,8 @@ public static class MelodyChordTreeProjector
         var projection = VisualCommandTreeProjector.ProjectCapture(
             frames,
             new MelodyCatalogAdapter(catalog),
-            VisualCommandTreeEngageKind.MelodyChord,
+            InvocationEngageKind.Melody,
+            argMechanic: null,
             ToShared(viewMode),
             optionLimit);
 

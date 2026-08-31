@@ -201,7 +201,7 @@ public sealed class CommandPlaneTests
         ]);
 
         var result = SlashCompletion.GetResult(catalog, "file open ");
-        Assert.Equal(InvocationArgMechanic.FreeText, result.Guidance.ArgMechanic);
+        Assert.Equal(ArgMechanic.FreeText, result.Guidance.ArgMechanic);
         Assert.Equal(InvocationLinePhase.Arg, result.Guidance.Phase);
         Assert.Contains("free text", result.Guidance.Placeholder, StringComparison.OrdinalIgnoreCase);
         Assert.Equal("Path relative to repo root", result.Guidance.Hint);
@@ -238,7 +238,7 @@ public sealed class CommandPlaneTests
         ]);
 
         var result = SlashCompletion.GetResult(catalog, "format mode ");
-        Assert.Equal(InvocationArgMechanic.Picker, result.Guidance.ArgMechanic);
+        Assert.Equal(ArgMechanic.Picker, result.Guidance.ArgMechanic);
         Assert.Equal(InvocationLinePhase.Arg, result.Guidance.Phase);
         Assert.Contains("format › mode", result.Guidance.Breadcrumb, StringComparison.OrdinalIgnoreCase);
     }
