@@ -22,7 +22,7 @@ Neutral DTOs only — no parsers, no index, no surface projectors.
 ```text
 IntermediateRepresentation.Argument     profile, slots, NormalizedArguments, reader ids
 IntermediateRepresentation.Keyboard     NormalizedKeySequence + step records
-IntermediateRepresentation.Invocation   NormalizedCommandLine
+IntermediateRepresentation.Invocation   NormalizedCommandLine, InvocationLinePhase, InvocationArgMechanic
 IntermediateRepresentation.Bracket      bracket wire IR (profiles, axes, NormalizedBracketWire)
 IntermediateRepresentation.Command      command catalog descriptors + route rows
 IntermediateRepresentation.Binding      binding descriptors + entries
@@ -83,5 +83,5 @@ LanguageIntelligence.Anchors → IR.Language + BracketAnchorWire parse/format
 
 ## Non-goals
 
-- Renaming `SlashConstructorBinding` → `CommandConstructorBinding` (cosmetic; optional later ADR).
+- Renaming `ArgConstructorBinding` → `CommandConstructorBinding` (cosmetic; optional later ADR).
 - Moving `IntentOutcome` out of `Abstractions` (cross-plane execute result; envelope wraps it).

@@ -9,14 +9,14 @@
 
 ## Context
 
-[GUIDERS-ADR-0012](GUIDERS-ADR-0012-arg-picker-completion.md) covers **closed** arg pickers (`picker:enum:*`, `picker:<id>` + `ICommandPickerChoiceSource`). Surfaces enter `SlashInputMode.Picker` and the user chooses a finished wire token.
+[GUIDERS-ADR-0012](GUIDERS-ADR-0012-arg-picker-completion.md) covers **closed** arg pickers (`picker:enum:*`, `picker:<id>` + `ICommandPickerChoiceSource`). Surfaces enter `ArgInputMode.Picker` and the user chooses a finished wire token.
 
 Many commands need **typed values** that are not a small enum:
 
 - calendar date / date range (`2026-08-01..2026-08-31`)
 - durations, numeric bounds, structured tails
 
-Today the fallback is `SlashInputMode.FreeText` with an `ArgHint` (“type YYYY-MM-DD…”). That forces the user to remember product wire grammar and locale-agnostic formats. DashSpec date filters illustrate the gap: presets (`today`, `last-week`) appear in the picker, but range construction is documented only in hints while the executor already accepts `from..to`.
+Today the fallback is `ArgInputMode.FreeText` with an `ArgHint` (“type YYYY-MM-DD…”). That forces the user to remember product wire grammar and locale-agnostic formats. DashSpec date filters illustrate the gap: presets (`today`, `last-week`) appear in the picker, but range construction is documented only in hints while the executor already accepts `from..to`.
 
 We need a **third arg-step mechanic** between picker and free text: **value constructor** — guided assembly of a canonical wire value with human-friendly display.
 
@@ -31,10 +31,10 @@ Related: ephemeral slash UI state (draft tail, highlight targets) MUST stay isol
 When the command path is complete and `ArgTail` allows construction, the user sees an **arg entry menu** — not only enum presets:
 
 ```text
-Arg entry (SlashInputMode.Picker + escape hatches)
+Arg entry (ArgInputMode.Picker + escape hatches)
 ├── today, last-week, …          ← preset Value rows (instant wire)
 ├── Range                          ← root Constructor row → enters tree
-└── (implicit) Free text           ← SlashInputMode.FreeText; user types wire directly
+└── (implicit) Free text           ← ArgInputMode.FreeText; user types wire directly
 ```
 
 | Row | Mode after accept | Result |
@@ -93,7 +93,7 @@ Static presets remain `ArgPickerChoices`. Platform injects **virtual constructor
 
 | Layer | Owns |
 |-------|------|
-| **Platform** | `SlashInputMode.Constructor`, constructor session, **tree navigation**, leaf step suggestions, wire emission, conformance vectors |
+| **Platform** | `ArgInputMode.Constructor`, constructor session, **tree navigation**, leaf step suggestions, wire emission, conformance vectors |
 | **Product** | Constructor **catalog** (composite + leaf defs), reusable child constructors (`date`, `date_range`), display locale |
 | **Surface** | Popover/table chrome, accept-key, breadcrumb rendering — unchanged (ADR-0009) |
 
@@ -106,10 +106,10 @@ Catalog descriptor
         ▼
 SlashStepCompletion / SlashArgCompletion
   ├─ Arg entry: presets + root constructors + FreeText escape
-  └─ Constructor row accepted → SlashConstructorSession (tree cursor)
+  └─ Constructor row accepted → ArgConstructorSession (tree cursor)
         │
         ▼
-SlashValueConstructorNavigator (platform)
+ValueConstructorNavigator (platform)
   composite node → enter child slot
   leaf node → pick segment (year / month / day)
         │
@@ -141,28 +141,28 @@ Guidance while in `Constructor`:
 Two node shapes in one registry:
 
 ```csharp
-public interface ISlashValueConstructorRegistry
+public interface IValueConstructorRegistry
 {
-    bool TryGet(string constructorId, out SlashConstructorDefinition definition);
+    bool TryGet(string constructorId, out ConstructorDefinition definition);
 }
 
-public abstract record SlashConstructorDefinition(string Id, string? Label);
+public abstract record ConstructorDefinition(string Id, string? Label);
 
 /// <summary>Ordered leaf segments (Year, Month, Day).</summary>
-public sealed record SlashLeafConstructorDefinition(
+public sealed record LeafConstructorDefinition(
     string Id,
     string? Label,
-    IReadOnlyList<SlashConstructorSegmentDefinition> Segments)
-    : SlashConstructorDefinition(Id, Label);
+    IReadOnlyList<ConstructorSegmentDefinition> Segments)
+    : ConstructorDefinition(Id, Label);
 
 /// <summary>Child slots + separators (Range).</summary>
-public sealed record SlashCompositeConstructorDefinition(
+public sealed record CompositeConstructorDefinition(
     string Id,
     string? Label,
-    IReadOnlyList<SlashConstructorSlotDefinition> Slots)
-    : SlashConstructorDefinition(Id, Label);
+    IReadOnlyList<ConstructorSlotDefinition> Slots)
+    : ConstructorDefinition(Id, Label);
 
-public sealed record SlashConstructorSlotDefinition(
+public sealed record ConstructorSlotDefinition(
     string SlotId,
     string ConstructorId,
     string? Label,
@@ -172,15 +172,15 @@ public sealed record SlashConstructorSlotDefinition(
 Platform tree walk:
 
 ```csharp
-public interface ISlashValueConstructorNavigator
+public interface IValueConstructorNavigator
 {
-    IReadOnlyList<SlashCompletionItem> GetSuggestions(
-        SlashConstructorDraft draft,
+    IReadOnlyList<ArgCompletionItem> GetSuggestions(
+        ArgConstructorDraft draft,
         string partial);
 
-    bool TryAdvance(SlashConstructorDraft draft, string pickedSegment, out SlashConstructorDraft next);
+    bool TryAdvance(ArgConstructorDraft draft, string pickedSegment, out ArgConstructorDraft next);
 
-    bool TryEmitWire(SlashConstructorDraft draft, out string wireValue, out string? error);
+    bool TryEmitWire(ArgConstructorDraft draft, out string wireValue, out string? error);
 }
 ```
 
@@ -222,7 +222,7 @@ Shared `date` leaf — reused under range, single-date, and grain-truncated vari
 Platform stores both in draft:
 
 ```csharp
-public sealed class SlashConstructorDraft
+public sealed class ArgConstructorDraft
 {
     public string RootConstructorId { get; init; }
     public IReadOnlyList<string> NodePath { get; set; }  // e.g. ["from"] → ["to"]
@@ -233,11 +233,11 @@ public sealed class SlashConstructorDraft
 }
 ```
 
-Surfaces render `DisplayBuffer` in the input / breadcrumb; completion rows show localized labels. **`TryEmitWire`** is the only gate to `SlashInputMode.Ready`.
+Surfaces render `DisplayBuffer` in the input / breadcrumb; completion rows show localized labels. **`TryEmitWire`** is the only gate to `ArgInputMode.Ready`.
 
 Configurable `displayFormat` is a **product/catalog** concern (BCP 47 / .NET format string). Platform passes it through descriptors; default step labels are product-localized.
 
-Per-segment zero-padding (e.g. ISO month/day) is declared on `SlashConstructorSegmentDefinition` via optional `WireMinWidth` / `DisplayMinWidth`. Platform applies padding when emitting wire/display; no domain-specific segment ids in navigator code.
+Per-segment zero-padding (e.g. ISO month/day) is declared on `ConstructorSegmentDefinition` via optional `WireMinWidth` / `DisplayMinWidth`. Platform applies padding when emitting wire/display; no domain-specific segment ids in navigator code.
 
 ### 6. Virtual picker rows
 
@@ -255,13 +255,13 @@ public sealed class CommandPickerChoice
 public enum CommandPickerChoiceKind
 {
     Value,        // commits wire token (ADR-0012)
-    Constructor,  // opens SlashConstructorSession; Value = constructor id
+    Constructor,  // opens ArgConstructorSession; Value = constructor id
 }
 ```
 
 `SlashArgCompletion` merges static choices + virtual constructor rows from descriptor. Filter partial against `Label`/`Hint` only for `Value` rows; constructor rows always visible at tail unless filtered by label.
 
-### 7. Session isolation (`SlashConstructorSession`)
+### 7. Session isolation (`ArgConstructorSession`)
 
 Constructor state is **ephemeral surface state** (scoped per host circuit / editor session):
 
@@ -278,15 +278,15 @@ SlashCompletionResult GetResult(
     CommandCatalogIndex catalog,
     string body,
     ICommandPickerChoiceSource? pickerSource,
-    ISlashValueConstructorRegistry? constructors,
-    SlashConstructorSession? constructorSession);
+    IValueConstructorRegistry? constructors,
+    ArgConstructorSession? constructorSession);
 ```
 
 When `constructorSession.IsActive`, platform skips path/picker phases and delegates to `GetStepSuggestions`.
 
 ### 8. Completion items in constructor phase
 
-Reuse `SlashCompletionItem` with `Kind = ConstructorStep` (new) or `Picker`:
+Reuse `ArgCompletionItem` with `Kind = ConstructorStep` (new) or `Picker`:
 
 - `InsertText` — append display segment + trailing space when step completes
 - `PickValue` — wire segment fragment
@@ -325,7 +325,7 @@ Platform CI runs vectors headless; DashSpec/Forge adapters add product-specific 
 
 | Wave | Scope |
 |------|-------|
-| **W1 platform** | ADR + types (`SlashConstructorDraft`, `ISlashValueConstructor`, registry), `SlashInputMode.Constructor`, virtual picker rows, unit tests |
+| **W1 platform** | ADR + types (`ArgConstructorDraft`, `ISlashValueConstructor`, registry), `ArgInputMode.Constructor`, virtual picker rows, unit tests |
 | **W1a conformance** | `slash-value-constructor.spec.json` + `SlashSpecConformance` hook |
 | **W2 DashSpec** | `DateRangeValueConstructor`, composite `picker+constructor` on date filters, CCL UX |
 | **W3 session lift** | Generic `SlashCommandSession<TProjection>` + constructor session merge (optional refactor) |

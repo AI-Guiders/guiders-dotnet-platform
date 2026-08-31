@@ -462,7 +462,7 @@ Platform resolve начинается после strip/peel/tunnel — engage н
 |--------|---------------|-----------|
 | Melody chord | `MelodyCaptureStack` | `MelodyChordTreeProjector` |
 | Slash / CCL | typed line + mode | `SlashVisualCommandTreeProjector` |
-| Constructor | `SlashConstructorSession` | slash projector (`EngageKind = Constructor`) |
+| Constructor | `ArgConstructorSession` | slash projector (`EngageKind = Constructor`) |
 
 **Shared DTO:** `VisualCommandTreeProjection` — breadcrumb, placeholder, next hops, view mode (Minimal / Neighborhood / Full).
 

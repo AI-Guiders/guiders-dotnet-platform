@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.LanguageIntelligence.Markup</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.LanguageIntelligence.Markup</AssemblyName>
+    <PackageId>AIGuiders.Platform.LanguageIntelligence.Markup</PackageId>
+    <Description>Text dialects and insert transforms (GUIDERS-ADR-0025 P1, ADR-0043).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Command\AIGuiders.Platform.IntermediateRepresentation.Command.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.LanguageIntelligence.Line\AIGuiders.Platform.LanguageIntelligence.Line.csproj" />
+  </ItemGroup>
+</Project>

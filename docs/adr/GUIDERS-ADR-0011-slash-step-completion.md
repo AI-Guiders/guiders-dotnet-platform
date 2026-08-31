@@ -12,7 +12,7 @@
 
 | Layer | Owns |
 |-------|------|
-| **Platform** | `SlashStepCompletion.GetSuggestions`, `SlashCompletionItem`, snapshot over `CommandCatalogIndex`, `DomainOmittedInPath` / alias paths |
+| **Platform** | `SlashStepCompletion.GetSuggestions`, `ArgCompletionItem`, snapshot over `CommandCatalogIndex`, `DomainOmittedInPath` / alias paths |
 | **Product adapter** | Build `CommandCatalogIndex` from TOML, capabilities, bundled descriptors |
 | **Surface** | Tab/Enter policy, popover chrome, debounced fetch (`GET /commands/complete`) |
 

@@ -132,7 +132,7 @@ public sealed class CommandPlaneTests
 
         var items = SlashStepCompletion.GetSuggestions(catalog, "format mode ");
         Assert.Equal(2, items.Count);
-        Assert.All(items, item => Assert.Equal(SlashCompletionItemKind.Picker, item.Kind));
+        Assert.All(items, item => Assert.Equal(ArgCompletionItemKind.Picker, item.Kind));
         Assert.Contains(items, item => item.PickValue == "md");
 
         var filtered = SlashStepCompletion.GetSuggestions(catalog, "format mode h");
@@ -201,7 +201,8 @@ public sealed class CommandPlaneTests
         ]);
 
         var result = SlashCompletion.GetResult(catalog, "file open ");
-        Assert.Equal(SlashInputMode.FreeText, result.Guidance.Mode);
+        Assert.Equal(InvocationArgMechanic.FreeText, result.Guidance.ArgMechanic);
+        Assert.Equal(InvocationLinePhase.Arg, result.Guidance.Phase);
         Assert.Contains("free text", result.Guidance.Placeholder, StringComparison.OrdinalIgnoreCase);
         Assert.Equal("Path relative to repo root", result.Guidance.Hint);
     }
@@ -218,7 +219,7 @@ public sealed class CommandPlaneTests
         ]);
 
         var result = SlashCompletion.GetResult(catalog, "help");
-        Assert.Equal(SlashInputMode.Ready, result.Guidance.Mode);
+        Assert.Equal(InvocationLinePhase.Ready, result.Guidance.Phase);
         Assert.Contains("Enter", result.Guidance.Placeholder, StringComparison.OrdinalIgnoreCase);
     }
 
@@ -237,7 +238,8 @@ public sealed class CommandPlaneTests
         ]);
 
         var result = SlashCompletion.GetResult(catalog, "format mode ");
-        Assert.Equal(SlashInputMode.Picker, result.Guidance.Mode);
+        Assert.Equal(InvocationArgMechanic.Picker, result.Guidance.ArgMechanic);
+        Assert.Equal(InvocationLinePhase.Arg, result.Guidance.Phase);
         Assert.Contains("format › mode", result.Guidance.Breadcrumb, StringComparison.OrdinalIgnoreCase);
     }
 

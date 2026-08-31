@@ -13,27 +13,28 @@ public sealed class VisualCommandTreeSlashProjectionTests
     {
         var result = new SlashCompletionResult(
             [
-                new SlashCompletionItem(
+                new ArgCompletionItem(
                     "select filter usage_date ",
                     "select filter usage_date",
                     "Date filter",
                     "Filter",
                     "usage_date",
-                    SlashCompletionItemKind.Segment),
-                new SlashCompletionItem(
+                    ArgCompletionItemKind.Segment),
+                new ArgCompletionItem(
                     "",
                     "select filter usage_date",
                     "Сегодня",
                     "Filter",
                     "Сегодня",
-                    SlashCompletionItemKind.ConstructorEntry,
+                    ArgCompletionItemKind.ConstructorEntry,
                     "date_today"),
             ],
             new SlashInputGuidance(
-                SlashInputMode.Picker,
                 "/select › filter › usage_date",
                 "Pick a value",
                 "Choose a value — Tab to insert",
+                InvocationLinePhase.Arg,
+                InvocationArgMechanic.Picker,
                 "select filter usage_date",
                 nameof(CommandArgTailKind.Picker)));
 
@@ -53,16 +54,17 @@ public sealed class VisualCommandTreeSlashProjectionTests
         var result = new SlashCompletionResult(
             [],
             new SlashInputGuidance(
-                SlashInputMode.Constructor,
                 "/select filter usage_date › Дата (с) › 31.08.",
                 "Год",
                 "Дата (с): Год",
+                InvocationLinePhase.Arg,
+                InvocationArgMechanic.Constructor,
                 "select filter usage_date",
-                nameof(SlashInputMode.Constructor)));
+                nameof(InvocationArgMechanic.Constructor)));
 
         var projection = SlashVisualCommandTreeProjector.Project(result);
 
         Assert.Equal(VisualCommandTreeEngageKind.Constructor, projection.EngageKind);
-        Assert.Equal(nameof(SlashInputMode.Constructor), projection.InputMode);
+        Assert.Equal(nameof(InvocationArgMechanic.Constructor), projection.InputMode);
     }
 }

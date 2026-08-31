@@ -7,7 +7,7 @@ Machine-readable vectors in `*.spec.json` are the **SSOT** for cross-ecosystem s
 | In conformance | Out of conformance |
 |----------------|-------------------|
 | Path-step peel, static picker filter, dynamic `picker:<id>` via **stubs** | Product `commandId` / ship catalog |
-| `SlashCompletionItem` shape + sort order | HTTP suggest transport, ACL, DB |
+| `ArgCompletionItem` shape + sort order | HTTP suggest transport, ACL, DB |
 | `SlashInputGuidance` mode / hint / placeholder | Surface popover chrome |
 
 Fixture catalogs use `fixture.*` command ids only.

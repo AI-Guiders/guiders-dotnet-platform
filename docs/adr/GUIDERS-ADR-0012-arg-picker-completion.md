@@ -51,7 +51,7 @@ Product examples: `picker:dash.field.app` → distinct values; Forge may keep HT
 
 ### 4. Wire / HTTP
 
-`SlashCompletionItem` gains `Kind` + `PickValue`. Existing JSON fields remain; surfaces MAY render picker rows differently when `kind = picker`.
+`ArgCompletionItem` gains `Kind` + `PickValue`. Existing JSON fields remain; surfaces MAY render picker rows differently when `kind = picker`.
 
 `CatalogRouteEntry` carries `ArgTail`, `ArgPickerChoices`, and `ArgHint` from descriptor.
 

@@ -33,7 +33,7 @@ Melody chord mode ([ADR-0015](GUIDERS-ADR-0015-invocation-mechanics-slash-melody
 |--------|---------------|----------------|-------------------|
 | **Melody chord** | `MelodyCaptureStack` | `IMelodyGraphCatalog` (trie) | `MelodyChordTreeProjector` → shared core |
 | **Slash / CCL** | typed line + mode | `SlashCompletionResult` | `SlashVisualCommandTreeProjector` |
-| **Constructor** | `SlashConstructorSession` | segment provider | slash projector (`EngageKind = Constructor`) |
+| **Constructor** | `ArgConstructorSession` | segment provider | slash projector (`EngageKind = Constructor`) |
 
 Native surfaces (Glass, Blazor, WPF) consume **`VisualCommandTreeProjection`** only — no product-specific peel logic.
 
@@ -72,7 +72,7 @@ Same catalog SSOT; three projections ([ADR-0015](GUIDERS-ADR-0015-invocation-mec
 
 `SlashVisualCommandTreeProjector` maps:
 
-| `SlashCompletionItemKind` | `VisualCommandTreeNodeKind` |
+| `ArgCompletionItemKind` | `VisualCommandTreeNodeKind` |
 |---------------------------|----------------------------|
 | `Segment` | `Segment` |
 | `Picker` | `Picker` |

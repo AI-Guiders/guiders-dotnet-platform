@@ -7,65 +7,65 @@ using Xunit;
 
 namespace AIGuiders.Platform.Tests;
 
-public sealed class SlashLocaleDateParserTests
+public sealed class LocaleDateParserTests
 {
-    static readonly SlashLocaleInputProfile RuProfile =
-        SlashLocaleInputProfile.FromCulture(CultureInfo.GetCultureInfo("ru-RU"));
+    static readonly LocaleInputProfile RuProfile =
+        LocaleInputProfile.FromCulture(CultureInfo.GetCultureInfo("ru-RU"));
 
     [Fact]
     public void TryParse_complete_ru_date_emits_day_wire()
     {
-        Assert.True(SlashLocaleDateParser.TryParse("31.08.2026", RuProfile, out var parts, out var completeness));
-        Assert.Equal(SlashLocaleDateCompleteness.CompleteDate, completeness);
-        Assert.True(SlashLocaleDateParser.TryToDayWire(parts, out var wire));
+        Assert.True(LocaleDateParser.TryParse("31.08.2026", RuProfile, out var parts, out var completeness));
+        Assert.Equal(LocaleDateCompleteness.CompleteDate, completeness);
+        Assert.True(LocaleDateParser.TryToDayWire(parts, out var wire));
         Assert.Equal("2026-08-31", wire);
     }
 
     [Fact]
     public void TryParse_month_year_ru_emits_month_wire()
     {
-        Assert.True(SlashLocaleDateParser.TryParse("08.2026", RuProfile, out var parts, out var completeness));
-        Assert.Equal(SlashLocaleDateCompleteness.MonthYear, completeness);
-        Assert.True(SlashLocaleDateParser.TryToMonthWire(parts, out var wire));
+        Assert.True(LocaleDateParser.TryParse("08.2026", RuProfile, out var parts, out var completeness));
+        Assert.Equal(LocaleDateCompleteness.MonthYear, completeness);
+        Assert.True(LocaleDateParser.TryToMonthWire(parts, out var wire));
         Assert.Equal("2026-08", wire);
     }
 
     [Fact]
     public void TryParse_range_ru_emits_range_wire()
     {
-        Assert.True(SlashLocaleDateParser.TryParse(
+        Assert.True(LocaleDateParser.TryParse(
             "31.08.2026 .. 15.09.2026",
             RuProfile,
             out var parts,
             out var completeness));
-        Assert.Equal(SlashLocaleDateCompleteness.CompleteRange, completeness);
-        Assert.True(SlashLocaleDateParser.TryToRangeWire(parts, out var wire));
+        Assert.Equal(LocaleDateCompleteness.CompleteRange, completeness);
+        Assert.True(LocaleDateParser.TryToRangeWire(parts, out var wire));
         Assert.Equal("2026-08-31..2026-09-15", wire);
     }
 
     [Fact]
     public void Profile_from_en_us_uses_ambient_pattern()
     {
-        var profile = SlashLocaleInputProfile.FromCulture(CultureInfo.GetCultureInfo("en-US"));
+        var profile = LocaleInputProfile.FromCulture(CultureInfo.GetCultureInfo("en-US"));
         Assert.Contains('/', profile.ShortDatePattern);
     }
 }
 
 public sealed class PrefixArmCoordinatorTests
 {
-    static readonly SlashLocaleInputProfile RuProfile =
-        SlashLocaleInputProfile.FromCulture(CultureInfo.GetCultureInfo("ru-RU"));
+    static readonly LocaleInputProfile RuProfile =
+        LocaleInputProfile.FromCulture(CultureInfo.GetCultureInfo("ru-RU"));
 
     static readonly IPrefixArmProfile DateProfile =
-        new SlashLocaleDatePrefixArmProfile(new SlashCultureAmbient(CultureInfo.GetCultureInfo("ru-RU")));
+        new LocaleDatePrefixArmProfile(new CultureAmbient(CultureInfo.GetCultureInfo("ru-RU")));
 
     [Fact]
     public void Coordinator_ready_on_complete_locale_date()
     {
         var registry = BuildDateRegistry();
-        var navigator = new SlashValueConstructorNavigator(registry, new StubSegmentProvider());
+        var navigator = new ValueConstructorNavigator(registry, new StubSegmentProvider());
         var coordinator = new PrefixArmCoordinator(navigator, registry);
-        var session = new SlashConstructorSession(navigator);
+        var session = new ArgConstructorSession(navigator);
         var catalog = CommandCatalogIndex.FromDescriptors([
             new CommandDescriptor
             {
@@ -77,8 +77,8 @@ public sealed class PrefixArmCoordinatorTests
                 ArgTail = "picker+constructor:+date_month+date_range",
                 ArgConstructors =
                 [
-                    new SlashConstructorBinding("date_month", "Month", "Month grain"),
-                    new SlashConstructorBinding("date_range", "Range", "Date range"),
+                    new ArgConstructorBinding("date_month", "Month", "Month grain"),
+                    new ArgConstructorBinding("date_range", "Range", "Date range"),
                 ],
             },
         ]);
@@ -106,9 +106,9 @@ public sealed class PrefixArmCoordinatorTests
     public void Coordinator_ready_on_complete_month_year_locale()
     {
         var registry = BuildDateRegistry();
-        var navigator = new SlashValueConstructorNavigator(registry, new StubSegmentProvider());
+        var navigator = new ValueConstructorNavigator(registry, new StubSegmentProvider());
         var coordinator = new PrefixArmCoordinator(navigator, registry);
-        var session = new SlashConstructorSession(navigator);
+        var session = new ArgConstructorSession(navigator);
         var catalog = CommandCatalogIndex.FromDescriptors([
             new CommandDescriptor
             {
@@ -118,7 +118,7 @@ public sealed class PrefixArmCoordinatorTests
                 CommandId = "select.date",
                 Path = "select filter usage_date",
                 ArgTail = "picker+constructor:+date_month",
-                ArgConstructors = [new SlashConstructorBinding("date_month", "Month", "Month grain")],
+                ArgConstructors = [new ArgConstructorBinding("date_month", "Month", "Month grain")],
             },
         ]);
 
@@ -141,10 +141,10 @@ public sealed class PrefixArmCoordinatorTests
     [Fact]
     public void Mock_profile_ready_when_prefix_matches()
     {
-        var registry = new SlashValueConstructorRegistry();
-        var navigator = new SlashValueConstructorNavigator(registry, new StubSegmentProvider());
+        var registry = new ValueConstructorRegistry();
+        var navigator = new ValueConstructorNavigator(registry, new StubSegmentProvider());
         var coordinator = new PrefixArmCoordinator(navigator, registry);
-        var session = new SlashConstructorSession(navigator);
+        var session = new ArgConstructorSession(navigator);
         var site = PrefixArmSite.FromBindings([], null, "Echo", "required");
 
         Assert.True(coordinator.TryHandle(
@@ -176,54 +176,54 @@ public sealed class PrefixArmCoordinatorTests
         }
     }
 
-    static SlashValueConstructorRegistry BuildDateRegistry()
+    static ValueConstructorRegistry BuildDateRegistry()
     {
-        var registry = new SlashValueConstructorRegistry();
-        registry.Register(new SlashLeafConstructorDefinition(
+        var registry = new ValueConstructorRegistry();
+        registry.Register(new LeafConstructorDefinition(
             "month_grain",
             "Month",
             [
-                new SlashConstructorSegmentDefinition("year", "Year"),
-                new SlashConstructorSegmentDefinition("month", "Month", WireMinWidth: 2, DisplayMinWidth: 2),
+                new ConstructorSegmentDefinition("year", "Year"),
+                new ConstructorSegmentDefinition("month", "Month", WireMinWidth: 2, DisplayMinWidth: 2),
             ],
             WirePattern: "{year}-{month}",
             DisplayPattern: "{month}.{year}"));
 
-        registry.Register(new SlashCompositeConstructorDefinition(
+        registry.Register(new CompositeConstructorDefinition(
             "date_month",
             "Month",
-            [new SlashConstructorSlotDefinition("value", "month_grain", "Month")],
+            [new ConstructorSlotDefinition("value", "month_grain", "Month")],
             WirePattern: "{value}"));
 
-        registry.Register(new SlashLeafConstructorDefinition(
+        registry.Register(new LeafConstructorDefinition(
             "date",
             "Date",
             [
-                new SlashConstructorSegmentDefinition("year", "Year"),
-                new SlashConstructorSegmentDefinition("month", "Month", WireMinWidth: 2, DisplayMinWidth: 2),
-                new SlashConstructorSegmentDefinition("day", "Day", WireMinWidth: 2, DisplayMinWidth: 2),
+                new ConstructorSegmentDefinition("year", "Year"),
+                new ConstructorSegmentDefinition("month", "Month", WireMinWidth: 2, DisplayMinWidth: 2),
+                new ConstructorSegmentDefinition("day", "Day", WireMinWidth: 2, DisplayMinWidth: 2),
             ],
             WirePattern: "{year}-{month}-{day}",
             DisplayPattern: "{day}.{month}.{year}"));
 
-        registry.Register(new SlashCompositeConstructorDefinition(
+        registry.Register(new CompositeConstructorDefinition(
             "date_range",
             "Range",
             [
-                new SlashConstructorSlotDefinition("from", "date", "From"),
-                new SlashConstructorSlotDefinition("to", "date", "To", SeparatorBefore: ".."),
+                new ConstructorSlotDefinition("from", "date", "From"),
+                new ConstructorSlotDefinition("to", "date", "To", SeparatorBefore: ".."),
             ],
             WirePattern: "{from}..{to}"));
 
         return registry;
     }
 
-    sealed class StubSegmentProvider : ISlashConstructorSegmentProvider
+    sealed class StubSegmentProvider : IConstructorSegmentProvider
     {
-        public IReadOnlyList<SlashCompletionItem> GetSegmentSuggestions(
-            SlashLeafConstructorDefinition leaf,
+        public IReadOnlyList<ArgCompletionItem> GetSegmentSuggestions(
+            LeafConstructorDefinition leaf,
             int segmentIndex,
-            SlashConstructorDraft draft,
+            ArgConstructorDraft draft,
             string partial) => [];
     }
 }

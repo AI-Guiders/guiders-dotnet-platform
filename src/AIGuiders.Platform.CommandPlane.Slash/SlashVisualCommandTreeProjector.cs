@@ -13,7 +13,7 @@ public static class SlashVisualCommandTreeProjector
         ArgumentNullException.ThrowIfNull(result);
 
         var guidance = result.Guidance;
-        var engageKind = guidance.Mode == SlashInputMode.Constructor
+        var engageKind = guidance.Phase == InvocationLinePhase.Arg && guidance.ArgMechanic == InvocationArgMechanic.Constructor
             ? VisualCommandTreeEngageKind.Constructor
             : VisualCommandTreeEngageKind.SlashLine;
 
@@ -30,12 +30,12 @@ public static class SlashVisualCommandTreeProjector
             ConsumedPrefix: ExtractConsumedPrefix(guidance.Breadcrumb),
             guidance.Placeholder,
             guidance.Hint,
-            guidance.Mode.ToString(),
+            guidance.Mode,
             next,
             viewMode == VisualCommandTreeViewMode.Full ? edges : null);
     }
 
-    static VisualCommandTreeEdge ToEdge(SlashCompletionItem item)
+    static VisualCommandTreeEdge ToEdge(ArgCompletionItem item)
     {
         var label = item.StepSegment
                     ?? item.PickValue
@@ -43,9 +43,9 @@ public static class SlashVisualCommandTreeProjector
                     ?? item.InsertText;
         var kind = item.Kind switch
         {
-            SlashCompletionItemKind.ConstructorEntry => VisualCommandTreeNodeKind.ConstructorEntry,
-            SlashCompletionItemKind.ConstructorStep => VisualCommandTreeNodeKind.ConstructorStep,
-            SlashCompletionItemKind.Picker => VisualCommandTreeNodeKind.Picker,
+            ArgCompletionItemKind.ConstructorEntry => VisualCommandTreeNodeKind.ConstructorEntry,
+            ArgCompletionItemKind.ConstructorStep => VisualCommandTreeNodeKind.ConstructorStep,
+            ArgCompletionItemKind.Picker => VisualCommandTreeNodeKind.Picker,
             _ => VisualCommandTreeNodeKind.Segment,
         };
 

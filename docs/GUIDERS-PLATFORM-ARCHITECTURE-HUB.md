@@ -462,7 +462,7 @@ Platform resolve starts after strip/peel/tunnel — engage is not a Core type.
 |--------|---------------|-----------|
 | Melody chord | `MelodyCaptureStack` | `MelodyChordTreeProjector` |
 | Slash / CCL | typed line + mode | `SlashVisualCommandTreeProjector` |
-| Constructor | `SlashConstructorSession` | slash projector (`EngageKind = Constructor`) |
+| Constructor | `ArgConstructorSession` | slash projector (`EngageKind = Constructor`) |
 
 **Shared DTO:** `VisualCommandTreeProjection` — breadcrumb, placeholder, next hops, view mode (Minimal / Neighborhood / Full).
 

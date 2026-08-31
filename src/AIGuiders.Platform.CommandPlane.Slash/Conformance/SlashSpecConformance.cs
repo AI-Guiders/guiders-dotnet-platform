@@ -62,7 +62,7 @@ public static class SlashSpecConformance
 
     static bool TryValidateSuggestions(
         SlashSpecSuggestionsExpectation expect,
-        IReadOnlyList<SlashCompletionItem> actual,
+        IReadOnlyList<ArgCompletionItem> actual,
         out string error)
     {
         error = "";
@@ -108,7 +108,7 @@ public static class SlashSpecConformance
         return true;
     }
 
-    static bool ItemsEqual(SlashSpecCompletionItem expected, SlashCompletionItem actual, out string error)
+    static bool ItemsEqual(SlashSpecCompletionItem expected, ArgCompletionItem actual, out string error)
     {
         error = "";
 
@@ -164,7 +164,7 @@ public static class SlashSpecConformance
     {
         error = "";
 
-        if (!string.Equals(expect.Mode, actual.Mode.ToString(), StringComparison.OrdinalIgnoreCase))
+        if (!string.Equals(expect.Mode, actual.Mode, StringComparison.OrdinalIgnoreCase))
         {
             error = $"mode expected {expect.Mode}, got {actual.Mode}.";
             return false;

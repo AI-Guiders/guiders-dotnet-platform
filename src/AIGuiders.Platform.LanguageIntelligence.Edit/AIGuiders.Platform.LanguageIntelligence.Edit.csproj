@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.LanguageIntelligence.Edit</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.LanguageIntelligence.Edit</AssemblyName>
+    <PackageId>AIGuiders.Platform.LanguageIntelligence.Edit</PackageId>
+    <Description>Editor buffer context and command registry (GUIDERS-ADR-0025 P1, ADR-0043).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.LanguageIntelligence.Line\AIGuiders.Platform.LanguageIntelligence.Line.csproj" />
+  </ItemGroup>
+</Project>

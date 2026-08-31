@@ -16,10 +16,10 @@ public readonly record struct CatalogRouteEntry(
     string ArgTail = "",
     IReadOnlyList<CommandPickerChoice>? ArgPickerChoices = null,
     string? ArgHint = null,
-    IReadOnlyList<SlashConstructorBinding>? ArgConstructors = null)
+    IReadOnlyList<ArgConstructorBinding>? ArgConstructors = null)
 {
     public IReadOnlyList<CommandPickerChoice> ResolvedPickerChoices => ArgPickerChoices ?? [];
-    public IReadOnlyList<SlashConstructorBinding> ResolvedConstructors => ArgConstructors ?? [];
+    public IReadOnlyList<ArgConstructorBinding> ResolvedConstructors => ArgConstructors ?? [];
 
     public static CatalogRouteEntry FromDescriptor(CommandDescriptor d, string path) =>
         FromDescriptor(d, path, ResolvePathRole(d, path));

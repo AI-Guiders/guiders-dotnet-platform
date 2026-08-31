@@ -90,5 +90,6 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Language.CSharp.Symbols\AIGuiders.Platform.Language.CSharp.Symbols.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Bracket\AIGuiders.Platform.Notations.Bracket.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.MCPlane\AIGuiders.Platform.MCPlane.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.LanguageIntelligence.Bundled\AIGuiders.Platform.LanguageIntelligence.Bundled.csproj" />
   </ItemGroup>
 </Project>

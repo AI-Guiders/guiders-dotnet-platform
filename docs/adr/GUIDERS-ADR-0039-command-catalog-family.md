@@ -61,7 +61,7 @@ var catalog = CommandCatalogComposer.Build(
 ### 5. Non-goals
 
 - No transitional type-forwards or `[Obsolete]` aliases — clean rename in platform + consumers in the same wave.
-- Slash UI types (`SlashCompletionItem.SlashPath`, conformance JSON `slashPath`) stay slash-surface shaped.
+- Slash UI types (`ArgCompletionItem.SlashPath`, conformance JSON `slashPath`) stay slash-surface shaped.
 
 ## Consequences
 

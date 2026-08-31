@@ -23,7 +23,7 @@ public sealed class CommandDescriptor
     public ArgumentNotationProfile? ArgumentNotation { get; init; }
     public string? ArgHint { get; init; }
     public IReadOnlyList<CommandPickerChoice> ArgPickerChoices { get; init; } = [];
-    public IReadOnlyList<SlashConstructorBinding> ArgConstructors { get; init; } = [];
+    public IReadOnlyList<ArgConstructorBinding> ArgConstructors { get; init; } = [];
     public IReadOnlyList<string> Surfaces { get; init; } = [];
     public IReadOnlyList<string> RequiredCapabilities { get; init; } = [];
     public string? Tier { get; init; }

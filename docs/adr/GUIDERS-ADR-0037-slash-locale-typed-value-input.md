@@ -22,7 +22,7 @@ Wire-prefix disambiguation (`2026-` = month? week? day?) is the wrong layer. Amb
 
 | Layer | Owner | Example |
 |-------|-------|---------|
-| **Input** | Ambient culture (`ISlashCultureAmbient`) | `31.08.2026` (ru-RU), `8/31/2026` (en-US) |
+| **Input** | Ambient culture (`ICultureAmbient`) | `31.08.2026` (ru-RU), `8/31/2026` (en-US) |
 | **Display** | Product/surface (unlimited) | breadcrumb `31.08.2026`, chip `авг 2026`, heatmap axis |
 | **Wire / storage** | Product executor SSOT | `2026-08-31`, `2026-08`, `2026-W26` |
 
@@ -46,34 +46,34 @@ usage_date                  → canonical wire at commit
 
 | Type | Role |
 |------|------|
-| `ISlashCultureAmbient` | Host-provided ambient culture (not hardcoded) |
-| `SlashLocaleInputProfile` | Derived from `CultureInfo` — field order, separators |
-| `SlashLocaleDateParser` | Locale partial/complete date + range parse |
-| `SlashLocaleDisplayFormatter` | Canonical segments → display string |
-| `SlashLocaleDatePrefixArmProfile` | PAC adapter for locale dates ([GUIDERS-ADR-0038](GUIDERS-ADR-0038-prefix-armed-completion.md)) |
+| `ICultureAmbient` | Host-provided ambient culture (not hardcoded) |
+| `LocaleInputProfile` | Derived from `CultureInfo` — field order, separators |
+| `LocaleDateParser` | Locale partial/complete date + range parse |
+| `LocaleDisplayFormatter` | Canonical segments → display string |
+| `LocaleDatePrefixArmProfile` | PAC adapter for locale dates ([GUIDERS-ADR-0038](GUIDERS-ADR-0038-prefix-armed-completion.md)) |
 | `SlashCompletionOptions` | Registry + culture + PAC profiles for `SlashCompletion.GetResult` |
 
-### 4. `SlashInputMode.TypedInput`
+### 4. `ArgInputMode.TypedInput`
 
 New mode when path is complete and user is typing a locale value before constructor is armed or wire is ready:
 
-- Placeholder from `SlashLocaleInputProfile` (culture short-date pattern).
+- Placeholder from `LocaleInputProfile` (culture short-date pattern).
 - Hint: product `ArgHint` or generic “type date in locale format”.
-- Suggestions: next segment values from `ISlashConstructorSegmentProvider` when constructor armed.
+- Suggestions: next segment values from `IConstructorSegmentProvider` when constructor armed.
 
-Constructor mode (`SlashInputMode.Constructor`) remains for explicit picker entry and in-tree navigation.
+Constructor mode (`ArgInputMode.Constructor`) remains for explicit picker entry and in-tree navigation.
 
 ### 5. Session rules
 
 - Constructor session **survives** arg-tail extension (typing); cancelled only on path change or Escape.
-- `SlashConstructorSession.GetCompletionResult(partial)` passes typed suffix to segment provider.
+- `ArgConstructorSession.GetCompletionResult(partial)` passes typed suffix to segment provider.
 - `TrySyncFromLocalePartial` bulk-fills segments when locale parse matches constructor depth.
 
 ### 6. Product responsibilities
 
-- Register constructor catalog (`SlashValueConstructorRegistry`).
-- Implement `ISlashConstructorSegmentProvider` (or use locale-aware default).
-- Wire `ISlashCultureAmbient` from host (spec chrome, `RequestLocalization`, etc.).
+- Register constructor catalog (`ValueConstructorRegistry`).
+- Implement `IConstructorSegmentProvider` (or use locale-aware default).
+- Wire `ICultureAmbient` from host (spec chrome, `RequestLocalization`, etc.).
 - Executor accepts emitted wire — **no second parser**.
 
 ### 7. Conformance

@@ -2,8 +2,8 @@ using AIGuiders.Platform.IntermediateRepresentation.Command;
 #nullable enable
 using AIGuiders.Platform.CommandPlane;
 using AIGuiders.Platform.CommandPlane.Commands;
-using AIGuiders.Platform.CommandPlane.Editor;
-using AIGuiders.Platform.CommandPlane.Editor.Commands;
+using AIGuiders.Platform.LanguageIntelligence.Bundled; using AIGuiders.Platform.LanguageIntelligence.Edit; using AIGuiders.Platform.LanguageIntelligence.Line; using AIGuiders.Platform.LanguageIntelligence.Markup;
+using AIGuiders.Platform.LanguageIntelligence.Bundled.Commands;
 using AIGuiders.Platform.CommandPlane.Catalog.Sources;
 using Xunit;
 

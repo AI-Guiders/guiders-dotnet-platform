@@ -345,14 +345,14 @@ public static class CommandDescriptorMapper
 
     }
 
-    static IReadOnlyList<SlashConstructorBinding> ParseConstructorBindings(string? raw)
+    static IReadOnlyList<ArgConstructorBinding> ParseConstructorBindings(string? raw)
     {
         if (string.IsNullOrWhiteSpace(raw))
         {
             return [];
         }
 
-        var bindings = new List<SlashConstructorBinding>();
+        var bindings = new List<ArgConstructorBinding>();
         foreach (var token in raw.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
         {
             var parts = token.Split(':', 3, StringSplitOptions.TrimEntries);
@@ -361,7 +361,7 @@ public static class CommandDescriptorMapper
                 continue;
             }
 
-            bindings.Add(new SlashConstructorBinding(
+            bindings.Add(new ArgConstructorBinding(
                 parts[0],
                 parts.Length > 1 ? parts[1] : parts[0],
                 parts.Length > 2 ? parts[2] : null));

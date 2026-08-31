@@ -3,16 +3,16 @@
 namespace AIGuiders.Platform.CommandPlane;
 
 public sealed class PrefixArmCoordinator(
-    SlashValueConstructorNavigator navigator,
-    SlashValueConstructorRegistry registry)
+    ValueConstructorNavigator navigator,
+    ValueConstructorRegistry registry)
 {
     public bool TryHandle(
         string canonicalPath,
         string typedArgTail,
         PrefixArmSite site,
-        SlashConstructorSession session,
+        ArgConstructorSession session,
         IReadOnlyList<IPrefixArmProfile> profiles,
-        SlashLocaleInputProfile? localeProfile,
+        LocaleInputProfile? localeProfile,
         out PrefixArmResult? result)
     {
         result = null;

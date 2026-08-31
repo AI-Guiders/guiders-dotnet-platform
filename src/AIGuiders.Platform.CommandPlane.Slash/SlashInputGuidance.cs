@@ -5,20 +5,31 @@ using AIGuiders.Platform.CommandPlane.ArgSuggestions;
 
 namespace AIGuiders.Platform.CommandPlane;
 
-/// <summary>Human-facing mode + hints for slash input (breadcrumb, placeholder).</summary>
+/// <summary>Slash-surface guidance: line phase + optional arg mechanic (GUIDERS-ADR-0043).</summary>
 public sealed record SlashInputGuidance(
-    SlashInputMode Mode,
     string Breadcrumb,
     string Placeholder,
     string Hint,
+    InvocationLinePhase Phase,
+    InvocationArgMechanic? ArgMechanic = null,
     string? CanonicalPath = null,
     string ArgTailKind = "",
     string? ReadyWire = null,
-    string? DisplayTail = null);
+    string? DisplayTail = null)
+{
+    /// <summary>Wire/conformance label — Path, Ready, or mechanic name during Arg phase.</summary>
+    public string Mode => Phase switch
+    {
+        InvocationLinePhase.Path => nameof(InvocationLinePhase.Path),
+        InvocationLinePhase.Ready => nameof(InvocationLinePhase.Ready),
+        InvocationLinePhase.Arg => ArgMechanic!.ToString(),
+        _ => Phase.ToString(),
+    };
+}
 
 /// <summary>Items + input guidance for slash surfaces.</summary>
 public sealed record SlashCompletionResult(
-    IReadOnlyList<SlashCompletionItem> Items,
+    IReadOnlyList<ArgCompletionItem> Items,
     SlashInputGuidance Guidance);
 
 public static class SlashCompletion
@@ -33,18 +44,18 @@ public static class SlashCompletion
         CommandCatalogIndex catalog,
         string typedBody,
         ICommandArgSuggestionBroker? suggestionBroker,
-        SlashConstructorSession? constructorSession) =>
+        ArgConstructorSession? constructorSession) =>
         GetResult(catalog, typedBody, suggestionBroker, constructorSession, options: null);
 
     public static SlashCompletionResult GetResult(
         CommandCatalogIndex catalog,
         string typedBody,
         ICommandArgSuggestionBroker? suggestionBroker,
-        SlashConstructorSession? constructorSession,
+        ArgConstructorSession? constructorSession,
         SlashCompletionOptions? options)
     {
-        var culture = options?.Culture ?? SlashCultureAmbient.Current;
-        var profile = SlashLocaleInputProfile.FromCulture(culture);
+        var culture = options?.Culture ?? CultureAmbient.Current;
+        var profile = LocaleInputProfile.FromCulture(culture);
 
         if (constructorSession?.IsActive == true)
         {
@@ -67,7 +78,7 @@ public static class SlashCompletion
             var coordinator = new PrefixArmCoordinator(navigator, options.ConstructorRegistry);
             var localeProfile = options.Culture is null
                 ? null
-                : SlashLocaleInputProfile.FromCulture(options.Culture);
+                : LocaleInputProfile.FromCulture(options.Culture);
             var site = route.ToPrefixArmSite();
             if (coordinator.TryHandle(
                     line.CanonicalPath,
@@ -115,9 +126,9 @@ static class SlashInputGuidanceResolver
         CommandCatalogIndex catalog,
         string typedBody,
         ICommandArgSuggestionBroker? suggestionBroker,
-        IReadOnlyList<SlashCompletionItem> items,
+        IReadOnlyList<ArgCompletionItem> items,
         IReadOnlyList<IPrefixArmProfile>? prefixArmProfiles = null,
-        SlashLocaleInputProfile? localeProfile = null)
+        LocaleInputProfile? localeProfile = null)
     {
         var body = typedBody.TrimStart();
         if (SlashLineResolver.TryResolveBody(body, catalog, out var line)
@@ -134,14 +145,14 @@ static class SlashInputGuidanceResolver
             if (line.IsRunnable)
             {
                 return new SlashInputGuidance(
-                    SlashInputMode.Ready,
                     breadcrumb,
                     "Press Enter to run",
                     route.Help,
-                    line.CanonicalPath,
-                    argTailKind,
-                    line.ArgTail.Trim(),
-                    line.ArgTail.Trim());
+                    InvocationLinePhase.Ready,
+                    CanonicalPath: line.CanonicalPath,
+                    ArgTailKind: argTailKind,
+                    ReadyWire: line.ArgTail.Trim(),
+                    DisplayTail: line.ArgTail.Trim());
             }
 
             if (SlashArgCompletion.ShouldComplete(line, route))
@@ -166,11 +177,11 @@ static class SlashInputGuidanceResolver
         SlashLineResolver.SlashLineResolution line,
         CatalogRouteEntry route,
         ICommandArgSuggestionBroker? suggestionBroker,
-        IReadOnlyList<SlashCompletionItem> items,
+        IReadOnlyList<ArgCompletionItem> items,
         string breadcrumb,
         string argTailKind,
         IReadOnlyList<IPrefixArmProfile>? prefixArmProfiles,
-        SlashLocaleInputProfile? localeProfile)
+        LocaleInputProfile? localeProfile)
     {
         var partial = line.ArgTail.Trim();
         if (partial.Length > 0
@@ -178,10 +189,11 @@ static class SlashInputGuidanceResolver
             && PrefixArmCoordinator.AnyProfileMatches(prefixArmProfiles, partial, route.ToPrefixArmSite()))
         {
             return new SlashInputGuidance(
-                SlashInputMode.TypedInput,
                 breadcrumb,
                 localeProfile?.InputPlaceholder ?? "Type value",
                 route.ArgHint ?? "Continue typing — prefix arms constructor or completes wire",
+                InvocationLinePhase.Arg,
+                InvocationArgMechanic.TypedInput,
                 line.CanonicalPath,
                 argTailKind,
                 DisplayTail: partial);
@@ -190,14 +202,15 @@ static class SlashInputGuidanceResolver
         if (localeProfile is not null
             && partial.Length > 0
             && route.ResolvedConstructors.Count > 0
-            && SlashLocaleDateParser.TryParse(partial, localeProfile, out _, out var completeness)
-            && completeness is SlashLocaleDateCompleteness.Partial or SlashLocaleDateCompleteness.MonthYear)
+            && LocaleDateParser.TryParse(partial, localeProfile, out _, out var completeness)
+            && completeness is LocaleDateCompleteness.Partial or LocaleDateCompleteness.MonthYear)
         {
             return new SlashInputGuidance(
-                SlashInputMode.TypedInput,
                 breadcrumb,
                 localeProfile.InputPlaceholder,
                 route.ArgHint ?? "Type date in locale format",
+                InvocationLinePhase.Arg,
+                InvocationArgMechanic.TypedInput,
                 line.CanonicalPath,
                 argTailKind,
                 DisplayTail: partial);
@@ -221,14 +234,15 @@ static class SlashInputGuidanceResolver
                               ?? (hasChoices || hasConstructors
                                   ? "Pick a value or type locale date"
                                   : "Type to filter choices");
-            var mode = partial.Length > 0 && hasConstructors
-                ? SlashInputMode.TypedInput
-                : SlashInputMode.Picker;
+            var mechanic = partial.Length > 0 && hasConstructors
+                ? InvocationArgMechanic.TypedInput
+                : InvocationArgMechanic.Picker;
             return new SlashInputGuidance(
-                mode,
                 breadcrumb,
                 placeholder,
                 hint,
+                InvocationLinePhase.Arg,
+                mechanic,
                 line.CanonicalPath,
                 argTailKind,
                 DisplayTail: partial.Length > 0 ? partial : null);
@@ -237,49 +251,51 @@ static class SlashInputGuidanceResolver
         return route.ArgTailKind switch
         {
             CommandArgTailKind.Required => new SlashInputGuidance(
-                SlashInputMode.FreeText,
                 breadcrumb,
                 FormatFreeTextPlaceholder(route.ArgHint),
                 route.ArgHint ?? "Type the required argument and press Enter",
+                InvocationLinePhase.Arg,
+                InvocationArgMechanic.FreeText,
                 line.CanonicalPath,
                 argTailKind),
             CommandArgTailKind.Optional => new SlashInputGuidance(
-                SlashInputMode.Optional,
                 breadcrumb,
                 route.ArgHint ?? "Optional argument — Enter to run",
                 route.ArgHint ?? "Add an argument or press Enter to run without it",
+                InvocationLinePhase.Arg,
+                InvocationArgMechanic.Optional,
                 line.CanonicalPath,
                 argTailKind),
             _ => new SlashInputGuidance(
-                SlashInputMode.Path,
                 breadcrumb,
                 "Continue typing the command path",
                 route.Help,
-                line.CanonicalPath,
-                argTailKind),
+                InvocationLinePhase.Path,
+                CanonicalPath: line.CanonicalPath,
+                ArgTailKind: argTailKind),
         };
     }
 
-    static SlashInputGuidance ResolvePathGuidance(string body, IReadOnlyList<SlashCompletionItem> items)
+    static SlashInputGuidance ResolvePathGuidance(string body, IReadOnlyList<ArgCompletionItem> items)
     {
         var breadcrumb = body.Length == 0 ? "/" : "/" + body.TrimEnd();
         if (items.Count > 0)
         {
             var next = items[0].StepSegment ?? items[0].SlashPath.TrimStart('/');
             return new SlashInputGuidance(
-                SlashInputMode.Path,
                 breadcrumb,
                 $"Next: {next}",
                 items[0].Help,
-                items[0].SlashPath.TrimStart('/'),
-                nameof(CommandArgTailKind.None));
+                InvocationLinePhase.Path,
+                CanonicalPath: items[0].SlashPath.TrimStart('/'),
+                ArgTailKind: nameof(CommandArgTailKind.None));
         }
 
         return new SlashInputGuidance(
-            SlashInputMode.Path,
             breadcrumb,
             "Type a command path",
             "Start typing — Tab completes the next segment",
+            InvocationLinePhase.Path,
             CanonicalPath: null,
             ArgTailKind: nameof(CommandArgTailKind.None));
     }

@@ -6,10 +6,10 @@ public static class SlashPrefixArmProjection
 {
     public static SlashCompletionResult? ToSlashCompletionResult(
         PrefixArmResult result,
-        SlashConstructorSession? session,
-        SlashValueConstructorNavigator? navigator,
+        ArgConstructorSession? session,
+        ValueConstructorNavigator? navigator,
         string partial,
-        SlashLocaleInputProfile? localeProfile)
+        LocaleInputProfile? localeProfile)
     {
         switch (result)
         {
@@ -18,14 +18,14 @@ public static class SlashPrefixArmProjection
                 return new SlashCompletionResult(
                     [],
                     new SlashInputGuidance(
-                        SlashInputMode.Ready,
                         breadcrumb,
                         "Press Enter to run",
                         ready.Help,
-                        ready.CanonicalPath,
-                        ready.ArgTailKind,
-                        ready.Wire,
-                        ready.DisplayTail));
+                        InvocationLinePhase.Ready,
+                        CanonicalPath: ready.CanonicalPath,
+                        ArgTailKind: ready.ArgTailKind,
+                        ReadyWire: ready.Wire,
+                        DisplayTail: ready.DisplayTail));
             case PrefixArmContinuedResult when session is not null && navigator is not null:
                 return session.GetSlashCompletionResult(navigator, partial, localeProfile);
             default:

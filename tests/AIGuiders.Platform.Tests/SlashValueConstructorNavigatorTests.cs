@@ -3,14 +3,14 @@ using Xunit;
 
 namespace AIGuiders.Platform.Tests;
 
-public sealed class SlashValueConstructorNavigatorTests
+public sealed class ValueConstructorNavigatorTests
 {
     [Fact]
     public void Navigator_emits_date_range_wire_for_full_tree_walk()
     {
         var registry = BuildDateRangeRegistry();
-        var navigator = new SlashValueConstructorNavigator(registry, new StubSegmentProvider());
-        var draft = new SlashConstructorDraft
+        var navigator = new ValueConstructorNavigator(registry, new StubSegmentProvider());
+        var draft = new ArgConstructorDraft
         {
             RootConstructorId = "date_range",
             CanonicalPath = "select filter usage_date",
@@ -31,8 +31,8 @@ public sealed class SlashValueConstructorNavigatorTests
     public void Navigator_pads_segment_values_from_leaf_metadata()
     {
         var registry = BuildDateRangeRegistry();
-        var navigator = new SlashValueConstructorNavigator(registry, new StubSegmentProvider());
-        var draft = new SlashConstructorDraft
+        var navigator = new ValueConstructorNavigator(registry, new StubSegmentProvider());
+        var draft = new ArgConstructorDraft
         {
             RootConstructorId = "date_range",
             CanonicalPath = "select filter usage_date",
@@ -49,38 +49,38 @@ public sealed class SlashValueConstructorNavigatorTests
         Assert.Equal("2026-08-01..2026-09-05", wire);
     }
 
-    static SlashValueConstructorRegistry BuildDateRangeRegistry()
+    static ValueConstructorRegistry BuildDateRangeRegistry()
     {
-        var registry = new SlashValueConstructorRegistry();
-        registry.Register(new SlashLeafConstructorDefinition(
+        var registry = new ValueConstructorRegistry();
+        registry.Register(new LeafConstructorDefinition(
             "date",
             "Date",
             [
-                new SlashConstructorSegmentDefinition("year", "Year"),
-                new SlashConstructorSegmentDefinition("month", "Month", WireMinWidth: 2, DisplayMinWidth: 2),
-                new SlashConstructorSegmentDefinition("day", "Day", WireMinWidth: 2, DisplayMinWidth: 2),
+                new ConstructorSegmentDefinition("year", "Year"),
+                new ConstructorSegmentDefinition("month", "Month", WireMinWidth: 2, DisplayMinWidth: 2),
+                new ConstructorSegmentDefinition("day", "Day", WireMinWidth: 2, DisplayMinWidth: 2),
             ],
             WirePattern: "{year}-{month}-{day}",
             DisplayPattern: "{day}.{month}.{year}"));
 
-        registry.Register(new SlashCompositeConstructorDefinition(
+        registry.Register(new CompositeConstructorDefinition(
             "date_range",
             "Range",
             [
-                new SlashConstructorSlotDefinition("from", "date", "From"),
-                new SlashConstructorSlotDefinition("to", "date", "To", SeparatorBefore: ".."),
+                new ConstructorSlotDefinition("from", "date", "From"),
+                new ConstructorSlotDefinition("to", "date", "To", SeparatorBefore: ".."),
             ],
             WirePattern: "{from}..{to}"));
 
         return registry;
     }
 
-    sealed class StubSegmentProvider : ISlashConstructorSegmentProvider
+    sealed class StubSegmentProvider : IConstructorSegmentProvider
     {
-        public IReadOnlyList<SlashCompletionItem> GetSegmentSuggestions(
-            SlashLeafConstructorDefinition leaf,
+        public IReadOnlyList<ArgCompletionItem> GetSegmentSuggestions(
+            LeafConstructorDefinition leaf,
             int segmentIndex,
-            SlashConstructorDraft draft,
+            ArgConstructorDraft draft,
             string partial) => [];
     }
 }

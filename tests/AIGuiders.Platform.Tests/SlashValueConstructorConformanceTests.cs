@@ -16,22 +16,22 @@ public sealed class SlashValueConstructorConformanceTests
         var json = LoadEmbedded("AIGuiders.Platform.Tests.Fixtures.Slash.slash-value-constructor.spec.json");
         using var document = JsonDocument.Parse(json);
         var cultureName = document.RootElement.GetProperty("culture").GetString() ?? "ru-RU";
-        var profile = SlashLocaleInputProfile.FromCulture(CultureInfo.GetCultureInfo(cultureName));
+        var profile = LocaleInputProfile.FromCulture(CultureInfo.GetCultureInfo(cultureName));
 
         foreach (var vector in document.RootElement.GetProperty("vectors").EnumerateArray())
         {
             var input = vector.GetProperty("input").GetString()!;
             var expectedWire = vector.GetProperty("wire").GetString()!;
-            Assert.True(SlashLocaleDateParser.TryParse(input, profile, out var parts, out var completeness));
+            Assert.True(LocaleDateParser.TryParse(input, profile, out var parts, out var completeness));
             var wire = completeness switch
             {
-                SlashLocaleDateCompleteness.CompleteDate => SlashLocaleDateParser.TryToDayWire(parts, out var day)
+                LocaleDateCompleteness.CompleteDate => LocaleDateParser.TryToDayWire(parts, out var day)
                     ? day
                     : "",
-                SlashLocaleDateCompleteness.MonthYear => SlashLocaleDateParser.TryToMonthWire(parts, out var month)
+                LocaleDateCompleteness.MonthYear => LocaleDateParser.TryToMonthWire(parts, out var month)
                     ? month
                     : "",
-                SlashLocaleDateCompleteness.CompleteRange => SlashLocaleDateParser.TryToRangeWire(parts, out var range)
+                LocaleDateCompleteness.CompleteRange => LocaleDateParser.TryToRangeWire(parts, out var range)
                     ? range
                     : "",
                 _ => "",

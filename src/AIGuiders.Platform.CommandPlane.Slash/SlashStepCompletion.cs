@@ -23,25 +23,25 @@ public static class SlashStepCompletion
 
     static readonly ConditionalWeakTable<CommandCatalogIndex, Snapshot> Snapshots = new();
 
-    public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
+    public static IReadOnlyList<ArgCompletionItem> GetSuggestions(
         CommandCatalogIndex catalog,
         string typedBody) =>
         GetSuggestions(catalog, typedBody, suggestionBroker: null);
 
-    public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
+    public static IReadOnlyList<ArgCompletionItem> GetSuggestions(
         CommandCatalogIndex catalog,
         string typedBody,
         ICommandArgSuggestionBroker? suggestionBroker) =>
         GetSuggestions(catalog, ParseTokens(typedBody, out var endsWithSpace), endsWithSpace, typedBody, suggestionBroker);
 
-    public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
+    public static IReadOnlyList<ArgCompletionItem> GetSuggestions(
         CommandCatalogIndex catalog,
         IReadOnlyList<string> tokens,
         bool endsWithSpace,
         string typedBody) =>
         GetSuggestions(catalog, tokens, endsWithSpace, typedBody, suggestionBroker: null);
 
-    public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
+    public static IReadOnlyList<ArgCompletionItem> GetSuggestions(
         CommandCatalogIndex catalog,
         IReadOnlyList<string> tokens,
         bool endsWithSpace,
@@ -214,9 +214,9 @@ public static class SlashStepCompletion
         return true;
     }
 
-    static IReadOnlyList<SlashCompletionItem> BuildDomainSuggestions(Snapshot snap, string partial)
+    static IReadOnlyList<ArgCompletionItem> BuildDomainSuggestions(Snapshot snap, string partial)
     {
-        var buckets = new Dictionary<string, SlashCompletionItem>(StringComparer.OrdinalIgnoreCase);
+        var buckets = new Dictionary<string, ArgCompletionItem>(StringComparer.OrdinalIgnoreCase);
 
         foreach (var domain in snap.DomainsWithCanonicalPrefix)
         {
@@ -247,14 +247,14 @@ public static class SlashStepCompletion
         return SlashCompletionSort.Order(buckets.Values);
     }
 
-    static IReadOnlyList<SlashCompletionItem> BuildObjectSuggestions(
+    static IReadOnlyList<ArgCompletionItem> BuildObjectSuggestions(
         Snapshot snap,
         string domain,
         string partial,
         IReadOnlyList<string> tokens,
         bool endsWithSpace)
     {
-        var buckets = new Dictionary<string, SlashCompletionItem>(StringComparer.OrdinalIgnoreCase);
+        var buckets = new Dictionary<string, ArgCompletionItem>(StringComparer.OrdinalIgnoreCase);
 
         if (snap.ObjectsByDomain.TryGetValue(domain, out var objects))
         {
@@ -289,7 +289,7 @@ public static class SlashStepCompletion
         return SlashCompletionSort.Order(buckets.Values);
     }
 
-    static IReadOnlyList<SlashCompletionItem> BuildIntentSuggestions(
+    static IReadOnlyList<ArgCompletionItem> BuildIntentSuggestions(
         Snapshot snap,
         CommandCatalogIndex catalog,
         string domain,
@@ -302,7 +302,7 @@ public static class SlashStepCompletion
         if (!snap.RoutesBySemantic.TryGetValue(key, out var routes))
             return [];
 
-        var buckets = new Dictionary<string, SlashCompletionItem>(StringComparer.OrdinalIgnoreCase);
+        var buckets = new Dictionary<string, ArgCompletionItem>(StringComparer.OrdinalIgnoreCase);
         var segmentIndex = endsWithSpace ? tokens.Count : Math.Max(0, tokens.Count - 1);
         foreach (var route in routes)
         {
@@ -324,7 +324,7 @@ public static class SlashStepCompletion
         return SlashCompletionSort.Order(buckets.Values);
     }
 
-    static IReadOnlyList<SlashCompletionItem> GetFlatPathSuggestions(
+    static IReadOnlyList<ArgCompletionItem> GetFlatPathSuggestions(
         CommandCatalogIndex catalog,
         Snapshot snap,
         IReadOnlyList<string> tokens,
@@ -337,7 +337,7 @@ public static class SlashStepCompletion
             : tokens.Take(Math.Max(0, tokens.Count - 1)).ToArray();
 
         var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        var list = new List<SlashCompletionItem>();
+        var list = new List<ArgCompletionItem>();
 
         foreach (var route in snap.AllRoutes)
         {
@@ -362,14 +362,14 @@ public static class SlashStepCompletion
             var help = segs.Count == depth + 1
                 ? route.Help
                 : $"{route.SlashPath} — {route.Help}";
-            list.Add(new SlashCompletionItem(insert, route.SlashPath, help, route.Group, next));
+            list.Add(new ArgCompletionItem(insert, route.SlashPath, help, route.Group, next));
         }
 
         return SlashCompletionSort.Order(list);
     }
 
     static void AddSuggestion(
-        Dictionary<string, SlashCompletionItem> buckets,
+        Dictionary<string, ArgCompletionItem> buckets,
         string listTitle,
         string insert,
         string slashPath,
@@ -379,7 +379,7 @@ public static class SlashStepCompletion
         if (!buckets.TryGetValue(listTitle, out var existing)
             || slashPath.Length > existing.SlashPath.Length)
         {
-            buckets[listTitle] = new SlashCompletionItem(insert, slashPath, help, group, listTitle);
+            buckets[listTitle] = new ArgCompletionItem(insert, slashPath, help, group, listTitle);
         }
     }
 

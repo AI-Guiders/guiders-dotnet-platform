@@ -16,13 +16,13 @@ static class SlashArgCompletion
             || line.HasArgTailContent
             || route.ArgTailKind == CommandArgTailKind.Picker);
 
-    public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
+    public static IReadOnlyList<ArgCompletionItem> GetSuggestions(
         SlashLineResolver.SlashLineResolution line,
         CatalogRouteEntry route,
         ICommandArgSuggestionBroker? suggestionBroker)
     {
         var partial = line.ArgTail.Trim();
-        var items = new List<SlashCompletionItem>();
+        var items = new List<ArgCompletionItem>();
 
         var choices = ResolveChoices(line, route, partial, suggestionBroker);
         if (choices.Count > 0)
@@ -32,7 +32,7 @@ static class SlashArgCompletion
 
         if (partial.Length == 0)
         {
-            items.AddRange(SlashConstructorCompletion.BuildEntryItems(line, route));
+            items.AddRange(ConstructorEntryCompletion.BuildEntryItems(line.CanonicalPath, route));
         }
         else if (route.ResolvedConstructors.Count > 0)
         {
@@ -42,12 +42,12 @@ static class SlashArgCompletion
         return SlashCompletionSort.Order(items);
     }
 
-    static IReadOnlyList<SlashCompletionItem> FilterConstructorEntries(
+    static IReadOnlyList<ArgCompletionItem> FilterConstructorEntries(
         SlashLineResolver.SlashLineResolution line,
         CatalogRouteEntry route,
         string partial)
     {
-        var all = SlashConstructorCompletion.BuildEntryItems(line, route);
+        var all = ConstructorEntryCompletion.BuildEntryItems(line.CanonicalPath, route);
         if (partial.Length == 0)
         {
             return all;
@@ -68,14 +68,14 @@ static class SlashArgCompletion
         ResolveChoices(null, route, partial, suggestionBroker).Count > 0
         || route.ResolvedConstructors.Count > 0;
 
-    static IReadOnlyList<SlashCompletionItem> BuildPickerItems(
+    static IReadOnlyList<ArgCompletionItem> BuildPickerItems(
         SlashLineResolver.SlashLineResolution line,
         CatalogRouteEntry route,
         IReadOnlyList<CommandPickerChoice> choices,
         string partial)
     {
         var canonicalPath = "/" + line.CanonicalPath.TrimStart('/');
-        var buckets = new Dictionary<string, SlashCompletionItem>(StringComparer.OrdinalIgnoreCase);
+        var buckets = new Dictionary<string, ArgCompletionItem>(StringComparer.OrdinalIgnoreCase);
         foreach (var choice in choices)
         {
             if (!MatchesPickerChoice(choice, partial))
@@ -86,13 +86,13 @@ static class SlashArgCompletion
             if (choice.Kind == CommandPickerChoiceKind.Constructor)
             {
                 var constructorLabel = choice.Label ?? choice.Value;
-                buckets[constructorLabel] = new SlashCompletionItem(
+                buckets[constructorLabel] = new ArgCompletionItem(
                     canonicalPath + " ",
                     line.CanonicalPath,
                     choice.Hint ?? constructorLabel,
                     route.Group,
                     constructorLabel,
-                    SlashCompletionItemKind.ConstructorEntry,
+                    ArgCompletionItemKind.ConstructorEntry,
                     choice.Value);
                 continue;
             }
@@ -140,7 +140,7 @@ static class SlashArgCompletion
     }
 
     static void AddPickerSuggestion(
-        Dictionary<string, SlashCompletionItem> buckets,
+        Dictionary<string, ArgCompletionItem> buckets,
         string listTitle,
         string insert,
         string slashPath,
@@ -151,13 +151,13 @@ static class SlashArgCompletion
         if (!buckets.TryGetValue(listTitle, out var existing)
             || slashPath.Length >= existing.SlashPath.Length)
         {
-            buckets[listTitle] = new SlashCompletionItem(
+            buckets[listTitle] = new ArgCompletionItem(
                 insert,
                 slashPath,
                 help,
                 group,
                 listTitle,
-                SlashCompletionItemKind.Picker,
+                ArgCompletionItemKind.Picker,
                 value);
         }
     }

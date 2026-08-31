@@ -7,5 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Command\AIGuiders.Platform.IntermediateRepresentation.Command.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Invocation\AIGuiders.Platform.IntermediateRepresentation.Invocation.csproj" />
   </ItemGroup>
 </Project>

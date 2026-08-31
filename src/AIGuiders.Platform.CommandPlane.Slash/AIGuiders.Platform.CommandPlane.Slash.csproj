@@ -9,9 +9,11 @@
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.ArgSuggestions\AIGuiders.Platform.CommandPlane.ArgSuggestions.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Catalog\AIGuiders.Platform.CommandPlane.Catalog.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Invocation\AIGuiders.Platform.IntermediateRepresentation.Invocation.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Constructors\AIGuiders.Platform.CommandPlane.Constructors.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.PrefixArmed\AIGuiders.Platform.CommandPlane.PrefixArmed.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Command.Slash\AIGuiders.Platform.Notations.Command.Slash.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.LanguageIntelligence.Bundled\AIGuiders.Platform.LanguageIntelligence.Bundled.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="slash\slash-arg-completion.spec.json" Pack="true" PackagePath="slash\" />
