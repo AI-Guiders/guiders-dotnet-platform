@@ -1,3 +1,4 @@
+using AIGuiders.Platform.IntermediateRepresentation.Command;
 #nullable enable
 using System.Runtime.CompilerServices;
 

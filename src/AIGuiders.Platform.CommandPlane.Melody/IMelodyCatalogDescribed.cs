@@ -1,3 +1,4 @@
+using AIGuiders.Platform.IntermediateRepresentation.Melody;
 #nullable enable
 
 namespace AIGuiders.Platform.CommandPlane.Melody;

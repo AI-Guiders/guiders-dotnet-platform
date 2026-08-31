@@ -1,3 +1,4 @@
+using AIGuiders.Platform.IntermediateRepresentation.Keyboard;
 #nullable enable
 
 namespace AIGuiders.Platform.Notations.Keyboard;

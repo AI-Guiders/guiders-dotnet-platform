@@ -5,4 +5,8 @@
     <PackageId>AIGuiders.Platform.Notations.Keyboard</PackageId>
     <Description>Keyboard notation core: NormalizedKeySequence IR, IKeyboardNotationReader (GUIDERS-ADR-0021).</Description>
   </PropertyGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Keyboard\AIGuiders.Platform.IntermediateRepresentation.Keyboard.csproj" />
+  </ItemGroup>
 </Project>

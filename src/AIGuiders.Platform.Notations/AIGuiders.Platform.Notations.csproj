@@ -1,11 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
+
     <RootNamespace>AIGuiders.Platform.Notations</RootNamespace>
+
     <AssemblyName>AIGuiders.Platform.Notations</AssemblyName>
+
     <Description>Notations shared primitives — NotationKvPair, list split; legacy Command aliases (GUIDERS-ADR-0021).</Description>
+
     <PackageId>AIGuiders.Platform.Notations</PackageId>
+
   </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Command\AIGuiders.Platform.Notations.Command.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Invocation\AIGuiders.Platform.IntermediateRepresentation.Invocation.csproj" />
   </ItemGroup>
+
 </Project>
+

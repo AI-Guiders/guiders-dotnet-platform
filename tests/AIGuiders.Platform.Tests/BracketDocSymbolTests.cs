@@ -1,7 +1,7 @@
 #nullable enable
 using AIGuiders.Platform.Documentation.Anchors;
 using AIGuiders.Platform.Language.CSharp.Symbols;
-using AIGuiders.Platform.Notations.Bracket;
+using AIGuiders.Platform.IntermediateRepresentation.Bracket;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;
@@ -13,7 +13,7 @@ public sealed class BracketDocSymbolTests
     {
         Assert.True(
             BracketReader.Default.TryRead(
-                "[Family:doc; Package:Notations.Argument; Type:NormalizedArguments; Member:ReaderId]",
+                "[Family:doc; Package:IntermediateRepresentation.Argument; Type:NormalizedArguments; Member:ReaderId]",
                 BracketProfiles.DocSymbol,
                 BracketAxisValuePlans.DocSymbol,
                 out var wire,
@@ -34,7 +34,7 @@ public sealed class BracketDocSymbolTests
 
         Assert.True(
             BracketReader.Default.TryRead(
-                "[Family:doc; Package:Notations.Argument; Type:NormalizedArguments; Member:ReaderId]",
+                "[Family:doc; Package:IntermediateRepresentation.Argument; Type:NormalizedArguments; Member:ReaderId]",
                 BracketProfiles.DocSymbol,
                 BracketAxisValuePlans.DocSymbol,
                 out var wire,

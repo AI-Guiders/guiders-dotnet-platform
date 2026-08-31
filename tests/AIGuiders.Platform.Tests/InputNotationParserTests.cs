@@ -1,3 +1,5 @@
+using AIGuiders.Platform.IntermediateRepresentation.Melody;
+using AIGuiders.Platform.IntermediateRepresentation.Keyboard;
 using AIGuiders.Platform.Notations.Keyboard;
 using AIGuiders.Platform.CommandPlane.Melody;
 using Xunit;

@@ -1,3 +1,4 @@
+using AIGuiders.Platform.IntermediateRepresentation.Binding;
 #nullable enable
 using Tomlyn;
 using Tomlyn.Model;

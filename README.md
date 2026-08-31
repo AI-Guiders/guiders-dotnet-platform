@@ -33,16 +33,22 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.InputNotation.KeyGesture` | Legacy metapackage → `Notations.Keyboard.KeyGesture` |
 | `AIGuiders.Platform.InputNotation.All` | Legacy metapackage → `Notations.Keyboard.All` |
 | `AIGuiders.Platform.Notations` | Shared primitives: `NotationKvPair`, list split; legacy Command aliases |
-| `AIGuiders.Platform.Notations.Argument` | Profile (`ArgumentNotationProfile`), slots, IR (`NormalizedArguments`) |
+| `AIGuiders.Platform.IntermediateRepresentation.Argument` | Profile (`ArgumentNotationProfile`), slots, `NormalizedArguments` |
+| `AIGuiders.Platform.IntermediateRepresentation.Keyboard` | `NormalizedKeySequence` + step records |
+| `AIGuiders.Platform.IntermediateRepresentation.Invocation` | `NormalizedCommandLine` |
+| `AIGuiders.Platform.IntermediateRepresentation.Bracket` | Bracket wire IR |
+| `AIGuiders.Platform.IntermediateRepresentation.Command` | Command catalog descriptors + route rows |
+| `AIGuiders.Platform.IntermediateRepresentation.Binding` | Binding descriptors + entries |
+| `AIGuiders.Platform.IntermediateRepresentation.Melody` | Melody descriptor + line/step IR |
 | `AIGuiders.Platform.Notations.Argument.All` | Profile-driven parse facade (`ArgumentNotation.Parse`) |
-| `AIGuiders.Platform.Notations.Keyboard` | Keyboard core IR: `NormalizedKeySequence`, `IKeyboardNotationReader` |
+| `AIGuiders.Platform.Notations.Keyboard` | `IKeyboardNotationReader` (parsers → IR.Keyboard) |
 | `AIGuiders.Platform.Notations.Keyboard.Quarry` | Shared quarry lexer, normalizer, spec conformance |
 | `AIGuiders.Platform.Notations.Keyboard.Vim` | Vim-doc wire (`&lt;C-k&gt;`, CIDE quarry) → Core |
 | `AIGuiders.Platform.Notations.Keyboard.Neovim` | Neovim `:help key-notation` wire → Core |
 | `AIGuiders.Platform.Notations.Keyboard.Emacs` | Emacs `kbd` wire (`C-x`) → Core |
 | `AIGuiders.Platform.Notations.Keyboard.KeyGesture` | KeyGesture wire (`Ctrl+K`) → Core |
 | `AIGuiders.Platform.Notations.Keyboard.All` | Meta-bundle: facade `KeyboardNotationParser` |
-| `AIGuiders.Platform.Notations.Command` | Command core IR: `NormalizedCommandLine`, `SlashWireBody`, `InvocationNotation` |
+| `AIGuiders.Platform.Notations.Command` | Slash wire helpers: `SlashWireBody`, `InvocationNotation` (IR in `IntermediateRepresentation.Invocation`) |
 | `AIGuiders.Platform.Notations.Argument.Kv` | `key=value` tail → slots |
 | `AIGuiders.Platform.Notations.Argument.Positional` | Ordered tail tokens → slots |
 | `AIGuiders.Platform.Notations.Argument.Cli` | POSIX-like flags (`-h`, `--out=release`) → slots |

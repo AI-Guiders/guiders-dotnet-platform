@@ -5,4 +5,8 @@
     <PackageId>AIGuiders.Platform.Notations.Command</PackageId>
     <Description>Command notation core: NormalizedCommandLine IR, SlashWireBody (GUIDERS-ADR-0021).</Description>
   </PropertyGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Invocation\AIGuiders.Platform.IntermediateRepresentation.Invocation.csproj" />
+  </ItemGroup>
 </Project>

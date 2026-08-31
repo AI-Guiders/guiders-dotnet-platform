@@ -7,7 +7,8 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
-    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument\AIGuiders.Platform.Notations.Argument.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Argument\AIGuiders.Platform.IntermediateRepresentation.Argument.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Melody\AIGuiders.Platform.IntermediateRepresentation.Melody.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard\AIGuiders.Platform.Notations.Keyboard.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard.KeyGesture\AIGuiders.Platform.Notations.Keyboard.KeyGesture.csproj" />
   </ItemGroup>

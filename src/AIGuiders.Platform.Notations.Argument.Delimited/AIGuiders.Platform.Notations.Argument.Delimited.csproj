@@ -14,7 +14,7 @@
 
   <ItemGroup>
 
-    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument\AIGuiders.Platform.Notations.Argument.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Argument\AIGuiders.Platform.IntermediateRepresentation.Argument.csproj" />
 
   </ItemGroup>
 

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.IntermediateRepresentation.Command</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.IntermediateRepresentation.Command</AssemblyName>
+    <PackageId>AIGuiders.Platform.IntermediateRepresentation.Command</PackageId>
+    <Description>Command catalog IR (GUIDERS-ADR-0042).</Description>
+  </PropertyGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Argument\AIGuiders.Platform.IntermediateRepresentation.Argument.csproj" />
+  </ItemGroup>
+</Project>

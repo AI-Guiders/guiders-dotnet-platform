@@ -1,17 +1,18 @@
+using AIGuiders.Platform.IntermediateRepresentation.Invocation;
 #nullable enable
 
 namespace AIGuiders.Platform.Notations;
 
-/// <summary>Legacy alias for <see cref="Command.NormalizedCommandLine"/> (GUIDERS-ADR-0021 Wave 4b).</summary>
-[Obsolete("Use AIGuiders.Platform.Notations.Command.NormalizedCommandLine and package AIGuiders.Platform.Notations.Command.")]
+/// <summary>Legacy alias for <see cref="IntermediateRepresentation.Invocation.NormalizedCommandLine"/> (GUIDERS-ADR-0021 Wave 4b).</summary>
+[Obsolete("Use AIGuiders.Platform.IntermediateRepresentation.Invocation.NormalizedCommandLine and package AIGuiders.Platform.IntermediateRepresentation.Invocation.")]
 public sealed record NormalizedCommandLine(
     string CanonicalPath,
     IReadOnlyList<string> PathSegments)
 {
-    public static implicit operator Command.NormalizedCommandLine(NormalizedCommandLine line) =>
+    public static implicit operator IntermediateRepresentation.Invocation.NormalizedCommandLine(NormalizedCommandLine line) =>
         new(line.CanonicalPath, line.PathSegments);
 
-    public static implicit operator NormalizedCommandLine(Command.NormalizedCommandLine line) =>
+    public static implicit operator NormalizedCommandLine(IntermediateRepresentation.Invocation.NormalizedCommandLine line) =>
         new(line.CanonicalPath, line.PathSegments);
 }
 

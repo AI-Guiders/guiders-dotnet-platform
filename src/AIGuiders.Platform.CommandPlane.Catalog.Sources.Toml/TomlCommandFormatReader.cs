@@ -1,6 +1,7 @@
+using AIGuiders.Platform.IntermediateRepresentation.Command;
 #nullable enable
 using AIGuiders.Platform.CommandPlane;
-using AIGuiders.Platform.Notations.Argument;
+using AIGuiders.Platform.IntermediateRepresentation.Argument;
 using Tomlyn;
 using Tomlyn.Model;
 

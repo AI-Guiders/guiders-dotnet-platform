@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.IntermediateRepresentation.Invocation</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.IntermediateRepresentation.Invocation</AssemblyName>
+    <PackageId>AIGuiders.Platform.IntermediateRepresentation.Invocation</PackageId>
+    <Description>Invocation IR: NormalizedCommandLine (GUIDERS-ADR-0042).</Description>
+  </PropertyGroup>
+</Project>

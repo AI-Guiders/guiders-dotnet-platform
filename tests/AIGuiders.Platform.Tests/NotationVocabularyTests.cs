@@ -1,7 +1,7 @@
 #nullable enable
 
 using AIGuiders.Platform.Documentation.Reports;
-using AIGuiders.Platform.Notations.Argument;
+using AIGuiders.Platform.IntermediateRepresentation.Argument;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

@@ -6,6 +6,6 @@
     <Description>CLI/POSIX-like flag notation quarry (GUIDERS-ADR-0021).</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument\AIGuiders.Platform.Notations.Argument.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Argument\AIGuiders.Platform.IntermediateRepresentation.Argument.csproj" />
   </ItemGroup>
 </Project>

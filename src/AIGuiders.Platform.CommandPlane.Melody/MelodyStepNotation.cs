@@ -1,3 +1,5 @@
+using AIGuiders.Platform.IntermediateRepresentation.Melody;
+using AIGuiders.Platform.IntermediateRepresentation.Keyboard;
 #nullable enable
 using AIGuiders.Platform.Notations.Keyboard;
 

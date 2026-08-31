@@ -36,6 +36,13 @@
     <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog.Sources.Toml/AIGuiders.Platform.CommandPlane.Catalog.Sources.Toml.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog.Sources.Xml/AIGuiders.Platform.CommandPlane.Catalog.Sources.Xml.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog.Sources/AIGuiders.Platform.CommandPlane.Catalog.Sources.csproj" />
+    <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Argument/AIGuiders.Platform.IntermediateRepresentation.Argument.csproj" />
+    <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Binding/AIGuiders.Platform.IntermediateRepresentation.Binding.csproj" />
+    <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Bracket/AIGuiders.Platform.IntermediateRepresentation.Bracket.csproj" />
+    <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Command/AIGuiders.Platform.IntermediateRepresentation.Command.csproj" />
+    <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Invocation/AIGuiders.Platform.IntermediateRepresentation.Invocation.csproj" />
+    <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Keyboard/AIGuiders.Platform.IntermediateRepresentation.Keyboard.csproj" />
+    <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Melody/AIGuiders.Platform.IntermediateRepresentation.Melody.csproj" />
     <Project Path="src/AIGuiders.Platform.Catalog/AIGuiders.Platform.Catalog.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog/AIGuiders.Platform.CommandPlane.Catalog.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.ArgSuggestions/AIGuiders.Platform.CommandPlane.ArgSuggestions.csproj" />
@@ -72,7 +79,6 @@
     <Project Path="src/AIGuiders.Platform.Notations.Argument.Delimited/AIGuiders.Platform.Notations.Argument.Delimited.csproj" />
     <Project Path="src/AIGuiders.Platform.Notations.Argument.Kv/AIGuiders.Platform.Notations.Argument.Kv.csproj" />
     <Project Path="src/AIGuiders.Platform.Notations.Argument.Positional/AIGuiders.Platform.Notations.Argument.Positional.csproj" />
-    <Project Path="src/AIGuiders.Platform.Notations.Argument/AIGuiders.Platform.Notations.Argument.csproj" />
     <Project Path="src/AIGuiders.Platform.Notations.Bracket/AIGuiders.Platform.Notations.Bracket.csproj" />
     <Project Path="src/AIGuiders.Platform.Notations.Command.All/AIGuiders.Platform.Notations.Command.All.csproj" />
     <Project Path="src/AIGuiders.Platform.Notations.Command.Console/AIGuiders.Platform.Notations.Command.Console.csproj" />

@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.IntermediateRepresentation.Keyboard</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.IntermediateRepresentation.Keyboard</AssemblyName>
+    <PackageId>AIGuiders.Platform.IntermediateRepresentation.Keyboard</PackageId>
+    <Description>Keyboard IR: NormalizedKeySequence (GUIDERS-ADR-0042).</Description>
+  </PropertyGroup>
+</Project>

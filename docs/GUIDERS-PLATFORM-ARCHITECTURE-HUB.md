@@ -245,25 +245,39 @@ From [GUIDERS-ADR-0001](./adr/GUIDERS-ADR-0001-platform-boundary.md):
 
 **Operator rule:** **Sources** = transport only; **Combinations** = ordered fold + named policies ([ADR-0030](./adr/GUIDERS-ADR-0030-combinations-family.md)).
 
-### 7.3 Notations (wire → IR)
+### 7.3 IntermediateRepresentation (neutral IR)
+
+| Package | Capabilities |
+|---------|--------------|
+| `IntermediateRepresentation.Argument` | `ArgumentNotationProfile`, slots, `NormalizedArguments` |
+| `IntermediateRepresentation.Keyboard` | `NormalizedKeySequence` + step records |
+| `IntermediateRepresentation.Invocation` | `NormalizedCommandLine` |
+| `IntermediateRepresentation.Bracket` | Bracket wire IR ([ADR-0026](./adr/GUIDERS-ADR-0026-notations-bracket-branch.md)) |
+| `IntermediateRepresentation.Command` | Command catalog descriptors + route rows |
+| `IntermediateRepresentation.Binding` | Binding descriptors + entries |
+| `IntermediateRepresentation.Melody` | Melody descriptor + line/step IR |
+
+See [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md). **Notations** parse wire → IR; **CommandPlane** guilds own mechanics.
+
+### 7.4 Notations (wire → IR parsers)
 
 | Package | Capabilities |
 |---------|--------------|
 | `Notations` | Shared primitives (`NotationKvPair`, list split) |
-| `Notations.Keyboard.*` | `NormalizedKeySequence` — KeyGesture, Vim, Neovim, Emacs wires |
-| `Notations.Command.*` | `NormalizedCommandLine`, slash/console body tokenize |
-| `Notations.Argument.*` | Kv, positional, CLI flags, delimited (colon) tails |
-| `Notations.Bracket` | Bracket notation branch ([ADR-0026](./adr/GUIDERS-ADR-0026-notations-bracket-branch.md)) |
+| `Notations.Keyboard.*` | `IKeyboardNotationReader` — KeyGesture, Vim, Neovim, Emacs wires |
+| `Notations.Command.*` | Slash/console body tokenize, `InvocationNotation` helpers |
+| `Notations.Argument.*` | Kv, positional, CLI flags, delimited parsers (`ArgumentNotation.All`) |
+| `Notations.Bracket` | `BracketReader`, `IBracketNotationReader` |
 | `InputNotation.*` | **Legacy alias** → `Notations.Keyboard.*` (obsolete forwards) |
 
 Platform ships **reference quarry** (.NET parsers). Planets **port vectors** to native stacks (Forge JS, VS Code extension, etc.).
 
-### 7.4 CommandPlane
+### 7.5 CommandPlane
 
 | Package | Capabilities |
 |---------|--------------|
 | `CommandPlane` | GoF `IPlatformCommand<T>`, `PlatformCommandRegistry`, `ICommandContext` (hub) |
-| `CommandPlane.Catalog` | Command catalog IR + index facade ([ADR-0039](./adr/GUIDERS-ADR-0039-command-catalog-family.md), [ADR-0041](./adr/GUIDERS-ADR-0041-catalog-kernel-profiles.md)) |
+| `CommandPlane.Catalog` | Catalog index, sources, merge facade — IR in `IntermediateRepresentation.Command` ([ADR-0039](./adr/GUIDERS-ADR-0039-command-catalog-family.md), [ADR-0041](./adr/GUIDERS-ADR-0041-catalog-kernel-profiles.md), [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md)) |
 | `CommandPlane.ArgSuggestions` | Federated arg suggestion broker + planet provider registry |
 | `CommandPlane.Constructors` | Value constructor registry, session, navigator, locale input ([ADR-0035](./adr/GUIDERS-ADR-0035-slash-value-constructors.md)) |
 | `CommandPlane.PrefixArmed` | PAC profiles + coordinator — surface-agnostic ([ADR-0038](./adr/GUIDERS-ADR-0038-prefix-armed-completion.md)) |
@@ -618,6 +632,7 @@ Sibling repos (not in platform monorepo):
 | [0033](./adr/GUIDERS-ADR-0033-navigation-family-semantic-scenes.md) | Navigation scenes |
 | [0035](./adr/GUIDERS-ADR-0035-slash-value-constructors.md) | Value constructors |
 | [0036](./adr/GUIDERS-ADR-0036-invocation-engage-glossary.md) | InvocationEngage glossary |
+| [0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md) | IntermediateRepresentation family |
 
 Full list: [`docs/adr/`](./adr/).
 

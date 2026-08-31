@@ -1,4 +1,4 @@
-using AIGuiders.Platform.Notations.Argument;
+using AIGuiders.Platform.IntermediateRepresentation.Argument;
 
 namespace AIGuiders.Platform.Notations.Argument.Positional;
 

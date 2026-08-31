@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.IntermediateRepresentation.Binding</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.IntermediateRepresentation.Binding</AssemblyName>
+    <PackageId>AIGuiders.Platform.IntermediateRepresentation.Binding</PackageId>
+    <Description>Binding catalog IR (GUIDERS-ADR-0042).</Description>
+  </PropertyGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Keyboard\AIGuiders.Platform.IntermediateRepresentation.Keyboard.csproj" />
+  </ItemGroup>
+</Project>

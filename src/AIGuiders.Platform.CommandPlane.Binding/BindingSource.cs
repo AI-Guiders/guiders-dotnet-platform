@@ -1,3 +1,4 @@
+using AIGuiders.Platform.IntermediateRepresentation.Binding;
 #nullable enable
 
 namespace AIGuiders.Platform.CommandPlane.Binding;

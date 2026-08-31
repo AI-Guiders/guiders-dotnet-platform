@@ -2,7 +2,7 @@
 
 using AIGuiders.Platform.Documentation.Anchors;
 using AIGuiders.Platform.Documentation.LinkCheck;
-using AIGuiders.Platform.Notations.Bracket;
+using AIGuiders.Platform.IntermediateRepresentation.Bracket;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

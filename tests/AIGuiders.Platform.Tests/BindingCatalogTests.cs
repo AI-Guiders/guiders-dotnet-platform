@@ -1,3 +1,5 @@
+using AIGuiders.Platform.IntermediateRepresentation.Binding;
+using AIGuiders.Platform.IntermediateRepresentation.Keyboard;
 #nullable enable
 using AIGuiders.Platform.CommandPlane.Binding;
 using AIGuiders.Platform.CommandPlane.Binding.Sources;

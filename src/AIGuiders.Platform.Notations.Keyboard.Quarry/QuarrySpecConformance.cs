@@ -1,3 +1,4 @@
+using AIGuiders.Platform.IntermediateRepresentation.Keyboard;
 #nullable enable
 using System.Text.Json;
 using System.Text.Json.Serialization;

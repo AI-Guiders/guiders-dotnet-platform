@@ -1,3 +1,4 @@
+using AIGuiders.Platform.IntermediateRepresentation.Command;
 #nullable enable
 using System.Xml.Linq;
 using AIGuiders.Platform.CommandPlane;

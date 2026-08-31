@@ -1,3 +1,4 @@
+using AIGuiders.Platform.IntermediateRepresentation.Invocation;
 namespace AIGuiders.Platform.Notations.Command;
 
 public static class InvocationNotation

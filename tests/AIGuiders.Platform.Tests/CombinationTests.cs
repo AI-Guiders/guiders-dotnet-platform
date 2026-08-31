@@ -1,3 +1,5 @@
+using AIGuiders.Platform.IntermediateRepresentation.Binding;
+using AIGuiders.Platform.IntermediateRepresentation.Command;
 #nullable enable
 using AIGuiders.Platform.Combinations;
 using AIGuiders.Platform.Combinations.Binding;

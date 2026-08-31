@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.IntermediateRepresentation.Argument</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.IntermediateRepresentation.Argument</AssemblyName>
+    <PackageId>AIGuiders.Platform.IntermediateRepresentation.Argument</PackageId>
+    <Description>Argument IR: profile, slots, NormalizedArguments (GUIDERS-ADR-0042).</Description>
+  </PropertyGroup>
+</Project>

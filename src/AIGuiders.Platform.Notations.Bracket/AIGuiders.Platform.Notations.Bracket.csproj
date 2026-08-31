@@ -7,5 +7,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Bracket\AIGuiders.Platform.IntermediateRepresentation.Bracket.csproj" />
   </ItemGroup>
 </Project>

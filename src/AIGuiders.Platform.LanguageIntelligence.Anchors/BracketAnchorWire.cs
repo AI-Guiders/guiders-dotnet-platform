@@ -1,5 +1,6 @@
 #nullable enable
 
+using AIGuiders.Platform.IntermediateRepresentation.Bracket;
 using AIGuiders.Platform.Notations.Bracket;
 
 namespace AIGuiders.Platform.LanguageIntelligence.Anchors;

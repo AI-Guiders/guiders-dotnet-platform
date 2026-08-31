@@ -245,25 +245,39 @@ Platform шипит **дороги** (neutral IR, MCPlane tiers, conformance). �
 
 **Operator rule:** **Sources** = только transport; **Combinations** = ordered fold + named policies ([ADR-0030](./adr/GUIDERS-ADR-0030-combinations-family.md)).
 
-### 7.3 Notations (wire → IR)
+### 7.3 IntermediateRepresentation (neutral IR)
+
+| Пакет | Возможности |
+|-------|-------------|
+| `IntermediateRepresentation.Argument` | `ArgumentNotationProfile`, slots, `NormalizedArguments` |
+| `IntermediateRepresentation.Keyboard` | `NormalizedKeySequence` + step records |
+| `IntermediateRepresentation.Invocation` | `NormalizedCommandLine` |
+| `IntermediateRepresentation.Bracket` | Bracket wire IR ([ADR-0026](./adr/GUIDERS-ADR-0026-notations-bracket-branch.md)) |
+| `IntermediateRepresentation.Command` | Command catalog descriptors + route rows |
+| `IntermediateRepresentation.Binding` | Binding descriptors + entries |
+| `IntermediateRepresentation.Melody` | Melody descriptor + line/step IR |
+
+См. [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md). **Notations** парсят wire → IR; **CommandPlane** guilds — механики.
+
+### 7.4 Notations (wire → IR parsers)
 
 | Пакет | Возможности |
 |-------|-------------|
 | `Notations` | Shared primitives (`NotationKvPair`, list split) |
-| `Notations.Keyboard.*` | `NormalizedKeySequence` — KeyGesture, Vim, Neovim, Emacs wires |
-| `Notations.Command.*` | `NormalizedCommandLine`, slash/console body tokenize |
-| `Notations.Argument.*` | Kv, positional, CLI flags, delimited (colon) tails |
-| `Notations.Bracket` | Bracket notation branch ([ADR-0026](./adr/GUIDERS-ADR-0026-notations-bracket-branch.md)) |
+| `Notations.Keyboard.*` | `IKeyboardNotationReader` — KeyGesture, Vim, Neovim, Emacs wires |
+| `Notations.Command.*` | Slash/console body tokenize, `InvocationNotation` helpers |
+| `Notations.Argument.*` | Kv, positional, CLI flags, delimited parsers (`ArgumentNotation.All`) |
+| `Notations.Bracket` | `BracketReader`, `IBracketNotationReader` |
 | `InputNotation.*` | **Legacy alias** → `Notations.Keyboard.*` (obsolete forwards) |
 
 Platform шипит **reference quarry** (.NET parsers). Планеты **портят vectors** в native stacks (Forge JS, VS Code extension и т.д.).
 
-### 7.4 CommandPlane
+### 7.5 CommandPlane
 
 | Пакет | Возможности |
 |-------|-------------|
 | `CommandPlane` | GoF `IPlatformCommand<T>`, `PlatformCommandRegistry`, `ICommandContext` (hub) |
-| `CommandPlane.Catalog` | Command catalog IR + index facade ([ADR-0039](./adr/GUIDERS-ADR-0039-command-catalog-family.md), [ADR-0041](./adr/GUIDERS-ADR-0041-catalog-kernel-profiles.md)) |
+| `CommandPlane.Catalog` | Catalog index, sources, merge facade — IR в `IntermediateRepresentation.Command` ([ADR-0039](./adr/GUIDERS-ADR-0039-command-catalog-family.md), [ADR-0041](./adr/GUIDERS-ADR-0041-catalog-kernel-profiles.md), [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md)) |
 | `CommandPlane.ArgSuggestions` | Federated arg suggestion broker + planet provider registry |
 | `CommandPlane.Constructors` | Value constructor registry, session, navigator, locale input ([ADR-0035](./adr/GUIDERS-ADR-0035-slash-value-constructors.md)) |
 | `CommandPlane.PrefixArmed` | PAC profiles + coordinator — кросс-поверхностная механика ([ADR-0038](./adr/GUIDERS-ADR-0038-prefix-armed-completion.md)) |
