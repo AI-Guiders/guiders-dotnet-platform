@@ -4,8 +4,8 @@
 |---|---|
 | **Status** | Accepted |
 | **Date** | 2026-08-31 |
-| **Tags** | #guiders #commandplane #slash #constructor #pac |
-| **Relates to** | GUIDERS-ADR-0012 · GUIDERS-ADR-0035 · GUIDERS-ADR-0037 |
+| **Tags** | #guiders #commandplane #slash #constructor #pac #notations #guild |
+| **Relates to** | GUIDERS-ADR-0012 · GUIDERS-ADR-0015 · GUIDERS-ADR-0021 · GUIDERS-ADR-0035 · GUIDERS-ADR-0037 |
 
 ## Context
 
@@ -68,8 +68,36 @@ Products may add: file path, duration, numeric range, enum prefix, etc.
 
 `slash-prefix-armed.spec.json` — profile-agnostic vectors with mock profile fixtures. Date vectors remain in `slash-value-constructor.spec.json`.
 
+### 6. Cross-surface guild boundary
+
+PAC is a **CommandPlane mechanic**, not a Slash UI feature. Same rule as [GUIDERS-ADR-0021](GUIDERS-ADR-0021-notations-quarry-family.md): **Notations** parse wire → IR; **mechanics** resolve and complete; **planets** render chrome.
+
+```text
+Notations.Command.*  →  path + arg tail IR
+        │
+        ▼
+CommandPlane (catalog, constructors, PAC coordinator)   ← surface-agnostic
+        │
+        ├── CCL / DashSpec   → SlashInputGuidance, breadcrumb, suggestion table
+        ├── Console planet   → readline ghost text, status line, or silent Ready
+        ├── MCP / agent      → ReadyWire in envelope; no inline hints required
+        └── Forge / other    → port profiles + coordinator; own hint UX
+```
+
+| Layer | SSOT | Console planet may differ |
+|-------|------|---------------------------|
+| `ISlashPrefixArmProfile.TryMatch` | Platform | same profiles |
+| `SlashPrefixArmedCompletionCoordinator` | Platform | same arm/ready logic |
+| `SlashConstructorSession` | Platform | same when constructors armed |
+| Hints / placeholders / inline UI | **Surface** | harder readline UX — not a mechanic change |
+
+**Console parity:** `Notations.Command.Console` already splits path + kv tail (`ConsoleCommandNotation`). After resolve, PAC runs on the **arg tail partial** the same way as slash CCL — the console host registers the same `PrefixArmProfiles` and calls the coordinator. Whether the user *sees* `TypedInput` hints is entirely the console planet's problem.
+
+**Package target (when second consumer ships):** lift `PrefixArmed/` from `CommandPlane.Slash` to sibling `CommandPlane.PrefixArmed` (or `CommandPlane.Completion`). Slash, console REPL, and agents reference the same NuGet; `SlashInputGuidance` stays in Slash as one projector.
+
 ## Consequences
 
 - `SlashLocaleTypedConstructorCoordinator` removed → logic in PAC + date profile.
 - ADR-0037 reframed as locale **adapter** to PAC, not standalone coordinator.
 - DashSpec registers `SlashLocaleDatePrefixArmProfile` in `SlashCompletionOptions`.
+- Console and other planets adopt PAC via shared profiles + coordinator; hint rendering is local.

@@ -262,7 +262,7 @@ Platform ships **reference quarry** (.NET parsers). Planets **port vectors** to 
 | Package | Capabilities |
 |---------|--------------|
 | `CommandPlane` | GoF `IPlatformCommand<T>`, `PlatformCommandRegistry`, descriptors, `ICommandSource`, **Visual Command Tree** DTOs |
-| `CommandPlane.Slash` | `SlashCatalogIndex`, `SlashLineResolver`, completion, ArgTail, **value constructors** ([ADR-0035](./adr/GUIDERS-ADR-0035-slash-value-constructors.md)) |
+| `CommandPlane.Slash` | `SlashCatalogIndex`, `SlashLineResolver`, completion, ArgTail, **value constructors** ([ADR-0035](./adr/GUIDERS-ADR-0035-slash-value-constructors.md)), **PAC** ([ADR-0038](./adr/GUIDERS-ADR-0038-prefix-armed-completion.md); cross-surface mechanic, slash hosts one projector) |
 | `CommandPlane.Melody` | Melody descriptors, line profile, policy, chord tree projection |
 | `CommandPlane.Binding` | Hotkey catalog, gesture normalize, layered merge |
 | `CommandPlane.Sources.*` | Json, Toml, Xml, File, Database transports → Core |
