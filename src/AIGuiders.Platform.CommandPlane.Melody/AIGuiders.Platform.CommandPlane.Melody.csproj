@@ -6,6 +6,7 @@
     <Description>Melody invocation mechanic: descriptors, line profile, policy (GUIDERS-ADR-0015).</Description>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument\AIGuiders.Platform.Notations.Argument.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard\AIGuiders.Platform.Notations.Keyboard.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard.KeyGesture\AIGuiders.Platform.Notations.Keyboard.KeyGesture.csproj" />

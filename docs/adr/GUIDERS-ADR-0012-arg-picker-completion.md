@@ -69,6 +69,8 @@ Product examples: `picker:dash.field.app` → distinct values; Forge may keep HT
 
 Surfaces show `Breadcrumb` (`/select › date › today`) + mode badge; no product-specific peel.
 
+Headless **Visual Command Tree** projection for native/agent ports: [GUIDERS-ADR-0024](GUIDERS-ADR-0024-visual-command-tree-capture-stack.md) (`SlashVisualCommandTreeProjector`).
+
 ## Non-goals
 
 - Platform UI widgets (popover layout stays product)

@@ -237,7 +237,7 @@ CIDE keeps `ChordNotationRenderer` and `KeyGestureChordMatching` as product adap
 - Parametric tail after slug uses the same await-tail protocol; tail slots default to **ByNote** unless `TailWireClass` says otherwise.
 - Slug collision across profiles (e.g. `bs` ByNote vs chord-line alias) — defer to implementation wave / planet merge policy.
 
-**Open (defer):** TOML fields (`melody_profile`, explicit `melody_steps[]`) in `intent-catalog.toml`; chord wire notation SSOT. Recursive capture stack + Visual Chord Tree projection → [GUIDERS-ADR-0024](GUIDERS-ADR-0024-melody-capture-stack-visual-chord-tree.md) (stubs shipped; deferred).
+**Open (defer):** TOML fields (`melody_profile`, explicit `melody_steps[]`) in `intent-catalog.toml`; chord wire notation SSOT. Recursive capture stack + Visual Command Tree projection → [GUIDERS-ADR-0024](GUIDERS-ADR-0024-visual-command-tree-capture-stack.md) (headless projection shipped; native ports deferred).
 
 ## Non-goals (this ADR)
 
@@ -256,7 +256,7 @@ CIDE keeps `ChordNotationRenderer` and `KeyGestureChordMatching` as product adap
 ## References
 
 - CIDE [ADR 0060](https://github.com/AI-Guiders/cascade-ide/blob/develop/docs/adr/0060-keyboard-chord-stack-fms-tactical-strategic.md) — CascadeChord, melody line, `c:` discoverability
-- [GUIDERS-ADR-0024](GUIDERS-ADR-0024-melody-capture-stack-visual-chord-tree.md) — recursive capture stack, Visual Chord Tree projection (deferred)
+- [GUIDERS-ADR-0024](GUIDERS-ADR-0024-visual-command-tree-capture-stack.md) — Visual Command Tree / capture-stack projection (melody + slash)
 - CIDE [ADR 0030](https://github.com/AI-Guiders/cascade-ide/blob/develop/docs/adr/0030-command-ids-hotkeys-and-ui-registry-layers.md) — hotkeys vs command id layers
 - CIDE [ADR 0119](https://github.com/AI-Guiders/cascade-ide/blob/develop/docs/adr/0119-intent-catalog-command-first-forms.md) — command-first catalog
 - CIDE [intent-melody-language-v1.md](https://github.com/AI-Guiders/cascade-ide/blob/develop/docs/intent-melody-language-v1.md) — `c:` grammar (discoverability); keyboard melody is separate layer

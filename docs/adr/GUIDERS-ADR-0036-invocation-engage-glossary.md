@@ -89,7 +89,7 @@ Renaming **Engage** later is acceptable while the term remains documentation-onl
 
 - Merging ChordRoot with Sigil or `DiscoverabilityPrefix` in `BindingTargetKind` / notation Core.
 - Prescribing a federation-wide default sigil (`/`, `>`, or other).
-- Implementing engage state machines in platform (capture SM stays Melody + planet native ports per [ADR-0024](GUIDERS-ADR-0024-melody-capture-stack-visual-chord-tree.md)).
+- Implementing engage state machines in platform (capture SM stays Melody + planet native ports per [ADR-0024](GUIDERS-ADR-0024-visual-command-tree-capture-stack.md)).
 
 ## Consequences
 
