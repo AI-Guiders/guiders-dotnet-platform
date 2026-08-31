@@ -36,6 +36,7 @@
     <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog.Sources.Toml/AIGuiders.Platform.CommandPlane.Catalog.Sources.Toml.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog.Sources.Xml/AIGuiders.Platform.CommandPlane.Catalog.Sources.Xml.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog.Sources/AIGuiders.Platform.CommandPlane.Catalog.Sources.csproj" />
+    <Project Path="src/AIGuiders.Platform.Catalog/AIGuiders.Platform.Catalog.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog/AIGuiders.Platform.CommandPlane.Catalog.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.ArgSuggestions/AIGuiders.Platform.CommandPlane.ArgSuggestions.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane/AIGuiders.Platform.CommandPlane.csproj" />

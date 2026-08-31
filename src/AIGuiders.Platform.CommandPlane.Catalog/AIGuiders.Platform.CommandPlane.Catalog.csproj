@@ -6,6 +6,7 @@
     <Description>Command catalog guild: descriptors, index, merge, content sources contract (GUIDERS-ADR-0039, ADR-0040).</Description>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Catalog\AIGuiders.Platform.Catalog.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Combinations\AIGuiders.Platform.Combinations.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Combinations.Overlay\AIGuiders.Platform.Combinations.Overlay.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Argument\AIGuiders.Platform.Notations.Argument.csproj" />

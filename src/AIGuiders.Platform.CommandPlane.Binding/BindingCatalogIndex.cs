@@ -1,41 +1,29 @@
 #nullable enable
 
+using AIGuiders.Platform.Catalog;
+
 namespace AIGuiders.Platform.CommandPlane.Binding;
 
 public sealed class BindingCatalogIndex
 {
-    readonly Dictionary<string, BindingEntry> _byKey;
+    readonly CatalogIndex<string, BindingEntry> _index;
 
-    BindingCatalogIndex(Dictionary<string, BindingEntry> byKey) =>
-        _byKey = byKey;
+    BindingCatalogIndex(CatalogIndex<string, BindingEntry> index) =>
+        _index = index;
 
-    public static BindingCatalogIndex Empty { get; } = new(new(StringComparer.OrdinalIgnoreCase));
+    public static BindingCatalogIndex Empty { get; } = new(
+        CatalogIndex<string, BindingEntry>.Empty(StringComparer.OrdinalIgnoreCase));
 
-    public IReadOnlyCollection<BindingEntry> Entries => _byKey.Values;
+    public IReadOnlyCollection<BindingEntry> Entries => _index.Entries;
 
-    public static BindingCatalogIndex FromDescriptors(IEnumerable<BindingDescriptor> descriptors)
-    {
-        var byKey = new Dictionary<string, BindingEntry>(StringComparer.OrdinalIgnoreCase);
-        foreach (var descriptor in descriptors)
-        {
-            BindingGestureNormalizer.TryNormalizeWire(descriptor.GestureWire, out var normalized, out _);
-            byKey[descriptor.BindingKey] = new BindingEntry(descriptor, normalized);
-        }
+    public static BindingCatalogIndex FromDescriptors(IEnumerable<BindingDescriptor> descriptors) =>
+        new(CatalogIndex<string, BindingEntry>.FromDescriptors(descriptors, BindingCatalogProfile.Instance));
 
-        return new BindingCatalogIndex(byKey);
-    }
-
-    public BindingCatalogIndex Merge(BindingCatalogIndex overlay)
-    {
-        var merged = new Dictionary<string, BindingEntry>(_byKey, StringComparer.OrdinalIgnoreCase);
-        foreach (var (key, entry) in overlay._byKey)
-            merged[key] = entry;
-
-        return new BindingCatalogIndex(merged);
-    }
+    public BindingCatalogIndex Merge(BindingCatalogIndex overlay) =>
+        new(_index.MergeOverlayWins(overlay._index));
 
     public bool TryGetByKey(string bindingKey, out BindingEntry entry) =>
-        _byKey.TryGetValue(bindingKey, out entry!);
+        _index.TryGet(bindingKey, out entry!);
 
     public bool TryGetDisplayHint(string commandId, out string gestureWire)
     {

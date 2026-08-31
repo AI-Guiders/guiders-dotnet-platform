@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Catalog</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Catalog</AssemblyName>
+    <PackageId>AIGuiders.Platform.Catalog</PackageId>
+    <Description>Catalog kernel: profile-driven index, merge policies (GUIDERS-ADR-0041).</Description>
+  </PropertyGroup>
+</Project>

@@ -1,71 +1,46 @@
 #nullable enable
 
+using AIGuiders.Platform.Catalog;
+
 namespace AIGuiders.Platform.CommandPlane;
 
 /// <summary>Longest-prefix slash catalog (bundled + overlay merge). ADR-0153.</summary>
 public sealed class CommandCatalogIndex
 {
-    readonly Dictionary<string, CatalogRouteEntry> _byPath;
-    readonly string[] _pathsLongestFirst;
+    readonly CatalogIndex<string, CatalogRouteEntry> _index;
 
-    CommandCatalogIndex(Dictionary<string, CatalogRouteEntry> byPath, string[] pathsLongestFirst)
-    {
-        _byPath = byPath;
-        _pathsLongestFirst = pathsLongestFirst;
-    }
+    CommandCatalogIndex(CatalogIndex<string, CatalogRouteEntry> index) =>
+        _index = index;
 
-    public static CommandCatalogIndex Empty { get; } = new(new(StringComparer.OrdinalIgnoreCase), []);
+    public static CommandCatalogIndex Empty { get; } = Wrap(
+        CatalogIndex<string, CatalogRouteEntry>.Empty(StringComparer.OrdinalIgnoreCase));
 
-    public static CommandCatalogIndex FromDescriptors(IEnumerable<CommandDescriptor> descriptors)
-    {
-        var byPath = new Dictionary<string, CatalogRouteEntry>(StringComparer.OrdinalIgnoreCase);
-        foreach (var d in descriptors)
-        {
-            foreach (var path in d.AllPaths())
-            {
-                var normalized = NormalizePath(path);
-                if (normalized.Length == 0 || byPath.ContainsKey(normalized))
-                    continue;
-                byPath[normalized] = CatalogRouteEntry.FromDescriptor(d, normalized);
-            }
-        }
-
-        return FromPathDictionary(byPath);
-    }
+    public static CommandCatalogIndex FromDescriptors(IEnumerable<CommandDescriptor> descriptors) =>
+        Wrap(CatalogIndex<string, CatalogRouteEntry>.FromDescriptors(descriptors, CommandCatalogProfile.Instance));
 
     public static CommandCatalogIndex FromEntries(IEnumerable<CatalogRouteEntry> entries)
     {
         var byPath = new Dictionary<string, CatalogRouteEntry>(StringComparer.OrdinalIgnoreCase);
         foreach (var entry in entries)
         {
-            var normalized = NormalizePath(entry.Path);
+            var normalized = CommandCatalogProfile.NormalizePath(entry.Path);
             if (normalized.Length == 0)
                 continue;
             byPath[normalized] = entry with { Path = normalized };
         }
 
-        return FromPathDictionary(byPath);
+        return Wrap(CatalogIndex<string, CatalogRouteEntry>.FromMap(
+            byPath,
+            StringComparer.OrdinalIgnoreCase));
     }
 
-    public IReadOnlyCollection<CatalogRouteEntry> Routes => _byPath.Values;
+    public IReadOnlyCollection<CatalogRouteEntry> Routes => _index.Entries;
 
-    static CommandCatalogIndex FromPathDictionary(Dictionary<string, CatalogRouteEntry> byPath)
-    {
-        var longest = byPath.Keys.OrderByDescending(p => p.Length).ThenBy(p => p, StringComparer.OrdinalIgnoreCase).ToArray();
-        return new CommandCatalogIndex(byPath, longest);
-    }
-
-    public CommandCatalogIndex Merge(CommandCatalogIndex overlay)
-    {
-        var merged = new Dictionary<string, CatalogRouteEntry>(_byPath, StringComparer.OrdinalIgnoreCase);
-        foreach (var (k, v) in overlay._byPath)
-            merged.TryAdd(k, v);
-        var longest = merged.Keys.OrderByDescending(p => p.Length).ThenBy(p => p, StringComparer.OrdinalIgnoreCase).ToArray();
-        return new CommandCatalogIndex(merged, longest);
-    }
+    public CommandCatalogIndex Merge(CommandCatalogIndex overlay) =>
+        Wrap(_index.MergeShipFirst(overlay._index));
 
     public bool TryGet(string slashPath, out CatalogRouteEntry entry) =>
-        _byPath.TryGetValue(NormalizePath(slashPath), out entry);
+        _index.TryGet(CommandCatalogProfile.NormalizePath(slashPath), out entry);
 
     public bool TryResolveLongestPrefix(
         IReadOnlyList<string> tokens,
@@ -87,7 +62,7 @@ public sealed class CommandCatalogIndex
         for (var take = tokens.Count; take >= 1; take--)
         {
             var candidate = string.Join(' ', tokens.Take(take));
-            if (!_byPath.TryGetValue(candidate, out var route))
+            if (!_index.TryGet(candidate, out var route))
                 continue;
 
             entry = route;
@@ -102,11 +77,6 @@ public sealed class CommandCatalogIndex
         return false;
     }
 
-    static string NormalizePath(string path)
-    {
-        var p = path.Trim();
-        if (p.StartsWith('/'))
-            p = p[1..];
-        return p.Trim();
-    }
+    static CommandCatalogIndex Wrap(CatalogIndex<string, CatalogRouteEntry> index) =>
+        new(index);
 }

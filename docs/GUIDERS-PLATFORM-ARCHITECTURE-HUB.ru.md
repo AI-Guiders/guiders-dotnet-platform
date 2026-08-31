@@ -236,9 +236,10 @@ Platform шипит **дороги** (neutral IR, MCPlane tiers, conformance). �
 |-------|-------------|
 | `Sources` | Generic `ISource<T>` transport abstraction |
 | `Sources.File` / `.Toml` | File + TOML transport |
+| `Catalog` | `CatalogIndex<TKey,TEntry>`, `ICatalogProfile`, merge policies ([ADR-0041](./adr/GUIDERS-ADR-0041-catalog-kernel-profiles.md)) |
 | `Combinations` | `Combinator<T>`, `OrderedCombination.Fold`, `CombinationSemantics` |
 | `Combinations.Workspace` | `FieldOverlay` — overlay non-null wins |
-| `Combinations.Catalog` | Meta → `ShipFirst` merge в CommandPlane.Slash |
+| `Combinations.Catalog` | Meta → `ShipFirst` merge в CommandPlane.Catalog |
 | `Combinations.Binding` | Meta → `OverlayWins` merge в CommandPlane.Binding |
 | `Combinations.All` | Meta-bundle |
 
