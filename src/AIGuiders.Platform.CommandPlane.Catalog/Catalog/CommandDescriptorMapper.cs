@@ -57,6 +57,8 @@ public static class CommandDescriptorMapper
 
             Surfaces = ParseList(Get(fields, "surfaces")),
 
+            Scope = ParseList(Get(fields, "scope", "scopes")),
+
             RequiredCapabilities = ParseList(Get(fields, "requiredCapabilities", "required_capabilities")),
 
             Tier = Get(fields, "tier"),
@@ -118,6 +120,8 @@ public static class CommandDescriptorMapper
             ArgConstructors = descriptor.ArgConstructors,
 
             Surfaces = descriptor.Surfaces,
+
+            Scope = descriptor.Scope,
 
             RequiredCapabilities = descriptor.RequiredCapabilities,
 

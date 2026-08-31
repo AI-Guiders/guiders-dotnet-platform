@@ -25,6 +25,8 @@ public sealed class CommandDescriptor
     public IReadOnlyList<CommandPickerChoice> ArgPickerChoices { get; init; } = [];
     public IReadOnlyList<ArgConstructorBinding> ArgConstructors { get; init; } = [];
     public IReadOnlyList<string> Surfaces { get; init; } = [];
+    /// <summary>Catalog scope tags — empty = all scopes (GUIDERS-ADR-0044). Not invoker surfaces.</summary>
+    public IReadOnlyList<string> Scope { get; init; } = [];
     public IReadOnlyList<string> RequiredCapabilities { get; init; } = [];
     public string? Tier { get; init; }
     public string? PluginId { get; init; }
