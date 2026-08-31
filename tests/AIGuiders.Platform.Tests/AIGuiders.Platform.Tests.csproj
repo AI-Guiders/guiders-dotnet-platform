@@ -40,6 +40,9 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Cds\AIGuiders.Platform.Cockpit.Cds.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Slash\AIGuiders.Platform.CommandPlane.Slash.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Constructors\AIGuiders.Platform.CommandPlane.Constructors.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.PrefixArmed\AIGuiders.Platform.CommandPlane.PrefixArmed.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.PrefixArmed.Locale\AIGuiders.Platform.CommandPlane.PrefixArmed.Locale.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Sources.Database\AIGuiders.Platform.CommandPlane.Sources.Database.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Sources\AIGuiders.Platform.CommandPlane.Sources.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Conformance.Schemas\AIGuiders.Platform.Conformance.Schemas.csproj" />

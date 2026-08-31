@@ -3,14 +3,14 @@
 namespace AIGuiders.Platform.CommandPlane;
 
 /// <summary>PAC profile: locale date/range input (GUIDERS-ADR-0037 adapter).</summary>
-public sealed class SlashLocaleDatePrefixArmProfile(ISlashCultureAmbient culture) : ISlashPrefixArmProfile
+public sealed class SlashLocaleDatePrefixArmProfile(ISlashCultureAmbient culture) : IPrefixArmProfile
 {
     public string ProfileId => "locale-date";
 
-    public bool TryMatch(string partial, SlashRouteEntry route, out SlashPrefixArmMatch match)
+    public bool TryMatch(string partial, PrefixArmSite site, out PrefixArmMatch match)
     {
-        match = SlashPrefixArmMatch.NoMatch;
-        if (route.ResolvedConstructors.Count == 0)
+        match = PrefixArmMatch.NoMatch;
+        if (site.Constructors.Count == 0)
         {
             return false;
         }
@@ -24,8 +24,8 @@ public sealed class SlashLocaleDatePrefixArmProfile(ISlashCultureAmbient culture
         if (completeness == SlashLocaleDateCompleteness.CompleteRange
             && SlashLocaleDateParser.TryToRangeWire(parts, out var rangeWire))
         {
-            match = new SlashPrefixArmMatch(
-                SlashPrefixArmDisposition.Ready,
+            match = new PrefixArmMatch(
+                PrefixArmDisposition.Ready,
                 rangeWire,
                 partial);
             return true;
@@ -34,8 +34,8 @@ public sealed class SlashLocaleDatePrefixArmProfile(ISlashCultureAmbient culture
         if (completeness == SlashLocaleDateCompleteness.CompleteDate
             && SlashLocaleDateParser.TryToDayWire(parts, out var dayWire))
         {
-            match = new SlashPrefixArmMatch(
-                SlashPrefixArmDisposition.Ready,
+            match = new PrefixArmMatch(
+                PrefixArmDisposition.Ready,
                 dayWire,
                 partial);
             return true;
@@ -44,20 +44,20 @@ public sealed class SlashLocaleDatePrefixArmProfile(ISlashCultureAmbient culture
         if (completeness == SlashLocaleDateCompleteness.MonthYear
             && SlashLocaleDateParser.TryToMonthWire(parts, out var monthWire))
         {
-            match = new SlashPrefixArmMatch(
-                SlashPrefixArmDisposition.Ready,
+            match = new PrefixArmMatch(
+                PrefixArmDisposition.Ready,
                 monthWire,
                 partial);
             return true;
         }
 
-        if (!TryResolveRootConstructor(route, completeness, out var rootId))
+        if (!TryResolveRootConstructor(site.Constructors, completeness, out var rootId))
         {
             return false;
         }
 
-        match = new SlashPrefixArmMatch(
-            SlashPrefixArmDisposition.ArmConstructor,
+        match = new PrefixArmMatch(
+            PrefixArmDisposition.ArmConstructor,
             RootConstructorId: rootId,
             DisplayTail: partial,
             Segments: parts.ToWireSegments());
@@ -65,12 +65,11 @@ public sealed class SlashLocaleDatePrefixArmProfile(ISlashCultureAmbient culture
     }
 
     static bool TryResolveRootConstructor(
-        SlashRouteEntry route,
+        IReadOnlyList<SlashConstructorBinding> bindings,
         SlashLocaleDateCompleteness completeness,
         out string rootId)
     {
         rootId = "";
-        var bindings = route.ResolvedConstructors;
         string? candidate = completeness switch
         {
             SlashLocaleDateCompleteness.MonthYear => FindBinding(bindings, "month"),

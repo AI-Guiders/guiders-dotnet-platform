@@ -4,6 +4,8 @@ namespace AIGuiders.Platform.CommandPlane;
 
 public sealed class SlashConstructorSession(SlashValueConstructorNavigator navigator)
 {
+    public SlashValueConstructorNavigator Navigator { get; } = navigator;
+
     SlashConstructorDraft? _draft;
     string _typedArgTail = "";
 
@@ -70,24 +72,6 @@ public sealed class SlashConstructorSession(SlashValueConstructorNavigator navig
 
         Cancel();
         return true;
-    }
-
-    public SlashCompletionResult GetCompletionResult(string partial, SlashLocaleInputProfile? profile = null)
-    {
-        if (_draft is null)
-        {
-            return new SlashCompletionResult([], new SlashInputGuidance(
-                SlashInputMode.Path,
-                "/",
-                "",
-                "",
-                null,
-                ""));
-        }
-
-        var items = navigator.GetSuggestions(_draft, partial);
-        var guidance = navigator.BuildGuidance(_draft, profile);
-        return new SlashCompletionResult(items, guidance);
     }
 
     public void Cancel()

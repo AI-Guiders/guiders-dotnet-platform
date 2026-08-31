@@ -25,6 +25,9 @@
     <Project Path="src/AIGuiders.Platform.CommandPlane.Binding.Sources.Toml/AIGuiders.Platform.CommandPlane.Binding.Sources.Toml.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Binding.Sources/AIGuiders.Platform.CommandPlane.Binding.Sources.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Binding/AIGuiders.Platform.CommandPlane.Binding.csproj" />
+    <Project Path="src/AIGuiders.Platform.CommandPlane.Constructors/AIGuiders.Platform.CommandPlane.Constructors.csproj" />
+    <Project Path="src/AIGuiders.Platform.CommandPlane.PrefixArmed/AIGuiders.Platform.CommandPlane.PrefixArmed.csproj" />
+    <Project Path="src/AIGuiders.Platform.CommandPlane.PrefixArmed.Locale/AIGuiders.Platform.CommandPlane.PrefixArmed.Locale.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Melody/AIGuiders.Platform.CommandPlane.Melody.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Slash/AIGuiders.Platform.CommandPlane.Slash.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Sources.Database/AIGuiders.Platform.CommandPlane.Sources.Database.csproj" />

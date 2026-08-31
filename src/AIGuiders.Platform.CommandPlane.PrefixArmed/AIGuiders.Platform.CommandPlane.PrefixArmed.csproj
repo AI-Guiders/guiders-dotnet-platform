@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.CommandPlane</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.CommandPlane.PrefixArmed</AssemblyName>
+    <PackageId>AIGuiders.Platform.CommandPlane.PrefixArmed</PackageId>
+    <Description>Prefix-Armed Completion (PAC) — profile-driven arg-tail mechanic (GUIDERS-ADR-0038).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Constructors\AIGuiders.Platform.CommandPlane.Constructors.csproj" />
+  </ItemGroup>
+</Project>

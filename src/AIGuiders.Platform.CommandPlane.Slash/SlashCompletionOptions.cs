@@ -10,5 +10,5 @@ public sealed class SlashCompletionOptions
     public DateOnly? AnchorDate { get; init; }
 
     /// <summary>Product PAC profiles (GUIDERS-ADR-0038). Domain-agnostic prefix lexers.</summary>
-    public IReadOnlyList<ISlashPrefixArmProfile> PrefixArmProfiles { get; init; } = [];
+    public IReadOnlyList<IPrefixArmProfile> PrefixArmProfiles { get; init; } = [];
 }

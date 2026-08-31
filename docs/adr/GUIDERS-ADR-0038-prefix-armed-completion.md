@@ -29,20 +29,21 @@ Platform owns:
 
 | Type | Role |
 |------|------|
-| `ISlashPrefixArmProfile` | Product lexer: partial + route → match |
-| `SlashPrefixArmMatch` | Ready wire OR constructor root + segments |
-| `SlashPrefixArmedCompletionCoordinator` | Session sync, arm, guidance |
-| `SlashInputMode.TypedInput` | User is typing a value prefix (any profile) |
+| `IPrefixArmProfile` | Product lexer: partial + `PrefixArmSite` → match |
+| `PrefixArmMatch` | Ready wire OR constructor root + segments |
+| `PrefixArmCoordinator` | Session sync, arm, neutral result |
+| `PrefixArmSite` | Surface-neutral arg site (constructors, hints) |
+| `SlashInputMode.TypedInput` | User is typing a value prefix (slash projector) |
 
-Platform does **not** own domain grammars (dates, paths, durations). Those are profiles.
+Platform does **not** own domain grammars (dates, paths, durations). Those are profiles (`CommandPlane.PrefixArmed.Locale` for dates).
 
 ### 2. Profile contract
 
 ```csharp
-public interface ISlashPrefixArmProfile
+public interface IPrefixArmProfile
 {
     string ProfileId { get; }
-    bool TryMatch(string partial, SlashRouteEntry route, out SlashPrefixArmMatch match);
+    bool TryMatch(string partial, PrefixArmSite site, out PrefixArmMatch match);
 }
 ```
 
@@ -52,7 +53,7 @@ public interface ISlashPrefixArmProfile
 
 `SlashCompletionOptions.PrefixArmProfiles` — explicit list from product host.
 
-`SlashCompletion.GetResult` delegates arg-tail handling to `SlashPrefixArmedCompletionCoordinator` when registry + session + profiles are present.
+`PrefixArmCoordinator` runs on `PrefixArmSite` (surface-neutral). `CommandPlane.Slash` maps `SlashRouteEntry` → site and `PrefixArmResult` → `SlashCompletionResult`.
 
 Constructor session rules (ADR-0037 §5) apply to all PAC profiles.
 
@@ -60,7 +61,7 @@ Constructor session rules (ADR-0037 §5) apply to all PAC profiles.
 
 Platform ships **zero** mandatory domain profiles. Optional adapters live in namespaces (e.g. `Locale/`):
 
-- `SlashLocaleDatePrefixArmProfile` — implements PAC for locale date/range (GUIDERS-ADR-0037).
+- `SlashLocaleDatePrefixArmProfile` — in `CommandPlane.PrefixArmed.Locale` (GUIDERS-ADR-0037).
 
 Products may add: file path, duration, numeric range, enum prefix, etc.
 
@@ -86,14 +87,14 @@ CommandPlane (catalog, constructors, PAC coordinator)   ← surface-agnostic
 
 | Layer | SSOT | Console planet may differ |
 |-------|------|---------------------------|
-| `ISlashPrefixArmProfile.TryMatch` | Platform | same profiles |
-| `SlashPrefixArmedCompletionCoordinator` | Platform | same arm/ready logic |
-| `SlashConstructorSession` | Platform | same when constructors armed |
+| `IPrefixArmProfile.TryMatch` | `CommandPlane.PrefixArmed` | same profiles |
+| `PrefixArmCoordinator` | `CommandPlane.PrefixArmed` | same arm/ready logic |
+| `SlashConstructorSession` | `CommandPlane.Constructors` | same when constructors armed |
 | Hints / placeholders / inline UI | **Surface** | harder readline UX — not a mechanic change |
 
 **Console parity:** `Notations.Command.Console` already splits path + kv tail (`ConsoleCommandNotation`). After resolve, PAC runs on the **arg tail partial** the same way as slash CCL — the console host registers the same `PrefixArmProfiles` and calls the coordinator. Whether the user *sees* `TypedInput` hints is entirely the console planet's problem.
 
-**Package target (when second consumer ships):** lift `PrefixArmed/` from `CommandPlane.Slash` to sibling `CommandPlane.PrefixArmed` (or `CommandPlane.Completion`). Slash, console REPL, and agents reference the same NuGet; `SlashInputGuidance` stays in Slash as one projector.
+**Packages (shipped):** `CommandPlane.Constructors`, `CommandPlane.PrefixArmed`, `CommandPlane.PrefixArmed.Locale`. Console: `CommandPlane` + `PrefixArmed` + profiles — no `CommandPlane.Slash` required.
 
 ## Consequences
 

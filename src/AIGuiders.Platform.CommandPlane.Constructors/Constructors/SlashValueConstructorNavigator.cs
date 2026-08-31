@@ -61,47 +61,6 @@ public sealed class SlashValueConstructorNavigator(
         return true;
     }
 
-    public SlashInputGuidance BuildGuidance(SlashConstructorDraft draft, SlashLocaleInputProfile? profile = null)
-    {
-        if (TryGetCurrentSlotLabel(draft, out var slotLabel)
-            && TryGetCurrentLeaf(draft, out var leaf, out var segmentIndex))
-        {
-            var segment = leaf.Segments[segmentIndex];
-            var breadcrumb = BuildBreadcrumb(draft, slotLabel);
-            var placeholder = profile?.InputPlaceholder ?? segment.Label;
-            return new SlashInputGuidance(
-                SlashInputMode.Constructor,
-                breadcrumb,
-                segment.Label,
-                $"{slotLabel}: {segment.Label}",
-                draft.CanonicalPath,
-                nameof(SlashInputMode.Constructor),
-                DisplayTail: draft.DisplayBuffer);
-        }
-
-        if (TryEmitWire(draft, out var wire, out _))
-        {
-            return new SlashInputGuidance(
-                SlashInputMode.Ready,
-                BuildBreadcrumb(draft, null),
-                "Press Enter to run",
-                draft.DisplayBuffer,
-                draft.CanonicalPath,
-                nameof(SlashInputMode.Constructor),
-                wire,
-                draft.DisplayBuffer);
-        }
-
-        return new SlashInputGuidance(
-            SlashInputMode.Constructor,
-            BuildBreadcrumb(draft, null),
-            profile?.InputPlaceholder ?? "Value",
-            "Choose the next step",
-            draft.CanonicalPath,
-            nameof(SlashInputMode.Constructor),
-            DisplayTail: draft.DisplayBuffer);
-    }
-
     public bool TryApplySegments(
         SlashConstructorDraft draft,
         IReadOnlyDictionary<string, string> segments,
@@ -142,9 +101,6 @@ public sealed class SlashValueConstructorNavigator(
         SlashValueConstructorRegistry registryInstance,
         SlashLocaleInputProfile profile) =>
         TryApplySegments(draft, parts.ToWireSegments(), registryInstance, profile);
-
-    public SlashInputGuidance BuildGuidance(SlashConstructorDraft draft)
-        => BuildGuidance(draft, profile: null);
 
     void CompleteCurrentLeaf(SlashConstructorDraft draft, SlashLeafConstructorDefinition leaf)
     {
@@ -195,7 +151,7 @@ public sealed class SlashValueConstructorNavigator(
             : draft.DisplayBuffer + displaySep;
     }
 
-    bool TryGetCurrentLeaf(
+    public bool TryGetCurrentLeaf(
         SlashConstructorDraft draft,
         out SlashLeafConstructorDefinition leaf,
         out int segmentIndex)
@@ -213,7 +169,7 @@ public sealed class SlashValueConstructorNavigator(
         return segmentIndex >= 0 && segmentIndex < leaf.Segments.Count;
     }
 
-    bool TryGetCurrentSlotLabel(SlashConstructorDraft draft, out string label)
+    public bool TryGetCurrentSlotLabel(SlashConstructorDraft draft, out string label)
     {
         label = "";
         var composite = registry.RequireComposite(draft.RootConstructorId);
@@ -225,22 +181,6 @@ public sealed class SlashValueConstructorNavigator(
         var slot = composite.Slots[draft.SlotIndex];
         label = string.IsNullOrWhiteSpace(slot.Label) ? slot.SlotId : slot.Label;
         return true;
-    }
-
-    static string BuildBreadcrumb(SlashConstructorDraft draft, string? slotLabel)
-    {
-        var parts = new List<string> { "/" + draft.CanonicalPath };
-        if (!string.IsNullOrWhiteSpace(slotLabel))
-        {
-            parts.Add(slotLabel);
-        }
-
-        if (!string.IsNullOrWhiteSpace(draft.DisplayBuffer))
-        {
-            parts.Add(draft.DisplayBuffer);
-        }
-
-        return string.Join(" › ", parts);
     }
 
     static string FormatWire(SlashLeafConstructorDefinition leaf, IReadOnlyDictionary<string, string> segments)

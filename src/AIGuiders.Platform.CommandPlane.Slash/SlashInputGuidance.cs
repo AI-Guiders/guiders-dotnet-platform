@@ -46,7 +46,10 @@ public static class SlashCompletion
         if (constructorSession?.IsActive == true)
         {
             var partial = constructorSession.TypedArgTail;
-            return constructorSession.GetCompletionResult(partial, profile);
+            return constructorSession.GetSlashCompletionResult(
+                constructorSession.Navigator,
+                partial,
+                profile);
         }
 
         if (options?.ConstructorRegistry is not null
@@ -57,28 +60,38 @@ public static class SlashCompletion
             && catalog.TryGet(line.CanonicalPath, out var route)
             && line.HasArgTailContent)
         {
-            var navigator = new SlashValueConstructorNavigator(options.ConstructorRegistry, options.SegmentProvider);
-            var coordinator = new SlashPrefixArmedCompletionCoordinator(navigator, options.ConstructorRegistry);
+            var navigator = constructorSession.Navigator;
+            var coordinator = new PrefixArmCoordinator(navigator, options.ConstructorRegistry);
             var localeProfile = options.Culture is null
                 ? null
                 : SlashLocaleInputProfile.FromCulture(options.Culture);
-            if (coordinator.TryHandleArgTail(
-                    line,
-                    route,
+            var site = route.ToPrefixArmSite();
+            if (coordinator.TryHandle(
+                    line.CanonicalPath,
                     line.ArgTail,
+                    site,
                     constructorSession,
                     options.PrefixArmProfiles,
                     localeProfile,
                     out var pacResult)
-                && pacResult is not null)
+                && pacResult is not null
+                && SlashPrefixArmProjection.ToSlashCompletionResult(
+                    pacResult,
+                    constructorSession,
+                    navigator,
+                    line.ArgTail,
+                    localeProfile) is { } slashResult)
             {
-                return pacResult;
+                return slashResult;
             }
         }
 
         if (constructorSession?.IsActive == true)
         {
-            return constructorSession.GetCompletionResult("", profile);
+            return constructorSession.GetSlashCompletionResult(
+                constructorSession.Navigator,
+                "",
+                profile);
         }
 
         var items = SlashStepCompletion.GetSuggestions(catalog, typedBody, pickerSource);
@@ -100,7 +113,7 @@ static class SlashInputGuidanceResolver
         string typedBody,
         ISlashPickerChoiceSource? pickerSource,
         IReadOnlyList<SlashCompletionItem> items,
-        IReadOnlyList<ISlashPrefixArmProfile>? prefixArmProfiles = null,
+        IReadOnlyList<IPrefixArmProfile>? prefixArmProfiles = null,
         SlashLocaleInputProfile? localeProfile = null)
     {
         var body = typedBody.TrimStart();
@@ -153,13 +166,13 @@ static class SlashInputGuidanceResolver
         IReadOnlyList<SlashCompletionItem> items,
         string breadcrumb,
         string argTailKind,
-        IReadOnlyList<ISlashPrefixArmProfile>? prefixArmProfiles,
+        IReadOnlyList<IPrefixArmProfile>? prefixArmProfiles,
         SlashLocaleInputProfile? localeProfile)
     {
         var partial = line.ArgTail.Trim();
         if (partial.Length > 0
             && prefixArmProfiles is { Count: > 0 }
-            && SlashPrefixArmedCompletionCoordinator.AnyProfileMatches(prefixArmProfiles, partial, route))
+            && PrefixArmCoordinator.AnyProfileMatches(prefixArmProfiles, partial, route.ToPrefixArmSite()))
         {
             return new SlashInputGuidance(
                 SlashInputMode.TypedInput,

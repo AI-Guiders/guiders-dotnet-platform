@@ -50,12 +50,12 @@ public sealed class SlashLocaleDateParserTests
     }
 }
 
-public sealed class SlashPrefixArmedCompletionTests
+public sealed class PrefixArmCoordinatorTests
 {
     static readonly SlashLocaleInputProfile RuProfile =
         SlashLocaleInputProfile.FromCulture(CultureInfo.GetCultureInfo("ru-RU"));
 
-    static readonly ISlashPrefixArmProfile DateProfile =
+    static readonly IPrefixArmProfile DateProfile =
         new SlashLocaleDatePrefixArmProfile(new SlashCultureAmbient(CultureInfo.GetCultureInfo("ru-RU")));
 
     [Fact]
@@ -63,7 +63,7 @@ public sealed class SlashPrefixArmedCompletionTests
     {
         var registry = BuildDateRegistry();
         var navigator = new SlashValueConstructorNavigator(registry, new StubSegmentProvider());
-        var coordinator = new SlashPrefixArmedCompletionCoordinator(navigator, registry);
+        var coordinator = new PrefixArmCoordinator(navigator, registry);
         var session = new SlashConstructorSession(navigator);
         var catalog = SlashCatalogIndex.FromDescriptors([
             new SlashCommandDescriptor
@@ -88,17 +88,17 @@ public sealed class SlashPrefixArmedCompletionTests
             out var line);
         catalog.TryGet(line.CanonicalPath, out var route);
 
-        Assert.True(coordinator.TryHandleArgTail(
-            line,
-            route,
+        Assert.True(coordinator.TryHandle(
+            line.CanonicalPath,
             "31.08.2026",
+            route.ToPrefixArmSite(),
             session,
             [DateProfile],
             RuProfile,
             out var result));
-        Assert.NotNull(result);
-        Assert.Equal(SlashInputMode.Ready, result!.Guidance.Mode);
-        Assert.Equal("2026-08-31", result.Guidance.ReadyWire);
+        Assert.IsType<PrefixArmReadyResult>(result);
+        var ready = (PrefixArmReadyResult)result!;
+        Assert.Equal("2026-08-31", ready.Wire);
     }
 
     [Fact]
@@ -106,7 +106,7 @@ public sealed class SlashPrefixArmedCompletionTests
     {
         var registry = BuildDateRegistry();
         var navigator = new SlashValueConstructorNavigator(registry, new StubSegmentProvider());
-        var coordinator = new SlashPrefixArmedCompletionCoordinator(navigator, registry);
+        var coordinator = new PrefixArmCoordinator(navigator, registry);
         var session = new SlashConstructorSession(navigator);
         var catalog = SlashCatalogIndex.FromDescriptors([
             new SlashCommandDescriptor
@@ -124,10 +124,16 @@ public sealed class SlashPrefixArmedCompletionTests
         SlashLineResolver.TryResolveBody("select filter usage_date 08.2026", catalog, out var line);
         catalog.TryGet(line.CanonicalPath, out var route);
 
-        Assert.True(coordinator.TryHandleArgTail(line, route, "08.2026", session, [DateProfile], RuProfile, out var result));
-        Assert.NotNull(result);
-        Assert.Equal(SlashInputMode.Ready, result!.Guidance.Mode);
-        Assert.Equal("2026-08", result.Guidance.ReadyWire);
+        Assert.True(coordinator.TryHandle(
+            line.CanonicalPath,
+            "08.2026",
+            route.ToPrefixArmSite(),
+            session,
+            [DateProfile],
+            RuProfile,
+            out var result));
+        Assert.IsType<PrefixArmReadyResult>(result);
+        Assert.Equal("2026-08", ((PrefixArmReadyResult)result!).Wire);
         Assert.False(session.IsActive);
     }
 
@@ -136,49 +142,35 @@ public sealed class SlashPrefixArmedCompletionTests
     {
         var registry = new SlashValueConstructorRegistry();
         var navigator = new SlashValueConstructorNavigator(registry, new StubSegmentProvider());
-        var coordinator = new SlashPrefixArmedCompletionCoordinator(navigator, registry);
+        var coordinator = new PrefixArmCoordinator(navigator, registry);
         var session = new SlashConstructorSession(navigator);
-        var catalog = SlashCatalogIndex.FromDescriptors([
-            new SlashCommandDescriptor
-            {
-                Domain = "",
-                Object = "",
-                Intent = "",
-                CommandId = "demo.echo",
-                Path = "demo echo",
-                ArgTail = "required",
-            },
-        ]);
+        var site = PrefixArmSite.FromBindings([], null, "Echo", "required");
 
-        SlashLineResolver.TryResolveBody("demo echo hello", catalog, out var line);
-        catalog.TryGet(line.CanonicalPath, out var route);
-
-        Assert.True(coordinator.TryHandleArgTail(
-            line,
-            route,
+        Assert.True(coordinator.TryHandle(
+            "demo echo",
             "hello",
+            site,
             session,
             [new EchoPrefixProfile()],
             localeProfile: null,
             out var result));
-        Assert.NotNull(result);
-        Assert.Equal(SlashInputMode.Ready, result!.Guidance.Mode);
-        Assert.Equal("HELLO", result.Guidance.ReadyWire);
+        Assert.IsType<PrefixArmReadyResult>(result);
+        Assert.Equal("HELLO", ((PrefixArmReadyResult)result!).Wire);
     }
 
-    sealed class EchoPrefixProfile : ISlashPrefixArmProfile
+    sealed class EchoPrefixProfile : IPrefixArmProfile
     {
         public string ProfileId => "echo";
 
-        public bool TryMatch(string partial, SlashRouteEntry route, out SlashPrefixArmMatch match)
+        public bool TryMatch(string partial, PrefixArmSite site, out PrefixArmMatch match)
         {
             if (partial.Equals("hello", StringComparison.OrdinalIgnoreCase))
             {
-                match = new SlashPrefixArmMatch(SlashPrefixArmDisposition.Ready, partial.ToUpperInvariant(), partial);
+                match = new PrefixArmMatch(PrefixArmDisposition.Ready, partial.ToUpperInvariant(), partial);
                 return true;
             }
 
-            match = SlashPrefixArmMatch.NoMatch;
+            match = PrefixArmMatch.NoMatch;
             return false;
         }
     }
