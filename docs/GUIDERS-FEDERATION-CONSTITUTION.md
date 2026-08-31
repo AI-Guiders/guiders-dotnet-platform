@@ -212,7 +212,7 @@ Conformance is not paywalled. MIT packages, public ADRs, fork adapters — not f
 
 | Start here | Doc |
 |------------|-----|
-| **Architecture hub (full map)** | [GUIDERS-PLATFORM-ARCHITECTURE-HUB.md](GUIDERS-PLATFORM-ARCHITECTURE-HUB.md) · [DOCX](GUIDERS-PLATFORM-ARCHITECTURE-HUB.docx) |
+| **Architecture hub (full map)** | [EN](GUIDERS-PLATFORM-ARCHITECTURE-HUB.md) · [EN DOCX](GUIDERS-PLATFORM-ARCHITECTURE-HUB.docx) · [RU](GUIDERS-PLATFORM-ARCHITECTURE-HUB.ru.md) · [RU DOCX](GUIDERS-PLATFORM-ARCHITECTURE-HUB.ru.docx) |
 | Platform boundary | [GUIDERS-ADR-0001](adr/GUIDERS-ADR-0001-platform-boundary.md) |
 | Confederation charter (normative) | [GUIDERS-ADR-0006](adr/GUIDERS-ADR-0006-confederation-charter.md) |
 | Platform mechanics quarry | [GUIDERS-ADR-0010](adr/GUIDERS-ADR-0010-platform-mechanics.md) |

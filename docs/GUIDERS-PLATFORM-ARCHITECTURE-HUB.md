@@ -6,7 +6,7 @@
 | **Version** | Platform packages **v0.30.0** |
 | **Date** | 2026-08-31 |
 | **Audience** | Integrators, planet maintainers, federation allies |
-| **Formats** | This file (MD) · companion [GUIDERS-PLATFORM-ARCHITECTURE-HUB.docx](./GUIDERS-PLATFORM-ARCHITECTURE-HUB.docx) |
+| **Formats** | This file (MD) · companion [GUIDERS-PLATFORM-ARCHITECTURE-HUB.docx](./GUIDERS-PLATFORM-ARCHITECTURE-HUB.docx) · [Русский](./GUIDERS-PLATFORM-ARCHITECTURE-HUB.ru.md) |
 
 **Start elsewhere if you need:** [Federation Constitution](./GUIDERS-FEDERATION-CONSTITUTION.md) (why & how to join) · [GUIDERS-ADR-0006](./adr/GUIDERS-ADR-0006-confederation-charter.md) (normative charter) · [README](../README.md) (build & NuGet)
 
