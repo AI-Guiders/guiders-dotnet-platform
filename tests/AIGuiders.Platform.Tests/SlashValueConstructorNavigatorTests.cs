@@ -27,6 +27,28 @@ public sealed class SlashValueConstructorNavigatorTests
         Assert.Equal("2026-08-01..2026-09-15", wire);
     }
 
+    [Fact]
+    public void Navigator_pads_segment_values_from_leaf_metadata()
+    {
+        var registry = BuildDateRangeRegistry();
+        var navigator = new SlashValueConstructorNavigator(registry, new StubSegmentProvider());
+        var draft = new SlashConstructorDraft
+        {
+            RootConstructorId = "date_range",
+            CanonicalPath = "select filter usage_date",
+        };
+
+        Assert.True(navigator.TryAdvance(draft, "2026"));
+        Assert.True(navigator.TryAdvance(draft, "8"));
+        Assert.True(navigator.TryAdvance(draft, "1"));
+        Assert.True(navigator.TryAdvance(draft, "2026"));
+        Assert.True(navigator.TryAdvance(draft, "9"));
+        Assert.True(navigator.TryAdvance(draft, "5"));
+
+        Assert.True(navigator.TryEmitWire(draft, out var wire, out var error), error);
+        Assert.Equal("2026-08-01..2026-09-05", wire);
+    }
+
     static SlashValueConstructorRegistry BuildDateRangeRegistry()
     {
         var registry = new SlashValueConstructorRegistry();
@@ -35,8 +57,8 @@ public sealed class SlashValueConstructorNavigatorTests
             "Date",
             [
                 new SlashConstructorSegmentDefinition("year", "Year"),
-                new SlashConstructorSegmentDefinition("month", "Month"),
-                new SlashConstructorSegmentDefinition("day", "Day"),
+                new SlashConstructorSegmentDefinition("month", "Month", WireMinWidth: 2, DisplayMinWidth: 2),
+                new SlashConstructorSegmentDefinition("day", "Day", WireMinWidth: 2, DisplayMinWidth: 2),
             ],
             WirePattern: "{year}-{month}-{day}",
             DisplayPattern: "{day}.{month}.{year}"));

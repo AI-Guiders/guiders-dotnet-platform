@@ -1,8 +1,5 @@
 #nullable enable
 
-using System.Globalization;
-using System.Text;
-
 namespace AIGuiders.Platform.CommandPlane;
 
 public sealed class SlashValueConstructorNavigator(
@@ -123,7 +120,7 @@ public sealed class SlashValueConstructorNavigator(
     {
         var displayValues = segments.ToDictionary(
             pair => pair.Key,
-            pair => FormatDisplayPart(pair.Key, pair.Value),
+            pair => FormatSegmentValue(leaf, pair.Key, pair.Value, forWire: false),
             StringComparer.OrdinalIgnoreCase);
         return ApplyPattern(leaf.DisplayPattern, displayValues);
     }
@@ -190,19 +187,27 @@ public sealed class SlashValueConstructorNavigator(
     {
         var wireValues = segments.ToDictionary(
             pair => pair.Key,
-            pair => pair.Key.Equals("month", StringComparison.OrdinalIgnoreCase)
-                      || pair.Key.Equals("day", StringComparison.OrdinalIgnoreCase)
-                ? pair.Value.PadLeft(2, '0')
-                : pair.Value,
+            pair => FormatSegmentValue(leaf, pair.Key, pair.Value, forWire: true),
             StringComparer.OrdinalIgnoreCase);
         return ApplyPattern(leaf.WirePattern, wireValues);
     }
 
-    static string FormatDisplayPart(string segmentId, string value) =>
-        segmentId.Equals("month", StringComparison.OrdinalIgnoreCase)
-        || segmentId.Equals("day", StringComparison.OrdinalIgnoreCase)
-            ? value.PadLeft(2, '0')
-            : value;
+    static string FormatSegmentValue(
+        SlashLeafConstructorDefinition leaf,
+        string segmentId,
+        string value,
+        bool forWire)
+    {
+        var segment = leaf.Segments.FirstOrDefault(s =>
+            s.SegmentId.Equals(segmentId, StringComparison.OrdinalIgnoreCase));
+        var minWidth = forWire ? segment?.WireMinWidth : segment?.DisplayMinWidth;
+        if (minWidth is > 0 && value.Length < minWidth)
+        {
+            return value.PadLeft(minWidth.Value, '0');
+        }
+
+        return value;
+    }
 
     static string ApplyPattern(string pattern, IReadOnlyDictionary<string, string> values)
     {

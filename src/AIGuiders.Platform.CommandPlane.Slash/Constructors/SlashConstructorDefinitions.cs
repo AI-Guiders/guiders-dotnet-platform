@@ -6,7 +6,9 @@ public abstract record SlashConstructorDefinition(string Id, string? Label);
 
 public sealed record SlashConstructorSegmentDefinition(
     string SegmentId,
-    string Label);
+    string Label,
+    int? WireMinWidth = null,
+    int? DisplayMinWidth = null);
 
 public sealed record SlashLeafConstructorDefinition(
     string Id,

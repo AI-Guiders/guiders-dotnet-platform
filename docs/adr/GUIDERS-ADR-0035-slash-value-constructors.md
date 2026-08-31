@@ -237,6 +237,8 @@ Surfaces render `DisplayBuffer` in the input / breadcrumb; completion rows show 
 
 Configurable `displayFormat` is a **product/catalog** concern (BCP 47 / .NET format string). Platform passes it through descriptors; default step labels are product-localized.
 
+Per-segment zero-padding (e.g. ISO month/day) is declared on `SlashConstructorSegmentDefinition` via optional `WireMinWidth` / `DisplayMinWidth`. Platform applies padding when emitting wire/display; no domain-specific segment ids in navigator code.
+
 ### 6. Virtual picker rows
 
 Extend `SlashPickerChoice` (non-breaking):
