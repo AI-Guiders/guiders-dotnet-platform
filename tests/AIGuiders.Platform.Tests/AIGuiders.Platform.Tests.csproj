@@ -13,6 +13,7 @@
     <EmbeddedResource Include="Fixtures\Quarry\emacs-kbd.spec.json" />
     <EmbeddedResource Include="Fixtures\Slash\slash-arg-completion.spec.json" />
     <EmbeddedResource Include="Fixtures\Slash\slash-line-resolve.spec.json" />
+    <EmbeddedResource Include="Fixtures\Slash\slash-value-constructor.spec.json" />
     <EmbeddedResource Include="Fixtures\Notation\command-slash.spec.json" />
     <EmbeddedResource Include="Fixtures\Notation\argument-kv.spec.json" />
     <EmbeddedResource Include="Fixtures\Notation\invocation-parity.spec.json" />

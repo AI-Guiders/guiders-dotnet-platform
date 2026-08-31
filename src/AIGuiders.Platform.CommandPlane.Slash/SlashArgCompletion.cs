@@ -31,8 +31,31 @@ static class SlashArgCompletion
         {
             items.AddRange(SlashConstructorCompletion.BuildEntryItems(line, route));
         }
+        else if (route.ResolvedConstructors.Count > 0)
+        {
+            items.AddRange(FilterConstructorEntries(line, route, partial));
+        }
 
         return SlashCompletionSort.Order(items);
+    }
+
+    static IReadOnlyList<SlashCompletionItem> FilterConstructorEntries(
+        SlashLineResolver.SlashLineResolution line,
+        SlashRouteEntry route,
+        string partial)
+    {
+        var all = SlashConstructorCompletion.BuildEntryItems(line, route);
+        if (partial.Length == 0)
+        {
+            return all;
+        }
+
+        return all
+            .Where(item =>
+                (item.StepSegment?.Contains(partial, StringComparison.OrdinalIgnoreCase) ?? false)
+                || (item.Help?.Contains(partial, StringComparison.OrdinalIgnoreCase) ?? false)
+                || (item.PickValue?.Contains(partial, StringComparison.OrdinalIgnoreCase) ?? false))
+            .ToList();
     }
 
     public static bool HasChoices(
@@ -40,7 +63,7 @@ static class SlashArgCompletion
         string partial,
         ISlashPickerChoiceSource? pickerSource) =>
         ResolveChoices(route, partial, pickerSource).Count > 0
-        || (partial.Length == 0 && route.ResolvedConstructors.Count > 0);
+        || route.ResolvedConstructors.Count > 0;
 
     static IReadOnlyList<SlashCompletionItem> BuildPickerItems(
         SlashLineResolver.SlashLineResolution line,

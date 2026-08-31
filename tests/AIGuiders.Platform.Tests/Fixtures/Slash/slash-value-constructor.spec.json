@@ -1,0 +1,24 @@
+{
+  "schema": "slash-value-constructor/v1",
+  "culture": "ru-RU",
+  "vectors": [
+    {
+      "id": "locale-day-wire",
+      "input": "31.08.2026",
+      "completeness": "CompleteDate",
+      "wire": "2026-08-31"
+    },
+    {
+      "id": "locale-month-wire",
+      "input": "08.2026",
+      "completeness": "MonthYear",
+      "wire": "2026-08"
+    },
+    {
+      "id": "locale-range-wire",
+      "input": "31.08.2026 .. 15.09.2026",
+      "completeness": "CompleteRange",
+      "wire": "2026-08-31..2026-09-15"
+    }
+  ]
+}

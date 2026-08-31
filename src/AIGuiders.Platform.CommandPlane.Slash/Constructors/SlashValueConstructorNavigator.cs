@@ -61,30 +61,83 @@ public sealed class SlashValueConstructorNavigator(
         return true;
     }
 
-    public SlashInputGuidance BuildGuidance(SlashConstructorDraft draft)
+    public SlashInputGuidance BuildGuidance(SlashConstructorDraft draft, SlashLocaleInputProfile? profile = null)
     {
         if (TryGetCurrentSlotLabel(draft, out var slotLabel)
             && TryGetCurrentLeaf(draft, out var leaf, out var segmentIndex))
         {
             var segment = leaf.Segments[segmentIndex];
             var breadcrumb = BuildBreadcrumb(draft, slotLabel);
+            var placeholder = profile?.InputPlaceholder ?? segment.Label;
             return new SlashInputGuidance(
                 SlashInputMode.Constructor,
                 breadcrumb,
                 segment.Label,
                 $"{slotLabel}: {segment.Label}",
                 draft.CanonicalPath,
-                nameof(SlashInputMode.Constructor));
+                nameof(SlashInputMode.Constructor),
+                DisplayTail: draft.DisplayBuffer);
+        }
+
+        if (TryEmitWire(draft, out var wire, out _))
+        {
+            return new SlashInputGuidance(
+                SlashInputMode.Ready,
+                BuildBreadcrumb(draft, null),
+                "Press Enter to run",
+                draft.DisplayBuffer,
+                draft.CanonicalPath,
+                nameof(SlashInputMode.Constructor),
+                wire,
+                draft.DisplayBuffer);
         }
 
         return new SlashInputGuidance(
             SlashInputMode.Constructor,
             BuildBreadcrumb(draft, null),
-            "Значение",
-            "Выберите следующий шаг",
+            profile?.InputPlaceholder ?? "Value",
+            "Choose the next step",
             draft.CanonicalPath,
-            nameof(SlashInputMode.Constructor));
+            nameof(SlashInputMode.Constructor),
+            DisplayTail: draft.DisplayBuffer);
     }
+
+    public bool TryApplyLocaleParts(
+        SlashConstructorDraft draft,
+        SlashLocaleDateParts parts,
+        SlashValueConstructorRegistry registryInstance,
+        SlashLocaleInputProfile profile)
+    {
+        if (!TryGetCurrentLeaf(draft, out var leaf, out _))
+        {
+            return false;
+        }
+
+        foreach (var (segmentId, value) in parts.ToWireSegments())
+        {
+            if (leaf.Segments.All(s => !s.SegmentId.Equals(segmentId, StringComparison.OrdinalIgnoreCase)))
+            {
+                continue;
+            }
+
+            TryAdvance(draft, value);
+        }
+
+        if (!string.IsNullOrWhiteSpace(draft.DisplayBuffer))
+        {
+            return true;
+        }
+
+        if (draft.ActiveSegments.Count > 0)
+        {
+            draft.DisplayBuffer = SlashLocaleDisplayFormatter.FormatLeaf(leaf, draft.ActiveSegments, profile);
+        }
+
+        return true;
+    }
+
+    public SlashInputGuidance BuildGuidance(SlashConstructorDraft draft)
+        => BuildGuidance(draft, profile: null);
 
     void CompleteCurrentLeaf(SlashConstructorDraft draft, SlashLeafConstructorDefinition leaf)
     {

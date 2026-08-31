@@ -22,4 +22,7 @@ public enum SlashInputMode
 
     /// <summary>Inside a value constructor tree (GUIDERS-ADR-0035).</summary>
     Constructor = 5,
+
+    /// <summary>Typing a locale value after path completion (GUIDERS-ADR-0037).</summary>
+    TypedInput = 6,
 }

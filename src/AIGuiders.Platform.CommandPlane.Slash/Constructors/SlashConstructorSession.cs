@@ -5,10 +5,13 @@ namespace AIGuiders.Platform.CommandPlane;
 public sealed class SlashConstructorSession(SlashValueConstructorNavigator navigator)
 {
     SlashConstructorDraft? _draft;
+    string _typedArgTail = "";
 
     public bool IsActive => _draft is not null;
 
     public SlashConstructorDraft? Draft => _draft;
+
+    public string TypedArgTail => _typedArgTail;
 
     public bool IsComplete
     {
@@ -30,10 +33,27 @@ public sealed class SlashConstructorSession(SlashValueConstructorNavigator navig
             RootConstructorId = rootConstructorId,
             CanonicalPath = canonicalPath,
         };
+        _typedArgTail = "";
     }
+
+    public void SetTypedArgTail(string typedArgTail) => _typedArgTail = typedArgTail.Trim();
 
     public bool TryAdvance(string pickedValue) =>
         _draft is not null && navigator.TryAdvance(_draft, pickedValue);
+
+    public bool TryApplyLocaleParts(
+        SlashLocaleDateParts parts,
+        SlashValueConstructorRegistry registry,
+        SlashValueConstructorNavigator navigatorInstance,
+        SlashLocaleInputProfile profile)
+    {
+        if (_draft is null)
+        {
+            return false;
+        }
+
+        return navigatorInstance.TryApplyLocaleParts(_draft, parts, registry, profile);
+    }
 
     public bool TryComplete(out string wireValue)
     {
@@ -52,7 +72,7 @@ public sealed class SlashConstructorSession(SlashValueConstructorNavigator navig
         return true;
     }
 
-    public SlashCompletionResult GetCompletionResult()
+    public SlashCompletionResult GetCompletionResult(string partial, SlashLocaleInputProfile? profile = null)
     {
         if (_draft is null)
         {
@@ -65,10 +85,14 @@ public sealed class SlashConstructorSession(SlashValueConstructorNavigator navig
                 ""));
         }
 
-        var items = navigator.GetSuggestions(_draft, partial: "");
-        var guidance = navigator.BuildGuidance(_draft);
+        var items = navigator.GetSuggestions(_draft, partial);
+        var guidance = navigator.BuildGuidance(_draft, profile);
         return new SlashCompletionResult(items, guidance);
     }
 
-    public void Cancel() => _draft = null;
+    public void Cancel()
+    {
+        _draft = null;
+        _typedArgTail = "";
+    }
 }

@@ -52,6 +52,8 @@ public static class CommandDescriptorMapper
 
             ArgPickerChoices = ParsePickerChoices(Get(fields, "argPickerChoices", "arg_picker_choices")),
 
+            ArgConstructors = ParseConstructorBindings(Get(fields, "argConstructors", "arg_constructors")),
+
             Surfaces = ParseList(Get(fields, "surfaces")),
 
             RequiredCapabilities = ParseList(Get(fields, "requiredCapabilities", "required_capabilities")),
@@ -111,6 +113,8 @@ public static class CommandDescriptorMapper
             ArgHint = descriptor.ArgHint,
 
             ArgPickerChoices = descriptor.ArgPickerChoices,
+
+            ArgConstructors = descriptor.ArgConstructors,
 
             Surfaces = descriptor.Surfaces,
 
@@ -340,7 +344,30 @@ public static class CommandDescriptorMapper
 
     }
 
+    static IReadOnlyList<SlashConstructorBinding> ParseConstructorBindings(string? raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw))
+        {
+            return [];
+        }
 
+        var bindings = new List<SlashConstructorBinding>();
+        foreach (var token in raw.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+        {
+            var parts = token.Split(':', 3, StringSplitOptions.TrimEntries);
+            if (parts.Length == 0 || string.IsNullOrWhiteSpace(parts[0]))
+            {
+                continue;
+            }
+
+            bindings.Add(new SlashConstructorBinding(
+                parts[0],
+                parts.Length > 1 ? parts[1] : parts[0],
+                parts.Length > 2 ? parts[2] : null));
+        }
+
+        return bindings;
+    }
 
     static bool ParseBool(string? raw) =>
 

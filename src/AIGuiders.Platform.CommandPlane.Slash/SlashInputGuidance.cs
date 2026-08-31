@@ -9,7 +9,9 @@ public sealed record SlashInputGuidance(
     string Placeholder,
     string Hint,
     string? CanonicalPath = null,
-    string ArgTailKind = "");
+    string ArgTailKind = "",
+    string? ReadyWire = null,
+    string? DisplayTail = null);
 
 /// <summary>Items + input guidance for slash surfaces.</summary>
 public sealed record SlashCompletionResult(
@@ -28,15 +30,53 @@ public static class SlashCompletion
         SlashCatalogIndex catalog,
         string typedBody,
         ISlashPickerChoiceSource? pickerSource,
-        SlashConstructorSession? constructorSession)
+        SlashConstructorSession? constructorSession) =>
+        GetResult(catalog, typedBody, pickerSource, constructorSession, options: null);
+
+    public static SlashCompletionResult GetResult(
+        SlashCatalogIndex catalog,
+        string typedBody,
+        ISlashPickerChoiceSource? pickerSource,
+        SlashConstructorSession? constructorSession,
+        SlashCompletionOptions? options)
     {
+        var culture = options?.Culture ?? SlashCultureAmbient.Current;
+        var profile = SlashLocaleInputProfile.FromCulture(culture);
+
         if (constructorSession?.IsActive == true)
         {
-            return constructorSession.GetCompletionResult();
+            var partial = constructorSession.TypedArgTail;
+            return constructorSession.GetCompletionResult(partial, profile);
+        }
+
+        if (options?.ConstructorRegistry is not null
+            && options.SegmentProvider is not null
+            && constructorSession is not null
+            && SlashLineResolver.TryResolveBody(typedBody.TrimStart(), catalog, out var line)
+            && catalog.TryGet(line.CanonicalPath, out var route)
+            && line.HasArgTailContent)
+        {
+            var navigator = new SlashValueConstructorNavigator(options.ConstructorRegistry, options.SegmentProvider);
+            var coordinator = new SlashLocaleTypedConstructorCoordinator(navigator, options.ConstructorRegistry);
+            if (coordinator.TryHandleArgTail(line, route, line.ArgTail, constructorSession, profile, out var localeResult)
+                && localeResult is not null)
+            {
+                return localeResult;
+            }
+        }
+
+        if (constructorSession?.IsActive == true)
+        {
+            return constructorSession.GetCompletionResult("", profile);
         }
 
         var items = SlashStepCompletion.GetSuggestions(catalog, typedBody, pickerSource);
-        var guidance = SlashInputGuidanceResolver.Resolve(catalog, typedBody, pickerSource, items);
+        var guidance = SlashInputGuidanceResolver.Resolve(
+            catalog,
+            typedBody,
+            pickerSource,
+            items,
+            options is null ? null : profile);
         return new SlashCompletionResult(items, guidance);
     }
 }
@@ -47,7 +87,8 @@ static class SlashInputGuidanceResolver
         SlashCatalogIndex catalog,
         string typedBody,
         ISlashPickerChoiceSource? pickerSource,
-        IReadOnlyList<SlashCompletionItem> items)
+        IReadOnlyList<SlashCompletionItem> items,
+        SlashLocaleInputProfile? profile = null)
     {
         var body = typedBody.TrimStart();
         if (SlashLineResolver.TryResolveBody(body, catalog, out var line)
@@ -58,7 +99,7 @@ static class SlashInputGuidanceResolver
 
             if (SlashArgCompletion.ShouldComplete(line, route) && AwaitingArgInput(line, route))
             {
-                return ResolveArgGuidance(line, route, pickerSource, items, breadcrumb, argTailKind);
+                return ResolveArgGuidance(line, route, pickerSource, items, breadcrumb, argTailKind, profile);
             }
 
             if (line.IsRunnable)
@@ -69,12 +110,14 @@ static class SlashInputGuidanceResolver
                     "Press Enter to run",
                     route.Help,
                     line.CanonicalPath,
-                    argTailKind);
+                    argTailKind,
+                    line.ArgTail.Trim(),
+                    line.ArgTail.Trim());
             }
 
             if (SlashArgCompletion.ShouldComplete(line, route))
             {
-                return ResolveArgGuidance(line, route, pickerSource, items, breadcrumb, argTailKind);
+                return ResolveArgGuidance(line, route, pickerSource, items, breadcrumb, argTailKind, profile);
             }
         }
 
@@ -96,8 +139,26 @@ static class SlashInputGuidanceResolver
         ISlashPickerChoiceSource? pickerSource,
         IReadOnlyList<SlashCompletionItem> items,
         string breadcrumb,
-        string argTailKind)
+        string argTailKind,
+        SlashLocaleInputProfile? profile)
     {
+        var partial = line.ArgTail.Trim();
+        if (profile is not null
+            && partial.Length > 0
+            && route.ResolvedConstructors.Count > 0
+            && SlashLocaleDateParser.TryParse(partial, profile, out _, out var completeness)
+            && completeness is SlashLocaleDateCompleteness.Partial or SlashLocaleDateCompleteness.MonthYear)
+        {
+            return new SlashInputGuidance(
+                SlashInputMode.TypedInput,
+                breadcrumb,
+                profile.InputPlaceholder,
+                route.ArgHint ?? "Type date in locale format",
+                line.CanonicalPath,
+                argTailKind,
+                DisplayTail: partial);
+        }
+
         var hasPickerSurface = route.ArgTailKind == SlashArgTailKind.Picker
                                || route.ResolvedPickerChoices.Count > 0
                                || SlashArgTailPolicy.ExtractPickerId(route.ArgTail) is not null;
@@ -105,23 +166,28 @@ static class SlashInputGuidanceResolver
         if (hasPickerSurface)
         {
             var hasChoices = items.Count > 0
-                             || SlashArgCompletion.HasChoices(route, line.ArgTail.Trim(), pickerSource);
-            var hasConstructors = route.ResolvedConstructors.Count > 0 && !line.HasArgTailContent;
+                             || SlashArgCompletion.HasChoices(route, partial, pickerSource);
+            var hasConstructors = route.ResolvedConstructors.Count > 0;
             var hint = route.ArgHint
                        ?? (hasChoices || hasConstructors
-                           ? "Choose a value — Tab to insert"
-                           : "Type to search choices or enter free text");
-            var placeholder = route.ArgHint
+                           ? "Choose a value — Tab to insert, or type locale date"
+                           : "Type locale date or search choices");
+            var placeholder = profile?.InputPlaceholder
+                              ?? route.ArgHint
                               ?? (hasChoices || hasConstructors
-                                  ? "Pick a value or choose period constructor"
+                                  ? "Pick a value or type locale date"
                                   : "Type to filter choices");
+            var mode = partial.Length > 0 && hasConstructors
+                ? SlashInputMode.TypedInput
+                : SlashInputMode.Picker;
             return new SlashInputGuidance(
-                SlashInputMode.Picker,
+                mode,
                 breadcrumb,
                 placeholder,
                 hint,
                 line.CanonicalPath,
-                argTailKind);
+                argTailKind,
+                DisplayTail: partial.Length > 0 ? partial : null);
         }
 
         return route.ArgTailKind switch
