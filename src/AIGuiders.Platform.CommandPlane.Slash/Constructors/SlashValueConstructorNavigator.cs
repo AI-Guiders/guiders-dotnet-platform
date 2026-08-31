@@ -102,18 +102,18 @@ public sealed class SlashValueConstructorNavigator(
             DisplayTail: draft.DisplayBuffer);
     }
 
-    public bool TryApplyLocaleParts(
+    public bool TryApplySegments(
         SlashConstructorDraft draft,
-        SlashLocaleDateParts parts,
+        IReadOnlyDictionary<string, string> segments,
         SlashValueConstructorRegistry registryInstance,
-        SlashLocaleInputProfile profile)
+        SlashLocaleInputProfile? profile)
     {
         if (!TryGetCurrentLeaf(draft, out var leaf, out _))
         {
             return false;
         }
 
-        foreach (var (segmentId, value) in parts.ToWireSegments())
+        foreach (var (segmentId, value) in segments)
         {
             if (leaf.Segments.All(s => !s.SegmentId.Equals(segmentId, StringComparison.OrdinalIgnoreCase)))
             {
@@ -128,13 +128,20 @@ public sealed class SlashValueConstructorNavigator(
             return true;
         }
 
-        if (draft.ActiveSegments.Count > 0)
+        if (draft.ActiveSegments.Count > 0 && profile is not null)
         {
             draft.DisplayBuffer = SlashLocaleDisplayFormatter.FormatLeaf(leaf, draft.ActiveSegments, profile);
         }
 
         return true;
     }
+
+    public bool TryApplyLocaleParts(
+        SlashConstructorDraft draft,
+        SlashLocaleDateParts parts,
+        SlashValueConstructorRegistry registryInstance,
+        SlashLocaleInputProfile profile) =>
+        TryApplySegments(draft, parts.ToWireSegments(), registryInstance, profile);
 
     public SlashInputGuidance BuildGuidance(SlashConstructorDraft draft)
         => BuildGuidance(draft, profile: null);

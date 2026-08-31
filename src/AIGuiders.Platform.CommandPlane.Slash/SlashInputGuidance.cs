@@ -52,16 +52,27 @@ public static class SlashCompletion
         if (options?.ConstructorRegistry is not null
             && options.SegmentProvider is not null
             && constructorSession is not null
+            && options.PrefixArmProfiles.Count > 0
             && SlashLineResolver.TryResolveBody(typedBody.TrimStart(), catalog, out var line)
             && catalog.TryGet(line.CanonicalPath, out var route)
             && line.HasArgTailContent)
         {
             var navigator = new SlashValueConstructorNavigator(options.ConstructorRegistry, options.SegmentProvider);
-            var coordinator = new SlashLocaleTypedConstructorCoordinator(navigator, options.ConstructorRegistry);
-            if (coordinator.TryHandleArgTail(line, route, line.ArgTail, constructorSession, profile, out var localeResult)
-                && localeResult is not null)
+            var coordinator = new SlashPrefixArmedCompletionCoordinator(navigator, options.ConstructorRegistry);
+            var localeProfile = options.Culture is null
+                ? null
+                : SlashLocaleInputProfile.FromCulture(options.Culture);
+            if (coordinator.TryHandleArgTail(
+                    line,
+                    route,
+                    line.ArgTail,
+                    constructorSession,
+                    options.PrefixArmProfiles,
+                    localeProfile,
+                    out var pacResult)
+                && pacResult is not null)
             {
-                return localeResult;
+                return pacResult;
             }
         }
 
@@ -76,7 +87,8 @@ public static class SlashCompletion
             typedBody,
             pickerSource,
             items,
-            options is null ? null : profile);
+            options?.PrefixArmProfiles,
+            options?.Culture is null ? null : profile);
         return new SlashCompletionResult(items, guidance);
     }
 }
@@ -88,7 +100,8 @@ static class SlashInputGuidanceResolver
         string typedBody,
         ISlashPickerChoiceSource? pickerSource,
         IReadOnlyList<SlashCompletionItem> items,
-        SlashLocaleInputProfile? profile = null)
+        IReadOnlyList<ISlashPrefixArmProfile>? prefixArmProfiles = null,
+        SlashLocaleInputProfile? localeProfile = null)
     {
         var body = typedBody.TrimStart();
         if (SlashLineResolver.TryResolveBody(body, catalog, out var line)
@@ -99,7 +112,7 @@ static class SlashInputGuidanceResolver
 
             if (SlashArgCompletion.ShouldComplete(line, route) && AwaitingArgInput(line, route))
             {
-                return ResolveArgGuidance(line, route, pickerSource, items, breadcrumb, argTailKind, profile);
+                return ResolveArgGuidance(line, route, pickerSource, items, breadcrumb, argTailKind, prefixArmProfiles, localeProfile);
             }
 
             if (line.IsRunnable)
@@ -117,7 +130,7 @@ static class SlashInputGuidanceResolver
 
             if (SlashArgCompletion.ShouldComplete(line, route))
             {
-                return ResolveArgGuidance(line, route, pickerSource, items, breadcrumb, argTailKind, profile);
+                return ResolveArgGuidance(line, route, pickerSource, items, breadcrumb, argTailKind, prefixArmProfiles, localeProfile);
             }
         }
 
@@ -140,19 +153,34 @@ static class SlashInputGuidanceResolver
         IReadOnlyList<SlashCompletionItem> items,
         string breadcrumb,
         string argTailKind,
-        SlashLocaleInputProfile? profile)
+        IReadOnlyList<ISlashPrefixArmProfile>? prefixArmProfiles,
+        SlashLocaleInputProfile? localeProfile)
     {
         var partial = line.ArgTail.Trim();
-        if (profile is not null
+        if (partial.Length > 0
+            && prefixArmProfiles is { Count: > 0 }
+            && SlashPrefixArmedCompletionCoordinator.AnyProfileMatches(prefixArmProfiles, partial, route))
+        {
+            return new SlashInputGuidance(
+                SlashInputMode.TypedInput,
+                breadcrumb,
+                localeProfile?.InputPlaceholder ?? "Type value",
+                route.ArgHint ?? "Continue typing — prefix arms constructor or completes wire",
+                line.CanonicalPath,
+                argTailKind,
+                DisplayTail: partial);
+        }
+
+        if (localeProfile is not null
             && partial.Length > 0
             && route.ResolvedConstructors.Count > 0
-            && SlashLocaleDateParser.TryParse(partial, profile, out _, out var completeness)
+            && SlashLocaleDateParser.TryParse(partial, localeProfile, out _, out var completeness)
             && completeness is SlashLocaleDateCompleteness.Partial or SlashLocaleDateCompleteness.MonthYear)
         {
             return new SlashInputGuidance(
                 SlashInputMode.TypedInput,
                 breadcrumb,
-                profile.InputPlaceholder,
+                localeProfile.InputPlaceholder,
                 route.ArgHint ?? "Type date in locale format",
                 line.CanonicalPath,
                 argTailKind,
@@ -172,7 +200,7 @@ static class SlashInputGuidanceResolver
                        ?? (hasChoices || hasConstructors
                            ? "Choose a value — Tab to insert, or type locale date"
                            : "Type locale date or search choices");
-            var placeholder = profile?.InputPlaceholder
+            var placeholder = localeProfile?.InputPlaceholder
                               ?? route.ArgHint
                               ?? (hasChoices || hasConstructors
                                   ? "Pick a value or type locale date"

@@ -1,36 +1,22 @@
 #nullable enable
 
-using System.Globalization;
-
 namespace AIGuiders.Platform.CommandPlane;
 
-public sealed class SlashLocaleTypedConstructorCoordinator(
-    SlashValueConstructorNavigator navigator,
-    SlashValueConstructorRegistry registry)
+/// <summary>PAC profile: locale date/range input (GUIDERS-ADR-0037 adapter).</summary>
+public sealed class SlashLocaleDatePrefixArmProfile(ISlashCultureAmbient culture) : ISlashPrefixArmProfile
 {
-    public bool TryHandleArgTail(
-        SlashLineResolver.SlashLineResolution line,
-        SlashRouteEntry route,
-        string typedArgTail,
-        SlashConstructorSession session,
-        SlashLocaleInputProfile profile,
-        out SlashCompletionResult? result)
+    public string ProfileId => "locale-date";
+
+    public bool TryMatch(string partial, SlashRouteEntry route, out SlashPrefixArmMatch match)
     {
-        result = null;
-        var partial = typedArgTail.Trim();
-        if (partial.Length == 0 || route.ResolvedConstructors.Count == 0)
+        match = SlashPrefixArmMatch.NoMatch;
+        if (route.ResolvedConstructors.Count == 0)
         {
             return false;
         }
 
-        if (session.IsActive)
-        {
-            session.SetTypedArgTail(partial);
-            result = session.GetCompletionResult(partial, profile);
-            return true;
-        }
-
-        if (!SlashLocaleDateParser.TryParse(partial, profile, out var parts, out var completeness))
+        var localeProfile = SlashLocaleInputProfile.FromCulture(culture);
+        if (!SlashLocaleDateParser.TryParse(partial, localeProfile, out var parts, out var completeness))
         {
             return false;
         }
@@ -38,21 +24,30 @@ public sealed class SlashLocaleTypedConstructorCoordinator(
         if (completeness == SlashLocaleDateCompleteness.CompleteRange
             && SlashLocaleDateParser.TryToRangeWire(parts, out var rangeWire))
         {
-            result = BuildReadyResult(line, route, rangeWire, profile, partial);
+            match = new SlashPrefixArmMatch(
+                SlashPrefixArmDisposition.Ready,
+                rangeWire,
+                partial);
             return true;
         }
 
         if (completeness == SlashLocaleDateCompleteness.CompleteDate
             && SlashLocaleDateParser.TryToDayWire(parts, out var dayWire))
         {
-            result = BuildReadyResult(line, route, dayWire, profile, partial);
+            match = new SlashPrefixArmMatch(
+                SlashPrefixArmDisposition.Ready,
+                dayWire,
+                partial);
             return true;
         }
 
         if (completeness == SlashLocaleDateCompleteness.MonthYear
             && SlashLocaleDateParser.TryToMonthWire(parts, out var monthWire))
         {
-            result = BuildReadyResult(line, route, monthWire, profile, partial);
+            match = new SlashPrefixArmMatch(
+                SlashPrefixArmDisposition.Ready,
+                monthWire,
+                partial);
             return true;
         }
 
@@ -61,10 +56,11 @@ public sealed class SlashLocaleTypedConstructorCoordinator(
             return false;
         }
 
-        session.Start(rootId, line.CanonicalPath);
-        session.SetTypedArgTail(partial);
-        session.TryApplyLocaleParts(parts, registry, navigator, profile);
-        result = session.GetCompletionResult(partial, profile);
+        match = new SlashPrefixArmMatch(
+            SlashPrefixArmDisposition.ArmConstructor,
+            RootConstructorId: rootId,
+            DisplayTail: partial,
+            Segments: parts.ToWireSegments());
         return true;
     }
 
@@ -97,25 +93,4 @@ public sealed class SlashLocaleTypedConstructorCoordinator(
         bindings.FirstOrDefault(binding =>
             binding.ConstructorId.Contains(token, StringComparison.OrdinalIgnoreCase)
             || binding.Label.Contains(token, StringComparison.OrdinalIgnoreCase))?.ConstructorId;
-
-    static SlashCompletionResult BuildReadyResult(
-        SlashLineResolver.SlashLineResolution line,
-        SlashRouteEntry route,
-        string wire,
-        SlashLocaleInputProfile profile,
-        string displayTail)
-    {
-        var breadcrumb = "/" + line.CanonicalPath + " › " + displayTail;
-        return new SlashCompletionResult(
-            [],
-            new SlashInputGuidance(
-                SlashInputMode.Ready,
-                breadcrumb,
-                "Press Enter to run",
-                route.Help,
-                line.CanonicalPath,
-                route.ArgTailKind.ToString(),
-                wire,
-                displayTail));
-    }
 }

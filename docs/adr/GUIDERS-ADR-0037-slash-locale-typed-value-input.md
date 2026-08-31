@@ -5,7 +5,7 @@
 | **Status** | Accepted |
 | **Date** | 2026-08-31 |
 | **Tags** | #guiders #commandplane #slash #constructor #locale #i18n |
-| **Relates to** | GUIDERS-ADR-0012 · GUIDERS-ADR-0035 · GUIDERS-ADR-0036 · DASHSPEC-ADR-0044 · DASHSPEC-ADR-0045 |
+| **Relates to** | GUIDERS-ADR-0012 · GUIDERS-ADR-0035 · GUIDERS-ADR-0036 · GUIDERS-ADR-0038 · DASHSPEC-ADR-0044 · DASHSPEC-ADR-0045 |
 
 ## Context
 
@@ -39,7 +39,7 @@ usage_date                  → canonical wire at commit
 ```
 
 - **Tab / Ctrl+Space** — path segments and picker/constructor rows.
-- **Typing** — locale date lexer; auto-arms constructor or reaches `Ready` when wire-complete.
+- **Typing** — locale date lexer via PAC profile ([GUIDERS-ADR-0038](GUIDERS-ADR-0038-prefix-armed-completion.md)); auto-arms constructor or reaches `Ready` when wire-complete.
 - **Enter** — executes canonical wire (unchanged executor path).
 
 ### 3. Platform components
@@ -50,8 +50,8 @@ usage_date                  → canonical wire at commit
 | `SlashLocaleInputProfile` | Derived from `CultureInfo` — field order, separators |
 | `SlashLocaleDateParser` | Locale partial/complete date + range parse |
 | `SlashLocaleDisplayFormatter` | Canonical segments → display string |
-| `SlashLocaleTypedConstructorCoordinator` | Arg-tail sync, auto-arm, wire-ready detection |
-| `SlashCompletionOptions` | Registry + culture + anchor date for `SlashCompletion.GetResult` |
+| `SlashLocaleDatePrefixArmProfile` | PAC adapter for locale dates ([GUIDERS-ADR-0038](GUIDERS-ADR-0038-prefix-armed-completion.md)) |
+| `SlashCompletionOptions` | Registry + culture + PAC profiles for `SlashCompletion.GetResult` |
 
 ### 4. `SlashInputMode.TypedInput`
 
@@ -90,6 +90,6 @@ New family `slash-value-constructor.spec.json` — fixed `culture: "ru-RU"`, vec
 
 | Wave | Scope |
 |------|-------|
-| W1 | ADR + locale types + parser + coordinator + platform tests |
+| W1 | ADR + locale types + parser + PAC date profile + platform tests |
 | W2 | DashSpec CCL wiring + segment provider culture + tests |
 | W3 | Conformance pack + descriptor `arg_constructors` parsing |
