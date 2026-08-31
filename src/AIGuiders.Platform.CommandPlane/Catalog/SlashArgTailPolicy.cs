@@ -24,7 +24,8 @@ public static class SlashArgTailPolicy
             return SlashArgTailKind.ImplicitSelection;
         if (t.Equals(ImplicitLineRange, StringComparison.OrdinalIgnoreCase))
             return SlashArgTailKind.ImplicitLineRange;
-        if (t.StartsWith("picker:", StringComparison.OrdinalIgnoreCase))
+        if (t.StartsWith("picker+constructor:", StringComparison.OrdinalIgnoreCase)
+            || t.StartsWith("picker:", StringComparison.OrdinalIgnoreCase))
             return SlashArgTailKind.Picker;
 
         return SlashArgTailKind.Optional;
@@ -53,13 +54,38 @@ public static class SlashArgTailPolicy
         }
 
         var text = raw.Trim();
-        if (!text.StartsWith("picker:", StringComparison.OrdinalIgnoreCase))
+        if (text.StartsWith("picker+constructor:", StringComparison.OrdinalIgnoreCase))
+        {
+            text = text["picker+constructor:".Length..].Trim();
+        }
+        else if (!text.StartsWith("picker:", StringComparison.OrdinalIgnoreCase))
         {
             return null;
         }
+        else
+        {
+            text = text["picker:".Length..].Trim();
+        }
 
-        var id = text["picker:".Length..].Trim();
+        var plus = text.IndexOf('+');
+        var id = plus < 0 ? text : text[..plus].Trim();
         return id.Length == 0 ? null : id;
+    }
+
+    public static bool IsCompositePickerConstructor(string? raw) =>
+        !string.IsNullOrWhiteSpace(raw)
+        && raw.Trim().StartsWith("picker+constructor:", StringComparison.OrdinalIgnoreCase);
+
+    public static IReadOnlyList<string> ExtractCompositeConstructorIds(string? raw)
+    {
+        if (!IsCompositePickerConstructor(raw))
+        {
+            return [];
+        }
+
+        var text = raw!.Trim()["picker+constructor:".Length..].Trim();
+        var parts = text.Split('+', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        return parts.Length <= 1 ? [] : parts[1..];
     }
 
     public static bool IsStaticEnumPicker(string? raw)

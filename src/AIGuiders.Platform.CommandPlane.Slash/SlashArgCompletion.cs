@@ -19,20 +19,28 @@ static class SlashArgCompletion
         ISlashPickerChoiceSource? pickerSource)
     {
         var partial = line.ArgTail.Trim();
+        var items = new List<SlashCompletionItem>();
+
         var choices = ResolveChoices(route, partial, pickerSource);
-        if (choices.Count == 0)
+        if (choices.Count > 0)
         {
-            return [];
+            items.AddRange(BuildPickerItems(line, route, choices, partial));
         }
 
-        return BuildPickerItems(line, route, choices, partial);
+        if (partial.Length == 0)
+        {
+            items.AddRange(SlashConstructorCompletion.BuildEntryItems(line, route));
+        }
+
+        return SlashCompletionSort.Order(items);
     }
 
     public static bool HasChoices(
         SlashRouteEntry route,
         string partial,
         ISlashPickerChoiceSource? pickerSource) =>
-        ResolveChoices(route, partial, pickerSource).Count > 0;
+        ResolveChoices(route, partial, pickerSource).Count > 0
+        || (partial.Length == 0 && route.ResolvedConstructors.Count > 0);
 
     static IReadOnlyList<SlashCompletionItem> BuildPickerItems(
         SlashLineResolver.SlashLineResolution line,
@@ -46,6 +54,20 @@ static class SlashArgCompletion
         {
             if (!MatchesPickerChoice(choice, partial))
             {
+                continue;
+            }
+
+            if (choice.Kind == SlashPickerChoiceKind.Constructor)
+            {
+                var constructorLabel = choice.Label ?? choice.Value;
+                buckets[constructorLabel] = new SlashCompletionItem(
+                    canonicalPath + " ",
+                    line.CanonicalPath,
+                    choice.Hint ?? constructorLabel,
+                    route.Group,
+                    constructorLabel,
+                    SlashCompletionItemKind.ConstructorEntry,
+                    choice.Value);
                 continue;
             }
 

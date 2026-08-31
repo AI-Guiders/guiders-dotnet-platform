@@ -23,6 +23,7 @@ public sealed class SlashCommandDescriptor
     public ArgumentNotationProfile? ArgumentNotation { get; init; }
     public string? ArgHint { get; init; }
     public IReadOnlyList<SlashPickerChoice> ArgPickerChoices { get; init; } = [];
+    public IReadOnlyList<SlashConstructorBinding> ArgConstructors { get; init; } = [];
     public IReadOnlyList<string> Surfaces { get; init; } = [];
     public IReadOnlyList<string> RequiredCapabilities { get; init; } = [];
     public string? Tier { get; init; }
@@ -47,4 +48,5 @@ public sealed class SlashPickerChoice
     public required string Value { get; init; }
     public string? Label { get; init; }
     public string? Hint { get; init; }
+    public SlashPickerChoiceKind Kind { get; init; } = SlashPickerChoiceKind.Value;
 }

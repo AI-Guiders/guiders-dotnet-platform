@@ -19,4 +19,7 @@ public enum SlashInputMode
 
     /// <summary>Command is runnable — Enter executes.</summary>
     Ready = 4,
+
+    /// <summary>Inside a value constructor tree (GUIDERS-ADR-0035).</summary>
+    Constructor = 5,
 }

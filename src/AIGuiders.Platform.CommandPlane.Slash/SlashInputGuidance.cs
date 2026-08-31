@@ -21,8 +21,20 @@ public static class SlashCompletion
     public static SlashCompletionResult GetResult(
         SlashCatalogIndex catalog,
         string typedBody,
-        ISlashPickerChoiceSource? pickerSource = null)
+        ISlashPickerChoiceSource? pickerSource = null) =>
+        GetResult(catalog, typedBody, pickerSource, constructorSession: null);
+
+    public static SlashCompletionResult GetResult(
+        SlashCatalogIndex catalog,
+        string typedBody,
+        ISlashPickerChoiceSource? pickerSource,
+        SlashConstructorSession? constructorSession)
     {
+        if (constructorSession?.IsActive == true)
+        {
+            return constructorSession.GetCompletionResult();
+        }
+
         var items = SlashStepCompletion.GetSuggestions(catalog, typedBody, pickerSource);
         var guidance = SlashInputGuidanceResolver.Resolve(catalog, typedBody, pickerSource, items);
         return new SlashCompletionResult(items, guidance);
@@ -94,12 +106,15 @@ static class SlashInputGuidanceResolver
         {
             var hasChoices = items.Count > 0
                              || SlashArgCompletion.HasChoices(route, line.ArgTail.Trim(), pickerSource);
+            var hasConstructors = route.ResolvedConstructors.Count > 0 && !line.HasArgTailContent;
             var hint = route.ArgHint
-                       ?? (hasChoices
+                       ?? (hasChoices || hasConstructors
                            ? "Choose a value — Tab to insert"
-                           : "Type to search choices");
+                           : "Type to search choices or enter free text");
             var placeholder = route.ArgHint
-                              ?? (hasChoices ? "Pick a value or type to filter" : "Type to filter choices");
+                              ?? (hasChoices || hasConstructors
+                                  ? "Pick a value or choose period constructor"
+                                  : "Type to filter choices");
             return new SlashInputGuidance(
                 SlashInputMode.Picker,
                 breadcrumb,
