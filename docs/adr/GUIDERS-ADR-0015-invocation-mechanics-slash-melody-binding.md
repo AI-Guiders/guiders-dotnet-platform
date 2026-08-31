@@ -19,7 +19,7 @@ CIDE already runs **three distinct input mechanics** before platform extraction:
 | **Melody** | chord root, then sequential slug keys + optional parametric tail — e.g. `<Ctrl+K>` `b` `s` | `melody_*` on `[[command]]`, `[[tail_wire_class]]` |
 | **Binding** | direct gesture → `commandId` or surface opener — e.g. `Ctrl+Q` (palette), `Ctrl+K` (chord root) | `Hotkeys/hotkeys.toml` + user overlay |
 
-**Not a fourth mechanic:** palette prefix **`c:`** (Command Melody mode in Ctrl+Q) is **discoverability only** — it surfaces the same melody catalog (slug, Help, tail hints) so the user can learn what to play on the keyboard. It does **not** define melody execution. CIDE [ADR 0060](https://github.com/AI-Guiders/cascade-ide/blob/develop/docs/adr/0060-keyboard-chord-stack-fms-tactical-strategic.md): *GlassChord stays Ctrl+K*; Ctrl+Q `c:` is a catalog peel, not the performance lane.
+**Not a fourth mechanic:** palette prefix **`c:`** (Command Melody mode in Ctrl+Q) is **discoverability only** — it surfaces the same melody catalog (slug, Help, tail hints) so the user can learn what to play on the keyboard. It does **not** define melody execution. CIDE [ADR 0060](https://github.com/AI-Guiders/cascade-ide/blob/develop/docs/adr/0060-keyboard-chord-stack-fms-tactical-strategic.md): *GlassChord stays Ctrl+K*; Ctrl+Q `c:` is a catalog peel, not the performance lane. Glossary: **DiscoverabilityPrefix** under **InvocationEngage** ([GUIDERS-ADR-0036](GUIDERS-ADR-0036-invocation-engage-glossary.md)).
 
 ### Musical metaphor (product canon)
 

@@ -120,8 +120,9 @@ Keyboard-as-instrument canon ([GUIDERS-ADR-0015](adr/GUIDERS-ADR-0015-invocation
 | **Command / argument notation** | Quarry: slash + console wire → `NormalizedCommandLine` + `NormalizedArgTail` (`Notations.Command.*`, `Notations.Argument.*` — [ADR-0021](adr/GUIDERS-ADR-0021-notations-quarry-family.md)) | path resolve / execute stay CommandPlane |
 | **Binding** | Direct hotkey → `commandId` or surface opener (`Ctrl+Q`, chord root assignment) | slug/tail parser |
 | **`c:`** | Palette **discoverability** prefix (Ctrl+Q) — browse melody catalog, Help | **not** the melody mechanic |
+| **InvocationEngage** | Planet cue before mechanics — **Sigil** (text), **DiscoverabilityPrefix** (`c:`), **ChordRoot** (gesture) | not a platform Core type ([ADR-0036](adr/GUIDERS-ADR-0036-invocation-engage-glossary.md)) |
 
-One `commandId`; mechanics are how you **play** it; `c:` is the **score on the wall**.
+One `commandId`; mechanics are how you **play** it; `c:` is the **score on the wall**. Engage is how the planet **arms** the lane; platform resolve starts after strip/peel/tunnel.
 
 ---
 

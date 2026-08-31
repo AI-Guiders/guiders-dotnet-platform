@@ -5,7 +5,7 @@
 | **Status** | Accepted |
 | **Date** | 2026-08-29 |
 | **Tags** | #guiders #commandplane #binding #hotkeys #federation |
-| **Related** | GUIDERS-ADR-0015 · GUIDERS-ADR-0013 · GUIDERS-ADR-0016 · CIDE `hotkeys.toml` |
+| **Related** | GUIDERS-ADR-0015 · GUIDERS-ADR-0013 · GUIDERS-ADR-0016 · GUIDERS-ADR-0036 · CIDE `hotkeys.toml` |
 
 ## Context
 
@@ -38,7 +38,7 @@ Later `IBindingSource` wins per `BindingKey` (case-insensitive) — ship + user 
 
 | Key | `BindingTargetKind` |
 |-----|---------------------|
-| `cascade_chord` | `ChordRoot` |
+| `cascade_chord` | `ChordRoot` (gesture **InvocationEngage** — [ADR-0036](GUIDERS-ADR-0036-invocation-engage-glossary.md)) |
 | other flat keys | `Command` (`CommandId` = key) |
 
 ### 4. Two axes (same pattern as Sources)

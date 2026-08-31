@@ -130,7 +130,7 @@ Notations.All               optional meta-bundle
 | Slash | `/buffer open README.md` | `Notations.Command.Slash` + `Argument.Slash` | path `buffer/open`, tail `README.md` |
 | Console (neutral) | `buffer open doc=README.md` | `Notations.Command.Console` + `Argument.Kv` | same path + structured slots |
 
-Product-specific prefixes (`/`, `@mention`, tool name) are **surface policy** — strip before reader or live in product adapter, not federation SSOT.
+Product-specific prefixes (`/`, `@mention`, tool name) are **surface policy** — strip before reader or live in product adapter, not federation SSOT. Umbrella glossary: **InvocationEngage** → **Sigil** ([GUIDERS-ADR-0036](GUIDERS-ADR-0036-invocation-engage-glossary.md)).
 
 **Planet in-house wires** (e.g. experimental habitat frames, product-only sigils) stay on that planet — not Notations packages.
 
@@ -199,7 +199,7 @@ Wire families operators named in the wild — and federation stance.
 |--------|---------|------------|-------|
 | **Positional path** | `git remote add` | **v1** (`Command.Console`) | Subcommand chains → `PathSegments[]` |
 | **Slash path** | `/docs adr open` | **v1** (`Command.Slash`) | Leading `/` = surface policy |
-| **Sigil path** | `:w`, `!help`, `@intent …` | product strip | After strip → Console or Slash IR |
+| **Sigil path** | `:w`, `!help`, `@intent …` | product strip ([ADR-0036](GUIDERS-ADR-0036-invocation-engage-glossary.md) **Sigil**) | After strip → Console or Slash IR |
 | **Dotted path** | `module.sub.command` | defer | Optional `Command.Dotted` if catalog uses it |
 | **Tool name** | `cdp_buffer`, `example.exe` | projection | MCP / Win `.exe` = surface; maps to `commandId` |
 | **REST path** | `/api/v1/users/123` | defer | HTTP surface, not slash catalog |
