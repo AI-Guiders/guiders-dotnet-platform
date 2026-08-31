@@ -35,3 +35,39 @@ obligations:
     adr: GUIDERS-ADR-0033
     surface: code.explore-scene
     source: navigation/code-explore-scene.spec.json
+
+  - id: notation.command-slash
+    kind: notation
+    adr: GUIDERS-ADR-0021
+    surface: command-slash
+    source: command-slash.spec.json
+
+  - id: notation.argument-kv
+    kind: notation
+    adr: GUIDERS-ADR-0021
+    surface: argument-kv
+    source: argument-kv.spec.json
+
+  - id: notation.invocation-parity
+    kind: notation
+    adr: GUIDERS-ADR-0021
+    surface: invocation-parity
+    source: invocation-parity.spec.json
+
+  - id: notation.neovim-kbd
+    kind: notation-quarry
+    adr: GUIDERS-ADR-0021
+    surface: neovim-kbd
+    source: notation/neovim-kbd.spec.json
+
+  - id: notation.emacs-kbd
+    kind: notation-quarry
+    adr: GUIDERS-ADR-0021
+    surface: emacs-kbd
+    source: notation/emacs-kbd.spec.json
+
+  - id: notation.key-gesture
+    kind: notation-quarry
+    adr: GUIDERS-ADR-0021
+    surface: key-gesture
+    source: notation/key-gesture.spec.json

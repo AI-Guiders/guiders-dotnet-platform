@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "surface": "key-gesture",
+  "source": "KeyGesture / hotkeys.toml wire (CIDE quarry; GUIDERS-ADR-0021 W2i)",
+  "vectors": [
+    { "wire": "", "chords": [], "plain": [] },
+    { "wire": "Ctrl+K", "chords": [{ "mods": "Control", "key": "K" }] },
+    { "wire": "Ctrl + Shift + P", "chords": [{ "mods": "Control|Shift", "key": "P" }] },
+    { "wire": "Ctrl+K s p", "chords": [{ "mods": "Control", "key": "K" }], "plain": ["S", "P"] },
+    { "wire": "\u2318K", "chords": [{ "mods": "Meta", "key": "K" }] }
+  ]
+}

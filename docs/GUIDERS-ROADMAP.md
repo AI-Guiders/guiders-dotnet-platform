@@ -14,7 +14,7 @@ Legend: ✅ done · 🚧 in progress · 📋 planned · ⏸ defer · 👤 operat
 | ✅ snupkg paired push (federation repos) | `push-artifacts.sh`, N-001 |
 | ✅ ANPM pain inventory | `agent-nuget-pm/docs/ANPM-pain-inventory.md` |
 | ✅ MCPlane ADR (draft), CDP decoupled | ADR-0020, Constitution § Planets |
-| ✅ Notations ADR (draft) | ADR-0021 |
+| ✅ Notations ADR accepted (v0 shipped, W2i) | ADR-0021 |
 | ✅ GUIDERS pain inventory + alliance / license pains | G-001–G-008 |
 | ✅ Adoption alliance automation | ADR-0022, `Utilities.Adoption.*`, `ADOPTION-ALLIANCE.generated.md` |
 | ✅ Slash arg-completion conformance | ADR-0018, `slash-arg-completion` |
@@ -45,6 +45,7 @@ Legend: ✅ done · 🚧 in progress · 📋 planned · ⏸ defer · 👤 operat
 |---|-------------|--------|
 | 2.1 | `slash/line-resolve` spec + harness | ✅ |
 | 2.2 | `notation/command-slash`, `argument-kv`, `invocation-parity` specs | ✅ |
+| 2.5 | `notation/neovim-kbd`, `emacs-kbd`, `key-gesture` (W2i) | ✅ |
 | 2.3 | Repo `aiguiders-conformance` extract (ADR-0019) | 📋 |
 | 2.4 | Forge JS vitest pin `@aiguiders/conformance` | 📋 |
 

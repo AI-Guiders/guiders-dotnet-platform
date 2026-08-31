@@ -106,8 +106,9 @@ Implementations **do not** live in this repo — only contracts.
 | `notation/argument-kv` | kv tail → slots | **shipped** | `NotationConformanceTests` | — |
 | `notation/argument-delimited` | colon-delimited tail → slots | **shipped** | `NotationConformanceTests` | — |
 | `notation/invocation-parity` | slash vs console → same path | **shipped** | `NotationConformanceTests` | execute routing |
-| `notation/neovim-kbd` | wire → IR | **exists** (move) | `QuarryNotationConformanceTests` | — |
-| `notation/emacs-kbd` | wire → IR | **exists** (move) | `QuarryNotationConformanceTests` | — |
+| `notation/neovim-kbd` | wire → IR | **shipped** | `QuarryNotationConformanceTests` | — |
+| `notation/emacs-kbd` | wire → IR | **shipped** | `QuarryNotationConformanceTests` | — |
+| `notation/key-gesture` | KeyGesture / hotkeys.toml → IR | **shipped** | `QuarryNotationConformanceTests` | CIDE hotkeys.toml |
 | `language-intelligence/line-range` | line range parse + text delete | planned (ADR-0025 P1) | `EditorSurfaceTests` (quarry) | Forge/CIDE buffer |
 | `notation/bracket-cdp-square-kv` | CDP wire → axes + nested | **shipped** | `BracketConformanceTests` | CSX, sniper, peek |
 | `notation/bracket-angle-opaque` | `<…>` opaque inner | planned (ADR-0026 P1) | `QuarryBracketTokenParser` (quarry) | keyboard oracle |

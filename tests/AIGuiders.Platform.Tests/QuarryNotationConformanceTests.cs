@@ -24,6 +24,14 @@ public sealed class QuarryNotationConformanceTests
     }
 
     [Fact]
+    public void Key_gesture_spec_vectors_conform()
+    {
+        var spec = LoadSpec("AIGuiders.Platform.Tests.Fixtures.Quarry.key-gesture.spec.json");
+        Assert.Equal("key-gesture", spec.Surface);
+        Assert.Empty(QuarrySpecConformance.ValidateDocument(KeyGestureNotationReader.Instance, spec));
+    }
+
+    [Fact]
     public void Neovim_and_Vim_cascade_line_share_IR_for_cide_subset()
     {
         Assert.True(NeovimKeyNotationParser.TryParseToNormalized("<C-k> s p", out var neovim, out _));

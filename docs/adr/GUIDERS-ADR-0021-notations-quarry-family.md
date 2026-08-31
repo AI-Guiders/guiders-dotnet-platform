@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Status** | Draft |
+| **Status** | **Accepted** (v0 shipped — see §12) |
 | **Date** | 2026-08-30 |
 | **Tags** | #guiders #notations #quarry #inputnotation #slash #commandplane #conformance |
 | **Relates to** | GUIDERS-ADR-0015 · GUIDERS-ADR-0016 · GUIDERS-ADR-0018 · GUIDERS-ADR-0019 · GUIDERS-ADR-0020 · [Constitution § Planets are not SSOT](../GUIDERS-FEDERATION-CONSTITUTION.md#planets-are-not-federation-ssot) |
@@ -35,7 +35,7 @@ Notations
 
 **Planet boundary:** no planet wire (CDP Citizen, Forge-only quirks, CIDE palette) is federation SSOT. Conformance vectors and neutral IR are SSOT; planets are early implementers at most.
 
-## Decision (proposed)
+## Decision
 
 ### 1. Notations is a sibling hyperlane guild
 
@@ -150,7 +150,7 @@ Do not block Slash/Console quarry on MCP JSON grammar.
 | **Now** | Ship this ADR; keep publishing `InputNotation.*` |
 | **W2g** | Add `Notations.*` packages; **type-forward** or duplicate-publish aliases `InputNotation → Notations.Keyboard` |
 | **W2h** | Move `SlashLineResolver` body/tokenize into `Notations.Command.Slash`; CommandPlane.Slash calls Notations |
-| **W2i** | Conformance vectors under `notation/keyboard-*`, `notation/command-slash`, `notation/argument-kv` ([ADR-0019](GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md)) |
+| **W2i** | Conformance vectors under `notation/*` ([ADR-0019](GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md)) | **Shipped** — `docs/conformance/notation/*` + embedded fixtures |
 | **Later** | Obsolete `InputNotation` package IDs after CIDE/Forge pin Notations |
 
 [GUIDERS-ADR-0016](GUIDERS-ADR-0016-input-notation-quarry-family.md) remains accepted for **keyboard quarry semantics**; **package naming target** moves to this ADR.
@@ -175,18 +175,22 @@ record NormalizedArgTail(
 
 `SlashLineResolver.TryResolveBody` becomes the reference implementation seed for `Command.Slash` + `Argument.Slash` composed lookup against catalog (catalog stays CommandPlane).
 
-### 9. Conformance (future)
+### 9. Conformance (v0 shipped)
 
-| Spec | Proves |
-|------|--------|
-| `notation/keyboard-vim-v1` | Vim wire → `NormalizedKeySequence` (move from platform embed) |
-| `notation/keyboard-keygesture-v1` | `Ctrl+K` wire ≡ Vim subset where defined |
-| `notation/command-slash` | path tokenization + longest-prefix body |
-| `notation/argument-kv` | `key=value` pairs → slots |
-| `notation/argument-positional-v1` | ordered tokens after path |
-| `notation/argument-delimited` | `wire_class=colon` → slots |
-| `notation/argument-cli-v1` | (v2) `-`/`--` flags → slots (System.CommandLine quarry) |
-| `notation/invocation-parity` | slash + kv readers → same `commandId` for fixture catalog |
+| Spec | Proves | Status |
+|------|--------|--------|
+| `notation/neovim-kbd` | Neovim wire → `NormalizedKeySequence` | **shipped** — `QuarryNotationConformanceTests` |
+| `notation/emacs-kbd` | Emacs wire → `NormalizedKeySequence` | **shipped** |
+| `notation/key-gesture` | KeyGesture / hotkeys.toml → IR; Vim subset parity | **shipped** |
+| `notation/command-slash` | path tokenization + longest-prefix body | **shipped** — `NotationConformanceTests` |
+| `notation/argument-kv` | `key=value` pairs → slots | **shipped** |
+| `notation/argument-positional` | ordered tokens after path | **shipped** |
+| `notation/argument-delimited` | `wire_class=colon` → slots | **shipped** |
+| `notation/argument-cli` | POSIX/GNU flags quarry | **shipped** (v1 subset; full quarry v2) |
+| `notation/invocation-parity` | slash + kv readers → same path | **shipped** |
+| `notation/argument-cli-v1` | (alias) | see `argument-cli` |
+| `notation/argument-json` | MCP JSON args | **defer** |
+| `notation/keyboard-vim-v1` | Vim document chords | **covered** by Neovim + `VimChordNotationParser` unit tests |
 
 ### 10. Notation families inventory
 
@@ -280,6 +284,23 @@ Notations.Argument.PowerShell     (defer) optional heavy package
 - Pulling **PowerShell SDK** into default `Notations.All` bundle.
 - Shipping a full **CLI app host** inside Notations (use System.CommandLine in products; Notations only parses tail → IR).
 
+### 12. Implementation status (v0 — accepted baseline)
+
+| Deliverable | Status | Notes |
+|-------------|--------|-------|
+| `Notations.Keyboard.*` packages + `InputNotation` aliases | **Shipped** | Roadmap W2e, Wave 4 |
+| `Notations.Command.Slash` + `Command.Console` | **Shipped** | `SlashLineResolver` delegates tokenize |
+| `Notations.Argument.*` (Kv, Positional, Delimited, All) | **Shipped** | v1 owned quarries |
+| `Notations.Bracket` | **Shipped** | ADR-0026 Phase 0+ |
+| `IR.Argument` / `IR.Invocation` split | **Shipped** | ADR-0042 |
+| Conformance hyperlane (`notation/*` vectors) | **Shipped (v0)** | `docs/conformance/notation/*` + `NotationConformanceTests` / `QuarryNotationConformanceTests` |
+| `Argument.Cli` (System.CommandLine quarry) | **Deferred** | v2 per §11 |
+| `Argument.Json` / `Argument.PowerShell` | **Deferred** | §10 inventory |
+| `InputNotation.*` package obsoletion | **In progress** | type-forwards exist; sunset TBD |
+| Native ports (Forge TS slash, …) | **Planned** | spec-first; not blocking v0 |
+
+**Authoring layer (separate ADR):** `.catalog` command authoring — [GUIDERS-ADR-0047](../../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md) (WIP). Sits above Notations: codegen **emits** tier-D wire consumed by `Notations.Command.*` / `Notations.Argument.*` at resolve time.
+
 ## Consequences
 
 - One mental model: **Notation = wire alphabet**, **Mechanic = how user invokes**, **Plane = federation contract layer**.
@@ -287,13 +308,14 @@ Notations.Argument.PowerShell     (defer) optional heavy package
 - Constitution hyperlane row evolves: `Notations.*` supersedes `InputNotation.*` label when packages ship.
 - Root pains: [GUIDERS pain inventory](../GUIDERS-pain-inventory.md) **G-001**, **G-003**, **G-011**.
 
-## Open questions
+## Open questions (post-v0)
 
 1. **Single `Notations.Core` reader interface** vs three branch-specific interfaces?
 2. **`Console` reader:** path tokens only, or also accept single-token tool names (`buffer`)?
 3. **Argument.Json:** ship with MCPlane conformance or stay product-local?
 4. **Obsoletion timeline** for `InputNotation` NuGet IDs?
 5. **`Argument.Cli`:** pin `System.CommandLine` major in quarry package vs vendor a minimal lexer from its tests?
+6. **Conformance §9:** which `notation/*` vectors ship in the next hyperlane gate?
 
 ## References
 
@@ -302,3 +324,4 @@ Notations.Argument.PowerShell     (defer) optional heavy package
 - [GUIDERS-ADR-0018 slash conformance vectors](GUIDERS-ADR-0018-slash-conformance-vectors.md)
 - `SlashLineResolver`, `InputNotationParser` — reference quarry seeds
 - [System.CommandLine](https://www.nuget.org/packages/System.CommandLine) — v2 quarry candidate for `Argument.Cli` (not v1 dependency)
+- [GUIDERS-ADR-0047 command catalog authoring (WIP)](../../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md) — `.catalog` layer above Notations

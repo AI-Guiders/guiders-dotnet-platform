@@ -628,7 +628,7 @@ Sibling repos (not in platform monorepo):
 | [0012](./adr/GUIDERS-ADR-0012-arg-picker-completion.md) | Arg picker completion |
 | [0015](./adr/GUIDERS-ADR-0015-invocation-mechanics-slash-melody-binding.md) | Slash · Melody · Binding |
 | [0020](./adr/GUIDERS-ADR-0020-mcplane-agent-ingress.md) | MCPlane (draft) |
-| [0021](./adr/GUIDERS-ADR-0021-notations-quarry-family.md) | Notations quarry |
+| [0021](./adr/GUIDERS-ADR-0021-notations-quarry-family.md) | Notations quarry (v0) |
 | [0024](./adr/GUIDERS-ADR-0024-visual-command-tree-capture-stack.md) | Visual Command Tree |
 | [0030](./adr/GUIDERS-ADR-0030-combinations-family.md) | Combinations family |
 | [0033](./adr/GUIDERS-ADR-0033-navigation-family-semantic-scenes.md) | Navigation scenes |
