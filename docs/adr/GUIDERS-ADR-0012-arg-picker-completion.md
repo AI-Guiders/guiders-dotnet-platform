@@ -4,7 +4,7 @@
 |---|---|
 | **Status** | Accepted |
 | **Date** | 2026-08-29 |
-| **Relates to** | GUIDERS-ADR-0009 · GUIDERS-ADR-0011 · DASHSPEC-ADR-0043 |
+| **Relates to** | GUIDERS-ADR-0009 · GUIDERS-ADR-0011 · GUIDERS-ADR-0035 · DASHSPEC-ADR-0043 |
 
 ## Context
 
