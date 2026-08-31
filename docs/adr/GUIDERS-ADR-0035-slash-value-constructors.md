@@ -18,11 +18,57 @@ Many commands need **typed values** that are not a small enum:
 
 Today the fallback is `SlashInputMode.FreeText` with an `ArgHint` (“type YYYY-MM-DD…”). That forces the user to remember product wire grammar and locale-agnostic formats. DashSpec date filters illustrate the gap: presets (`today`, `last-week`) appear in the picker, but range construction is documented only in hints while the executor already accepts `from..to`.
 
-We need a **third arg-step mechanic** between picker and free text: **value constructor** — stepwise assembly of a canonical wire value with human-friendly display.
+We need a **third arg-step mechanic** between picker and free text: **value constructor** — guided assembly of a canonical wire value with human-friendly display.
+
+Constructors form a **tree**, not a flat step list: composite nodes (Range, Date) contain child constructors; only **leaf** nodes expose pickable segments (Year, Month, Day). The arg phase before entering a constructor offers **Free text** and root constructors side by side (presets remain instant picker values).
 
 Related: ephemeral slash UI state (draft tail, highlight targets) MUST stay isolated from product page render trees ([DASHSPEC-ADR-0043](https://github.com/AI-Guiders/dash-spec/blob/main/design/DASHSPEC-ADR-0043-filter-command-palette.md) `CommandSession` pattern). Constructor drafts belong to the same **surface session** layer, not committed command context.
 
 ## Decision
+
+### 0. Arg phase before constructor (entry menu)
+
+When the command path is complete and `ArgTail` allows construction, the user sees an **arg entry menu** — not only enum presets:
+
+```text
+Arg entry (SlashInputMode.Picker + escape hatches)
+├── today, last-week, …          ← preset Value rows (instant wire)
+├── Range                          ← root Constructor row → enters tree
+└── (implicit) Free text           ← SlashInputMode.FreeText; user types wire directly
+```
+
+| Row | Mode after accept | Result |
+|-----|-------------------|--------|
+| Preset | `Ready` | wire token immediately |
+| Root constructor (e.g. Range) | `Constructor` | navigate constructor tree |
+| Free text | `FreeText` | no constructor; `ArgHint` + manual typing |
+
+**Rule:** Free text is always available as sibling escape hatch — constructors are optional structured path, not a cage.
+
+### 0.1 Constructor hierarchy (composite tree)
+
+Constructors are **composable**. A composite node delegates to child constructors; leaves expose ordered segments.
+
+Example — date range (DashSpec):
+
+```text
+Range                              ← composite (root)
+├── Date (from)                    ← composite (child slot)
+│   ├── Year                       ← leaf segment
+│   ├── Month                      ← leaf segment
+│   └── Day                        ← leaf segment
+├── ..                             ← separator (auto, not a pick row)
+└── Date (to)                      ← composite (child slot)
+    ├── Year
+    ├── Month
+    └── Day
+```
+
+Navigation = **cursor in tree**: `(nodePath[], leafStepIndex)`. Accepting a leaf segment advances within the leaf; completing a leaf advances to the next sibling slot or separator; completing the root emits wire.
+
+Display builds depth-first: `31.08.2026 .. 15.09.2026`. Wire builds in parallel: `2026-08-31..2026-09-15`.
+
+Same `Date` constructor is **reused** under Range (from/to), under `date_single` (scalar), and under grain variants (`Year → Month` only) — product defines the tree; platform walks it.
 
 ### 1. Pattern: Constructor sits on ArgTail
 
@@ -47,8 +93,8 @@ Static presets remain `ArgPickerChoices`. Platform injects **virtual constructor
 
 | Layer | Owns |
 |-------|------|
-| **Platform** | `SlashInputMode.Constructor`, constructor session, step orchestration, step suggestions API, wire emission contract, conformance vectors |
-| **Product** | `ISlashValueConstructor` implementations, descriptor `constructor` block, display locale / step sequences |
+| **Platform** | `SlashInputMode.Constructor`, constructor session, **tree navigation**, leaf step suggestions, wire emission, conformance vectors |
+| **Product** | Constructor **catalog** (composite + leaf defs), reusable child constructors (`date`, `date_range`), display locale |
 | **Surface** | Popover/table chrome, accept-key, breadcrumb rendering — unchanged (ADR-0009) |
 
 ```text
@@ -59,13 +105,13 @@ Catalog descriptor
         │
         ▼
 SlashStepCompletion / SlashArgCompletion
-  ├─ Picker phase → SlashInputMode.Picker
-  └─ virtual row accepted → SlashConstructorSession
+  ├─ Arg entry: presets + root constructors + FreeText escape
+  └─ Constructor row accepted → SlashConstructorSession (tree cursor)
         │
         ▼
-ISlashValueConstructor (product)
-  GetStepSuggestions(draft, stepIndex, partial)
-  TryEmitWire(draft, out wireValue)
+SlashValueConstructorNavigator (platform)
+  composite node → enter child slot
+  leaf node → pick segment (year / month / day)
         │
         ▼
 ArgTail on context → Registry.TryExecute (unchanged)
@@ -73,75 +119,98 @@ ArgTail on context → Registry.TryExecute (unchanged)
 
 **Rule:** constructor emits the **same wire string** the command would accept from free text. No second executor path.
 
-### 3. `SlashInputMode.Constructor`
-
-Add to `SlashInputMode` ([ADR-0012 §5](GUIDERS-ADR-0012-arg-picker-completion.md)):
+### 3. `SlashInputMode` at arg step
 
 | Mode | When | User action |
 |------|------|-------------|
-| `Constructor` | `SlashConstructorSession` active | pick next step segment (year → month → day → …) |
-| `ConstructorRange` | optional sub-kind in guidance | between range endpoints, show `..` separator step |
+| `Picker` | arg entry menu | preset or root constructor row |
+| `FreeText` | user skipped constructors | type wire manually (`ArgHint`) |
+| `Constructor` | inside tree | pick next **leaf** segment at cursor |
+| `Ready` | `TryEmitWire` succeeded | Enter executes |
 
-Guidance fields:
+Range is a **composite constructor**, not a separate input mode.
 
-- `Breadcrumb` — includes partial display buffer (`31.08.2026 .. 15.09.`)
-- `Placeholder` — next step label (`Год`, `Месяц`, `День`, `Конец периода`)
+Guidance while in `Constructor`:
+
+- `Breadcrumb` — tree path + partial display (`… › from › 31.08. › to ›`)
+- `Placeholder` — current leaf segment (`Год`, `Месяц`, `День`) or child slot (`Дата (с)`)
 - `NextStepHint` — constructor-specific hint
 
-### 4. Product contract: `ISlashValueConstructor`
+### 4. Product contract: constructor catalog (composite tree)
 
-```csharp
-public interface ISlashValueConstructor
-{
-    string ConstructorId { get; }
-    SlashConstructorKind Kind { get; }
-
-    IReadOnlyList<SlashConstructorStepDefinition> Steps { get; }
-
-    IReadOnlyList<SlashCompletionItem> GetStepSuggestions(
-        SlashConstructorDraft draft,
-        int stepIndex,
-        string partial);
-
-    bool TryEmitWire(SlashConstructorDraft draft, out string wireValue, out string? error);
-}
-
-public enum SlashConstructorKind
-{
-    Scalar,
-    Range,      // two sub-values + separator token
-    Collection, // future: [a, b, c]
-}
-```
-
-Platform registry:
+Two node shapes in one registry:
 
 ```csharp
 public interface ISlashValueConstructorRegistry
 {
-    bool TryGet(string constructorId, out ISlashValueConstructor constructor);
+    bool TryGet(string constructorId, out SlashConstructorDefinition definition);
+}
+
+public abstract record SlashConstructorDefinition(string Id, string? Label);
+
+/// <summary>Ordered leaf segments (Year, Month, Day).</summary>
+public sealed record SlashLeafConstructorDefinition(
+    string Id,
+    string? Label,
+    IReadOnlyList<SlashConstructorSegmentDefinition> Segments)
+    : SlashConstructorDefinition(Id, Label);
+
+/// <summary>Child slots + separators (Range).</summary>
+public sealed record SlashCompositeConstructorDefinition(
+    string Id,
+    string? Label,
+    IReadOnlyList<SlashConstructorSlotDefinition> Slots)
+    : SlashConstructorDefinition(Id, Label);
+
+public sealed record SlashConstructorSlotDefinition(
+    string SlotId,
+    string ConstructorId,
+    string? Label,
+    string? SeparatorBefore = null);  // e.g. ".." inserted before this slot in wire/display
+```
+
+Platform tree walk:
+
+```csharp
+public interface ISlashValueConstructorNavigator
+{
+    IReadOnlyList<SlashCompletionItem> GetSuggestions(
+        SlashConstructorDraft draft,
+        string partial);
+
+    bool TryAdvance(SlashConstructorDraft draft, string pickedSegment, out SlashConstructorDraft next);
+
+    bool TryEmitWire(SlashConstructorDraft draft, out string wireValue, out string? error);
 }
 ```
 
-Descriptor block (JSON/TOML/XML via existing catalog sources):
+Product registers **definitions**; platform owns cursor + navigation. Product MAY supply custom navigator per id for exotic grammars.
+
+Descriptor block:
 
 ```json
 {
   "constructors": [
     {
-      "id": "date_range",
-      "label": "Выбрать период…",
-      "kind": "range",
+      "id": "date",
+      "segments": ["year", "month", "day"],
       "displayFormat": "dd.MM.yyyy",
-      "wireFormat": "yyyy-MM-dd..yyyy-MM-dd",
-      "separator": "..",
-      "steps": ["year", "month", "day", "separator", "year", "month", "day"]
+      "wireFormat": "yyyy-MM-dd"
+    },
+    {
+      "id": "date_range",
+      "label": "Период…",
+      "slots": [
+        { "slot": "from", "constructor": "date", "label": "Дата (с)" },
+        { "slot": "to", "constructor": "date", "label": "Дата (по)", "separatorBefore": ".." }
+      ],
+      "wireFormat": "{from}..{to}"
     }
   ]
 }
 ```
 
-`steps` MAY be omitted — product constructor supplies default sequence. Platform only requires ordered step indices and a draft bag.
+Shared `date` leaf — reused under range, single-date, and grain-truncated variants (drop trailing segments in a derived leaf def).
 
 ### 5. Display format ≠ wire format
 
@@ -155,11 +224,12 @@ Platform stores both in draft:
 ```csharp
 public sealed class SlashConstructorDraft
 {
-    public string ConstructorId { get; init; }
-    public int StepIndex { get; set; }
-    public string DisplayBuffer { get; set; }  // human segments + separators
-    public string WireBuffer { get; set; }     // canonical partial
-    public IReadOnlyList<string> CompletedSteps { get; set; }
+    public string RootConstructorId { get; init; }
+    public IReadOnlyList<string> NodePath { get; set; }  // e.g. ["from"] → ["to"]
+    public int SegmentIndex { get; set; }                  // index within current leaf
+    public string DisplayBuffer { get; set; }
+    public string WireBuffer { get; set; }
+    public IReadOnlyDictionary<string, string> CompletedSlots { get; set; }  // slotId → wire
 }
 ```
 
@@ -265,6 +335,7 @@ Platform CI runs vectors headless; DashSpec/Forge adapters add product-specific 
 - Duplicating wire parsing in constructor **and** command — command parser stays SSOT
 - Constructor steps that re-render product data views on each keystroke
 - Hard-coding `dd.MM.yyyy` in platform — display format is catalog/product
+- Flattening a composite tree into one `steps[]` array in descriptors — use slots + reusable leaf defs
 - Fake picker rows that insert invalid partial wire (`2026-08-` without completion gate)
 
 ## Prior art
