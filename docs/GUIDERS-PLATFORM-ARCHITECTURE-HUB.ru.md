@@ -262,7 +262,7 @@ Platform шипит **reference quarry** (.NET parsers). Планеты **пор
 | Пакет | Возможности |
 |-------|-------------|
 | `CommandPlane` | GoF `IPlatformCommand<T>`, `PlatformCommandRegistry`, `ICommandContext` (hub) |
-| `CommandPlane.Catalog` | `CommandDescriptor`, `CommandCatalogIndex`, `ICommandSource`, merge ([ADR-0039](./adr/GUIDERS-ADR-0039-command-catalog-family.md), [ADR-0040](./adr/GUIDERS-ADR-0040-catalog-guild-arg-suggestions.md)) |
+| `CommandPlane.Catalog` | Command catalog IR + index facade ([ADR-0039](./adr/GUIDERS-ADR-0039-command-catalog-family.md), [ADR-0041](./adr/GUIDERS-ADR-0041-catalog-kernel-profiles.md)) |
 | `CommandPlane.ArgSuggestions` | Federated arg suggestion broker + planet provider registry |
 | `CommandPlane.Constructors` | Value constructor registry, session, navigator, locale input ([ADR-0035](./adr/GUIDERS-ADR-0035-slash-value-constructors.md)) |
 | `CommandPlane.PrefixArmed` | PAC profiles + coordinator — кросс-поверхностная механика ([ADR-0038](./adr/GUIDERS-ADR-0038-prefix-armed-completion.md)) |
