@@ -27,9 +27,13 @@ IntermediateRepresentation.Bracket      bracket wire IR (profiles, axes, Normali
 IntermediateRepresentation.Command      command catalog descriptors + route rows
 IntermediateRepresentation.Binding      binding descriptors + entries
 IntermediateRepresentation.Melody       melody descriptor + line/step IR
+IntermediateRepresentation.Agent          agent envelope IR (DetailTier, NextHint, AgentResponseEnvelope)
+IntermediateRepresentation.Language       locate/edit IR (Locus, TextEdit, BracketAnchorSpan, …)
 ```
 
-Future (same family, separate waves): `.Agent` (MCPlane envelopes), `.Language` (LanguageIntelligence IR).
+`IntentOutcome` stays in **`Abstractions`** — shared host-execute result (Routing + MCPlane projection); not envelope-only.
+
+Future nested splits (only if volume warrants): `IR.Language.Line`, `IR.Language.Sniper` — same family, optional child packages per ADR-0025 phases.
 
 ### 2. Boundary rules
 
@@ -57,6 +61,9 @@ Notations.Argument.*      → IR.Argument
 Notations.Keyboard.*      → IR.Keyboard + Notations.Keyboard (readers)
 Notations.Command.*       → IR.Invocation + Notations.Command
 Notations.Bracket         → IR.Bracket + Notations (KvPair helpers)
+MCPlane                   → IR.Agent + projection/conformance mechanics
+LanguageIntelligence      → IR.Language + IAnchorResolver contract
+LanguageIntelligence.Anchors → IR.Language + BracketAnchorWire parse/format
 ```
 
 `AIGuiders.Platform.Notations.Argument` **core package removed** — superseded by `IR.Argument`.
@@ -72,9 +79,9 @@ Notations.Bracket         → IR.Bracket + Notations (KvPair helpers)
 
 - Federation ports (JS slash, Quarry) target **`IntermediateRepresentation.*`** NuGet ids, not `Notations.*` or `CommandPlane`.
 - Guild packages shrink to mechanics; catalog field schemas are versioned with IR packages.
-- ADR-0041 §4 “Descriptor field schemas → guild IR” is superseded: schemas live in **`IR.Command` / `IR.Binding` / `IR.Melody`**.
+- ADR-0041 §4 “Descriptor field schemas → guild IR” is superseded: schemas live in **`IR.Command` / `IR.Binding` / `IR.Melody` / `IR.Agent` / `IR.Language`**.
 
 ## Non-goals
 
-- MCPlane / LanguageIntelligence extract (tracked as follow-up packages).
 - Renaming `SlashConstructorBinding` → `CommandConstructorBinding` (cosmetic; optional later ADR).
+- Moving `IntentOutcome` out of `Abstractions` (cross-plane execute result; envelope wraps it).

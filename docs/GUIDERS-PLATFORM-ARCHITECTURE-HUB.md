@@ -256,6 +256,8 @@ From [GUIDERS-ADR-0001](./adr/GUIDERS-ADR-0001-platform-boundary.md):
 | `IntermediateRepresentation.Command` | Command catalog descriptors + route rows |
 | `IntermediateRepresentation.Binding` | Binding descriptors + entries |
 | `IntermediateRepresentation.Melody` | Melody descriptor + line/step IR |
+| `IntermediateRepresentation.Agent` | Agent envelope: `DetailTier`, `NextHint`, `AgentResponseEnvelope` |
+| `IntermediateRepresentation.Language` | `Locus`, `TextEdit`, `BracketAnchorSpan`, `SniperScope`, … |
 
 See [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md). **Notations** parse wire → IR; **CommandPlane** guilds own mechanics.
 

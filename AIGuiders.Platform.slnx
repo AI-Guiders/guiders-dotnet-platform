@@ -43,6 +43,8 @@
     <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Invocation/AIGuiders.Platform.IntermediateRepresentation.Invocation.csproj" />
     <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Keyboard/AIGuiders.Platform.IntermediateRepresentation.Keyboard.csproj" />
     <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Melody/AIGuiders.Platform.IntermediateRepresentation.Melody.csproj" />
+    <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Agent/AIGuiders.Platform.IntermediateRepresentation.Agent.csproj" />
+    <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Language/AIGuiders.Platform.IntermediateRepresentation.Language.csproj" />
     <Project Path="src/AIGuiders.Platform.Catalog/AIGuiders.Platform.Catalog.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog/AIGuiders.Platform.CommandPlane.Catalog.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.ArgSuggestions/AIGuiders.Platform.CommandPlane.ArgSuggestions.csproj" />

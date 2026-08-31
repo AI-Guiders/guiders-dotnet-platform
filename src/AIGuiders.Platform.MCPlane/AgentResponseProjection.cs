@@ -1,4 +1,5 @@
 using AIGuiders.Platform.Abstractions;
+using AIGuiders.Platform.IntermediateRepresentation.Agent;
 
 namespace AIGuiders.Platform.MCPlane;
 

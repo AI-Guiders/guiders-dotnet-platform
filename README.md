@@ -40,6 +40,8 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.IntermediateRepresentation.Command` | Command catalog descriptors + route rows |
 | `AIGuiders.Platform.IntermediateRepresentation.Binding` | Binding descriptors + entries |
 | `AIGuiders.Platform.IntermediateRepresentation.Melody` | Melody descriptor + line/step IR |
+| `AIGuiders.Platform.IntermediateRepresentation.Agent` | Agent envelope IR (`DetailTier`, `NextHint`, `AgentResponseEnvelope`) |
+| `AIGuiders.Platform.IntermediateRepresentation.Language` | Locate/edit IR (`Locus`, `TextEdit`, `BracketAnchorSpan`, …) |
 | `AIGuiders.Platform.Notations.Argument.All` | Profile-driven parse facade (`ArgumentNotation.Parse`) |
 | `AIGuiders.Platform.Notations.Keyboard` | `IKeyboardNotationReader` (parsers → IR.Keyboard) |
 | `AIGuiders.Platform.Notations.Keyboard.Quarry` | Shared quarry lexer, normalizer, spec conformance |
@@ -56,8 +58,9 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.Notations.Command.Slash` | Slash body tokenize → path + tail |
 | `AIGuiders.Platform.Notations.Command.Console` | Console path + kv tail wire |
 | `AIGuiders.Platform.Notations.Command.All` | Meta-bundle: facade `CommandNotationParser` |
-| `AIGuiders.Platform.CommandPlane.Melody` | Melody descriptors, line profile, policy (ADR-0015) |
-| `AIGuiders.Platform.LanguageIntelligence` | Anchor/Locus/TextEdit IR, resolve tiers (ADR-0025 Phase 0) |
+| `AIGuiders.Platform.CommandPlane.Melody` | Melody line policy, notation bridge (IR in `IR.Melody`) |
+| `AIGuiders.Platform.LanguageIntelligence` | `IAnchorResolver` contract (IR in `IR.Language`) |
+| `AIGuiders.Platform.MCPlane` | Agent projection + conformance (IR in `IR.Agent`) |
 | `AIGuiders.Platform.CommandPlane.Binding` | Binding catalog core: merge, index, gesture normalize |
 | `AIGuiders.Platform.CommandPlane.Binding.Sources.Toml` | `hotkeys.toml` flat map (CIDE quarry) |
 | `AIGuiders.Platform.CommandPlane.Binding.Sources.Json` | JSON bindings object → Core |

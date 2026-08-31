@@ -256,6 +256,8 @@ Platform шипит **дороги** (neutral IR, MCPlane tiers, conformance). �
 | `IntermediateRepresentation.Command` | Command catalog descriptors + route rows |
 | `IntermediateRepresentation.Binding` | Binding descriptors + entries |
 | `IntermediateRepresentation.Melody` | Melody descriptor + line/step IR |
+| `IntermediateRepresentation.Agent` | Agent envelope: `DetailTier`, `NextHint`, `AgentResponseEnvelope` |
+| `IntermediateRepresentation.Language` | `Locus`, `TextEdit`, `BracketAnchorSpan`, `SniperScope`, … |
 
 См. [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md). **Notations** парсят wire → IR; **CommandPlane** guilds — механики.
 

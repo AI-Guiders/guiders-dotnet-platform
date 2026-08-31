@@ -6,7 +6,7 @@
     <Description>Anchor wire IR: bracket span projection, family classify, format (code/xml/navigation).</Description>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Language\AIGuiders.Platform.IntermediateRepresentation.Language.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.LanguageIntelligence\AIGuiders.Platform.LanguageIntelligence.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Bracket\AIGuiders.Platform.Notations.Bracket.csproj" />
-  </ItemGroup>
-</Project>
+  </ItemGroup></Project>

@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.IntermediateRepresentation.Agent</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.IntermediateRepresentation.Agent</AssemblyName>
+    <PackageId>AIGuiders.Platform.IntermediateRepresentation.Agent</PackageId>
+    <Description>Agent ingress IR: detail tiers, next hints, response envelope (GUIDERS-ADR-0042).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Abstractions\AIGuiders.Platform.Abstractions.csproj" />
+  </ItemGroup>
+</Project>

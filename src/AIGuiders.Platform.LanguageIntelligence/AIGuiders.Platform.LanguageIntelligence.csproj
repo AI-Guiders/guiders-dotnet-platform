@@ -3,6 +3,8 @@
     <RootNamespace>AIGuiders.Platform.LanguageIntelligence</RootNamespace>
     <AssemblyName>AIGuiders.Platform.LanguageIntelligence</AssemblyName>
     <PackageId>AIGuiders.Platform.LanguageIntelligence</PackageId>
-    <Description>Language-neutral locate/edit IR: Anchor, Locus, TextEdit, tiers (GUIDERS-ADR-0025 Phase 0).</Description>
+    <Description>LanguageIntelligence contracts — IAnchorResolver; IR in IntermediateRepresentation.Language (GUIDERS-ADR-0025).</Description>
   </PropertyGroup>
-</Project>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Language\AIGuiders.Platform.IntermediateRepresentation.Language.csproj" />
+  </ItemGroup></Project>

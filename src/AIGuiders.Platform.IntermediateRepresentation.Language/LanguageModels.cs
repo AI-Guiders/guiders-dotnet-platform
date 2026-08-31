@@ -1,6 +1,6 @@
 #nullable enable
 
-namespace AIGuiders.Platform.LanguageIntelligence;
+namespace AIGuiders.Platform.IntermediateRepresentation.Language;
 
 /// <summary>How confidently an <see cref="Locus"/> is bound (GUIDERS-ADR-0025).</summary>
 public enum ResolveTier
@@ -18,7 +18,7 @@ public sealed record Locus(
     string? SymbolId = null,
     string? FilePath = null);
 
-/// <summary>Resolve input for anchor (raw wire). Prefer NormalizedBracketWire from Notations.Bracket (ADR-0026).</summary>
+/// <summary>Resolve input for anchor (raw wire). Prefer NormalizedBracketWire from IR.Bracket (ADR-0026).</summary>
 public sealed record AnchorWire(string Value);
 
 /// <summary>LSP-shaped single edit (language-neutral).</summary>
@@ -43,8 +43,3 @@ public sealed record SniperScope(
     int? TillLine = null,
     string? Wire = null,
     string? Pad = null);
-
-public interface IAnchorResolver
-{
-    bool TryResolve(AnchorWire wire, out Locus locus, out string error);
-}

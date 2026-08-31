@@ -1,38 +1,15 @@
 #nullable enable
 
 using AIGuiders.Platform.IntermediateRepresentation.Bracket;
+using AIGuiders.Platform.IntermediateRepresentation.Language;
 using AIGuiders.Platform.Notations.Bracket;
 
 namespace AIGuiders.Platform.LanguageIntelligence.Anchors;
 
-/// <summary>CDP/CIDE anchor wire IR — families code / xml / navigation (CIDE 0128 / 0186).</summary>
-public enum BracketAxisFamily
-    {
-        None,
-        Csharp,
-        Xml,
-        Navigation
-    }
-
-public sealed record BracketAnchorSpan(
-        string? File,
-        string? MemberKey,
-        int? LineStart,
-        int? LineEnd,
-        string? ScopeKind = null,
-        int? ScopeIndex = null,
-        string? Role = null,
-        string? XmlPath = null,
-        string? Attr = null,
-        string? Family = null,
-        string? Command = null,
-        string? Go = null,
-        BracketAnchorSpan? NestedAnchor = null,
-        string? TextNeedle = null);
-
 /// <summary>Parse/format/classify via <see cref="BracketReader"/>.</summary>
 public static class BracketAnchorWire
-{static readonly Dictionary<string, string> AxisAlias = new(StringComparer.OrdinalIgnoreCase)
+{
+    static readonly Dictionary<string, string> AxisAlias = new(StringComparer.OrdinalIgnoreCase)
     {
         ["F"] = "File",
         ["File"] = "File",
@@ -63,7 +40,9 @@ public static class BracketAnchorWire
         // legacy flag → Family:navigation
         ["N"] = "Navigate",
         ["Navigate"] = "Navigate",
-    };public static BracketAnchorSpan Parse(string bracketOrInner)
+    };
+
+    public static BracketAnchorSpan Parse(string bracketOrInner)
     {
         if (!BracketReader.Default.TryRead(
                 bracketOrInner,

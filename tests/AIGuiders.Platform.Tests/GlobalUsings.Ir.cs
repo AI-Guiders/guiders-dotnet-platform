@@ -7,3 +7,5 @@ global using AIGuiders.Platform.IntermediateRepresentation.Melody;
 global using AIGuiders.Platform.IntermediateRepresentation.Bracket;
 global using AIGuiders.Platform.Notations.Argument;
 global using AIGuiders.Platform.Notations.Bracket;
+global using AIGuiders.Platform.IntermediateRepresentation.Agent;
+global using AIGuiders.Platform.IntermediateRepresentation.Language;
