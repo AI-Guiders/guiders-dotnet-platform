@@ -67,7 +67,7 @@ Platform types (v1):
 
 - `ICommandContext`, `IPlatformCommand<T>`, `PlatformCommand<T>`, `CommandOutcome`
 - `PlatformCommandRegistry<TContext>`
-- `ICatalogVisitor<TContext>` (target) — builds `SlashCatalogIndex`, capabilities projections
+- `ICatalogVisitor<TContext>` (target) — builds `CommandCatalogIndex`, capabilities projections
 
 **Rule:** new slash/editor behaviour = platform mechanic (+ product registration), not surface handler logic.
 
@@ -90,10 +90,10 @@ Same **semantic** mechanic may execute in different **hosts**:
 | | Owner | Notes |
 |---|--------|-------|
 | **Catalog content** (which plugins, TOML paths, tiers) | Products / plugins | Issue plugin registers paths |
-| **Catalog mechanics** (index, merge, resolve, visitor) | **CommandPlane** | `SlashCatalogIndex`, `SlashLineResolver` |
+| **Catalog mechanics** (index, merge, resolve, visitor) | **CommandPlane** | `CommandCatalogIndex`, `SlashLineResolver` |
 | **Command mechanics** (execute) | **CommandPlane** + product registry host | Forge merges plugin commands into host registry |
 
-Descriptor DTOs (`SlashCommandDescriptor`) are **projection records**, not executors.
+Descriptor DTOs (`CommandDescriptor`) are **projection records**, not executors.
 
 ### 6. Quarry waves (mechanics)
 

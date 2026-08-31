@@ -53,7 +53,7 @@ public interface IPrefixArmProfile
 
 `SlashCompletionOptions.PrefixArmProfiles` — explicit list from product host.
 
-`PrefixArmCoordinator` runs on `PrefixArmSite` (surface-neutral). `CommandPlane.Slash` maps `SlashRouteEntry` → site and `PrefixArmResult` → `SlashCompletionResult`.
+`PrefixArmCoordinator` runs on `PrefixArmSite` (surface-neutral). `CommandPlane.Slash` maps `CatalogRouteEntry` → site and `PrefixArmResult` → `SlashCompletionResult`.
 
 Constructor session rules (ADR-0037 §5) apply to all PAC profiles.
 

@@ -7,14 +7,14 @@ namespace AIGuiders.Platform.CommandPlane;
 public static class CommandSource
 {
     public static ICommandSource From(
-        IEnumerable<SlashCommandDescriptor> descriptors,
+        IEnumerable<CommandDescriptor> descriptors,
         string? sourceId = null) =>
         new DescriptorCommandSource(
             sourceId ?? "descriptors",
-            descriptors as IReadOnlyList<SlashCommandDescriptor> ?? descriptors.ToList());
+            descriptors as IReadOnlyList<CommandDescriptor> ?? descriptors.ToList());
 
     public static ICommandSource From(
-        Func<IReadOnlyList<SlashCommandDescriptor>> loader,
+        Func<IReadOnlyList<CommandDescriptor>> loader,
         string? sourceId = null) =>
         new DelegateCommandSource(sourceId ?? "delegate", loader);
 
@@ -47,20 +47,20 @@ public static class CommandSource
         return FromText(File.ReadAllText(path), reader, sourceId ?? $"file:{Path.GetFileName(path)}");
     }
 
-    sealed class DescriptorCommandSource(string sourceId, IReadOnlyList<SlashCommandDescriptor> descriptors)
+    sealed class DescriptorCommandSource(string sourceId, IReadOnlyList<CommandDescriptor> descriptors)
         : ICommandSource
     {
         public string SourceId { get; } = sourceId;
 
-        public IReadOnlyList<SlashCommandDescriptor> Load() => descriptors;
+        public IReadOnlyList<CommandDescriptor> Load() => descriptors;
     }
 
-    sealed class DelegateCommandSource(string sourceId, Func<IReadOnlyList<SlashCommandDescriptor>> loader)
+    sealed class DelegateCommandSource(string sourceId, Func<IReadOnlyList<CommandDescriptor>> loader)
         : ICommandSource
     {
         public string SourceId { get; } = sourceId;
 
-        public IReadOnlyList<SlashCommandDescriptor> Load() => loader();
+        public IReadOnlyList<CommandDescriptor> Load() => loader();
     }
 
     sealed class TextCommandSource(string sourceId, string text, ICommandFormatReader reader)
@@ -68,7 +68,7 @@ public static class CommandSource
     {
         public string SourceId { get; } = sourceId;
 
-        public IReadOnlyList<SlashCommandDescriptor> Load() => reader.Read(text);
+        public IReadOnlyList<CommandDescriptor> Load() => reader.Read(text);
     }
 
     sealed class StreamCommandSource(
@@ -80,7 +80,7 @@ public static class CommandSource
     {
         public string SourceId { get; } = sourceId;
 
-        public IReadOnlyList<SlashCommandDescriptor> Load()
+        public IReadOnlyList<CommandDescriptor> Load()
         {
             using var textReader = new StreamReader(
                 stream,

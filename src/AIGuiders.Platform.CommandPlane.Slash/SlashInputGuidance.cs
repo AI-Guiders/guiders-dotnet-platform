@@ -21,22 +21,22 @@ public sealed record SlashCompletionResult(
 public static class SlashCompletion
 {
     public static SlashCompletionResult GetResult(
-        SlashCatalogIndex catalog,
+        CommandCatalogIndex catalog,
         string typedBody,
-        ISlashPickerChoiceSource? pickerSource = null) =>
+        ICommandPickerChoiceSource? pickerSource = null) =>
         GetResult(catalog, typedBody, pickerSource, constructorSession: null);
 
     public static SlashCompletionResult GetResult(
-        SlashCatalogIndex catalog,
+        CommandCatalogIndex catalog,
         string typedBody,
-        ISlashPickerChoiceSource? pickerSource,
+        ICommandPickerChoiceSource? pickerSource,
         SlashConstructorSession? constructorSession) =>
         GetResult(catalog, typedBody, pickerSource, constructorSession, options: null);
 
     public static SlashCompletionResult GetResult(
-        SlashCatalogIndex catalog,
+        CommandCatalogIndex catalog,
         string typedBody,
-        ISlashPickerChoiceSource? pickerSource,
+        ICommandPickerChoiceSource? pickerSource,
         SlashConstructorSession? constructorSession,
         SlashCompletionOptions? options)
     {
@@ -109,9 +109,9 @@ public static class SlashCompletion
 static class SlashInputGuidanceResolver
 {
     public static SlashInputGuidance Resolve(
-        SlashCatalogIndex catalog,
+        CommandCatalogIndex catalog,
         string typedBody,
-        ISlashPickerChoiceSource? pickerSource,
+        ICommandPickerChoiceSource? pickerSource,
         IReadOnlyList<SlashCompletionItem> items,
         IReadOnlyList<IPrefixArmProfile>? prefixArmProfiles = null,
         SlashLocaleInputProfile? localeProfile = null)
@@ -150,19 +150,19 @@ static class SlashInputGuidanceResolver
         return ResolvePathGuidance(body, items);
     }
 
-    static bool AwaitingArgInput(SlashLineResolver.SlashLineResolution line, SlashRouteEntry route) =>
+    static bool AwaitingArgInput(SlashLineResolver.SlashLineResolution line, CatalogRouteEntry route) =>
         route.ArgTailKind switch
         {
-            SlashArgTailKind.Required => !line.HasArgTailContent,
-            SlashArgTailKind.Picker => !line.HasArgTailContent,
-            SlashArgTailKind.Optional => line.EndsWithSpaceAfterPath && !line.HasArgTailContent,
+            CommandArgTailKind.Required => !line.HasArgTailContent,
+            CommandArgTailKind.Picker => !line.HasArgTailContent,
+            CommandArgTailKind.Optional => line.EndsWithSpaceAfterPath && !line.HasArgTailContent,
             _ => false,
         };
 
     static SlashInputGuidance ResolveArgGuidance(
         SlashLineResolver.SlashLineResolution line,
-        SlashRouteEntry route,
-        ISlashPickerChoiceSource? pickerSource,
+        CatalogRouteEntry route,
+        ICommandPickerChoiceSource? pickerSource,
         IReadOnlyList<SlashCompletionItem> items,
         string breadcrumb,
         string argTailKind,
@@ -200,9 +200,9 @@ static class SlashInputGuidanceResolver
                 DisplayTail: partial);
         }
 
-        var hasPickerSurface = route.ArgTailKind == SlashArgTailKind.Picker
+        var hasPickerSurface = route.ArgTailKind == CommandArgTailKind.Picker
                                || route.ResolvedPickerChoices.Count > 0
-                               || SlashArgTailPolicy.ExtractPickerId(route.ArgTail) is not null;
+                               || CommandArgTailPolicy.ExtractPickerId(route.ArgTail) is not null;
 
         if (hasPickerSurface)
         {
@@ -233,14 +233,14 @@ static class SlashInputGuidanceResolver
 
         return route.ArgTailKind switch
         {
-            SlashArgTailKind.Required => new SlashInputGuidance(
+            CommandArgTailKind.Required => new SlashInputGuidance(
                 SlashInputMode.FreeText,
                 breadcrumb,
                 FormatFreeTextPlaceholder(route.ArgHint),
                 route.ArgHint ?? "Type the required argument and press Enter",
                 line.CanonicalPath,
                 argTailKind),
-            SlashArgTailKind.Optional => new SlashInputGuidance(
+            CommandArgTailKind.Optional => new SlashInputGuidance(
                 SlashInputMode.Optional,
                 breadcrumb,
                 route.ArgHint ?? "Optional argument — Enter to run",
@@ -269,7 +269,7 @@ static class SlashInputGuidanceResolver
                 $"Next: {next}",
                 items[0].Help,
                 items[0].SlashPath.TrimStart('/'),
-                nameof(SlashArgTailKind.None));
+                nameof(CommandArgTailKind.None));
         }
 
         return new SlashInputGuidance(
@@ -278,7 +278,7 @@ static class SlashInputGuidanceResolver
             "Type a command path",
             "Start typing — Tab completes the next segment",
             CanonicalPath: null,
-            ArgTailKind: nameof(SlashArgTailKind.None));
+            ArgTailKind: nameof(CommandArgTailKind.None));
     }
 
     static string FormatFreeTextPlaceholder(string? argHint) =>

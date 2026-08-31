@@ -5,11 +5,11 @@ namespace AIGuiders.Platform.CommandPlane;
 /// <summary>Default <see cref="ICatalogVisitor"/> that accumulates descriptors.</summary>
 public sealed class SlashCatalogCollector : ICatalogVisitor
 {
-    readonly List<SlashCommandDescriptor> _descriptors = [];
+    readonly List<CommandDescriptor> _descriptors = [];
 
-    public IReadOnlyList<SlashCommandDescriptor> Descriptors => _descriptors;
+    public IReadOnlyList<CommandDescriptor> Descriptors => _descriptors;
 
-    public bool Visit(SlashCommandDescriptor descriptor)
+    public bool Visit(CommandDescriptor descriptor)
     {
         ArgumentNullException.ThrowIfNull(descriptor);
         _descriptors.Add(descriptor);

@@ -1,7 +1,7 @@
 #nullable enable
 using AIGuiders.Platform.Combinations;
 using AIGuiders.Platform.Combinations.Binding;
-using AIGuiders.Platform.Combinations.Slash;
+using AIGuiders.Platform.Combinations.Catalog;
 using AIGuiders.Platform.Combinations.Sources;
 using AIGuiders.Platform.Combinations.Workspace;
 using AIGuiders.Platform.CommandPlane;
@@ -74,33 +74,33 @@ public sealed class CombinationTests
     }
 
     [Fact]
-    public void SlashCombinators_ship_first_keeps_baseline_path()
+    public void CommandCatalogCombinators_ship_first_keeps_baseline_path()
     {
-        Assert.Equal(CombinationSemantics.ShipFirst, SlashCombinators.Semantics);
+        Assert.Equal(CombinationSemantics.ShipFirst, CommandCatalogCombinators.Semantics);
 
-        var ship = SlashCatalogIndex.FromDescriptors(
+        var ship = CommandCatalogIndex.FromDescriptors(
         [
-            new SlashCommandDescriptor
+            new CommandDescriptor
             {
                 Domain = "", Object = "", Intent = "",
                 CommandId = "ship.cmd", Path = "ship",
             },
         ]);
-        var user = SlashCatalogIndex.FromDescriptors(
+        var user = CommandCatalogIndex.FromDescriptors(
         [
-            new SlashCommandDescriptor
+            new CommandDescriptor
             {
                 Domain = "", Object = "", Intent = "",
                 CommandId = "user.cmd", Path = "ship",
             },
-            new SlashCommandDescriptor
+            new CommandDescriptor
             {
                 Domain = "", Object = "", Intent = "",
                 CommandId = "extra.cmd", Path = "extra",
             },
         ]);
 
-        var merged = SlashCombinators.ShipFirst(ship, user);
+        var merged = CommandCatalogCombinators.ShipFirst(ship, user);
 
         Assert.True(merged.TryGet("ship", out var route));
         Assert.Equal("ship.cmd", route.CommandId);
@@ -138,25 +138,25 @@ public sealed class CombinationTests
     }
 
     [Fact]
-    public void SlashCatalogCombination_compose_matches_composer()
+    public void CommandCatalogCombination_compose_matches_composer()
     {
         var ship = CommandSource.From([
-            new SlashCommandDescriptor
+            new CommandDescriptor
             {
                 Domain = "", Object = "", Intent = "",
                 CommandId = "a", Path = "alpha",
             },
         ], "ship");
         var overlay = CommandSource.From([
-            new SlashCommandDescriptor
+            new CommandDescriptor
             {
                 Domain = "", Object = "", Intent = "",
                 CommandId = "b", Path = "beta",
             },
         ], "overlay");
 
-        var viaCombination = SlashCatalogCombination.Compose(ship, overlay);
-        var viaComposer = SlashCatalogComposer.Build(ship, overlay);
+        var viaCombination = CommandCatalogCombination.Compose(ship, overlay);
+        var viaComposer = CommandCatalogComposer.Build(ship, overlay);
 
         Assert.True(viaCombination.TryGet("alpha", out _));
         Assert.True(viaCombination.TryGet("beta", out _));

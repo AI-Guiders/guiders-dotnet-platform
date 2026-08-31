@@ -46,7 +46,7 @@ Test generators (xunit, vitest, …) are thin wrappers over the same spec file.
 
 | Wave | Scope |
 |------|-------|
-| **W4** ✓ | Platform `SlashArgCompletion`, `ISlashPickerChoiceSource` |
+| **W4** ✓ | Platform `SlashArgCompletion`, `ICommandPickerChoiceSource` |
 | **W5a** ✓ | Machine-readable slash conformance pack + .NET harness |
 | **W5b** | Forge JS port consuming same spec (vitest) |
 

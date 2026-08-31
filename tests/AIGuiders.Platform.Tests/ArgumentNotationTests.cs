@@ -1,5 +1,5 @@
 using AIGuiders.Platform.CommandPlane;
-using AIGuiders.Platform.CommandPlane.Sources;
+using AIGuiders.Platform.CommandPlane.Catalog.Sources;
 using AIGuiders.Platform.Notations.Argument;
 using AIGuiders.Platform.Notations.Command.Console;
 using Xunit;
@@ -41,9 +41,9 @@ public sealed class ArgumentNotationTests
     }
 
     [Fact]
-    public void SlashCommandDescriptor_carries_argument_notation_profile()
+    public void CommandDescriptor_carries_argument_notation_profile()
     {
-        var command = new SlashCommandDescriptor
+        var command = new CommandDescriptor
         {
             Domain = "build",
             Object = "run",

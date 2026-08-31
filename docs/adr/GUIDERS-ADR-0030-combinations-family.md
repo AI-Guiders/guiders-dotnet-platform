@@ -25,7 +25,7 @@ Operator rule: **Combinations** = family for ordered layer fold + named combinat
 Platform.Combinations                 kernel: Combinator<T>, OrderedCombination, CombinationSemantics
 ├── Combinations.Sources              lazy ISource layer merge (SourceCombination)
 ├── Combinations.Workspace            WorkspaceCombinators.FieldOverlay
-├── Combinations.Slash                meta-bundle → types in CommandPlane.Slash
+├── Combinations.Catalog                meta-bundle → types in CommandPlane.Slash
 ├── Combinations.Binding              meta-bundle → types in CommandPlane.Binding
 └── Combinations.All                  meta-bundle: kernel + Sources + Workspace + Slash + Binding
 ```
@@ -42,14 +42,14 @@ Platform.Combinations                 kernel: Combinator<T>, OrderedCombination,
 | Package | Combinator | Semantics | Collision rule |
 |---------|------------|-----------|----------------|
 | `Combinations.Workspace` | `FieldOverlay` | FieldOverlay | ADR fields: overlay non-null wins |
-| `CommandPlane.Slash` (`Combinations.Slash` ns) | `ShipFirst` | ShipFirst | `SlashCatalogIndex.Merge` TryAdd |
+| `CommandPlane.Slash` (`Combinations.Catalog` ns) | `ShipFirst` | ShipFirst | `CommandCatalogIndex.Merge` TryAdd |
 | `CommandPlane.Binding` (`Combinations.Binding` ns) | `OverlayWins` | OverlayWins | `BindingCatalogIndex.Merge` overwrite key |
 
-Slash/binding combination types ship in **CommandPlane.* assemblies** (namespace `AIGuiders.Platform.Combinations.*`) to avoid circular project refs. NuGet meta-packages `Combinations.Slash` / `Combinations.Binding` pull the implementing packages.
+Slash/binding combination types ship in **CommandPlane.* assemblies** (namespace `AIGuiders.Platform.Combinations.*`) to avoid circular project refs. NuGet meta-packages `Combinations.Catalog` / `Combinations.Binding` pull the implementing packages.
 
 ### Composers
 
-`SlashCatalogComposer` / `BindingCatalogComposer` are thin façades over `*CatalogCombination.Compose`. `WorkspaceSources.MergeOverlay` delegates to `SourceCombination.Merge` + `WorkspaceCombinators.FieldOverlay`.
+`CommandCatalogComposer` / `BindingCatalogComposer` are thin façades over `*CatalogCombination.Compose`. `WorkspaceSources.MergeOverlay` delegates to `SourceCombination.Merge` + `WorkspaceCombinators.FieldOverlay`.
 
 ### Migration from v0.25
 

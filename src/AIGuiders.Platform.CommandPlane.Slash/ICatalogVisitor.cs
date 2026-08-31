@@ -6,5 +6,5 @@ namespace AIGuiders.Platform.CommandPlane;
 public interface ICatalogVisitor
 {
     /// <summary>Returns false to stop visiting remaining commands.</summary>
-    bool Visit(SlashCommandDescriptor descriptor);
+    bool Visit(CommandDescriptor descriptor);
 }

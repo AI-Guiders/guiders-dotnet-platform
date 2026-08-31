@@ -9,7 +9,7 @@ public static class EditorSurfaceCatalog
     public static IReadOnlyList<TextDialectCapabilitiesDto> BuildTextDialects() =>
         [ToDto(MarkdownTextDialectCatalog.Markdown)];
 
-    public static IReadOnlyList<SlashCommandDescriptor> BundledEditorLineCommands() =>
+    public static IReadOnlyList<CommandDescriptor> BundledEditorLineCommands() =>
         RegistryCatalogBuilder.CollectDescriptors(
             EditorCommandRegistry.BundledRegistry,
             descriptor => descriptor.CommandId.StartsWith("editor.line.", StringComparison.OrdinalIgnoreCase));

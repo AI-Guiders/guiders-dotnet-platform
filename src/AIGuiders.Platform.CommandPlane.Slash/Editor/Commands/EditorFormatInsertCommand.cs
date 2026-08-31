@@ -9,7 +9,7 @@ public sealed class EditorFormatInsertCommand(TextInsertFormatDefinition format)
 {
     public override string CommandId => format.Id;
 
-    public SlashCommandDescriptor ToSlashDescriptor() => format.ToSlashDescriptor();
+    public CommandDescriptor ToSlashDescriptor() => format.ToSlashDescriptor();
 
     protected override CommandOutcome Execute(EditorBufferContext context)
     {

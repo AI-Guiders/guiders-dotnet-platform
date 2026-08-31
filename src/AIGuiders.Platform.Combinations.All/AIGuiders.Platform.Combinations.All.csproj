@@ -16,7 +16,7 @@
 
     <ProjectReference Include="..\AIGuiders.Platform.Combinations.Binding\AIGuiders.Platform.Combinations.Binding.csproj" />
 
-    <ProjectReference Include="..\AIGuiders.Platform.Combinations.Slash\AIGuiders.Platform.Combinations.Slash.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Combinations.Catalog\AIGuiders.Platform.Combinations.Catalog.csproj" />
 
     <ProjectReference Include="..\AIGuiders.Platform.Combinations.Overlay\AIGuiders.Platform.Combinations.Overlay.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Combinations.Sources\AIGuiders.Platform.Combinations.Sources.csproj" />

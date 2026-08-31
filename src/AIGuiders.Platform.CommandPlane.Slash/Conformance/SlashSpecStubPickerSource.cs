@@ -2,20 +2,20 @@
 
 namespace AIGuiders.Platform.CommandPlane.Conformance;
 
-public sealed class SlashSpecStubPickerSource : ISlashPickerChoiceSource
+public sealed class SlashSpecStubPickerSource : ICommandPickerChoiceSource
 {
     readonly IReadOnlyDictionary<string, SlashSpecPickerStub> _stubs;
 
     public SlashSpecStubPickerSource(IReadOnlyDictionary<string, SlashSpecPickerStub>? stubs) =>
         _stubs = stubs ?? new Dictionary<string, SlashSpecPickerStub>();
 
-    public IReadOnlyList<SlashPickerChoice> GetChoices(string pickerId, string partial)
+    public IReadOnlyList<CommandPickerChoice> GetChoices(string pickerId, string partial)
     {
         if (!_stubs.TryGetValue(pickerId, out var stub))
             return [];
 
         var choices = stub.Choices
-            .Select(c => new SlashPickerChoice
+            .Select(c => new CommandPickerChoice
             {
                 Value = c.Value,
                 Label = c.Label,

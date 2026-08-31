@@ -18,7 +18,7 @@ Products load slash catalog **content** from many backends:
 | DashSpec | `DashboardCommandCatalogBuilder` (code) |
 | Glass | in-code `Command[]` |
 
-Platform owns catalog **mechanics** (`SlashCatalogIndex`, merge, resolve). Content loaders were ad-hoc per product.
+Platform owns catalog **mechanics** (`CommandCatalogIndex`, merge, resolve). Content loaders were ad-hoc per product.
 
 ## Decision
 
@@ -26,10 +26,10 @@ Platform owns catalog **mechanics** (`SlashCatalogIndex`, merge, resolve). Conte
 
 | Layer | Package | Responsibility |
 |-------|---------|----------------|
-| **Contract** | `AIGuiders.Platform.CommandPlane` | `ICommandSource`, `CommandSource.From*`, `SlashCommandDescriptor`, `CommandDescriptorMapper` |
+| **Contract** | `AIGuiders.Platform.CommandPlane` | `ICommandSource`, `CommandSource.From*`, `CommandDescriptor`, `CommandDescriptorMapper` |
 | **Format** | `Sources.Json` · `.Toml` · `.Xml` | `ICommandFormatReader` + `*CommandSources.From*` / `FromFile(.ext)` |
 | **Transport** | `Sources.File` · `.Database` | File path + extension dispatch, embedded resources; DB delegate |
-| **Meta-bundle** | `CommandPlane.Sources` | `CommandSources.*` re-exports for all-in-one embed |
+| **Meta-bundle** | `CommandPlane.Catalog.Sources` | `CommandSources.*` re-exports for all-in-one embed |
 
 **FromFile is one transport** — only the format (JSON/TOML/XML/…) differs. `CommandSource.FromFile(path, reader)` is the Core primitive; `FileCommandSources.FromFile(path)` picks the reader by extension.
 
@@ -38,7 +38,7 @@ Core stays **zero-dependency** (except BCL). Tomlyn only in `Sources.Toml`.
 ### 2. API
 
 ```csharp
-var catalog = SlashCatalogComposer.Build(
+var catalog = CommandCatalogComposer.Build(
     CommandSource.From(bundledDescriptors, "bundled"),
     CommandSources.FromJson(json),
     CommandSources.FromToml(toml),
@@ -47,7 +47,7 @@ var catalog = SlashCatalogComposer.Build(
 );
 ```
 
-Sink remains `SlashCatalogIndex.FromDescriptors` + `Merge` — sources are adapters **into** descriptors.
+Sink remains `CommandCatalogIndex.FromDescriptors` + `Merge` — sources are adapters **into** descriptors.
 
 ### 3. Document shapes (v1)
 
@@ -74,7 +74,7 @@ Embedded plugin catalogs:
 pluginAssembly.FromAssemblyResource("commands.toml");
 ```
 
-Extension on `Assembly` in `CommandPlane.Sources.File` — resolves manifest resource by suffix, format from file extension.
+Extension on `Assembly` in `CommandPlane.Catalog.Sources.File` — resolves manifest resource by suffix, format from file extension.
 
 ### 4. Non-goals
 
@@ -83,6 +83,6 @@ Extension on `Assembly` in `CommandPlane.Sources.File` — resolves manifest res
 
 ## Consequences
 
-- CIDE `IntentCatalogLoader` can migrate to emit `SlashCommandDescriptor` + `CommandSources.FromToml` incrementally
+- CIDE `IntentCatalogLoader` can migrate to emit `CommandDescriptor` + `CommandSources.FromToml` incrementally
 - Forge capabilities JSON can share `JsonCommandFormatReader` subset or stay bespoke until aligned
 - Products without file formats reference CommandPlane only; pin `Sources.Json` / `.Toml` / `.Xml` à la carte, or `Sources` meta-bundle for all formats

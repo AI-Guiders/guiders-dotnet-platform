@@ -73,7 +73,7 @@ WIRE FORMAT(s)  →  IR (branch Core)  →  MECHANIC / product
 ```text
 NormalizedInvocation = NormalizedCommandLine + NormalizedArguments?
        │
-       └──► SlashCatalogIndex / registry  ──► commandId  ──► Execute
+       └──► CommandCatalogIndex / registry  ──► commandId  ──► Execute
 ```
 
 ### 3. Package map (target)
@@ -248,7 +248,7 @@ Keyboard notation had **no** standalone NuGet SSOT (parsers live inside Neovim/E
 2. **`Notations.Argument.Cli` (v2)** — thin adapter over **System.CommandLine** token model (or ported subset of its test vectors):
    - Input: `string[]` or tail string **after** `commandId` / path is known.
    - Output: `NormalizedArgTail` with `Slots` + positional remainder + `UnparsedTokens` for completion.
-   - **Not** a hosted `RootCommand` per federation consumer — ephemeral parse against **descriptor-supplied** option schema (`SlashCommandDescriptor` / capabilities arg schema).
+   - **Not** a hosted `RootCommand` per federation consumer — ephemeral parse against **descriptor-supplied** option schema (`CommandDescriptor` / capabilities arg schema).
 3. **POSIX vs GNU:** federation documents **tier tables** (like Vim v1/v2 in ADR-0016): v1 = `System.CommandLine`-aligned modern CLI; v2 = GNU edge cases (`--opt=value`, clustered shorts) from upstream vectors where license permits.
 4. **PowerShell:** defer dedicated package; planets that need PS wire implement **native port** or optional `Notations.Argument.PowerShell` with **explicit** dependency on PowerShell SDK (not in meta `Notations.All`).
 5. **Windows `/switch`:** do not invent a third grammar in v1 — map product rules in adapter; conformance only where CIDE/Forge need parity.

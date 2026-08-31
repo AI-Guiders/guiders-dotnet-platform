@@ -12,8 +12,8 @@
 
 | Layer | Owns |
 |-------|------|
-| **Platform** | `SlashStepCompletion.GetSuggestions`, `SlashCompletionItem`, snapshot over `SlashCatalogIndex`, `DomainOmittedInPath` / alias paths |
-| **Product adapter** | Build `SlashCatalogIndex` from TOML, capabilities, bundled descriptors |
+| **Platform** | `SlashStepCompletion.GetSuggestions`, `SlashCompletionItem`, snapshot over `CommandCatalogIndex`, `DomainOmittedInPath` / alias paths |
+| **Product adapter** | Build `CommandCatalogIndex` from TOML, capabilities, bundled descriptors |
 | **Surface** | Tab/Enter policy, popover chrome, debounced fetch (`GET /commands/complete`) |
 
 `acceptKey` (default **Tab** on command surfaces) is **not** platform — surface policy per ADR-0009.
@@ -21,7 +21,7 @@
 ## Wire
 
 ```text
-SlashCommandDescriptor[] → SlashCatalogIndex → SlashStepCompletion
+CommandDescriptor[] → CommandCatalogIndex → SlashStepCompletion
                                               ↘ SlashLineResolver (hide segments)
 Surface ← HTTP complete (Forge/DashSpec) or in-proc (CIDE/Glass)
 ```

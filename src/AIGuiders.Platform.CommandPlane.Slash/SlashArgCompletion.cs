@@ -5,18 +5,18 @@ namespace AIGuiders.Platform.CommandPlane;
 /// <summary>Arg-tail picker completion (GUIDERS-ADR-0012).</summary>
 static class SlashArgCompletion
 {
-    public static bool ShouldComplete(SlashLineResolver.SlashLineResolution line, SlashRouteEntry route) =>
-        route.ArgTailKind != SlashArgTailKind.None
+    public static bool ShouldComplete(SlashLineResolver.SlashLineResolution line, CatalogRouteEntry route) =>
+        route.ArgTailKind != CommandArgTailKind.None
         && line.IsCatalogMatch
         && (line.IsExactPathMatch
             || line.EndsWithSpaceAfterPath
             || line.HasArgTailContent
-            || route.ArgTailKind == SlashArgTailKind.Picker);
+            || route.ArgTailKind == CommandArgTailKind.Picker);
 
     public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
         SlashLineResolver.SlashLineResolution line,
-        SlashRouteEntry route,
-        ISlashPickerChoiceSource? pickerSource)
+        CatalogRouteEntry route,
+        ICommandPickerChoiceSource? pickerSource)
     {
         var partial = line.ArgTail.Trim();
         var items = new List<SlashCompletionItem>();
@@ -41,7 +41,7 @@ static class SlashArgCompletion
 
     static IReadOnlyList<SlashCompletionItem> FilterConstructorEntries(
         SlashLineResolver.SlashLineResolution line,
-        SlashRouteEntry route,
+        CatalogRouteEntry route,
         string partial)
     {
         var all = SlashConstructorCompletion.BuildEntryItems(line, route);
@@ -59,16 +59,16 @@ static class SlashArgCompletion
     }
 
     public static bool HasChoices(
-        SlashRouteEntry route,
+        CatalogRouteEntry route,
         string partial,
-        ISlashPickerChoiceSource? pickerSource) =>
+        ICommandPickerChoiceSource? pickerSource) =>
         ResolveChoices(route, partial, pickerSource).Count > 0
         || route.ResolvedConstructors.Count > 0;
 
     static IReadOnlyList<SlashCompletionItem> BuildPickerItems(
         SlashLineResolver.SlashLineResolution line,
-        SlashRouteEntry route,
-        IReadOnlyList<SlashPickerChoice> choices,
+        CatalogRouteEntry route,
+        IReadOnlyList<CommandPickerChoice> choices,
         string partial)
     {
         var canonicalPath = "/" + line.CanonicalPath.TrimStart('/');
@@ -80,7 +80,7 @@ static class SlashArgCompletion
                 continue;
             }
 
-            if (choice.Kind == SlashPickerChoiceKind.Constructor)
+            if (choice.Kind == CommandPickerChoiceKind.Constructor)
             {
                 var constructorLabel = choice.Label ?? choice.Value;
                 buckets[constructorLabel] = new SlashCompletionItem(
@@ -109,22 +109,22 @@ static class SlashArgCompletion
         return SlashCompletionSort.Order(buckets.Values);
     }
 
-    static IReadOnlyList<SlashPickerChoice> ResolveChoices(
-        SlashRouteEntry route,
+    static IReadOnlyList<CommandPickerChoice> ResolveChoices(
+        CatalogRouteEntry route,
         string partial,
-        ISlashPickerChoiceSource? pickerSource)
+        ICommandPickerChoiceSource? pickerSource)
     {
         if (route.ResolvedPickerChoices.Count > 0)
         {
             return route.ResolvedPickerChoices;
         }
 
-        if (route.ArgTailKind != SlashArgTailKind.Picker || pickerSource is null)
+        if (route.ArgTailKind != CommandArgTailKind.Picker || pickerSource is null)
         {
             return [];
         }
 
-        var pickerId = SlashArgTailPolicy.ExtractPickerId(route.ArgTail);
+        var pickerId = CommandArgTailPolicy.ExtractPickerId(route.ArgTail);
         return pickerId is null ? [] : pickerSource.GetChoices(pickerId, partial);
     }
 
@@ -151,7 +151,7 @@ static class SlashArgCompletion
         }
     }
 
-    static bool MatchesPickerChoice(SlashPickerChoice choice, string partial)
+    static bool MatchesPickerChoice(CommandPickerChoice choice, string partial)
     {
         if (partial.Length == 0)
         {

@@ -5,10 +5,10 @@ namespace AIGuiders.Platform.CommandPlane.Commands;
 /// <summary>Registered command + optional explicit catalog row.</summary>
 public sealed record RegisteredPlatformCommand<TContext>(
     IPlatformCommand<TContext> Command,
-    SlashCommandDescriptor? ExplicitDescriptor = null)
+    CommandDescriptor? ExplicitDescriptor = null)
     where TContext : ICommandContext
 {
-    public SlashCommandDescriptor? TryResolveDescriptor()
+    public CommandDescriptor? TryResolveDescriptor()
     {
         if (ExplicitDescriptor is not null)
         {

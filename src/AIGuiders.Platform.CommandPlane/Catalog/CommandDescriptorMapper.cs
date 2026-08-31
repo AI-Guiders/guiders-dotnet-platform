@@ -10,13 +10,13 @@ namespace AIGuiders.Platform.CommandPlane;
 
 
 
-/// <summary>Maps flat command document fields to <see cref="SlashCommandDescriptor"/> (ADR-0013).</summary>
+/// <summary>Maps flat command document fields to <see cref="CommandDescriptor"/> (ADR-0013).</summary>
 
 public static class CommandDescriptorMapper
 
 {
 
-    public static SlashCommandDescriptor FromDictionary(IReadOnlyDictionary<string, string> fields)
+    public static CommandDescriptor FromDictionary(IReadOnlyDictionary<string, string> fields)
 
     {
 
@@ -24,7 +24,7 @@ public static class CommandDescriptorMapper
 
         var path = Require(fields, "path");
 
-        return new SlashCommandDescriptor
+        return new CommandDescriptor
 
         {
 
@@ -70,9 +70,9 @@ public static class CommandDescriptorMapper
 
 
 
-    public static SlashCommandDescriptor WithArgumentNotation(
+    public static CommandDescriptor WithArgumentNotation(
 
-        SlashCommandDescriptor descriptor,
+        CommandDescriptor descriptor,
 
         ArgumentNotationProfile? notation)
 
@@ -86,7 +86,7 @@ public static class CommandDescriptorMapper
 
 
 
-        return new SlashCommandDescriptor
+        return new CommandDescriptor
 
         {
 
@@ -308,7 +308,7 @@ public static class CommandDescriptorMapper
 
 
 
-    static IReadOnlyList<SlashPickerChoice> ParsePickerChoices(string? raw)
+    static IReadOnlyList<CommandPickerChoice> ParsePickerChoices(string? raw)
 
     {
 
@@ -322,7 +322,7 @@ public static class CommandDescriptorMapper
 
 
 
-        var choices = new List<SlashPickerChoice>();
+        var choices = new List<CommandPickerChoice>();
 
         foreach (var token in raw.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
 
@@ -334,7 +334,7 @@ public static class CommandDescriptorMapper
 
             var label = parts.Length > 1 ? parts[1] : value;
 
-            choices.Add(new SlashPickerChoice { Value = value, Label = label });
+            choices.Add(new CommandPickerChoice { Value = value, Label = label });
 
         }
 

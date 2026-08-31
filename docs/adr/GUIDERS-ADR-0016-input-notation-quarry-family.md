@@ -63,7 +63,7 @@ InputNotation (Core)     ← IR + IInputNotationReader contract
 
 ```text
 WIRE FORMAT          IR (Core)              CONSUMERS
-Json/Toml/Xml   →    SlashCommandDescriptor → Slash
+Json/Toml/Xml   →    CommandDescriptor → Slash
 Vim/KeyGesture  →    NormalizedKeySequence → Melody, Binding
 ```
 
@@ -117,7 +117,7 @@ Interim only for v1 CIDE subset. **Target:** replace with quarry lexer from `key
 
 ## Consequences
 
-- Split monolithic `InputNotation` like `CommandPlane.Sources` (separate wave)
+- Split monolithic `InputNotation` like `CommandPlane.Catalog.Sources` (separate wave)
 - New notation = new sibling package implementing `IInputNotationReader`
 - License review before large `keycodes.c` port (Vim/Neovim license)
 - CIDE deletes duplicate `Services/ChordNotation/` after platform pins

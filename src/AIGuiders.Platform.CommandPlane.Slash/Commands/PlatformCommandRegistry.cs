@@ -11,13 +11,13 @@ public sealed class PlatformCommandRegistry<TContext> where TContext : ICommandC
     public void Register(IPlatformCommand<TContext> command) =>
         Store(command, explicitDescriptor: null);
 
-    public void Register(IPlatformCommand<TContext> command, SlashCommandDescriptor explicitDescriptor)
+    public void Register(IPlatformCommand<TContext> command, CommandDescriptor explicitDescriptor)
     {
         ArgumentNullException.ThrowIfNull(explicitDescriptor);
         Store(command, explicitDescriptor);
     }
 
-    void Store(IPlatformCommand<TContext> command, SlashCommandDescriptor? explicitDescriptor)
+    void Store(IPlatformCommand<TContext> command, CommandDescriptor? explicitDescriptor)
     {
         ArgumentNullException.ThrowIfNull(command);
         if (string.IsNullOrWhiteSpace(command.CommandId))
@@ -66,7 +66,7 @@ public sealed class PlatformCommandRegistry<TContext> where TContext : ICommandC
         return outcome.Success;
     }
 
-    public void Accept(ICatalogVisitor visitor, Func<SlashCommandDescriptor, bool>? predicate = null)
+    public void Accept(ICatalogVisitor visitor, Func<CommandDescriptor, bool>? predicate = null)
     {
         ArgumentNullException.ThrowIfNull(visitor);
 

@@ -83,7 +83,7 @@ dotnet run --project tools/AdoptionReport -- --write docs/ADOPTION-ALLIANCE.gene
 
 ### 6. Future splits (when needed)
 
-Same axes as CommandPlane.Sources:
+Same axes as CommandPlane.Catalog.Sources:
 
 ```text
 FORMAT              TRANSPORT           SINK

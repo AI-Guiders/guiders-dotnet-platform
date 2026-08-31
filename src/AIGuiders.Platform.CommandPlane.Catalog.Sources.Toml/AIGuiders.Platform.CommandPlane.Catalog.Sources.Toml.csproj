@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.CommandPlane.Catalog.Sources</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.CommandPlane.Catalog.Sources.Toml</AssemblyName>
+    <PackageId>AIGuiders.Platform.CommandPlane.Catalog.Sources.Toml</PackageId>
+    <Description>TOML command catalog source reader (GUIDERS-ADR-0013).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
+    <PackageReference Include="Tomlyn" Version="$(TomlynVersion)" />
+  </ItemGroup>
+</Project>

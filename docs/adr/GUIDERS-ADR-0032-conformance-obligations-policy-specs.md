@@ -44,7 +44,7 @@ Specs live under `docs/conformance/policies/`. **Multi-format:** same vectors ma
 | `tools/ContractOracle` | `verify --spec`, `index --root` |
 | `ConformanceSchemaValidator.ValidatePolicyJson` | JSON Schema gate |
 
-Policy ids bind to platform combinators (`SlashCombinators.ShipFirst`, etc.) — specs test **behavior**, not re-implement merge.
+Policy ids bind to platform combinators (`CommandCatalogCombinators.ShipFirst`, etc.) — specs test **behavior**, not re-implement merge.
 
 ### Formal proofs (CI-only)
 

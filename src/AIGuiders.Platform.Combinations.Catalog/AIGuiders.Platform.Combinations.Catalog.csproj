@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Combinations.Catalog</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Combinations.Catalog</AssemblyName>
+    <PackageId>AIGuiders.Platform.Combinations.Catalog</PackageId>
+    <Description>Meta-bundle: command catalog combinations (types ship in CommandPlane, GUIDERS-ADR-0030).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
+  </ItemGroup>
+</Project>

@@ -16,7 +16,7 @@
     <Project Path="src/AIGuiders.Platform.Combinations.All/AIGuiders.Platform.Combinations.All.csproj" />
     <Project Path="src/AIGuiders.Platform.Combinations.Binding/AIGuiders.Platform.Combinations.Binding.csproj" />
     <Project Path="src/AIGuiders.Platform.Combinations.Overlay/AIGuiders.Platform.Combinations.Overlay.csproj" />
-    <Project Path="src/AIGuiders.Platform.Combinations.Slash/AIGuiders.Platform.Combinations.Slash.csproj" />
+    <Project Path="src/AIGuiders.Platform.Combinations.Catalog/AIGuiders.Platform.Combinations.Catalog.csproj" />
     <Project Path="src/AIGuiders.Platform.Combinations.Sources/AIGuiders.Platform.Combinations.Sources.csproj" />
     <Project Path="src/AIGuiders.Platform.Combinations.Workspace/AIGuiders.Platform.Combinations.Workspace.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Binding.Sources.Database/AIGuiders.Platform.CommandPlane.Binding.Sources.Database.csproj" />
@@ -30,12 +30,12 @@
     <Project Path="src/AIGuiders.Platform.CommandPlane.PrefixArmed.Locale/AIGuiders.Platform.CommandPlane.PrefixArmed.Locale.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Melody/AIGuiders.Platform.CommandPlane.Melody.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Slash/AIGuiders.Platform.CommandPlane.Slash.csproj" />
-    <Project Path="src/AIGuiders.Platform.CommandPlane.Sources.Database/AIGuiders.Platform.CommandPlane.Sources.Database.csproj" />
-    <Project Path="src/AIGuiders.Platform.CommandPlane.Sources.File/AIGuiders.Platform.CommandPlane.Sources.File.csproj" />
-    <Project Path="src/AIGuiders.Platform.CommandPlane.Sources.Json/AIGuiders.Platform.CommandPlane.Sources.Json.csproj" />
-    <Project Path="src/AIGuiders.Platform.CommandPlane.Sources.Toml/AIGuiders.Platform.CommandPlane.Sources.Toml.csproj" />
-    <Project Path="src/AIGuiders.Platform.CommandPlane.Sources.Xml/AIGuiders.Platform.CommandPlane.Sources.Xml.csproj" />
-    <Project Path="src/AIGuiders.Platform.CommandPlane.Sources/AIGuiders.Platform.CommandPlane.Sources.csproj" />
+    <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog.Sources.Database/AIGuiders.Platform.CommandPlane.Catalog.Sources.Database.csproj" />
+    <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog.Sources.File/AIGuiders.Platform.CommandPlane.Catalog.Sources.File.csproj" />
+    <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog.Sources.Json/AIGuiders.Platform.CommandPlane.Catalog.Sources.Json.csproj" />
+    <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog.Sources.Toml/AIGuiders.Platform.CommandPlane.Catalog.Sources.Toml.csproj" />
+    <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog.Sources.Xml/AIGuiders.Platform.CommandPlane.Catalog.Sources.Xml.csproj" />
+    <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog.Sources/AIGuiders.Platform.CommandPlane.Catalog.Sources.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane/AIGuiders.Platform.CommandPlane.csproj" />
     <Project Path="src/AIGuiders.Platform.Conformance.Schemas/AIGuiders.Platform.Conformance.Schemas.csproj" />
     <Project Path="src/AIGuiders.Platform.Conformance.Policies/AIGuiders.Platform.Conformance.Policies.csproj" />

@@ -42,8 +42,8 @@ public sealed class EditorSurfaceTests
     [Fact]
     public void Implicit_arg_tail_kinds_parse()
     {
-        Assert.Equal(SlashArgTailKind.ImplicitSelection, SlashArgTailPolicy.Parse("implicit:selection"));
-        Assert.Equal(SlashArgTailKind.ImplicitLineRange, SlashArgTailPolicy.Parse("implicit:line_range"));
+        Assert.Equal(CommandArgTailKind.ImplicitSelection, CommandArgTailPolicy.Parse("implicit:selection"));
+        Assert.Equal(CommandArgTailKind.ImplicitLineRange, CommandArgTailPolicy.Parse("implicit:line_range"));
     }
 
     [Fact]

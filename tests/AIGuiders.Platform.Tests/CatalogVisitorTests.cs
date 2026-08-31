@@ -3,7 +3,7 @@ using AIGuiders.Platform.CommandPlane;
 using AIGuiders.Platform.CommandPlane.Commands;
 using AIGuiders.Platform.CommandPlane.Editor;
 using AIGuiders.Platform.CommandPlane.Editor.Commands;
-using AIGuiders.Platform.CommandPlane.Sources;
+using AIGuiders.Platform.CommandPlane.Catalog.Sources;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;
@@ -31,7 +31,7 @@ public sealed class CatalogVisitorTests
 
         Assert.True(index.TryGet("editor line select", out var select));
         Assert.Equal(EditorLineSelectCommand.Id, select.CommandId);
-        Assert.Equal(SlashArgTailKind.ImplicitLineRange, select.ArgTailKind);
+        Assert.Equal(CommandArgTailKind.ImplicitLineRange, select.ArgTailKind);
     }
 
     [Fact]
@@ -60,7 +60,7 @@ public sealed class CatalogVisitorTests
             }
             """;
 
-        var catalog = SlashCatalogComposer.Build(
+        var catalog = CommandCatalogComposer.Build(
             RegistryCatalogBuilder.ToCommandSource(
                 EditorCommandRegistry.CreateBundled(),
                 predicate: d => d.CommandId == EditorLineSelectCommand.Id),
@@ -77,7 +77,7 @@ public sealed class CatalogVisitorTests
         var command = new EditorLineSelectCommand();
         registry.Register(
             command,
-            new SlashCommandDescriptor
+            new CommandDescriptor
             {
                 Domain = "editor",
                 Object = "line",

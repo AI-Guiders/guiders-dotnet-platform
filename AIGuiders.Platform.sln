@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.Abstractions", "src\AIGuiders.Platform.Abstractions\AIGuiders.Platform.Abstractions.csproj", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.Cockpit.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.CommandPlane", "src\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj", "{E25B6AED-4992-490C-97EB-6C1FF2FB394D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.CommandPlane.Sources", "src\AIGuiders.Platform.CommandPlane.Sources\AIGuiders.Platform.CommandPlane.Sources.csproj", "{839C930F-D6DE-4845-9E4B-9E1A1B797897}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.CommandPlane.Catalog.Sources", "src\AIGuiders.Platform.CommandPlane.Catalog.Sources\AIGuiders.Platform.CommandPlane.Catalog.Sources.csproj", "{839C930F-D6DE-4845-9E4B-9E1A1B797897}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.InputNotation", "src\AIGuiders.Platform.InputNotation\AIGuiders.Platform.InputNotation.csproj", "{D9886DA4-86D4-43CD-8C54-20F426757A4D}"
 EndProject
@@ -33,15 +33,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.CommandP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.CommandPlane.Slash", "src\AIGuiders.Platform.CommandPlane.Slash\AIGuiders.Platform.CommandPlane.Slash.csproj", "{1A38459D-5F1F-41A3-BD02-DEA3008D31C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.CommandPlane.Sources.Json", "src\AIGuiders.Platform.CommandPlane.Sources.Json\AIGuiders.Platform.CommandPlane.Sources.Json.csproj", "{1C70505A-8208-4563-BC84-6B91D70AF97B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.CommandPlane.Catalog.Sources.Json", "src\AIGuiders.Platform.CommandPlane.Catalog.Sources.Json\AIGuiders.Platform.CommandPlane.Catalog.Sources.Json.csproj", "{1C70505A-8208-4563-BC84-6B91D70AF97B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.CommandPlane.Sources.Toml", "src\AIGuiders.Platform.CommandPlane.Sources.Toml\AIGuiders.Platform.CommandPlane.Sources.Toml.csproj", "{A1A0626A-25A3-428E-B6F2-99E7996E7A3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.CommandPlane.Catalog.Sources.Toml", "src\AIGuiders.Platform.CommandPlane.Catalog.Sources.Toml\AIGuiders.Platform.CommandPlane.Catalog.Sources.Toml.csproj", "{A1A0626A-25A3-428E-B6F2-99E7996E7A3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.CommandPlane.Sources.Xml", "src\AIGuiders.Platform.CommandPlane.Sources.Xml\AIGuiders.Platform.CommandPlane.Sources.Xml.csproj", "{0D197006-135B-465A-A94F-84E0AC816438}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.CommandPlane.Catalog.Sources.Xml", "src\AIGuiders.Platform.CommandPlane.Catalog.Sources.Xml\AIGuiders.Platform.CommandPlane.Catalog.Sources.Xml.csproj", "{0D197006-135B-465A-A94F-84E0AC816438}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.CommandPlane.Sources.Database", "src\AIGuiders.Platform.CommandPlane.Sources.Database\AIGuiders.Platform.CommandPlane.Sources.Database.csproj", "{065DCA00-FFBC-4EDD-B31A-6B7424ED634F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.CommandPlane.Catalog.Sources.Database", "src\AIGuiders.Platform.CommandPlane.Catalog.Sources.Database\AIGuiders.Platform.CommandPlane.Catalog.Sources.Database.csproj", "{065DCA00-FFBC-4EDD-B31A-6B7424ED634F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.CommandPlane.Sources.File", "src\AIGuiders.Platform.CommandPlane.Sources.File\AIGuiders.Platform.CommandPlane.Sources.File.csproj", "{CC83A867-9FE4-4161-BE24-BC7614F87D7F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.CommandPlane.Catalog.Sources.File", "src\AIGuiders.Platform.CommandPlane.Catalog.Sources.File\AIGuiders.Platform.CommandPlane.Catalog.Sources.File.csproj", "{CC83A867-9FE4-4161-BE24-BC7614F87D7F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.InputNotation.KeyGesture", "src\AIGuiders.Platform.InputNotation.KeyGesture\AIGuiders.Platform.InputNotation.KeyGesture.csproj", "{8557F7CA-CA8F-4964-80E6-F1BBA42E85D2}"
 EndProject
@@ -165,7 +165,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.Combinat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.Combinations.Workspace", "src\AIGuiders.Platform.Combinations.Workspace\AIGuiders.Platform.Combinations.Workspace.csproj", "{A757301F-E964-498C-976B-992007B59DBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.Combinations.Slash", "src\AIGuiders.Platform.Combinations.Slash\AIGuiders.Platform.Combinations.Slash.csproj", "{6DC2B003-6B4F-4AA0-BB83-2E574D9A3DEA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.Combinations.Catalog", "src\AIGuiders.Platform.Combinations.Catalog\AIGuiders.Platform.Combinations.Catalog.csproj", "{6DC2B003-6B4F-4AA0-BB83-2E574D9A3DEA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIGuiders.Platform.Combinations.Binding", "src\AIGuiders.Platform.Combinations.Binding\AIGuiders.Platform.Combinations.Binding.csproj", "{E5BA99DB-E67A-488B-8CCF-1B6283E8D3BF}"
 EndProject

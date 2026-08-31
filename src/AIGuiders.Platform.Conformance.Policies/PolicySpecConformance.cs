@@ -2,7 +2,7 @@
 using System.Text.Json;
 using AIGuiders.Platform.Combinations;
 using AIGuiders.Platform.Combinations.Binding;
-using AIGuiders.Platform.Combinations.Slash;
+using AIGuiders.Platform.Combinations.Catalog;
 using AIGuiders.Platform.Combinations.Workspace;
 using AIGuiders.Platform.CommandPlane;
 using AIGuiders.Platform.CommandPlane.Binding;
@@ -40,7 +40,7 @@ public static class PolicySpecConformance
         return spec.Semantics switch
         {
             CombinationSemantics.ShipFirst => TryValidateSlashVector(
-                (Combinator<SlashCatalogIndex>)combinator, vector, out error),
+                (Combinator<CommandCatalogIndex>)combinator, vector, out error),
             CombinationSemantics.OverlayWins => TryValidateBindingVector(
                 (Combinator<BindingCatalogIndex>)combinator, vector, out error),
             CombinationSemantics.FieldOverlay or CombinationSemantics.SectionReplace =>
@@ -57,7 +57,7 @@ public static class PolicySpecConformance
         combinator = spec.Policy switch
         {
             "slash.ship-first" when spec.Semantics == CombinationSemantics.ShipFirst
-                => SlashCombinators.ShipFirst,
+                => CommandCatalogCombinators.ShipFirst,
             "binding.overlay-wins" when spec.Semantics == CombinationSemantics.OverlayWins
                 => BindingCombinators.OverlayWins,
             "workspace.field-overlay" when spec.Semantics == CombinationSemantics.FieldOverlay
@@ -75,7 +75,7 @@ public static class PolicySpecConformance
     }
 
     static bool TryValidateSlashVector(
-        Combinator<SlashCatalogIndex> combinator,
+        Combinator<CommandCatalogIndex> combinator,
         PolicySpecVector vector,
         out string error)
     {
@@ -163,11 +163,11 @@ public static class PolicySpecConformance
         return true;
     }
 
-    static SlashCatalogIndex BuildSlashIndex(JsonElement layer)
+    static CommandCatalogIndex BuildSlashIndex(JsonElement layer)
     {
         var wire = layer.Deserialize<SlashLayerWire>(PolicySpecLoader.JsonOptions);
         var descriptors = (wire?.Paths ?? [])
-            .Select(path => new SlashCommandDescriptor
+            .Select(path => new CommandDescriptor
             {
                 Domain = "",
                 Object = "",
@@ -177,7 +177,7 @@ public static class PolicySpecConformance
             })
             .ToArray();
 
-        return SlashCatalogIndex.FromDescriptors(descriptors);
+        return CommandCatalogIndex.FromDescriptors(descriptors);
     }
 
     static BindingCatalogIndex BuildBindingIndex(JsonElement layer)

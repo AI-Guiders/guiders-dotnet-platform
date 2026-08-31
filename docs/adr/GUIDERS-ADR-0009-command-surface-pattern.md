@@ -27,8 +27,8 @@ Two coupled ideas:
   Catalog                    Registry                 Command
   (что показать)             (как найти executor)     (как выполнить)
        │                          │                        │
-  SlashCommandDescriptor    PlatformCommandRegistry   IPlatformCommand
-  SlashCatalogIndex         EditorCommandRegistry     PlatformCommand
+  CommandDescriptor    PlatformCommandRegistry   IPlatformCommand
+  CommandCatalogIndex         EditorCommandRegistry     PlatformCommand
   capabilities.commands[]   Forge CommandCatalog
        │                          │                        │
        └─────────── path / id ────┴──── commandId ───────┘
@@ -38,7 +38,7 @@ Two coupled ideas:
 
 | Pattern | Вопрос | SSOT в platform | Не делает |
 |---------|--------|-----------------|-----------|
-| **Catalog** | «Что пользователь *видит* и как *найти* по path?» | `SlashCommandDescriptor`, `SlashCatalogIndex`, `SlashLineResolver` | `Execute`, правки buffer, MCP |
+| **Catalog** | «Что пользователь *видит* и как *найти* по path?» | `CommandDescriptor`, `CommandCatalogIndex`, `SlashLineResolver` | `Execute`, правки buffer, MCP |
 | **Registry** | «По `commandId` — какой executor?» | `PlatformCommandRegistry<TContext>`, product catalogs (`EditorCommandRegistry`, Forge `CommandCatalog`) | Autocomplete UI, wrap/insert math |
 | **Command** (GoF) | «Один эффект — один `Execute`» | `IPlatformCommand<T>`, `PlatformCommand<T>` | Парсинг slash-строки, popover layout |
 | **Surface** | «Откуда человек вызвал?» | Product UI (`forge-slash.js`, palette, Relay*) | Собственная бизнес-логика |
@@ -50,7 +50,7 @@ Two coupled ideas:
 | | Catalog | Registry |
 |---|---------|----------|
 | Ключ | slash **path**, tier, group, arg_tail, help | **commandId** |
-| Merge | `SlashCatalogIndex.Merge` (Forge overlay + TOML) | `Register(command)` per product |
+| Merge | `CommandCatalogIndex.Merge` (Forge overlay + TOML) | `Register(command)` per product |
 | Consumer | autocomplete, capabilities JSON, trie | `TryExecute(id, context)` |
 | Анти-паттерн | Выполнять действие из descriptor без registry | Дублировать path/help для discoverability |
 
@@ -80,7 +80,7 @@ PlatformCommandRegistry<TContext>  — register + TryExecute(commandId, context)
 | `PlatformCommand<TContext>` | Sync command base class |
 | `CommandOutcome` | Success / error + typed payloads (`EditorBufferOutcome`, …) |
 
-Catalog entries (`SlashCommandDescriptor`) link to registry via `CommandId`; they do not replace registry lookup.
+Catalog entries (`CommandDescriptor`) link to registry via `CommandId`; they do not replace registry lookup.
 
 ## Rules
 
@@ -106,7 +106,7 @@ Glass/CIDE migrate to `IPlatformCommand` + Relay **non-urgent**.
 - DTO + static executor without command classes when behavior is bundled and testable.
 - Surface disables another surface on the same host.
 - **Catalog as executor** — `capabilities.commands[]` handler with inline logic, no registry.
-- **Registry as catalog** — registering paths without `SlashCatalogIndex` / descriptor merge for UI.
+- **Registry as catalog** — registering paths without `CommandCatalogIndex` / descriptor merge for UI.
 
 ## Prior art
 

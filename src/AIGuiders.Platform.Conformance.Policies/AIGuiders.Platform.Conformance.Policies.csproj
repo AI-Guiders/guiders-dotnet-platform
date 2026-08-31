@@ -7,7 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Combinations.Binding\AIGuiders.Platform.Combinations.Binding.csproj" />
-    <ProjectReference Include="..\AIGuiders.Platform.Combinations.Slash\AIGuiders.Platform.Combinations.Slash.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Combinations.Catalog\AIGuiders.Platform.Combinations.Catalog.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Combinations.Workspace\AIGuiders.Platform.Combinations.Workspace.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Conformance.Schemas\AIGuiders.Platform.Conformance.Schemas.csproj" />
     <PackageReference Include="Tomlyn" Version="$(TomlynVersion)" />

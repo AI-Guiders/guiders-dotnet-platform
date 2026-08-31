@@ -4,7 +4,7 @@ namespace AIGuiders.Platform.CommandPlane;
 
 public static class SlashPrefixArmSite
 {
-    public static PrefixArmSite ToPrefixArmSite(this SlashRouteEntry route) =>
+    public static PrefixArmSite ToPrefixArmSite(this CatalogRouteEntry route) =>
         PrefixArmSite.FromBindings(
             route.ResolvedConstructors,
             route.ArgHint,

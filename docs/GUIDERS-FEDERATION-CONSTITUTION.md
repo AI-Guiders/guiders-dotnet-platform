@@ -141,12 +141,12 @@ One `commandId`; mechanics are how you **play** it; `c:` is the **score on the w
 
 New planets add rows. Federation does not absorb the planet.
 
-**First open embed proof (2026-08):** CommandPlane on NuGet — catalog from code, JSON/TOML/XML, DB delegate, embedded `commands.toml`, registry visitor; products merge sources into one `SlashCatalogIndex`. See [GUIDERS-ADR-0013](adr/GUIDERS-ADR-0013-command-catalog-sources.md), [GUIDERS-ADR-0014](adr/GUIDERS-ADR-0014-registry-catalog-visitor.md).
+**First open embed proof (2026-08):** CommandPlane on NuGet — catalog from code, JSON/TOML/XML, DB delegate, embedded `commands.toml`, registry visitor; products merge sources into one `CommandCatalogIndex`. See [GUIDERS-ADR-0013](adr/GUIDERS-ADR-0013-command-catalog-sources.md), [GUIDERS-ADR-0014](adr/GUIDERS-ADR-0014-registry-catalog-visitor.md).
 
 Minimal third-party embed:
 
 ```csharp
-var catalog = SlashCatalogComposer.Build(
+var catalog = CommandCatalogComposer.Build(
     CommandSources.FromFile("commands.toml"),
     RegistryCatalogBuilder.ToCommandSource(myRegistry));
 ```

@@ -6,7 +6,7 @@ namespace AIGuiders.Platform.CommandPlane.Editor;
 /// <summary>Slash catalog projections for bundled editor commands.</summary>
 public static class EditorCatalogProjections
 {
-    public static SlashCommandDescriptor ToSlashDescriptor(this TextInsertFormatDefinition format) =>
+    public static CommandDescriptor ToSlashDescriptor(this TextInsertFormatDefinition format) =>
         new()
         {
             Domain = "editor",
@@ -22,7 +22,7 @@ public static class EditorCatalogProjections
             Tier = "core",
         };
 
-    public static SlashCommandDescriptor EditorLineSelectDescriptor() =>
+    public static CommandDescriptor EditorLineSelectDescriptor() =>
         new()
         {
             Domain = "editor",
@@ -32,14 +32,14 @@ public static class EditorCatalogProjections
             Path = "editor line select",
             Help = "Select line range (tail: start end or start:end)",
             Group = "Editor",
-            ArgTail = SlashArgTailPolicy.ImplicitLineRange,
+            ArgTail = CommandArgTailPolicy.ImplicitLineRange,
             ArgHint = "Line range — e.g. 5 10 or 5:10; empty uses current selection",
             Surfaces = ["editor-ccl", "editor-inline"],
             RequiredCapabilities = ["read"],
             Tier = "core",
         };
 
-    public static SlashCommandDescriptor EditorLineDeleteDescriptor() =>
+    public static CommandDescriptor EditorLineDeleteDescriptor() =>
         new()
         {
             Domain = "editor",
@@ -49,7 +49,7 @@ public static class EditorCatalogProjections
             Path = "editor line delete",
             Help = "Delete line range",
             Group = "Editor",
-            ArgTail = SlashArgTailPolicy.ImplicitLineRange,
+            ArgTail = CommandArgTailPolicy.ImplicitLineRange,
             ArgHint = "Line range — empty uses current selection lines",
             Surfaces = ["editor-ccl", "editor-inline"],
             RequiredCapabilities = ["write"],

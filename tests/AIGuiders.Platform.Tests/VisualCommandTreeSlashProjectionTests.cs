@@ -34,7 +34,7 @@ public sealed class VisualCommandTreeSlashProjectionTests
                 "Pick a value",
                 "Choose a value — Tab to insert",
                 "select filter usage_date",
-                nameof(SlashArgTailKind.Picker)));
+                nameof(CommandArgTailKind.Picker)));
 
         var projection = SlashVisualCommandTreeProjector.Project(result);
 

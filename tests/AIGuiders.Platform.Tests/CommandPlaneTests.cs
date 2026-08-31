@@ -7,32 +7,32 @@ namespace AIGuiders.Platform.Tests;
 public sealed class CommandPlaneTests
 {
     [Theory]
-    [InlineData("none", SlashArgTailKind.None)]
-    [InlineData("required", SlashArgTailKind.Required)]
-    [InlineData("picker:repo", SlashArgTailKind.Picker)]
-    public void ArgTailPolicy_parse(string raw, SlashArgTailKind expected) =>
-        Assert.Equal(expected, SlashArgTailPolicy.Parse(raw));
+    [InlineData("none", CommandArgTailKind.None)]
+    [InlineData("required", CommandArgTailKind.Required)]
+    [InlineData("picker:repo", CommandArgTailKind.Picker)]
+    public void ArgTailPolicy_parse(string raw, CommandArgTailKind expected) =>
+        Assert.Equal(expected, CommandArgTailPolicy.Parse(raw));
 
     [Fact]
     public void ArgTailPolicy_extract_picker_id()
     {
-        Assert.Equal("repo", SlashArgTailPolicy.ExtractPickerId("picker:repo"));
-        Assert.Equal("enum:text_mode", SlashArgTailPolicy.ExtractPickerId("picker:enum:text_mode"));
-        Assert.Null(SlashArgTailPolicy.ExtractPickerId("required"));
+        Assert.Equal("repo", CommandArgTailPolicy.ExtractPickerId("picker:repo"));
+        Assert.Equal("enum:text_mode", CommandArgTailPolicy.ExtractPickerId("picker:enum:text_mode"));
+        Assert.Null(CommandArgTailPolicy.ExtractPickerId("required"));
     }
 
     [Fact]
     public void CatalogIndex_longest_prefix_and_merge()
     {
-        var bundled = SlashCatalogIndex.FromDescriptors([
-            new SlashCommandDescriptor
+        var bundled = CommandCatalogIndex.FromDescriptors([
+            new CommandDescriptor
             {
                 Domain = "solution", Object = "build", Intent = "run",
                 CommandId = "build.run", Path = "build run", Help = "Build solution",
             },
         ]);
-        var overlay = SlashCatalogIndex.FromDescriptors([
-            new SlashCommandDescriptor
+        var overlay = CommandCatalogIndex.FromDescriptors([
+            new CommandDescriptor
             {
                 Domain = "forge", Object = "repo", Intent = "create",
                 CommandId = "forge.repo.create", Path = "forge repo create",
@@ -45,14 +45,14 @@ public sealed class CommandPlaneTests
         Assert.Equal("build.run", build.CommandId);
         Assert.True(merged.TryGet("repo create", out var forge));
         Assert.Equal("forge.repo.create", forge.CommandId);
-        Assert.Equal(SlashArgTailKind.Required, forge.ArgTailKind);
+        Assert.Equal(CommandArgTailKind.Required, forge.ArgTailKind);
     }
 
     [Fact]
     public void LineResolver_build_run_with_args()
     {
-        var catalog = SlashCatalogIndex.FromDescriptors([
-            new SlashCommandDescriptor
+        var catalog = CommandCatalogIndex.FromDescriptors([
+            new CommandDescriptor
             {
                 Domain = "solution", Object = "build", Intent = "run",
                 CommandId = "build.run", Path = "build run", ArgTail = "optional",
@@ -90,13 +90,13 @@ public sealed class CommandPlaneTests
     [Fact]
     public void StepCompletion_flat_path_catalog()
     {
-        var catalog = SlashCatalogIndex.FromDescriptors([
-            new SlashCommandDescriptor
+        var catalog = CommandCatalogIndex.FromDescriptors([
+            new CommandDescriptor
             {
                 Domain = "", Object = "", Intent = "",
                 CommandId = "help", Path = "help", Help = "Help",
             },
-            new SlashCommandDescriptor
+            new CommandDescriptor
             {
                 Domain = "", Object = "", Intent = "",
                 CommandId = "file.open", Path = "file open", Help = "Open file", ArgTail = "required",
@@ -114,14 +114,14 @@ public sealed class CommandPlaneTests
     [Fact]
     public void StepCompletion_static_enum_picker_filters_by_partial()
     {
-        var catalog = SlashCatalogIndex.FromDescriptors([
-            new SlashCommandDescriptor
+        var catalog = CommandCatalogIndex.FromDescriptors([
+            new CommandDescriptor
             {
                 Domain = "editor", Object = "format", Intent = "mode",
                 CommandId = "editor.format.mode",
                 Path = "format mode",
                 ArgTail = "picker:enum:text_mode",
-                ArgPickerChoices = SlashPickerChoices.FromLabels(
+                ArgPickerChoices = CommandPickerChoices.FromLabels(
                     ("md", "Markdown"),
                     ("html", "HTML")),
             },
@@ -141,8 +141,8 @@ public sealed class CommandPlaneTests
     [Fact]
     public void StepCompletion_dynamic_picker_uses_choice_source()
     {
-        var catalog = SlashCatalogIndex.FromDescriptors([
-            new SlashCommandDescriptor
+        var catalog = CommandCatalogIndex.FromDescriptors([
+            new CommandDescriptor
             {
                 Domain = "dash", Object = "select", Intent = "app",
                 CommandId = "dash.select.app",
@@ -151,11 +151,11 @@ public sealed class CommandPlaneTests
             },
         ]);
 
-        ISlashPickerChoiceSource source = new StubPickerSource(
+        ICommandPickerChoiceSource source = new StubPickerSource(
             "dash.field.app",
             [
-                new SlashPickerChoice { Value = "AutoCAD", Label = "AutoCAD" },
-                new SlashPickerChoice { Value = "Revit", Label = "Revit" },
+                new CommandPickerChoice { Value = "AutoCAD", Label = "AutoCAD" },
+                new CommandPickerChoice { Value = "Revit", Label = "Revit" },
             ]);
 
         var items = SlashStepCompletion.GetSuggestions(catalog, "select app ", source);
@@ -170,7 +170,7 @@ public sealed class CommandPlaneTests
     [Fact]
     public void PickerChoices_FromEnum_builds_values()
     {
-        var choices = SlashPickerChoices.FromEnum<TextModes>();
+        var choices = CommandPickerChoices.FromEnum<TextModes>();
         Assert.Equal(["Md", "Html"], choices.Select(choice => choice.Value));
     }
 
@@ -180,9 +180,9 @@ public sealed class CommandPlaneTests
         Html,
     }
 
-    sealed class StubPickerSource(string pickerId, IReadOnlyList<SlashPickerChoice> choices) : ISlashPickerChoiceSource
+    sealed class StubPickerSource(string pickerId, IReadOnlyList<CommandPickerChoice> choices) : ICommandPickerChoiceSource
     {
-        public IReadOnlyList<SlashPickerChoice> GetChoices(string requestedPickerId, string partial)
+        public IReadOnlyList<CommandPickerChoice> GetChoices(string requestedPickerId, string partial)
         {
             if (!string.Equals(pickerId, requestedPickerId, StringComparison.OrdinalIgnoreCase))
             {
@@ -204,8 +204,8 @@ public sealed class CommandPlaneTests
     [Fact]
     public void CompletionResult_reports_free_text_mode_for_required_arg()
     {
-        var catalog = SlashCatalogIndex.FromDescriptors([
-            new SlashCommandDescriptor
+        var catalog = CommandCatalogIndex.FromDescriptors([
+            new CommandDescriptor
             {
                 Domain = "", Object = "", Intent = "",
                 CommandId = "file.open",
@@ -224,8 +224,8 @@ public sealed class CommandPlaneTests
     [Fact]
     public void CompletionResult_reports_ready_mode_when_runnable()
     {
-        var catalog = SlashCatalogIndex.FromDescriptors([
-            new SlashCommandDescriptor
+        var catalog = CommandCatalogIndex.FromDescriptors([
+            new CommandDescriptor
             {
                 Domain = "", Object = "", Intent = "",
                 CommandId = "help", Path = "help", ArgTail = "none",
@@ -240,14 +240,14 @@ public sealed class CommandPlaneTests
     [Fact]
     public void CompletionResult_reports_picker_mode_with_breadcrumb()
     {
-        var catalog = SlashCatalogIndex.FromDescriptors([
-            new SlashCommandDescriptor
+        var catalog = CommandCatalogIndex.FromDescriptors([
+            new CommandDescriptor
             {
                 Domain = "editor", Object = "format", Intent = "mode",
                 CommandId = "editor.format.mode",
                 Path = "format mode",
                 ArgTail = "picker:enum:text_mode",
-                ArgPickerChoices = SlashPickerChoices.FromLabels(("md", "Markdown")),
+                ArgPickerChoices = CommandPickerChoices.FromLabels(("md", "Markdown")),
             },
         ]);
 
@@ -256,29 +256,29 @@ public sealed class CommandPlaneTests
         Assert.Contains("format › mode", result.Guidance.Breadcrumb, StringComparison.OrdinalIgnoreCase);
     }
 
-    static SlashCatalogIndex SemanticTestCatalog() =>
-        SlashCatalogIndex.FromDescriptors([
-            new SlashCommandDescriptor
+    static CommandCatalogIndex SemanticTestCatalog() =>
+        CommandCatalogIndex.FromDescriptors([
+            new CommandDescriptor
             {
                 Domain = "intercom", Object = "topic", Intent = "list",
                 CommandId = "intercom.topic.list", Path = "intercom topic list", Help = "Topics",
             },
-            new SlashCommandDescriptor
+            new CommandDescriptor
             {
                 Domain = "intercom", Object = "server", Intent = "list",
                 CommandId = "intercom.server.list", Path = "intercom server list", Help = "Servers",
             },
-            new SlashCommandDescriptor
+            new CommandDescriptor
             {
                 Domain = "solution", Object = "build", Intent = "run",
                 CommandId = "build.run", Path = "solution build run", PathAliases = ["build run"], Help = "Build run",
             },
-            new SlashCommandDescriptor
+            new CommandDescriptor
             {
                 Domain = "solution", Object = "build", Intent = "ui",
                 CommandId = "build.ui", Path = "solution build ui", PathAliases = ["build ui"], Help = "Build UI",
             },
-            new SlashCommandDescriptor
+            new CommandDescriptor
             {
                 Domain = "git", Object = "status", Intent = "",
                 CommandId = "git.status", Path = "git status", Help = "Git status",

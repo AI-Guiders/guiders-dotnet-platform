@@ -8,7 +8,7 @@ public enum SlashInputMode
     /// <summary>Completing command path segments (domain / object / intent).</summary>
     Path = 0,
 
-    /// <summary>Pick from closed list (<see cref="SlashPickerChoice"/>).</summary>
+    /// <summary>Pick from closed list (<see cref="CommandPickerChoice"/>).</summary>
     Picker = 1,
 
     /// <summary>Type a required free-text argument.</summary>

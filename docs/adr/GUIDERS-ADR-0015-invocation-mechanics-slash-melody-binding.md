@@ -35,7 +35,7 @@ Keyboard as instrument:
 
 Platform shipped **Slash mechanics** (catalog index, resolve, completion, sources, registry visitor). Melody and binding configuration remain on the planet — correctly.
 
-Question: extend `SlashCommandDescriptor` with hotkeys and melody fields, or sibling mechanics?
+Question: extend `CommandDescriptor` with hotkeys and melody fields, or sibling mechanics?
 
 ## Decision
 
@@ -61,7 +61,7 @@ Question: extend `SlashCommandDescriptor` with hotkeys and melody fields, or sib
 | **Melody** | melody **slug** + tail after chord root engaged | `CommandPlane.Melody` (future) | via `commandId` |
 | **Binding** | **gesture** → `commandId` or chord root / surface | `CommandPlane.Binding` (future) | via `commandId` or surface-only id |
 
-**Rejected:** stuffing `SuggestedHotkey`, `MelodySlug`, `WireClass`, chord policy into `SlashCommandDescriptor` as normative SSOT.
+**Rejected:** stuffing `SuggestedHotkey`, `MelodySlug`, `WireClass`, chord policy into `CommandDescriptor` as normative SSOT.
 
 **Allowed:** optional **display hints** on slash rows (`SuggestedHotkey` for capabilities JSON) — never override planetary binding SSOT.
 
@@ -80,7 +80,7 @@ Do not document `c:` as «the melody input language». The melody input language
 
 | | **Platform (mechanics)** | **Planet (configuration / policy)** |
 |---|--------------------------|-------------------------------------|
-| **Slash** | `SlashCatalogIndex`, `SlashLineResolver`, `SlashStepCompletion`, `SlashArgCompletion`, `SlashInputGuidance`, `CommandSource`, `SlashCatalogComposer` | Path prefix (`/` in chat), ship TOML/JSON catalog, dynamic picker adapters, overlay merge rules |
+| **Slash** | `CommandCatalogIndex`, `SlashLineResolver`, `SlashStepCompletion`, `SlashArgCompletion`, `SlashInputGuidance`, `CommandSource`, `CommandCatalogComposer` | Path prefix (`/` in chat), ship TOML/JSON catalog, dynamic picker adapters, overlay merge rules |
 | **Melody** | `MelodyCatalogIndex`, slug resolve after root, `wire_class` tail parsers (pluggable), await-tail protocol | `intent-catalog.toml` melody blocks, `[[tail_wire_class]]`, `chord_commit` defaults |
 | **Binding** | Gesture parse (`KeyGesture` wire), layered merge (ship + user), bind → `commandId` validation, chord root → melody handoff | `hotkeys.toml` ship file, `%LocalAppData%` overlay, chord root string (`Ctrl+K`), palette `c:` prefix policy, WPF tunnel / menu wiring |
 
@@ -107,7 +107,7 @@ A single `[[command]]` in CIDE TOML may emit **multiple catalog projections**:
 
 ```text
 [[command]]  command_id = "…"
-    ├── slash forms  → SlashCommandDescriptor[]  → SlashCatalogComposer
+    ├── slash forms  → CommandDescriptor[]  → CommandCatalogComposer
     ├── melody form  → MelodyDescriptor[]         → MelodyCatalogComposer (future)
     └── (no binding) — bindings live in hotkeys.toml by command_id
 
@@ -210,12 +210,12 @@ IMelodyCatalogDescribed.ToMelodyDescriptor()
 | Package | Role |
 |---------|------|
 | `CommandPlane` | Core: registry, GoF command, catalog descriptors, `ICommandSource` |
-| `CommandPlane.Sources.Json` | JSON format → Core |
-| `CommandPlane.Sources.Toml` | TOML format → Core |
-| `CommandPlane.Sources.Xml` | XML format → Core |
-| `CommandPlane.Sources.File` | File transport → format by extension |
-| `CommandPlane.Sources.Database` | DB transport → Core |
-| `CommandPlane.Sources` | Meta-bundle |
+| `CommandPlane.Catalog.Sources.Json` | JSON format → Core |
+| `CommandPlane.Catalog.Sources.Toml` | TOML format → Core |
+| `CommandPlane.Catalog.Sources.Xml` | XML format → Core |
+| `CommandPlane.Catalog.Sources.File` | File transport → format by extension |
+| `CommandPlane.Catalog.Sources.Database` | DB transport → Core |
+| `CommandPlane.Catalog.Sources` | Meta-bundle |
 | `CommandPlane.Slash` | Slash mechanic (index, resolve, completion) → Core |
 | `CommandPlane.Melody` | Melody mechanic → `InputNotation` |
 | `InputNotation` | Core IR + reader contract |
@@ -248,10 +248,10 @@ CIDE keeps `ChordNotationRenderer` and `KeyGestureChordMatching` as product adap
 
 ## Consequences
 
-- New slash features → `CommandPlane` / `CommandPlane.Sources`.
+- New slash features → `CommandPlane` / `CommandPlane.Catalog.Sources`.
 - New melody/binding **mechanics** → sibling packages; **content** stays in product TOML/settings.
 - Integration reviews: ask **which mechanic**, **who owns config**, **shared commandId**; do not conflate `c:` with melody mechanic.
-- CIDE migration map: `SlashRouteEntry` discovery fields → platform descriptors; execution fields (Intercom, MFD) stay CIDE.
+- CIDE migration map: `CatalogRouteEntry` discovery fields → platform descriptors; execution fields (Intercom, MFD) stay CIDE.
 
 ## References
 

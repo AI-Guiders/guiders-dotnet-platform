@@ -1,6 +1,6 @@
 #nullable enable
 using AIGuiders.Platform.CommandPlane;
-using AIGuiders.Platform.CommandPlane.Sources;
+using AIGuiders.Platform.CommandPlane.Catalog.Sources;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;
@@ -11,7 +11,7 @@ public sealed class CommandSourceTests
     public void Composer_merges_descriptor_and_json_sources()
     {
         var bundled = CommandSource.From([
-            new SlashCommandDescriptor
+            new CommandDescriptor
             {
                 Domain = "", Object = "", Intent = "",
                 CommandId = "help", Path = "help", Help = "Help", ArgTail = "none",
@@ -32,11 +32,11 @@ public sealed class CommandSourceTests
             }
             """;
 
-        var catalog = SlashCatalogComposer.Build(bundled, CommandSources.FromJson(json));
+        var catalog = CommandCatalogComposer.Build(bundled, CommandSources.FromJson(json));
         Assert.True(catalog.TryGet("help", out _));
         Assert.True(catalog.TryGet("file open", out var file));
         Assert.Equal("file.open", file.CommandId);
-        Assert.Equal(SlashArgTailKind.Required, file.ArgTailKind);
+        Assert.Equal(CommandArgTailKind.Required, file.ArgTailKind);
     }
 
     [Fact]
@@ -53,10 +53,10 @@ public sealed class CommandSourceTests
             arg_tail = "picker:enum:date_preset"
             """;
 
-        var catalog = SlashCatalogComposer.Build(CommandSources.FromToml(toml));
+        var catalog = CommandCatalogComposer.Build(CommandSources.FromToml(toml));
         Assert.True(catalog.TryGet("select date", out var route));
         Assert.Equal("select.date", route.CommandId);
-        Assert.Equal(SlashArgTailKind.Picker, route.ArgTailKind);
+        Assert.Equal(CommandArgTailKind.Picker, route.ArgTailKind);
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public sealed class CommandSourceTests
             </commands>
             """;
 
-        var catalog = SlashCatalogComposer.Build(CommandSources.FromXml(xml));
+        var catalog = CommandCatalogComposer.Build(CommandSources.FromXml(xml));
         Assert.True(catalog.TryGet("build run", out var route));
         Assert.Equal("build.run", route.CommandId);
     }
@@ -79,7 +79,7 @@ public sealed class CommandSourceTests
         var source = DatabaseCommandSources.From(
             () =>
             [
-                new SlashCommandDescriptor
+                new CommandDescriptor
                 {
                     Domain = "", Object = "", Intent = "",
                     CommandId = "db.echo", Path = "db echo", Help = "From DB", ArgTail = "none",
@@ -87,7 +87,7 @@ public sealed class CommandSourceTests
             ],
             "db:test");
 
-        var catalog = SlashCatalogComposer.Build(source);
+        var catalog = CommandCatalogComposer.Build(source);
 
         Assert.True(catalog.TryGet("db echo", out var route));
         Assert.Equal("db.echo", route.CommandId);
@@ -96,7 +96,7 @@ public sealed class CommandSourceTests
     [Fact]
     public void FromAssemblyResource_reads_embedded_toml_by_suffix()
     {
-        var catalog = SlashCatalogComposer.Build(
+        var catalog = CommandCatalogComposer.Build(
             typeof(CommandSourceTests).Assembly.FromAssemblyResource("commands.toml"));
 
         Assert.True(catalog.TryGet("plugin help", out var route));

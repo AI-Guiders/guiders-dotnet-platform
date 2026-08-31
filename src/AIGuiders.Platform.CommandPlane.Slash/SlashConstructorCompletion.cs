@@ -6,7 +6,7 @@ static class SlashConstructorCompletion
 {
     public static IReadOnlyList<SlashCompletionItem> BuildEntryItems(
         SlashLineResolver.SlashLineResolution line,
-        SlashRouteEntry route)
+        CatalogRouteEntry route)
     {
         if (route.ArgConstructors is not { Count: > 0 } bindings)
         {

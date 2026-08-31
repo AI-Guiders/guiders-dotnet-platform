@@ -238,7 +238,7 @@ From [GUIDERS-ADR-0001](./adr/GUIDERS-ADR-0001-platform-boundary.md):
 | `Sources.File` / `.Toml` | File + TOML transport |
 | `Combinations` | `Combinator<T>`, `OrderedCombination.Fold`, `CombinationSemantics` |
 | `Combinations.Workspace` | `FieldOverlay` — overlay non-null wins |
-| `Combinations.Slash` | Meta → `ShipFirst` merge in CommandPlane.Slash |
+| `Combinations.Catalog` | Meta → `ShipFirst` merge in CommandPlane.Slash |
 | `Combinations.Binding` | Meta → `OverlayWins` merge in CommandPlane.Binding |
 | `Combinations.All` | Meta-bundle |
 
@@ -261,15 +261,15 @@ Platform ships **reference quarry** (.NET parsers). Planets **port vectors** to 
 
 | Package | Capabilities |
 |---------|--------------|
-| `CommandPlane` | GoF `IPlatformCommand<T>`, `PlatformCommandRegistry`, descriptors, `ICommandSource`, **Visual Command Tree** DTOs |
+| `CommandPlane` | GoF `IPlatformCommand<T>`, `PlatformCommandRegistry`, `CommandDescriptor`, `CommandCatalogIndex`, `ICommandSource`, **Visual Command Tree** DTOs ([ADR-0039](./adr/GUIDERS-ADR-0039-command-catalog-family.md)) |
 | `CommandPlane.Constructors` | Value constructor registry, session, navigator, locale input ([ADR-0035](./adr/GUIDERS-ADR-0035-slash-value-constructors.md)) |
 | `CommandPlane.PrefixArmed` | PAC profiles + coordinator — surface-agnostic ([ADR-0038](./adr/GUIDERS-ADR-0038-prefix-armed-completion.md)) |
 | `CommandPlane.PrefixArmed.Locale` | Optional locale date PAC profile ([ADR-0037](./adr/GUIDERS-ADR-0037-slash-locale-typed-value-input.md)) |
-| `CommandPlane.Slash` | `SlashCatalogIndex`, `SlashLineResolver`, completion, ArgTail, slash guidance projector |
+| `CommandPlane.Slash` | `SlashLineResolver`, completion, ArgTail, slash guidance projector (consumes core catalog) |
 | `CommandPlane.Melody` | Melody descriptors, line profile, policy, chord tree projection |
 | `CommandPlane.Binding` | Hotkey catalog, gesture normalize, layered merge |
-| `CommandPlane.Sources.*` | Json, Toml, Xml, File, Database transports → Core |
-| `CommandPlane.Sources` | Meta-bundle all formats |
+| `CommandPlane.Catalog.Sources.*` | Json, Toml, Xml, File, Database transports → Core |
+| `CommandPlane.Catalog.Sources` | Meta-bundle all formats |
 
 ### 7.5 Cockpit
 
@@ -337,8 +337,8 @@ Pattern: [GUIDERS-ADR-0009 — Catalog · Registry · Command · Surface](./adr/
   Catalog                    Registry                 Command
   (discoverability)          (executor lookup)        (one effect)
        │                          │                        │
-  SlashCommandDescriptor    PlatformCommandRegistry   IPlatformCommand
-  SlashCatalogIndex         EditorCommandRegistry     PlatformCommand
+  CommandDescriptor    PlatformCommandRegistry   IPlatformCommand
+  CommandCatalogIndex         EditorCommandRegistry     PlatformCommand
   capabilities.commands[]   Forge CommandCatalog
        │                          │                        │
        └──────── path / id ───────┴──── commandId ────────┘
@@ -359,7 +359,7 @@ Pattern: [GUIDERS-ADR-0009 — Catalog · Registry · Command · Surface](./adr/
 
 ```
 Forge capabilities overlay ──┐
-CIDE intent-catalog.toml ──┼──► SlashCatalogIndex.Merge ──► SlashLineResolver
+CIDE intent-catalog.toml ──┼──► CommandCatalogIndex.Merge ──► SlashLineResolver
 DashSpec embedded TOML ────┤                                      │
 Product DB delegate ───────┘                                      ▼
                                                           completion + guidance
@@ -376,7 +376,7 @@ Merge policies ([ADR-0030](./adr/GUIDERS-ADR-0030-combinations-family.md)):
 ### 8.2 Minimal third-party embed
 
 ```csharp
-var catalog = SlashCatalogComposer.Build(
+var catalog = CommandCatalogComposer.Build(
     CommandSources.FromFile("commands.toml"),
     RegistryCatalogBuilder.ToCommandSource(myRegistry));
 // Your execute endpoint, your UI — federation does not own the wire.

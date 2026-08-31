@@ -65,8 +65,8 @@ public sealed class PrefixArmCoordinatorTests
         var navigator = new SlashValueConstructorNavigator(registry, new StubSegmentProvider());
         var coordinator = new PrefixArmCoordinator(navigator, registry);
         var session = new SlashConstructorSession(navigator);
-        var catalog = SlashCatalogIndex.FromDescriptors([
-            new SlashCommandDescriptor
+        var catalog = CommandCatalogIndex.FromDescriptors([
+            new CommandDescriptor
             {
                 Domain = "",
                 Object = "",
@@ -108,8 +108,8 @@ public sealed class PrefixArmCoordinatorTests
         var navigator = new SlashValueConstructorNavigator(registry, new StubSegmentProvider());
         var coordinator = new PrefixArmCoordinator(navigator, registry);
         var session = new SlashConstructorSession(navigator);
-        var catalog = SlashCatalogIndex.FromDescriptors([
-            new SlashCommandDescriptor
+        var catalog = CommandCatalogIndex.FromDescriptors([
+            new CommandDescriptor
             {
                 Domain = "",
                 Object = "",

@@ -16,8 +16,8 @@ ADR-0011 ships path-step completion (domain → object → intent). Descriptor w
 
 | Layer | Owns |
 |-------|------|
-| **Platform** | `SlashArgCompletion`, static `ArgPickerChoices` filter, dynamic `ISlashPickerChoiceSource` hook |
-| **Product** | Descriptor values (`ArgPickerChoices`, `picker:<id>`), adapter implementing `ISlashPickerChoiceSource` |
+| **Platform** | `SlashArgCompletion`, static `ArgPickerChoices` filter, dynamic `ICommandPickerChoiceSource` hook |
+| **Product** | Descriptor values (`ArgPickerChoices`, `picker:<id>`), adapter implementing `ICommandPickerChoiceSource` |
 | **Surface** | Popover chrome, debounce, accept-key — unchanged (ADR-0011) |
 
 `SlashStepCompletion.GetSuggestions(catalog, body, pickerSource?)` tries arg completion **before** path segments when the typed body resolves to a catalog row with non-`none` arg tail.
@@ -25,25 +25,25 @@ ADR-0011 ships path-step completion (domain → object → intent). Descriptor w
 ### 2. Static closed enum
 
 ```csharp
-new SlashCommandDescriptor {
+new CommandDescriptor {
     Path = "format mode",
     CommandId = "editor.format.mode",
     ArgTail = "picker:enum:text_mode",
-    ArgPickerChoices = SlashPickerChoices.FromLabels(("md", "Markdown"), ("html", "HTML")),
+    ArgPickerChoices = CommandPickerChoices.FromLabels(("md", "Markdown"), ("html", "HTML")),
 };
 ```
 
 Platform filters choices by arg-tail partial. Completion items use `Kind = Picker`, `PickValue`, `InsertText = "/format mode md"`.
 
-Helpers: `SlashPickerChoices.FromValues`, `FromLabels`, `FromEnum<TEnum>()`.
+Helpers: `CommandPickerChoices.FromValues`, `FromLabels`, `FromEnum<TEnum>()`.
 
 ### 3. Dynamic picker
 
 When `ArgTail = picker:<id>` and **no** static `ArgPickerChoices`, platform calls:
 
 ```csharp
-public interface ISlashPickerChoiceSource {
-    IReadOnlyList<SlashPickerChoice> GetChoices(string pickerId, string partial);
+public interface ICommandPickerChoiceSource {
+    IReadOnlyList<CommandPickerChoice> GetChoices(string pickerId, string partial);
 }
 ```
 
@@ -53,7 +53,7 @@ Product examples: `picker:dash.field.app` → distinct values; Forge may keep HT
 
 `SlashCompletionItem` gains `Kind` + `PickValue`. Existing JSON fields remain; surfaces MAY render picker rows differently when `kind = picker`.
 
-`SlashRouteEntry` carries `ArgTail`, `ArgPickerChoices`, and `ArgHint` from descriptor.
+`CatalogRouteEntry` carries `ArgTail`, `ArgPickerChoices`, and `ArgHint` from descriptor.
 
 ### 5. Input guidance (`SlashInputGuidance`)
 
@@ -80,14 +80,14 @@ Headless **Visual Command Tree** projection for native/agent ports: [GUIDERS-ADR
 ## Consequences
 
 - CommandPlane **0.4.3+**
-- DashSpec date presets → static `ArgPickerChoices`; field filters → `ISlashPickerChoiceSource`
+- DashSpec date presets → static `ArgPickerChoices`; field filters → `ICommandPickerChoiceSource`
 - Forge JS picker peel can shrink over time to thin adapter over same completion API
 
 ## Quarry wave
 
 | Wave | Scope |
 |------|-------|
-| **W4 platform** ✓ | `SlashArgCompletion`, `ISlashPickerChoiceSource`, route refactor, tests |
+| **W4 platform** ✓ | `SlashArgCompletion`, `ICommandPickerChoiceSource`, route refactor, tests |
 | **W5 products** | DashSpec picker wiring; Forge converge JS → `/commands/complete` picker rows |
 | **W5a conformance** ✓ | `slash-arg-completion.spec.json` + schema + `SlashSpecConformance` ([ADR-0018](GUIDERS-ADR-0018-slash-conformance-vectors.md)) |
 | **W5b Forge JS** | vitest harness on same spec |

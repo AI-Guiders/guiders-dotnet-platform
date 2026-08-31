@@ -20,32 +20,32 @@ public static class SlashStepCompletion
         string? Object,
         string PartialToken);
 
-    static readonly ConditionalWeakTable<SlashCatalogIndex, Snapshot> Snapshots = new();
+    static readonly ConditionalWeakTable<CommandCatalogIndex, Snapshot> Snapshots = new();
 
     public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
-        SlashCatalogIndex catalog,
+        CommandCatalogIndex catalog,
         string typedBody) =>
         GetSuggestions(catalog, typedBody, pickerSource: null);
 
     public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
-        SlashCatalogIndex catalog,
+        CommandCatalogIndex catalog,
         string typedBody,
-        ISlashPickerChoiceSource? pickerSource) =>
+        ICommandPickerChoiceSource? pickerSource) =>
         GetSuggestions(catalog, ParseTokens(typedBody, out var endsWithSpace), endsWithSpace, typedBody, pickerSource);
 
     public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
-        SlashCatalogIndex catalog,
+        CommandCatalogIndex catalog,
         IReadOnlyList<string> tokens,
         bool endsWithSpace,
         string typedBody) =>
         GetSuggestions(catalog, tokens, endsWithSpace, typedBody, pickerSource: null);
 
     public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
-        SlashCatalogIndex catalog,
+        CommandCatalogIndex catalog,
         IReadOnlyList<string> tokens,
         bool endsWithSpace,
         string typedBody,
-        ISlashPickerChoiceSource? pickerSource)
+        ICommandPickerChoiceSource? pickerSource)
     {
         if (SlashLineResolver.TryResolveBody(typedBody, catalog, out var line)
             && catalog.TryGet(line.CanonicalPath, out var route)
@@ -84,10 +84,10 @@ public static class SlashStepCompletion
     }
 
     public static bool TryResolveHierarchy(
-        SlashCatalogIndex catalog,
+        CommandCatalogIndex catalog,
         IReadOnlyList<string> tokens,
         bool endsWithSpace,
-        out SlashSemanticFields fields,
+        out CatalogSemanticFields fields,
         out string matchedPath)
     {
         fields = default;
@@ -290,7 +290,7 @@ public static class SlashStepCompletion
 
     static IReadOnlyList<SlashCompletionItem> BuildIntentSuggestions(
         Snapshot snap,
-        SlashCatalogIndex catalog,
+        CommandCatalogIndex catalog,
         string domain,
         string obj,
         string partial,
@@ -324,7 +324,7 @@ public static class SlashStepCompletion
     }
 
     static IReadOnlyList<SlashCompletionItem> GetFlatPathSuggestions(
-        SlashCatalogIndex catalog,
+        CommandCatalogIndex catalog,
         Snapshot snap,
         IReadOnlyList<string> tokens,
         bool endsWithSpace)
@@ -356,7 +356,7 @@ public static class SlashStepCompletion
 
             var insertSegs = prefixTokens.Concat([next]).ToArray();
             var slashPath = "/" + string.Join(' ', insertSegs);
-            var more = segs.Count > depth + 1 || route.Route.ArgTailKind != SlashArgTailKind.None;
+            var more = segs.Count > depth + 1 || route.Route.ArgTailKind != CommandArgTailKind.None;
             var insert = slashPath + (more ? " " : "");
             var help = segs.Count == depth + 1
                 ? route.Help
@@ -387,7 +387,7 @@ public static class SlashStepCompletion
         || value.StartsWith(partial, StringComparison.OrdinalIgnoreCase);
 
     static string BuildInsertFromTyped(
-        SlashCatalogIndex? catalog,
+        CommandCatalogIndex? catalog,
         IReadOnlyList<string> typedTokens,
         bool endsWithSpace,
         IReadOnlyList<string> pathSegs,
@@ -407,15 +407,15 @@ public static class SlashStepCompletion
         return slashPath;
     }
 
-    static bool SegmentNeedsArgTail(SlashCatalogIndex catalog, string slashPath)
+    static bool SegmentNeedsArgTail(CommandCatalogIndex catalog, string slashPath)
     {
         if (SlashLineResolver.TryResolveSlashLine(slashPath, catalog, out var line)
             && line.IsExactPathMatch
-            && line.ArgTailKind == SlashArgTailKind.None)
+            && line.ArgTailKind == CommandArgTailKind.None)
             return false;
 
         return SlashLineResolver.TryResolveSlashLine(slashPath, catalog, out var resolved)
-               && resolved.ArgTailKind != SlashArgTailKind.None;
+               && resolved.ArgTailKind != CommandArgTailKind.None;
     }
 
     static bool PathPrefixMatches(
@@ -490,7 +490,7 @@ public static class SlashStepCompletion
         return bestLen >= 0;
     }
 
-    static Snapshot BuildSnapshot(SlashCatalogIndex catalog)
+    static Snapshot BuildSnapshot(CommandCatalogIndex catalog)
     {
         var allRoutes = new List<IndexedRoute>();
         var domainsWithCanonicalPrefix = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -506,7 +506,7 @@ public static class SlashStepCompletion
         foreach (var route in catalog.Routes)
         {
             var sem = route.SemanticFields;
-            var pathSegs = SplitPath(route.SlashPath);
+            var pathSegs = SplitPath(route.Path);
             if (pathSegs.Count == 0)
                 continue;
 
@@ -548,7 +548,7 @@ public static class SlashStepCompletion
                 }
 
                 if (!flat.TryGetValue(sem.Intent, out var existing)
-                    || route.SlashPath.Length > existing.SlashPath.Length)
+                    || route.Path.Length > existing.SlashPath.Length)
                     flat[sem.Intent] = indexed;
             }
 
@@ -574,11 +574,11 @@ public static class SlashStepCompletion
     static void TrackHelp<T>(
         Dictionary<T, (string Help, int Len)> map,
         T key,
-        SlashRouteEntry route)
+        CatalogRouteEntry route)
         where T : notnull
     {
-        if (!map.TryGetValue(key, out var existing) || route.SlashPath.Length > existing.Len)
-            map[key] = (route.Help, route.SlashPath.Length);
+        if (!map.TryGetValue(key, out var existing) || route.Path.Length > existing.Len)
+            map[key] = (route.Help, route.Path.Length);
     }
 
     static IReadOnlyList<string> PrefixTokens(IReadOnlyList<string> tokens, int dropLast)
@@ -609,8 +609,8 @@ public static class SlashStepCompletion
     }
 
     sealed record IndexedRoute(
-        SlashRouteEntry Route,
-        SlashSemanticFields Semantics,
+        CatalogRouteEntry Route,
+        CatalogSemanticFields Semantics,
         List<string> PathSegments)
     {
         public string SlashPath => "/" + string.Join(' ', PathSegments);

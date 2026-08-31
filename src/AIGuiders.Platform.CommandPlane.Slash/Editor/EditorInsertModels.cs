@@ -34,7 +34,7 @@ public sealed record TextInsertFormatDefinition(
     public string WireClass =>
         WrapOpen is not null ? EditorWireClasses.FormatWrap : EditorWireClasses.FormatInsert;
 
-    public string ArgTail => SlashArgTailPolicy.ImplicitSelection;
+    public string ArgTail => CommandArgTailPolicy.ImplicitSelection;
 }
 
 public sealed record TextDialectDefinition(
@@ -55,7 +55,7 @@ public sealed class TextInsertFormatDefinitionDto
     public string[]? Wrap { get; init; }
     public string[]? HtmlWrap { get; init; }
     public string WireClass { get; init; } = EditorWireClasses.FormatWrap;
-    public string ArgTail { get; init; } = SlashArgTailPolicy.ImplicitSelection;
+    public string ArgTail { get; init; } = CommandArgTailPolicy.ImplicitSelection;
 }
 
 public sealed class TextDialectCapabilitiesDto

@@ -7,5 +7,5 @@ public interface ICommandFormatReader
 {
     string FormatName { get; }
 
-    IReadOnlyList<SlashCommandDescriptor> Read(string text);
+    IReadOnlyList<CommandDescriptor> Read(string text);
 }

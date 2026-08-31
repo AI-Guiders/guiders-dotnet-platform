@@ -15,7 +15,7 @@ Command catalogs, binding catalogs, and workspace correspondence each had **para
 
 | Domain | Old stack | Transport |
 |--------|-----------|-----------|
-| Slash commands | `CommandPlane.Sources.*` | json/toml/xml per package |
+| Slash commands | `CommandPlane.Catalog.Sources.*` | json/toml/xml per package |
 | Bindings | `CommandPlane.Binding.Sources.*` | json/toml per package |
 | Workspace CRS | `Correspondence.Workspace` TOML models + loader | ad hoc Tomlyn |
 
@@ -53,12 +53,12 @@ Correspondence guild **consumes** `WorkspaceDocument`; it no longer owns TOML mo
 
 | Contract | Lift |
 |----------|------|
-| `ICommandSource` | extends `ISource<IReadOnlyList<SlashCommandDescriptor>>` |
+| `ICommandSource` | extends `ISource<IReadOnlyList<CommandDescriptor>>` |
 | `IBindingSource` | extends `ISource<IReadOnlyList<BindingDescriptor>>` |
 | `CommandSourceFormats.Resolve` | delegates to `DocumentFormats.Resolve` |
 | `BindingSourceFormats.Resolve` | delegates to `DocumentFormats.Resolve` (xml rejected at binding layer) |
 
-Slash/binding **catalog composers** (`SlashCatalogComposer`, `BindingCatalogComposer`) remain the **key-level** merge for loaded descriptors. Document-level merge (`SourceCatalog.Merge`) applies when overlaying whole config documents (e.g. embedded defaults + disk `workspace.toml`).
+Slash/binding **catalog composers** (`CommandCatalogComposer`, `BindingCatalogComposer`) remain the **key-level** merge for loaded descriptors. Document-level merge (`SourceCatalog.Merge`) applies when overlaying whole config documents (e.g. embedded defaults + disk `workspace.toml`).
 
 ---
 

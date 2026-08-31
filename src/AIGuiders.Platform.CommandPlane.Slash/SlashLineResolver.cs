@@ -10,7 +10,7 @@ public static class SlashLineResolver
     public readonly record struct SlashLineResolution(
         string CanonicalPath,
         string ArgTail,
-        SlashArgTailKind ArgTailKind,
+        CommandArgTailKind ArgTailKind,
         bool IsCatalogMatch,
         bool IsExactPathMatch,
         bool EndsWithSpaceAfterPath,
@@ -18,19 +18,19 @@ public static class SlashLineResolver
     {
         public bool ShouldHideSegmentSuggestions =>
             IsCatalogMatch && (
-                (ArgTailKind == SlashArgTailKind.None && IsExactPathMatch)
-                || ArgTailKind == SlashArgTailKind.Optional && (IsExactPathMatch || EndsWithSpaceAfterPath || HasArgTailContent)
-                || (ArgTailKind == SlashArgTailKind.Required && HasArgTailContent)
-                || (ArgTailKind == SlashArgTailKind.Picker && (EndsWithSpaceAfterPath || HasArgTailContent)));
+                (ArgTailKind == CommandArgTailKind.None && IsExactPathMatch)
+                || ArgTailKind == CommandArgTailKind.Optional && (IsExactPathMatch || EndsWithSpaceAfterPath || HasArgTailContent)
+                || (ArgTailKind == CommandArgTailKind.Required && HasArgTailContent)
+                || (ArgTailKind == CommandArgTailKind.Picker && (EndsWithSpaceAfterPath || HasArgTailContent)));
 
-        public bool InsertsTrailingSpaceOnCommit => SlashArgTailPolicy.InsertsTrailingSpaceOnCommit(ArgTailKind);
+        public bool InsertsTrailingSpaceOnCommit => CommandArgTailPolicy.InsertsTrailingSpaceOnCommit(ArgTailKind);
 
         public bool IsRunnable =>
             IsCatalogMatch
-            && (ArgTailKind != SlashArgTailKind.Required || !string.IsNullOrWhiteSpace(ArgTail));
+            && (ArgTailKind != CommandArgTailKind.Required || !string.IsNullOrWhiteSpace(ArgTail));
     }
 
-    public static bool TryResolveSlashLine(string slashLine, SlashCatalogIndex catalog, out SlashLineResolution resolution)
+    public static bool TryResolveSlashLine(string slashLine, CommandCatalogIndex catalog, out SlashLineResolution resolution)
     {
         resolution = default;
         if (string.IsNullOrWhiteSpace(slashLine) || slashLine[0] != '/')
@@ -40,7 +40,7 @@ public static class SlashLineResolver
         return TryResolveBody(body, catalog, out resolution);
     }
 
-    public static bool TryResolveBody(string body, SlashCatalogIndex catalog, out SlashLineResolution resolution)
+    public static bool TryResolveBody(string body, CommandCatalogIndex catalog, out SlashLineResolution resolution)
     {
         resolution = default;
         ParseTypedBody(body, out var tokens, out var endsWithSpace);

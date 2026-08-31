@@ -19,7 +19,7 @@
 
 | Type | Role |
 |------|------|
-| `ICatalogDescribed` | Command projects `SlashCommandDescriptor` |
+| `ICatalogDescribed` | Command projects `CommandDescriptor` |
 | `ICatalogVisitor` | Receives descriptors during registry walk |
 | `SlashCatalogCollector` | Default accumulator visitor |
 | `RegistryCatalogBuilder` | `CollectDescriptors`, `BuildIndex`, `ToCommandSource` |
@@ -35,7 +35,7 @@
 ### 3. Composition
 
 ```csharp
-SlashCatalogComposer.Build(
+CommandCatalogComposer.Build(
     RegistryCatalogBuilder.ToCommandSource(registry),
     CommandSources.FromToml(toml),
 );

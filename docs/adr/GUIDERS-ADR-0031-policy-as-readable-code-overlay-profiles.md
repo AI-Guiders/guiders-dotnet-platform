@@ -51,7 +51,7 @@ FieldOverlayBuilder<T>     declarative nullable-field overlay per property
 
 Single-rule policies use `.Rule(...)` inside `OverlayProfile` — same standard, minimal ceremony:
 
-- `SlashOverlay.ShipFirst`
+- `CommandCatalogOverlay.ShipFirst`
 - `BindingOverlay.OverlayWins`
 
 ---

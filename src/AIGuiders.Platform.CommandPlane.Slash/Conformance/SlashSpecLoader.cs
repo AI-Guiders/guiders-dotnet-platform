@@ -9,13 +9,13 @@ public static class SlashSpecLoader
         JsonSerializer.Deserialize<SlashSpecDocument>(json, JsonOptions)
         ?? throw new InvalidOperationException("Slash spec JSON deserialized to null.");
 
-    public static SlashCatalogIndex BuildCatalog(IReadOnlyList<SlashSpecCatalogEntry> entries)
+    public static CommandCatalogIndex BuildCatalog(IReadOnlyList<SlashSpecCatalogEntry> entries)
     {
         var descriptors = entries.Select(ToDescriptor).ToList();
-        return SlashCatalogIndex.FromDescriptors(descriptors);
+        return CommandCatalogIndex.FromDescriptors(descriptors);
     }
 
-    public static SlashCommandDescriptor ToDescriptor(SlashSpecCatalogEntry entry) =>
+    public static CommandDescriptor ToDescriptor(SlashSpecCatalogEntry entry) =>
         new()
         {
             Domain = entry.Domain,
@@ -29,7 +29,7 @@ public static class SlashSpecLoader
             ArgTail = entry.ArgTail ?? "optional",
             ArgHint = entry.ArgHint,
             ArgPickerChoices = (entry.ArgPickerChoices ?? [])
-                .Select(c => new SlashPickerChoice
+                .Select(c => new CommandPickerChoice
                 {
                     Value = c.Value,
                     Label = c.Label,

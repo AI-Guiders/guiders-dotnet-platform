@@ -21,7 +21,7 @@ public static class SlashSpecConformance
     public static bool TryValidateVector(
         SlashSpecDocument spec,
         SlashSpecVector vector,
-        ISlashPickerChoiceSource pickerSource,
+        ICommandPickerChoiceSource pickerSource,
         out string error)
     {
         error = "";

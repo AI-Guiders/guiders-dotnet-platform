@@ -6,8 +6,6 @@
     <Description>Slash invocation mechanic: catalog index, resolve, completion, guidance (GUIDERS-ADR-0015).</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.Combinations\AIGuiders.Platform.Combinations.csproj" />
-    <ProjectReference Include="..\AIGuiders.Platform.Combinations.Overlay\AIGuiders.Platform.Combinations.Overlay.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Constructors\AIGuiders.Platform.CommandPlane.Constructors.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.PrefixArmed\AIGuiders.Platform.CommandPlane.PrefixArmed.csproj" />

@@ -19,12 +19,12 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.Routing` | `IIntentOrgan`, `DispatchCallOverride`, route refusal helpers |
 | `AIGuiders.Platform.CommandPlane` | Core: GoF command, catalog descriptors, `ICommandSource` |
 | `AIGuiders.Platform.CommandPlane.Slash` | Slash catalog index, resolve, completion, editor bundle |
-| `AIGuiders.Platform.CommandPlane.Sources.Json` | JSON format → Core |
-| `AIGuiders.Platform.CommandPlane.Sources.Toml` | TOML format → Core (+ Tomlyn) |
-| `AIGuiders.Platform.CommandPlane.Sources.Xml` | XML format → Core |
-| `AIGuiders.Platform.CommandPlane.Sources.File` | File transport: `FromFile`, embedded resource, extension dispatch |
-| `AIGuiders.Platform.CommandPlane.Sources.Database` | DB transport: delegate loader → Core |
-| `AIGuiders.Platform.CommandPlane.Sources` | Meta-bundle: all transports + formats |
+| `AIGuiders.Platform.CommandPlane.Catalog.Sources.Json` | JSON format → Core |
+| `AIGuiders.Platform.CommandPlane.Catalog.Sources.Toml` | TOML format → Core (+ Tomlyn) |
+| `AIGuiders.Platform.CommandPlane.Catalog.Sources.Xml` | XML format → Core |
+| `AIGuiders.Platform.CommandPlane.Catalog.Sources.File` | File transport: `FromFile`, embedded resource, extension dispatch |
+| `AIGuiders.Platform.CommandPlane.Catalog.Sources.Database` | DB transport: delegate loader → Core |
+| `AIGuiders.Platform.CommandPlane.Catalog.Sources` | Meta-bundle: all transports + formats |
 | `AIGuiders.Platform.InputNotation` | **Legacy alias** → `Notations.Keyboard` (obsolete type forwards) |
 | `AIGuiders.Platform.InputNotation.Quarry` | Legacy metapackage → `Notations.Keyboard.Quarry` |
 | `AIGuiders.Platform.InputNotation.Vim` | Legacy metapackage → `Notations.Keyboard.Vim` |

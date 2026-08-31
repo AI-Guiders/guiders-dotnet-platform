@@ -29,7 +29,7 @@ Tie-break: stable order from catalog / picker choice declaration order in the sp
 
 ## Dynamic pickers
 
-`pickerStubs` in the spec define `ISlashPickerChoiceSource` responses. Stub filter for partial arg tail:
+`pickerStubs` in the spec define `ICommandPickerChoiceSource` responses. Stub filter for partial arg tail:
 
 - `choice.value` contains `partial` (OrdinalIgnoreCase), **or**
 - `choice.label` contains `partial` (OrdinalIgnoreCase)

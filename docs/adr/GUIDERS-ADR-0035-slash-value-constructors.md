@@ -9,7 +9,7 @@
 
 ## Context
 
-[GUIDERS-ADR-0012](GUIDERS-ADR-0012-arg-picker-completion.md) covers **closed** arg pickers (`picker:enum:*`, `picker:<id>` + `ISlashPickerChoiceSource`). Surfaces enter `SlashInputMode.Picker` and the user chooses a finished wire token.
+[GUIDERS-ADR-0012](GUIDERS-ADR-0012-arg-picker-completion.md) covers **closed** arg pickers (`picker:enum:*`, `picker:<id>` + `ICommandPickerChoiceSource`). Surfaces enter `SlashInputMode.Picker` and the user chooses a finished wire token.
 
 Many commands need **typed values** that are not a small enum:
 
@@ -77,7 +77,7 @@ Extend the CommandPlane arg-tail vocabulary:
 | Wire | Kind | Meaning |
 |------|------|---------|
 | `picker:enum:<id>` | Picker | closed list (ADR-0012) ✓ |
-| `picker:<id>` | Picker | dynamic list via `ISlashPickerChoiceSource` ✓ |
+| `picker:<id>` | Picker | dynamic list via `ICommandPickerChoiceSource` ✓ |
 | **`constructor:<id>`** | **Constructor** | guided multi-step assembly |
 | **`picker+constructor:…`** | **Composite** | presets in picker + virtual “build…” rows |
 
@@ -241,18 +241,18 @@ Per-segment zero-padding (e.g. ISO month/day) is declared on `SlashConstructorSe
 
 ### 6. Virtual picker rows
 
-Extend `SlashPickerChoice` (non-breaking):
+Extend `CommandPickerChoice` (non-breaking):
 
 ```csharp
-public sealed class SlashPickerChoice
+public sealed class CommandPickerChoice
 {
     public string Value { get; init; }
     public string? Label { get; init; }
     public string? Hint { get; init; }
-    public SlashPickerChoiceKind Kind { get; init; } = SlashPickerChoiceKind.Value;
+    public CommandPickerChoiceKind Kind { get; init; } = CommandPickerChoiceKind.Value;
 }
 
-public enum SlashPickerChoiceKind
+public enum CommandPickerChoiceKind
 {
     Value,        // commits wire token (ADR-0012)
     Constructor,  // opens SlashConstructorSession; Value = constructor id
@@ -275,9 +275,9 @@ Orchestration entry:
 
 ```csharp
 SlashCompletionResult GetResult(
-    SlashCatalogIndex catalog,
+    CommandCatalogIndex catalog,
     string body,
-    ISlashPickerChoiceSource? pickerSource,
+    ICommandPickerChoiceSource? pickerSource,
     ISlashValueConstructorRegistry? constructors,
     SlashConstructorSession? constructorSession);
 ```
@@ -316,7 +316,7 @@ Platform CI runs vectors headless; DashSpec/Forge adapters add product-specific 
 ## Consequences
 
 - **CommandPlane.Slash** gains constructor session + registry + extended `SlashInputMode`
-- **SlashCommandDescriptor** / route entry gains optional `Constructors[]`
+- **CommandDescriptor** / route entry gains optional `Constructors[]`
 - **DashSpec** first adopter: date range constructor ([DASHSPEC-ADR-0044](https://github.com/AI-Guiders/dash-spec/blob/main/design/DASHSPEC-ADR-0044-date-filter-value-constructor.md))
 - Forge / CIDE: follow with revision-range, path pickers, etc.
 - ADR-0012 non-goal “free-text coaching” remains; constructors are the structured alternative

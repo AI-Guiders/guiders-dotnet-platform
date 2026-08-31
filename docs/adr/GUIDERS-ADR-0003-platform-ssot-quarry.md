@@ -33,12 +33,12 @@
 | `Cockpit.Transport` | IngressEvent, BoundedIngressBus | cdp-mcp |
 | **`CommandPlane`** | GoF command, catalog descriptors, `ICommandSource`, `CommandSource` | all mechanics |
 | **`CommandPlane.Slash`** | Slash index, resolve, completion (→ Core) | **Forge, CIDE, DashSpec** |
-| **`CommandPlane.Sources.Json`** | JSON format → Core | Forge |
-| **`CommandPlane.Sources.Toml`** | TOML format → Core | CIDE |
-| **`CommandPlane.Sources.Xml`** | XML format → Core | — |
-| **`CommandPlane.Sources.File`** | File transport (`FromFile`, embedded) | embed products |
-| **`CommandPlane.Sources.Database`** | DB transport (delegate) | DashSpec, portals |
-| **`CommandPlane.Sources`** | Meta-bundle | convenience |
+| **`CommandPlane.Catalog.Sources.Json`** | JSON format → Core | Forge |
+| **`CommandPlane.Catalog.Sources.Toml`** | TOML format → Core | CIDE |
+| **`CommandPlane.Catalog.Sources.Xml`** | XML format → Core | — |
+| **`CommandPlane.Catalog.Sources.File`** | File transport (`FromFile`, embedded) | embed products |
+| **`CommandPlane.Catalog.Sources.Database`** | DB transport (delegate) | DashSpec, portals |
+| **`CommandPlane.Catalog.Sources`** | Meta-bundle | convenience |
 | **`InputNotation`** | Core IR: `NormalizedKeySequence`, `IInputNotationReader` | Melody, Binding |
 | **`InputNotation.KeyGesture`** | `Ctrl+K` wire (quarry CIDE) | hotkeys.toml, Forge |
 | **`InputNotation.Vim`** | `<C-k>` wire (quarry Neovim keycodes) | CIDE |
@@ -57,11 +57,11 @@
 **Pattern:** [GUIDERS-ADR-0009](GUIDERS-ADR-0009-command-surface-pattern.md) — **Catalog · Registry · Command · Surface**.
 
 ```
-Forge host  ──capabilities.commands[]──►  Platform SlashCommandDescriptor
+Forge host  ──capabilities.commands[]──►  Platform CommandDescriptor
        │                                          ▲
        │ overlay (ADR-0160)                       │ merge
        ▼                                          │
-CIDE TOML ──IntentCatalogLoader──► SlashCatalogIndex ──► SlashLineResolver
+CIDE TOML ──IntentCatalogLoader──► CommandCatalogIndex ──► SlashLineResolver
        │                                          │
 Glass subset (GlassSlashCatalog)                 │
 CDP melody c: / cdp_glass run                    │
@@ -97,18 +97,18 @@ CDP melody c: / cdp_glass run                    │
 - [ ] Operator feed sync + `anpm_feed_index` on deployment host
 
 ### agent-forge
-- [x] `ForgeCommandDescriptor` implements or maps to `SlashCommandDescriptor`
+- [x] `ForgeCommandDescriptor` implements or maps to `CommandDescriptor`
 - [x] capabilities JSON stable camelCase per platform schema (`group`, normalized paths)
 - [x] `/commands/execute` accepts platform `SlashCommandExecuteRequest`
 
 ### cascade-ide (Avalonia — secondary; Forge overlay already wired for Lens)
-- [ ] `SlashRouteEntry` → platform type + CIDE extension struct
-- [x] `ForgeSlashCatalogOverlay` → `SlashCatalogIndex` + CommandPlane descriptors (Lens path; not primary product surface)
-- [x] Deprecate local `SlashArgTailKind` duplicate
+- [ ] `CatalogRouteEntry` → platform type + CIDE extension struct
+- [x] `ForgeSlashCatalogOverlay` → `CommandCatalogIndex` + CommandPlane descriptors (Lens path; not primary product surface)
+- [x] Deprecate local `CommandArgTailKind` duplicate
 
 ### Glass (WPF — primary human client beside forge-slash.js)
 - [ ] `GlassSlashCatalog` paths from platform slice
-- [ ] Forge capabilities overlay via `SlashCatalogIndex.Merge` (deferred)
+- [ ] Forge capabilities overlay via `CommandCatalogIndex.Merge` (deferred)
 - [ ] WH/ER glances bind channel snapshots, not FS-only peel
 
 ### cdp-mcp
