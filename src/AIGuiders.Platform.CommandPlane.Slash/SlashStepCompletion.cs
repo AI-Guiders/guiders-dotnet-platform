@@ -282,7 +282,7 @@ public static class SlashStepCompletion
 
                 var pathSegs = route.PathSegments;
                 var insert = BuildInsertFromTyped(catalog: null, tokens, endsWithSpace, pathSegs, pathSegs.Count - 1, intent);
-                AddSuggestion(buckets, intent, insert, route.SlashPath, route.Help, route.Group);
+                AddSuggestion(buckets, intent, insert, route.CommandPath, route.Help, route.Group);
             }
         }
 
@@ -318,7 +318,7 @@ public static class SlashStepCompletion
                 continue;
 
             var insert = BuildInsertFromTyped(catalog, tokens, endsWithSpace, pathSegs, segmentIndex, segmentValue);
-            AddSuggestion(buckets, segmentValue, insert, route.SlashPath, route.Help, route.Group);
+            AddSuggestion(buckets, segmentValue, insert, route.CommandPath, route.Help, route.Group);
         }
 
         return SlashCompletionSort.Order(buckets.Values);
@@ -361,8 +361,8 @@ public static class SlashStepCompletion
             var insert = slashPath + (more ? " " : "");
             var help = segs.Count == depth + 1
                 ? route.Help
-                : $"{route.SlashPath} — {route.Help}";
-            list.Add(new ArgCompletionItem(insert, route.SlashPath, help, route.Group, next));
+                : $"{route.CommandPath} — {route.Help}";
+            list.Add(new ArgCompletionItem(insert, route.CommandPath, help, route.Group, next));
         }
 
         return SlashCompletionSort.Order(list);
@@ -377,7 +377,7 @@ public static class SlashStepCompletion
         string? group = null)
     {
         if (!buckets.TryGetValue(listTitle, out var existing)
-            || slashPath.Length > existing.SlashPath.Length)
+            || slashPath.Length > existing.CommandPath.Length)
         {
             buckets[listTitle] = new ArgCompletionItem(insert, slashPath, help, group, listTitle);
         }
@@ -485,7 +485,7 @@ public static class SlashStepCompletion
                 continue;
 
             bestLen = route.PathSegments.Count;
-            matchedPath = route.SlashPath;
+            matchedPath = route.CommandPath;
         }
 
         return bestLen >= 0;
@@ -549,7 +549,7 @@ public static class SlashStepCompletion
                 }
 
                 if (!flat.TryGetValue(sem.Intent, out var existing)
-                    || route.Path.Length > existing.SlashPath.Length)
+                    || route.Path.Length > existing.CommandPath.Length)
                     flat[sem.Intent] = indexed;
             }
 
@@ -614,7 +614,7 @@ public static class SlashStepCompletion
         CatalogSemanticFields Semantics,
         List<string> PathSegments)
     {
-        public string SlashPath => "/" + string.Join(' ', PathSegments);
+        public string CommandPath => "/" + string.Join(' ', PathSegments);
         public string Help => Route.Help;
         public string? Group => Route.Group;
     }

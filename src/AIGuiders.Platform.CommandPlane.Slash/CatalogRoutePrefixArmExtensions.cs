@@ -3,7 +3,7 @@ using AIGuiders.Platform.IntermediateRepresentation.Command;
 
 namespace AIGuiders.Platform.CommandPlane;
 
-public static class SlashPrefixArmSite
+public static class CatalogRoutePrefixArmExtensions
 {
     public static PrefixArmSite ToPrefixArmSite(this CatalogRouteEntry route) =>
         PrefixArmSite.FromBindings(

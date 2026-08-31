@@ -17,7 +17,7 @@ public sealed record RegisteredPlatformCommand<TContext>(
         }
 
         return Command is ICatalogDescribed described
-            ? described.ToSlashDescriptor()
+            ? described.ToCommandDescriptor()
             : null;
     }
 }

@@ -4,7 +4,7 @@ using AIGuiders.Platform.IntermediateRepresentation.Command;
 namespace AIGuiders.Platform.CommandPlane;
 
 /// <summary>Default <see cref="ICatalogVisitor"/> that accumulates descriptors.</summary>
-public sealed class SlashCatalogCollector : ICatalogVisitor
+public sealed class CatalogDescriptorCollector : ICatalogVisitor
 {
     readonly List<CommandDescriptor> _descriptors = [];
 

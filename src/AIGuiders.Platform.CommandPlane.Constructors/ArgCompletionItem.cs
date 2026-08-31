@@ -5,7 +5,7 @@ namespace AIGuiders.Platform.CommandPlane;
 /// <summary>One step-completion row for command surfaces (ADR-0011 / ADR-0012).</summary>
 public sealed record ArgCompletionItem(
     string InsertText,
-    string SlashPath,
+    string CommandPath,
     string Help,
     string? Group = null,
     string? StepSegment = null,

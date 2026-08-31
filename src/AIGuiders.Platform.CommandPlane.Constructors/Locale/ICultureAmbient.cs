@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace AIGuiders.Platform.CommandPlane;
 
-/// <summary>Ambient culture for slash locale input (GUIDERS-ADR-0037). Host-provided; Platform does not impose locale.</summary>
+/// <summary>Ambient culture for locale arg input (GUIDERS-ADR-0037). Host-provided; Platform does not impose locale.</summary>
 public interface ICultureAmbient
 {
     CultureInfo Culture { get; }

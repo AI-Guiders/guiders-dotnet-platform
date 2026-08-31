@@ -9,7 +9,7 @@ namespace AIGuiders.Platform.LanguageIntelligence.Bundled;
 /// <summary>Slash catalog projections for bundled editor commands.</summary>
 public static class EditorCatalogProjections
 {
-    public static CommandDescriptor ToSlashDescriptor(this TextInsertFormatDefinition format) =>
+    public static CommandDescriptor ToCommandDescriptor(this TextInsertFormatDefinition format) =>
         new()
         {
             Domain = "editor",

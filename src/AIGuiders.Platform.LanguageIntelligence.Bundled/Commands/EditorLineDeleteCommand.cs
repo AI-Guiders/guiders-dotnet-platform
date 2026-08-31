@@ -15,7 +15,7 @@ public sealed class EditorLineDeleteCommand : PlatformCommand<EditorBufferContex
 
     public override string CommandId => Id;
 
-    public CommandDescriptor ToSlashDescriptor() => EditorCatalogProjections.EditorLineDeleteDescriptor();
+    public CommandDescriptor ToCommandDescriptor() => EditorCatalogProjections.EditorLineDeleteDescriptor();
 
     protected override CommandOutcome Execute(EditorBufferContext context)
     {

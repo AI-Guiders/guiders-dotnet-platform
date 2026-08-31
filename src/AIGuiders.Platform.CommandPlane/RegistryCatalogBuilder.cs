@@ -12,7 +12,7 @@ public static class RegistryCatalogBuilder
         Func<CommandDescriptor, bool>? predicate = null)
         where TContext : ICommandContext
     {
-        var collector = new SlashCatalogCollector();
+        var collector = new CatalogDescriptorCollector();
         registry.Accept(collector, predicate);
         return collector.Descriptors;
     }

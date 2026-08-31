@@ -14,13 +14,13 @@ public static class ConstructorEntryCompletion
             return [];
         }
 
-        var slashPath = "/" + canonicalPath.TrimStart('/');
+        var commandPath = "/" + canonicalPath.TrimStart('/');
         var items = new List<ArgCompletionItem>();
         foreach (var binding in bindings)
         {
             items.Add(new ArgCompletionItem(
-                slashPath + " ",
-                canonicalPath,
+                commandPath + " ",
+                commandPath,
                 binding.Hint ?? binding.Label,
                 route.Group,
                 binding.Label,

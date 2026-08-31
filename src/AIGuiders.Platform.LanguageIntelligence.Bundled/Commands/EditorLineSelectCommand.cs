@@ -16,7 +16,7 @@ public sealed class EditorLineSelectCommand : PlatformCommand<EditorBufferContex
 
     public override string CommandId => Id;
 
-    public CommandDescriptor ToSlashDescriptor() => EditorCatalogProjections.EditorLineSelectDescriptor();
+    public CommandDescriptor ToCommandDescriptor() => EditorCatalogProjections.EditorLineSelectDescriptor();
 
     protected override CommandOutcome Execute(EditorBufferContext context)
     {

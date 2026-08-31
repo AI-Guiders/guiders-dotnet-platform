@@ -27,7 +27,7 @@ public static class SlashPrefixArmProjection
                         ReadyWire: ready.Wire,
                         DisplayTail: ready.DisplayTail));
             case PrefixArmContinuedResult when session is not null && navigator is not null:
-                return session.GetSlashCompletionResult(navigator, partial, localeProfile);
+                return session.ToSlashCompletionResult(navigator, partial, localeProfile);
             default:
                 return null;
         }

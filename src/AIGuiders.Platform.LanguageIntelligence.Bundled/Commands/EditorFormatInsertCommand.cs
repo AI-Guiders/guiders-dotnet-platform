@@ -13,7 +13,7 @@ public sealed class EditorFormatInsertCommand(TextInsertFormatDefinition format)
 {
     public override string CommandId => format.Id;
 
-    public CommandDescriptor ToSlashDescriptor() => format.ToSlashDescriptor();
+    public CommandDescriptor ToCommandDescriptor() => format.ToCommandDescriptor();
 
     protected override CommandOutcome Execute(EditorBufferContext context)
     {

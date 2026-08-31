@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AIGuiders.Platform.CommandPlane;
 
-public enum SlashLocaleDateField
+public enum LocaleDateField
 {
     Day = 0,
     Month = 1,
@@ -20,14 +20,14 @@ public sealed class LocaleInputProfile
     public CultureInfo Culture { get; }
     public char PrimarySeparator { get; }
     public IReadOnlyList<char> Separators { get; }
-    public IReadOnlyList<SlashLocaleDateField> FieldOrder { get; }
+    public IReadOnlyList<LocaleDateField> FieldOrder { get; }
     public string ShortDatePattern { get; }
 
     LocaleInputProfile(
         CultureInfo culture,
         char primarySeparator,
         IReadOnlyList<char> separators,
-        IReadOnlyList<SlashLocaleDateField> fieldOrder,
+        IReadOnlyList<LocaleDateField> fieldOrder,
         string shortDatePattern)
     {
         Culture = culture;
@@ -54,9 +54,9 @@ public sealed class LocaleInputProfile
         ShortDatePattern.Replace("yyyy", "YYYY", StringComparison.Ordinal)
             .Replace("yy", "YY", StringComparison.Ordinal);
 
-    static IReadOnlyList<SlashLocaleDateField> ParseFieldOrder(string pattern)
+    static IReadOnlyList<LocaleDateField> ParseFieldOrder(string pattern)
     {
-        var fields = new List<SlashLocaleDateField>();
+        var fields = new List<LocaleDateField>();
         for (var i = 0; i < pattern.Length; i++)
         {
             var ch = pattern[i];
@@ -67,7 +67,7 @@ public sealed class LocaleInputProfile
                     i++;
                 }
 
-                fields.Add(SlashLocaleDateField.Day);
+                fields.Add(LocaleDateField.Day);
             }
             else if (ch is 'M')
             {
@@ -76,7 +76,7 @@ public sealed class LocaleInputProfile
                     i++;
                 }
 
-                fields.Add(SlashLocaleDateField.Month);
+                fields.Add(LocaleDateField.Month);
             }
             else if (ch is 'y' or 'Y')
             {
@@ -85,13 +85,13 @@ public sealed class LocaleInputProfile
                     i++;
                 }
 
-                fields.Add(SlashLocaleDateField.Year);
+                fields.Add(LocaleDateField.Year);
             }
         }
 
         if (fields.Count == 0)
         {
-            return [SlashLocaleDateField.Day, SlashLocaleDateField.Month, SlashLocaleDateField.Year];
+            return [LocaleDateField.Day, LocaleDateField.Month, LocaleDateField.Year];
         }
 
         return fields;

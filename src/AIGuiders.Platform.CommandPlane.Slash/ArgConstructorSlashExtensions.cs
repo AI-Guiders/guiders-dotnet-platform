@@ -2,9 +2,9 @@
 
 namespace AIGuiders.Platform.CommandPlane;
 
-public static class SlashConstructorSessionExtensions
+public static class ArgConstructorSlashExtensions
 {
-    public static SlashCompletionResult GetSlashCompletionResult(
+    public static SlashCompletionResult ToSlashCompletionResult(
         this ArgConstructorSession session,
         ValueConstructorNavigator navigator,
         string partial,

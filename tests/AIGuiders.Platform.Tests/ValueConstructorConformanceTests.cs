@@ -8,7 +8,7 @@ using Xunit;
 
 namespace AIGuiders.Platform.Tests;
 
-public sealed class SlashValueConstructorConformanceTests
+public sealed class ValueConstructorConformanceTests
 {
     [Fact]
     public void Locale_vectors_emit_expected_wire()

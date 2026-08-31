@@ -124,9 +124,9 @@ public static class SlashSpecConformance
             return false;
         }
 
-        if (!string.Equals(expected.SlashPath, actual.SlashPath, StringComparison.Ordinal))
+        if (!string.Equals(expected.SlashPath, actual.CommandPath, StringComparison.Ordinal))
         {
-            error = $"slashPath expected \"{expected.SlashPath}\", got \"{actual.SlashPath}\".";
+            error = $"slashPath expected \"{expected.SlashPath}\", got \"{actual.CommandPath}\".";
             return false;
         }
 

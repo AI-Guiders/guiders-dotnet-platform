@@ -149,7 +149,7 @@ static class SlashArgCompletion
         string value)
     {
         if (!buckets.TryGetValue(listTitle, out var existing)
-            || slashPath.Length >= existing.SlashPath.Length)
+            || slashPath.Length >= existing.CommandPath.Length)
         {
             buckets[listTitle] = new ArgCompletionItem(
                 insert,

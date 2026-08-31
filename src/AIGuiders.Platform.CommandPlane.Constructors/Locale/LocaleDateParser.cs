@@ -85,9 +85,9 @@ public static class LocaleDateParser
 
         parts = new LocaleDateParts
         {
-            Day = values[(int)SlashLocaleDateField.Day],
-            Month = values[(int)SlashLocaleDateField.Month],
-            Year = values[(int)SlashLocaleDateField.Year],
+            Day = values[(int)LocaleDateField.Day],
+            Month = values[(int)LocaleDateField.Month],
+            Year = values[(int)LocaleDateField.Year],
         };
 
         if (parts is { HasDay: true, HasMonth: true, HasYear: true })
@@ -137,20 +137,20 @@ public static class LocaleDateParser
 
     public static string FormatDate(LocaleDateParts parts, LocaleInputProfile profile)
     {
-        var values = new Dictionary<SlashLocaleDateField, string>();
+        var values = new Dictionary<LocaleDateField, string>();
         if (parts.Day is > 0)
         {
-            values[SlashLocaleDateField.Day] = parts.Day.Value.ToString("00", profile.Culture);
+            values[LocaleDateField.Day] = parts.Day.Value.ToString("00", profile.Culture);
         }
 
         if (parts.Month is > 0)
         {
-            values[SlashLocaleDateField.Month] = parts.Month.Value.ToString("00", profile.Culture);
+            values[LocaleDateField.Month] = parts.Month.Value.ToString("00", profile.Culture);
         }
 
         if (parts.Year is > 0)
         {
-            values[SlashLocaleDateField.Year] = parts.Year.Value.ToString("0000", profile.Culture);
+            values[LocaleDateField.Year] = parts.Year.Value.ToString("0000", profile.Culture);
         }
 
         var builder = new StringBuilder();

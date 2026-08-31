@@ -60,7 +60,7 @@ public static class SlashCompletion
         if (constructorSession?.IsActive == true)
         {
             var partial = constructorSession.TypedArgTail;
-            return constructorSession.GetSlashCompletionResult(
+            return constructorSession.ToSlashCompletionResult(
                 constructorSession.Navigator,
                 partial,
                 profile);
@@ -102,7 +102,7 @@ public static class SlashCompletion
 
         if (constructorSession?.IsActive == true)
         {
-            return constructorSession.GetSlashCompletionResult(
+            return constructorSession.ToSlashCompletionResult(
                 constructorSession.Navigator,
                 "",
                 profile);
@@ -281,13 +281,13 @@ static class SlashInputGuidanceResolver
         var breadcrumb = body.Length == 0 ? "/" : "/" + body.TrimEnd();
         if (items.Count > 0)
         {
-            var next = items[0].StepSegment ?? items[0].SlashPath.TrimStart('/');
+            var next = items[0].StepSegment ?? items[0].CommandPath.TrimStart('/');
             return new SlashInputGuidance(
                 breadcrumb,
                 $"Next: {next}",
                 items[0].Help,
                 InvocationLinePhase.Path,
-                CanonicalPath: items[0].SlashPath.TrimStart('/'),
+                CanonicalPath: items[0].CommandPath.TrimStart('/'),
                 ArgTailKind: nameof(CommandArgTailKind.None));
         }
 

@@ -53,7 +53,7 @@ public static class SlashVisualCommandTreeProjector
             label,
             item.Help,
             kind,
-            item.SlashPath,
+            item.CommandPath,
             item.PickValue,
             item.InsertText);
     }
