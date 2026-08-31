@@ -25,33 +25,33 @@ public static class SlashStepCompletion
     public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
         CommandCatalogIndex catalog,
         string typedBody) =>
-        GetSuggestions(catalog, typedBody, pickerSource: null);
+        GetSuggestions(catalog, typedBody, suggestionBroker: null);
 
     public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
         CommandCatalogIndex catalog,
         string typedBody,
-        ICommandPickerChoiceSource? pickerSource) =>
-        GetSuggestions(catalog, ParseTokens(typedBody, out var endsWithSpace), endsWithSpace, typedBody, pickerSource);
+        ICommandArgSuggestionBroker? suggestionBroker) =>
+        GetSuggestions(catalog, ParseTokens(typedBody, out var endsWithSpace), endsWithSpace, typedBody, suggestionBroker);
 
     public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
         CommandCatalogIndex catalog,
         IReadOnlyList<string> tokens,
         bool endsWithSpace,
         string typedBody) =>
-        GetSuggestions(catalog, tokens, endsWithSpace, typedBody, pickerSource: null);
+        GetSuggestions(catalog, tokens, endsWithSpace, typedBody, suggestionBroker: null);
 
     public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
         CommandCatalogIndex catalog,
         IReadOnlyList<string> tokens,
         bool endsWithSpace,
         string typedBody,
-        ICommandPickerChoiceSource? pickerSource)
+        ICommandArgSuggestionBroker? suggestionBroker)
     {
         if (SlashLineResolver.TryResolveBody(typedBody, catalog, out var line)
             && catalog.TryGet(line.CanonicalPath, out var route)
             && SlashArgCompletion.ShouldComplete(line, route))
         {
-            var argItems = SlashArgCompletion.GetSuggestions(line, route, pickerSource);
+            var argItems = SlashArgCompletion.GetSuggestions(line, route, suggestionBroker);
             if (argItems.Count > 0 || line.ShouldHideSegmentSuggestions)
             {
                 return argItems;

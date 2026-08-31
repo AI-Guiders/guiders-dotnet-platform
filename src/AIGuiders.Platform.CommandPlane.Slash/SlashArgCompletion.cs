@@ -1,8 +1,10 @@
 #nullable enable
 
+using AIGuiders.Platform.CommandPlane.ArgSuggestions;
+
 namespace AIGuiders.Platform.CommandPlane;
 
-/// <summary>Arg-tail picker completion (GUIDERS-ADR-0012).</summary>
+/// <summary>Arg-tail picker completion (GUIDERS-ADR-0012, ADR-0040).</summary>
 static class SlashArgCompletion
 {
     public static bool ShouldComplete(SlashLineResolver.SlashLineResolution line, CatalogRouteEntry route) =>
@@ -16,12 +18,12 @@ static class SlashArgCompletion
     public static IReadOnlyList<SlashCompletionItem> GetSuggestions(
         SlashLineResolver.SlashLineResolution line,
         CatalogRouteEntry route,
-        ICommandPickerChoiceSource? pickerSource)
+        ICommandArgSuggestionBroker? suggestionBroker)
     {
         var partial = line.ArgTail.Trim();
         var items = new List<SlashCompletionItem>();
 
-        var choices = ResolveChoices(route, partial, pickerSource);
+        var choices = ResolveChoices(line, route, partial, suggestionBroker);
         if (choices.Count > 0)
         {
             items.AddRange(BuildPickerItems(line, route, choices, partial));
@@ -61,8 +63,8 @@ static class SlashArgCompletion
     public static bool HasChoices(
         CatalogRouteEntry route,
         string partial,
-        ICommandPickerChoiceSource? pickerSource) =>
-        ResolveChoices(route, partial, pickerSource).Count > 0
+        ICommandArgSuggestionBroker? suggestionBroker) =>
+        ResolveChoices(null, route, partial, suggestionBroker).Count > 0
         || route.ResolvedConstructors.Count > 0;
 
     static IReadOnlyList<SlashCompletionItem> BuildPickerItems(
@@ -110,22 +112,30 @@ static class SlashArgCompletion
     }
 
     static IReadOnlyList<CommandPickerChoice> ResolveChoices(
+        SlashLineResolver.SlashLineResolution? line,
         CatalogRouteEntry route,
         string partial,
-        ICommandPickerChoiceSource? pickerSource)
+        ICommandArgSuggestionBroker? suggestionBroker)
     {
         if (route.ResolvedPickerChoices.Count > 0)
         {
             return route.ResolvedPickerChoices;
         }
 
-        if (route.ArgTailKind != CommandArgTailKind.Picker || pickerSource is null)
+        if (route.ArgTailKind != CommandArgTailKind.Picker || suggestionBroker is null)
         {
             return [];
         }
 
-        var pickerId = CommandArgTailPolicy.ExtractPickerId(route.ArgTail);
-        return pickerId is null ? [] : pickerSource.GetChoices(pickerId, partial);
+        var suggestionId = CommandArgTailPolicy.ExtractSuggestionId(route.ArgTail);
+        if (suggestionId is null)
+        {
+            return [];
+        }
+
+        var canonicalPath = line?.CanonicalPath ?? route.Path;
+        return suggestionBroker.GetSuggestions(
+            ArgSuggestionRequest.Create(suggestionId, partial, route, canonicalPath));
     }
 
     static void AddPickerSuggestion(

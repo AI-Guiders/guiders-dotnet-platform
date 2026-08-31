@@ -6,7 +6,7 @@
     <Description>TOML command catalog source reader (GUIDERS-ADR-0013).</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Catalog\AIGuiders.Platform.CommandPlane.Catalog.csproj" />
     <PackageReference Include="Tomlyn" Version="$(TomlynVersion)" />
   </ItemGroup>
 </Project>

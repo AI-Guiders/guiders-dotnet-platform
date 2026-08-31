@@ -1,5 +1,7 @@
 #nullable enable
 
+using AIGuiders.Platform.CommandPlane.ArgSuggestions;
+
 namespace AIGuiders.Platform.CommandPlane.Conformance;
 
 public static class SlashSpecConformance
@@ -7,11 +9,11 @@ public static class SlashSpecConformance
     public static IReadOnlyList<string> ValidateDocument(SlashSpecDocument spec)
     {
         var errors = new List<string>();
-        var pickerSource = new SlashSpecStubPickerSource(spec.PickerStubs);
+        var suggestionBroker = BuildStubBroker(spec.PickerStubs);
 
         foreach (var vector in spec.Vectors)
         {
-            if (!TryValidateVector(spec, vector, pickerSource, out var error))
+            if (!TryValidateVector(spec, vector, suggestionBroker, out var error))
                 errors.Add($"[{vector.Id}] {error}");
         }
 
@@ -21,7 +23,7 @@ public static class SlashSpecConformance
     public static bool TryValidateVector(
         SlashSpecDocument spec,
         SlashSpecVector vector,
-        ICommandPickerChoiceSource pickerSource,
+        ICommandArgSuggestionBroker suggestionBroker,
         out string error)
     {
         error = "";
@@ -36,14 +38,14 @@ public static class SlashSpecConformance
 
         if (vector.Expect.Suggestions is not null)
         {
-            var items = SlashStepCompletion.GetSuggestions(catalog, vector.Body, pickerSource);
+            var items = SlashStepCompletion.GetSuggestions(catalog, vector.Body, suggestionBroker);
             if (!TryValidateSuggestions(vector.Expect.Suggestions, items, out error))
                 return false;
         }
 
         if (vector.Expect.Guidance is not null)
         {
-            var result = SlashCompletion.GetResult(catalog, vector.Body, pickerSource);
+            var result = SlashCompletion.GetResult(catalog, vector.Body, suggestionBroker);
             if (!TryValidateGuidance(vector.Expect.Guidance, result.Guidance, out error))
                 return false;
         }
@@ -192,4 +194,26 @@ public static class SlashSpecConformance
 
     static bool NullableEquals(string? expected, string? actual) =>
         string.Equals(expected ?? "", actual ?? "", StringComparison.Ordinal);
+
+    static ICommandArgSuggestionBroker BuildStubBroker(
+        IReadOnlyDictionary<string, SlashSpecPickerStub>? stubs)
+    {
+        if (stubs is null || stubs.Count == 0)
+        {
+            return new StubArgSuggestionBroker(new Dictionary<string, IReadOnlyList<CommandPickerChoice>>());
+        }
+
+        var map = stubs.ToDictionary(
+            static kv => kv.Key,
+            static kv => (IReadOnlyList<CommandPickerChoice>)kv.Value.Choices
+                .Select(static c => new CommandPickerChoice
+                {
+                    Value = c.Value,
+                    Label = c.Label,
+                    Hint = c.Hint,
+                })
+                .ToList());
+
+        return new StubArgSuggestionBroker(map);
+    }
 }

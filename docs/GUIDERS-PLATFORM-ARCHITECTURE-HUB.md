@@ -261,7 +261,9 @@ Platform ships **reference quarry** (.NET parsers). Planets **port vectors** to 
 
 | Package | Capabilities |
 |---------|--------------|
-| `CommandPlane` | GoF `IPlatformCommand<T>`, `PlatformCommandRegistry`, `CommandDescriptor`, `CommandCatalogIndex`, `ICommandSource`, **Visual Command Tree** DTOs ([ADR-0039](./adr/GUIDERS-ADR-0039-command-catalog-family.md)) |
+| `CommandPlane` | GoF `IPlatformCommand<T>`, `PlatformCommandRegistry`, `ICommandContext` (hub) |
+| `CommandPlane.Catalog` | `CommandDescriptor`, `CommandCatalogIndex`, `ICommandSource`, merge ([ADR-0039](./adr/GUIDERS-ADR-0039-command-catalog-family.md), [ADR-0040](./adr/GUIDERS-ADR-0040-catalog-guild-arg-suggestions.md)) |
+| `CommandPlane.ArgSuggestions` | Federated arg suggestion broker + planet provider registry |
 | `CommandPlane.Constructors` | Value constructor registry, session, navigator, locale input ([ADR-0035](./adr/GUIDERS-ADR-0035-slash-value-constructors.md)) |
 | `CommandPlane.PrefixArmed` | PAC profiles + coordinator — surface-agnostic ([ADR-0038](./adr/GUIDERS-ADR-0038-prefix-armed-completion.md)) |
 | `CommandPlane.PrefixArmed.Locale` | Optional locale date PAC profile ([ADR-0037](./adr/GUIDERS-ADR-0037-slash-locale-typed-value-input.md)) |

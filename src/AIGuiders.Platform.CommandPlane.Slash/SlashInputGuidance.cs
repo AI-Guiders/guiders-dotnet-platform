@@ -1,5 +1,7 @@
 #nullable enable
 
+using AIGuiders.Platform.CommandPlane.ArgSuggestions;
+
 namespace AIGuiders.Platform.CommandPlane;
 
 /// <summary>Human-facing mode + hints for slash input (breadcrumb, placeholder).</summary>
@@ -23,20 +25,20 @@ public static class SlashCompletion
     public static SlashCompletionResult GetResult(
         CommandCatalogIndex catalog,
         string typedBody,
-        ICommandPickerChoiceSource? pickerSource = null) =>
-        GetResult(catalog, typedBody, pickerSource, constructorSession: null);
+        ICommandArgSuggestionBroker? suggestionBroker = null) =>
+        GetResult(catalog, typedBody, suggestionBroker, constructorSession: null);
 
     public static SlashCompletionResult GetResult(
         CommandCatalogIndex catalog,
         string typedBody,
-        ICommandPickerChoiceSource? pickerSource,
+        ICommandArgSuggestionBroker? suggestionBroker,
         SlashConstructorSession? constructorSession) =>
-        GetResult(catalog, typedBody, pickerSource, constructorSession, options: null);
+        GetResult(catalog, typedBody, suggestionBroker, constructorSession, options: null);
 
     public static SlashCompletionResult GetResult(
         CommandCatalogIndex catalog,
         string typedBody,
-        ICommandPickerChoiceSource? pickerSource,
+        ICommandArgSuggestionBroker? suggestionBroker,
         SlashConstructorSession? constructorSession,
         SlashCompletionOptions? options)
     {
@@ -94,11 +96,11 @@ public static class SlashCompletion
                 profile);
         }
 
-        var items = SlashStepCompletion.GetSuggestions(catalog, typedBody, pickerSource);
+        var items = SlashStepCompletion.GetSuggestions(catalog, typedBody, suggestionBroker);
         var guidance = SlashInputGuidanceResolver.Resolve(
             catalog,
             typedBody,
-            pickerSource,
+            suggestionBroker,
             items,
             options?.PrefixArmProfiles,
             options?.Culture is null ? null : profile);
@@ -111,7 +113,7 @@ static class SlashInputGuidanceResolver
     public static SlashInputGuidance Resolve(
         CommandCatalogIndex catalog,
         string typedBody,
-        ICommandPickerChoiceSource? pickerSource,
+        ICommandArgSuggestionBroker? suggestionBroker,
         IReadOnlyList<SlashCompletionItem> items,
         IReadOnlyList<IPrefixArmProfile>? prefixArmProfiles = null,
         SlashLocaleInputProfile? localeProfile = null)
@@ -125,7 +127,7 @@ static class SlashInputGuidanceResolver
 
             if (SlashArgCompletion.ShouldComplete(line, route) && AwaitingArgInput(line, route))
             {
-                return ResolveArgGuidance(line, route, pickerSource, items, breadcrumb, argTailKind, prefixArmProfiles, localeProfile);
+                return ResolveArgGuidance(line, route, suggestionBroker, items, breadcrumb, argTailKind, prefixArmProfiles, localeProfile);
             }
 
             if (line.IsRunnable)
@@ -143,7 +145,7 @@ static class SlashInputGuidanceResolver
 
             if (SlashArgCompletion.ShouldComplete(line, route))
             {
-                return ResolveArgGuidance(line, route, pickerSource, items, breadcrumb, argTailKind, prefixArmProfiles, localeProfile);
+                return ResolveArgGuidance(line, route, suggestionBroker, items, breadcrumb, argTailKind, prefixArmProfiles, localeProfile);
             }
         }
 
@@ -162,7 +164,7 @@ static class SlashInputGuidanceResolver
     static SlashInputGuidance ResolveArgGuidance(
         SlashLineResolver.SlashLineResolution line,
         CatalogRouteEntry route,
-        ICommandPickerChoiceSource? pickerSource,
+        ICommandArgSuggestionBroker? suggestionBroker,
         IReadOnlyList<SlashCompletionItem> items,
         string breadcrumb,
         string argTailKind,
@@ -202,12 +204,12 @@ static class SlashInputGuidanceResolver
 
         var hasPickerSurface = route.ArgTailKind == CommandArgTailKind.Picker
                                || route.ResolvedPickerChoices.Count > 0
-                               || CommandArgTailPolicy.ExtractPickerId(route.ArgTail) is not null;
+                               || CommandArgTailPolicy.ExtractSuggestionId(route.ArgTail) is not null;
 
         if (hasPickerSurface)
         {
             var hasChoices = items.Count > 0
-                             || SlashArgCompletion.HasChoices(route, partial, pickerSource);
+                             || SlashArgCompletion.HasChoices(route, partial, suggestionBroker);
             var hasConstructors = route.ResolvedConstructors.Count > 0;
             var hint = route.ArgHint
                        ?? (hasChoices || hasConstructors

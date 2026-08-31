@@ -1,5 +1,6 @@
 #nullable enable
 using AIGuiders.Platform.CommandPlane;
+using AIGuiders.Platform.CommandPlane.ArgSuggestions;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;
@@ -14,11 +15,12 @@ public sealed class CommandPlaneTests
         Assert.Equal(expected, CommandArgTailPolicy.Parse(raw));
 
     [Fact]
-    public void ArgTailPolicy_extract_picker_id()
+    public void ArgTailPolicy_extract_suggestion_id()
     {
-        Assert.Equal("repo", CommandArgTailPolicy.ExtractPickerId("picker:repo"));
-        Assert.Equal("enum:text_mode", CommandArgTailPolicy.ExtractPickerId("picker:enum:text_mode"));
-        Assert.Null(CommandArgTailPolicy.ExtractPickerId("required"));
+        Assert.Equal("repo", CommandArgTailPolicy.ExtractSuggestionId("picker:repo"));
+        Assert.Equal("repo", CommandArgTailPolicy.ExtractSuggestionId("suggest:repo"));
+        Assert.Equal("enum:text_mode", CommandArgTailPolicy.ExtractSuggestionId("picker:enum:text_mode"));
+        Assert.Null(CommandArgTailPolicy.ExtractSuggestionId("required"));
     }
 
     [Fact]
@@ -151,18 +153,21 @@ public sealed class CommandPlaneTests
             },
         ]);
 
-        ICommandPickerChoiceSource source = new StubPickerSource(
-            "dash.field.app",
-            [
-                new CommandPickerChoice { Value = "AutoCAD", Label = "AutoCAD" },
-                new CommandPickerChoice { Value = "Revit", Label = "Revit" },
-            ]);
+        ICommandArgSuggestionBroker broker = new StubArgSuggestionBroker(
+            new Dictionary<string, IReadOnlyList<CommandPickerChoice>>
+            {
+                ["dash.field.app"] =
+                [
+                    new CommandPickerChoice { Value = "AutoCAD", Label = "AutoCAD" },
+                    new CommandPickerChoice { Value = "Revit", Label = "Revit" },
+                ],
+            });
 
-        var items = SlashStepCompletion.GetSuggestions(catalog, "select app ", source);
+        var items = SlashStepCompletion.GetSuggestions(catalog, "select app ", broker);
         Assert.Equal(2, items.Count);
         Assert.Contains(items, item => item.PickValue == "AutoCAD");
 
-        var filtered = SlashStepCompletion.GetSuggestions(catalog, "select app rev", source);
+        var filtered = SlashStepCompletion.GetSuggestions(catalog, "select app rev", broker);
         Assert.Single(filtered);
         Assert.Equal("Revit", filtered[0].PickValue);
     }
@@ -178,27 +183,6 @@ public sealed class CommandPlaneTests
     {
         Md,
         Html,
-    }
-
-    sealed class StubPickerSource(string pickerId, IReadOnlyList<CommandPickerChoice> choices) : ICommandPickerChoiceSource
-    {
-        public IReadOnlyList<CommandPickerChoice> GetChoices(string requestedPickerId, string partial)
-        {
-            if (!string.Equals(pickerId, requestedPickerId, StringComparison.OrdinalIgnoreCase))
-            {
-                return [];
-            }
-
-            if (string.IsNullOrWhiteSpace(partial))
-            {
-                return choices;
-            }
-
-            return choices
-                .Where(choice => choice.Value.Contains(partial, StringComparison.OrdinalIgnoreCase)
-                                 || (choice.Label?.Contains(partial, StringComparison.OrdinalIgnoreCase) ?? false))
-                .ToList();
-        }
     }
 
     [Fact]

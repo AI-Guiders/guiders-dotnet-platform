@@ -24,7 +24,8 @@ public static class CommandArgTailPolicy
             return CommandArgTailKind.ImplicitSelection;
         if (t.Equals(ImplicitLineRange, StringComparison.OrdinalIgnoreCase))
             return CommandArgTailKind.ImplicitLineRange;
-        if (t.StartsWith("picker+constructor:", StringComparison.OrdinalIgnoreCase)
+        if (t.StartsWith("suggest:", StringComparison.OrdinalIgnoreCase)
+            || t.StartsWith("picker+constructor:", StringComparison.OrdinalIgnoreCase)
             || t.StartsWith("picker:", StringComparison.OrdinalIgnoreCase))
             return CommandArgTailKind.Picker;
 
@@ -46,7 +47,9 @@ public static class CommandArgTailPolicy
     public static bool InsertsTrailingSpaceOnCommit(CommandArgTailKind kind) =>
         kind is CommandArgTailKind.None;
 
-    public static string? ExtractPickerId(string? raw)
+    public static string? ExtractPickerId(string? raw) => ExtractSuggestionId(raw);
+
+    public static string? ExtractSuggestionId(string? raw)
     {
         if (string.IsNullOrWhiteSpace(raw))
         {
@@ -57,6 +60,10 @@ public static class CommandArgTailPolicy
         if (text.StartsWith("picker+constructor:", StringComparison.OrdinalIgnoreCase))
         {
             text = text["picker+constructor:".Length..].Trim();
+        }
+        else if (text.StartsWith("suggest:", StringComparison.OrdinalIgnoreCase))
+        {
+            text = text["suggest:".Length..].Trim();
         }
         else if (!text.StartsWith("picker:", StringComparison.OrdinalIgnoreCase))
         {

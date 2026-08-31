@@ -3,9 +3,9 @@
     <RootNamespace>AIGuiders.Platform.Combinations.Catalog</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Combinations.Catalog</AssemblyName>
     <PackageId>AIGuiders.Platform.Combinations.Catalog</PackageId>
-    <Description>Meta-bundle: command catalog combinations (types ship in CommandPlane, GUIDERS-ADR-0030).</Description>
+    <Description>Meta-bundle: command catalog combinations (types ship in CommandPlane.Catalog, GUIDERS-ADR-0030).</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Catalog\AIGuiders.Platform.CommandPlane.Catalog.csproj" />
   </ItemGroup>
 </Project>
