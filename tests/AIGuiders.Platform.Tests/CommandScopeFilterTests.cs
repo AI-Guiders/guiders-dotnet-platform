@@ -55,7 +55,7 @@ public sealed class CommandScopeFilterTests
             [[command]]
             command_id = "cc.settings"
             path = "settings"
-            scope = ["controlcenter"]
+            scope = "controlcenter"
             """;
 
         var source = CommandSources.FromToml(toml);

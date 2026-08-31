@@ -1,6 +1,7 @@
 #nullable enable
 
 using AIGuiders.Platform.CommandPlane;
+using AIGuiders.Platform.IntermediateRepresentation.Invocation;
 
 namespace AIGuiders.Platform.CommandPlane.Melody;
 
