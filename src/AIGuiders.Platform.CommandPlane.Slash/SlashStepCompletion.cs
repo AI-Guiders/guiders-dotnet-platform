@@ -64,7 +64,7 @@ public static class SlashStepCompletion
 
         var snap = Snapshots.GetValue(catalog, BuildSnapshot);
         if (!snap.HasSemanticStructure)
-            return GetFlatPathSuggestions(catalog, snap, tokens, endsWithSpace);
+            return CatalogPathCompletion.GetSuggestions(catalog, tokens, endsWithSpace, typedBody);
 
         var state = ResolveCompletionState(snap, tokens, endsWithSpace);
         return state.Step switch
@@ -322,50 +322,6 @@ public static class SlashStepCompletion
         }
 
         return SlashCompletionSort.Order(buckets.Values);
-    }
-
-    static IReadOnlyList<ArgCompletionItem> GetFlatPathSuggestions(
-        CommandCatalogIndex catalog,
-        Snapshot snap,
-        IReadOnlyList<string> tokens,
-        bool endsWithSpace)
-    {
-        var depth = endsWithSpace ? tokens.Count : Math.Max(0, tokens.Count - 1);
-        var partial = endsWithSpace || tokens.Count == 0 ? "" : tokens[^1];
-        var prefixTokens = endsWithSpace
-            ? tokens
-            : tokens.Take(Math.Max(0, tokens.Count - 1)).ToArray();
-
-        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        var list = new List<ArgCompletionItem>();
-
-        foreach (var route in snap.AllRoutes)
-        {
-            var segs = route.PathSegments;
-            if (segs.Count <= depth)
-                continue;
-
-            if (!PrefixMatches(segs, prefixTokens))
-                continue;
-
-            var next = segs[depth];
-            if (partial.Length > 0 && !next.StartsWith(partial, StringComparison.OrdinalIgnoreCase))
-                continue;
-
-            if (!seen.Add(next))
-                continue;
-
-            var insertSegs = prefixTokens.Concat([next]).ToArray();
-            var slashPath = "/" + string.Join(' ', insertSegs);
-            var more = segs.Count > depth + 1 || route.Route.ArgTailKind != CommandArgTailKind.None;
-            var insert = slashPath + (more ? " " : "");
-            var help = segs.Count == depth + 1
-                ? route.Help
-                : $"{route.CommandPath} — {route.Help}";
-            list.Add(new ArgCompletionItem(insert, route.CommandPath, help, route.Group, next));
-        }
-
-        return SlashCompletionSort.Order(list);
     }
 
     static void AddSuggestion(
