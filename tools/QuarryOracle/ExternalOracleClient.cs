@@ -9,10 +9,10 @@ public static class ExternalOracleClient
 {
     public static bool TryResolveNeovim(out string? executable, out string error)
     {
-        executable = FindOnPath("nvim") ?? FindOnPath("vim");
+        executable = FindOnPath("nvim");
         if (executable is null)
         {
-            error = "neovim/vim not found on PATH.";
+            error = "neovim not found on PATH.";
             return false;
         }
 
