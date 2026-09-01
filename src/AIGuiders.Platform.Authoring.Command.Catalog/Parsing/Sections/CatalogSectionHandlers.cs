@@ -51,12 +51,11 @@ public sealed class HelpsSectionHandler : IAuthoringSectionHandler<CatalogParseC
 
     public void Apply(CatalogParseContext context, AuthoringSectionBlock block)
     {
-        if (block.SurfaceKind != AuthoringSurfaceKind.Table)
-        {
-            return;
-        }
+        IReadOnlyList<Dictionary<string, string>> maps = block.SurfaceKind == AuthoringSurfaceKind.Table
+            ? TableSurface.ParseMaps(block.Body)
+            : KvDesugar.HelpRows(block.Body);
 
-        foreach (var map in TableSurface.ParseMaps(block.Body))
+        foreach (var map in maps)
         {
             context.Helps.Add(new(
                 map.GetValueOrDefault("target") ?? "",

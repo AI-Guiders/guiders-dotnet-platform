@@ -1,0 +1,10 @@
+profiles table
+  | profile     | arg   | entry       | ref        |
+  | date-filter | value | preset      | today      |
+  | date-filter | value | constructor | week       |
+  | date-filter | value | constructor | month-week |
+  | date-filter | value | constructor | month      |
+  | date-filter | value | constructor | quarter    |
+  | date-filter | value | constructor | range      |
+  | date-filter | value | free-text   | *          |
+end profiles

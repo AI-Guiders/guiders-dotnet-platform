@@ -114,11 +114,5 @@ public static class BlockReader
     }
 
     public static AuthoringSurfaceKind ResolveSurfaceKind(AuthoringSectionOpener opener) =>
-        opener.Kind switch
-        {
-            AuthoringSurfaceKind.Table => AuthoringSurfaceKind.Table,
-            AuthoringSurfaceKind.IndentedTree => AuthoringSurfaceKind.IndentedTree,
-            AuthoringSurfaceKind.KeyValue when TableCapableSections.Contains(opener.Keyword) => AuthoringSurfaceKind.Table,
-            _ => AuthoringSurfaceKind.KeyValue,
-        };
+        opener.Kind;
 }

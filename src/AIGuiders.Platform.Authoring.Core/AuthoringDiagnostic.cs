@@ -17,4 +17,6 @@ public enum AuthoringDiagnosticCode
     UnknownSection,
     DuplicateRow,
     InvalidSyntax,
+    UnknownBundle,
+    UnknownProfile,
 }

@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Authoring.Core\AIGuiders.Platform.Authoring.Core.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Command\AIGuiders.Platform.IntermediateRepresentation.Command.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard.KeyGesture\AIGuiders.Platform.Notations.Keyboard.KeyGesture.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard.Vim\AIGuiders.Platform.Notations.Keyboard.Vim.csproj" />
   </ItemGroup>

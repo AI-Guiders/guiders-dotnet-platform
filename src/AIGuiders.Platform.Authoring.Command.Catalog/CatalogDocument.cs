@@ -41,11 +41,13 @@ public sealed record CatalogVariable(string Name, string? Kind);
 public sealed record CatalogHelp(string Target, string Field, string Text);
 public sealed record CatalogPhrase(string Name, string Phrase);
 
+public sealed record CatalogProfileEntry(string Arg, string Entry, string Ref);
+
 public sealed class CatalogProfile
 {
     public required string Name { get; init; }
-    public IReadOnlyDictionary<string, string> Fields { get; init; } =
-        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+    public IReadOnlyList<CatalogProfileEntry> Entries { get; init; } = [];
+    public string? BundleSource { get; init; }
 }
 
 public sealed class CatalogCommandRow
