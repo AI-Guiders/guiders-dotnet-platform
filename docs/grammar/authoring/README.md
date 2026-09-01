@@ -22,6 +22,7 @@ Federation **declare-time** DSL structure (blocks, tables, kv) — distinct from
 | `AuthoringDocumentWalker<T>` | preamble + blocks + handler dispatch |
 | `SectionHandlerRegistry<T>` | keyword → `IAuthoringSectionHandler<T>` |
 | `IAuthoringSectionHandler<T>` | branch section semantics |
+| `KvDesugar` | dotted kv → table rows (`profiles`, `helps`) |
 
 Branch parsers (`CatalogParser`) compose the kit — they do **not** reimplement block/table lexing.
 
@@ -29,4 +30,4 @@ Pattern catalog: [GUIDERS-ADR-0049](../../adr/GUIDERS-ADR-0049-federation-patter
 
 ## `.catalog`
 
-See [catalog.ebnf](catalog.ebnf) and [GUIDERS-ADR-0047](../../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md).
+See [catalog.ebnf](catalog.ebnf) and [GUIDERS-ADR-0047](../../adr/GUIDERS-ADR-0047-command-for-doi.md).

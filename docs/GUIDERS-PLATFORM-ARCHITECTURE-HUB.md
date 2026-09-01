@@ -268,11 +268,11 @@ See [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md). **
 | Package | Capabilities |
 |---------|--------------|
 | `Authoring.Core` | Block `end keyword`, table/kv surfaces, `AuthoringDocumentWalker`, shared diagnostics |
-| `Authoring.Command.Catalog` | `.catalog` grammar → `IR.Command` ([0047 WIP](../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md)) |
+| `Authoring.Command.Catalog` | `.catalog` grammar → `IR.Command` ([0047](./adr/GUIDERS-ADR-0047-command-for-doi.md)) |
 | `Authoring.Command.Bundles` | Federation stdlib `.catalogbundle` (`import <grain/…>`) |
 | `Authoring.Conformance` | `authoring/*` grammar vectors |
 
-Planet DSLs (`.dashspec`, …) stay **sovereign** in product repos; may adopt `Authoring.Core` kit. See [ADR-0048 WIP](../_wip-adr-0048/GUIDERS-ADR-0048-authoring-quarry-family.md). Pattern catalog: [ADR-0049](./adr/GUIDERS-ADR-0049-federation-pattern-library.md).
+Planet DSLs (`.dashspec`, …) stay **sovereign** in product repos; may adopt `Authoring.Core` kit. See [ADR-0048](./adr/GUIDERS-ADR-0048-authoring-quarry-family.md). Pattern catalog: [ADR-0049](./adr/GUIDERS-ADR-0049-federation-pattern-library.md).
 
 ### 7.5 Notations (wire → IR parsers)
 
@@ -648,8 +648,8 @@ Sibling repos (not in platform monorepo):
 | [0035](./adr/GUIDERS-ADR-0035-slash-value-constructors.md) | Value constructors |
 | [0036](./adr/GUIDERS-ADR-0036-invocation-engage-glossary.md) | InvocationEngage glossary |
 | [0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md) | IntermediateRepresentation family |
-| [0048 WIP](../_wip-adr-0048/GUIDERS-ADR-0048-authoring-quarry-family.md) | Authoring quarry family |
-| [0047 WIP](../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md) | `.catalog` command authoring |
+| [0048](./adr/GUIDERS-ADR-0048-authoring-quarry-family.md) | Authoring quarry family |
+| [0047](./adr/GUIDERS-ADR-0047-command-for-doi.md) | `.catalog` command authoring |
 
 Full list: [`docs/adr/`](./adr/).
 

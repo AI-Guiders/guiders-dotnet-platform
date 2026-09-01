@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "surface": "catalog",
+  "source": "GUIDERS-ADR-0047 Authoring.Command.Catalog",
+  "vectors": [
+    {
+      "id": "profiles-bundle-expand",
+      "catalog": "catalog test\nimport <grain/date-filter>\nprofiles\n  date-value = bundle date-filter\nend profiles\n",
+      "expect": {
+        "planet": "test",
+        "profile": "date-value",
+        "menuEntries": 7
+      }
+    },
+    {
+      "id": "grammar-wire-mismatch",
+      "catalogFile": "grammar-mismatch.catalog",
+      "expectError": "GrammarWireMismatch"
+    }
+  ]
+}

@@ -44,7 +44,7 @@ Branch parsers (e.g. `.catalog`) supply `TContext`, preamble handler (`catalog` 
 |--------|---------|
 | One `IVisitor<T>` for file parse + registry + merge | Different axes; forces fake unified AST |
 | Copy `switch (section)` in every planet DSL | Use `AuthoringDocumentWalker` + handlers |
-| Put `.catalog` semantics in `Authoring.Core` | Core = document mechanics only ([ADR-0048](../_wip-adr-0048/GUIDERS-ADR-0048-authoring-quarry-family.md)) |
+| Put `.catalog` semantics in `Authoring.Core` | Core = document mechanics only ([ADR-0048](./GUIDERS-ADR-0048-authoring-quarry-family.md)) |
 | Reimplement fold merge inline | Use `Combinations` policies |
 
 ### Future (not v0)

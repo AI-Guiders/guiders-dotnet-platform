@@ -299,7 +299,7 @@ Notations.Argument.PowerShell     (defer) optional heavy package
 | `InputNotation.*` package obsoletion | **In progress** | type-forwards exist; sunset TBD |
 | Native ports (Forge TS slash, …) | **Planned** | spec-first; not blocking v0 |
 
-**Authoring layer (separate guild):** declare-time DSLs — **`Authoring.*`** ([GUIDERS-ADR-0048](../../_wip-adr-0048/GUIDERS-ADR-0048-authoring-quarry-family.md) Proposed). First branch: `.catalog` — [GUIDERS-ADR-0047](../../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md) (WIP). Codegen **emits** tier-D wire consumed by `Notations.Command.*` / `Notations.Argument.*` at resolve time. **Do not** place authoring parsers under `Notations.*`.
+**Authoring layer (separate guild):** declare-time DSLs — **`Authoring.*`** ([GUIDERS-ADR-0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) Accepted). First branch: `.catalog` — [GUIDERS-ADR-0047](./GUIDERS-ADR-0047-command-for-doi.md). Codegen **emits** tier-D wire consumed by `Notations.Command.*` / `Notations.Argument.*` at resolve time. **Do not** place authoring parsers under `Notations.*`.
 
 ## Consequences
 
@@ -324,5 +324,5 @@ Notations.Argument.PowerShell     (defer) optional heavy package
 - [GUIDERS-ADR-0018 slash conformance vectors](GUIDERS-ADR-0018-slash-conformance-vectors.md)
 - `SlashLineResolver`, `InputNotationParser` — reference quarry seeds
 - [System.CommandLine](https://www.nuget.org/packages/System.CommandLine) — v2 quarry candidate for `Argument.Cli` (not v1 dependency)
-- [GUIDERS-ADR-0048 authoring quarry (WIP)](../../_wip-adr-0048/GUIDERS-ADR-0048-authoring-quarry-family.md) — **`Authoring.*`** guild; declare → IR → emit
-- [GUIDERS-ADR-0047 command catalog authoring (WIP)](../../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md) — `.catalog` branch under Authoring
+- [GUIDERS-ADR-0048 authoring quarry](./GUIDERS-ADR-0048-authoring-quarry-family.md) — **`Authoring.*`** guild; declare → IR → emit
+- [GUIDERS-ADR-0047 command catalog authoring](./GUIDERS-ADR-0047-command-for-doi.md) — `.catalog` branch under Authoring

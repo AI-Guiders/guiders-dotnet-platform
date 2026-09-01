@@ -6,7 +6,7 @@
 | **Level** | **Federation hyperlane** — not planet-local DX |
 | **Date** | 2026-08-31 |
 | **Tags** | #guiders #federation #commandplane #catalog #doi #ir #guild #dx |
-| **Related** | GUIDERS-ADR-0006 · GUIDERS-ADR-0009 · GUIDERS-ADR-0021 · GUIDERS-ADR-0042 · GUIDERS-ADR-0045 · GUIDERS-ADR-0046 · [GUIDERS-ADR-0048](../_wip-adr-0048/GUIDERS-ADR-0048-authoring-quarry-family.md) · ADR-0154 |
+| **Related** | GUIDERS-ADR-0006 · GUIDERS-ADR-0009 · GUIDERS-ADR-0021 · GUIDERS-ADR-0042 · GUIDERS-ADR-0045 · GUIDERS-ADR-0046 · [GUIDERS-ADR-0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · ADR-0154 |
 
 ## Context
 
@@ -20,7 +20,7 @@
 
 ### 1. Federation scope
 
-Planets ship `<planet>.catalog` **content** only. Grammar, parser, CodeGen, emit CLI — federation **`Authoring.*`** guild ([GUIDERS-ADR-0048](../_wip-adr-0048/GUIDERS-ADR-0048-authoring-quarry-family.md)); wire resolve stays **`Notations.*`** ([ADR-0021](GUIDERS-ADR-0021-notations-quarry-family.md)).
+Planets ship `<planet>.catalog` **content** only. Grammar, parser, CodeGen, emit CLI — federation **`Authoring.*`** guild ([GUIDERS-ADR-0048](./GUIDERS-ADR-0048-authoring-quarry-family.md)); wire resolve stays **`Notations.*`** ([ADR-0021](GUIDERS-ADR-0021-notations-quarry-family.md)).
 
 ### 2. Three axes
 
@@ -41,7 +41,7 @@ CommandPlane.Catalog            expand, assembly, emit CLI host
 Planets                         <planet>.catalog + Execute partials
 ```
 
-Guild map: [GUIDERS-ADR-0048](../_wip-adr-0048/GUIDERS-ADR-0048-authoring-quarry-family.md). **Not** `Notations.Command.Catalog` — Notations = wire-in only.
+Guild map: [GUIDERS-ADR-0048](./GUIDERS-ADR-0048-authoring-quarry-family.md). **Not** `Notations.Command.Catalog` — Notations = wire-in only.
 
 ### 4. `.catalog` grammar — block syntax
 

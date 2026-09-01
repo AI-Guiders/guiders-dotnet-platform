@@ -5,7 +5,7 @@
 | **Status** | Accepted (implementation wave 2026-09-01) |
 | **Date** | 2026-09-01 |
 | **Tags** | #guiders #federation #authoring #guild #dsl #quarry #dx |
-| **Related** | GUIDERS-ADR-0021 · GUIDERS-ADR-0042 · GUIDERS-ADR-0045 · [GUIDERS-ADR-0047](../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md) · DASHSPEC-ADR-0017 · DASHSPEC-ADR-0024 |
+| **Related** | GUIDERS-ADR-0021 · GUIDERS-ADR-0042 · GUIDERS-ADR-0045 · [GUIDERS-ADR-0047](./GUIDERS-ADR-0047-command-for-doi.md) · [GUIDERS-ADR-0049](./GUIDERS-ADR-0049-federation-pattern-library.md) · DASHSPEC-ADR-0017 · DASHSPEC-ADR-0024 |
 
 ## Context
 
@@ -15,7 +15,7 @@ Separately, products and federation ship many **authoring** surface languages �
 
 | Family | Examples | Today |
 |--------|----------|-------|
-| Federation command catalog | `.catalog`, `.catalogbundle` | Mis-filed under `Notations.Command.Catalog` in [0047 WIP](../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md) |
+| Federation command catalog | `.catalog`, `.catalogbundle` | Mis-filed under `Notations.Command.Catalog` in [0047](./GUIDERS-ADR-0047-command-for-doi.md) |
 | Planet dashboard spec | `.dashspec`, `.dashdiagram`, `.dashpalette`, … | DashSpec repo only ([DASHSPEC-ADR-0017](https://github.com/AI-Guiders/dash-spec/blob/main/design/DASHSPEC-ADR-0017-file-includes-and-stdlib.md)) |
 | Config drops | command TOML, melody TOML, workspace TOML | `Sources.*` — transport, not grammar family |
 | Conformance | `notation/*.spec.json` | Hyperlane vectors |
@@ -61,7 +61,7 @@ Same constitution rule as Notations: **reference quarry on NuGet**; planets may 
 
 ### 3. Shared authoring patterns (v0 — from `.catalog` wave)
 
-Cross-grammar conventions ([0047](../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md) §4):
+Cross-grammar conventions ([0047](./GUIDERS-ADR-0047-command-for-doi.md) §4):
 
 | Pattern | Meaning |
 |---------|---------|
@@ -172,7 +172,7 @@ IR.Command (CommandCatalogEntry, ArgTailProfile, …)     ← ADR-0042 spine
 
 ### 7. Relationship to ADR-0047
 
-[GUIDERS-ADR-0047](../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md) is the **first branch spec** under this guild:
+[GUIDERS-ADR-0047](./GUIDERS-ADR-0047-command-for-doi.md) is the **first branch spec** under this guild:
 
 - Grammar: `variables`, `helps table`, `phrases table`, `profiles`, `defaults`, `commands table`
 - DOI-first CommandId, `expand … fills`, bundle `import <grain/date-filter>`
@@ -221,6 +221,6 @@ Planet DSL conformance stays in planet repos (e.g. DashSpec parser tests). Feder
 
 - [GUIDERS-ADR-0021 Notations quarry](GUIDERS-ADR-0021-notations-quarry-family.md)
 - [GUIDERS-ADR-0042 IR family](GUIDERS-ADR-0042-intermediate-representation-family.md)
-- [GUIDERS-ADR-0047 `.catalog` grammar (WIP)](../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md)
+- [GUIDERS-ADR-0047 `.catalog` grammar](./GUIDERS-ADR-0047-command-for-doi.md)
 - [DASHSPEC-ADR-0017 file includes](https://github.com/AI-Guiders/dash-spec/blob/main/design/DASHSPEC-ADR-0017-file-includes-and-stdlib.md)
 - [DASHSPEC-ADR-0024 authoring layers](https://github.com/AI-Guiders/dash-spec/blob/main/design/DASHSPEC-ADR-0024-document-authoring-layers.md)

@@ -268,11 +268,11 @@ Platform шипит **дороги** (neutral IR, MCPlane tiers, conformance). �
 | Пакет | Возможности |
 |-------|-------------|
 | `Authoring.Core` | Block `end keyword`, table/kv surfaces, include hooks, shared diagnostics |
-| `Authoring.Command.Catalog` | `.catalog` grammar → `IR.Command` ([0047 WIP](../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md)) |
+| `Authoring.Command.Catalog` | `.catalog` grammar → `IR.Command` ([0047](./adr/GUIDERS-ADR-0047-command-for-doi.md)) |
 | `Authoring.Command.Bundles` | Federation stdlib `.catalogbundle` (`import <grain/…>`) |
 | `Authoring.Conformance` | `authoring/*` grammar vectors |
 
-Planet DSL (`.dashspec`, …) — **суверенны** в product repos; могут adopt `Authoring.Core`. См. [ADR-0048 WIP](../_wip-adr-0048/GUIDERS-ADR-0048-authoring-quarry-family.md).
+Planet DSL (`.dashspec`, …) — **суверенны** в product repos; могут adopt `Authoring.Core`. См. [ADR-0048](./adr/GUIDERS-ADR-0048-authoring-quarry-family.md).
 
 ### 7.5 Notations (wire → IR parsers)
 
