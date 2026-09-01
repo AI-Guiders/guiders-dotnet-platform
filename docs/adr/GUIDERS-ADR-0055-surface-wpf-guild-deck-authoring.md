@@ -132,11 +132,23 @@ CLI shape (mirror `dotnet catalog emit`):
 dotnet deck emit --project DashSpec.Studio.Wpf --deck dashspec-studio.deck
 ```
 
-### 5. Migration / reuse Glass
+### 5. Guild-owned standard (not `workspace.toml` inheritance)
 
-1. **Extract** topology parse + column math from `CascadeIDE.GlassCore` into shared neutral assembly (`Surface.Presentation.Core` or keep GlassCore as v0 SSOT with `Surface.Wpf` referencing it).
-2. Glass `settings.toml` `topology` remains **runtime override**; `.deck` presets are **ship defaults**.
-3. Glass may adopt `.deck` later; not blocking Studio v0.
+**Surface WPF guild defines its own SSOT** — grammar, file extension, IR, emit CLI, preset vocabulary. Planets **adopt the guild standard**; they do not embed deck blocks inside CIDE `workspace.toml` or Glass `settings.toml` as the long-term home.
+
+| Artifact | Role in evolution |
+|----------|-------------------|
+| **`<planet>.deck`** | **Guild SSOT** — attention presets, zones, topology meaning |
+| **`workspace.toml` / `settings.toml` presentation** | **Legacy / transitional** — today hosts topology in Glass/CIDE; may be **rewritten or replaced** as `.deck` + runtime profile wins |
+| **Runtime user overlay** | Still allowed (last-write operator preference) — but **loads from deck-emitted schema**, not ad-hoc TOML dialects per product |
+
+**Principle:** do not design `.deck` as «yet another block in workspace.toml». The guild standard is **first-class** (like `.catalog`), so new planets (Studio, DBA Studio) start on `.deck` without inheriting CIDE repo-layout coupling.
+
+**Migration / reuse Glass:**
+
+1. **Extract** topology parse + column math from `CascadeIDE.GlassCore` into guild-neutral assembly (`Surface.Presentation.Core` TBD).
+2. Glass **may** bridge: read `settings.toml` topology → map to deck preset until Glass migrates; bridge is **adapter**, not SSOT.
+3. When guild standard stabilizes, `workspace.toml` presentation keys become **deprecated** in favor of `.deck` + generated runtime manifest — exact cutover per planet, not big-bang federation mandate in v0.
 
 ## Consequences
 
@@ -153,9 +165,10 @@ dotnet deck emit --project DashSpec.Studio.Wpf --deck dashspec-studio.deck
 
 ## Open questions
 
-1. **File extension:** `.deck` vs `.presentation` vs block inside `workspace.toml`?
+1. **File extension:** `.deck` (guild default) vs `.presentation` — **not** nested in `workspace.toml` as permanent SSOT.
 2. **Neutral assembly name:** extend `GlassCore` vs `AIGuiders.Surface.Presentation.Core`?
 3. **XAML emit depth:** constants-only v0 vs partial ResourceDictionary merge v1?
+4. **`workspace.toml` sunset:** adapter period length for Glass/CIDE vs greenfield `.deck`-only for Studio/DBA?
 
 ## Reference missions
 
