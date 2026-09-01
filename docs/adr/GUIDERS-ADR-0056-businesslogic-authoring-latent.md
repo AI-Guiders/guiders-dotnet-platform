@@ -1,0 +1,227 @@
+# GUIDERS-ADR-0056: `.businesslogic` — latent authoring quarry (policy & derivation)
+
+| | |
+|---|---|
+| **Status** | **Latent** (sketch — not scheduled; capture before the joke evaporates) |
+| **Level** | Federation authoring hyperlane — sibling to `.catalog`, `.deck` |
+| **Date** | 2026-09-01 |
+| **Tags** | #guiders #federation #authoring #rules #policy #latent #guiders-ioplang |
+| **Related** | [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [0055](./GUIDERS-ADR-0055-surface-wpf-guild-deck-authoring.md) · [0053](./GUIDERS-ADR-0053-planet-responsibilities.md) · IOP / Cockpit.DataBus |
+
+## Context
+
+The federation declarative stack is growing by accretion, not by design committee:
+
+```text
+.catalog      → what commands exist & how they wire
+.deck         → where attention zones live & layout stars
+.dashspec     → what the dashboard/report shows
+.chrome (TBD) → cockpit chrome tokens
+```
+
+Operators joked about **guiders-ioplang** — a family of SSOT files that *feels* like a language but is really **intent layers**: each file answers one question. The punchline landed on **`.businesslogic`**: *«бизнес правила можно пихать в .businesslogic»*.
+
+That is worth capturing. Not because v0 Studio needs it, but because the **pain is real**:
+
+- command enable/disable scattered in ViewModels;
+- «can promote REPL → view?» lives in developer heads, not SSOT;
+- prod vs test behavior differs with no auditable rule surface.
+
+**Promotion trigger (when Latent → Proposed):** the same policy appears **three times** in planet C# (or two planets need the same gate). Until then: C# + tests is fine.
+
+## Decision (sketch only)
+
+### 1. Name & scope
+
+**`.businesslogic`** — declare-time artifact for **policy, visibility, validation gates, and derived booleans**. Not a general-purpose language.
+
+| In scope | Out of scope (planet C#) |
+|----------|--------------------------|
+| `when` / `then` on DataBus facts | HTTP, SQL, file I/O |
+| command `allow` / `deny` / `require confirmation` | loops, retry, backoff |
+| zone/command `visibility` matrices | complex algorithms |
+| simple `derived` expressions | side effects (`Execute` bodies stay in `.catalog` + C#) |
+| workflow gates (IOP-lite) | Turing-complete scripts |
+
+**Expressiveness ceiling:** guarded rules + expression language (comparisons, `and`/`or`/`not`, literals). No user-defined functions in v0 sketch.
+
+### 2. Stack placement
+
+```text
+Authoring.BusinessLogic     quarry — parse `.businesslogic` → RuleGraph IR
+Platform.Rules (TBD)        headless evaluate / trace (testable, no WPF)
+Notations.Expression (TBD)  shared expr wire for derived fields (may reuse later)
+Surface.*                   subscribe to outcomes (enable flags, tooltips, deny reasons)
+```
+
+Same split as [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md):
+
+```text
+declare (Authoring)  →  IR  →  emit / evaluate
+```
+
+Emit targets (future): `*Rules.g.cs` partials, DataBus subscription stubs, conformance vectors — **not** replacement of command executors.
+
+### 3. Block syntax (DashSpec parity)
+
+Reuse [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) §3 conventions:
+
+- `keyword … end keyword`
+- `* table` matrices where row-oriented is clearer
+- `#` line comments
+- `import <grain/…>` for shared fact packs (future)
+
+### 4. Sketch grammar — what it could look like
+
+**Minimal planet header:**
+
+```text
+businesslogic dashspec-studio
+```
+
+**Facts** — named boolean/scalar slots bound to Cockpit.DataBus (declared, not fetched here):
+
+```text
+facts
+  repl.has-result      bool
+  repl.schema-stable   bool
+  spec.card-selected   bool
+  env.name             string
+end facts
+```
+
+**Rules** — guarded policy blocks:
+
+```text
+rules
+
+  rule promote-when-ready
+    when repl.has-result and repl.schema-stable
+    then allow command promote-to-view
+  end rule
+
+  rule promote-block-no-result
+    when not repl.has-result
+    then deny command promote-to-view
+         reason "Run the query first"
+  end rule
+
+  rule prod-confirm
+    when env.name == "prod"
+    then require command promote-to-view
+         confirm "Promote query to view in production?"
+  end rule
+
+end rules
+```
+
+**Visibility table** — cross-ref `.deck` zones and `.catalog` commands:
+
+```text
+visibility table
+  | target                  | when                                      |
+  | zone data-lab           | preset is report-author or data-probe     |
+  | command promote-to-view | repl.has-result and repl.schema-stable    |
+  | command host.show       | always                                    |
+end visibility
+```
+
+**Derived table** — named booleans for UI/bindings (expr, not procedures):
+
+```text
+derived table
+  | name        | type | expr                                           |
+  | can-promote | bool | repl.has-result and repl.schema-stable         |
+  | is-prod     | bool | env.name == "prod"                             |
+end derived
+```
+
+**Validation gates** (Data Lab / forms):
+
+```text
+gates
+
+  gate repl-before-promote
+    on command promote-to-view
+    require repl.schema-stable
+    else reason "Schema must be stable (no pending edits)"
+  end gate
+
+end gates
+```
+
+**Close document:**
+
+```text
+end businesslogic
+```
+
+Normative fixture: `tests/AIGuiders.Platform.Authoring.Tests/Fixtures/Authoring/dashspec-studio.businesslogic`.
+
+### 5. Worked example (Data Lab promote)
+
+See fixture — ties together:
+
+- `.catalog` command id `promote-to-view` (hypothetical v1)
+- `.deck` zones `data-lab`, preset `report-author`
+- `.businesslogic` gate before promote is allowed
+
+Runtime shape (target, not implemented):
+
+```text
+DataBus publishes facts → RulesEngine evaluates → command plane gets Allow/Deny + reason string
+```
+
+### 6. IR spine (draft types)
+
+| IR type | Role |
+|---------|------|
+| `BusinessLogicDocument` | planet id, facts[], rules[], gates[], tables |
+| `FactDeclaration` | name, scalar kind, optional DataBus key map |
+| `PolicyRule` | when-expr, then-actions[] |
+| `ThenAction` | Allow/Deny/RequireConfirm + target (command/zone) |
+| `VisibilityRow` | target ref, when-expr |
+| `DerivedRow` | name, type, expr |
+| `ValidationGate` | trigger (command/event), require-expr, else-reason |
+
+**Evaluation:** deterministic, side-effect free, traceable (rule id + matched when-clause for EICAS/debug).
+
+### 7. guiders-ioplang (glossary)
+
+Informal name for the **Guiders Declarative Stack** — family of authoring notations under `Authoring.*`, not a Turing-complete language. Official escape hatch remains C# `Execute` and planet services.
+
+| Notation | Question it answers |
+|----------|---------------------|
+| `.catalog` | What can the operator invoke? |
+| `.deck` | Where does attention go? |
+| `.dashspec` | What does the report show? |
+| `.businesslogic` | Under what conditions is it allowed / visible / valid? |
+| `.chrome` (TBD) | How does chrome look? |
+
+## Consequences (if promoted)
+
+- Policy becomes diffable SSOT — same codegen/conformance story as `.catalog`.
+- Studio/DBA share rule patterns via `import <grain/…>` fact packs.
+- ViewModels shrink to projection; fewer «magic» `CanExecute` branches.
+
+## Non-goals (this ADR)
+
+- Parser, emitter, or `Platform.Rules` package implementation.
+- Replacing IOP process engine — only **declarative gates** at UI/command boundary.
+- SQL or report calculation DSL (stay in `.dashspec` / transforms / C#).
+- Nested functions, recursion, arbitrary collections in expression language.
+
+## Open questions
+
+1. **Expression language:** reuse a small subset of `.dashspec` bind expr vs new `Notations.Expression`?
+2. **Fact binding:** explicit `bind repl.has-result = databus.repl.result.ready` vs codegen from naming convention?
+3. **`deny reason` i18n:** helps table parallel (like `.catalog`) vs inline string only?
+4. **Conformance:** `docs/conformance/authoring/businesslogic/*` vectors — same kit as catalog?
+5. **Relation to CommandPlane:** emit into catalog profile vs runtime RulesEngine hook?
+
+## Reference
+
+| Artifact | Path |
+|----------|------|
+| Sketch fixture | `tests/.../Fixtures/Authoring/dashspec-studio.businesslogic` |
+| KB capture | `AI-Guiders-kb/.../guiders-declarative-stack/latent-businesslogic-v0.md` |

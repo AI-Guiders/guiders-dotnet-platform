@@ -6,7 +6,7 @@
 | **Level** | **Federation surface hyperlane** — planet-side UI, not platform mechanics |
 | **Date** | 2026-09-01 |
 | **Tags** | #guiders #federation #wpf #surface #cockpit #authoring #codegen #deck #dx |
-| **Related** | [0001](./GUIDERS-ADR-0001-platform-boundary.md) · [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [0047](./GUIDERS-ADR-0047-command-for-doi.md) · [0054](./GUIDERS-ADR-0054-phrase-slot-completion.md) · CIDE [0021](https://github.com/AI-Guiders/cascade-ide/blob/develop/docs/adr/0021-pfd-mfd-cockpit-attention-model.md) · [0053](./GUIDERS-ADR-0053-planet-responsibilities.md) |
+| **Related** | [0001](./GUIDERS-ADR-0001-platform-boundary.md) · [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [0047](./GUIDERS-ADR-0047-command-for-doi.md) · [0054](./GUIDERS-ADR-0054-phrase-slot-completion.md) · [0056](./GUIDERS-ADR-0056-businesslogic-authoring-latent.md) · CIDE [0021](https://github.com/AI-Guiders/cascade-ide/blob/develop/docs/adr/0021-pfd-mfd-cockpit-attention-model.md) · [0053](./GUIDERS-ADR-0053-planet-responsibilities.md) |
 
 ## Context
 

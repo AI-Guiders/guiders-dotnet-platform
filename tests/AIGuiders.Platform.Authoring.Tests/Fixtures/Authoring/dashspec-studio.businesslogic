@@ -1,0 +1,61 @@
+# DashSpec Studio — businesslogic sketch (GUIDERS-ADR-0056 latent)
+# NOT parsed yet; normative example for when Latent → Proposed.
+
+businesslogic dashspec-studio
+
+facts
+  repl.has-result      bool
+  repl.schema-stable   bool
+  spec.card-selected   bool
+  env.name             string
+end facts
+
+defaults
+  rule.severity = warn
+end defaults
+
+rules
+
+  rule promote-when-ready
+    when repl.has-result and repl.schema-stable
+    then allow command promote-to-view
+  end rule
+
+  rule promote-block-no-result
+    when not repl.has-result
+    then deny command promote-to-view
+         reason "Run the query first"
+  end rule
+
+  rule prod-confirm
+    when env.name == "prod"
+    then require command promote-to-view
+         confirm "Promote query to view in production?"
+  end rule
+
+end rules
+
+visibility table
+  | target                  | when                                      |
+  | zone data-lab           | preset is report-author or data-probe     |
+  | command promote-to-view | repl.has-result and repl.schema-stable    |
+  | command host.show       | always                                    |
+end visibility
+
+derived table
+  | name        | type | expr                                           |
+  | can-promote | bool | repl.has-result and repl.schema-stable         |
+  | is-prod     | bool | env.name == "prod"                             |
+end derived
+
+gates
+
+  gate repl-before-promote
+    on command promote-to-view
+    require repl.schema-stable
+    else reason "Schema must be stable (no pending edits)"
+  end gate
+
+end gates
+
+end businesslogic
