@@ -12,12 +12,16 @@ shopt -s nullglob
 push_nupkg() {
   local pkg="$1"
   local log
-  if ! log=$(dotnet nuget push "$pkg" --api-key "$key" --source "$src" --skip-duplicate 2>&1); then
-    echo "$log"
-    return 1
-  fi
+  local rc=0
+  log=$(dotnet nuget push "$pkg" --api-key "$key" --source "$src" --skip-duplicate 2>&1) || rc=$?
   echo "$log"
-  return 0
+  if [[ $rc -eq 0 ]]; then
+    return 0
+  fi
+  if echo "$log" | grep -qiE 'already exists|Conflict'; then
+    return 0
+  fi
+  return 1
 }
 
 shopt -s nullglob

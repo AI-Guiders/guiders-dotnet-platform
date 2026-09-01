@@ -1,0 +1,5 @@
+<Project>
+  <PropertyGroup Condition="'$(IncludeBuildOutput)' == 'false'">
+    <IncludeSymbols>false</IncludeSymbols>
+  </PropertyGroup>
+</Project>
