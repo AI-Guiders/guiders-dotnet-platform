@@ -1,6 +1,6 @@
-# Guiders Platform
+# Guiders .NET Platform (`guiders-dotnet-platform`)
 
-Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Forge).
+Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Forge). NuGet scope **`AIGuiders.Platform.*`** unchanged.
 
 **Start here:** [Architecture Hub](docs/GUIDERS-PLATFORM-ARCHITECTURE-HUB.md) (EN MD · [DOCX](docs/GUIDERS-PLATFORM-ARCHITECTURE-HUB.docx)) · [RU](docs/GUIDERS-PLATFORM-ARCHITECTURE-HUB.ru.md) · [RU DOCX](docs/GUIDERS-PLATFORM-ARCHITECTURE-HUB.ru.docx) — full platform map, capabilities, federation principles.  
 **Constitution:** [Federation Constitution](docs/GUIDERS-FEDERATION-CONSTITUTION.md) — sovereign planets, open embed, hyperlanes.  
@@ -89,7 +89,7 @@ dotnet pack -c Release
 | Поле | Значение |
 |------|----------|
 | Owner | `AI-Guiders` |
-| Repository | `guiders-platform` |
+| Repository | `guiders-dotnet-platform` |
 | Workflow | `release.yml` |
 | **Package scope (glob)** | **`AIGuiders.Platform.*`** |
 

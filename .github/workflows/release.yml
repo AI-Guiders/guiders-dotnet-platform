@@ -1,5 +1,5 @@
 # Публикация AIGuiders.Platform.* на nuget.org через Trusted Publishing (OIDC).
-# nuget.org: Trusted Publishing → Package owner AIGuiders, repo guiders-platform, workflow release.yml
+# nuget.org: Trusted Publishing → Package owner AIGuiders, repo guiders-dotnet-platform, workflow release.yml
 name: release
 
 on:
