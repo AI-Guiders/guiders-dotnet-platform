@@ -1,15 +1,22 @@
 # Authoring conformance — `.catalog`
 
-Conformance fixtures for federation command catalogs ([GUIDERS-ADR-0047](../../adr/GUIDERS-ADR-0047-command-for-doi.md)).
+Conformance fixtures for federation command catalogs ([GUIDERS-ADR-0047](../../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md)).
 
 ## Packages
 
 | Package | Role |
 |---------|------|
 | `AIGuiders.Platform.Authoring.Core` | Diagnostics, indented/tree parsers |
-| `AIGuiders.Platform.Authoring.Command.Catalog` | `.catalog` parser, notation validator, summary |
+| `AIGuiders.Platform.Authoring.Command.Catalog` | `.catalog` parser, grammar registry, wire validate |
 | `AIGuiders.Platform.Authoring.Conformance` | `CatalogConformance.ValidateDocument` entry |
 | `AIGuiders.Platform.CommandPlane.Catalog.CodeGen` | MCP JSON + C# catalog emitter |
+
+## Grammar SSOT
+
+| Layer | Location |
+|-------|----------|
+| Document DSL (blocks/tables) | `docs/grammar/authoring/` (planned `catalog.ebnf`) |
+| String wire grammars | `docs/grammar/notation/` + `NotationGrammarRegistry` |
 
 ## Running tests
 
@@ -17,20 +24,8 @@ Conformance fixtures for federation command catalogs ([GUIDERS-ADR-0047](../../a
 dotnet test tests/AIGuiders.Platform.Authoring.Tests -c Release
 ```
 
-Fixtures live under `tests/AIGuiders.Platform.Authoring.Tests/Fixtures/Authoring/`.
-
-## Toolchain
-
-The [authoring-toolchain](https://github.com/AI-Guiders/authoring-toolchain) repo wraps the same parser:
-
-```bash
-authoring validate path/to/planet.catalog
-authoring summary path/to/planet.catalog
-authoring emit path/to/planet.catalog --namespace MyApp.Generated --class DashCatalog
-```
-
 ## Compile errors (v0)
 
-- `notation-wire-mismatch` — binding/melody wire does not match declared keyboard notation
-- `missing-notation-declaration` — channel line without `command-notation` / `argument-notation`
-- `missing-catalog-header` — file without `catalog <planet>`
+- `grammar-wire-mismatch` — cell does not parse under declared `grammar.*` id
+- `missing-grammar-declaration` — line channel without `grammar` block; bindings/melodies without `grammar.keyboard.*`
+- `unknown-grammar-id` — id not in federation registry

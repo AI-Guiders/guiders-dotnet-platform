@@ -1,0 +1,25 @@
+catalog test
+
+channels
+  slash
+    bar = toolbar
+    grammar
+      command = command-slash
+      argument = argument-slash
+    end grammar
+end channels
+
+defaults
+  grammar.keyboard.binding = keyboard-vim
+  binding.chord-root = Ctrl+Shift+D
+end defaults
+
+bindings table
+  | gesture        | command | role |
+  | Ctrl+Shift+D   | —       | root |
+end bindings
+
+commands table
+  | command | phrase |
+  | noop    | noop   |
+end commands

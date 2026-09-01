@@ -1,0 +1,6 @@
+(* argument-kv — key=value tail *)
+kvTail        = kvPair, { SP, kvPair } ;
+kvPair        = key, "=", value ;
+key           = identifier ;
+value         = { any - SP } ;
+identifier    = letter, { letter | digit | "_" | "-" } ;

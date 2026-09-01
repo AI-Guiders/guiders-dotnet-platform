@@ -12,6 +12,7 @@ public static class CatalogConformance
         result.Diagnostics.Any(static d =>
             d.Code is AuthoringDiagnosticCode.InvalidSyntax
                 or AuthoringDiagnosticCode.MissingCatalogHeader
-                or AuthoringDiagnosticCode.MissingNotationDeclaration
-                or AuthoringDiagnosticCode.NotationWireMismatch);
+                or AuthoringDiagnosticCode.MissingGrammarDeclaration
+                or AuthoringDiagnosticCode.GrammarWireMismatch
+                or AuthoringDiagnosticCode.UnknownGrammarId);
 }

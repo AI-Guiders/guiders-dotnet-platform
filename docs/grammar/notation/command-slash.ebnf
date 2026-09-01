@@ -1,0 +1,5 @@
+(* command-slash — federation path wire after optional leading slash *)
+slashLine     = [ "/" ], pathSegment, { ( "/" | SP ), pathSegment }, [ SP, remainder ] ;
+pathSegment   = identifier ;
+remainder     = { any - newline } ;
+identifier    = letter, { letter | digit | "_" | "-" | "." } ;

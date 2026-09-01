@@ -10,8 +10,9 @@ public sealed record AuthoringDiagnostic(
 public enum AuthoringDiagnosticCode
 {
     MissingCatalogHeader,
-    MissingNotationDeclaration,
-    NotationWireMismatch,
+    MissingGrammarDeclaration,
+    GrammarWireMismatch,
+    UnknownGrammarId,
     MissingTableColumn,
     UnknownSection,
     DuplicateRow,

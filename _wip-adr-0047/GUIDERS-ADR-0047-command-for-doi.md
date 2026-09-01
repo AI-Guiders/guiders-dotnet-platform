@@ -89,11 +89,11 @@ Guild map: [GUIDERS-ADR-0048](../_wip-adr-0048/GUIDERS-ADR-0048-authoring-quarry
 | `bindings` | **keyboard mechanic** — gesture → `commandId` ([ADR-0015](GUIDERS-ADR-0015-invocation-mechanics-slash-melody-binding.md)) | federation surface |
 | `melodies` | **keyboard mechanic** — slug-lane после chord root → `commandId` | federation surface; palette `c:` = discoverability only |
 | `mcp` / `projections` | **agent projection** — `CallTool` schema ([ADR-0009](GUIDERS-ADR-0009-command-surface-pattern.md) MCP row) | human invoker surface |
-| `channels` | **планета:** surface/sub + `planet-id` + **`command-notation`** + **`argument-notation`** | surface id как notation id (`slash` ≠ `command-slash`) |
+| `channels` | **планета:** surface/sub + `planet-id` + **`grammar` block** | surface id как grammar id (`slash` ≠ `command-slash`) |
 | `notation` | **алфавит записи** wire в этом файле → `Notations.*` ([ADR-0021](GUIDERS-ADR-0021-notations-quarry-family.md)); автор **обязан** объявить — читатель знает, чего ждать | UI surface; молчаливый reader |
 | `helps` | **верхний уровень** — соответствие *entity* + *field* → *text* (`helps table`) | inline prose в `commands` |
 | `expand` | recipe runtime; `fills` — какие variables подставляет | — |
-| `defaults` | **явные** дефолты: `variable.kind`, `command.scope`, `command.surfaces`, `notation.keyboard.*`, `binding.chord-root` | молчаливый parser default |
+| `defaults` | **явные** дефолты: `variable.kind`, `command.scope`, `command.surfaces`, `grammar.keyboard.*`, `binding.chord-root` | молчаливый parser default |
 
 Семейство **верхний уровень kv/table**: `variables`, `helps`, `profiles`, **`phrases`**, `defaults`, `commands`, `bindings`, `melodies`, `mcp`, `executors` — см. §4.1.
 
@@ -169,7 +169,7 @@ end helps
 |-----|--------|--------|--------------|
 | **`scope`** | где видна команда? | `dashboard` | `command.scope` |
 | **`surfaces`** | какой UI invoker? | `slash.bar`, `ccl.filter` | `command.surfaces`, `channels` |
-| **`notation`** | **как записан** ввод на этом sub? | `command-slash` + `argument-kv` | `channels` → `command-notation` / `argument-notation`; `notation.keyboard.*` |
+| **`grammar`** | **какой string-grammar** у wire на этом sub? | `command-slash` + `argument-kv` | `channels` → `grammar` block; `grammar.keyboard.*` in `defaults` |
 | **mechanics** | клавиатурная механика без line UI? | Binding, Melody | `bindings`, `melodies` |
 | **projections** | агент? | MCP tool | `mcp` |
 
@@ -184,7 +184,7 @@ end helps
 | `palette` | command palette peel | DiscoverabilityPrefix | ✅ |
 | `ccl` | contextual command line | Sigil | ✅ |
 
-**Notation registry** (federation id → `Notations.*` package; **не** совпадает с surface id):
+**Grammar registry** (federation id → `Notations.*` + `docs/grammar/notation/`; SSOT code: `NotationGrammarRegistry`):
 
 | Branch | Federation id (v0) | Пакет | Пример wire |
 |--------|-------------------|-------|-------------|
@@ -198,21 +198,21 @@ end helps
 
 Melody slug-lane — тот же **Keyboard** branch; articulation by-note — planet policy ([ADR-0015](GUIDERS-ADR-0015-invocation-mechanics-slash-melody-binding.md) §7).
 
-#### Автор объявляет нотацию (contract для читателя)
+#### Автор объявляет grammar (contract для читателя)
 
 `.catalog` — не только матрица команд, но и **легенда алфавитов**: автор спеки фиксирует, **каким языком записан каждый wire** в этом файле. Читатель (ревьюер, агент, codegen, LSP) **не угадывает** — смотрит объявление.
 
 | Что в файле | Где автор объявляет | Federation id (пример) | Читатель понимает |
 |-------------|---------------------|------------------------|-------------------|
-| phrase / line на slash-sub | `channels` → `command-notation`, `argument-notation` | `command-slash`, `argument-slash` | path + tail как в Slash vs Console |
+| phrase / line на slash-sub | `channels` → `grammar.command` / `grammar.argument` | `command-slash`, `argument-slash` | path + tail как в Slash vs Console |
 | line на ccl / console sub | то же в `channels` | `command-console`, `argument-kv` | `select filter …` vs `/filter …` |
-| `bindings` gesture column | `defaults` → `notation.keyboard.binding` | `keyboard-key-gesture` \| `keyboard-vim` | `Ctrl+Shift+D` vs `<C-S-d>` |
-| `melodies` slug column | `defaults` → `notation.keyboard.melody` | `keyboard-key-gesture` \| `keyboard-vim` | буквы `fd` vs vim-style шаги |
-| `binding.chord-root` | `defaults` | *(в нотации `notation.keyboard.binding`)* | как записан engage-жест |
+| `bindings` gesture column | `defaults` → `grammar.keyboard.binding` | `keyboard-key-gesture` \| `keyboard-vim` | `Ctrl+Shift+D` vs `<C-S-d>` |
+| `melodies` slug column | `defaults` → `grammar.keyboard.melody` | `keyboard-key-gesture` \| `keyboard-vim` | буквы `fd` vs vim-style шаги |
+| `binding.chord-root` | `defaults` | *(в grammar `grammar.keyboard.binding`)* | как записан engage-жест |
 
 **Правила:**
 
-1. **Нет объявления — нет parse.** Подключён line-sub без `command-notation` + `argument-notation` → compile error. Есть `bindings` / `melodies` без `notation.keyboard.*` → compile error.
+1. **Нет объявления — нет parse.** Подключён line-sub без `grammar` block (`command` + `argument`) → compile error. Есть `bindings` / `melodies` без `grammar.keyboard.*` → compile error.
 2. **Одна спека — один контракт на секцию.** Все строки `bindings` в одной нотации; все `melodies` — в одной (override per-table — 📋 v1).
 3. **Surface id ≠ notation id.** `surfaces` говорит «где в UI»; notation говорит «как **записано** в таблице».
 4. **Tooling обязан показывать контракт:** LSP / `authoring validate` — summary в начале файла или hover: *«bindings: keyboard-vim; melodies: keyboard-key-gesture; ccl.filter: command-console + argument-kv»*.
@@ -220,20 +220,20 @@ Melody slug-lane — тот же **Keyboard** branch; articulation by-note — p
 
 | Объявлено | Допустимый wire в ячейке | ❌ compile error |
 |----------|--------------------------|-----------------|
-| `notation.keyboard.binding = keyboard-vim` | `<C-S-d>`, `j`, `k` | `Ctrl+Shift+D`, `Ctrl+K` |
-| `notation.keyboard.binding = keyboard-key-gesture` | `Ctrl+K`, `Ctrl+Shift+D` | `<C-k>`, `C-x C-s` |
-| `notation.keyboard.melody = keyboard-vim` | vim slug steps | bare `fd` без vim grammar (если не by-note profile) |
-| `channels` … `command-notation = command-slash` | phrases как slash path segments | console-style `select filter …` в phrase без desugar |
-| `channels` … `argument-notation = argument-kv` | `key=value` tails в profile wire | slash space-tail |
+| `grammar.keyboard.binding = keyboard-vim` | `<C-S-d>`, `j`, `k` | `Ctrl+Shift+D`, `Ctrl+K` |
+| `grammar.keyboard.binding = keyboard-key-gesture` | `Ctrl+K`, `Ctrl+Shift+D` | `<C-k>`, `C-x C-s` |
+| `grammar.keyboard.melody = keyboard-vim` | vim slug steps | bare `fd` без vim grammar (если не by-note profile) |
+| `channels` … `grammar.command = command-slash` | phrases как slash path segments | console-style `select filter …` in phrase без desugar |
+| `channels` … `grammar.argument = argument-kv` | `key=value` tails в profile wire | slash space-tail |
 
-Диагностика (пример): `notation-wire-mismatch: bindings row 2 — declared keyboard-vim, cell looks like KeyGesture ('Ctrl+Shift+D')`. Conformance: тот же reader, что runtime ([ADR-0021](GUIDERS-ADR-0021-notations-quarry-family.md) §9 `notation/key-gesture`, `notation/neovim-kbd`) — **authoring validate = те же векторы**, не отдельная эвристика.
+Диагностика (пример): `grammar-wire-mismatch: bindings row 2 — declared keyboard-vim, cell looks like KeyGesture ('Ctrl+Shift+D')`. Conformance: тот же reader, что runtime ([ADR-0021](GUIDERS-ADR-0021-notations-quarry-family.md) §9 `notation/key-gesture`, `notation/neovim-kbd`) — **authoring validate = те же векторы**, не отдельная эвристика.
 
 Пример: planet пишет мелодии в Vim-стиле, binding — KeyGesture:
 
 ```text
 defaults
-  notation.keyboard.binding = keyboard-key-gesture
-  notation.keyboard.melody  = keyboard-vim
+  grammar.keyboard.binding = keyboard-key-gesture
+  grammar.keyboard.melody  = keyboard-vim
   binding.chord-root        = Ctrl+K
 end defaults
 
@@ -243,49 +243,55 @@ melodies table
 end melodies
 ```
 
-Другой автор в том же federation id читает `notation.keyboard.melody = keyboard-vim` и знает: slug-колонка — **Vim wire**, не «просто две буквы».
+Другой автор в том же federation id читает `grammar.keyboard.melody = keyboard-vim` и знает: slug-колонка — **Vim wire**, не «просто две буквы».
 
 **Surface ≠ notation:** один `ccl.filter` может писать **`command-console` + `argument-kv`** (DashSpec `>` bar); другой planet — **`command-slash` + `argument-slash`**. Имена `slash` / `console` в **surfaces** — про UI; `command-slash` / `command-console` — про **грамматику строки**.
 
-**`channels`** — wiring sub **и** явная пара notation:
+**`channels`** — wiring sub **и** явный `grammar` block:
 
 ```text
 channels
   slash
     bar = toolbar-slash
-    command-notation = command-slash
-    argument-notation = argument-slash
+    grammar
+      command = command-slash
+      argument = argument-slash
+    end grammar
   ccl
     filter = filter-ccl
-    command-notation = command-console
-    argument-notation = argument-kv
+    grammar
+      command = command-console
+      argument = argument-kv
+    end grammar
   console
     filter = filter-bar
-    command-notation = command-console
-    argument-notation = argument-kv
+    grammar
+      command = command-console
+      argument = argument-kv
+    end grammar
   palette = command-palette
 end channels
 ```
 
-Форма B (table): колонки `surface`, `sub`, `planet-id`, `command-notation`, `argument-notation`.
+Форма B (table): колонки `surface`, `sub`, `planet-id`, `grammar.command`, `grammar.argument`.
 
-Подключён line-sub **без** `command-notation` + `argument-notation` → **compile error** (никакого «ccl молча = console»).
+Подключён line-sub **без** `grammar` block → **compile error** (никакого «ccl молча = console»).
 
 **`defaults`** — явные дефолты каталога **и нотации для keyboard-секций** (авторский контракт для читателя):
 
 ```text
 defaults
-  notation.keyboard.binding = keyboard-key-gesture
-  notation.keyboard.melody  = keyboard-key-gesture
+  grammar.keyboard.binding = keyboard-key-gesture
+  grammar.keyboard.melody  = keyboard-key-gesture
   binding.chord-root        = Ctrl+K
 end defaults
 ```
 
-`bindings` / `melodies` парсят gesture и slug в wire формате, заданном `notation.keyboard.*`. Смена на `keyboard-vim` — те же строки таблицы, другой reader ([ADR-0021](GUIDERS-ADR-0021-notations-quarry-family.md) §9).
+`bindings` / `melodies` парсят gesture и slug в wire формате, заданном `grammar.keyboard.*`. Смена на `keyboard-vim` — те же строки таблицы, другой reader ([ADR-0021](GUIDERS-ADR-0021-notations-quarry-family.md) §9).
 
 **Подповерхности (sub):** federation tag `family.sub` в `command.surfaces` (`ccl.filter`). Имя **sub** = ключ в `channels`.
 
-**`bindings`** — таблица жестов ([ADR-0017](GUIDERS-ADR-0017-binding-catalog-family.md) wire; gesture в `notation.keyboard.binding`):
+**`bindings`** — таблица жестов ([ADR-0017](GUIDERS-ADR-0017-binding-catalog-family.md) wire; gesture в `grammar.keyboard.binding`):
 
 ```text
 bindings table
@@ -328,8 +334,8 @@ defaults
   variable.kind     = phrase-slot
   command.scope     = dashboard
   command.surfaces  = slash, palette, console.filter, ccl.filter
-  notation.keyboard.binding = keyboard-key-gesture
-  notation.keyboard.melody  = keyboard-key-gesture
+  grammar.keyboard.binding = keyboard-key-gesture
+  grammar.keyboard.melody  = keyboard-key-gesture
   binding.chord-root        = Ctrl+K
 end defaults
 ```
@@ -339,15 +345,15 @@ end defaults
 | `variable.kind` | строки `variables` без `= kind` / пустая колонка `kind` | `phrase-slot` |
 | `command.scope` | все строки `commands` | `dashboard` |
 | `command.surfaces` | все строки `commands` | federation family или `family.sub` |
-| `notation.keyboard.binding` | `bindings` gesture column | `keyboard-key-gesture` \| `keyboard-vim` \| … |
-| `notation.keyboard.melody` | `melodies` slug column | `keyboard-key-gesture` \| … |
-| `binding.chord-root` | melody capture engage | gesture wire в notation.keyboard.binding |
+| `grammar.keyboard.binding` | `bindings` gesture column | `keyboard-key-gesture` \| `keyboard-vim` \| … |
+| `grammar.keyboard.melody` | `melodies` slug column | `keyboard-key-gesture` \| … |
+| `binding.chord-root` | melody capture engage | gesture wire в grammar.keyboard.binding |
 
 **`channels` table (форма B):**
 
 ```text
 channels table
-  | surface | sub    | planet-id        | command-notation | argument-notation |
+  | surface | sub    | planet-id        | grammar.command | grammar.argument |
   | slash   | bar    | toolbar-slash    | command-slash    | argument-slash    |
   | console | filter | filter-bar       | command-console  | argument-kv       |
   | ccl     | filter | filter-ccl       | command-console  | argument-kv       |
@@ -417,16 +423,22 @@ import <grain/date-filter>
 channels
   slash
     bar = toolbar-slash
-    command-notation = command-slash
-    argument-notation = argument-slash
+    grammar
+      command = command-slash
+      argument = argument-slash
+    end grammar
   console
     filter = filter-bar
-    command-notation = command-console
-    argument-notation = argument-kv
+    grammar
+      command = command-console
+      argument = argument-kv
+    end grammar
   ccl
     filter = filter-ccl
-    command-notation = command-console
-    argument-notation = argument-kv
+    grammar
+      command = command-console
+      argument = argument-kv
+    end grammar
   palette = command-palette
 end channels
 
@@ -434,8 +446,8 @@ defaults
   variable.kind      = phrase-slot
   command.scope      = dashboard
   command.surfaces   = slash.bar, palette, console.filter, ccl.filter
-  notation.keyboard.binding = keyboard-key-gesture
-  notation.keyboard.melody  = keyboard-key-gesture
+  grammar.keyboard.binding = keyboard-key-gesture
+  grammar.keyboard.melody  = keyboard-key-gesture
   binding.chord-root        = Ctrl+K
 end defaults
 
@@ -566,8 +578,8 @@ Parser: `{foo}` в `phrase` без строки в `variables` → **compile err
 
 | Где | Синтаксис | Соответствие |
 |-----|-----------|--------------|
-| `channels` | nested / table | surface/sub + `planet-id` + **`command-notation`** + **`argument-notation`** |
-| `defaults` | kv | `variable.kind`, `command.scope`, `command.surfaces`, `notation.keyboard.*`, `binding.chord-root` |
+| `channels` | nested / table | surface/sub + `planet-id` + **`grammar` block** |
+| `defaults` | kv | `variable.kind`, `command.scope`, `command.surfaces`, `grammar.keyboard.*`, `binding.chord-root` |
 | `bindings` | **table** | gesture → `commandId` (+ `chord-root`) |
 | `melodies` | **table** | slug → `commandId` |
 | `mcp` | **table** | `command` → agent expose |

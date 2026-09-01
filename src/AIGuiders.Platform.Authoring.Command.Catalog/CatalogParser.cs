@@ -1,10 +1,12 @@
 using System.Text;
+using System.Text.RegularExpressions;
 using AIGuiders.Platform.Authoring.Core;
 
 namespace AIGuiders.Platform.Authoring.Command.Catalog;
 
 public static class CatalogParser
 {
+    static readonly Regex InnerEndLine = new(@"^\s*end\s+\w+\s*$", RegexOptions.Compiled | RegexOptions.CultureInvariant);
     public static CatalogParseResult Parse(string text, string? sourcePath = null) =>
         ParseLines(text.Replace("\r\n", "\n").Split('\n'), sourcePath);
 
@@ -100,7 +102,7 @@ public static class CatalogParser
             Executors = executors,
         };
 
-        CatalogNotationValidator.Validate(document, diagnostics);
+        CatalogGrammarValidator.Validate(document, diagnostics);
         ValidateChannels(document, diagnostics);
 
         return new() { Document = document, Diagnostics = diagnostics };
@@ -237,10 +239,11 @@ public static class CatalogParser
             return ParseChannelsTable(body);
         }
 
+        var filtered = body.Where(static x => !InnerEndLine.IsMatch(x.Text)).ToList();
         var list = new List<CatalogChannel>();
-        foreach (var surfaceNode in IndentedTreeParser.Parse(body))
+        foreach (var surfaceNode in IndentedTreeParser.Parse(filtered))
         {
-            var surfaceNotations = ReadNotation(surfaceNode);
+            var lineGrammar = ReadLineGrammar(surfaceNode);
 
             if (surfaceNode.Value is not null)
             {
@@ -248,15 +251,15 @@ public static class CatalogParser
                 {
                     Surface = surfaceNode.Key,
                     PlanetId = surfaceNode.Value,
-                    CommandNotation = surfaceNotations.Command,
-                    ArgumentNotation = surfaceNotations.Argument,
+                    CommandGrammar = lineGrammar.Command,
+                    ArgumentGrammar = lineGrammar.Argument,
                 });
                 continue;
             }
 
             foreach (var child in surfaceNode.Children)
             {
-                if (IsNotationKey(child.Key))
+                if (IsGrammarBlockKey(child.Key))
                 {
                     continue;
                 }
@@ -266,8 +269,8 @@ public static class CatalogParser
                     Surface = surfaceNode.Key,
                     Sub = child.Key,
                     PlanetId = child.Value,
-                    CommandNotation = surfaceNotations.Command,
-                    ArgumentNotation = surfaceNotations.Argument,
+                    CommandGrammar = lineGrammar.Command,
+                    ArgumentGrammar = lineGrammar.Argument,
                 });
             }
         }
@@ -275,21 +278,28 @@ public static class CatalogParser
         return list;
     }
 
-    static bool IsNotationKey(string key) =>
-        key.Equals("command-notation", StringComparison.OrdinalIgnoreCase)
-        || key.Equals("argument-notation", StringComparison.OrdinalIgnoreCase);
+    static bool IsGrammarBlockKey(string key) =>
+        key.Equals("grammar", StringComparison.OrdinalIgnoreCase);
 
-    static (string? Command, string? Argument) ReadNotation(IndentedNode node)
+    static (string? Command, string? Argument) ReadLineGrammar(IndentedNode surfaceNode)
     {
+        var grammarNode = surfaceNode.Children.FirstOrDefault(static c =>
+            c.Key.Equals("grammar", StringComparison.OrdinalIgnoreCase) && c.Value is null);
+
+        if (grammarNode is null)
+        {
+            return (null, null);
+        }
+
         string? command = null;
         string? argument = null;
-        foreach (var child in node.Children)
+        foreach (var child in grammarNode.Children)
         {
-            if (child.Key.Equals("command-notation", StringComparison.OrdinalIgnoreCase))
+            if (child.Key.Equals("command", StringComparison.OrdinalIgnoreCase))
             {
                 command = child.Value;
             }
-            else if (child.Key.Equals("argument-notation", StringComparison.OrdinalIgnoreCase))
+            else if (child.Key.Equals("argument", StringComparison.OrdinalIgnoreCase))
             {
                 argument = child.Value;
             }
@@ -317,8 +327,8 @@ public static class CatalogParser
                 Surface = map.GetValueOrDefault("surface") ?? "",
                 Sub = NullIfEmpty(map.GetValueOrDefault("sub")),
                 PlanetId = NullIfEmpty(map.GetValueOrDefault("planet-id")),
-                CommandNotation = NullIfEmpty(map.GetValueOrDefault("command-notation")),
-                ArgumentNotation = NullIfEmpty(map.GetValueOrDefault("argument-notation")),
+                CommandGrammar = NullIfEmpty(map.GetValueOrDefault("grammar.command")),
+                ArgumentGrammar = NullIfEmpty(map.GetValueOrDefault("grammar.argument")),
             });
         }
 
@@ -545,8 +555,8 @@ public static class CatalogParser
             VariableKind = kv.GetValueOrDefault("variable.kind"),
             CommandScope = kv.GetValueOrDefault("command.scope"),
             CommandSurfaces = SplitList(kv.GetValueOrDefault("command.surfaces")),
-            NotationKeyboardBinding = kv.GetValueOrDefault("notation.keyboard.binding"),
-            NotationKeyboardMelody = kv.GetValueOrDefault("notation.keyboard.melody"),
+            GrammarKeyboardBinding = kv.GetValueOrDefault("grammar.keyboard.binding"),
+            GrammarKeyboardMelody = kv.GetValueOrDefault("grammar.keyboard.melody"),
             BindingChordRoot = kv.GetValueOrDefault("binding.chord-root"),
         };
 
@@ -564,11 +574,11 @@ public static class CatalogParser
                 continue;
             }
 
-            if (string.IsNullOrWhiteSpace(channel.CommandNotation) || string.IsNullOrWhiteSpace(channel.ArgumentNotation))
+            if (string.IsNullOrWhiteSpace(channel.CommandGrammar) || string.IsNullOrWhiteSpace(channel.ArgumentGrammar))
             {
                 diagnostics.Add(new(
-                    AuthoringDiagnosticCode.MissingNotationDeclaration,
-                    $"Channel `{channel.Surface}{(channel.Sub is null ? "" : "." + channel.Sub)}` missing command-notation or argument-notation.",
+                    AuthoringDiagnosticCode.MissingGrammarDeclaration,
+                    $"Channel `{channel.Surface}{(channel.Sub is null ? "" : "." + channel.Sub)}` missing `grammar` block with command and argument.",
                     1,
                     Section: "channels"));
             }

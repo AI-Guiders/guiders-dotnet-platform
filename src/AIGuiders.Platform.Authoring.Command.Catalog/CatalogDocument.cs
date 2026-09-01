@@ -23,8 +23,8 @@ public sealed class CatalogDefaults
     public string? VariableKind { get; init; }
     public string? CommandScope { get; init; }
     public IReadOnlyList<string> CommandSurfaces { get; init; } = [];
-    public string? NotationKeyboardBinding { get; init; }
-    public string? NotationKeyboardMelody { get; init; }
+    public string? GrammarKeyboardBinding { get; init; }
+    public string? GrammarKeyboardMelody { get; init; }
     public string? BindingChordRoot { get; init; }
 }
 
@@ -33,8 +33,8 @@ public sealed class CatalogChannel
     public required string Surface { get; init; }
     public string? Sub { get; init; }
     public string? PlanetId { get; init; }
-    public string? CommandNotation { get; init; }
-    public string? ArgumentNotation { get; init; }
+    public string? CommandGrammar { get; init; }
+    public string? ArgumentGrammar { get; init; }
 }
 
 public sealed record CatalogVariable(string Name, string? Kind);

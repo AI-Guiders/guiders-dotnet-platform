@@ -8,20 +8,20 @@ public static class CatalogSummary
     {
         var sb = new StringBuilder();
         sb.Append($"catalog {document.Planet}");
-        if (!string.IsNullOrWhiteSpace(document.Defaults.NotationKeyboardBinding))
+        if (!string.IsNullOrWhiteSpace(document.Defaults.GrammarKeyboardBinding))
         {
-            sb.Append($" | bindings: {document.Defaults.NotationKeyboardBinding}");
+            sb.Append($" | bindings: {document.Defaults.GrammarKeyboardBinding}");
         }
 
-        if (!string.IsNullOrWhiteSpace(document.Defaults.NotationKeyboardMelody))
+        if (!string.IsNullOrWhiteSpace(document.Defaults.GrammarKeyboardMelody))
         {
-            sb.Append($" | melodies: {document.Defaults.NotationKeyboardMelody}");
+            sb.Append($" | melodies: {document.Defaults.GrammarKeyboardMelody}");
         }
 
-        foreach (var channel in document.Channels.Where(c => !string.IsNullOrWhiteSpace(c.CommandNotation)))
+        foreach (var channel in document.Channels.Where(c => !string.IsNullOrWhiteSpace(c.CommandGrammar)))
         {
             var tag = string.IsNullOrWhiteSpace(channel.Sub) ? channel.Surface : $"{channel.Surface}.{channel.Sub}";
-            sb.Append($" | {tag}: {channel.CommandNotation}+{channel.ArgumentNotation}");
+            sb.Append($" | {tag}: grammar({channel.CommandGrammar}+{channel.ArgumentGrammar})");
         }
 
         return sb.ToString();

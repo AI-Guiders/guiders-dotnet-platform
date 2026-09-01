@@ -19,18 +19,18 @@ public sealed class CatalogParserTests
         Assert.Equal("dash", result.Document!.Planet);
         Assert.Contains(result.Document.Commands, c => c.Command == "filter.date");
         Assert.Contains(result.Document.Defaults.CommandSurfaces, s => s == "slash.bar");
-        Assert.Equal("command-console", result.Document.Channels.First(c => c.Sub == "filter").CommandNotation);
+        Assert.Equal("command-console", result.Document.Channels.First(c => c.Sub == "filter").CommandGrammar);
     }
 
     [Fact]
-    public void Notation_mismatch_is_compile_error()
+    public void Grammar_mismatch_is_compile_error()
     {
-        var text = LoadFixture("notation-mismatch.catalog");
+        var text = LoadFixture("grammar-mismatch.catalog");
         var result = CatalogConformance.ValidateDocument(text);
 
         Assert.Contains(
             result.Diagnostics,
-            d => d.Code == AuthoringDiagnosticCode.NotationWireMismatch);
+            d => d.Code == AuthoringDiagnosticCode.GrammarWireMismatch);
     }
 
     [Fact]

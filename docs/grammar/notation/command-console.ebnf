@@ -1,0 +1,5 @@
+(* command-console — neutral token path *)
+consoleLine   = pathSegment, { SP, pathSegment }, [ SP, tail ] ;
+pathSegment   = identifier ;
+tail          = { any - newline } ;
+identifier    = letter, { letter | digit | "_" | "-" | "." } ;
