@@ -19,4 +19,6 @@ public enum AuthoringDiagnosticCode
     InvalidSyntax,
     UnknownBundle,
     UnknownProfile,
+    EntryFileNotFound,
+    EntryOutsideWorkspace,
 }
