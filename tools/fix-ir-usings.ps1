@@ -3,7 +3,22 @@ $patterns = @(
   @{ Old = 'using AIGuiders.Platform.Notations.Argument;'; New = 'using AIGuiders.Platform.IntermediateRepresentation.Argument;' }
   @{ Old = 'using AIGuiders.Platform.Notations.Bracket;'; New = 'using AIGuiders.Platform.IntermediateRepresentation.Bracket;' }
 )
+function Test-HasGlobalIrUsings($file) {
+  $dir = Split-Path $file -Parent
+  while ($dir -and (Test-Path $dir)) {
+    $global = Get-ChildItem -Path $dir -Filter 'GlobalUsings*.cs' -File -ErrorAction SilentlyContinue
+    foreach ($g in $global) {
+      $text = [IO.File]::ReadAllText($g.FullName)
+      if ($text -match 'global using AIGuiders\.Platform\.IntermediateRepresentation\.') { return $true }
+    }
+    $parent = Split-Path $dir -Parent
+    if ($parent -eq $dir) { break }
+    $dir = $parent
+  }
+  return $false
+}
 Get-ChildItem -Path $root -Recurse -Filter *.cs | Where-Object { $_.FullName -notmatch '\\obj\\|\\bin\\' } | ForEach-Object {
+  if (Test-HasGlobalIrUsings $_.FullName) { return }
   $c = [IO.File]::ReadAllText($_.FullName)
   $orig = $c
   foreach ($p in $patterns) { $c = $c.Replace($p.Old, $p.New) }
