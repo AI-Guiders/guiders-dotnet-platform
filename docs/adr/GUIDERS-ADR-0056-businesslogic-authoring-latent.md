@@ -6,7 +6,7 @@
 | **Level** | Federation authoring hyperlane — sibling to `.catalog`, `.deck` |
 | **Date** | 2026-09-01 |
 | **Tags** | #guiders #federation #authoring #rules #policy #latent #guiders-ioplang |
-| **Related** | [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [0055](./GUIDERS-ADR-0055-surface-wpf-guild-deck-authoring.md) · [0053](./GUIDERS-ADR-0053-planet-responsibilities.md) · IOP / Cockpit.DataBus |
+| **Related** | [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [0055](./GUIDERS-ADR-0055-surface-wpf-guild-deck-authoring.md) · [0053](./GUIDERS-ADR-0053-planet-responsibilities.md) · IOP / Cockpit.DataBus · **Gherkin** (BDD; adjacent, not compatible v0) |
 
 ## Context
 
@@ -70,6 +70,22 @@ Reuse [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) §3 conventions:
 - `* table` matrices where row-oriented is clearer
 - `#` line comments
 - `import <grain/…>` for shared fact packs (future)
+
+### 3.1 Gherkin-adjacent (conscious choice)
+
+The `when` / `then` rule blocks read like **Gherkin** (Cucumber / SpecFlow) — intentionally. Same intent layer: declare behavior/policy, not implementation.
+
+| Gherkin | `.businesslogic` (sketch) |
+|---------|---------------------------|
+| Feature / Scenario | `rule … end rule` |
+| Background / context | `facts`, `defaults` |
+| Given / When | `when …` (expressions on DataBus facts) |
+| Then | `then allow` / `deny` / `require …` on catalog/deck targets |
+| Scenario Outline | `visibility table`, `derived table` |
+
+**Not v0:** Cucumber-compatible syntax, natural-language step defs, or E2E scenario files. This quarry targets **command-plane policy** at authoring time (`.catalog` + `.deck` refs), not browser-level BDD. Conformance vectors may *look* like scenarios; emit goes to RulesEngine / `CanExecute`, not SpecFlow bindings.
+
+Avoid narrative step theatre («When the operator feels lucky») — keep rules auditable and machine-evaluable.
 
 ### 4. Sketch grammar — what it could look like
 
