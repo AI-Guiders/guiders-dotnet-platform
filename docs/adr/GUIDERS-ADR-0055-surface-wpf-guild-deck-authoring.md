@@ -260,6 +260,63 @@ dotnet deck emit --project DashSpec.Studio.Wpf --deck dashspec-studio.deck
 2. Glass **may** bridge: read `settings.toml` topology → map to deck preset until Glass migrates; bridge is **adapter**, not SSOT.
 3. When guild standard stabilizes, `workspace.toml` presentation keys become **deprecated** in favor of `.deck` + generated runtime manifest — exact cutover per planet, not big-bang federation mandate in v0.
 
+## Codegen surface — what else to generate
+
+Beyond `.catalog` and `.deck`, the guild + platform stack can absorb more **wiring** into emit — planets keep **domain logic** only.
+
+| SSOT | Gen output | Planet hand-writes |
+|------|------------|-------------------|
+| **`.catalog`** | command ids, phrase slots, MCP tool stubs, executor map, arg profiles | `Execute` handlers, domain expanders |
+| **`.deck`** | zone ids, presets, `GridLength` grid, preset switch by display profile | zone **views** (content) |
+| **`.deck` `zones` block** | `ZoneViews.g.cs` registry (`report-preview` → `typeof(ReportPreviewView)`) | view XAML + VM |
+| **`.deck` + catalog cross-ref** | command bar placement, which slash host lives in which zone | — |
+| **Binding catalog** (platform) | hotkey → `commandId` merge table stub | planet `Execute` |
+| **Theme / chrome tokens** (optional `.chrome`) | `ResourceDictionary` merges, EICAS severity brushes | — |
+| **DashSpec spec** (Studio only) | effective resolve JSON schema hooks, card id constants for preview | SQL, business rules |
+
+**Not generated (ever):** ViewModel business rules, SQL, diagram data transforms, connector secrets.
+
+**Emit CLI target (one toolchain):**
+
+```bash
+dotnet guild emit --catalog dash.catalog --deck dashspec-studio.deck --project DashSpec.Studio.Wpf
+```
+
+→ `DashCatalog.g.cs` + `DashSpecStudioDeck.g.cs` + `ZoneRegistry.g.cs` + optional `DashSpecStudioTheme.g.xaml`
+
+## Surface.Wpf.UiKit v2 — behavioral instruments (not just brushes)
+
+Legacy Glass UiKit (`GlassDarkCockpit.xaml`, passive templates) predates **CommandPlane**, **Cockpit.DataBus**, **MCPlane**. With platform maturity, UiKit should be **rethought** as **composable instruments** — base UX + interaction mechanics **between** controls, not styled `Button`s.
+
+| Old UiKit | UiKit v2 (instrument) |
+|-----------|------------------------|
+| ResourceDictionary colors | + **behavior** contracts |
+| Dumb `UserControl`s | **platform-wired** hosts |
+| Per-product copy-paste | **NuGet** `Surface.Wpf.UiKit` |
+
+**Target components (draft):**
+
+| Component | Built-in UX | Platform wire |
+|-----------|-------------|-----------------|
+| `ZoneBoardHost` | applies emitted `GridLength` layout | reads `NormalizedZoneLayout` |
+| `CockpitCommandBar` | slash / CCL, discoverability | `CommandPlane.Slash`, `.catalog` emit |
+| `EicasStrip` | W/C/A salience, Dark Cockpit hide-when-nominal | `Cockpit.Channels` |
+| `ReplInstrument` | session history, grid, timing | `DataLab.Core` + MCPlane pulse |
+| `ReportPreviewHost` | WebView2, filter toolbar chrome | DashSpec runtime session port |
+| `PresetSwitcher` | cockpit vs server preset | deck presets + display probe |
+
+**Interaction between instruments:** not code-behind coupling — **shared channels** (Cockpit DataBus: `connector.status`, `resolve.error`, `query.slow`) + **command registry** (one action, many surfaces). Example: EICAS click on SQL error → focuses `ReplInstrument` zone via `IIntentOrgan` / routing envelope ([platform Routing](GUIDERS-ADR-0010-platform-mechanics.md)).
+
+**Gen + UiKit split:**
+
+```text
+.deck / .catalog  →  emit wiring (ids, grid, registry, bindings)
+Surface.Wpf.UiKit →  how instruments look & behave (once)
+Planet views      →  domain content slotted into ZoneRegistry
+```
+
+Glass may **migrate** to UiKit v2 incrementally; Studio/DBA **greenfield** on v2 — no fork of 2024 passive kit.
+
 ## Consequences
 
 - DashSpec Studio / DBA Studio bootstrap WPF with **preset constants** from day one — no forked `(P)(F)(M)` parsers per repo.
@@ -282,7 +339,9 @@ dotnet deck emit --project DashSpec.Studio.Wpf --deck dashspec-studio.deck
 5. **`workspace.toml` sunset:** adapter period length for Glass/CIDE vs greenfield `.deck`-only for Studio/DBA?
 6. **Server/RDS:** WebView2 + GPU policy matrix for Report Preview on Windows Server?
 7. **`deck layout` grammar:** reuse DashSpec layout board parser vs separate Authoring.Deck sub-grammar?
-8. **Row weights vs row height:** eicas `auto` — fixed px or % in v0?
+8. **Row star vs row height:** content rows all `*` height; only EICAS `Auto` in v0?
+9. **UiKit v2 scope:** which instruments ship in guild v0 vs Studio-only?
+10. **`.chrome` tokens:** separate SSOT or section inside `.deck`?
 
 ## Reference missions
 
