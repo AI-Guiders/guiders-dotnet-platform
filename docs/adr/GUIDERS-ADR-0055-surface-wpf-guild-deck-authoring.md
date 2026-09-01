@@ -145,6 +145,38 @@ Bracket branch ([0026](./GUIDERS-ADR-0026-notations-bracket-branch.md)) stays fo
 
 **Emit path:** `deck emit` calls Notations reader on each preset's `topology` line → embeds resolved IR constants in `Deck.g.cs` (or references normalized wire hash → flags table generated once).
 
+**Single-screen = first class (server deployment):** DashSpec Studio is expected to run on **Windows Server** (RDS, jump box, shared VM) — often **one physical display**. One-screen layout is **not** a degraded/mobile fallback; it must be **the same cockpit semantics** as multi-monitor (Forward/PFD/MFD/EICAS), only projection differs.
+
+| Profile | Topology wire (examples) | Projection |
+|---------|--------------------------|------------|
+| **Cockpit** (multi-display) | `(P)(F)(M)`, `(MFD)(F)` + satellite host | dedicated TopLevels per zone |
+| **Server / single surface** | `(F/P/M)` OneOf, `(MFD/F)` merged | **one TopLevel** — XOR pages or docked MFD; Forward glass full width when active |
+
+Reuse GlassCore precedent: `OperatorReviewFlightTopology = "(F/P/M)"` — all scan channels in **one** TopLevel ([GlassPresentationLayout](https://github.com/AI-Guiders/cascade-ide/blob/develop/CascadeIDE.GlassCore/Presentation/GlassPresentationLayout.cs)). `Notations.Presentation` MUST parse **both** families with equal conformance coverage — no «second-class» IR for single-screen.
+
+**Deck presets (DashSpec Studio):**
+
+```text
+preset report-author          # cockpit — multi-monitor when available
+  topology (MFD)(F)
+  …
+end preset
+
+preset report-author-server   # default on server / RDS — first class
+  topology (F/P/M)
+  forward report-preview
+  mfd spec-tree | data-lab | resolve
+  eicas when alerts
+end preset
+```
+
+**Invariants:**
+
+- Report Preview on single screen = **full-width forward glass**, not thumbnail strip.
+- MFD zones = tabs / bottom dock / OneOf — **not** «open second window» (often blocked or awkward on RDS).
+- Runtime detects display count → **select preset** or adapt IR projection; **do not** fork ViewModels per layout tier.
+- WPF on Server: plan for RDS session (WebView2 GPU, input latency) — deployment note, not a separate product.
+
 ### 4. Integration with `.catalog`
 
 Deck and catalog are **orthogonal SSOTs**, same authoring pipeline shape:
@@ -200,14 +232,15 @@ dotnet deck emit --project DashSpec.Studio.Wpf --deck dashspec-studio.deck
 3. **Notations.Presentation:** track as amendment to [0021](./GUIDERS-ADR-0021-notations-quarry-family.md) §2 branch table when package lands?
 4. **XAML emit depth:** constants-only v0 vs partial ResourceDictionary merge v1?
 5. **`workspace.toml` sunset:** adapter period length for Glass/CIDE vs greenfield `.deck`-only for Studio/DBA?
+6. **Server/RDS:** WebView2 + GPU policy matrix for Report Preview on Windows Server?
 
 ## Reference missions
 
-| Planet | First preset | Forward zone |
-|--------|--------------|--------------|
-| `dash-spec-studio` | `report-author` | `report-preview` |
-| `dba-studio` | `dba-ops` | `repl` |
-| Glass | existing topology strings | migrate to deck optional |
+| Planet | First preset | Forward zone | Server preset |
+|--------|--------------|--------------|---------------|
+| `dash-spec-studio` | `report-author` | `report-preview` | `report-author-server` `(F/P/M)` |
+| `dba-studio` | `dba-ops` | `repl` | `dba-ops-server` (TBD) |
+| Glass | existing topology strings | migrate to deck optional | `(F/P/M)` already sealed |
 
 ## Worked example (target end state)
 
