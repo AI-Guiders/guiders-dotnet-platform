@@ -1,6 +1,7 @@
 #nullable enable
 using AIGuiders.Platform.Navigation;
 using AIGuiders.Platform.Navigation.Policy;
+using AIGuiders.Platform.Paths;
 
 namespace AIGuiders.Platform.Navigation.Code;
 
@@ -22,20 +23,15 @@ public static class NavigationSceneBuilder
                 Label: Path.GetFileName(anchor.Path)),
         };
         var edges = new List<NavigationEdge>();
-        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { Path.GetFullPath(anchor.Path) };
+        var anchorKey = PathBoundary.TryCanonicalPhysical(anchor.Path) ?? anchor.Path;
+        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { anchorKey };
 
         var index = 1;
         foreach (var item in filtered)
         {
-            string full;
-            try
-            {
-                full = Path.GetFullPath(item.Path);
-            }
-            catch
-            {
+            var full = PathBoundary.TryCanonicalPhysical(item.Path);
+            if (full is null)
                 continue;
-            }
 
             if (!seen.Add(full))
                 continue;

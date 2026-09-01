@@ -5,4 +5,7 @@
     <PackageId>AIGuiders.Platform.Configurations.Workspace</PackageId>
     <Description>workspace.toml document IR (format-agnostic).</Description>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Paths\AIGuiders.Platform.Paths.csproj" />
+  </ItemGroup>
 </Project>

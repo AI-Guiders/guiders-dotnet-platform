@@ -1,5 +1,7 @@
 #nullable enable
 
+using AIGuiders.Platform.Paths;
+
 namespace AIGuiders.Platform.Configurations.Workspace;
 
 /// <summary>Per-path Explore correspondence gate tier from workspace.toml <c>[workspace.explore_corr]</c>.</summary>
@@ -20,29 +22,19 @@ public static class WorkspaceExploreCorrPolicy
         if (string.IsNullOrWhiteSpace(absoluteFilePath))
             return Mode.Full;
 
-        string abs;
-        try
-        {
-            abs = Path.GetFullPath(absoluteFilePath.Trim());
-        }
-        catch
-        {
-            return Mode.Full;
-        }
-
         if (settings is null)
             return Mode.Full;
 
-        var defaultMode = ParseMode(settings.Default, Mode.Full);
-        var rel = TryRel(workspaceRoot, abs);
+        var rel = PathBoundary.ToLogical(workspaceRoot, absoluteFilePath);
         if (rel is null)
-            return defaultMode;
+            return ParseMode(settings.Default, Mode.Full);
 
-        var matched = MatchRule(settings.Rules, rel);
+        var defaultMode = ParseMode(settings.Default, Mode.Full);
+        var matched = MatchRule(settings.Rules, rel.Value);
         return matched is not null ? ParseMode(matched, defaultMode) : defaultMode;
     }
 
-    static string? MatchRule(IReadOnlyList<WorkspaceExploreCorrRule>? rules, string rel)
+    static string? MatchRule(IReadOnlyList<WorkspaceExploreCorrRule>? rules, LogicalPath rel)
     {
         if (rules is not { Count: > 0 })
             return null;
@@ -53,15 +45,15 @@ public static class WorkspaceExploreCorrPolicy
 
         foreach (var row in rules)
         {
-            var key = NormalizePath(row.Path ?? "");
-            if (key.Length == 0)
+            var key = new LogicalPath(row.Path ?? "");
+            if (key.IsEmpty)
                 continue;
 
-            if (key == "*")
+            if (key.Value == "*")
             {
                 if (bestPath is null)
                 {
-                    bestPath = key;
+                    bestPath = key.Value;
                     bestLen = 0;
                     bestMode = row.Mode;
                 }
@@ -69,13 +61,13 @@ public static class WorkspaceExploreCorrPolicy
                 continue;
             }
 
-            if (!rel.StartsWith(key, StringComparison.OrdinalIgnoreCase))
+            if (!rel.StartsWith(key))
                 continue;
-            if (key.Length <= bestLen)
+            if (key.Value.Length <= bestLen)
                 continue;
 
-            bestPath = key;
-            bestLen = key.Length;
+            bestPath = key.Value;
+            bestLen = key.Value.Length;
             bestMode = row.Mode;
         }
 
@@ -97,17 +89,4 @@ public static class WorkspaceExploreCorrPolicy
             return Mode.Full;
         return fallback;
     }
-
-    static string? TryRel(string workspaceRoot, string abs)
-    {
-        var root = Path.GetFullPath(workspaceRoot)
-            .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-        var full = Path.GetFullPath(abs);
-        if (!full.StartsWith(root, StringComparison.OrdinalIgnoreCase) || full.Length <= root.Length)
-            return null;
-        return full[(root.Length + 1)..].Replace('\\', '/');
-    }
-
-    static string NormalizePath(string raw) =>
-        raw.Replace('\\', '/').Trim().TrimStart('/').TrimEnd('/');
 }

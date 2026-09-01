@@ -42,8 +42,8 @@ Doc/correspondence helpers (`GuessTitle`, markdown line excerpt) remain in `Docu
 | Consumer | Change |
 |----------|--------|
 | `CorrespondencePaths` | Delegate normalize / TryRel / PathsMatch to `Paths` (shipped) |
-| `WorkspaceExploreCorrPolicy` | Follow-up: use `LogicalPath` for rule keys |
-| Navigation `RelativePath` | Follow-up: align naming with `LogicalPath` where repo-relative |
+| `WorkspaceExploreCorrPolicy` | Uses `LogicalPath` + `PathBoundary` (shipped) |
+| Navigation scene dedupe | `PathBoundary.TryCanonicalPhysical` (shipped) |
 
 ### Anti-patterns
 

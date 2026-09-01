@@ -1,6 +1,7 @@
 #nullable enable
 
 using System.Text.RegularExpressions;
+using AIGuiders.Platform.Paths;
 
 namespace AIGuiders.Platform.Documentation.Correspondence;
 
@@ -184,7 +185,7 @@ public static partial class WorkspaceForwardMap
             if (raw.Length == 0) continue;
 
             string? resolved = null;
-            var t = raw.Replace('\\', '/');
+            var t = LogicalPath.Normalize(raw);
             if (t.StartsWith(adrRoot, StringComparison.OrdinalIgnoreCase))
                 resolved = CorrespondencePaths.NormalizeDoc(t);
             else if (t.StartsWith("./", StringComparison.Ordinal)
@@ -229,7 +230,7 @@ public static partial class WorkspaceForwardMap
 
     static string NormalizeAdrRoot(string? raw)
     {
-        var s = (raw ?? "").Trim().Replace('\\', '/');
+        var s = LogicalPath.Normalize(raw ?? "");
         if (s.Length == 0) return "docs/adr/";
         if (!s.EndsWith('/')) s += "/";
         return s;

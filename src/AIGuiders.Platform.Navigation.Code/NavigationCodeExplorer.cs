@@ -1,6 +1,7 @@
 #nullable enable
 using AIGuiders.Platform.Navigation;
 using AIGuiders.Platform.Navigation.Policy;
+using AIGuiders.Platform.Paths;
 
 namespace AIGuiders.Platform.Navigation.Code;
 
@@ -31,7 +32,10 @@ internal static class InMemoryRelatedProvider
 {
     public static IReadOnlyList<NavigationRelatedItem> Collect(string anchorPath, IReadOnlyList<string> solutionFiles)
     {
-        var anchorFull = Path.GetFullPath(anchorPath);
+        var anchorFull = PathBoundary.TryCanonicalPhysical(anchorPath);
+        if (anchorFull is null)
+            return Array.Empty<NavigationRelatedItem>();
+
         var anchorDir = Path.GetDirectoryName(anchorFull);
         var anchorStem = Path.GetFileNameWithoutExtension(anchorFull);
         var list = new List<NavigationRelatedItem>();
@@ -39,8 +43,11 @@ internal static class InMemoryRelatedProvider
         if (!string.IsNullOrEmpty(anchorDir))
         {
             foreach (var file in solutionFiles
-                         .Where(f => string.Equals(Path.GetDirectoryName(Path.GetFullPath(f)), anchorDir, StringComparison.OrdinalIgnoreCase))
-                         .Where(f => !string.Equals(Path.GetFullPath(f), anchorFull, StringComparison.OrdinalIgnoreCase))
+                         .Select(PathBoundary.TryCanonicalPhysical)
+                         .Where(static f => f is not null)
+                         .Cast<string>()
+                         .Where(f => string.Equals(Path.GetDirectoryName(f), anchorDir, StringComparison.OrdinalIgnoreCase))
+                         .Where(f => !string.Equals(f, anchorFull, StringComparison.OrdinalIgnoreCase))
                          .OrderBy(f => f, StringComparer.OrdinalIgnoreCase))
             {
                 var stem = Path.GetFileNameWithoutExtension(file);

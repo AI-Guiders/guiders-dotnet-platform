@@ -53,7 +53,7 @@ public static class CorrespondenceResolver
 
         return new CorrespondenceResult(
             root,
-            rel.Replace('\\', '/'),
+            rel,
             forward.FeatureLine,
             forward.FeatureDocs,
             forward.AdrLine,

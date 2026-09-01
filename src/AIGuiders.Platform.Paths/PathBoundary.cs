@@ -45,6 +45,29 @@ public static class PathBoundary
         }
     }
 
+    /// <summary>Canonical absolute path for dedupe/compare (IO boundary).</summary>
+    public static string? TryCanonicalPhysical(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+            return null;
+
+        try
+        {
+            return AbsolutePath.Create(Path.GetFullPath(path.Trim())).ToString();
+        }
+        catch (ArgumentException)
+        {
+            try
+            {
+                return Path.GetFullPath(path.Trim());
+            }
+            catch
+            {
+                return null;
+            }
+        }
+    }
+
     static LogicalPath? ToLogicalFallback(string workspaceRoot, string absolutePath)
     {
         try

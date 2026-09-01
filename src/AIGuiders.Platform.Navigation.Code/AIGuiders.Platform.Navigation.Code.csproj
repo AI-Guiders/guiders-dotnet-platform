@@ -8,5 +8,6 @@
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Navigation.Policy\AIGuiders.Platform.Navigation.Policy.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Navigation\AIGuiders.Platform.Navigation.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Paths\AIGuiders.Platform.Paths.csproj" />
   </ItemGroup>
 </Project>
