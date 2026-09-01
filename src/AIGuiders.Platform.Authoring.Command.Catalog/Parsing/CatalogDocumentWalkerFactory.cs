@@ -37,23 +37,18 @@ public static class CatalogDocumentWalkerFactory
                     return true;
                 }
 
-                if (line.Text.StartsWith("import ", StringComparison.Ordinal))
+                if (AuthoringImportLine.TryParse(line.Text, out var import) && import is not null)
                 {
-                    var raw = line.Text["import ".Length..].Trim();
-                    var path = raw;
-                    string? alias = null;
-                    var asIndex = raw.IndexOf(" as ", StringComparison.OrdinalIgnoreCase);
-                    if (asIndex > 0)
+                    if (import.TargetKind != AuthoringImportTargetKind.WireLibrary)
                     {
-                        path = raw[..asIndex].Trim().Trim('<', '>');
-                        alias = raw[(asIndex + 4)..].Trim();
-                    }
-                    else
-                    {
-                        path = path.Trim('<', '>');
+                        ctx.Diagnostics.Add(new(
+                            AuthoringDiagnosticCode.InvalidSyntax,
+                            "`.catalog` federation imports use `import <wire/path>`; logical files are not supported in v0.",
+                            line.LineNumber));
+                        return true;
                     }
 
-                    ctx.Imports.Add(new(path, alias));
+                    ctx.Imports.Add(new(import.Path, import.Alias));
                     return true;
                 }
 
