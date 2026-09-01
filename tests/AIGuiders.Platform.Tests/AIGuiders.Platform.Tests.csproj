@@ -42,6 +42,7 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Catalog\AIGuiders.Platform.Catalog.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Slash\AIGuiders.Platform.CommandPlane.Slash.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Authoring.Command.Catalog\AIGuiders.Platform.Authoring.Command.Catalog.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Constructors\AIGuiders.Platform.CommandPlane.Constructors.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.PrefixArmed\AIGuiders.Platform.CommandPlane.PrefixArmed.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.PrefixArmed.Locale\AIGuiders.Platform.CommandPlane.PrefixArmed.Locale.csproj" />

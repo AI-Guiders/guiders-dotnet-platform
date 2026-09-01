@@ -653,6 +653,7 @@ Sibling repos (not in platform monorepo):
 | [0048](./adr/GUIDERS-ADR-0048-authoring-quarry-family.md) | Authoring quarry family |
 | [0047](./adr/GUIDERS-ADR-0047-command-for-doi.md) | `.catalog` command authoring |
 | [0053](./adr/GUIDERS-ADR-0053-planet-responsibilities.md) | Planet responsibilities (domain · logic · ecosystem) |
+| [0054](./adr/GUIDERS-ADR-0054-phrase-slot-completion.md) | Phrase-slot completion + embassy native-platform |
 
 Full list: [`docs/adr/`](./adr/).
 
@@ -665,7 +666,7 @@ Full list: [`docs/adr/`](./adr/).
 | **Mechanic** | Headless testable unit: contract + implementation + identity + context |
 | **Hyperlane** | Versioned federation protocol (NuGet, schema, MCP surface) |
 | **Planet** | Sovereign product repo — domain + business logic + ecosystem ([0053](./adr/GUIDERS-ADR-0053-planet-responsibilities.md)) |
-| **Embassy** | Reference consumer, not capital |
+| **Embassy** | JS/native-platform runtime for browser surfaces — mirrors platform mechanics, not planet business logic ([0054](./adr/GUIDERS-ADR-0054-phrase-slot-completion.md)) |
 | **Quarry** | Extract mechanics from legacy product code into platform |
 | **ArgTail** | Slash arg phase policy (picker, constructor, free text) |
 | **commandId** | Stable executor key in registry |

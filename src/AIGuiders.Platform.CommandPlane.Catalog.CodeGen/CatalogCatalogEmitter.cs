@@ -68,8 +68,53 @@ public static class CatalogCatalogEmitter
             sb.AppendLine("    ];");
         }
 
+        EmitPhraseSlots(sb, document);
+
         sb.AppendLine("}");
         return sb.ToString();
+    }
+
+    static void EmitPhraseSlots(StringBuilder sb, CatalogDocument document)
+    {
+        var index = CatalogPhraseSlotIndex.FromDocument(document);
+        if (index.Commands.Count == 0)
+        {
+            return;
+        }
+
+        var labels = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var command in index.Commands)
+        {
+            foreach (var (slot, label) in command.SlotLabels)
+            {
+                labels[slot] = label;
+            }
+        }
+
+        sb.AppendLine();
+        sb.AppendLine("    public static readonly IReadOnlyDictionary<string, string> PhraseSlotLabels =");
+        sb.AppendLine("        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)");
+        sb.AppendLine("    {");
+        foreach (var (slot, label) in labels.OrderBy(static pair => pair.Key, StringComparer.OrdinalIgnoreCase))
+        {
+            sb.AppendLine($"        [\"{Escape(slot)}\"] = \"{Escape(label)}\",");
+        }
+
+        sb.AppendLine("    };");
+        sb.AppendLine();
+        sb.AppendLine("    public static readonly CatalogPhraseSlotEmit[] PhraseSlotCommands =");
+        sb.AppendLine("    [");
+        foreach (var command in index.Commands)
+        {
+            var fills = string.Join(", ", command.Fills.Select(fill => $"\"{Escape(fill)}\""));
+            sb.AppendLine(
+                $"        new(\"{Escape(command.CatalogCommand)}\", \"{Escape(command.WireCommandId)}\", \"{Escape(command.LiteralPrefix)}\", [{fills}]),");
+        }
+
+        sb.AppendLine("    ];");
+        sb.AppendLine();
+        sb.AppendLine("    public static CatalogPhraseSlotIndex PhraseSlots =>");
+        sb.AppendLine("        CatalogPhraseSlotIndex.FromEmitted(PhraseSlotCommands, PhraseSlotLabels);");
     }
 
     static string Escape(string value) => value.Replace("\\", "\\\\").Replace("\"", "\\\"");

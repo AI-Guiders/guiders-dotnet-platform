@@ -1,5 +1,6 @@
 #nullable enable
 
+using AIGuiders.Platform.Authoring.Command.Catalog;
 using AIGuiders.Platform.IntermediateRepresentation.Command;
 using System.Runtime.CompilerServices;
 
@@ -13,19 +14,34 @@ public static class CatalogPathCompletion
     public static IReadOnlyList<ArgCompletionItem> GetSuggestions(
         CommandCatalogIndex catalog,
         string typedBody) =>
-        GetSuggestions(catalog, ParseTokens(typedBody, out var endsWithSpace), endsWithSpace, typedBody);
+        GetSuggestions(catalog, typedBody, phraseSlots: null);
+
+    public static IReadOnlyList<ArgCompletionItem> GetSuggestions(
+        CommandCatalogIndex catalog,
+        string typedBody,
+        CatalogPhraseSlotIndex? phraseSlots) =>
+        GetSuggestions(catalog, ParseTokens(typedBody, out var endsWithSpace), endsWithSpace, typedBody, phraseSlots);
 
     public static IReadOnlyList<ArgCompletionItem> GetSuggestions(
         CommandCatalogIndex catalog,
         IReadOnlyList<string> tokens,
         bool endsWithSpace,
         string typedBody) =>
+        GetSuggestions(catalog, tokens, endsWithSpace, typedBody, phraseSlots: null);
+
+    public static IReadOnlyList<ArgCompletionItem> GetSuggestions(
+        CommandCatalogIndex catalog,
+        IReadOnlyList<string> tokens,
+        bool endsWithSpace,
+        string typedBody,
+        CatalogPhraseSlotIndex? phraseSlots) =>
         GetFlatPathSuggestions(
             catalog,
             Snapshots.GetValue(catalog, BuildSnapshot),
             tokens,
             endsWithSpace,
-            typedBody);
+            typedBody,
+            phraseSlots);
 
     internal static bool UsesFlatPaths(CommandCatalogIndex catalog) =>
         !Snapshots.GetValue(catalog, BuildSnapshot).HasSemanticStructure;
@@ -41,7 +57,8 @@ public static class CatalogPathCompletion
         PathSnapshot snap,
         IReadOnlyList<string> tokens,
         bool endsWithSpace,
-        string typedBody)
+        string typedBody,
+        CatalogPhraseSlotIndex? phraseSlots)
     {
         if (!endsWithSpace && tokens.Count > 0 && HasChildSegments(snap, tokens))
         {
@@ -88,7 +105,11 @@ public static class CatalogPathCompletion
             var help = segs.Count == depth + 1
                 ? route.Help
                 : $"{route.CommandPath} — {route.Help}";
-            list.Add(new ArgCompletionItem(insert, route.CommandPath, help, route.Group, next));
+            list.Add(PhraseSlotCompletion.Enrich(
+                new ArgCompletionItem(insert, route.CommandPath, help, route.Group, next),
+                phraseSlots,
+                typedBody,
+                route.Route.CommandId));
         }
 
         return SlashCompletionSort.Order(list);

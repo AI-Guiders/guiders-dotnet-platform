@@ -1,3 +1,4 @@
+using AIGuiders.Platform.Authoring.Command.Catalog;
 using AIGuiders.Platform.IntermediateRepresentation.Command;
 #nullable enable
 using System.Runtime.CompilerServices;
@@ -32,21 +33,30 @@ public static class SlashStepCompletion
         CommandCatalogIndex catalog,
         string typedBody,
         ICommandArgSuggestionBroker? suggestionBroker) =>
-        GetSuggestions(catalog, ParseTokens(typedBody, out var endsWithSpace), endsWithSpace, typedBody, suggestionBroker);
-
-    public static IReadOnlyList<ArgCompletionItem> GetSuggestions(
-        CommandCatalogIndex catalog,
-        IReadOnlyList<string> tokens,
-        bool endsWithSpace,
-        string typedBody) =>
-        GetSuggestions(catalog, tokens, endsWithSpace, typedBody, suggestionBroker: null);
+        GetSuggestions(catalog, typedBody, suggestionBroker, phraseSlots: null);
 
     public static IReadOnlyList<ArgCompletionItem> GetSuggestions(
         CommandCatalogIndex catalog,
         IReadOnlyList<string> tokens,
         bool endsWithSpace,
         string typedBody,
-        ICommandArgSuggestionBroker? suggestionBroker)
+        ICommandArgSuggestionBroker? suggestionBroker) =>
+        GetSuggestions(catalog, tokens, endsWithSpace, typedBody, suggestionBroker, phraseSlots: null);
+
+    public static IReadOnlyList<ArgCompletionItem> GetSuggestions(
+        CommandCatalogIndex catalog,
+        string typedBody,
+        ICommandArgSuggestionBroker? suggestionBroker,
+        CatalogPhraseSlotIndex? phraseSlots) =>
+        GetSuggestions(catalog, ParseTokens(typedBody, out var endsWithSpace), endsWithSpace, typedBody, suggestionBroker, phraseSlots);
+
+    public static IReadOnlyList<ArgCompletionItem> GetSuggestions(
+        CommandCatalogIndex catalog,
+        IReadOnlyList<string> tokens,
+        bool endsWithSpace,
+        string typedBody,
+        ICommandArgSuggestionBroker? suggestionBroker,
+        CatalogPhraseSlotIndex? phraseSlots)
     {
         if (SlashLineResolver.TryResolveBody(typedBody, catalog, out var line)
             && catalog.TryGet(line.CanonicalPath, out var route)
@@ -64,7 +74,7 @@ public static class SlashStepCompletion
 
         var snap = Snapshots.GetValue(catalog, BuildSnapshot);
         if (!snap.HasSemanticStructure)
-            return CatalogPathCompletion.GetSuggestions(catalog, tokens, endsWithSpace, typedBody);
+            return CatalogPathCompletion.GetSuggestions(catalog, tokens, endsWithSpace, typedBody, phraseSlots);
 
         var state = ResolveCompletionState(snap, tokens, endsWithSpace);
         return state.Step switch

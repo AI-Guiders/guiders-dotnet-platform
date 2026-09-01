@@ -1,5 +1,7 @@
 #nullable enable
 
+using AIGuiders.Platform.Authoring.Command.Catalog;
+
 namespace AIGuiders.Platform.CommandPlane;
 
 public sealed class SlashCompletionOptions
@@ -11,4 +13,7 @@ public sealed class SlashCompletionOptions
 
     /// <summary>Product PAC profiles (GUIDERS-ADR-0038). Domain-agnostic prefix lexers.</summary>
     public IReadOnlyList<IPrefixArmProfile> PrefixArmProfiles { get; init; } = [];
+
+    /// <summary>Catalog phrase-slot index for path-phase enrichment (GUIDERS-ADR-0054).</summary>
+    public CatalogPhraseSlotIndex? PhraseSlots { get; init; }
 }

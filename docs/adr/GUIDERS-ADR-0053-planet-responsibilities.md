@@ -26,6 +26,7 @@ A **planet** (sovereign product repo — DashSpec, Forge, CIDE, …) owns:
 | **Domain** | Subject vocabulary, entities, spec artifacts | `.dashspec`, cards/views, filters, MR/issue model, handoff paths |
 | **Business logic** | What a command *means* and what changes when it runs | entity resolvers, filter apply, view switch, ACL on suggest |
 | **Ecosystem** | Planet-local plugins, integrations, operator tooling | `DashSpec.Plugin.*`, dev file watcher, SSCADRepo handoff, planet expanders |
+| **Embassy** | JS/native-platform runtime for browser surfaces — **not** a second command plane | `guiders-js` (`@aiguiders/command-plane-slash`, `@aiguiders/ir-invocation`) — mirrors platform mechanics ([0054](./GUIDERS-ADR-0054-phrase-slot-completion.md), [GUIDERS-JS-ADR-0001](https://github.com/AI-Guiders/guiders-js/blob/main/design/GUIDERS-JS-ADR-0001-js-embassy.md)) |
 
 Everything else is **not** planet scope.
 

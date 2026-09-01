@@ -10,7 +10,10 @@ public sealed record ArgCompletionItem(
     string? Group = null,
     string? StepSegment = null,
     ArgCompletionItemKind Kind = ArgCompletionItemKind.Segment,
-    string? PickValue = null);
+    string? PickValue = null,
+    string? CommandId = null,
+    string? ActiveSlot = null,
+    string? SlotLabel = null);
 
 /// <summary>Hierarchy header for command popup (domain → object → intent).</summary>
 public sealed record ArgCompletionHierarchy(

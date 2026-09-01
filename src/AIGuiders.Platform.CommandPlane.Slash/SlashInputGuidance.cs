@@ -108,7 +108,7 @@ public static class SlashCompletion
                 profile);
         }
 
-        var items = SlashStepCompletion.GetSuggestions(catalog, typedBody, suggestionBroker);
+        var items = SlashStepCompletion.GetSuggestions(catalog, typedBody, suggestionBroker, options?.PhraseSlots);
         var guidance = SlashInputGuidanceResolver.Resolve(
             catalog,
             typedBody,
