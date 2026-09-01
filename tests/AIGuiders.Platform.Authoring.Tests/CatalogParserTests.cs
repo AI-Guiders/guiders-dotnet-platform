@@ -21,6 +21,7 @@ public sealed class CatalogParserTests
         Assert.Equal("dash", result.Document!.Planet);
         Assert.Contains(result.Document.Commands, c => c.Command == "filter.date");
         Assert.Contains(result.Document.Defaults.CommandSurfaces, s => s == "slash.bar");
+        Assert.Equal("console", result.Document.Defaults.CommandFlavor);
         Assert.Equal("command-console", result.Document.Channels.First(c => c.Sub == "filter").CommandGrammar);
 
         var dateProfile = result.Document.Profiles.First(p => p.Name == "date-value");

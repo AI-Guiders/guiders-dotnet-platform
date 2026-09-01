@@ -46,6 +46,7 @@ public sealed class CatalogParseContext
             GrammarKeyboardBinding = DefaultsKv.GetValueOrDefault("grammar.keyboard.binding"),
             GrammarKeyboardMelody = DefaultsKv.GetValueOrDefault("grammar.keyboard.melody"),
             BindingChordRoot = DefaultsKv.GetValueOrDefault("binding.chord-root"),
+            CommandFlavor = DefaultsKv.GetValueOrDefault("command.flavor"),
         };
 
     public void ValidateChannels()

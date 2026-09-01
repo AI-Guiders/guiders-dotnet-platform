@@ -26,6 +26,8 @@ public sealed class CatalogDefaults
     public string? GrammarKeyboardBinding { get; init; }
     public string? GrammarKeyboardMelody { get; init; }
     public string? BindingChordRoot { get; init; }
+    /// <summary>Primary invoker wire flavor: <c>console</c> | <c>slash</c> (GUIDERS-ADR-0047).</summary>
+    public string? CommandFlavor { get; init; }
 }
 
 public sealed class CatalogChannel
