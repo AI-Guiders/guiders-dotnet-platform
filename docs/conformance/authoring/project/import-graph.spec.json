@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "surface": "authoring-project",
+  "source": "GUIDERS-ADR-0051 Authoring.Project + GUIDERS-ADR-0052 import",
+  "vectors": [
+    {
+      "id": "import-line-wire",
+      "line": "import <grain/date-filter> as dash-date",
+      "expect": {
+        "targetKind": "WireLibrary",
+        "path": "grain/date-filter",
+        "alias": "dash-date"
+      }
+    },
+    {
+      "id": "import-line-logical",
+      "line": "import \"specs/entry.catalog\"",
+      "expect": {
+        "targetKind": "LogicalPath",
+        "path": "specs/entry.catalog"
+      }
+    },
+    {
+      "id": "legacy-include-alias",
+      "line": "!include \"layouts/grid.dashlayout\"",
+      "expect": {
+        "targetKind": "LogicalPath",
+        "path": "layouts/grid.dashlayout",
+        "legacy": true
+      }
+    },
+    {
+      "id": "catalog-project-federation-graph",
+      "catalogFile": "dash.catalog",
+      "expect": {
+        "planet": "dash",
+        "logicalDocuments": 1,
+        "federationImportsMin": 1
+      }
+    }
+  ]
+}

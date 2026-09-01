@@ -83,9 +83,9 @@ Grammar diagnostics unchanged; project + parse diagnostics merge in `CatalogProj
 | Consumer | v0 | Target |
 |----------|-----|--------|
 | `CatalogParser.Parse` / `ParseFile` | Keep — low-level API | Call via `CatalogProject.Open` in hosts/toolchain |
-| `authoring-toolchain` `Authoring.Cli validate` | Parse file path | `CatalogProject.Open(workspace, catalog)` |
+| `authoring-toolchain` `Authoring.Cli validate` | `CatalogProject.Open` + `--workspace` (**shipped**) |
 | `dash-spec` `dash.catalog` | `CatalogParser` in Host | Pin `CatalogProject`; Core stays host-free |
-| DashSpec `.dashspec` graph | Ad hoc includes in Core parser | `DashSpecProject` + unified `import` ([0052](./GUIDERS-ADR-0052-unified-import-directive.md); migrate from `!include`) |
+| DashSpec `.dashspec` graph | `DashSpecProject.Open` + unified `import` (**shipped** in dash-spec Core) |
 
 ## Consequences
 
@@ -97,7 +97,7 @@ Grammar diagnostics unchanged; project + parse diagnostics merge in `CatalogProj
 
 | # | Topic |
 |---|--------|
-| 1 | Multi-file logical graph (`import "…"`, glob) — `AuthoringProjectLoader` extensions ([0052](./GUIDERS-ADR-0052-unified-import-directive.md)) |
+| 1 | Multi-file logical graph — `AuthoringProjectGraph` + `DashSpecProject` (**shipped** 2026-09-01) |
 | 2 | `Authoring.Workspace` grammar — only after second consumer ADR ([0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) §5) |
-| 3 | Conformance vectors `authoring/project/*.spec.json` |
+| 3 | Conformance vectors `authoring/project/*.spec.json` (**shipped** — `import-graph.spec.json`) |
 | 4 | DashSpec adopt `AuthoringProject` + shared LSP host from `authoring-toolchain` |
