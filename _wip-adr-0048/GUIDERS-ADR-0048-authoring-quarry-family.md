@@ -81,6 +81,8 @@ Cross-grammar conventions ([0047](../_wip-adr-0047/GUIDERS-ADR-0047-command-for-
 
 `Authoring.Core` owns reusable parse kit for these surfaces; branch grammars compose it.
 
+**Shipped (2026-09-01):** `AuthoringSource`, `BlockReader`, `TableSurface`, `KvSurface`, `InnerBlockFilter`, `IndentedTreeParser`, `TableRowParser`; normative `docs/grammar/authoring/catalog.ebnf`.
+
 ### 4. Package map (target)
 
 NuGet prefix: **`AIGuiders.Platform.Authoring.*`**

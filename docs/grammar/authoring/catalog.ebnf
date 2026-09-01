@@ -1,0 +1,33 @@
+(* .catalog document grammar v0 — federation authoring DSL *)
+catalogFile     = catalogHeader , { importLine } , { section } ;
+catalogHeader   = "catalog" , SP , planetId , newline ;
+importLine      = "import" , SP , "<" , importPath , ">" , newline ;
+planetId        = identifier ;
+importPath      = { identifier , ( "/" | "-" ) } , identifier ;
+identifier      = letter , { letter | digit | "_" | "-" | "." } ;
+
+section         = blockSection ;
+blockSection    = sectionOpener , newline , blockBody , endMarker , newline ;
+sectionOpener   = sectionKeyword | tableOpener ;
+tableOpener     = sectionKeyword , SP , "table" ;
+endMarker       = "end" , SP , sectionKeyword ;
+
+sectionKeyword  = "channels" | "defaults" | "variables" | "helps" | "phrases"
+                | "profiles" | "commands" | "bindings" | "melodies" | "mcp" | "executors" ;
+
+blockBody       = { blockLine } ;
+blockLine       = indentedLine | tableRow | kvLine ;
+indentedLine    = indent , lineText , newline ;
+tableRow        = "|" , { tableCell , "|" } , newline ;
+tableCell       = { any - "|" - newline } ;
+kvLine          = dottedKey , "=" , value , newline ;
+dottedKey       = identifier , { "." , identifier } ;
+value           = { any - newline } ;
+
+innerGrammar    = "grammar" , newline , grammarPair , { grammarPair } , "end" , SP , "grammar" , newline ;
+grammarPair     = indent , ( "command" | "argument" ) , "=" , grammarId , newline ;
+grammarId       = identifier , { "-" , identifier } ;
+
+indent          = { SP } ;   (* 2-space steps in reference parser *)
+newline         = ? '\n' ? ;
+SP              = " " ;

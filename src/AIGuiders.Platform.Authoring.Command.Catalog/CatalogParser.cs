@@ -1,28 +1,19 @@
 using System.Text;
-using System.Text.RegularExpressions;
 using AIGuiders.Platform.Authoring.Core;
 
 namespace AIGuiders.Platform.Authoring.Command.Catalog;
 
 public static class CatalogParser
 {
-    static readonly Regex InnerEndLine = new(@"^\s*end\s+\w+\s*$", RegexOptions.Compiled | RegexOptions.CultureInvariant);
     public static CatalogParseResult Parse(string text, string? sourcePath = null) =>
-        ParseLines(text.Replace("\r\n", "\n").Split('\n'), sourcePath);
+        ParseLines(AuthoringSource.FromText(text), sourcePath);
 
-    public static CatalogParseResult ParseFile(string path)
-    {
-        var text = File.ReadAllText(path, Encoding.UTF8);
-        return Parse(text, path);
-    }
+    public static CatalogParseResult ParseFile(string path) =>
+        ParseLines(AuthoringSource.FromFile(path), path);
 
-    internal static CatalogParseResult ParseLines(IReadOnlyList<string> rawLines, string? sourcePath)
+    internal static CatalogParseResult ParseLines(IReadOnlyList<AuthoringLine> lines, string? sourcePath)
     {
         var diagnostics = new List<AuthoringDiagnostic>();
-        var lines = rawLines
-            .Select((t, i) => (Line: i + 1, Text: StripComment(t)))
-            .ToList();
-
         string? planet = null;
         var imports = new List<string>();
         var defaults = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
@@ -30,7 +21,6 @@ public static class CatalogParser
         var variables = new List<CatalogVariable>();
         var helps = new List<CatalogHelp>();
         var phrases = new List<CatalogPhrase>();
-        var profiles = new List<CatalogProfile>();
         var commands = new List<CatalogCommandRow>();
         var bindings = new List<CatalogBindingRow>();
         var melodies = new List<CatalogMelodyRow>();
@@ -39,44 +29,52 @@ public static class CatalogParser
 
         for (var i = 0; i < lines.Count; i++)
         {
-            var (lineNo, line) = lines[i];
-            if (string.IsNullOrWhiteSpace(line))
+            var line = lines[i];
+            if (string.IsNullOrWhiteSpace(line.Text))
             {
                 continue;
             }
 
-            if (line.StartsWith("catalog ", StringComparison.Ordinal))
+            if (line.Text.StartsWith("catalog ", StringComparison.Ordinal))
             {
-                planet = line["catalog ".Length..].Trim();
+                planet = line.Text["catalog ".Length..].Trim();
                 continue;
             }
 
-            if (line.StartsWith("import ", StringComparison.Ordinal))
+            if (line.Text.StartsWith("import ", StringComparison.Ordinal))
             {
-                imports.Add(line["import ".Length..].Trim().Trim('<', '>'));
+                imports.Add(line.Text["import ".Length..].Trim().Trim('<', '>'));
                 continue;
             }
 
-            if (TryOpenBlock(line, out var section, out var isTable))
+            if (!BlockReader.TryParseOpener(line.Text, out var opener))
             {
-                i = ParseBlock(
-                    lines,
-                    i + 1,
-                    section,
-                    isTable,
-                    diagnostics,
-                    defaults,
-                    channels,
-                    variables,
-                    helps,
-                    phrases,
-                    profiles,
-                    commands,
-                    bindings,
-                    melodies,
-                    mcp,
-                    executors);
+                continue;
             }
+
+            var block = BlockReader.Read(lines, i + 1, opener.Keyword, diagnostics);
+            i = block.EndLineIndex;
+            if (!block.IsClosed)
+            {
+                continue;
+            }
+
+            var surfaceKind = BlockReader.ResolveSurfaceKind(opener);
+            ApplyBlock(
+                opener.Keyword,
+                surfaceKind,
+                block.Body,
+                diagnostics,
+                defaults,
+                channels,
+                variables,
+                helps,
+                phrases,
+                commands,
+                bindings,
+                melodies,
+                mcp,
+                executors);
         }
 
         if (string.IsNullOrWhiteSpace(planet))
@@ -94,7 +92,6 @@ public static class CatalogParser
             Variables = variables,
             Helps = helps,
             Phrases = phrases,
-            Profiles = profiles,
             Commands = commands,
             Bindings = bindings,
             Melodies = melodies,
@@ -108,58 +105,34 @@ public static class CatalogParser
         return new() { Document = document, Diagnostics = diagnostics };
     }
 
-    static int ParseBlock(
-        IReadOnlyList<(int Line, string Text)> lines,
-        int start,
+    static void ApplyBlock(
         string section,
-        bool isTable,
+        AuthoringSurfaceKind surfaceKind,
+        IReadOnlyList<AuthoringLine> body,
         List<AuthoringDiagnostic> diagnostics,
         Dictionary<string, string> defaults,
         List<CatalogChannel> channels,
         List<CatalogVariable> variables,
         List<CatalogHelp> helps,
         List<CatalogPhrase> phrases,
-        List<CatalogProfile> profiles,
         List<CatalogCommandRow> commands,
         List<CatalogBindingRow> bindings,
         List<CatalogMelodyRow> melodies,
         List<CatalogMcpRow> mcp,
         Dictionary<string, string> executors)
     {
-        var body = new List<(int Line, string Text)>();
-        var i = start;
-        for (; i < lines.Count; i++)
-        {
-            var (lineNo, text) = lines[i];
-            if (text.StartsWith($"end {section}", StringComparison.Ordinal))
-            {
-                break;
-            }
-
-            if (!string.IsNullOrWhiteSpace(text))
-            {
-                body.Add((lineNo, text));
-            }
-        }
-
-        if (i >= lines.Count)
-        {
-            diagnostics.Add(new(AuthoringDiagnosticCode.InvalidSyntax, $"Unclosed block `{section}`.", start));
-            return i;
-        }
-
         switch (section)
         {
             case "defaults":
-                ParseDefaultsKv(body, defaults);
+                KvSurface.MergeInto(defaults, body);
                 break;
             case "channels":
                 channels.AddRange(ParseChannels(body));
                 break;
             case "variables":
-                if (isTable)
+                if (surfaceKind == AuthoringSurfaceKind.Table)
                 {
-                    ParseVariablesTable(body, variables, diagnostics);
+                    ParseVariablesTable(body, variables);
                 }
                 else
                 {
@@ -168,80 +141,55 @@ public static class CatalogParser
 
                 break;
             case "helps":
-                ParseHelps(body, isTable, helps, diagnostics);
+                if (surfaceKind == AuthoringSurfaceKind.Table)
+                {
+                    ParseHelps(body, helps);
+                }
+
                 break;
             case "phrases":
-                ParsePhrases(body, isTable, phrases, diagnostics);
+                if (surfaceKind == AuthoringSurfaceKind.Table)
+                {
+                    ParsePhrases(body, phrases);
+                }
+
                 break;
             case "commands":
-                ParseCommands(body, commands, diagnostics);
+                ParseCommands(body, commands);
                 break;
             case "bindings":
-                ParseBindings(body, bindings, diagnostics);
+                ParseBindings(body, bindings);
                 break;
             case "melodies":
-                ParseMelodies(body, melodies, diagnostics);
+                ParseMelodies(body, melodies);
                 break;
             case "mcp":
-                ParseMcp(body, mcp, diagnostics);
+                ParseMcp(body, mcp);
                 break;
             case "executors":
-                ParseExecutorsKv(body, executors);
+                KvSurface.MergeInto(executors, body);
                 break;
             default:
-                diagnostics.Add(new(AuthoringDiagnosticCode.UnknownSection, $"Unknown section `{section}`.", start, Section: section));
+                diagnostics.Add(new(
+                    AuthoringDiagnosticCode.UnknownSection,
+                    $"Unknown section `{section}`.",
+                    body.Count > 0 ? body[0].LineNumber : 1,
+                    Section: section));
                 break;
         }
-
-        return i;
     }
 
-    static bool TryOpenBlock(string line, out string section, out bool isTable)
-    {
-        section = "";
-        isTable = false;
-        var trimmed = line.Trim();
-        if (trimmed.EndsWith(" table", StringComparison.Ordinal))
-        {
-            isTable = true;
-            section = trimmed[..^" table".Length].Trim();
-            return true;
-        }
-
-        if (trimmed is "defaults" or "channels" or "variables" or "helps" or "phrases" or "profiles"
-            or "commands" or "bindings" or "melodies" or "mcp" or "executors")
-        {
-            section = trimmed;
-            return true;
-        }
-
-        return false;
-    }
-
-    static void ParseDefaultsKv(IReadOnlyList<(int Line, string Text)> body, Dictionary<string, string> defaults)
-    {
-        foreach (var (_, text) in body)
-        {
-            var eq = text.IndexOf('=');
-            if (eq <= 0)
-            {
-                continue;
-            }
-
-            defaults[text[..eq].Trim()] = text[(eq + 1)..].Trim();
-        }
-    }
-
-    static IReadOnlyList<CatalogChannel> ParseChannels(IReadOnlyList<(int Line, string Text)> body)
+    static IReadOnlyList<CatalogChannel> ParseChannels(IReadOnlyList<AuthoringLine> body)
     {
         if (body.Count > 0 && body[0].Text.TrimStart().StartsWith('|'))
         {
             return ParseChannelsTable(body);
         }
 
-        var filtered = body.Where(static x => !InnerEndLine.IsMatch(x.Text)).ToList();
+        var filtered = InnerBlockFilter.StripEndMarkers(body);
+        var treeLines = filtered.Select(static l => (l.LineNumber, l.Text));
         var list = new List<CatalogChannel>();
-        foreach (var surfaceNode in IndentedTreeParser.Parse(filtered))
+        foreach (var surfaceNode in IndentedTreeParser.Parse(treeLines))
         {
             var lineGrammar = ReadLineGrammar(surfaceNode);
 
@@ -259,7 +207,7 @@ public static class CatalogParser
 
             foreach (var child in surfaceNode.Children)
             {
-                if (IsGrammarBlockKey(child.Key))
+                if (child.Key.Equals("grammar", StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
                 }
@@ -277,9 +225,6 @@ public static class CatalogParser
 
         return list;
     }
-
-    static bool IsGrammarBlockKey(string key) =>
-        key.Equals("grammar", StringComparison.OrdinalIgnoreCase);
 
     static (string? Command, string? Argument) ReadLineGrammar(IndentedNode surfaceNode)
     {
@@ -308,27 +253,18 @@ public static class CatalogParser
         return (command, argument);
     }
 
-    static IReadOnlyList<CatalogChannel> ParseChannelsTable(IReadOnlyList<(int Line, string Text)> body)
+    static IReadOnlyList<CatalogChannel> ParseChannelsTable(IReadOnlyList<AuthoringLine> body)
     {
-        var rows = ParseTable(body);
-        if (rows.Count == 0)
-        {
-            return [];
-        }
-
-        var header = rows[0];
-        var data = rows.Skip(1);
         var list = new List<CatalogChannel>();
-        foreach (var row in data)
+        foreach (var map in TableSurface.ParseMaps(body))
         {
-            var map = RowToMap(header, row);
             list.Add(new CatalogChannel
             {
                 Surface = map.GetValueOrDefault("surface") ?? "",
-                Sub = NullIfEmpty(map.GetValueOrDefault("sub")),
-                PlanetId = NullIfEmpty(map.GetValueOrDefault("planet-id")),
-                CommandGrammar = NullIfEmpty(map.GetValueOrDefault("grammar.command")),
-                ArgumentGrammar = NullIfEmpty(map.GetValueOrDefault("grammar.argument")),
+                Sub = TableSurface.NullIfEmpty(map.GetValueOrDefault("sub")),
+                PlanetId = TableSurface.NullIfEmpty(map.GetValueOrDefault("planet-id")),
+                CommandGrammar = TableSurface.NullIfEmpty(map.GetValueOrDefault("grammar.command")),
+                ArgumentGrammar = TableSurface.NullIfEmpty(map.GetValueOrDefault("grammar.argument")),
             });
         }
 
@@ -336,217 +272,77 @@ public static class CatalogParser
     }
 
     static void ParseVariablesKv(
-        IReadOnlyList<(int Line, string Text)> body,
+        IReadOnlyList<AuthoringLine> body,
         List<CatalogVariable> variables,
         Dictionary<string, string> defaults)
     {
-        foreach (var (_, text) in body)
+        foreach (var entry in KvSurface.ParseNameOrPair(body))
         {
-            var eq = text.IndexOf('=');
-            if (eq > 0)
-            {
-                variables.Add(new(text[..eq].Trim(), text[(eq + 1)..].Trim()));
-            }
-            else
-            {
-                variables.Add(new(text.Trim(), defaults.GetValueOrDefault("variable.kind")));
-            }
+            variables.Add(new(entry.Name, entry.Value ?? defaults.GetValueOrDefault("variable.kind")));
         }
     }
 
-    static void ParseVariablesTable(
-        IReadOnlyList<(int Line, string Text)> body,
-        List<CatalogVariable> variables,
-        List<AuthoringDiagnostic> diagnostics)
+    static void ParseVariablesTable(IReadOnlyList<AuthoringLine> body, List<CatalogVariable> variables)
     {
-        var rows = ParseTable(body);
-        if (rows.Count == 0)
+        foreach (var map in TableSurface.ParseMaps(body))
         {
-            return;
-        }
-
-        var header = rows[0];
-        foreach (var row in rows.Skip(1))
-        {
-            var map = RowToMap(header, row);
-            variables.Add(new(map.GetValueOrDefault("name") ?? "", NullIfEmpty(map.GetValueOrDefault("kind"))));
+            variables.Add(new(map.GetValueOrDefault("name") ?? "", TableSurface.NullIfEmpty(map.GetValueOrDefault("kind"))));
         }
     }
 
-    static void ParseHelps(
-        IReadOnlyList<(int Line, string Text)> body,
-        bool isTable,
-        List<CatalogHelp> helps,
-        List<AuthoringDiagnostic> diagnostics)
+    static void ParseHelps(IReadOnlyList<AuthoringLine> body, List<CatalogHelp> helps)
     {
-        if (!isTable)
+        foreach (var map in TableSurface.ParseMaps(body))
         {
-            return;
-        }
-
-        var rows = ParseTable(body);
-        if (rows.Count == 0)
-        {
-            return;
-        }
-
-        var header = rows[0];
-        foreach (var row in rows.Skip(1))
-        {
-            var map = RowToMap(header, row);
-            helps.Add(new(map.GetValueOrDefault("target") ?? "", map.GetValueOrDefault("field") ?? "", map.GetValueOrDefault("text") ?? ""));
+            helps.Add(new(
+                map.GetValueOrDefault("target") ?? "",
+                map.GetValueOrDefault("field") ?? "",
+                map.GetValueOrDefault("text") ?? ""));
         }
     }
 
-    static void ParsePhrases(
-        IReadOnlyList<(int Line, string Text)> body,
-        bool isTable,
-        List<CatalogPhrase> phrases,
-        List<AuthoringDiagnostic> diagnostics)
+    static void ParsePhrases(IReadOnlyList<AuthoringLine> body, List<CatalogPhrase> phrases)
     {
-        if (!isTable)
+        foreach (var map in TableSurface.ParseMaps(body))
         {
-            return;
-        }
-
-        var rows = ParseTable(body);
-        if (rows.Count == 0)
-        {
-            return;
-        }
-
-        var header = rows[0];
-        foreach (var row in rows.Skip(1))
-        {
-            var map = RowToMap(header, row);
             phrases.Add(new(map.GetValueOrDefault("name") ?? "", map.GetValueOrDefault("phrase") ?? ""));
         }
     }
 
-    static void ParseCommands(
-        IReadOnlyList<(int Line, string Text)> body,
-        List<CatalogCommandRow> commands,
-        List<AuthoringDiagnostic> diagnostics)
+    static void ParseCommands(IReadOnlyList<AuthoringLine> body, List<CatalogCommandRow> commands)
     {
-        var rows = ParseTable(body);
-        if (rows.Count == 0)
+        foreach (var map in TableSurface.ParseMaps(body))
         {
-            return;
-        }
-
-        var header = rows[0];
-        foreach (var row in rows.Skip(1))
-        {
-            var map = RowToMap(header, row);
             var command = map.GetValueOrDefault("command") ?? "";
             commands.Add(new CatalogCommandRow { Command = command, Columns = map });
         }
     }
 
-    static void ParseBindings(
-        IReadOnlyList<(int Line, string Text)> body,
-        List<CatalogBindingRow> bindings,
-        List<AuthoringDiagnostic> diagnostics)
+    static void ParseBindings(IReadOnlyList<AuthoringLine> body, List<CatalogBindingRow> bindings)
     {
-        var rows = ParseTable(body);
-        if (rows.Count == 0)
+        foreach (var map in TableSurface.ParseMaps(body))
         {
-            return;
-        }
-
-        var header = rows[0];
-        foreach (var row in rows.Skip(1))
-        {
-            var map = RowToMap(header, row);
             bindings.Add(new(
                 map.GetValueOrDefault("gesture") ?? "",
                 map.GetValueOrDefault("command") ?? "",
-                NullIfEmpty(map.GetValueOrDefault("role"))));
+                TableSurface.NullIfEmpty(map.GetValueOrDefault("role"))));
         }
     }
 
-    static void ParseMelodies(
-        IReadOnlyList<(int Line, string Text)> body,
-        List<CatalogMelodyRow> melodies,
-        List<AuthoringDiagnostic> diagnostics)
+    static void ParseMelodies(IReadOnlyList<AuthoringLine> body, List<CatalogMelodyRow> melodies)
     {
-        var rows = ParseTable(body);
-        if (rows.Count == 0)
+        foreach (var map in TableSurface.ParseMaps(body))
         {
-            return;
-        }
-
-        var header = rows[0];
-        foreach (var row in rows.Skip(1))
-        {
-            var map = RowToMap(header, row);
             melodies.Add(new(map.GetValueOrDefault("slug") ?? "", map.GetValueOrDefault("command") ?? ""));
         }
     }
 
-    static void ParseMcp(
-        IReadOnlyList<(int Line, string Text)> body,
-        List<CatalogMcpRow> mcp,
-        List<AuthoringDiagnostic> diagnostics)
+    static void ParseMcp(IReadOnlyList<AuthoringLine> body, List<CatalogMcpRow> mcp)
     {
-        var rows = ParseTable(body);
-        if (rows.Count == 0)
+        foreach (var map in TableSurface.ParseMaps(body))
         {
-            return;
-        }
-
-        var header = rows[0];
-        foreach (var row in rows.Skip(1))
-        {
-            var map = RowToMap(header, row);
             mcp.Add(new(map.GetValueOrDefault("command") ?? "", map.GetValueOrDefault("expose") ?? "yes"));
         }
-    }
-
-    static void ParseExecutorsKv(
-        IReadOnlyList<(int Line, string Text)> body,
-        Dictionary<string, string> executors)
-    {
-        foreach (var (_, text) in body)
-        {
-            var eq = text.IndexOf('=');
-            if (eq > 0)
-            {
-                executors[text[..eq].Trim()] = text[(eq + 1)..].Trim();
-            }
-        }
-    }
-
-    static List<IReadOnlyList<string>> ParseTable(IReadOnlyList<(int Line, string Text)> body)
-    {
-        var rows = new List<IReadOnlyList<string>>();
-        foreach (var (_, text) in body)
-        {
-            if (!TableRowParser.TryParseRow(text, out var cells))
-            {
-                continue;
-            }
-
-            if (TableRowParser.IsSeparatorRow(cells))
-            {
-                continue;
-            }
-
-            rows.Add(cells);
-        }
-
-        return rows;
-    }
-
-    static Dictionary<string, string> RowToMap(IReadOnlyList<string> header, IReadOnlyList<string> row)
-    {
-        var map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        for (var i = 0; i < header.Count && i < row.Count; i++)
-        {
-            map[header[i]] = row[i];
-        }
-
-        return map;
     }
 
     static CatalogDefaults BuildDefaults(Dictionary<string, string> kv) =>
@@ -554,7 +350,7 @@ public static class CatalogParser
         {
             VariableKind = kv.GetValueOrDefault("variable.kind"),
             CommandScope = kv.GetValueOrDefault("command.scope"),
-            CommandSurfaces = SplitList(kv.GetValueOrDefault("command.surfaces")),
+            CommandSurfaces = KvSurface.ParseList(kv.GetValueOrDefault("command.surfaces")),
             GrammarKeyboardBinding = kv.GetValueOrDefault("grammar.keyboard.binding"),
             GrammarKeyboardMelody = kv.GetValueOrDefault("grammar.keyboard.melody"),
             BindingChordRoot = kv.GetValueOrDefault("binding.chord-root"),
@@ -584,18 +380,4 @@ public static class CatalogParser
             }
         }
     }
-
-    static IReadOnlyList<string> SplitList(string? value) =>
-        string.IsNullOrWhiteSpace(value)
-            ? []
-            : value.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-
-    static string StripComment(string line)
-    {
-        var hash = line.IndexOf('#');
-        return hash >= 0 ? line[..hash].TrimEnd() : line;
-    }
-
-    static string? NullIfEmpty(string? value) =>
-        string.IsNullOrWhiteSpace(value) ? null : value;
 }

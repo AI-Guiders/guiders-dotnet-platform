@@ -11,6 +11,7 @@
     <None Include="Fixtures\**\*.catalog" CopyToOutputDirectory="PreserveNewest" Link="Fixtures\%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Authoring.Core\AIGuiders.Platform.Authoring.Core.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Authoring.Command.Catalog\AIGuiders.Platform.Authoring.Command.Catalog.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Authoring.Conformance\AIGuiders.Platform.Authoring.Conformance.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Catalog.CodeGen\AIGuiders.Platform.CommandPlane.Catalog.CodeGen.csproj" />

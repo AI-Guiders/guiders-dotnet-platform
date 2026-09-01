@@ -15,8 +15,12 @@ Conformance fixtures for federation command catalogs ([GUIDERS-ADR-0047](../../_
 
 | Layer | Location |
 |-------|----------|
-| Document DSL (blocks/tables) | `docs/grammar/authoring/` (planned `catalog.ebnf`) |
+| Document DSL (blocks/tables) | `docs/grammar/authoring/catalog.ebnf` + `Authoring.Core` kit |
 | String wire grammars | `docs/grammar/notation/` + `NotationGrammarRegistry` |
+
+## Authoring.Core
+
+`BlockReader`, `TableSurface`, `KvSurface`, `IndentedTreeParser`, `InnerBlockFilter` — see `docs/grammar/authoring/README.md`.
 
 ## Running tests
 
