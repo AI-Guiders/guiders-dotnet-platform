@@ -5,7 +5,7 @@
 | **Status** | Accepted (v0 slice 2026-09-01) |
 | **Date** | 2026-09-01 |
 | **Tags** | #guiders #authoring #dsl #project #paths |
-| **Related** | GUIDERS-ADR-0048 · GUIDERS-ADR-0049 · GUIDERS-ADR-0050 · ATC-ADR-0001 |
+| **Related** | GUIDERS-ADR-0048 · GUIDERS-ADR-0049 · GUIDERS-ADR-0050 · GUIDERS-ADR-0052 · ATC-ADR-0001 |
 
 ## Context
 
@@ -13,7 +13,7 @@
 
 Planet DSLs (DashSpec, catalog) can run **without** a product host: validate, emit tier-D wire, codegen. Tooling (`authoring-toolchain`) needs one workspace contract: entry document, logical paths, federation imports, diagnostics — not Blazor or SQL.
 
-[ADR-0050](./GUIDERS-ADR-0050-paths-guild-logical-physical.md) fixed logical vs physical paths; authoring projects use `LogicalPath` for repo-relative files and a separate **federation wire** kind for `import <grain/…>` (not filesystem).
+[ADR-0050](./GUIDERS-ADR-0050-paths-guild-logical-physical.md) fixed logical vs physical paths; authoring projects use `LogicalPath` for repo-relative files and wire-library imports via `import <…>` ([ADR-0052](./GUIDERS-ADR-0052-unified-import-directive.md)).
 
 ## Decision
 
@@ -49,7 +49,7 @@ AuthoringProjectLoader.OpenSingleFile(root, entry)
 AuthoringProject (entry logical doc)
         │
         ├── CatalogProject.Open  → parse + federation import refs in graph
-        └── (future) DashSpecProject.Open → !include graph, multi-root
+        └── (future) DashSpecProject.Open → `import "…"` / `import <stdlib/…>` graph ([0052](./GUIDERS-ADR-0052-unified-import-directive.md))
         │
         ▼
 IR / emit / host consume resolved model — not raw ParseFile in UI
@@ -85,7 +85,7 @@ Grammar diagnostics unchanged; project + parse diagnostics merge in `CatalogProj
 | `CatalogParser.Parse` / `ParseFile` | Keep — low-level API | Call via `CatalogProject.Open` in hosts/toolchain |
 | `authoring-toolchain` `Authoring.Cli validate` | Parse file path | `CatalogProject.Open(workspace, catalog)` |
 | `dash-spec` `dash.catalog` | `CatalogParser` in Host | Pin `CatalogProject`; Core stays host-free |
-| DashSpec `.dashspec` graph | Ad hoc includes in Core parser | `DashSpecProject` on `AuthoringDocumentWalker` + `!include` ([DASHSPEC-ADR-0024](https://github.com/AI-Guiders/dash-spec/blob/main/design/DASHSPEC-ADR-0024-document-authoring-layers.md)) |
+| DashSpec `.dashspec` graph | Ad hoc includes in Core parser | `DashSpecProject` + unified `import` ([0052](./GUIDERS-ADR-0052-unified-import-directive.md); migrate from `!include`) |
 
 ## Consequences
 
@@ -97,7 +97,7 @@ Grammar diagnostics unchanged; project + parse diagnostics merge in `CatalogProj
 
 | # | Topic |
 |---|--------|
-| 1 | Multi-file logical graph (`!include`, glob) — `AuthoringProjectLoader` extensions |
+| 1 | Multi-file logical graph (`import "…"`, glob) — `AuthoringProjectLoader` extensions ([0052](./GUIDERS-ADR-0052-unified-import-directive.md)) |
 | 2 | `Authoring.Workspace` grammar — only after second consumer ADR ([0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) §5) |
 | 3 | Conformance vectors `authoring/project/*.spec.json` |
 | 4 | DashSpec adopt `AuthoringProject` + shared LSP host from `authoring-toolchain` |

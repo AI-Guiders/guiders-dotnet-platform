@@ -68,7 +68,7 @@ Cross-grammar conventions ([0047](./GUIDERS-ADR-0047-command-for-doi.md) §4):
 | `keyword … end keyword` | Block delimiters (**DashSpec parity**; no `{ }` blocks) |
 | `* table` | Matrix surfaces (`helps table`, `commands table`, …) |
 | kv sugar | Dotted keys desugar → table rows (`command.foo.summary` → helps row) |
-| `import <path>` | Federation stdlib module (angle brackets = not filesystem path) |
+| `import "path"` / `import <path>` | Logical file or federation/planet stdlib wire ([0052](./GUIDERS-ADR-0052-unified-import-directive.md)); **not** `!include` |
 | planet content only | `catalog dash`, `@dashboard` — header, not federation grammar fork |
 
 | Surface | Correspondence |
