@@ -165,9 +165,9 @@ preset report-author-server
   surface single
   topology single
   layout {
-    [ forward                    ]   # row 1 — full width (Report Preview)
-    [ spec-tree | repl           ]   # row 2 — 1/2 · 1/2
-    [ eicas                      ]   # row 3 — strip height auto
+    [ 3* report-preview | 1* repl ]
+    [ * spec-tree | * resolve ]
+    [ Auto eicas ]
   }
   zones
     forward     = report-preview
@@ -178,38 +178,47 @@ preset report-author-server
 end preset
 ```
 
-**Mapping rules (v0 — weights from day one):**
+**Mapping rules (v0 — WPF `GridLength` star syntax):**
 
-| Syntax | Meaning |
-|--------|---------|
-| `[ forward ]` | one zone, full width |
-| `[ A \| B ]` | weights default **1:1** (equal) |
-| `[ A:2 \| B:1 ]` | proportional **2:1** (WPF `2*` / `1*`) |
-| `[ preview:3 \| spec:1 \| repl:1 ]` | **3:1:1** |
-| `[ eicas ]` | strip row — `auto` / fixed min height, not star-weighted with content rows |
+Wire uses the **same tokens** as WPF `Grid` (`Width`/`Height`):
 
-Omitted weight = **1** (`repl` same as `repl:1`). Parser: `zone-id` or `zone-id:integer`.
+| Token | Meaning |
+|-------|---------|
+| `*` or `1*` | one star (default when omitted) |
+| `3*` | three stars |
+| `Auto` | auto size (typical EICAS strip row) |
+| `[ zone ]` | single cell, `*` full width |
+
+**Cell grammar:** `[ gridLength ] zone-id` — length token **optional**, then zone id.
 
 ```text
 layout {
-  [ report-preview:3 | repl:1 ]
-  [ spec-tree:1 | resolve:1 ]
-  [ eicas ]
+  [ 3* report-preview | 1* repl ]
+  [ * spec-tree | * resolve ]      # * ≡ 1*
+  [ Auto eicas ]
 }
 ```
 
-Nested stacks / multi-row spanning — later; v0 = row board + weights per cell.
+| Row | WPF emit |
+|-----|----------|
+| `[ A \| B ]` without lengths | `1*` · `1*` |
+| `[ 3* A \| 1* B ]` | `GridLength(3, Star)` · `GridLength(1, Star)` |
+| `[ Auto eicas ]` | row `Height=Auto` |
+
+**Why star-syntax, not `zone:3`:** deck layout **is** the WPF projection contract — `deck emit` maps tokens → `GridLength` literally, no second weight model.
+
+Nested stacks / colspan — later; v0 = row board + star cells.
 
 **Guild split:**
 
 | Layer | Owns |
 |-------|------|
 | `Authoring.Deck` | `layout { … }` board + zone id bindings |
-| `Notations.Presentation.Layout` (or Deck sub-grammar) | parse board → `NormalizedZoneLayout` IR (rows, spans, weights) |
+| `Notations.Presentation.Layout` (or Deck sub-grammar) | parse board → `NormalizedZoneLayout` IR (rows, `GridLength` stars) |
 | `Notations.Presentation.Topology` | parse `(P)(F)(M)` / `single` → host topology IR |
 | `Surface.Wpf.*` | IR → `Grid` row/column defs, dock weights, min heights |
 
-**Codegen:** `deck emit` → `DeckLayout.g.cs` with row/col spans per zone id (mirror `layout grid columns=12` math from DashSpec, or WPF `GridLength` star weights).
+**Codegen:** `deck emit` → `DeckLayout.g.cs` with `GridLength` per zone (star syntax round-trips 1:1).
 
 | Profile | Topology | In-surface layout |
 |---------|----------|-------------------|
