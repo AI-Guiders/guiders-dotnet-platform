@@ -1,0 +1,8 @@
+{
+  "surface": "paths-logical",
+  "cases": [
+    { "input": "src\\Foo\\Bar.cs", "normalize": "src/Foo/Bar.cs" },
+    { "input": "/docs/adr/0047-x.md", "normalize": "docs/adr/0047-x.md", "doc": "docs/adr/0047-x.md" },
+    { "input": "  ./src//x.cs  ", "normalize": "src/x.cs" }
+  ]
+}

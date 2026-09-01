@@ -99,6 +99,7 @@
     <Project Path="src/AIGuiders.Platform.Notations.Keyboard.Vim/AIGuiders.Platform.Notations.Keyboard.Vim.csproj" />
     <Project Path="src/AIGuiders.Platform.Notations.Keyboard/AIGuiders.Platform.Notations.Keyboard.csproj" />
     <Project Path="src/AIGuiders.Platform.Notations/AIGuiders.Platform.Notations.csproj" />
+    <Project Path="src/AIGuiders.Platform.Paths/AIGuiders.Platform.Paths.csproj" />
     <Project Path="src/AIGuiders.Platform.Sources/AIGuiders.Platform.Sources.csproj" />
     <Project Path="src/AIGuiders.Platform.Sources.File/AIGuiders.Platform.Sources.File.csproj" />
     <Project Path="src/AIGuiders.Platform.Sources.Toml/AIGuiders.Platform.Sources.Toml.csproj" />
