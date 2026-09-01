@@ -90,7 +90,7 @@ end deck
 | `DeckDocument` | planet id, presets[], zone map |
 | `AttentionPreset` | topology wire, forward zone id, mfd slots[], eicas policy |
 | `ZoneBinding` | zone id → channel / view type / DataTemplate key |
-| `TopologyWire` | reuse or embed `PresentationSurfaceWire` from GlassCore |
+| `TopologyWire` | opaque wire in deck IR; parsed by `Notations.Presentation.Topology` → `NormalizedPresentationSurface` |
 
 **Emit boundary (gen the rest):**
 
@@ -110,10 +110,40 @@ Planets implement **only** zone content (views, ViewModels) keyed by generated `
 |-------|-------|---------|
 | **Semantics** | `Platform.Cockpit.*` | CDS snapshot, EICAS severity enum, channel ids |
 | **Meaning** | `Authoring.Deck` | which zone is forward for preset `report-author` |
-| **Mechanics** | `GlassCore` / shared peel | topology parse `(MFD)(F)` → flags (existing) |
+| **Mechanics** | `Notations.Presentation.*` + Surface peel | topology wire → IR → column/host flags |
 | **Projection** | `Surface.Wpf.*` | `ApplyColumnDefinitions`, UiKit brushes, WebView2 host |
 
 CIDE [0021](https://github.com/AI-Guiders/cascade-ide/blob/develop/docs/adr/0021-pfd-mfd-cockpit-attention-model.md) remains **normative semantics**; `.deck` is **declare-time binding** of semantics to a planet's surfaces.
+
+### 3.1 Topology wire → **Notations** (not planet-local parser)
+
+Strings like `(P)(F)(M)`, `(MFD)(F)`, `(F/P/M)` are **one notation alphabet** in the cockpit family — not ad-hoc Glass strings. Per [0021](./GUIDERS-ADR-0021-notations-quarry-family.md) quarry pattern:
+
+```text
+WIRE (topology string)  →  IR (PresentationSurfacePack, flags)  →  MECHANIC (grid columns, host windows)
+         │                          │                                    │
+   Notations.Presentation.*    platform / Surface.Core          Surface.Wpf.* / GlassCore peel
+```
+
+| Layer | Guild | Owns |
+|-------|-------|------|
+| **Meaning** | `Authoring.Deck` | *which* topology wire a preset uses (`topology (MFD)(F)`) |
+| **Wire → IR** | **`Notations.Presentation.*`** (new branch) | parse `(P)(F)(M)` → typed IR — extract from `PresentationSurfaceWire` / `PresentationParser` (GlassCore today) |
+| **IR → UI** | `Surface.Wpf.*` | column recipes, visibility, multi-window host spawn |
+
+**Why Notations:** same split as slash — `.catalog` **declares** phrase; `Notations.Command.Slash` **parses** wire at resolve. `.deck` **declares** topology line; `Notations.Presentation.Topology` **parses** it. Planets must not ship private `(P)(F)(M)` parsers.
+
+**Package sketch (target):**
+
+```text
+Notations.Presentation.Core     NormalizedPresentationSurface, slot roles (P/F/M/OneOf)
+Notations.Presentation.Topology (P)(F)(M) · (MFD)(F) · surface-stack wire ([0021] §1.2)
+Notations.Presentation.All    facade + conformance vectors
+```
+
+Bracket branch ([0026](./GUIDERS-ADR-0026-notations-bracket-branch.md)) stays for **payload** delimiters; presentation topology is **layout grouping**, not arg tail — separate branch, may share lexer helpers only.
+
+**Emit path:** `deck emit` calls Notations reader on each preset's `topology` line → embeds resolved IR constants in `Deck.g.cs` (or references normalized wire hash → flags table generated once).
 
 ### 4. Integration with `.catalog`
 
@@ -146,7 +176,7 @@ dotnet deck emit --project DashSpec.Studio.Wpf --deck dashspec-studio.deck
 
 **Migration / reuse Glass:**
 
-1. **Extract** topology parse + column math from `CascadeIDE.GlassCore` into guild-neutral assembly (`Surface.Presentation.Core` TBD).
+1. **Extract** topology parse from `CascadeIDE.GlassCore` → **`Notations.Presentation.Topology`** (platform); GlassCore becomes consumer, not owner.
 2. Glass **may** bridge: read `settings.toml` topology → map to deck preset until Glass migrates; bridge is **adapter**, not SSOT.
 3. When guild standard stabilizes, `workspace.toml` presentation keys become **deprecated** in favor of `.deck` + generated runtime manifest — exact cutover per planet, not big-bang federation mandate in v0.
 
@@ -166,9 +196,10 @@ dotnet deck emit --project DashSpec.Studio.Wpf --deck dashspec-studio.deck
 ## Open questions
 
 1. **File extension:** `.deck` (guild default) vs `.presentation` — **not** nested in `workspace.toml` as permanent SSOT.
-2. **Neutral assembly name:** extend `GlassCore` vs `AIGuiders.Surface.Presentation.Core`?
-3. **XAML emit depth:** constants-only v0 vs partial ResourceDictionary merge v1?
-4. **`workspace.toml` sunset:** adapter period length for Glass/CIDE vs greenfield `.deck`-only for Studio/DBA?
+2. **Neutral assembly name:** `Surface.Presentation.Core` (IR→columns) vs keep column math in Glass peel until second consumer?
+3. **Notations.Presentation:** track as amendment to [0021](./GUIDERS-ADR-0021-notations-quarry-family.md) §2 branch table when package lands?
+4. **XAML emit depth:** constants-only v0 vs partial ResourceDictionary merge v1?
+5. **`workspace.toml` sunset:** adapter period length for Glass/CIDE vs greenfield `.deck`-only for Studio/DBA?
 
 ## Reference missions
 
