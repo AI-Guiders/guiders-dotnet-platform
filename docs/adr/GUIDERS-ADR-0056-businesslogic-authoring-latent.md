@@ -49,10 +49,26 @@ That is worth capturing. Not because v0 Studio needs it, but because the **pain 
 
 ```text
 Authoring.BusinessLogic     quarry — parse `.businesslogic` → RuleGraph IR
-Platform.Rules (TBD)        headless evaluate / trace (testable, no WPF)
-Notations.Expression (TBD)  shared expr wire for derived fields (may reuse later)
+Authoring.Expression        federation expr grammar → neutral Expr IR (shared quarry)
+Platform.Rules (TBD)        headless evaluate Expr IR + trace (testable, no WPF)
 Surface.*                   subscribe to outcomes (enable flags, tooltips, deny reasons)
 ```
+
+**Do not** anchor expression syntax on `.dashspec` bind expr. Per [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) §5, `.dashspec` is **planet sovereign** (DashSpec repo). `.businesslogic` is **federation authoring** — same guild tier as `.catalog` and `.deck`. A federation quarry must not depend on a planet product grammar.
+
+**Sketch decision:** introduce **`Authoring.Expression`** — small shared expr language (literals, comparisons, `and`/`or`/`not`, fact refs). Consumers: `.businesslogic` `when`/`derived`, later `.deck` conditions (`eicas when …`), optional catalog preconditions. **Not** `Notations.Expression` for v0 unless we later need a **runtime wire-in** alphabet (human types expr in a REPL line); declare-time rules parse at build and evaluate from IR.
+
+If DashSpec bind expr converges visually, that is **DashSpec adopting federation subset** (or mapping in planet adapter) — not federation importing DashSpec.
+
+### 2.1 Expression language (federation quarry)
+
+| Layer | Package (draft) | Role |
+|-------|-----------------|------|
+| Grammar | `Authoring.Expression` | parse `when repl.has-result and …` → `ExprNode` IR |
+| Evaluate | `Platform.Rules` or `Authoring.Expression.Eval` | walk IR against fact snapshot |
+| Conformance | `Authoring.Conformance` | expr vectors shared across `.businesslogic` consumers |
+
+v0 surface (sketch): `bool|string|number` literals; `==` `!=` `<` `>`; `and` `or` `not`; identifiers = declared `facts`; no calls, no indexing, no lambdas.
 
 Same split as [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md):
 
@@ -229,11 +245,11 @@ Informal name for the **Guiders Declarative Stack** — family of authoring nota
 
 ## Open questions
 
-1. **Expression language:** reuse a small subset of `.dashspec` bind expr vs new `Notations.Expression`?
-2. **Fact binding:** explicit `bind repl.has-result = databus.repl.result.ready` vs codegen from naming convention?
-3. **`deny reason` i18n:** helps table parallel (like `.catalog`) vs inline string only?
-4. **Conformance:** `docs/conformance/authoring/businesslogic/*` vectors — same kit as catalog?
-5. **Relation to CommandPlane:** emit into catalog profile vs runtime RulesEngine hook?
+1. **Fact binding:** explicit `bind repl.has-result = databus.repl.result.ready` vs codegen from naming convention?
+2. **`deny reason` i18n:** helps table parallel (like `.catalog`) vs inline string only?
+3. **Conformance:** `docs/conformance/authoring/businesslogic/*` vectors — same kit as catalog?
+4. **Relation to CommandPlane:** emit into catalog profile vs runtime RulesEngine hook?
+5. **`Authoring.Expression` vs eval split:** single package vs `Authoring.Expression` + `Platform.Rules.Eval` — package boundary only when implementation starts.
 
 ## Reference
 
