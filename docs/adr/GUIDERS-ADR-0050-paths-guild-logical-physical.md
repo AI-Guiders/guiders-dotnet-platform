@@ -5,7 +5,7 @@
 | **Status** | Accepted |
 | **Date** | 2026-09-01 |
 | **Tags** | #guiders #paths #workspace #correspondence #notations |
-| **Related** | GUIDERS-ADR-0021 · GUIDERS-ADR-0028 · GUIDERS-ADR-0047 · GUIDERS-ADR-0048 |
+| **Related** | GUIDERS-ADR-0021 · GUIDERS-ADR-0028 · GUIDERS-ADR-0047 · GUIDERS-ADR-0048 · GUIDERS-ADR-0051 |
 
 ## Context
 
