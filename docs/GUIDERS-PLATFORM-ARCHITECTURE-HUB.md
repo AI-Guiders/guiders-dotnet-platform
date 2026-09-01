@@ -550,6 +550,8 @@ Overlay profiles as TOML/JSON specs ([ADR-0031](./adr/GUIDERS-ADR-0031-policy-as
 
 Bootstrap specs in [`docs/conformance/`](./conformance/README.md); target sibling repo `aiguiders-conformance` ([ADR-0019](./adr/GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md)).
 
+**JS embassy:** native TypeScript ports live in sibling repo [`guiders-js`](https://github.com/AI-Guiders/guiders-js) (`@aiguiders/*` on npm when published). Vectors sync from this tree; .NET quarry remains reference — no WASM .NET in browser.
+
 | Spec area | Examples |
 |-----------|----------|
 | Slash | `slash-line-resolve`, `slash-arg-completion` |
