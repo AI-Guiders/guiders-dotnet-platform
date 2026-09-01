@@ -2,6 +2,7 @@
 
 using AIGuiders.Platform.Documentation.Anchors;
 using AIGuiders.Platform.IntermediateRepresentation.Bracket;
+using AIGuiders.Platform.Notations.Bracket;
 
 namespace AIGuiders.Platform.Documentation.LinkCheck;
 

@@ -1,7 +1,7 @@
 $root = Split-Path $PSScriptRoot -Parent
 $patterns = @(
   @{ Old = 'using AIGuiders.Platform.Notations.Argument;'; New = 'using AIGuiders.Platform.IntermediateRepresentation.Argument;' }
-  @{ Old = 'using AIGuiders.Platform.Notations.Bracket;'; New = 'using AIGuiders.Platform.IntermediateRepresentation.Bracket;' }
+  # Bracket: IR holds wire models; Notations.Bracket holds BracketReader/BracketEnvelopeScan — do not blanket-replace.
 )
 function Test-HasGlobalIrUsings($file) {
   $dir = Split-Path $file -Parent

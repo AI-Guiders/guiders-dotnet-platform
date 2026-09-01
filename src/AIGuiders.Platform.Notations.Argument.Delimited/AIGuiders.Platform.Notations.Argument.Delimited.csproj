@@ -6,6 +6,7 @@
     <PackageId>AIGuiders.Platform.Notations.Argument.Delimited</PackageId>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Argument\AIGuiders.Platform.IntermediateRepresentation.Argument.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
   </ItemGroup>
 </Project>

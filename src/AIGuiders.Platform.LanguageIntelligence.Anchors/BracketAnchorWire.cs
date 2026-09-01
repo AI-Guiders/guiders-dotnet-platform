@@ -2,6 +2,7 @@
 
 using AIGuiders.Platform.IntermediateRepresentation.Bracket;
 using AIGuiders.Platform.IntermediateRepresentation.Language;
+using AIGuiders.Platform.Notations.Bracket;
 
 namespace AIGuiders.Platform.LanguageIntelligence.Anchors;
 
