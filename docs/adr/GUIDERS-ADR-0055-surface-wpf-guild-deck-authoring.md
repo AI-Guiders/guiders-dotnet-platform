@@ -138,7 +138,7 @@ WIRE (topology string)  →  IR (PresentationSurfacePack, flags)  →  MECHANIC 
 ```text
 Notations.Presentation.Core     NormalizedPresentationSurface, slot roles (P/F/M/OneOf)
 Notations.Presentation.Topology (P)(F)(M) · single · multi-host wires
-Notations.Presentation.Layout   deck zone board → NormalizedZoneLayout (1/N rows)
+Notations.Presentation.Layout   deck zone board → NormalizedZoneLayout (rows, star weights)
 Notations.Presentation.All    facade + conformance vectors
 ```
 
@@ -178,16 +178,27 @@ preset report-author-server
 end preset
 ```
 
-**Mapping rules (draft, same spirit as dashlayout ADR-0020):**
+**Mapping rules (v0 — weights from day one):**
 
-| Rows | Rule |
-|------|------|
-| `[ A ]` | one zone, **full width** (1/1) |
-| `[ A | B ]` | two zones, **1/2 · 1/2** (equal split) |
-| `[ A | B | C ]` | **1/3 each** (generalize: N cells → 1/N) |
-| `eicas` row | fixed / auto height strip, not equal grid row |
+| Syntax | Meaning |
+|--------|---------|
+| `[ forward ]` | one zone, full width |
+| `[ A \| B ]` | weights default **1:1** (equal) |
+| `[ A:2 \| B:1 ]` | proportional **2:1** (WPF `2*` / `1*`) |
+| `[ preview:3 \| spec:1 \| repl:1 ]` | **3:1:1** |
+| `[ eicas ]` | strip row — `auto` / fixed min height, not star-weighted with content rows |
 
-Optional v2: explicit fractions `[ forward:2 | mfd:1 ]`, nested stacks — **after** v0 row/board works.
+Omitted weight = **1** (`repl` same as `repl:1`). Parser: `zone-id` or `zone-id:integer`.
+
+```text
+layout {
+  [ report-preview:3 | repl:1 ]
+  [ spec-tree:1 | resolve:1 ]
+  [ eicas ]
+}
+```
+
+Nested stacks / multi-row spanning — later; v0 = row board + weights per cell.
 
 **Guild split:**
 
@@ -262,7 +273,7 @@ dotnet deck emit --project DashSpec.Studio.Wpf --deck dashspec-studio.deck
 5. **`workspace.toml` sunset:** adapter period length for Glass/CIDE vs greenfield `.deck`-only for Studio/DBA?
 6. **Server/RDS:** WebView2 + GPU policy matrix for Report Preview on Windows Server?
 7. **`deck layout` grammar:** reuse DashSpec layout board parser vs separate Authoring.Deck sub-grammar?
-8. **Fraction syntax:** `1/N` rows only v0 vs explicit weights `[ forward:2 | mfd:1 ]` v1?
+8. **Row weights vs row height:** eicas `auto` — fixed px or % in v0?
 
 ## Reference missions
 
