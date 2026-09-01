@@ -48,6 +48,7 @@
 |--------|----------|
 | Какая команда существует? Как резолвить slash path? | **CommandPlane** |
 | Как распарсить keyboard/command wire в IR? | **Notations** |
+| Как объявить SSOT каталога/дашборда при authoring? | **Authoring** |
 | Как смержить слоистые каталоги? | **Combinations** + **Sources** |
 | Что агент видит обратно (pulse, next)? | **MCPlane** |
 | Какова форма channel snapshot? | **Cockpit.*** |
@@ -206,6 +207,7 @@ Platform шипит **дороги** (neutral IR, MCPlane tiers, conformance). �
                                │ adapters
 ┌──────────────────────────────┴──────────────────────────────┐
 │ CommandPlane.Slash · Melody · Binding · Sources             │
+│ Authoring.Core · Authoring.Command.*                        │
 │ Notations.Keyboard · Command · Argument · Bracket           │
 │ Combinations · Sources · Configurations                     │
 │ Documentation · Navigation · LanguageIntelligence         │
@@ -259,9 +261,20 @@ Platform шипит **дороги** (neutral IR, MCPlane tiers, conformance). �
 | `IntermediateRepresentation.Agent` | Agent envelope: `DetailTier`, `NextHint`, `AgentResponseEnvelope` |
 | `IntermediateRepresentation.Language` | `Locus`, `TextEdit`, `BracketAnchorSpan`, `SniperScope`, … |
 
-См. [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md). **Notations** парсят wire → IR; **CommandPlane** guilds — механики.
+См. [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md). **Authoring** парсит declare-time файлы → IR; **Notations** — wire → IR; **CommandPlane** guilds — механики.
 
-### 7.4 Notations (wire → IR parsers)
+### 7.4 Authoring (declare → IR)
+
+| Пакет | Возможности |
+|-------|-------------|
+| `Authoring.Core` | Block `end keyword`, table/kv surfaces, include hooks, shared diagnostics |
+| `Authoring.Command.Catalog` | `.catalog` grammar → `IR.Command` ([0047 WIP](../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md)) |
+| `Authoring.Command.Bundles` | Federation stdlib `.catalogbundle` (`import <grain/…>`) |
+| `Authoring.Conformance` | `authoring/*` grammar vectors |
+
+Planet DSL (`.dashspec`, …) — **суверенны** в product repos; могут adopt `Authoring.Core`. См. [ADR-0048 WIP](../_wip-adr-0048/GUIDERS-ADR-0048-authoring-quarry-family.md).
+
+### 7.5 Notations (wire → IR parsers)
 
 | Пакет | Возможности |
 |-------|-------------|
@@ -274,7 +287,7 @@ Platform шипит **дороги** (neutral IR, MCPlane tiers, conformance). �
 
 Platform шипит **reference quarry** (.NET parsers). Планеты **портят vectors** в native stacks (Forge JS, VS Code extension и т.д.).
 
-### 7.5 CommandPlane
+### 7.6 CommandPlane
 
 | Пакет | Возможности |
 |-------|-------------|
@@ -290,7 +303,7 @@ Platform шипит **reference quarry** (.NET parsers). Планеты **пор
 | `CommandPlane.Catalog.Sources.*` | Json, Toml, Xml, File, Database transports → Core |
 | `CommandPlane.Catalog.Sources` | Meta-bundle всех форматов |
 
-### 7.5 Cockpit
+### 7.7 Cockpit
 
 | Пакет | Возможности |
 |-------|-------------|
@@ -303,7 +316,7 @@ Platform шипит **reference quarry** (.NET parsers). Планеты **пор
 
 Glass WPF = **projection** snapshots; не владеет CCU mechanics.
 
-### 7.6 Documentation guild
+### 7.8 Documentation guild
 
 | Пакет | Возможности |
 |-------|-------------|
@@ -313,7 +326,7 @@ Glass WPF = **projection** snapshots; не владеет CCU mechanics.
 | `Documentation.Reports` | Generated vocabulary tables |
 | `Documentation.Correspondence.*` | Forward ADR map + reverse md scan ([ADR-0028](./adr/GUIDERS-ADR-0028-documentation-guild-correspondence-family.md)) |
 
-### 7.7 Navigation
+### 7.9 Navigation
 
 | Пакет | Возможности |
 |-------|-------------|
@@ -323,7 +336,7 @@ Glass WPF = **projection** snapshots; не владеет CCU mechanics.
 
 Hosts (CDP SemanticMap, CIDE Skia) = projectors, не SSOT.
 
-### 7.8 Language intelligence
+### 7.10 Language intelligence
 
 | Пакет | Возможности |
 |-------|-------------|
@@ -331,14 +344,14 @@ Hosts (CDP SemanticMap, CIDE Skia) = projectors, не SSOT.
 | `LanguageIntelligence.Adapters.Roslyn` | Roslyn adapter |
 | `Language.CSharp.*` / `Language.Xml.Anchors` | Symbol/anchor wires |
 
-### 7.9 Configurations
+### 7.11 Configurations
 
 | Пакет | Возможности |
 |-------|-------------|
 | `Configurations.Project` / `.Workspace` | Layered config compose |
 | `Configurations.*.Sources` | Source transports для config layers |
 
-### 7.10 Conformance & utilities
+### 7.12 Conformance & utilities
 
 | Пакет | Возможности |
 |-------|-------------|

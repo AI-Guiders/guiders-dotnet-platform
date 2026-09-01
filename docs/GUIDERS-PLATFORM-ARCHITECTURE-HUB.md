@@ -48,6 +48,7 @@ The platform answers:
 |----------|-------|
 | What command exists? How resolve a slash path? | **CommandPlane** |
 | How parse keyboard/command wire into IR? | **Notations** |
+| How declare catalog/dashboard SSOT at authoring time? | **Authoring** |
 | How merge layered catalogs? | **Combinations** + **Sources** |
 | What does the agent see back (pulse, next)? | **MCPlane** |
 | What channel snapshot shape? | **Cockpit.*** |
@@ -206,6 +207,7 @@ From [GUIDERS-ADR-0001](./adr/GUIDERS-ADR-0001-platform-boundary.md):
                                │ adapters
 ┌──────────────────────────────┴──────────────────────────────┐
 │ CommandPlane.Slash · Melody · Binding · Sources             │
+│ Authoring.Core · Authoring.Command.*                        │
 │ Notations.Keyboard · Command · Argument · Bracket           │
 │ Combinations · Sources · Configurations                     │
 │ Documentation · Navigation · LanguageIntelligence         │
@@ -259,9 +261,20 @@ From [GUIDERS-ADR-0001](./adr/GUIDERS-ADR-0001-platform-boundary.md):
 | `IntermediateRepresentation.Agent` | Agent envelope: `DetailTier`, `NextHint`, `AgentResponseEnvelope` |
 | `IntermediateRepresentation.Language` | `Locus`, `TextEdit`, `BracketAnchorSpan`, `SniperScope`, … |
 
-See [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md). **Notations** parse wire → IR; **CommandPlane** guilds own mechanics.
+See [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md). **Authoring** parses declare-time files → IR; **Notations** parse wire → IR; **CommandPlane** guilds own mechanics.
 
-### 7.4 Notations (wire → IR parsers)
+### 7.4 Authoring (declare → IR)
+
+| Package | Capabilities |
+|---------|--------------|
+| `Authoring.Core` | Block `end keyword`, table/kv surfaces, include hooks, shared diagnostics |
+| `Authoring.Command.Catalog` | `.catalog` grammar → `IR.Command` ([0047 WIP](../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md)) |
+| `Authoring.Command.Bundles` | Federation stdlib `.catalogbundle` (`import <grain/…>`) |
+| `Authoring.Conformance` | `authoring/*` grammar vectors |
+
+Planet DSLs (`.dashspec`, …) stay **sovereign** in product repos; may adopt `Authoring.Core` kit. See [ADR-0048 WIP](../_wip-adr-0048/GUIDERS-ADR-0048-authoring-quarry-family.md).
+
+### 7.5 Notations (wire → IR parsers)
 
 | Package | Capabilities |
 |---------|--------------|
@@ -274,7 +287,7 @@ See [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md). **
 
 Platform ships **reference quarry** (.NET parsers). Planets **port vectors** to native stacks (Forge JS, VS Code extension, etc.).
 
-### 7.5 CommandPlane
+### 7.6 CommandPlane
 
 | Package | Capabilities |
 |---------|--------------|
@@ -290,7 +303,7 @@ Platform ships **reference quarry** (.NET parsers). Planets **port vectors** to 
 | `CommandPlane.Catalog.Sources.*` | Json, Toml, Xml, File, Database transports → Core |
 | `CommandPlane.Catalog.Sources` | Meta-bundle all formats |
 
-### 7.5 Cockpit
+### 7.7 Cockpit
 
 | Package | Capabilities |
 |---------|--------------|
@@ -303,7 +316,7 @@ Platform ships **reference quarry** (.NET parsers). Planets **port vectors** to 
 
 Glass WPF = **projection** of snapshots; does not own CCU mechanics.
 
-### 7.6 Documentation guild
+### 7.8 Documentation guild
 
 | Package | Capabilities |
 |---------|--------------|
@@ -313,7 +326,7 @@ Glass WPF = **projection** of snapshots; does not own CCU mechanics.
 | `Documentation.Reports` | Generated vocabulary tables |
 | `Documentation.Correspondence.*` | Forward ADR map + reverse md scan ([ADR-0028](./adr/GUIDERS-ADR-0028-documentation-guild-correspondence-family.md)) |
 
-### 7.7 Navigation
+### 7.9 Navigation
 
 | Package | Capabilities |
 |---------|--------------|
@@ -323,7 +336,7 @@ Glass WPF = **projection** of snapshots; does not own CCU mechanics.
 
 Hosts (CDP SemanticMap, CIDE Skia) = projectors, not SSOT.
 
-### 7.8 Language intelligence
+### 7.10 Language intelligence
 
 | Package | Capabilities |
 |---------|--------------|
@@ -331,14 +344,14 @@ Hosts (CDP SemanticMap, CIDE Skia) = projectors, not SSOT.
 | `LanguageIntelligence.Adapters.Roslyn` | Roslyn adapter |
 | `Language.CSharp.*` / `Language.Xml.Anchors` | Symbol/anchor wires |
 
-### 7.9 Configurations
+### 7.11 Configurations
 
 | Package | Capabilities |
 |---------|--------------|
 | `Configurations.Project` / `.Workspace` | Layered config compose |
 | `Configurations.*.Sources` | Source transports for config layers |
 
-### 7.10 Conformance & utilities
+### 7.12 Conformance & utilities
 
 | Package | Capabilities |
 |---------|--------------|
@@ -635,6 +648,8 @@ Sibling repos (not in platform monorepo):
 | [0035](./adr/GUIDERS-ADR-0035-slash-value-constructors.md) | Value constructors |
 | [0036](./adr/GUIDERS-ADR-0036-invocation-engage-glossary.md) | InvocationEngage glossary |
 | [0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md) | IntermediateRepresentation family |
+| [0048 WIP](../_wip-adr-0048/GUIDERS-ADR-0048-authoring-quarry-family.md) | Authoring quarry family |
+| [0047 WIP](../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md) | `.catalog` command authoring |
 
 Full list: [`docs/adr/`](./adr/).
 
