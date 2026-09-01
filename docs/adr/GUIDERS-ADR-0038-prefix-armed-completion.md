@@ -22,7 +22,7 @@ Arg tail partial
     → ISlashPrefixArmProfile.TryMatch (0..N profiles, product-registered)
         ├── NoMatch      → picker / free text / other completion
         ├── Ready        → wire complete (Enter executes)
-        └── ArmConstructor → ArgConstructorSession + pre-filled segments
+        └── ArmConstructor → SlashConstructorSession + pre-filled segments
 ```
 
 Platform owns:
@@ -33,7 +33,7 @@ Platform owns:
 | `PrefixArmMatch` | Ready wire OR constructor root + segments |
 | `PrefixArmCoordinator` | Session sync, arm, neutral result |
 | `PrefixArmSite` | Surface-neutral arg site (constructors, hints) |
-| `ArgInputMode.TypedInput` | User is typing a value prefix (slash projector) |
+| `SlashInputMode.TypedInput` | User is typing a value prefix (slash projector) |
 
 Platform does **not** own domain grammars (dates, paths, durations). Those are profiles (`CommandPlane.PrefixArmed.Locale` for dates).
 
@@ -61,7 +61,7 @@ Constructor session rules (ADR-0037 §5) apply to all PAC profiles.
 
 Platform ships **zero** mandatory domain profiles. Optional adapters live in namespaces (e.g. `Locale/`):
 
-- `LocaleDatePrefixArmProfile` — in `CommandPlane.PrefixArmed.Locale` (GUIDERS-ADR-0037).
+- `SlashLocaleDatePrefixArmProfile` — in `CommandPlane.PrefixArmed.Locale` (GUIDERS-ADR-0037).
 
 Products may add: file path, duration, numeric range, enum prefix, etc.
 
@@ -89,7 +89,7 @@ CommandPlane (catalog, constructors, PAC coordinator)   ← surface-agnostic
 |-------|------|---------------------------|
 | `IPrefixArmProfile.TryMatch` | `CommandPlane.PrefixArmed` | same profiles |
 | `PrefixArmCoordinator` | `CommandPlane.PrefixArmed` | same arm/ready logic |
-| `ArgConstructorSession` | `CommandPlane.Constructors` | same when constructors armed |
+| `SlashConstructorSession` | `CommandPlane.Constructors` | same when constructors armed |
 | Hints / placeholders / inline UI | **Surface** | harder readline UX — not a mechanic change |
 
 **Console parity:** `Notations.Command.Console` already splits path + kv tail (`ConsoleCommandNotation`). After resolve, PAC runs on the **arg tail partial** the same way as slash CCL — the console host registers the same `PrefixArmProfiles` and calls the coordinator. Whether the user *sees* `TypedInput` hints is entirely the console planet's problem.
@@ -100,5 +100,5 @@ CommandPlane (catalog, constructors, PAC coordinator)   ← surface-agnostic
 
 - `SlashLocaleTypedConstructorCoordinator` removed → logic in PAC + date profile.
 - ADR-0037 reframed as locale **adapter** to PAC, not standalone coordinator.
-- DashSpec registers `LocaleDatePrefixArmProfile` in `SlashCompletionOptions`.
+- DashSpec registers `SlashLocaleDatePrefixArmProfile` in `SlashCompletionOptions`.
 - Console and other planets adopt PAC via shared profiles + coordinator; hint rendering is local.

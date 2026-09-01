@@ -46,7 +46,7 @@ picker:<id>      ← alias (existing catalog rows)
 
 ### 3. FreeText = last resort
 
-`arg_tail = required` without `suggest:` / `picker:` / static choices / constructor → `ArgInputMode.FreeText`. Products SHOULD register providers instead of relying on hints.
+`arg_tail = required` without `suggest:` / `picker:` / static choices / constructor → `SlashInputMode.FreeText`. Products SHOULD register providers instead of relying on hints.
 
 ### 4. Planet wiring
 

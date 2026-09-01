@@ -1,4 +1,3 @@
-using AIGuiders.Platform.IntermediateRepresentation.Binding;
 #nullable enable
 
 using AIGuiders.Platform.Catalog;
