@@ -158,7 +158,7 @@ Platform ships **roads** (neutral IR, MCPlane tiers, conformance). Planets dogfo
 
 ## 5. Platform boundary
 
-From [GUIDERS-ADR-0001](./adr/GUIDERS-ADR-0001-platform-boundary.md):
+From [GUIDERS-ADR-0001](./adr/GUIDERS-ADR-0001-platform-boundary.md) and [GUIDERS-ADR-0053](./adr/GUIDERS-ADR-0053-planet-responsibilities.md) (*platform owns verb machinery; planet owns noun resolution*):
 
 | Layer | Platform owns | Products own |
 |-------|---------------|--------------|
@@ -652,6 +652,7 @@ Sibling repos (not in platform monorepo):
 | [0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md) | IntermediateRepresentation family |
 | [0048](./adr/GUIDERS-ADR-0048-authoring-quarry-family.md) | Authoring quarry family |
 | [0047](./adr/GUIDERS-ADR-0047-command-for-doi.md) | `.catalog` command authoring |
+| [0053](./adr/GUIDERS-ADR-0053-planet-responsibilities.md) | Planet responsibilities (domain · logic · ecosystem) |
 
 Full list: [`docs/adr/`](./adr/).
 
@@ -663,7 +664,7 @@ Full list: [`docs/adr/`](./adr/).
 |------|------------|
 | **Mechanic** | Headless testable unit: contract + implementation + identity + context |
 | **Hyperlane** | Versioned federation protocol (NuGet, schema, MCP surface) |
-| **Planet** | Sovereign product repo |
+| **Planet** | Sovereign product repo — domain + business logic + ecosystem ([0053](./adr/GUIDERS-ADR-0053-planet-responsibilities.md)) |
 | **Embassy** | Reference consumer, not capital |
 | **Quarry** | Extract mechanics from legacy product code into platform |
 | **ArgTail** | Slash arg phase policy (picker, constructor, free text) |
