@@ -137,7 +137,8 @@ WIRE (topology string)  →  IR (PresentationSurfacePack, flags)  →  MECHANIC 
 
 ```text
 Notations.Presentation.Core     NormalizedPresentationSurface, slot roles (P/F/M/OneOf)
-Notations.Presentation.Topology (P)(F)(M) · (MFD)(F) · surface-stack wire ([0021] §1.2)
+Notations.Presentation.Topology (P)(F)(M) · single · multi-host wires
+Notations.Presentation.Layout   deck zone board → NormalizedZoneLayout (1/N rows)
 Notations.Presentation.All    facade + conformance vectors
 ```
 
@@ -147,35 +148,62 @@ Bracket branch ([0026](./GUIDERS-ADR-0026-notations-bracket-branch.md)) stays fo
 
 **Single-screen = first class (server deployment):** DashSpec Studio is expected to run on **Windows Server** (RDS, jump box, shared VM) — often **one physical display**. One-screen layout is **not** a degraded/mobile fallback; it must be **the same cockpit semantics** as multi-monitor (Forward/PFD/MFD/EICAS), only projection differs.
 
-| Profile | Topology wire (examples) | Projection |
-|---------|--------------------------|------------|
-| **Cockpit** (multi-display) | `(P)(F)(M)`, `(MFD)(F)` + satellite host | dedicated TopLevels per zone |
-| **Server / single surface** | `(F/P/M)` OneOf, `(MFD/F)` merged | **one TopLevel** — XOR pages or docked MFD; Forward glass full width when active |
+**Glass `(F/P/M)` OneOf ≠ single-surface zone layout:** In Glass, single TopLevel often means **XOR** — one zone consumes the full client area at a time ([GlassPresentationLayout.OperatorReviewFlightTopology](https://github.com/AI-Guiders/cascade-ide/blob/develop/CascadeIDE.GlassCore/Presentation/GlassPresentationLayout.cs)). For Studio on one monitor we need **compositional layout** — multiple attention zones **visible together** in one window (Forward glass + MFD strip + EICAS bar). That is a **different SSOT block**, not the same notation dialect.
 
-Reuse GlassCore precedent: `OperatorReviewFlightTopology = "(F/P/M)"` — all scan channels in **one** TopLevel ([GlassPresentationLayout](https://github.com/AI-Guiders/cascade-ide/blob/develop/CascadeIDE.GlassCore/Presentation/GlassPresentationLayout.cs)). `Notations.Presentation` MUST parse **both** families with equal conformance coverage — no «second-class» IR for single-screen.
+| Concept | Notation / block | Question answered |
+|---------|------------------|-------------------|
+| **Surface topology** | `(P)(F)(M)` · `(F/P/M)` · `single` | How many TopLevels / hosts? |
+| **Zone layout (in-surface)** | `deck layout { … }` | How zones **share** one window? |
+| **DashSpec card layout** | `layout { [ Q E ] }` ([DASHSPEC-ADR-0020](https://github.com/AI-Guiders/dash-spec/blob/main/design/DASHSPEC-ADR-0020-card-ref-and-layout-board.md)) | How **cards** share a tab — analogy, not reuse |
 
-**Deck presets (DashSpec Studio):**
+### 3.2 `deck layout` — zone board inside one TopLevel
+
+**Like dashlayout, but for attention zones** — richer than one row of `[]`:
 
 ```text
-preset report-author          # cockpit — multi-monitor when available
-  topology (MFD)(F)
-  …
-end preset
-
-preset report-author-server   # default on server / RDS — first class
-  topology (F/P/M)
-  forward report-preview
-  mfd spec-tree | data-lab | resolve
-  eicas when alerts
+preset report-author-server
+  surface single
+  topology single
+  layout {
+    [ forward                    ]   # row 1 — full width (Report Preview)
+    [ spec-tree | repl           ]   # row 2 — 1/2 · 1/2
+    [ eicas                      ]   # row 3 — strip height auto
+  }
+  zones
+    forward     = report-preview
+    spec-tree   = mfd
+    repl        = mfd
+    eicas       = eicas
+  end zones
 end preset
 ```
 
-**Invariants:**
+**Mapping rules (draft, same spirit as dashlayout ADR-0020):**
 
-- Report Preview on single screen = **full-width forward glass**, not thumbnail strip.
-- MFD zones = tabs / bottom dock / OneOf — **not** «open second window» (often blocked or awkward on RDS).
-- Runtime detects display count → **select preset** or adapt IR projection; **do not** fork ViewModels per layout tier.
-- WPF on Server: plan for RDS session (WebView2 GPU, input latency) — deployment note, not a separate product.
+| Rows | Rule |
+|------|------|
+| `[ A ]` | one zone, **full width** (1/1) |
+| `[ A | B ]` | two zones, **1/2 · 1/2** (equal split) |
+| `[ A | B | C ]` | **1/3 each** (generalize: N cells → 1/N) |
+| `eicas` row | fixed / auto height strip, not equal grid row |
+
+Optional v2: explicit fractions `[ forward:2 | mfd:1 ]`, nested stacks — **after** v0 row/board works.
+
+**Guild split:**
+
+| Layer | Owns |
+|-------|------|
+| `Authoring.Deck` | `layout { … }` board + zone id bindings |
+| `Notations.Presentation.Layout` (or Deck sub-grammar) | parse board → `NormalizedZoneLayout` IR (rows, spans, weights) |
+| `Notations.Presentation.Topology` | parse `(P)(F)(M)` / `single` → host topology IR |
+| `Surface.Wpf.*` | IR → `Grid` row/column defs, dock weights, min heights |
+
+**Codegen:** `deck emit` → `DeckLayout.g.cs` with row/col spans per zone id (mirror `layout grid columns=12` math from DashSpec, or WPF `GridLength` star weights).
+
+| Profile | Topology | In-surface layout |
+|---------|----------|-------------------|
+| **Cockpit** (multi-display) | `(MFD)(F)` hosts | optional per-host mini-layout |
+| **Server / single surface** | `single` one TopLevel | **`layout { … }` required** — compositional, not OneOf-only |
 
 ### 4. Integration with `.catalog`
 
@@ -233,6 +261,8 @@ dotnet deck emit --project DashSpec.Studio.Wpf --deck dashspec-studio.deck
 4. **XAML emit depth:** constants-only v0 vs partial ResourceDictionary merge v1?
 5. **`workspace.toml` sunset:** adapter period length for Glass/CIDE vs greenfield `.deck`-only for Studio/DBA?
 6. **Server/RDS:** WebView2 + GPU policy matrix for Report Preview on Windows Server?
+7. **`deck layout` grammar:** reuse DashSpec layout board parser vs separate Authoring.Deck sub-grammar?
+8. **Fraction syntax:** `1/N` rows only v0 vs explicit weights `[ forward:2 | mfd:1 ]` v1?
 
 ## Reference missions
 
