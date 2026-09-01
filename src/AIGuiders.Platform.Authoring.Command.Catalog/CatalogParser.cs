@@ -14,34 +14,7 @@ public static class CatalogParser
     internal static CatalogParseResult ParseLines(IReadOnlyList<AuthoringLine> lines, string? sourcePath)
     {
         var context = new CatalogParseContext();
-
-        for (var i = 0; i < lines.Count; i++)
-        {
-            var line = lines[i];
-            if (string.IsNullOrWhiteSpace(line.Text))
-            {
-                continue;
-            }
-
-            if (TryApplyHeaderLine(line, context))
-            {
-                continue;
-            }
-
-            if (!BlockReader.TryParseOpener(line.Text, out var opener))
-            {
-                continue;
-            }
-
-            var block = BlockReader.Read(lines, i + 1, opener.Keyword, context.Diagnostics);
-            i = block.EndLineIndex;
-            if (!block.IsClosed)
-            {
-                continue;
-            }
-
-            CatalogSectionRegistry.Apply(context, opener, block.Body);
-        }
+        CatalogDocumentWalkerFactory.Shared.Walk(lines, context);
 
         if (string.IsNullOrWhiteSpace(context.Planet))
         {
@@ -54,22 +27,5 @@ public static class CatalogParser
         context.ValidateChannels();
 
         return new() { Document = document, Diagnostics = context.Diagnostics };
-    }
-
-    static bool TryApplyHeaderLine(AuthoringLine line, CatalogParseContext context)
-    {
-        if (line.Text.StartsWith("catalog ", StringComparison.Ordinal))
-        {
-            context.Planet = line.Text["catalog ".Length..].Trim();
-            return true;
-        }
-
-        if (line.Text.StartsWith("import ", StringComparison.Ordinal))
-        {
-            context.Imports.Add(line.Text["import ".Length..].Trim().Trim('<', '>'));
-            return true;
-        }
-
-        return false;
     }
 }

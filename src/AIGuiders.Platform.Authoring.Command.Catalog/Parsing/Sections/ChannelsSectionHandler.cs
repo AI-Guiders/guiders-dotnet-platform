@@ -2,11 +2,11 @@ using AIGuiders.Platform.Authoring.Core;
 
 namespace AIGuiders.Platform.Authoring.Command.Catalog.Parsing.Sections;
 
-public sealed class ChannelsSectionHandler : ICatalogSectionHandler
+public sealed class ChannelsSectionHandler : IAuthoringSectionHandler<CatalogParseContext>
 {
     public string Keyword => "channels";
 
-    public void Apply(CatalogParseContext context, CatalogSectionBlock block) =>
+    public void Apply(CatalogParseContext context, AuthoringSectionBlock block) =>
         context.Channels.AddRange(Parse(block.Body));
 
     public static IReadOnlyList<CatalogChannel> Parse(IReadOnlyList<AuthoringLine> body) =>

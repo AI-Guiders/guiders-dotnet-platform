@@ -19,9 +19,13 @@ Federation **declare-time** DSL structure (blocks, tables, kv) — distinct from
 | `TableSurface` | pipe tables → row maps |
 | `KvSurface` | `key = value` blocks |
 | `IndentedTreeParser` | nested indent surfaces (`channels`) |
-| `InnerBlockFilter` | strip nested `end grammar` before tree parse |
+| `AuthoringDocumentWalker<T>` | preamble + blocks + handler dispatch |
+| `SectionHandlerRegistry<T>` | keyword → `IAuthoringSectionHandler<T>` |
+| `IAuthoringSectionHandler<T>` | branch section semantics |
 
 Branch parsers (`CatalogParser`) compose the kit — they do **not** reimplement block/table lexing.
+
+Pattern catalog: [GUIDERS-ADR-0049](../../adr/GUIDERS-ADR-0049-federation-pattern-library.md).
 
 ## `.catalog`
 

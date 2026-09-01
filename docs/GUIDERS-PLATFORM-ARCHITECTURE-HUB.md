@@ -267,12 +267,12 @@ See [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md). **
 
 | Package | Capabilities |
 |---------|--------------|
-| `Authoring.Core` | Block `end keyword`, table/kv surfaces, include hooks, shared diagnostics |
+| `Authoring.Core` | Block `end keyword`, table/kv surfaces, `AuthoringDocumentWalker`, shared diagnostics |
 | `Authoring.Command.Catalog` | `.catalog` grammar → `IR.Command` ([0047 WIP](../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md)) |
 | `Authoring.Command.Bundles` | Federation stdlib `.catalogbundle` (`import <grain/…>`) |
 | `Authoring.Conformance` | `authoring/*` grammar vectors |
 
-Planet DSLs (`.dashspec`, …) stay **sovereign** in product repos; may adopt `Authoring.Core` kit. See [ADR-0048 WIP](../_wip-adr-0048/GUIDERS-ADR-0048-authoring-quarry-family.md).
+Planet DSLs (`.dashspec`, …) stay **sovereign** in product repos; may adopt `Authoring.Core` kit. See [ADR-0048 WIP](../_wip-adr-0048/GUIDERS-ADR-0048-authoring-quarry-family.md). Pattern catalog: [ADR-0049](./adr/GUIDERS-ADR-0049-federation-pattern-library.md).
 
 ### 7.5 Notations (wire → IR parsers)
 

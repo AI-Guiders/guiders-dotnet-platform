@@ -2,27 +2,27 @@ using AIGuiders.Platform.Authoring.Core;
 
 namespace AIGuiders.Platform.Authoring.Command.Catalog.Parsing.Sections;
 
-public sealed class DefaultsSectionHandler : ICatalogSectionHandler
+public sealed class DefaultsSectionHandler : IAuthoringSectionHandler<CatalogParseContext>
 {
     public string Keyword => "defaults";
 
-    public void Apply(CatalogParseContext context, CatalogSectionBlock block) =>
+    public void Apply(CatalogParseContext context, AuthoringSectionBlock block) =>
         KvSurface.MergeInto(context.DefaultsKv, block.Body);
 }
 
-public sealed class ExecutorsSectionHandler : ICatalogSectionHandler
+public sealed class ExecutorsSectionHandler : IAuthoringSectionHandler<CatalogParseContext>
 {
     public string Keyword => "executors";
 
-    public void Apply(CatalogParseContext context, CatalogSectionBlock block) =>
+    public void Apply(CatalogParseContext context, AuthoringSectionBlock block) =>
         KvSurface.MergeInto(context.Executors, block.Body);
 }
 
-public sealed class VariablesSectionHandler : ICatalogSectionHandler
+public sealed class VariablesSectionHandler : IAuthoringSectionHandler<CatalogParseContext>
 {
     public string Keyword => "variables";
 
-    public void Apply(CatalogParseContext context, CatalogSectionBlock block)
+    public void Apply(CatalogParseContext context, AuthoringSectionBlock block)
     {
         if (block.SurfaceKind == AuthoringSurfaceKind.Table)
         {
@@ -45,11 +45,11 @@ public sealed class VariablesSectionHandler : ICatalogSectionHandler
     }
 }
 
-public sealed class HelpsSectionHandler : ICatalogSectionHandler
+public sealed class HelpsSectionHandler : IAuthoringSectionHandler<CatalogParseContext>
 {
     public string Keyword => "helps";
 
-    public void Apply(CatalogParseContext context, CatalogSectionBlock block)
+    public void Apply(CatalogParseContext context, AuthoringSectionBlock block)
     {
         if (block.SurfaceKind != AuthoringSurfaceKind.Table)
         {
@@ -66,11 +66,11 @@ public sealed class HelpsSectionHandler : ICatalogSectionHandler
     }
 }
 
-public sealed class PhrasesSectionHandler : ICatalogSectionHandler
+public sealed class PhrasesSectionHandler : IAuthoringSectionHandler<CatalogParseContext>
 {
     public string Keyword => "phrases";
 
-    public void Apply(CatalogParseContext context, CatalogSectionBlock block)
+    public void Apply(CatalogParseContext context, AuthoringSectionBlock block)
     {
         if (block.SurfaceKind != AuthoringSurfaceKind.Table)
         {
@@ -86,11 +86,11 @@ public sealed class PhrasesSectionHandler : ICatalogSectionHandler
     }
 }
 
-public sealed class CommandsSectionHandler : ICatalogSectionHandler
+public sealed class CommandsSectionHandler : IAuthoringSectionHandler<CatalogParseContext>
 {
     public string Keyword => "commands";
 
-    public void Apply(CatalogParseContext context, CatalogSectionBlock block)
+    public void Apply(CatalogParseContext context, AuthoringSectionBlock block)
     {
         foreach (var map in TableSurface.ParseMaps(block.Body))
         {
@@ -100,11 +100,11 @@ public sealed class CommandsSectionHandler : ICatalogSectionHandler
     }
 }
 
-public sealed class BindingsSectionHandler : ICatalogSectionHandler
+public sealed class BindingsSectionHandler : IAuthoringSectionHandler<CatalogParseContext>
 {
     public string Keyword => "bindings";
 
-    public void Apply(CatalogParseContext context, CatalogSectionBlock block)
+    public void Apply(CatalogParseContext context, AuthoringSectionBlock block)
     {
         foreach (var map in TableSurface.ParseMaps(block.Body))
         {
@@ -116,11 +116,11 @@ public sealed class BindingsSectionHandler : ICatalogSectionHandler
     }
 }
 
-public sealed class MelodiesSectionHandler : ICatalogSectionHandler
+public sealed class MelodiesSectionHandler : IAuthoringSectionHandler<CatalogParseContext>
 {
     public string Keyword => "melodies";
 
-    public void Apply(CatalogParseContext context, CatalogSectionBlock block)
+    public void Apply(CatalogParseContext context, AuthoringSectionBlock block)
     {
         foreach (var map in TableSurface.ParseMaps(block.Body))
         {
@@ -131,11 +131,11 @@ public sealed class MelodiesSectionHandler : ICatalogSectionHandler
     }
 }
 
-public sealed class McpSectionHandler : ICatalogSectionHandler
+public sealed class McpSectionHandler : IAuthoringSectionHandler<CatalogParseContext>
 {
     public string Keyword => "mcp";
 
-    public void Apply(CatalogParseContext context, CatalogSectionBlock block)
+    public void Apply(CatalogParseContext context, AuthoringSectionBlock block)
     {
         foreach (var map in TableSurface.ParseMaps(block.Body))
         {
