@@ -17,9 +17,6 @@ push_nupkg() {
     return 1
   fi
   echo "$log"
-  if echo "$log" | grep -qiE 'already exists|already been pushed|was not pushed'; then
-    return 2
-  fi
   return 0
 }
 
@@ -32,18 +29,7 @@ fi
 
 for f in "${files[@]}"; do
   echo "=== $f ==="
-  rc=0
-  push_nupkg "$f" || rc=$?
-  if [[ $rc -eq 1 ]]; then
+  if ! push_nupkg "$f"; then
     exit 1
-  fi
-  if [[ $rc -eq 2 ]]; then
-    echo "skip snupkg (nupkg duplicate): ${f%.nupkg}.snupkg"
-    continue
-  fi
-  sym="${f%.nupkg}.snupkg"
-  if [[ -f "$sym" ]]; then
-    echo "push $sym"
-    dotnet nuget push "$sym" --api-key "$key" --source "$src" --skip-duplicate
   fi
 done
