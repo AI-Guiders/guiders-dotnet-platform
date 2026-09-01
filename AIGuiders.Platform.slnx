@@ -48,6 +48,7 @@
     <Project Path="src/AIGuiders.Platform.Catalog/AIGuiders.Platform.Catalog.csproj" />
     <Project Path="src/AIGuiders.Platform.Authoring.Core/AIGuiders.Platform.Authoring.Core.csproj" />
     <Project Path="src/AIGuiders.Platform.Authoring.Command.Catalog/AIGuiders.Platform.Authoring.Command.Catalog.csproj" />
+    <Project Path="src/AIGuiders.Platform.Authoring.Deck/AIGuiders.Platform.Authoring.Deck.csproj" />
     <Project Path="src/AIGuiders.Platform.Authoring.Command.Bundles/AIGuiders.Platform.Authoring.Command.Bundles.csproj" />
     <Project Path="src/AIGuiders.Platform.Authoring.Conformance/AIGuiders.Platform.Authoring.Conformance.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog.CodeGen/AIGuiders.Platform.CommandPlane.Catalog.CodeGen.csproj" />
