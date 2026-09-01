@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Authoring.Core</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Authoring.Core</AssemblyName>
+    <PackageId>AIGuiders.Platform.Authoring.Core</PackageId>
+    <Description>Federation authoring kit — diagnostics, table/kv parse helpers (GUIDERS-ADR-0048).</Description>
+  </PropertyGroup>
+</Project>

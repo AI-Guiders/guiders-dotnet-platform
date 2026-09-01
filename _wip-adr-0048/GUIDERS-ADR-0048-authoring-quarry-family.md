@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Status** | Proposed |
+| **Status** | Accepted (implementation wave 2026-09-01) |
 | **Date** | 2026-09-01 |
 | **Tags** | #guiders #federation #authoring #guild #dsl #quarry #dx |
 | **Related** | GUIDERS-ADR-0021 · GUIDERS-ADR-0042 · GUIDERS-ADR-0045 · [GUIDERS-ADR-0047](../_wip-adr-0047/GUIDERS-ADR-0047-command-for-doi.md) · DASHSPEC-ADR-0017 · DASHSPEC-ADR-0024 |

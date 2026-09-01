@@ -1,5 +1,6 @@
-using AIGuiders.Platform.IntermediateRepresentation.Command;
 #nullable enable
+
+using AIGuiders.Platform.IntermediateRepresentation.Command;
 
 namespace AIGuiders.Platform.CommandPlane;
 

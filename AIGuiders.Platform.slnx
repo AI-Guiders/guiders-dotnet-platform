@@ -46,6 +46,10 @@
     <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Agent/AIGuiders.Platform.IntermediateRepresentation.Agent.csproj" />
     <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Language/AIGuiders.Platform.IntermediateRepresentation.Language.csproj" />
     <Project Path="src/AIGuiders.Platform.Catalog/AIGuiders.Platform.Catalog.csproj" />
+    <Project Path="src/AIGuiders.Platform.Authoring.Core/AIGuiders.Platform.Authoring.Core.csproj" />
+    <Project Path="src/AIGuiders.Platform.Authoring.Command.Catalog/AIGuiders.Platform.Authoring.Command.Catalog.csproj" />
+    <Project Path="src/AIGuiders.Platform.Authoring.Conformance/AIGuiders.Platform.Authoring.Conformance.csproj" />
+    <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog.CodeGen/AIGuiders.Platform.CommandPlane.Catalog.CodeGen.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.Catalog/AIGuiders.Platform.CommandPlane.Catalog.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane.ArgSuggestions/AIGuiders.Platform.CommandPlane.ArgSuggestions.csproj" />
     <Project Path="src/AIGuiders.Platform.CommandPlane/AIGuiders.Platform.CommandPlane.csproj" />
@@ -117,8 +121,5 @@
   <Project Path="src/AIGuiders.Platform.Cockpit.Transport/AIGuiders.Platform.Cockpit.Transport.csproj" />
   <Project Path="src/AIGuiders.Platform.Routing/AIGuiders.Platform.Routing.csproj" />
   <Project Path="tests/AIGuiders.Platform.Tests/AIGuiders.Platform.Tests.csproj" />
-    <Project Path="src/AIGuiders.Platform.LanguageIntelligence.Line/AIGuiders.Platform.LanguageIntelligence.Line.csproj" />
-    <Project Path="src/AIGuiders.Platform.LanguageIntelligence.Markup/AIGuiders.Platform.LanguageIntelligence.Markup.csproj" />
-    <Project Path="src/AIGuiders.Platform.LanguageIntelligence.Edit/AIGuiders.Platform.LanguageIntelligence.Edit.csproj" />
-    <Project Path="src/AIGuiders.Platform.LanguageIntelligence.Bundled/AIGuiders.Platform.LanguageIntelligence.Bundled.csproj" />
+  <Project Path="tests/AIGuiders.Platform.Authoring.Tests/AIGuiders.Platform.Authoring.Tests.csproj" />
 </Solution>

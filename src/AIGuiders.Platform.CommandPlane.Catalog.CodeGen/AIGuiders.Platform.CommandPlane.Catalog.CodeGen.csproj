@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.CommandPlane.Catalog.CodeGen</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.CommandPlane.Catalog.CodeGen</AssemblyName>
+    <PackageId>AIGuiders.Platform.CommandPlane.Catalog.CodeGen</PackageId>
+    <Description>Emit MCP and wire artifacts from .catalog (GUIDERS-ADR-0047).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Authoring.Command.Catalog\AIGuiders.Platform.Authoring.Command.Catalog.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Catalog\AIGuiders.Platform.CommandPlane.Catalog.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Command\AIGuiders.Platform.IntermediateRepresentation.Command.csproj" />
+  </ItemGroup>
+</Project>

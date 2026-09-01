@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Authoring.Conformance</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Authoring.Conformance</AssemblyName>
+    <PackageId>AIGuiders.Platform.Authoring.Conformance</PackageId>
+    <Description>Authoring grammar conformance harness (GUIDERS-ADR-0048).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Authoring.Command.Catalog\AIGuiders.Platform.Authoring.Command.Catalog.csproj" />
+  </ItemGroup>
+</Project>

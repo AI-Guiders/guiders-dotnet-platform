@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Authoring.Command.Catalog</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Authoring.Command.Catalog</AssemblyName>
+    <PackageId>AIGuiders.Platform.Authoring.Command.Catalog</PackageId>
+    <Description>.catalog grammar parser and notation validation (GUIDERS-ADR-0047).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Authoring.Core\AIGuiders.Platform.Authoring.Core.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard.KeyGesture\AIGuiders.Platform.Notations.Keyboard.KeyGesture.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard.Vim\AIGuiders.Platform.Notations.Keyboard.Vim.csproj" />
+  </ItemGroup>
+</Project>
