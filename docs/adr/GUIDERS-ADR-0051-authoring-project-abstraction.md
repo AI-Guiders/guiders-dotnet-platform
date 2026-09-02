@@ -36,7 +36,7 @@ Host-agnostic types (NuGet `AIGuiders.Platform.Authoring.Core`):
 
 | Kind | Example | Resolved how |
 |------|---------|----------------|
-| **Logical file** | `Catalog/dash.catalog`, `specs/stakeholder.dashspec` | `PathBoundary.ToLogical` + `File.ReadAllText` |
+| **Logical file** | `Catalog/dash.catalog.gdl`, `specs/stakeholder.dashspec` | `PathBoundary.ToLogical` + `File.ReadAllText` |
 | **Federation import** | `grain/date-filter`, `value/preset` | `ICatalogBundleLibrary` / planet stdlib — **not** `Path.Combine` |
 
 Wire paths inside a grammar (`import <grain/date-filter>`) are **not** `LogicalPath` ([ADR-0050](./GUIDERS-ADR-0050-paths-guild-logical-physical.md) anti-pattern table).
@@ -85,7 +85,7 @@ Grammar diagnostics unchanged; project + parse diagnostics merge in `CatalogProj
 |----------|-----|--------|
 | `CatalogParser.Parse` / `ParseFile` | Keep — low-level API | Call via `CatalogProject.Open` in hosts/toolchain |
 | `authoring-toolchain` `Authoring.Cli validate` | `CatalogProject.Open` + `--workspace` (**shipped**) |
-| `dash-spec` `dash.catalog` | `CatalogParser` in Host | Pin `CatalogProject`; Core stays host-free |
+| `dash-spec` `dash.catalog.gdl` | `CatalogParser` in Host | Pin `CatalogProject`; Core stays host-free |
 | DashSpec `.dashspec` graph | `DashSpecProject.Open` + unified `import` (**shipped** in dash-spec Core) |
 
 ## Consequences

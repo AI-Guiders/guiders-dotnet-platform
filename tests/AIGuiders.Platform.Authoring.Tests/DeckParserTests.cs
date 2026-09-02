@@ -9,8 +9,8 @@ public sealed class DeckParserTests
     [Fact]
     public void Parse_dashspec_studio_fixture_has_typed_topology()
     {
-        var text = LoadFixture("dashspec-studio.deck");
-        var result = DeckParser.Parse(text, "dashspec-studio.deck");
+        var text = LoadFixture("dashspec-studio.deck.gdl");
+        var result = DeckParser.Parse(text, "dashspec-studio.deck.gdl");
 
         Assert.Empty(result.Diagnostics);
         Assert.NotNull(result.Document);

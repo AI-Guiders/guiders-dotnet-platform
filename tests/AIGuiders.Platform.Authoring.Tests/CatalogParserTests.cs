@@ -14,7 +14,7 @@ public sealed class CatalogParserTests
     [Fact]
     public void Parse_dash_catalog_fixture_has_planet_and_commands()
     {
-        var text = LoadFixture("dash.catalog");
+        var text = LoadFixture("dash.catalog.gdl");
         var result = CatalogParser.Parse(text, bundleLibrary: CatalogBundleLibrary.Federation);
 
         Assert.NotNull(result.Document);
@@ -52,7 +52,7 @@ public sealed class CatalogParserTests
     [Fact]
     public void Grammar_mismatch_is_compile_error()
     {
-        var text = LoadFixture("grammar-mismatch.catalog");
+        var text = LoadFixture("grammar-mismatch.catalog.gdl");
         var result = CatalogConformance.ValidateDocument(text);
 
         Assert.Contains(
@@ -63,7 +63,7 @@ public sealed class CatalogParserTests
     [Fact]
     public void Mcp_emitter_writes_tools_for_exposed_commands()
     {
-        var text = LoadFixture("dash.catalog");
+        var text = LoadFixture("dash.catalog.gdl");
         var doc = CatalogParser.Parse(text, bundleLibrary: CatalogBundleLibrary.Federation).Document!;
         var json = CatalogMcpToolsEmitter.EmitJson(doc);
 
@@ -73,7 +73,7 @@ public sealed class CatalogParserTests
     [Fact]
     public void Catalog_emitter_writes_federation_surfaces()
     {
-        var text = LoadFixture("dash.catalog");
+        var text = LoadFixture("dash.catalog.gdl");
         var doc = CatalogParser.Parse(text, bundleLibrary: CatalogBundleLibrary.Federation).Document!;
         var code = CatalogCatalogEmitter.EmitCSharp(doc, "DashSpec.Generated", "DashCatalog");
 

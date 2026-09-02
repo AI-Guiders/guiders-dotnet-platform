@@ -5,7 +5,7 @@
   "version": 1,
   "source": "GUIDERS-ADR-0007",
   "related": "GUIDERS-ADR-0057",
-  "fixture": "tests/AIGuiders.Platform.Authoring.Tests/Fixtures/Authoring/federation-dark-cockpit.cockpit.logic",
+  "fixture": "tests/AIGuiders.Platform.Authoring.Tests/Fixtures/Authoring/federation-dark-cockpit.cockpit.logic.gdl",
   "vectors": [
     {
       "id": "nominal-state-eicas-hidden",

@@ -104,12 +104,12 @@ Normative prose: [0007](./GUIDERS-ADR-0007-aviation-mental-model.md) — *EICAS 
 
 Formal sketch (grain + conformance, not parser output yet):
 
-- Fixture: `tests/.../Fixtures/Authoring/federation-dark-cockpit.cockpit.logic`
+- Fixture: `tests/.../Fixtures/Authoring/federation-dark-cockpit.cockpit.logic.gdl`
 - Conformance: `docs/conformance/authoring/cockpit/dark-cockpit.spec.json`
 
 ### 7. Worked example — planet cockpit file
 
-`tests/.../Fixtures/Authoring/dashspec-studio.cockpit.logic` — imports Dark Cockpit grain, adds `need-commit` alert on git+verification facts. **Not parsed in v0** — normative example for codegen/conformance design.
+`tests/.../Fixtures/Authoring/dashspec-studio.cockpit.logic.gdl` — imports Dark Cockpit grain, adds `need-commit` alert on git+verification facts. **Not parsed in v0** — normative example for codegen/conformance design.
 
 ### 8. Emit boundary (future)
 
@@ -145,6 +145,6 @@ Planet hand-writes: domain views, SQL, `.dashspec` content — not annunciation 
 
 | Path | Role |
 |------|------|
-| `tests/.../federation-dark-cockpit.cockpit.logic` | Federation Dark Cockpit grain |
-| `tests/.../dashspec-studio.cockpit.logic` | Planet example (`need-commit`) |
+| `tests/.../federation-dark-cockpit.cockpit.logic.gdl` | Federation Dark Cockpit grain |
+| `tests/.../dashspec-studio.cockpit.logic.gdl` | Planet example (`need-commit`) |
 | `docs/conformance/authoring/cockpit/dark-cockpit.spec.json` | Conformance vectors |

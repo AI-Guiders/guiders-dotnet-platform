@@ -11,7 +11,7 @@ public sealed class CatalogProjectTests
     public void Open_builds_document_graph_with_federation_imports()
     {
         var workspace = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", ".."));
-        var catalog = Path.Combine(workspace, "Fixtures", "Authoring", "dash.catalog");
+        var catalog = Path.Combine(workspace, "Fixtures", "Authoring", "dash.catalog.gdl");
 
         var result = CatalogProject.Open(workspace, catalog, CatalogBundleLibrary.Federation);
 

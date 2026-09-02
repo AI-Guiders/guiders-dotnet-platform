@@ -1,14 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
+
     <RootNamespace>AIGuiders.Platform.Authoring.Command.Bundles</RootNamespace>
+
     <AssemblyName>AIGuiders.Platform.Authoring.Command.Bundles</AssemblyName>
+
     <PackageId>AIGuiders.Platform.Authoring.Command.Bundles</PackageId>
+
     <Description>Federation stdlib .catalogbundle library (GUIDERS-ADR-0047 §8).</Description>
+
   </PropertyGroup>
+
   <ItemGroup>
+
     <ProjectReference Include="..\AIGuiders.Platform.Authoring.Command.Catalog\AIGuiders.Platform.Authoring.Command.Catalog.csproj" />
+
   </ItemGroup>
+
   <ItemGroup>
-    <EmbeddedResource Include="Bundles\**\*.catalogbundle" />
+
+    <EmbeddedResource Include="Bundles\**\*.catalogbundle.gdl" />
+
   </ItemGroup>
+
 </Project>
+

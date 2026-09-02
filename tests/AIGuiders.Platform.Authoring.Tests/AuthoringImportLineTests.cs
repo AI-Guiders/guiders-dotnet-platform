@@ -34,7 +34,7 @@ public sealed class AuthoringImportLineTests
     [Fact]
     public void TryParse_quoted_uses_LogicalPath_kind()
     {
-        Assert.True(AuthoringImportLine.TryParse("import \"a/b.catalog\"", out var directive));
+        Assert.True(AuthoringImportLine.TryParse("import \"a/b.catalog.gdl\"", out var directive));
         Assert.Equal(AuthoringImportTargetKind.LogicalPath, directive!.TargetKind);
     }
 

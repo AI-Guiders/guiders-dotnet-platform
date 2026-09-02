@@ -14,10 +14,10 @@
     },
     {
       "id": "import-line-logical",
-      "line": "import \"specs/entry.catalog\"",
+      "line": "import \"specs/entry.catalog.gdl\"",
       "expect": {
         "targetKind": "LogicalPath",
-        "path": "specs/entry.catalog"
+        "path": "specs/entry.catalog.gdl"
       }
     },
     {
@@ -31,7 +31,7 @@
     },
     {
       "id": "catalog-project-federation-graph",
-      "catalogFile": "dash.catalog",
+      "catalogFile": "dash.catalog.gdl",
       "expect": {
         "planet": "dash",
         "logicalDocuments": 1,

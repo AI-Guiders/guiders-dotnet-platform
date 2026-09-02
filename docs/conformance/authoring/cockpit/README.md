@@ -14,8 +14,8 @@ Conformance fixtures for federation cockpit annunciation ([GUIDERS-ADR-0057](../
 
 | Path | Role |
 |------|------|
-| `tests/.../federation-dark-cockpit.cockpit.logic` | Federation importable grain |
-| `tests/.../dashspec-studio.cockpit.logic` | Planet example (`need-commit` on git+verification facts) |
+| `tests/.../federation-dark-cockpit.cockpit.logic.gdl` | Federation importable grain |
+| `tests/.../dashspec-studio.cockpit.logic.gdl` | Planet example (`need-commit` on git+verification facts) |
 
 ## Running tests
 

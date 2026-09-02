@@ -9,7 +9,7 @@ public sealed class AuthoringProjectTests
     public void OpenSingleFile_resolves_logical_entry_under_workspace()
     {
         var workspace = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", ".."));
-        var catalog = Path.Combine(workspace, "Fixtures", "Authoring", "dash.catalog");
+        var catalog = Path.Combine(workspace, "Fixtures", "Authoring", "dash.catalog.gdl");
 
         var result = AuthoringProjectLoader.OpenSingleFile(workspace, catalog);
 
@@ -25,7 +25,7 @@ public sealed class AuthoringProjectTests
     public void OpenSingleFile_reports_missing_entry()
     {
         var workspace = Path.GetTempPath();
-        var missing = Path.Combine(workspace, "missing.catalog");
+        var missing = Path.Combine(workspace, "missing.catalog.gdl");
 
         var result = AuthoringProjectLoader.OpenSingleFile(workspace, missing);
 
@@ -40,7 +40,7 @@ public sealed class AuthoringProjectTests
     {
         var workspace = Path.Combine(Path.GetTempPath(), "authoring-ws-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(workspace);
-        var outside = Path.Combine(Path.GetTempPath(), "outside-" + Guid.NewGuid().ToString("N") + ".catalog");
+        var outside = Path.Combine(Path.GetTempPath(), "outside-" + Guid.NewGuid().ToString("N") + ".catalog.gdl");
         File.WriteAllText(outside, "catalog test");
 
         try

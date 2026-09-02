@@ -265,16 +265,16 @@ See [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md). **
 
 ### 7.4 GDL — Guiders Declarative Language (`Authoring.*` hyperlane)
 
-**GDL** is the federation **declare-time** language name; **`Authoring.*`** packages implement it. Quarries: `.catalog`, `.deck`, `.display` (proposed), `.cockpit.logic` (proposed). Runtime wire stays **`Notations.*`**. Normative: [ADR-0059](./adr/GUIDERS-ADR-0059-gdl-hyperlane.md).
+**GDL** is the federation **declare-time** language name; **`Authoring.*`** packages implement it. Quarries: `*.catalog.gdl`, `*.deck.gdl`, `*.display.gdl` (proposed), `*.cockpit.logic.gdl` (proposed). Runtime wire stays **`Notations.*`**. Normative: [ADR-0059](./adr/GUIDERS-ADR-0059-gdl-hyperlane.md).
 
 | Package | Capabilities |
 |---------|--------------|
 | `Authoring.Core` | GDL lexical core — block `end keyword`, table/kv surfaces, `AuthoringDocumentWalker`, `import`, shared diagnostics |
-| `Authoring.Command.Catalog` | `.catalog` quarry → `IR.Command` ([0047](./adr/GUIDERS-ADR-0047-command-for-doi.md)) |
-| `Authoring.Command.Bundles` | Federation stdlib `.catalogbundle` (`import <grain/…>`) |
-| `Authoring.Deck` | `.deck` quarry → deck + typed topology IR ([0055](./adr/GUIDERS-ADR-0055-surface-wpf-guild-deck-authoring.md), [0058](./adr/GUIDERS-ADR-0058-presentation-topology-ir.md)) |
-| `Authoring.Display.Binding` | `.display` quarry → `DisplayBindingProfile` (**proposed**) |
-| `Authoring.Cockpit.Logic` | `.cockpit.logic` quarry (**proposed** [0057](./adr/GUIDERS-ADR-0057-cockpit-logic-authoring-quarry.md)) |
+| `Authoring.Command.Catalog` | `*.catalog.gdl` quarry → `IR.Command` ([0047](./adr/GUIDERS-ADR-0047-command-for-doi.md)) |
+| `Authoring.Command.Bundles` | Federation stdlib `*.catalogbundle.gdl` (`import <grain/…>`) |
+| `Authoring.Deck` | `*.deck.gdl` quarry → deck + typed topology IR ([0055](./adr/GUIDERS-ADR-0055-surface-wpf-guild-deck-authoring.md), [0058](./adr/GUIDERS-ADR-0058-presentation-topology-ir.md)) |
+| `Authoring.Display.Binding` | `*.display.gdl` quarry → `DisplayBindingProfile` (**proposed**) |
+| `Authoring.Cockpit.Logic` | `*.cockpit.logic.gdl` quarry (**proposed** [0057](./adr/GUIDERS-ADR-0057-cockpit-logic-authoring-quarry.md)) |
 | `Authoring.Expression` | shared `when` expr → `ExprNode` IR (**proposed**) |
 | `Authoring.Conformance` | `authoring/*` grammar vectors |
 

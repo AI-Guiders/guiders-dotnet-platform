@@ -53,7 +53,7 @@ public sealed class CatalogBundleLibrary : ICatalogBundleLibrary
         var assembly = typeof(CatalogBundleLibrary).Assembly;
         foreach (var name in assembly.GetManifestResourceNames())
         {
-            if (!name.EndsWith(".catalogbundle", StringComparison.OrdinalIgnoreCase))
+            if (!name.EndsWith(".catalogbundle.gdl", StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }
@@ -69,7 +69,7 @@ public sealed class CatalogBundleLibrary : ICatalogBundleLibrary
             var marker = ".Bundles.";
             var start = name.LastIndexOf(marker, StringComparison.Ordinal);
             var relative = start >= 0
-                ? name[(start + marker.Length)..].Replace(".catalogbundle", "", StringComparison.OrdinalIgnoreCase)
+                ? name[(start + marker.Length)..].Replace(".catalogbundle.gdl", "", StringComparison.OrdinalIgnoreCase)
                 : name;
             if (relative.StartsWith("Bundles.", StringComparison.Ordinal))
             {

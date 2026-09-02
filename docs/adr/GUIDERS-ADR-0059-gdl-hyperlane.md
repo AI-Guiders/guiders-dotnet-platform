@@ -9,7 +9,7 @@
 
 ## Context
 
-Federation already ships a **declare-time** surface family — `.catalog`, `.deck`, `.cockpit.logic` (proposed) — parsed by `Authoring.*` into typed IR and emit targets. Authors use shared conventions (`keyword … end keyword`, `* table`, `import`, `#` comments) via `Authoring.Core` ([0048](./GUIDERS-ADR-0048-authoring-quarry-family.md), [0049](./GUIDERS-ADR-0049-federation-pattern-library.md)).
+Federation already ships a **declare-time** surface family — `*.catalog.gdl`, `*.deck.gdl`, `*.cockpit.logic.gdl` (proposed) — parsed by `Authoring.*` into typed IR and emit targets.
 
 We treated this as «config» or «DSL per file type» without a **public language name**. That hides the hyperlane from operators, LSP hosts, and planet adopters — and invites cramming semantics into TOML (`display.toml`, mega workspace drops) where grammar belongs.
 
@@ -83,7 +83,7 @@ studio/
 
 **Do not** use glued prefixes (`gdlcatalog`, `gdldeck`) — non-idiomatic for tooling globs and LSP file association.
 
-**Legacy alias (transitional):** bare `.catalog`, `.deck`, … — parsers and LSP **MAY** accept during migration; new files **MUST** use `.{quarry}.gdl`. Emit diagnostics `GDL001_use_double_extension` when alias detected (tooling wave).
+Bare `.catalog`, `.deck`, and other single-suffix extensions are **not** GDL — parsers and tooling **MUST NOT** accept them.
 
 **Anti-patterns (non-goals):**
 
@@ -97,9 +97,9 @@ studio/
 
 | Quarry token | Canonical extension | Package | IR / emit | Status |
 |--------------|---------------------|---------|-----------|--------|
-| `catalog` | `.catalog.gdl` | `Authoring.Command.Catalog` | `IR.Command` | **shipped** (legacy `.catalog`) |
+| `catalog` | `.catalog.gdl` | `Authoring.Command.Catalog` | `IR.Command` | **shipped** |
 | `catalogbundle` | `.catalogbundle.gdl` | `Authoring.Command.Bundles` | profile rows | **shipped** |
-| `deck` | `.deck.gdl` | `Authoring.Deck` | `DeckDocument`, `PresentationTopology` ([0058](./GUIDERS-ADR-0058-presentation-topology-ir.md)) | **shipped** v0 (legacy `.deck`) |
+| `deck` | `.deck.gdl` | `Authoring.Deck` | `DeckDocument`, `PresentationTopology` ([0058](./GUIDERS-ADR-0058-presentation-topology-ir.md)) | **shipped** v0 |
 | `cockpit.logic` | `.cockpit.logic.gdl` | `Authoring.Cockpit.Logic` | `CockpitRuleGraph` | **proposed** [0057](./GUIDERS-ADR-0057-cockpit-logic-authoring-quarry.md) |
 | `display` | `.display.gdl` | `Authoring.Display.Binding` | `DisplayBindingProfile` | **proposed** |
 
@@ -134,10 +134,10 @@ NuGet prefix unchanged: **`AIGuiders.Platform.Authoring.*`**
 ```text
 Authoring.Core              GDL document walk, blocks, tables, import hooks
 Authoring.Expression        shared expr → ExprNode IR (proposed)
-Authoring.Command.*         .catalog / .catalogbundle quarries
-Authoring.Deck              .deck quarry
-Authoring.Display.Binding   .display quarry (proposed)
-Authoring.Cockpit.Logic     .cockpit.logic quarry (proposed)
+Authoring.Command.*         *.catalog.gdl / *.catalogbundle.gdl quarries
+Authoring.Deck              *.deck.gdl quarry
+Authoring.Display.Binding   *.display.gdl quarry (proposed)
+Authoring.Cockpit.Logic     *.cockpit.logic.gdl quarry (proposed)
 Authoring.Conformance       docs/conformance/authoring/*
 Authoring.Project           `GdlProject` / `*.gdlproj` manifest + multi-file graph ([0051](./GUIDERS-ADR-0051-authoring-project-abstraction.md))
 ```
@@ -161,7 +161,7 @@ Conformance vectors: `docs/conformance/authoring/<quarry>/*.spec.json` (+ shared
 
 - Mega single-file GDL with all quarries inlined
 - Glued extensions (`gdlcatalog`, `gdldeck`)
+- Bare single-suffix extensions (`.catalog`, `.deck`, …)
 - Replacing `.dashspec` or planet DSL bodies
 - GDL as runtime REPL wire (use `Notations.*` if needed later)
 - Unified mega-AST across quarries — **IR stays per branch**
-- Mandatory file rename wave — legacy bare extensions accepted until tooling emits `GDL001`

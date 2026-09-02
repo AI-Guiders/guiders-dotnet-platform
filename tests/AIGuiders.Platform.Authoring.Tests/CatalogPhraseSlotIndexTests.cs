@@ -46,7 +46,7 @@ public sealed class CatalogPhraseSlotIndexTests
 
     static CatalogDocument LoadDashCatalog()
     {
-        var path = Path.Combine(AppContext.BaseDirectory, "Fixtures", "Authoring", "dash.catalog");
+        var path = Path.Combine(AppContext.BaseDirectory, "Fixtures", "Authoring", "dash.catalog.gdl");
         var result = CatalogParser.ParseFile(path, CatalogBundleLibrary.Federation);
         Assert.NotNull(result.Document);
         return result.Document;

@@ -14,7 +14,7 @@
     },
     {
       "id": "grammar-wire-mismatch",
-      "catalogFile": "grammar-mismatch.catalog",
+      "catalogFile": "grammar-mismatch.catalog.gdl",
       "expectError": "GrammarWireMismatch"
     }
   ]
