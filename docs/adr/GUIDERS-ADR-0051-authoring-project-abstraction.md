@@ -28,6 +28,7 @@ Host-agnostic types (NuGet `AIGuiders.Platform.Authoring.Core`):
 | `ResolvedAuthoringDocument` | Ref + optional source text + display path for diagnostics |
 | `AuthoringProject` | Workspace root (physical), entry `LogicalPath`, document graph |
 | `AuthoringProjectLoader` | `OpenSingleFile(workspaceRoot, entryPath)` — v0 |
+| `*.gdlproj` | Public project manifest name ([0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) §4) — maps to `AuthoringProject` |
 
 **Not in Core:** grammar-specific parse, IR, emit — stay in `Authoring.Command.*` / planet packages.
 
