@@ -14,4 +14,12 @@ public interface ILanguageBackend
     Task<DocumentSymbolsResult> GetDocumentSymbolsAsync(LanguageRequest req, CancellationToken ct);
 
     Task<LanguageNavigation?> GoToDefinitionAsync(LanguageRequest req, CancellationToken ct);
+
+    Task<FindUsagesResult> FindUsagesAsync(LanguageRequest req, CancellationToken ct);
+
+    Task<CompletionsResult> GetCompletionsAsync(LanguageRequest req, CancellationToken ct);
+
+    Task<SymbolAtPositionResult?> GetSymbolAtPositionAsync(LanguageRequest req, CancellationToken ct);
+
+    Task<RenameSymbolResult> RenameSymbolAsync(RenameSymbolRequest req, CancellationToken ct);
 }

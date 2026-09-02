@@ -56,6 +56,44 @@ public sealed class HostDelegatedLanguageBackend : ILanguageBackend
         return JsonSerializer.Deserialize<LanguageNavigation>(json, JsonOptions);
     }
 
+    public async Task<FindUsagesResult> FindUsagesAsync(LanguageRequest req, CancellationToken ct)
+    {
+        var json = await _bridge.DispatchVerbAsync("find_usages", req, ct).ConfigureAwait(false);
+        return JsonSerializer.Deserialize<FindUsagesResult>(json, JsonOptions)
+            ?? new FindUsagesResult { References = [] };
+    }
+
+    public async Task<CompletionsResult> GetCompletionsAsync(LanguageRequest req, CancellationToken ct)
+    {
+        var json = await _bridge.DispatchVerbAsync("completions", req, ct).ConfigureAwait(false);
+        return JsonSerializer.Deserialize<CompletionsResult>(json, JsonOptions)
+            ?? new CompletionsResult { Items = [] };
+    }
+
+    public async Task<SymbolAtPositionResult?> GetSymbolAtPositionAsync(LanguageRequest req, CancellationToken ct)
+    {
+        var json = await _bridge.DispatchVerbAsync("symbol_at_position", req, ct).ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(json) || json == "null")
+            return null;
+
+        return JsonSerializer.Deserialize<SymbolAtPositionResult>(json, JsonOptions);
+    }
+
+    public async Task<RenameSymbolResult> RenameSymbolAsync(RenameSymbolRequest req, CancellationToken ct)
+    {
+        var json = await _bridge.DispatchVerbAsync("rename", req.Request, ct).ConfigureAwait(false);
+        return JsonSerializer.Deserialize<RenameSymbolResult>(json, JsonOptions)
+            ?? new RenameSymbolResult
+            {
+                OldName = "",
+                NewName = req.NewName,
+                SymbolKind = "",
+                Applied = false,
+                Files = [],
+                Changes = [],
+            };
+    }
+
     private static SourceSpan EmptySpan(string path) =>
         new()
         {

@@ -77,6 +77,64 @@ public sealed class LanguageResolverCenter
         return await backend.GoToDefinitionAsync(req, ct).ConfigureAwait(false);
     }
 
+    public async Task<FindUsagesResult> DispatchFindUsagesAsync(
+        LanguageRequest req,
+        CancellationToken ct = default)
+    {
+        var backend = Resolve(req.FilePath, new ProjectHint(req.SolutionOrProjectPath));
+        if (backend is null)
+            return new FindUsagesResult { References = [] };
+
+        return await backend.FindUsagesAsync(req, ct).ConfigureAwait(false);
+    }
+
+    public async Task<CompletionsResult> DispatchCompletionsAsync(
+        LanguageRequest req,
+        CancellationToken ct = default)
+    {
+        var backend = Resolve(req.FilePath, new ProjectHint(req.SolutionOrProjectPath));
+        if (backend is null)
+            return new CompletionsResult { Items = [] };
+
+        return await backend.GetCompletionsAsync(req, ct).ConfigureAwait(false);
+    }
+
+    public async Task<SymbolAtPositionResult?> DispatchSymbolAtPositionAsync(
+        LanguageRequest req,
+        CancellationToken ct = default)
+    {
+        var backend = Resolve(req.FilePath, new ProjectHint(req.SolutionOrProjectPath));
+        if (backend is null)
+            return null;
+
+        return await backend.GetSymbolAtPositionAsync(req, ct).ConfigureAwait(false) switch
+        {
+            { Name: { Length: > 0 } } symbol => symbol,
+            _ => null,
+        };
+    }
+
+    public async Task<RenameSymbolResult> DispatchRenameSymbolAsync(
+        RenameSymbolRequest req,
+        CancellationToken ct = default)
+    {
+        var backend = Resolve(req.Request.FilePath, new ProjectHint(req.Request.SolutionOrProjectPath));
+        if (backend is null)
+        {
+            return new RenameSymbolResult
+            {
+                OldName = "",
+                NewName = req.NewName,
+                SymbolKind = "",
+                Applied = false,
+                Files = [],
+                Changes = [],
+            };
+        }
+
+        return await backend.RenameSymbolAsync(req, ct).ConfigureAwait(false);
+    }
+
     private static SourceSpan EmptySpan(string path) =>
         new()
         {
