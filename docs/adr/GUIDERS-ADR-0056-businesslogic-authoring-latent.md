@@ -2,11 +2,11 @@
 
 | | |
 |---|---|
-| **Status** | **Latent** (sketch — not scheduled; capture before the joke evaporates) |
+| **Status** | **Superseded (naming)** — see [0057](./GUIDERS-ADR-0057-cockpit-logic-authoring-quarry.md). Retained as historical sketch. Federation quarry is **`.cockpit.logic`**, not `.businesslogic`. |
 | **Level** | Federation authoring hyperlane — sibling to `.catalog`, `.deck` |
 | **Date** | 2026-09-01 |
 | **Tags** | #guiders #federation #authoring #rules #policy #latent #guiders-ioplang |
-| **Related** | [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [0055](./GUIDERS-ADR-0055-surface-wpf-guild-deck-authoring.md) · [0053](./GUIDERS-ADR-0053-planet-responsibilities.md) · IOP / Cockpit.DataBus · **Gherkin** (BDD; adjacent, not compatible v0) |
+| **Related** | [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [0055](./GUIDERS-ADR-0055-surface-wpf-guild-deck-authoring.md) · [0053](./GUIDERS-ADR-0053-planet-responsibilities.md) · [0057](./GUIDERS-ADR-0057-cockpit-logic-authoring-quarry.md) · IOP / Cockpit.DataBus · **Gherkin** (BDD; adjacent, not compatible v0) |
 
 ## Context
 
@@ -20,6 +20,8 @@ The federation declarative stack is growing by accretion, not by design committe
 ```
 
 Operators joked about **guiders-ioplang** — a family of SSOT files that *feels* like a language but is really **intent layers**: each file answers one question. The punchline landed on **`.businesslogic`**: *«бизнес правила можно пихать в .businesslogic»*.
+
+> **2026-09-02:** Renamed federation quarry to **`.cockpit.logic`** ([0057](./GUIDERS-ADR-0057-cockpit-logic-authoring-quarry.md)). Cockpit annunciation ≠ planet customer domain. Planet “business logic” stays optional/s sovereign; federation formalizes cockpit ops + conformance only.
 
 That is worth capturing. Not because v0 Studio needs it, but because the **pain is real**:
 

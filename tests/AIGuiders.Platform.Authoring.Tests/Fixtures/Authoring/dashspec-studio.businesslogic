@@ -1,4 +1,5 @@
 # DashSpec Studio — businesslogic sketch (GUIDERS-ADR-0056 latent)
+# SUPERSEDED for federation naming — see dashspec-studio.cockpit.logic + GUIDERS-ADR-0057.
 # NOT parsed yet; normative example for when Latent → Proposed.
 
 businesslogic dashspec-studio

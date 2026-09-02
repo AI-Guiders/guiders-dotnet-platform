@@ -1,0 +1,38 @@
+# DashSpec Studio — planet cockpit.logic sketch (GUIDERS-ADR-0057)
+# NOT parsed yet. Domain promote rules belong in planet C# / .dashspec — not here.
+
+cockpit.logic dashspec-studio
+
+import federation/cockpit/dark-cockpit
+
+facts
+  git.has-uncommitted-changes  bool
+  verification.passed          bool
+end facts
+
+derived table
+  | name        | type | expr                                              |
+  | need-commit | bool | git.has-uncommitted-changes and verification.passed |
+end derived
+
+rules
+
+  rule uncommitted-after-green
+    when need-commit
+    then fire alert need-commit
+  end rule
+
+end rules
+
+alerting
+  alert need-commit
+    class = Warning
+    message = "Uncommitted changes after green verification"
+end alerting
+
+projectors table
+  | alert       | eicas | slash-hint |
+  | need-commit | yes   | yes        |
+end projectors
+
+end cockpit.logic

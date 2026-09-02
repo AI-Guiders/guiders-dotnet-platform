@@ -1,0 +1,25 @@
+# Federation grain — Dark Cockpit principle (GUIDERS-ADR-0007, GUIDERS-ADR-0057)
+# NOT parsed yet; normative sketch for conformance + future parser.
+
+cockpit.logic federation/dark-cockpit
+
+facts
+  alerts.active-count    int
+  alerts.max-severity    string
+end facts
+
+principles
+
+  principle dark-cockpit-nominal
+    when alerts.active-count == 0 and alerts.max-severity == "nominal"
+    then require projection eicas.hidden
+  end principle
+
+  principle dark-cockpit-broken
+    when alerts.active-count > 0 or alerts.max-severity != "nominal"
+    then allow projection eicas.visible
+  end principle
+
+end principles
+
+end cockpit.logic

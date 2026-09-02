@@ -1,0 +1,37 @@
+{
+  "kind": "cockpit.logic",
+  "principle": "dark-cockpit",
+  "semantics": "EicasQuietWhenNominal",
+  "version": 1,
+  "source": "GUIDERS-ADR-0007",
+  "related": "GUIDERS-ADR-0057",
+  "fixture": "tests/AIGuiders.Platform.Authoring.Tests/Fixtures/Authoring/federation-dark-cockpit.cockpit.logic",
+  "vectors": [
+    {
+      "id": "nominal-state-eicas-hidden",
+      "description": "Dark Cockpit: no active alerts and nominal severity → EICAS not visible",
+      "facts": {
+        "alerts.active-count": 0,
+        "alerts.max-severity": "nominal"
+      },
+      "expect": {
+        "eicas.visible": false,
+        "annunciations.count": 0,
+        "matchedPrinciples": ["dark-cockpit-nominal"]
+      }
+    },
+    {
+      "id": "caution-state-eicas-visible",
+      "description": "Drift ≥ caution → EICAS may show annunciations",
+      "facts": {
+        "alerts.active-count": 1,
+        "alerts.max-severity": "caution"
+      },
+      "expect": {
+        "eicas.visible": true,
+        "annunciations.minCount": 1,
+        "matchedPrinciples": ["dark-cockpit-broken"]
+      }
+    }
+  ]
+}
