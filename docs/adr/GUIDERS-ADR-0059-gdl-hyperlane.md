@@ -146,8 +146,8 @@ Conformance vectors: `docs/conformance/authoring/<quarry>/*.spec.json` (+ shared
 
 ### 9. LSP and tooling
 
-- One **GDL language service host** registers `*.gdl` + `*.gdlproj`; quarry = extension token(s) before `.gdl` (e.g. `deck`, `cockpit.logic`).
-- Diagnostics, go-to-def, import graph reuse `Authoring.Project`.
+- One **GDL language service host** registers `*.gdl` + `*.gdlproj`; quarry = extension token(s) before `.gdl` (e.g. `deck`, `cockpit.logic`). Federation contract: [GUIDERS-ADR-0061](./GUIDERS-ADR-0061-language-resolver-center.md) (**Language Resolver Center**) + `Platform.Modeling.Language.Adapters.Gdl`.
+- Diagnostics, go-to-def, import graph reuse `Authoring.Project` / `GdlProject`.
 - Planets port **quarry vectors**, not ad hoc TOML schemas.
 
 ## Consequences

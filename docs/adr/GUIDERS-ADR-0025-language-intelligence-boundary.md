@@ -21,6 +21,8 @@ Operator review (2026-08-30):
 
 **Goal:** same hyperlane pattern as `Notations.*` and `CommandPlane.Slash` — wire → IR, vectors, à la carte NuGet — without pretending all languages reach Roslyn semantic depth.
 
+**Sibling (workspace verbs):** [GUIDERS-ADR-0061](./GUIDERS-ADR-0061-language-resolver-center.md) — **Language Resolver Center** for diagnostics / outline / navigation (`Platform.Modeling.Language`). LanguageIntelligence keeps **edit** intelligence (Anchor, Sniper, buffer tiers). Adapters may share Roslyn host later; contracts stay separate in v1.
+
 ---
 
 ## Decision
