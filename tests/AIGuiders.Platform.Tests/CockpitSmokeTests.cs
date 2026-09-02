@@ -1,5 +1,5 @@
-using AIGuiders.Platform.Cockpit.DataBus;
-using AIGuiders.Platform.Cockpit.Transport;
+using AIGuiders.Platform.Execution.Cockpit.DataBus;
+using AIGuiders.Platform.Execution.Cockpit.Transport;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

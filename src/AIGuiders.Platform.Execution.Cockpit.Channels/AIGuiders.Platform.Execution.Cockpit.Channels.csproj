@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.Cockpit.Channels</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Cockpit.Channels</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Cockpit.Channels</PackageId>
+    <Description>Channel CCU runtime: IDE Health, Environment Readiness (CIDE ADR 0036/0095).</Description>
+    <UseGuidersModelingCockpitDataBus>true</UseGuidersModelingCockpitDataBus>
+  </PropertyGroup>
+  <Import Project="..\..\eng\Guiders.Modeling.props" />
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Cockpit.Abstractions\AIGuiders.Platform.Execution.Cockpit.Abstractions.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Cockpit.DataBus\AIGuiders.Platform.Execution.Cockpit.DataBus.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,8 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <RootNamespace>AIGuiders.Platform.Cockpit</RootNamespace>
-    <AssemblyName>AIGuiders.Platform.Cockpit.Abstractions</AssemblyName>
-    <PackageId>AIGuiders.Platform.Cockpit.Abstractions</PackageId>
-    <Description>Cockpit layer contracts: CCU, DAL, channel, CDS, compositor (CIDE ADR 0036/0097/0102).</Description>
-  </PropertyGroup>
-</Project>

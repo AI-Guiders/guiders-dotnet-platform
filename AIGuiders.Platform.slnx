@@ -5,9 +5,9 @@
     <Platform Name="x86" />
   </Configurations>
   <Folder Name="/src/">
-    <Project Path="src/AIGuiders.Platform.Cockpit.Cds/AIGuiders.Platform.Cockpit.Cds.csproj" />
-    <Project Path="src/AIGuiders.Platform.Cockpit.Channels/AIGuiders.Platform.Cockpit.Channels.csproj" />
-    <Project Path="src/AIGuiders.Platform.Cockpit.Composition/AIGuiders.Platform.Cockpit.Composition.csproj" />
+    <Project Path="src/AIGuiders.Platform.Execution.Cockpit.Cds/AIGuiders.Platform.Execution.Cockpit.Cds.csproj" />
+    <Project Path="src/AIGuiders.Platform.Execution.Cockpit.Channels/AIGuiders.Platform.Execution.Cockpit.Channels.csproj" />
+    <Project Path="src/AIGuiders.Platform.Execution.Cockpit.Composition/AIGuiders.Platform.Execution.Cockpit.Composition.csproj" />
     <Project Path="src/AIGuiders.Platform.Configurations.Workspace/AIGuiders.Platform.Configurations.Workspace.csproj" />
     <Project Path="src/AIGuiders.Platform.Configurations.Workspace.Sources/AIGuiders.Platform.Configurations.Workspace.Sources.csproj" />
     <Project Path="src/AIGuiders.Platform.Configurations.Project/AIGuiders.Platform.Configurations.Project.csproj" />
@@ -120,10 +120,10 @@
     <Project Path="tools/NavigationOracle/NavigationOracle.csproj" />
   </Folder>
   <Project Path="src/AIGuiders.Platform.Abstractions/AIGuiders.Platform.Abstractions.csproj" />
-  <Project Path="src/AIGuiders.Platform.Cockpit.Abstractions/AIGuiders.Platform.Cockpit.Abstractions.csproj" />
-  <Project Path="src/AIGuiders.Platform.Cockpit.DataBus/AIGuiders.Platform.Cockpit.DataBus.csproj" />
-  <Project Path="src/AIGuiders.Platform.Cockpit.Ids/AIGuiders.Platform.Cockpit.Ids.csproj" />
-  <Project Path="src/AIGuiders.Platform.Cockpit.Transport/AIGuiders.Platform.Cockpit.Transport.csproj" />
+  <Project Path="src/AIGuiders.Platform.Execution.Cockpit.Abstractions/AIGuiders.Platform.Execution.Cockpit.Abstractions.csproj" />
+  <Project Path="src/AIGuiders.Platform.Execution.Cockpit.DataBus/AIGuiders.Platform.Execution.Cockpit.DataBus.csproj" />
+  <Project Path="src/AIGuiders.Platform.Execution.Cockpit.Ids/AIGuiders.Platform.Execution.Cockpit.Ids.csproj" />
+  <Project Path="src/AIGuiders.Platform.Execution.Cockpit.Transport/AIGuiders.Platform.Execution.Cockpit.Transport.csproj" />
   <Project Path="src/AIGuiders.Platform.Routing/AIGuiders.Platform.Routing.csproj" />
   <Project Path="tests/AIGuiders.Platform.Tests/AIGuiders.Platform.Tests.csproj" />
   <Project Path="tests/AIGuiders.Platform.Authoring.Tests/AIGuiders.Platform.Authoring.Tests.csproj" />

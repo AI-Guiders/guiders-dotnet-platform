@@ -1,8 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <RootNamespace>AIGuiders.Platform.Cockpit.Ids</RootNamespace>
-    <AssemblyName>AIGuiders.Platform.Cockpit.Ids</AssemblyName>
-    <PackageId>AIGuiders.Platform.Cockpit.Ids</PackageId>
-    <Description>IDS overlay contracts (CIDE ADR 0079) — orthogonal to CDS.</Description>
-  </PropertyGroup>
-</Project>

@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.Cockpit.DataBus</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Cockpit.DataBus</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Cockpit.DataBus</PackageId>
+    <Description>Thin in-process DataBus runtime — event schema in Platform.Modeling.Cockpit.DataBus (F#).</Description>
+    <UseGuidersModelingCockpitDataBus>true</UseGuidersModelingCockpitDataBus>
+  </PropertyGroup>
+  <Import Project="..\..\eng\Guiders.Modeling.props" />
+</Project>

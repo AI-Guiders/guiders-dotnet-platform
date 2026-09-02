@@ -1,8 +1,9 @@
 #nullable enable
-using AIGuiders.Platform.Cockpit.Channels.EnvironmentReadiness;
-using AIGuiders.Platform.Cockpit.Channels.EnvironmentReadiness.DataAcquisition;
-using AIGuiders.Platform.Cockpit.Channels.EnvironmentReadiness.ComputingUnits;
-using AIGuiders.Platform.Cockpit.DataBus;
+using AIGuiders.Platform.Execution.Cockpit.Channels.EnvironmentReadiness;
+using AIGuiders.Platform.Execution.Cockpit.Channels.EnvironmentReadiness.DataAcquisition;
+using AIGuiders.Platform.Execution.Cockpit.Channels.EnvironmentReadiness.ComputingUnits;
+using AIGuiders.Platform.Execution.Cockpit.DataBus;
+using AIGuiders.Platform.Modeling.Cockpit.DataBus;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;
@@ -23,7 +24,7 @@ public sealed class EnvironmentReadinessKitTests
         var ctx = new EnvironmentReadinessChannelContext(
             new EnvironmentReadinessSettings(null),
             null,
-            default,
+            IdeHostStateChanged.Empty,
             IsMcpStdioHost: true);
 
         var snapshot = await EnvironmentReadinessSnapshotUnit.BuildCoreAsync(
@@ -43,17 +44,17 @@ public sealed class DataBusAsyncPolicyTests
     [Fact]
     public void Default_policy_marks_debug_burst()
     {
-        Assert.True(DataBusEventPolicy.Default.IsBurst(typeof(DebugStateChanged)));
-        Assert.False(DataBusEventPolicy.Default.IsBurst(typeof(BuildStateChanged)));
+        Assert.True(DispatchPolicyModule.isBurstForTypeName(nameof(DebugStateChanged), DispatchPolicyModule.defaultPolicy));
+        Assert.False(DispatchPolicyModule.isBurstForTypeName(nameof(BuildStateChanged), DispatchPolicyModule.defaultPolicy));
     }
 
     [Fact]
     public async Task Async_bus_delivers_reliable_events()
     {
-        using var bus = new InMemoryDataBus(asynchronousDispatch: true, DataBusEventPolicy.Default);
+        using var bus = new InMemoryDataBus(asynchronousDispatch: true);
         var tcs = new TaskCompletionSource<BuildStateChanged>(TaskCreationOptions.RunContinuationsAsynchronously);
         using var sub = bus.Subscribe<BuildStateChanged>(e => tcs.TrySetResult(e));
-        bus.Publish(new BuildStateChanged(true));
+        bus.Publish(new BuildStateChanged { IsBuilding = true });
         var evt = await tcs.Task.WaitAsync(TimeSpan.FromSeconds(2));
         Assert.True(evt.IsBuilding);
     }

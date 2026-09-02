@@ -1,9 +1,9 @@
 #nullable enable
 
-using AIGuiders.Platform.Cockpit.Channels.IdeHealth;
-using AIGuiders.Platform.Cockpit.Channels.IdeHealth.ComputingUnits;
-using AIGuiders.Platform.Cockpit.DataBus;
-using AIGuiders.Platform.Cockpit.DataBus.Debug;
+using AIGuiders.Platform.Execution.Cockpit.Channels.IdeHealth;
+using AIGuiders.Platform.Execution.Cockpit.Channels.IdeHealth.ComputingUnits;
+using AIGuiders.Platform.Execution.Cockpit.DataBus;
+using AIGuiders.Platform.Modeling.Cockpit.DataBus;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;
@@ -11,10 +11,17 @@ namespace AIGuiders.Platform.Tests;
 public sealed class IdeHealthCcuTests
 {
     [Fact]
-    public void BuildStateSnapshotUnit_applies_exit()
+    public void BuildStateFold_applies_exit()
     {
-        var prior = new BuildStateSnapshot(false, null, null);
-        var next = BuildStateSnapshotUnit.Apply(prior, new BuildStateChanged(false, 0, true));
+        var prior = BuildStateSnapshot.Empty;
+        var next = BuildStateFold.apply(
+            prior,
+            new BuildStateChanged
+            {
+                IsBuilding = false,
+                LastExitCode = 0,
+                LastBuildSucceeded = true,
+            });
         Assert.False(next.IsBuilding);
         Assert.Equal(0, next.LastExitCode);
         Assert.True(next.LastBuildSucceeded);
@@ -26,12 +33,18 @@ public sealed class IdeHealthCcuTests
         using var bus = new InMemoryDataBus();
         using var unit = new IdeHealthSnapshotUnit(bus);
 
-        bus.Publish(new BuildStateChanged(true));
-        bus.Publish(new TestsStateChanged("3 passed", 0));
-        bus.Publish(new GitStateChanged("Git: main · clean", "main"));
-        bus.Publish(new DebugStateChanged(DebugSessionSnapshot.Empty));
-        bus.Publish(new IdeHostStateChanged(true, false, true, false));
-        bus.Publish(new StartupProjectPathChanged("App.csproj"));
+        bus.Publish(new BuildStateChanged { IsBuilding = true });
+        bus.Publish(new TestsStateChanged { Summary = "3 passed", ImpactedBadge = 0 });
+        bus.Publish(new GitStateChanged { Line = "Git: main · clean", CockpitShort = "main" });
+        bus.Publish(new DebugStateChanged { Snapshot = DebugSessionSnapshot.Empty });
+        bus.Publish(new IdeHostStateChanged
+        {
+            CSharpLspProcessActive = true,
+            MarkdownLspProcessActive = false,
+            CSharpLspHostPresent = true,
+            MarkdownLspHostPresent = false,
+        });
+        bus.Publish(new StartupProjectPathChanged { ProjectPath = "App.csproj" });
 
         var input = unit.Build(IdeHealthChannelContext.Default);
         var output = IdeHealthOutputComposer.Compose(input);

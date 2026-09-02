@@ -32,13 +32,13 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Abstractions\AIGuiders.Platform.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Routing\AIGuiders.Platform.Routing.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Abstractions\AIGuiders.Platform.Cockpit.Abstractions.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Ids\AIGuiders.Platform.Cockpit.Ids.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.DataBus\AIGuiders.Platform.Cockpit.DataBus.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Transport\AIGuiders.Platform.Cockpit.Transport.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Channels\AIGuiders.Platform.Cockpit.Channels.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Composition\AIGuiders.Platform.Cockpit.Composition.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Cockpit.Cds\AIGuiders.Platform.Cockpit.Cds.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Cockpit.Abstractions\AIGuiders.Platform.Execution.Cockpit.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Cockpit.Ids\AIGuiders.Platform.Execution.Cockpit.Ids.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Cockpit.DataBus\AIGuiders.Platform.Execution.Cockpit.DataBus.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Cockpit.Transport\AIGuiders.Platform.Execution.Cockpit.Transport.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Cockpit.Channels\AIGuiders.Platform.Execution.Cockpit.Channels.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Cockpit.Composition\AIGuiders.Platform.Execution.Cockpit.Composition.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Cockpit.Cds\AIGuiders.Platform.Execution.Cockpit.Cds.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Catalog\AIGuiders.Platform.Catalog.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Slash\AIGuiders.Platform.CommandPlane.Slash.csproj" />

@@ -1,8 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <RootNamespace>AIGuiders.Platform.Cockpit.Transport</RootNamespace>
-    <AssemblyName>AIGuiders.Platform.Cockpit.Transport</AssemblyName>
-    <PackageId>AIGuiders.Platform.Cockpit.Transport</PackageId>
-    <Description>Bounded ingress transport kit (CIDE ADR 0094).</Description>
-  </PropertyGroup>
-</Project>

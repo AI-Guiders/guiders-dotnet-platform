@@ -1,9 +1,9 @@
-using AIGuiders.Platform.Cockpit.Cds;
-using AIGuiders.Platform.Cockpit.Channels.EnvironmentReadiness;
-using AIGuiders.Platform.Cockpit.Channels.IdeHealth;
-using AIGuiders.Platform.Cockpit.Channels.Primitives;
-using AIGuiders.Platform.Cockpit.Composition;
-using AIGuiders.Platform.Cockpit.DataBus;
+using AIGuiders.Platform.Execution.Cockpit.Cds;
+using AIGuiders.Platform.Execution.Cockpit.Channels.EnvironmentReadiness;
+using AIGuiders.Platform.Execution.Cockpit.Channels.IdeHealth;
+using AIGuiders.Platform.Execution.Cockpit.Channels.Primitives;
+using AIGuiders.Platform.Execution.Cockpit.Composition;
+using AIGuiders.Platform.Modeling.Cockpit.DataBus;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;
@@ -11,9 +11,15 @@ namespace AIGuiders.Platform.Tests;
 public class CockpitDtoTests
 {
     [Fact]
-    public void DeskSurfaceBuiltEvent_roundtrip()
+    public void DeskSurfaceBuilt_roundtrip()
     {
-        var e = new DeskSurfaceBuiltEvent("seats", 2, "nav", DateTimeOffset.UtcNow);
+        var e = new DeskSurfaceBuilt
+        {
+            Mode = "seats",
+            SeatCount = 2,
+            Go = "nav",
+            Utc = DateTimeOffset.UtcNow,
+        };
         Assert.Equal("seats", e.Mode);
         Assert.Equal(2, e.SeatCount);
     }

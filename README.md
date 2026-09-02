@@ -67,10 +67,11 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.CommandPlane.Binding.Sources.File` | File transport + extension dispatch |
 | `AIGuiders.Platform.CommandPlane.Binding.Sources.Database` | DB delegate → Core |
 | `AIGuiders.Platform.CommandPlane.Binding.Sources` | Meta-bundle: `BindingSources.*` |
-| `AIGuiders.Platform.Cockpit.Abstractions` | CCU, DAL, channel, CDS, compositor contracts |
-| `AIGuiders.Platform.Cockpit.Ids` | IDS overlay search (ADR 0079) |
-| `AIGuiders.Platform.Cockpit.DataBus` | `IDataBus`, `InMemoryDataBus` (ADR 0099) |
-| `AIGuiders.Platform.Cockpit.Transport` | `IngressEvent`, `BoundedIngressBus` (ADR 0094) |
+| `AIGuiders.Platform.Execution.Cockpit.Abstractions` | CCU, DAL, channel, CDS, compositor contracts |
+| `AIGuiders.Platform.Execution.Cockpit.Ids` | IDS overlay search (ADR 0079) |
+| `AIGuiders.Platform.Execution.Cockpit.DataBus` | `IDataBus`, `InMemoryDataBus` runtime (ADR 0099) |
+| `AIGuiders.Platform.Execution.Cockpit.Transport` | `IngressEvent`, `BoundedIngressBus` (ADR 0094) |
+| `AIGuiders.Platform.Modeling.Cockpit.DataBus` | Event catalog, dispatch policy, projection graph (F#, `guiders-fsharp`) |
 
 Planned: `Correspondence`, `Desk`. Monolith `AIGuiders.Platform.Cockpit` 0.1.0 deprecated.
 

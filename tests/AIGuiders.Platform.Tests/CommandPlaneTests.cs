@@ -275,7 +275,12 @@ public sealed class CommandPlaneTests
     [Fact]
     public void DataBus_IdeHealth_events_exist()
     {
-        var b = new AIGuiders.Platform.Cockpit.DataBus.BuildStateChanged(true, 0, true);
+        var b = new AIGuiders.Platform.Modeling.Cockpit.DataBus.BuildStateChanged
+        {
+            IsBuilding = true,
+            LastExitCode = 0,
+            LastBuildSucceeded = true,
+        };
         Assert.True(b.IsBuilding);
     }
 }

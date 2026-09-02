@@ -1,0 +1,11 @@
+<Project>
+  <!-- Sibling monorepo: guiders-fsharp Platform.Modeling.* (ADR-0002 / Phase D). -->
+  <PropertyGroup>
+    <GuidersFSharpRoot Condition="'$(GuidersFSharpRoot)' == ''">$(MSBuildThisFileDirectory)..\..\guiders-fsharp</GuidersFSharpRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference
+      Condition="'$(UseGuidersModelingCockpitDataBus)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Cockpit.DataBus\AIGuiders.Platform.Modeling.Cockpit.DataBus.fsproj" />
+  </ItemGroup>
+</Project>
