@@ -63,14 +63,14 @@ type AnchorIntent =
     | CodeSymbol of docId: DocId * symbol: SymbolRef
     | TextRange of docId: DocId * range: TextRange
     | Evidence of findingId: FindingId
-    | LegacyWire of profile: string * wire: string   // compat only
+    | LegacyWire of profile: string * wire: string   // migration shim → normalize (§8)
 ```
 
 **Rules:**
 
 - **Prefer** `TreeNode` / `CodeSymbol` over `TextRange` when surface provides a tree.
 - **No new universal axis letters** (`Y:`, `Z:`, …). New surfaces extend the **sum**, not bracket alphabet soup.
-- `LegacyWire` parses through [Notations.Bracket](./GUIDERS-ADR-0026-notations-bracket-branch.md) → `NormalizedBracketWire` → adapter-specific intent (migration path).
+- `LegacyWire` is **not destiny** — boundary decode only; internal SSOT = typed `AnchorIntent` ([§8](#8-post-modeling-rethink-horizon)).
 
 ### 3. DocumentSurface + NodeId
 
@@ -198,6 +198,25 @@ begin(txn) → apply(intent, edit)* → commit
 1. **NodeId stability** on concurrent edit — bump `surface_version` vs CRDT (v1: single-writer txn).
 2. **MdBlockAst** inline markup — token stream vs full AST depth.
 3. **Cross-file** `CodeSymbol` — session graph project boundary ([0062](./GUIDERS-ADR-0062-ide-solution-session-orchestrator.md)).
+
+---
+
+## 8. Post-Modeling rethink horizon
+
+Pre-Federation code was built **without** a federation Modeling layer — tactical wires, planet-local DTOs, stringly MCP. Now `Platform.Modeling.*` (F#) is the **Enterprise**; pre-Federation artifacts are **shims until normalized**, not permanent second-class citizens.
+
+| Pre-Federation | Modeling-era target |
+|----------------|---------------------|
+| `LegacyWire` / bracket axes | `WireDecode` at host boundary → **only** typed `AnchorIntent` inside |
+| `X:` csproj path string | `TreeNode` on `XmlTree` |
+| `set_text` blob mutate | txn + span ops on `DocumentSurface` |
+| `SessionPolicy` bag | policy on graph \( \psi, \lambda, \rho_0 \) ([0062](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/math/ide-session-axioms-v0.md)) |
+| `IdeWorkspaceWarm` / MSBuild SSOT | session orchestrator + ports |
+| Planet-local probe sidecars | capability attributes on graph |
+
+**Naming:** prefer `WireProjection` / `BracketCompat` over «Legacy» in new code once A2 ships; keep `LegacyWire` in ADR until rename lands.
+
+**Rule:** nothing is sacred except **conformance contracts**. If Modeling can express it better — migrate; keep wire adapters thin at the hull, not in the cargo bay.
 
 ---
 
