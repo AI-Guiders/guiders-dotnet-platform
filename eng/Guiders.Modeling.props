@@ -34,5 +34,9 @@
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Language.Adapters.Fcs\AIGuiders.Platform.Modeling.Language.Adapters.Fcs.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingLanguageAdaptersGdl)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Language.Adapters.Gdl\AIGuiders.Platform.Modeling.Language.Adapters.Gdl.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingIdeSession)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Ide.Session\AIGuiders.Platform.Modeling.Ide.Session.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingIdeSessionPortsDotNet)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Ide.Session.Ports.DotNet\AIGuiders.Platform.Modeling.Ide.Session.Ports.DotNet.fsproj" />
   </ItemGroup>
 </Project>

@@ -116,6 +116,7 @@
     <Project Path="tools/NavigationOracle/NavigationOracle.csproj" />
   </Folder>
   <Project Path="src/AIGuiders.Platform.Execution.Cockpit.Abstractions/AIGuiders.Platform.Execution.Cockpit.Abstractions.csproj" />
+  <Project Path="src/AIGuiders.Platform.Execution.Ide.Session/AIGuiders.Platform.Execution.Ide.Session.csproj" />
   <Project Path="src/AIGuiders.Platform.Execution.Cockpit.DataBus/AIGuiders.Platform.Execution.Cockpit.DataBus.csproj" />
   <Project Path="src/AIGuiders.Platform.Execution.Cockpit.Ids/AIGuiders.Platform.Execution.Cockpit.Ids.csproj" />
   <Project Path="src/AIGuiders.Platform.Execution.Cockpit.Transport/AIGuiders.Platform.Execution.Cockpit.Transport.csproj" />

@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.Ide.Session</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Ide.Session</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Ide.Session</PackageId>
+    <Description>IDE solution session orchestrator host — loads Modeling graph via ports.</Description>
+    <UseGuidersModelingIdeSession>true</UseGuidersModelingIdeSession>
+    <UseGuidersModelingIdeSessionPortsDotNet>true</UseGuidersModelingIdeSessionPortsDotNet>
+  </PropertyGroup>
+  <Import Project="..\..\eng\Guiders.Modeling.props" />
+</Project>
