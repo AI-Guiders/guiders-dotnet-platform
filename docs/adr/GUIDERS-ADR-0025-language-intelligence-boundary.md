@@ -5,7 +5,7 @@
 | **Status** | Accepted (migration plan — **Phase 0**; editor quarry still in Slash until Phase 1) |
 | **Date** | 2026-08-30 |
 | **Tags** | #guiders #language-intelligence #anchor #sniper #commandplane #editor #breaking-planned |
-| **Relates to** | [GUIDERS-ADR-0009](GUIDERS-ADR-0009-command-surface-pattern.md) · [GUIDERS-ADR-0010](GUIDERS-ADR-0010-platform-mechanics.md) · [GUIDERS-ADR-0021](GUIDERS-ADR-0021-notations-quarry-family.md) · [Constitution § Planets are not SSOT](../GUIDERS-FEDERATION-CONSTITUTION.md#planets-are-not-federation-ssot) |
+| **Relates to** | [GUIDERS-ADR-0009](GUIDERS-ADR-0009-command-surface-pattern.md) · [GUIDERS-ADR-0010](GUIDERS-ADR-0010-platform-mechanics.md) · [GUIDERS-ADR-0021](GUIDERS-ADR-0021-notations-quarry-family.md) · [GUIDERS-ADR-0063](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md) · [Constitution § Planets are not SSOT](../GUIDERS-FEDERATION-CONSTITUTION.md#planets-are-not-federation-ssot) |
 
 ---
 
@@ -60,7 +60,7 @@ Pulse/MCPlane can surface tier in agent ingress (align ADR-0020).
 
 ### 3. Anchor model (target)
 
-- **Entity:** `Anchor` (locate locus) — CIDE CSX public name; bracket `[F:…;M:…]` = **wire projection only**.
+- **Entity:** `Anchor` (locate locus) — CIDE CSX public name; bracket `[F:…;M:…]` = **wire projection only**. Federation entity model: [GUIDERS-ADR-0063](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md).
 - **Wire parse:** [GUIDERS-ADR-0026](GUIDERS-ADR-0026-notations-bracket-branch.md) **`Notations.Bracket`** — `BracketNotationProfile` (terminals, `;`, `:`) → `Axes[]`; CSX uses square-kv profile.
 - **Resolve:** `AnchorIntent` → `IAnchorResolver` → `Locus` (LanguageIntelligence — **no bracket lexing here**).
 - **Not** a slash path; consumed by mutate/sniper/CSX, MCPlane, Forge Lens (FORGE-ADR-0003).
