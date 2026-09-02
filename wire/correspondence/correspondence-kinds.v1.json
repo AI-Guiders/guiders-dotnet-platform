@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "title": "Guiders federation correspondence kinds (ADR-0028 + lifecycle extension)",
+  "normative": [
+    "GUIDERS-ADR-0028",
+    "GUIDERS-FSHARP-ADR-0006"
+  ],
+  "layers": [
+    {
+      "id": "L1",
+      "label": "L1",
+      "title": "ADR path map + forward doc registry",
+      "adr": "GUIDERS-ADR-0028"
+    },
+    {
+      "id": "L1r",
+      "label": "L1′",
+      "title": "ADR lifecycle state (Accepted vs Implemented)",
+      "adr": "GUIDERS-FSHARP-ADR-0006"
+    },
+    {
+      "id": "L2",
+      "label": "L2",
+      "title": "Code intent / symbol anchor",
+      "adr": "GUIDERS-ADR-0027"
+    },
+    {
+      "id": "L3",
+      "label": "L3",
+      "title": "Conformance facts (golden, hoare)",
+      "adr": "GUIDERS-FSHARP-ADR-0006"
+    }
+  ],
+  "kinds": [
+    {
+      "id": "documents",
+      "family": "guiders-ext",
+      "layers": ["L1"],
+      "title": "Document describes code zone"
+    },
+    {
+      "id": "implements",
+      "family": "guiders-ext",
+      "layers": ["L2"],
+      "title": "Code implements documented contract"
+    },
+    {
+      "id": "normates",
+      "family": "guiders-ext",
+      "layers": ["L1", "L1r"],
+      "title": "ADR / axiom normatively constrains code or graph region",
+      "aliases": { "wire": ["based on", "adr:"] }
+    },
+    {
+      "id": "verified_by",
+      "family": "guiders-ext",
+      "layers": ["L3", "L1r"],
+      "title": "ADR facts block satisfied by golden session or CI evidence",
+      "aliases": { "wire": ["facts:", "golden:"] }
+    },
+    {
+      "id": "constrains",
+      "family": "guiders-ext",
+      "layers": ["L3"],
+      "title": "Document constrains future edits (informative)"
+    }
+  ],
+  "lifecycle_tags": [
+    { "id": "proposed", "title": "Decision under discussion" },
+    { "id": "accepted", "title": "Decision adopted; implementation may be open" },
+    { "id": "implemented", "title": "Sat(facts) on main — second tag only with accepted" },
+    { "id": "superseded", "title": "Replaced by another ADR" },
+    { "id": "deprecated", "title": "Historical; do not use for new work" }
+  ]
+}

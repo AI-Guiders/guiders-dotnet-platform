@@ -68,6 +68,17 @@ Cdp.ScriptableIde · CIDE CRS · tools
 | Roslyn rename / F:M:L attach | `Language.CSharp.*` |
 | CRS UI (MFD timeline) | CIDE / Glass (view only) |
 
+### Lifecycle correspondence (L1′ + L3)
+
+[GUIDERS-FSHARP-ADR-0006](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/GUIDERS-FSHARP-ADR-0006-adr-lifecycle-verifiable-facts.md) is **not** a separate guild — it extends this family:
+
+| Kind | Role |
+|------|------|
+| `normates` | ADR / axiom → code or graph scope (`adr:`, `based on`) |
+| `verified_by` | `facts:` golden/hoare → CI evidence; gates **Accepted · Implemented** |
+
+Wire: [`wire/correspondence/correspondence-kinds.v1.json`](../../wire/correspondence/correspondence-kinds.v1.json). Pilot: scan `adr:` + `facts:` in ADR bodies; reuse reverse-scan SSOT.
+
 ### Planet façades
 
 | Planet | After v0.24 |

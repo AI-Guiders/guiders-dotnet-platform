@@ -19,7 +19,7 @@ Columns:
 | [0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) | Accepted | In progress | Signage + partial quarries |
 | [0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) | Accepted | In progress | Phase 0 migration |
 | [0027](./GUIDERS-ADR-0027-mdlinker-doc-anchor-check.md) | Accepted | — | Correspondence pilot pending |
-| [0028](./GUIDERS-ADR-0028-documentation-guild-correspondence-family.md) | Accepted | — | GGL horizon |
+| [0028](./GUIDERS-ADR-0028-documentation-guild-correspondence-family.md) | Accepted | — | GGL horizon; + LC kinds (0006) |
 
 **F# mirror:** [guiders-fsharp ADR index](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/README.md)  
 **CDP:** [CDP-ADR-0208](https://github.com/AI-Guiders/cdp-mcp/blob/main/docs/adr/CDP-ADR-0208-language-resolver-center-cdp-host.md) · In progress
