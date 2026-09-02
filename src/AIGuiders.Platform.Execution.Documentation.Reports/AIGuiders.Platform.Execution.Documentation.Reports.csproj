@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingNotationsArgument>true</UseGuidersModelingNotationsArgument>
     <RootNamespace>AIGuiders.Platform.Execution.Documentation.Reports</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Execution.Documentation.Reports</AssemblyName>
     <PackageId>AIGuiders.Platform.Execution.Documentation.Reports</PackageId>
     <Description>Generated notation vocabulary reports (ReaderId, catalog aliases).</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Argument\AIGuiders.Platform.IntermediateRepresentation.Argument.csproj" />
   </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>

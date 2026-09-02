@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingNotationsArgument>true</UseGuidersModelingNotationsArgument>
     <RootNamespace>AIGuiders.Platform.Notations.Argument.Positional</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Notations.Argument.Positional</AssemblyName>
     <PackageId>AIGuiders.Platform.Notations.Argument.Positional</PackageId>
     <Description>Positional argument notation — ordered tail tokens (GUIDERS-ADR-0021).</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Argument\AIGuiders.Platform.IntermediateRepresentation.Argument.csproj" />
   </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>

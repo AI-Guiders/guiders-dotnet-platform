@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingNotationsArgument>true</UseGuidersModelingNotationsArgument>
     <UseGuidersModelingCore>true</UseGuidersModelingCore>
     <UseGuidersModelingCatalog>true</UseGuidersModelingCatalog>
     <UseGuidersModelingCockpitCds>true</UseGuidersModelingCockpitCds>

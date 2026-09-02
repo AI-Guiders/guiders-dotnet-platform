@@ -1,6 +1,6 @@
 #nullable enable
 
-using AIGuiders.Platform.IntermediateRepresentation.Argument;
+using AIGuiders.Platform.Modeling.Notations.Argument;
 using AIGuiders.Platform.Notations.Command.Console;
 using AIGuiders.Platform.Notations.Command.Slash;
 

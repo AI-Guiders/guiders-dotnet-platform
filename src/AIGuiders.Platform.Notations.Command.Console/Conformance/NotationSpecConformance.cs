@@ -1,6 +1,6 @@
 #nullable enable
 using System.Text.Json;
-using AIGuiders.Platform.IntermediateRepresentation.Argument;
+using AIGuiders.Platform.Modeling.Notations.Argument;
 using AIGuiders.Platform.Notations.Argument.Cli;
 using AIGuiders.Platform.Notations.Argument.Delimited;
 using AIGuiders.Platform.Notations.Argument.Kv;

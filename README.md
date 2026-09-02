@@ -33,7 +33,7 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.InputNotation.KeyGesture` | Legacy metapackage → `Notations.Keyboard.KeyGesture` |
 | `AIGuiders.Platform.InputNotation.All` | Legacy metapackage → `Notations.Keyboard.All` |
 | `AIGuiders.Platform.Notations` | Shared primitives: `NotationKvPair`, list split; legacy Command aliases |
-| `AIGuiders.Platform.IntermediateRepresentation.Argument` | Profile (`ArgumentNotationProfile`), slots, `NormalizedArguments` |
+| `AIGuiders.Platform.Modeling.Notations.Argument` | Profile (`ArgumentNotationProfile`), slots, `NormalizedArguments` |
 | `AIGuiders.Platform.Modeling.Notations.Keyboard` | `NormalizedKeySequence` + step records |
 | `AIGuiders.Platform.IntermediateRepresentation.Invocation` | `NormalizedCommandLine` |
 | `AIGuiders.Platform.Modeling.Notations.Bracket` | Bracket wire IR |

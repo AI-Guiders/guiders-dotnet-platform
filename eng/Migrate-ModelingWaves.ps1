@@ -11,6 +11,7 @@ $namespaceMap = @{
     'AIGuiders.Platform.Catalog' = 'AIGuiders.Platform.Modeling.Catalog'
     'AIGuiders.Platform.IntermediateRepresentation.Bracket' = 'AIGuiders.Platform.Modeling.Notations.Bracket'
     'AIGuiders.Platform.IntermediateRepresentation.Keyboard' = 'AIGuiders.Platform.Modeling.Notations.Keyboard'
+    'AIGuiders.Platform.IntermediateRepresentation.Argument' = 'AIGuiders.Platform.Modeling.Notations.Argument'
     'AIGuiders.Platform.Execution.Cockpit.Cds' = 'AIGuiders.Platform.Modeling.Cockpit.Cds'
 }
 
@@ -19,7 +20,8 @@ $removeProjects = @(
     'src/AIGuiders.Platform.Paths',
     'src/AIGuiders.Platform.Catalog',
     'src/AIGuiders.Platform.IntermediateRepresentation.Bracket',
-    'src/AIGuiders.Platform.IntermediateRepresentation.Keyboard'
+    'src/AIGuiders.Platform.IntermediateRepresentation.Keyboard',
+    'src/AIGuiders.Platform.IntermediateRepresentation.Argument'
 )
 
 $projectRefToFlag = @{
@@ -28,6 +30,7 @@ $projectRefToFlag = @{
     'AIGuiders.Platform.Catalog.csproj' = 'UseGuidersModelingCatalog'
     'AIGuiders.Platform.IntermediateRepresentation.Bracket.csproj' = 'UseGuidersModelingNotationsBracket'
     'AIGuiders.Platform.IntermediateRepresentation.Keyboard.csproj' = 'UseGuidersModelingNotationsKeyboard'
+    'AIGuiders.Platform.IntermediateRepresentation.Argument.csproj' = 'UseGuidersModelingNotationsArgument'
 }
 
 # Execution host families only — NOT Authoring/IR/Notations (→ F# Modeling).

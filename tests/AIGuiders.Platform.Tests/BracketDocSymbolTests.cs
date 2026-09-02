@@ -13,7 +13,7 @@ public sealed class BracketDocSymbolTests
     {
         Assert.True(
             BracketReader.Default.TryRead(
-                "[Family:doc; Package:IntermediateRepresentation.Argument; Type:NormalizedArguments; Member:ReaderId]",
+                "[Family:doc; Package:Modeling.Notations.Argument; Type:NormalizedArguments; Member:ReaderId]",
                 BracketProfiles.DocSymbol,
                 BracketAxisValuePlans.DocSymbol,
                 out var wire,
@@ -34,7 +34,7 @@ public sealed class BracketDocSymbolTests
 
         Assert.True(
             BracketReader.Default.TryRead(
-                "[Family:doc; Package:IntermediateRepresentation.Argument; Type:NormalizedArguments; Member:ReaderId]",
+                "[Family:doc; Package:IntermediateRepresentation.Command; Type:CommandDescriptor; Member:ArgumentNotation]",
                 BracketProfiles.DocSymbol,
                 BracketAxisValuePlans.DocSymbol,
                 out var wire,

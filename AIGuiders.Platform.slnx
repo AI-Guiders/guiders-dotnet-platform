@@ -36,8 +36,7 @@
     <Project Path="src/AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Toml/AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Toml.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Xml/AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Xml.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources/AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.csproj" />
-    <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Argument/AIGuiders.Platform.IntermediateRepresentation.Argument.csproj" />
-    <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Binding/AIGuiders.Platform.IntermediateRepresentation.Binding.csproj" />
+<Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Binding/AIGuiders.Platform.IntermediateRepresentation.Binding.csproj" />
     <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Command/AIGuiders.Platform.IntermediateRepresentation.Command.csproj" />
     <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Invocation/AIGuiders.Platform.IntermediateRepresentation.Invocation.csproj" />
     <Project Path="src/AIGuiders.Platform.IntermediateRepresentation.Melody/AIGuiders.Platform.IntermediateRepresentation.Melody.csproj" />

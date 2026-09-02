@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingNotationsArgument>true</UseGuidersModelingNotationsArgument>
     <RootNamespace>AIGuiders.Platform.IntermediateRepresentation.Melody</RootNamespace>
     <AssemblyName>AIGuiders.Platform.IntermediateRepresentation.Melody</AssemblyName>
     <PackageId>AIGuiders.Platform.IntermediateRepresentation.Melody</PackageId>
@@ -7,6 +8,6 @@
   </PropertyGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Argument\AIGuiders.Platform.IntermediateRepresentation.Argument.csproj" />
   </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>

@@ -1,6 +1,6 @@
 #nullable enable
 
-using AIGuiders.Platform.IntermediateRepresentation.Argument;
+using AIGuiders.Platform.Modeling.Notations.Argument;
 using AIGuiders.Platform.IntermediateRepresentation.Command;
 
 namespace AIGuiders.Platform.Execution.CommandPlane;

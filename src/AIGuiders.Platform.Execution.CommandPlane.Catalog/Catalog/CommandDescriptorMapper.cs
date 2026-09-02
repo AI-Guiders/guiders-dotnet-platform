@@ -3,7 +3,7 @@ using AIGuiders.Platform.IntermediateRepresentation.Command;
 
 using System.Text.Json;
 
-using AIGuiders.Platform.IntermediateRepresentation.Argument;
+using AIGuiders.Platform.Modeling.Notations.Argument;
 
 
 

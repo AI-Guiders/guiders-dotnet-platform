@@ -20,6 +20,8 @@
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Notations.Bracket\AIGuiders.Platform.Modeling.Notations.Bracket.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingNotationsKeyboard)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Notations.Keyboard\AIGuiders.Platform.Modeling.Notations.Keyboard.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingNotationsArgument)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Notations.Argument\AIGuiders.Platform.Modeling.Notations.Argument.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingGdlExpression)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Expression\AIGuiders.Platform.Modeling.Gdl.Expression.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingGdlParseCockpitLogic)' == 'true'"

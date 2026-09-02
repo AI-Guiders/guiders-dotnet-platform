@@ -1,7 +1,7 @@
 using AIGuiders.Platform.IntermediateRepresentation.Command;
 using AIGuiders.Platform.Execution.CommandPlane;
 using AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources;
-using AIGuiders.Platform.IntermediateRepresentation.Argument;
+using AIGuiders.Platform.Modeling.Notations.Argument;
 using AIGuiders.Platform.Notations.Command.Console;
 using Xunit;
 
@@ -12,13 +12,14 @@ public sealed class ArgumentNotationTests
     static readonly ArgumentSlot ConfigSlot = new(
         "config",
         ArgumentSlotKind.Value,
-        LongOption: "--config");
+        "--config",
+        null);
 
     static readonly ArgumentSlot VerboseSlot = new(
         "verbose",
         ArgumentSlotKind.Flag,
-        LongOption: "--verbose",
-        ShortOption: "-v");
+        "--verbose",
+        "-v");
 
     [Fact]
     public void Parse_cli_schema_assigns_spaced_value_flag()

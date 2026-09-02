@@ -1,7 +1,7 @@
 using AIGuiders.Platform.IntermediateRepresentation.Melody;
 #nullable enable
 using AIGuiders.Platform.Execution.CommandPlane.Melody;
-using AIGuiders.Platform.IntermediateRepresentation.Argument;
+using AIGuiders.Platform.Modeling.Notations.Argument;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

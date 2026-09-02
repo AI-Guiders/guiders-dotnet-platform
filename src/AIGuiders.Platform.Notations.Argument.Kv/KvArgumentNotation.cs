@@ -1,5 +1,5 @@
 using AIGuiders.Platform.Notations;
-using AIGuiders.Platform.IntermediateRepresentation.Argument;
+using AIGuiders.Platform.Modeling.Notations.Argument;
 
 namespace AIGuiders.Platform.Notations.Argument.Kv;
 

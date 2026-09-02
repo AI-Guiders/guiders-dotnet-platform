@@ -1,7 +1,7 @@
 #nullable enable
 
 using System.Reflection;
-using AIGuiders.Platform.IntermediateRepresentation.Argument;
+using AIGuiders.Platform.Modeling.Notations.Argument;
 
 namespace AIGuiders.Platform.Execution.Documentation.Reports;
 

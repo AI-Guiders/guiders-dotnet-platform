@@ -1,12 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingNotationsArgument>true</UseGuidersModelingNotationsArgument>
     <RootNamespace>AIGuiders.Platform.Notations.Argument.Delimited</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Notations.Argument.Delimited</AssemblyName>
     <Description>Colon-delimited argument notation (GUIDERS-ADR-0021 Wave 4).</Description>
     <PackageId>AIGuiders.Platform.Notations.Argument.Delimited</PackageId>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Argument\AIGuiders.Platform.IntermediateRepresentation.Argument.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
   </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>

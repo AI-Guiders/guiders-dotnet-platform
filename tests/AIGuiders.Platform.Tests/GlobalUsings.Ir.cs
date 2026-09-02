@@ -1,5 +1,5 @@
 global using AIGuiders.Platform.IntermediateRepresentation.Command;
-global using AIGuiders.Platform.IntermediateRepresentation.Argument;
+global using AIGuiders.Platform.Modeling.Notations.Argument;
 global using AIGuiders.Platform.IntermediateRepresentation.Binding;
 global using AIGuiders.Platform.Modeling.Notations.Keyboard;
 global using AIGuiders.Platform.IntermediateRepresentation.Invocation;

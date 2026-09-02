@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingNotationsArgument>true</UseGuidersModelingNotationsArgument>
     <RootNamespace>AIGuiders.Platform.Notations.Argument.Cli</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Notations.Argument.Cli</AssemblyName>
     <PackageId>AIGuiders.Platform.Notations.Argument.Cli</PackageId>
     <Description>CLI/POSIX-like flag notation quarry (GUIDERS-ADR-0021).</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Argument\AIGuiders.Platform.IntermediateRepresentation.Argument.csproj" />
   </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>
