@@ -2,7 +2,8 @@
 
 | | |
 |---|---|
-| **Status** | Accepted (2026-09-02) |
+| **Status** | Accepted · Implemented |
+| **Implementation** | Cockpit Execution.* rename + Modeling.DataBus wire (2026-09-02) |
 | **Tags** | #guiders #platform #execution #modeling #cockpit #phase-d |
 | **Related** | [GUIDERS-FSHARP-ADR-0002](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/GUIDERS-FSHARP-ADR-0002-model-guild-fsharp-ownership.md) · [GUIDERS-FSHARP-ADR-0003](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/GUIDERS-FSHARP-ADR-0003-model-extraction-matrix.md) |
 

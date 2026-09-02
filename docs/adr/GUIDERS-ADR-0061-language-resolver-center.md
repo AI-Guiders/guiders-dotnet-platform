@@ -2,7 +2,8 @@
 
 | | |
 |---|---|
-| **Status** | Accepted |
+| **Status** | Accepted · In progress |
+| **Implementation** | CDP LRC host (ADR-0208); FCS adapter partial; GDL slot open |
 | **Date** | 2026-09-02 |
 | **Tags** | #guiders #federation #language-intelligence #lrc #fsharp #roslyn #fcs #gdl #lsp #ide |
 | **Related** | [GUIDERS-ADR-0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) · [GUIDERS-ADR-0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) · [GUIDERS-ADR-0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [GUIDERS-ADR-0062](./GUIDERS-ADR-0062-ide-solution-session-orchestrator.md) · [GUIDERS-FSHARP-ADR-0002](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/GUIDERS-FSHARP-ADR-0002-model-guild-fsharp-ownership.md) · [GUIDERS-FSHARP-ADR-0003](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/GUIDERS-FSHARP-ADR-0003-model-extraction-matrix.md) · [GUIDERS-FSHARP-ADR-0004](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/GUIDERS-FSHARP-ADR-0004-ide-session-modeling-ownership.md) · [CDP-ADR-0208](https://github.com/AI-Guiders/cdp-mcp/blob/main/docs/adr/CDP-ADR-0208-language-resolver-center-cdp-host.md) |
