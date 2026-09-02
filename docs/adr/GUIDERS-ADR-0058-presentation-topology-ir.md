@@ -44,7 +44,7 @@ DisplayBindingProfile (runtime, separate SSOT)
 
 **Ultrawide / single monitor:** `topology single` + `deck layout { … }` — compositional zones inside one surface; binding profile maps `host-0` → `UltrawideRegion` or `Primary`.
 
-**Three monitors:** `topology (P)(F)(M)` defines **3 logical hosts**; operator `display.toml` binds `0→screen-0`, `1→screen-1`, `2→screen-2` (or any permutation).
+**Three monitors:** `topology (P)(F)(M)` defines **3 logical hosts**; operator **`.display`** GDL quarry ([0059](./GUIDERS-ADR-0059-gdl-hyperlane.md)) binds `0→screen-0`, `1→screen-1`, `2→screen-2` (or any permutation).
 
 ### 3. Packages (v0 shipped)
 
@@ -69,6 +69,6 @@ DisplayBindingProfile (runtime, separate SSOT)
 
 ## Non-goals (v0)
 
-- `DisplayBindingProfile` parser / `display.toml` guild
+- `Authoring.Display.Binding` parser / `.display` GDL quarry ([0059](./GUIDERS-ADR-0059-gdl-hyperlane.md))
 - `Notations.Presentation.Layout` (deck layout board)
 - Full 4+ host topology wires

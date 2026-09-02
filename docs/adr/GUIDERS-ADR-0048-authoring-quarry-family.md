@@ -34,6 +34,8 @@ MECHANICS                   Slash · Melody · Binding · executors
 
 ## Decision
 
+**Language name:** federation declare-time surface is **GDL** (Guiders Declarative Language). This guild (`Authoring.*`) is the GDL hyperlane implementation. See [GUIDERS-ADR-0059](./GUIDERS-ADR-0059-gdl-hyperlane.md).
+
 ### 1. Authoring is a sibling hyperlane guild
 
 ```text
@@ -130,6 +132,7 @@ Authoring.All                      optional meta-bundle
 | `.catalogbundle` | `Authoring.Command.Bundles` | profile rows merged into `profiles` |
 | `.deck` | `Authoring.Deck` ([0055](./GUIDERS-ADR-0055-surface-wpf-guild-deck-authoring.md)) | `DeckDocument`, presets, **typed** `PresentationTopology` ([0058](./GUIDERS-ADR-0058-presentation-topology-ir.md)) |
 | `.cockpit.logic` | `Authoring.Cockpit.Logic` (**Proposed** [0057](./GUIDERS-ADR-0057-cockpit-logic-authoring-quarry.md)) | `CockpitRuleGraph` — annunciation, projectors, principles |
+| `.display` | `Authoring.Display.Binding` (**Proposed** [0059](./GUIDERS-ADR-0059-gdl-hyperlane.md)) | `DisplayBindingProfile` — `HostIndex` → physical screen |
 | ~~`.businesslogic`~~ | ~~`Authoring.BusinessLogic`~~ | **Deprecated name** — see [0056](./GUIDERS-ADR-0056-businesslogic-authoring-latent.md) (historical) |
 
 #### Planet grammars (sovereign; may adopt Authoring.Core)

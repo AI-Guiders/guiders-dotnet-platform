@@ -263,16 +263,22 @@ Platform шипит **дороги** (neutral IR, MCPlane tiers, conformance). �
 
 См. [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md). **Authoring** парсит declare-time файлы → IR; **Notations** — wire → IR; **CommandPlane** guilds — механики.
 
-### 7.4 Authoring (declare → IR)
+### 7.4 GDL — Guiders Declarative Language (hyperlane `Authoring.*`)
+
+**GDL** — имя federation declare-time языка; пакеты **`Authoring.*`**. Карьеры: `.catalog`, `.deck`, `.display` (proposed), `.cockpit.logic` (proposed). Runtime wire — **`Notations.*`**. Норма: [ADR-0059](./adr/GUIDERS-ADR-0059-gdl-hyperlane.md).
 
 | Пакет | Возможности |
 |-------|-------------|
-| `Authoring.Core` | Block `end keyword`, table/kv surfaces, include hooks, shared diagnostics |
-| `Authoring.Command.Catalog` | `.catalog` grammar → `IR.Command` ([0047](./adr/GUIDERS-ADR-0047-command-for-doi.md)) |
-| `Authoring.Command.Bundles` | Federation stdlib `.catalogbundle` (`import <grain/…>`) |
-| `Authoring.Conformance` | `authoring/*` grammar vectors |
+| `Authoring.Core` | GDL lexical core — block `end keyword`, table/kv, `AuthoringDocumentWalker`, `import` |
+| `Authoring.Command.Catalog` | `.catalog` → `IR.Command` ([0047](./adr/GUIDERS-ADR-0047-command-for-doi.md)) |
+| `Authoring.Command.Bundles` | Federation stdlib `.catalogbundle` |
+| `Authoring.Deck` | `.deck` → deck + topology IR ([0055](./adr/GUIDERS-ADR-0055-surface-wpf-guild-deck-authoring.md), [0058](./adr/GUIDERS-ADR-0058-presentation-topology-ir.md)) |
+| `Authoring.Display.Binding` | `.display` → `DisplayBindingProfile` (**proposed**) |
+| `Authoring.Cockpit.Logic` | `.cockpit.logic` (**proposed** [0057](./adr/GUIDERS-ADR-0057-cockpit-logic-authoring-quarry.md)) |
+| `Authoring.Expression` | shared `when` expr (**proposed**) |
+| `Authoring.Conformance` | `authoring/*` vectors |
 
-Planet DSL (`.dashspec`, …) — **суверенны** в product repos; могут adopt `Authoring.Core`. См. [ADR-0048](./adr/GUIDERS-ADR-0048-authoring-quarry-family.md).
+Planet DSL (`.dashspec`, …) — **суверенны**; могут adopt GDL core. [ADR-0048](./adr/GUIDERS-ADR-0048-authoring-quarry-family.md). **TOML** = transport only.
 
 ### 7.5 Notations (wire → IR parsers)
 

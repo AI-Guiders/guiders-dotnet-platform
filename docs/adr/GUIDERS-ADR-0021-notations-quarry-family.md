@@ -299,7 +299,7 @@ Notations.Argument.PowerShell     (defer) optional heavy package
 | `InputNotation.*` package obsoletion | **In progress** | type-forwards exist; sunset TBD |
 | Native ports (Forge TS slash, …) | **Planned** | spec-first; not blocking v0 |
 
-**Authoring layer (separate guild):** declare-time DSLs — **`Authoring.*`** ([GUIDERS-ADR-0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) Accepted). First branch: `.catalog` — [GUIDERS-ADR-0047](./GUIDERS-ADR-0047-command-for-doi.md). Codegen **emits** tier-D wire consumed by `Notations.Command.*` / `Notations.Argument.*` at resolve time. **Do not** place authoring parsers under `Notations.*`.
+**Authoring layer (GDL):** declare-time **GDL** (Guiders Declarative Language) — **`Authoring.*`** ([GUIDERS-ADR-0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) Accepted, name [0059](./GUIDERS-ADR-0059-gdl-hyperlane.md)). Quarries: `.catalog`, `.deck`, `.display` (proposed), `.cockpit.logic` (proposed). Codegen **emits** tier-D wire consumed by `Notations.Command.*` / `Notations.Argument.*` at resolve time. **Do not** place authoring parsers under `Notations.*`.
 
 ## Consequences
 

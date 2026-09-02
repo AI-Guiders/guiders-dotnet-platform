@@ -263,16 +263,22 @@ From [GUIDERS-ADR-0001](./adr/GUIDERS-ADR-0001-platform-boundary.md) and [GUIDER
 
 See [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md). **Authoring** parses declare-time files → IR; **Notations** parse wire → IR; **CommandPlane** guilds own mechanics.
 
-### 7.4 Authoring (declare → IR)
+### 7.4 GDL — Guiders Declarative Language (`Authoring.*` hyperlane)
+
+**GDL** is the federation **declare-time** language name; **`Authoring.*`** packages implement it. Quarries: `.catalog`, `.deck`, `.display` (proposed), `.cockpit.logic` (proposed). Runtime wire stays **`Notations.*`**. Normative: [ADR-0059](./adr/GUIDERS-ADR-0059-gdl-hyperlane.md).
 
 | Package | Capabilities |
 |---------|--------------|
-| `Authoring.Core` | Block `end keyword`, table/kv surfaces, `AuthoringDocumentWalker`, shared diagnostics |
-| `Authoring.Command.Catalog` | `.catalog` grammar → `IR.Command` ([0047](./adr/GUIDERS-ADR-0047-command-for-doi.md)) |
+| `Authoring.Core` | GDL lexical core — block `end keyword`, table/kv surfaces, `AuthoringDocumentWalker`, `import`, shared diagnostics |
+| `Authoring.Command.Catalog` | `.catalog` quarry → `IR.Command` ([0047](./adr/GUIDERS-ADR-0047-command-for-doi.md)) |
 | `Authoring.Command.Bundles` | Federation stdlib `.catalogbundle` (`import <grain/…>`) |
+| `Authoring.Deck` | `.deck` quarry → deck + typed topology IR ([0055](./adr/GUIDERS-ADR-0055-surface-wpf-guild-deck-authoring.md), [0058](./adr/GUIDERS-ADR-0058-presentation-topology-ir.md)) |
+| `Authoring.Display.Binding` | `.display` quarry → `DisplayBindingProfile` (**proposed**) |
+| `Authoring.Cockpit.Logic` | `.cockpit.logic` quarry (**proposed** [0057](./adr/GUIDERS-ADR-0057-cockpit-logic-authoring-quarry.md)) |
+| `Authoring.Expression` | shared `when` expr → `ExprNode` IR (**proposed**) |
 | `Authoring.Conformance` | `authoring/*` grammar vectors |
 
-Planet DSLs (`.dashspec`, …) stay **sovereign** in product repos; may adopt `Authoring.Core` kit. See [ADR-0048](./adr/GUIDERS-ADR-0048-authoring-quarry-family.md). Pattern catalog: [ADR-0049](./adr/GUIDERS-ADR-0049-federation-pattern-library.md).
+Planet DSLs (`.dashspec`, …) stay **sovereign** in product repos; may adopt GDL core kit. Guild family: [ADR-0048](./adr/GUIDERS-ADR-0048-authoring-quarry-family.md). Pattern catalog: [ADR-0049](./adr/GUIDERS-ADR-0049-federation-pattern-library.md). **TOML** = tier-D transport only — not GDL.
 
 ### 7.5 Notations (wire → IR parsers)
 
