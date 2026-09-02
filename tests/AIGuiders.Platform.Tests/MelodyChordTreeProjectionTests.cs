@@ -1,5 +1,5 @@
 #nullable enable
-using AIGuiders.Platform.CommandPlane.Melody;
+using AIGuiders.Platform.Execution.CommandPlane.Melody;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

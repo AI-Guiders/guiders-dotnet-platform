@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.LanguageIntelligence.Bundled</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.LanguageIntelligence.Bundled</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.LanguageIntelligence.Bundled</PackageId>
+    <Description>Bundled editor slash commands and catalog projections (GUIDERS-ADR-0025 P1, ADR-0043).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.CommandPlane\AIGuiders.Platform.Execution.CommandPlane.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Command\AIGuiders.Platform.IntermediateRepresentation.Command.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.LanguageIntelligence.Line\AIGuiders.Platform.Execution.LanguageIntelligence.Line.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.LanguageIntelligence.Markup\AIGuiders.Platform.Execution.LanguageIntelligence.Markup.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.LanguageIntelligence.Edit\AIGuiders.Platform.Execution.LanguageIntelligence.Edit.csproj" />
+  </ItemGroup>
+</Project>

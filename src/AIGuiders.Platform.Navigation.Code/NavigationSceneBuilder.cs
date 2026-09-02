@@ -1,7 +1,7 @@
 #nullable enable
 using AIGuiders.Platform.Navigation;
 using AIGuiders.Platform.Navigation.Policy;
-using AIGuiders.Platform.Paths;
+using AIGuiders.Platform.Modeling.Paths;
 
 namespace AIGuiders.Platform.Navigation.Code;
 

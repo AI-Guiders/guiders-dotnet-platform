@@ -1,8 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <RootNamespace>AIGuiders.Platform.IntermediateRepresentation.Bracket</RootNamespace>
-    <AssemblyName>AIGuiders.Platform.IntermediateRepresentation.Bracket</AssemblyName>
-    <PackageId>AIGuiders.Platform.IntermediateRepresentation.Bracket</PackageId>
-    <Description>Bracket wire IR (GUIDERS-ADR-0042).</Description>
-  </PropertyGroup>
-</Project>

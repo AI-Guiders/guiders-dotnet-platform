@@ -1,7 +1,7 @@
 using AIGuiders.Platform.IntermediateRepresentation.Melody;
-using AIGuiders.Platform.IntermediateRepresentation.Keyboard;
+using AIGuiders.Platform.Modeling.Notations.Keyboard;
 using AIGuiders.Platform.Notations.Keyboard;
-using AIGuiders.Platform.CommandPlane.Melody;
+using AIGuiders.Platform.Execution.CommandPlane.Melody;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

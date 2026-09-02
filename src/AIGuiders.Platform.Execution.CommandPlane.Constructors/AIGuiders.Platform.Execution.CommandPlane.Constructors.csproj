@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.CommandPlane</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.CommandPlane.Constructors</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.CommandPlane.Constructors</PackageId>
+    <Description>Value constructors for command arg tails — surface-agnostic (GUIDERS-ADR-0035, ADR-0038).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.CommandPlane\AIGuiders.Platform.Execution.CommandPlane.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Command\AIGuiders.Platform.IntermediateRepresentation.Command.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Invocation\AIGuiders.Platform.IntermediateRepresentation.Invocation.csproj" />
+  </ItemGroup>
+</Project>

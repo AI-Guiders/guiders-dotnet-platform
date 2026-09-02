@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+
+    <RootNamespace>AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources</RootNamespace>
+
+    <AssemblyName>AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources</AssemblyName>
+
+    <PackageId>AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources</PackageId>
+
+    <Description>Command catalog sources meta-bundle: File + Database + JSON/TOML/XML facades (GUIDERS-ADR-0013).</Description>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Database\AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Database.csproj" />
+
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.File\AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.File.csproj" />
+
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Json\AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Json.csproj" />
+
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Toml\AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Toml.csproj" />
+
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Xml\AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Xml.csproj" />
+
+  </ItemGroup>
+
+</Project>

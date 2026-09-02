@@ -1,7 +1,7 @@
 using AIGuiders.Platform.IntermediateRepresentation.Command;
 #nullable enable
-using AIGuiders.Platform.CommandPlane;
-using AIGuiders.Platform.CommandPlane.ArgSuggestions;
+using AIGuiders.Platform.Execution.CommandPlane;
+using AIGuiders.Platform.Execution.CommandPlane.ArgSuggestions;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

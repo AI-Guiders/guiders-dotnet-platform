@@ -1,6 +1,6 @@
 #nullable enable
 using System.Reflection;
-using AIGuiders.Platform.IntermediateRepresentation.Bracket;
+using AIGuiders.Platform.Modeling.Notations.Bracket;
 using AIGuiders.Platform.Notations.Bracket.Conformance;
 using Xunit;
 

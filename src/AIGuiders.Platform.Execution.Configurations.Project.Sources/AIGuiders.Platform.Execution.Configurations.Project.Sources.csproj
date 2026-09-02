@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.Configurations.Project</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Configurations.Project.Sources</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Configurations.Project.Sources</PackageId>
+    <Description>Source-aware loaders for project.toml → ProjectDocument.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Combinations.Sources\AIGuiders.Platform.Combinations.Sources.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Configurations.Project\AIGuiders.Platform.Execution.Configurations.Project.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Sources\AIGuiders.Platform.Execution.Sources.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Sources.Toml\AIGuiders.Platform.Execution.Sources.Toml.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Sources.File\AIGuiders.Platform.Execution.Sources.File.csproj" />
+  </ItemGroup>
+</Project>

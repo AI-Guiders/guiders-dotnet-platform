@@ -1,8 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <RootNamespace>AIGuiders.Platform.Abstractions</RootNamespace>
-    <AssemblyName>AIGuiders.Platform.Abstractions</AssemblyName>
-    <Description>Cross-product intent outcome, route envelope, and pulse helpers for AI Guiders platform.</Description>
-    <PackageId>AIGuiders.Platform.Abstractions</PackageId>
-  </PropertyGroup>
-</Project>

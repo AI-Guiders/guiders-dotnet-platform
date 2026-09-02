@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Xml</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Xml</PackageId>
+    <Description>XML command catalog source reader (GUIDERS-ADR-0013).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.CommandPlane.Catalog\AIGuiders.Platform.Execution.CommandPlane.Catalog.csproj" />
+  </ItemGroup>
+</Project>

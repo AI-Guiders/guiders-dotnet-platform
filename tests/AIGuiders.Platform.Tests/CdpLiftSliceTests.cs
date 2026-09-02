@@ -1,8 +1,8 @@
 #nullable enable
-using AIGuiders.Platform.Configurations.Project;
-using AIGuiders.Platform.Configurations.Workspace;
-using AIGuiders.Platform.Language.Xml.Anchors;
-using AIGuiders.Platform.LanguageIntelligence.Anchors;
+using AIGuiders.Platform.Execution.Configurations.Project;
+using AIGuiders.Platform.Execution.Configurations.Workspace;
+using AIGuiders.Platform.Execution.Language.Xml.Anchors;
+using AIGuiders.Platform.Execution.LanguageIntelligence.Anchors;
 using AIGuiders.Platform.Navigation;
 using AIGuiders.Platform.Navigation.Code;
 using AIGuiders.Platform.Navigation.Policy;

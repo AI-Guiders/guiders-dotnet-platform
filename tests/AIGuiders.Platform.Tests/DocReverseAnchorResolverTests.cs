@@ -1,4 +1,4 @@
-using AIGuiders.Platform.Documentation.Correspondence;
+using AIGuiders.Platform.Execution.Documentation.Correspondence;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

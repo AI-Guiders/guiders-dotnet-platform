@@ -1,6 +1,6 @@
 #nullable enable
 using System.Reflection;
-using AIGuiders.Platform.CommandPlane.Conformance;
+using AIGuiders.Platform.Execution.CommandPlane.Conformance;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

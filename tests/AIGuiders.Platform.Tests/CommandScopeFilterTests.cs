@@ -1,7 +1,7 @@
 #nullable enable
 
-using AIGuiders.Platform.CommandPlane;
-using AIGuiders.Platform.CommandPlane.Catalog.Sources;
+using AIGuiders.Platform.Execution.CommandPlane;
+using AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources;
 using AIGuiders.Platform.IntermediateRepresentation.Command;
 using Xunit;
 

@@ -3,7 +3,7 @@
 using AIGuiders.Platform.Authoring.Command.Bundles;
 using AIGuiders.Platform.Authoring.Command.Catalog;
 using AIGuiders.Platform.Authoring.Core;
-using AIGuiders.Platform.CommandPlane.Catalog.CodeGen;
+using AIGuiders.Platform.Execution.CommandPlane.Catalog.CodeGen;
 using Xunit;
 
 namespace AIGuiders.Platform.Authoring.Tests;

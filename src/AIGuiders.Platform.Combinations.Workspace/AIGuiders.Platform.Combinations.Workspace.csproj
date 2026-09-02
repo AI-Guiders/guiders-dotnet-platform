@@ -8,6 +8,6 @@
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Combinations\AIGuiders.Platform.Combinations.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Combinations.Overlay\AIGuiders.Platform.Combinations.Overlay.csproj" />
-    <ProjectReference Include="..\AIGuiders.Platform.Configurations.Workspace\AIGuiders.Platform.Configurations.Workspace.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Configurations.Workspace\AIGuiders.Platform.Execution.Configurations.Workspace.csproj" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingNotationsBracket>true</UseGuidersModelingNotationsBracket>
     <RootNamespace>AIGuiders.Platform.Notations.Bracket</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Notations.Bracket</AssemblyName>
     <PackageId>AIGuiders.Platform.Notations.Bracket</PackageId>
@@ -7,6 +8,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
-    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Bracket\AIGuiders.Platform.IntermediateRepresentation.Bracket.csproj" />
-  </ItemGroup>
+    </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>

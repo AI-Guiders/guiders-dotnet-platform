@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <UseGuidersModelingPaths>true</UseGuidersModelingPaths>
+    <RootNamespace>AIGuiders.Platform.Execution.Configurations.Workspace</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Configurations.Workspace</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Configurations.Workspace</PackageId>
+    <Description>workspace.toml document IR (format-agnostic).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
+</Project>

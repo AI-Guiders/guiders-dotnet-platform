@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.Sources</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Sources.Toml</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Sources.Toml</PackageId>
+    <Description>TOML format adapter for platform IFormatReader (Tomlyn).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Tomlyn" Version="$(TomlynVersion)" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Sources\AIGuiders.Platform.Execution.Sources.csproj" />
+  </ItemGroup>
+</Project>

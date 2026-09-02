@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.Sources</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Sources.File</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Sources.File</PackageId>
+    <Description>File transport + extension format dispatch for platform sources.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Sources\AIGuiders.Platform.Execution.Sources.csproj" />
+  </ItemGroup>
+</Project>

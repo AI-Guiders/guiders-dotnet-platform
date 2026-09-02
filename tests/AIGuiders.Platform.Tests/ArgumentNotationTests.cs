@@ -1,6 +1,6 @@
 using AIGuiders.Platform.IntermediateRepresentation.Command;
-using AIGuiders.Platform.CommandPlane;
-using AIGuiders.Platform.CommandPlane.Catalog.Sources;
+using AIGuiders.Platform.Execution.CommandPlane;
+using AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources;
 using AIGuiders.Platform.IntermediateRepresentation.Argument;
 using AIGuiders.Platform.Notations.Command.Console;
 using Xunit;

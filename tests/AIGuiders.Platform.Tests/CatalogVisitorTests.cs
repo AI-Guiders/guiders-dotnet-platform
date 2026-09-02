@@ -1,10 +1,10 @@
 using AIGuiders.Platform.IntermediateRepresentation.Command;
 #nullable enable
-using AIGuiders.Platform.CommandPlane;
-using AIGuiders.Platform.CommandPlane.Commands;
-using AIGuiders.Platform.LanguageIntelligence.Bundled; using AIGuiders.Platform.LanguageIntelligence.Edit; using AIGuiders.Platform.LanguageIntelligence.Line; using AIGuiders.Platform.LanguageIntelligence.Markup;
-using AIGuiders.Platform.LanguageIntelligence.Bundled.Commands;
-using AIGuiders.Platform.CommandPlane.Catalog.Sources;
+using AIGuiders.Platform.Execution.CommandPlane;
+using AIGuiders.Platform.Execution.CommandPlane.Commands;
+using AIGuiders.Platform.Execution.LanguageIntelligence.Bundled; using AIGuiders.Platform.Execution.LanguageIntelligence.Edit; using AIGuiders.Platform.Execution.LanguageIntelligence.Line; using AIGuiders.Platform.Execution.LanguageIntelligence.Markup;
+using AIGuiders.Platform.Execution.LanguageIntelligence.Bundled.Commands;
+using AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

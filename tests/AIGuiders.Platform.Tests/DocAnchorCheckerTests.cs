@@ -1,8 +1,8 @@
 #nullable enable
 
-using AIGuiders.Platform.Documentation.Anchors;
-using AIGuiders.Platform.Documentation.LinkCheck;
-using AIGuiders.Platform.IntermediateRepresentation.Bracket;
+using AIGuiders.Platform.Execution.Documentation.Anchors;
+using AIGuiders.Platform.Execution.Documentation.LinkCheck;
+using AIGuiders.Platform.Modeling.Notations.Bracket;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

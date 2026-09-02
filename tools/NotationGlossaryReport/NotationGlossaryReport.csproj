@@ -4,6 +4,6 @@
     <Description>CLI: notation vocabulary glossary generator.</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Reports\AIGuiders.Platform.Documentation.Reports.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Documentation.Reports\AIGuiders.Platform.Execution.Documentation.Reports.csproj" />
   </ItemGroup>
 </Project>

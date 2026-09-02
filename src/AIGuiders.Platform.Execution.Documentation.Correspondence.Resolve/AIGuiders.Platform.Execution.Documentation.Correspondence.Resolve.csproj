@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.Documentation.Correspondence</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Documentation.Correspondence.Resolve</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Documentation.Correspondence.Resolve</PackageId>
+    <Description>Compose forward + reverse correspondence bundle (GUIDERS-ADR-0028).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Configurations.Workspace.Sources\AIGuiders.Platform.Execution.Configurations.Workspace.Sources.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Documentation.Correspondence.Core\AIGuiders.Platform.Execution.Documentation.Correspondence.Core.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Documentation.Correspondence.Reverse\AIGuiders.Platform.Execution.Documentation.Correspondence.Reverse.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Documentation.Correspondence.Workspace\AIGuiders.Platform.Execution.Documentation.Correspondence.Workspace.csproj" />
+  </ItemGroup>
+</Project>

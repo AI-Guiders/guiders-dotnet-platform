@@ -7,6 +7,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Combinations\AIGuiders.Platform.Combinations.csproj" />
-    <ProjectReference Include="..\AIGuiders.Platform.Sources\AIGuiders.Platform.Sources.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Sources\AIGuiders.Platform.Execution.Sources.csproj" />
   </ItemGroup>
 </Project>

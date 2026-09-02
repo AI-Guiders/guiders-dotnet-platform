@@ -23,7 +23,7 @@ CommandPlane.Catalog       ← CommandDescriptor, CommandCatalogIndex, ICommandS
 CommandPlane.Catalog.Sources.*  ← content transports (unchanged family)
 ```
 
-Types keep namespace `AIGuiders.Platform.CommandPlane` for stable wire; assembly/package is `AIGuiders.Platform.CommandPlane.Catalog`.
+Types keep namespace `AIGuiders.Platform.Execution.CommandPlane` for stable wire; assembly/package is `AIGuiders.Platform.Execution.CommandPlane.Catalog`.
 
 ### 2. New `CommandPlane.ArgSuggestions` guild
 

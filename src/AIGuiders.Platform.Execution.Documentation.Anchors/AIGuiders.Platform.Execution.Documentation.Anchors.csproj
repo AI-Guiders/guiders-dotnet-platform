@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.Documentation.Anchors</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Documentation.Anchors</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Documentation.Anchors</PackageId>
+    <Description>Family:doc anchor resolve against symbol catalogs (GUIDERS-ADR-0027).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Bracket\AIGuiders.Platform.Notations.Bracket.csproj" />
+  </ItemGroup>
+</Project>

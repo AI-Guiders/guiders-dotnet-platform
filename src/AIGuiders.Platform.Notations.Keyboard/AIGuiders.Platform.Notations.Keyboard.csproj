@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingNotationsKeyboard>true</UseGuidersModelingNotationsKeyboard>
     <RootNamespace>AIGuiders.Platform.Notations.Keyboard</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Notations.Keyboard</AssemblyName>
     <PackageId>AIGuiders.Platform.Notations.Keyboard</PackageId>
@@ -7,6 +8,6 @@
   </PropertyGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Keyboard\AIGuiders.Platform.IntermediateRepresentation.Keyboard.csproj" />
-  </ItemGroup>
+    </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>

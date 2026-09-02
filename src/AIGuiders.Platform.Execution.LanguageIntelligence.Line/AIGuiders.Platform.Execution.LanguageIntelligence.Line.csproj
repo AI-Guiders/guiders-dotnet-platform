@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.LanguageIntelligence.Line</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.LanguageIntelligence.Line</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.LanguageIntelligence.Line</PackageId>
+    <Description>Line-range parse and text ops (GUIDERS-ADR-0025 P1, ADR-0043).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Command\AIGuiders.Platform.IntermediateRepresentation.Command.csproj" />
+  </ItemGroup>
+</Project>

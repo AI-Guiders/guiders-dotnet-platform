@@ -72,11 +72,11 @@ DashSpec is **out of scope** for platform v0 (separate product repo).
 
 ```
 
-AIGuiders.Platform.Abstractions
+AIGuiders.Platform.Modeling.Core
 
         ↑
 
-AIGuiders.Platform.Routing
+AIGuiders.Platform.Execution.Routing
 
 
 
@@ -93,8 +93,8 @@ Monolith `AIGuiders.Platform.Cockpit` **0.1.0** — deprecated.
 
 ## v0 deliverable (this repo)
 
-- `AIGuiders.Platform.Abstractions` — stable outcome/route/pulse types
-- `AIGuiders.Platform.Routing` — `IIntentOrgan<TRoute,TOutcome>`, `DispatchCallOverride`
+- `AIGuiders.Platform.Modeling.Core` — stable outcome/route/pulse types
+- `AIGuiders.Platform.Execution.Routing` — `IIntentOrgan<TRoute,TOutcome>`, `DispatchCallOverride`
 - `AIGuiders.Platform.Cockpit.*` — split layer packages (see GUIDERS-ADR-0002)
 
 - ADR + CI build/test + Trusted Publishing `release.yml`

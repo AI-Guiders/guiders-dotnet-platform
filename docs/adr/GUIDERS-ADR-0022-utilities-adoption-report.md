@@ -21,7 +21,7 @@ Not one monolithic scanner per planet.
 
 ## Decision (v1)
 
-### 1. Package family: `AIGuiders.Platform.Utilities.Adoption.*`
+### 1. Package family: `AIGuiders.Platform.Execution.Utilities.Adoption.*`
 
 | Layer | Package | Responsibility |
 |-------|---------|----------------|
@@ -107,5 +107,5 @@ csproj / npm / …    planet tree / file  markdown / json / gh-comment
 ## References
 
 - [GUIDERS-ADR-0013 command catalog sources](GUIDERS-ADR-0013-command-catalog-sources.md)
-- `src/AIGuiders.Platform.Utilities.Adoption*/`
+- `src/AIGuiders.Platform.Execution.Utilities.Adoption*/`
 - `tools/AdoptionReport/`

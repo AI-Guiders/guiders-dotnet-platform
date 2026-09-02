@@ -1,5 +1,5 @@
 using System.Text.Json;
-using AIGuiders.Platform.Paths;
+using AIGuiders.Platform.Modeling.Paths;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests.Paths;

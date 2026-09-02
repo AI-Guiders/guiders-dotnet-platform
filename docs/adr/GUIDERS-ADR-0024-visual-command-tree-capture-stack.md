@@ -37,7 +37,7 @@ Melody chord mode ([ADR-0015](GUIDERS-ADR-0015-invocation-mechanics-slash-melody
 
 Native surfaces (Glass, Blazor, WPF) consume **`VisualCommandTreeProjection`** only — no product-specific peel logic.
 
-### 2. Shared types (`AIGuiders.Platform.CommandPlane`)
+### 2. Shared types (`AIGuiders.Platform.Execution.CommandPlane`)
 
 ```csharp
 InvocationEngageKind { Slash, Melody, Binding } on `VisualCommandTreeProjection`; `ArgMechanic?` for arg-tail (no engage conflation).

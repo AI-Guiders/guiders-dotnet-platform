@@ -1,4 +1,4 @@
-using AIGuiders.Platform.Paths;
+using AIGuiders.Platform.Modeling.Paths;
 
 namespace AIGuiders.Platform.Authoring.Core;
 

@@ -1,6 +1,6 @@
-using AIGuiders.Platform.Documentation.LinkCheck;
-using AIGuiders.Platform.Documentation.LinkMutate;
-using AIGuiders.Platform.Language.CSharp.Symbols;
+using AIGuiders.Platform.Execution.Documentation.LinkCheck;
+using AIGuiders.Platform.Execution.Documentation.LinkMutate;
+using AIGuiders.Platform.Execution.Language.CSharp.Symbols;
 
 var repoRoot = FindRepoRoot(Directory.GetCurrentDirectory())
     ?? FindRepoRoot(AppContext.BaseDirectory)

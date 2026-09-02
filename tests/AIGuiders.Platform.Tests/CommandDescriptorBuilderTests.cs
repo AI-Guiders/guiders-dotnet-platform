@@ -1,9 +1,9 @@
 #nullable enable
 
-using AIGuiders.Platform.CommandPlane;
-using AIGuiders.Platform.CommandPlane.Commands;
-using AIGuiders.Platform.LanguageIntelligence.Bundled.Commands;
-using AIGuiders.Platform.LanguageIntelligence.Edit;
+using AIGuiders.Platform.Execution.CommandPlane;
+using AIGuiders.Platform.Execution.CommandPlane.Commands;
+using AIGuiders.Platform.Execution.LanguageIntelligence.Bundled.Commands;
+using AIGuiders.Platform.Execution.LanguageIntelligence.Edit;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

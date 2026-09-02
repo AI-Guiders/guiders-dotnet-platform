@@ -112,7 +112,7 @@ Parse: `BracketNotationProfile` with `ListSeparator`;`, `KvSign`:` — axis keys
 | **Link mutate** | `Documentation.LinkMutate` (`DocAnchorRenamer`) | `--apply-rename` on Type/Member axes |
 | **Vocabulary** | `Documentation.Reports` + `tools/NotationGlossaryReport` | `NOTATION-VOCABULARY.generated.md` |
 | **CLI** | `tools/MdLinker` | `--check` / `--apply-rename` |
-| **Meta** | `AIGuiders.Platform.Utilities.DocLink` (v1.1 pack) | contracts if reused outside CLI |
+| **Meta** | `AIGuiders.Platform.Execution.Utilities.DocLink` (v1.1 pack) | contracts if reused outside CLI |
 | **Conformance** | `notation/bracket-doc-symbol` | wire vectors → resolve ok (planned) |
 | **Planet façade** | `Cdp.ScriptableIde.BracketLocate` | thin forwarder; not SSOT |
 

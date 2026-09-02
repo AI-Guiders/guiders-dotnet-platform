@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.Documentation.Correspondence</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Documentation.Correspondence.Workspace</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Documentation.Correspondence.Workspace</PackageId>
+    <Description>Forward ADR/feature map from workspace document (GUIDERS-ADR-0028).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Documentation.Correspondence.Core\AIGuiders.Platform.Execution.Documentation.Correspondence.Core.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Configurations.Workspace\AIGuiders.Platform.Execution.Configurations.Workspace.csproj" />
+  </ItemGroup>
+</Project>

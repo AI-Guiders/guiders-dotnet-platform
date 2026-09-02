@@ -1,1 +1,1 @@
-global using AIGuiders.Platform.IntermediateRepresentation.Bracket;
+global using AIGuiders.Platform.Modeling.Notations.Bracket;

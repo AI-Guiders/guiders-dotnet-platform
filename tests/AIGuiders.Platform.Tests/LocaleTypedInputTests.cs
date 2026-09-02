@@ -2,7 +2,7 @@ using AIGuiders.Platform.IntermediateRepresentation.Command;
 #nullable enable
 
 using System.Globalization;
-using AIGuiders.Platform.CommandPlane;
+using AIGuiders.Platform.Execution.CommandPlane;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

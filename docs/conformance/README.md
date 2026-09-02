@@ -155,7 +155,7 @@ See [RULES.md](RULES.md). All specs must be:
 
 | Ecosystem | Prefix | Example |
 |-----------|--------|---------|
-| NuGet | `AIGuiders.*` | `AIGuiders.Platform.CommandPlane.Slash` |
+| NuGet | `AIGuiders.*` | `AIGuiders.Platform.Execution.CommandPlane.Slash` |
 | npm scope | `@aiguiders/*` | `@aiguiders/conformance`, `@aiguiders/command-plane-slash` |
 | GitHub org | `AI-Guiders` | `AI-Guiders/aiguiders-conformance` |
 | ADR / federation docs | `GUIDERS-*` | charter signage (product name «Guiders Federation») |

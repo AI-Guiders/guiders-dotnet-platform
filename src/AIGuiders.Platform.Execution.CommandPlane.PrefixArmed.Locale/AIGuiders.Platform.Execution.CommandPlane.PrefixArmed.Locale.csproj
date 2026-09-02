@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.CommandPlane</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.CommandPlane.PrefixArmed.Locale</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.CommandPlane.PrefixArmed.Locale</PackageId>
+    <Description>PAC locale date profile adapter (GUIDERS-ADR-0037).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.CommandPlane.PrefixArmed\AIGuiders.Platform.Execution.CommandPlane.PrefixArmed.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.CommandPlane.Constructors\AIGuiders.Platform.Execution.CommandPlane.Constructors.csproj" />
+  </ItemGroup>
+</Project>

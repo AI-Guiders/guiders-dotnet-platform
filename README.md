@@ -15,16 +15,16 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 
 | Package | Role |
 |---------|------|
-| `AIGuiders.Platform.Abstractions` | `IntentOutcome`, `RoutedIntent`, pulse truncation |
-| `AIGuiders.Platform.Routing` | `IIntentOrgan`, `DispatchCallOverride`, route refusal helpers |
-| `AIGuiders.Platform.CommandPlane` | Core: GoF command, catalog descriptors, `ICommandSource` |
-| `AIGuiders.Platform.CommandPlane.Slash` | Slash catalog index, resolve, completion, editor bundle |
-| `AIGuiders.Platform.CommandPlane.Catalog.Sources.Json` | JSON format → Core |
-| `AIGuiders.Platform.CommandPlane.Catalog.Sources.Toml` | TOML format → Core (+ Tomlyn) |
-| `AIGuiders.Platform.CommandPlane.Catalog.Sources.Xml` | XML format → Core |
-| `AIGuiders.Platform.CommandPlane.Catalog.Sources.File` | File transport: `FromFile`, embedded resource, extension dispatch |
-| `AIGuiders.Platform.CommandPlane.Catalog.Sources.Database` | DB transport: delegate loader → Core |
-| `AIGuiders.Platform.CommandPlane.Catalog.Sources` | Meta-bundle: all transports + formats |
+| `AIGuiders.Platform.Modeling.Core` | `IntentOutcome`, `RoutedIntent`, pulse truncation |
+| `AIGuiders.Platform.Execution.Routing` | `IIntentOrgan`, `DispatchCallOverride`, route refusal helpers |
+| `AIGuiders.Platform.Execution.CommandPlane` | Core: GoF command, catalog descriptors, `ICommandSource` |
+| `AIGuiders.Platform.Execution.CommandPlane.Slash` | Slash catalog index, resolve, completion, editor bundle |
+| `AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Json` | JSON format → Core |
+| `AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Toml` | TOML format → Core (+ Tomlyn) |
+| `AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Xml` | XML format → Core |
+| `AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.File` | File transport: `FromFile`, embedded resource, extension dispatch |
+| `AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Database` | DB transport: delegate loader → Core |
+| `AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources` | Meta-bundle: all transports + formats |
 | `AIGuiders.Platform.InputNotation` | **Legacy alias** → `Notations.Keyboard` (obsolete type forwards) |
 | `AIGuiders.Platform.InputNotation.Quarry` | Legacy metapackage → `Notations.Keyboard.Quarry` |
 | `AIGuiders.Platform.InputNotation.Vim` | Legacy metapackage → `Notations.Keyboard.Vim` |
@@ -34,9 +34,9 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.InputNotation.All` | Legacy metapackage → `Notations.Keyboard.All` |
 | `AIGuiders.Platform.Notations` | Shared primitives: `NotationKvPair`, list split; legacy Command aliases |
 | `AIGuiders.Platform.IntermediateRepresentation.Argument` | Profile (`ArgumentNotationProfile`), slots, `NormalizedArguments` |
-| `AIGuiders.Platform.IntermediateRepresentation.Keyboard` | `NormalizedKeySequence` + step records |
+| `AIGuiders.Platform.Modeling.Notations.Keyboard` | `NormalizedKeySequence` + step records |
 | `AIGuiders.Platform.IntermediateRepresentation.Invocation` | `NormalizedCommandLine` |
-| `AIGuiders.Platform.IntermediateRepresentation.Bracket` | Bracket wire IR |
+| `AIGuiders.Platform.Modeling.Notations.Bracket` | Bracket wire IR |
 | `AIGuiders.Platform.IntermediateRepresentation.Command` | Command catalog descriptors + route rows |
 | `AIGuiders.Platform.IntermediateRepresentation.Binding` | Binding descriptors + entries |
 | `AIGuiders.Platform.IntermediateRepresentation.Melody` | Melody descriptor + line/step IR |
@@ -58,15 +58,15 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.Notations.Command.Slash` | Slash body tokenize → path + tail |
 | `AIGuiders.Platform.Notations.Command.Console` | Console path + kv tail wire |
 | `AIGuiders.Platform.Notations.Command.All` | Meta-bundle: facade `CommandNotationParser` |
-| `AIGuiders.Platform.CommandPlane.Melody` | Melody line policy, notation bridge (IR in `IR.Melody`) |
-| `AIGuiders.Platform.LanguageIntelligence` | `IAnchorResolver` contract (IR in `IR.Language`) |
-| `AIGuiders.Platform.MCPlane` | Agent projection + conformance (IR in `IR.Agent`) |
-| `AIGuiders.Platform.CommandPlane.Binding` | Binding catalog core: merge, index, gesture normalize |
-| `AIGuiders.Platform.CommandPlane.Binding.Sources.Toml` | `hotkeys.toml` flat map (CIDE quarry) |
-| `AIGuiders.Platform.CommandPlane.Binding.Sources.Json` | JSON bindings object → Core |
-| `AIGuiders.Platform.CommandPlane.Binding.Sources.File` | File transport + extension dispatch |
-| `AIGuiders.Platform.CommandPlane.Binding.Sources.Database` | DB delegate → Core |
-| `AIGuiders.Platform.CommandPlane.Binding.Sources` | Meta-bundle: `BindingSources.*` |
+| `AIGuiders.Platform.Execution.CommandPlane.Melody` | Melody line policy, notation bridge (IR in `IR.Melody`) |
+| `AIGuiders.Platform.Execution.LanguageIntelligence` | `IAnchorResolver` contract (IR in `IR.Language`) |
+| `AIGuiders.Platform.Execution.MCPlane` | Agent projection + conformance (IR in `IR.Agent`) |
+| `AIGuiders.Platform.Execution.CommandPlane.Binding` | Binding catalog core: merge, index, gesture normalize |
+| `AIGuiders.Platform.Execution.CommandPlane.Binding.Sources.Toml` | `hotkeys.toml` flat map (CIDE quarry) |
+| `AIGuiders.Platform.Execution.CommandPlane.Binding.Sources.Json` | JSON bindings object → Core |
+| `AIGuiders.Platform.Execution.CommandPlane.Binding.Sources.File` | File transport + extension dispatch |
+| `AIGuiders.Platform.Execution.CommandPlane.Binding.Sources.Database` | DB delegate → Core |
+| `AIGuiders.Platform.Execution.CommandPlane.Binding.Sources` | Meta-bundle: `BindingSources.*` |
 | `AIGuiders.Platform.Execution.Cockpit.Abstractions` | CCU, DAL, channel, CDS, compositor contracts |
 | `AIGuiders.Platform.Execution.Cockpit.Ids` | IDS overlay search (ADR 0079) |
 | `AIGuiders.Platform.Execution.Cockpit.DataBus` | `IDataBus`, `InMemoryDataBus` runtime (ADR 0099) |

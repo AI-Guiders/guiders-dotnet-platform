@@ -1,11 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingCockpitCds>true</UseGuidersModelingCockpitCds>
     <RootNamespace>AIGuiders.Platform.Execution.Cockpit.Cds</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Execution.Cockpit.Cds</AssemblyName>
     <PackageId>AIGuiders.Platform.Execution.Cockpit.Cds</PackageId>
-    <Description>CDS routing decision DTOs: attention, desk detail, go-map (ADR 0036).</Description>
+    <Description>CDS execution shell — decision shapes in Platform.Modeling.Cockpit.Cds (F#).</Description>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Execution.Cockpit.Abstractions\AIGuiders.Platform.Execution.Cockpit.Abstractions.csproj" />
   </ItemGroup>
+  <Import Project="..\..\eng\Guiders.Modeling.props" />
 </Project>

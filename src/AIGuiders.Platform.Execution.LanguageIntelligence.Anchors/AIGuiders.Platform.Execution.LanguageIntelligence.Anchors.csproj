@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.LanguageIntelligence.Anchors</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.LanguageIntelligence.Anchors</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.LanguageIntelligence.Anchors</PackageId>
+    <Description>Anchor wire IR: bracket span projection, family classify, format (code/xml/navigation).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Language\AIGuiders.Platform.IntermediateRepresentation.Language.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.LanguageIntelligence\AIGuiders.Platform.Execution.LanguageIntelligence.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Bracket\AIGuiders.Platform.Notations.Bracket.csproj" />
+  </ItemGroup></Project>

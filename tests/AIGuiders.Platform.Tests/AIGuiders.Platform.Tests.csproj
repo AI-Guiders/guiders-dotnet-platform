@@ -1,5 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingCore>true</UseGuidersModelingCore>
+    <UseGuidersModelingCatalog>true</UseGuidersModelingCatalog>
+    <UseGuidersModelingCockpitCds>true</UseGuidersModelingCockpitCds>
+    <UseGuidersModelingRouting>true</UseGuidersModelingRouting>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
@@ -30,24 +34,21 @@
     <None Include="Fixtures\Documentation\*.md" CopyToOutputDirectory="PreserveNewest" Link="Fixtures\Documentation\%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Abstractions\AIGuiders.Platform.Abstractions.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Routing\AIGuiders.Platform.Routing.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Routing\AIGuiders.Platform.Execution.Routing.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Cockpit.Abstractions\AIGuiders.Platform.Execution.Cockpit.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Cockpit.Ids\AIGuiders.Platform.Execution.Cockpit.Ids.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Cockpit.DataBus\AIGuiders.Platform.Execution.Cockpit.DataBus.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Cockpit.Transport\AIGuiders.Platform.Execution.Cockpit.Transport.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Cockpit.Channels\AIGuiders.Platform.Execution.Cockpit.Channels.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Cockpit.Composition\AIGuiders.Platform.Execution.Cockpit.Composition.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Cockpit.Cds\AIGuiders.Platform.Execution.Cockpit.Cds.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Catalog\AIGuiders.Platform.Catalog.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane\AIGuiders.Platform.CommandPlane.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Slash\AIGuiders.Platform.CommandPlane.Slash.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.CommandPlane\AIGuiders.Platform.Execution.CommandPlane.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.CommandPlane.Slash\AIGuiders.Platform.Execution.CommandPlane.Slash.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Authoring.Command.Catalog\AIGuiders.Platform.Authoring.Command.Catalog.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Constructors\AIGuiders.Platform.CommandPlane.Constructors.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.PrefixArmed\AIGuiders.Platform.CommandPlane.PrefixArmed.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.PrefixArmed.Locale\AIGuiders.Platform.CommandPlane.PrefixArmed.Locale.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Catalog.Sources.Database\AIGuiders.Platform.CommandPlane.Catalog.Sources.Database.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Catalog.Sources\AIGuiders.Platform.CommandPlane.Catalog.Sources.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.CommandPlane.Constructors\AIGuiders.Platform.Execution.CommandPlane.Constructors.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.CommandPlane.PrefixArmed\AIGuiders.Platform.Execution.CommandPlane.PrefixArmed.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.CommandPlane.PrefixArmed.Locale\AIGuiders.Platform.Execution.CommandPlane.PrefixArmed.Locale.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Database\AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.Database.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources\AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Conformance.Schemas\AIGuiders.Platform.Conformance.Schemas.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Conformance.Policies\AIGuiders.Platform.Conformance.Policies.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Conformance.Navigation\AIGuiders.Platform.Conformance.Navigation.csproj" />
@@ -60,11 +61,11 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Argument.Cli\AIGuiders.Platform.Notations.Argument.Cli.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Argument.Positional\AIGuiders.Platform.Notations.Argument.Positional.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Argument.Delimited\AIGuiders.Platform.Notations.Argument.Delimited.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Melody\AIGuiders.Platform.CommandPlane.Melody.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Binding.Sources\AIGuiders.Platform.CommandPlane.Binding.Sources.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Utilities.Adoption\AIGuiders.Platform.Utilities.Adoption.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Utilities.Adoption.Sources\AIGuiders.Platform.Utilities.Adoption.Sources.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Utilities.Adoption.Reports.Markdown\AIGuiders.Platform.Utilities.Adoption.Reports.Markdown.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.CommandPlane.Melody\AIGuiders.Platform.Execution.CommandPlane.Melody.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.CommandPlane.Binding.Sources\AIGuiders.Platform.Execution.CommandPlane.Binding.Sources.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Utilities.Adoption\AIGuiders.Platform.Execution.Utilities.Adoption.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Utilities.Adoption.Sources\AIGuiders.Platform.Execution.Utilities.Adoption.Sources.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Utilities.Adoption.Reports.Markdown\AIGuiders.Platform.Execution.Utilities.Adoption.Reports.Markdown.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Command.All\AIGuiders.Platform.Notations.Command.All.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Command\AIGuiders.Platform.Notations.Command.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations\AIGuiders.Platform.Notations.csproj" />
@@ -73,24 +74,25 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Command.Console\AIGuiders.Platform.Notations.Command.Console.csproj" />
     <ProjectReference Include="..\..\tools\QuarryOracle\QuarryOracle.csproj" />
     <ProjectReference Include="..\..\tools\CombinationsProof\CombinationsProof.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.LanguageIntelligence\AIGuiders.Platform.LanguageIntelligence.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.LanguageIntelligence.Anchors\AIGuiders.Platform.LanguageIntelligence.Anchors.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Anchors\AIGuiders.Platform.Documentation.Anchors.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.LinkCheck\AIGuiders.Platform.Documentation.LinkCheck.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.LinkMutate\AIGuiders.Platform.Documentation.LinkMutate.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Reports\AIGuiders.Platform.Documentation.Reports.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.LanguageIntelligence\AIGuiders.Platform.Execution.LanguageIntelligence.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.LanguageIntelligence.Anchors\AIGuiders.Platform.Execution.LanguageIntelligence.Anchors.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Documentation.Anchors\AIGuiders.Platform.Execution.Documentation.Anchors.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Documentation.LinkCheck\AIGuiders.Platform.Execution.Documentation.LinkCheck.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Documentation.LinkMutate\AIGuiders.Platform.Execution.Documentation.LinkMutate.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Documentation.Reports\AIGuiders.Platform.Execution.Documentation.Reports.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Combinations.Overlay\AIGuiders.Platform.Combinations.Overlay.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Combinations.Workspace\AIGuiders.Platform.Combinations.Workspace.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Combinations.Sources\AIGuiders.Platform.Combinations.Sources.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Configurations.Workspace.Sources\AIGuiders.Platform.Configurations.Workspace.Sources.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Configurations.Project.Sources\AIGuiders.Platform.Configurations.Project.Sources.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Language.Xml.Anchors\AIGuiders.Platform.Language.Xml.Anchors.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Correspondence.Core\AIGuiders.Platform.Documentation.Correspondence.Core.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Correspondence.Reverse\AIGuiders.Platform.Documentation.Correspondence.Reverse.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Documentation.Correspondence.Resolve\AIGuiders.Platform.Documentation.Correspondence.Resolve.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Language.CSharp.Anchors\AIGuiders.Platform.Language.CSharp.Anchors.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Language.CSharp.Symbols\AIGuiders.Platform.Language.CSharp.Symbols.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Configurations.Workspace.Sources\AIGuiders.Platform.Execution.Configurations.Workspace.Sources.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Configurations.Project.Sources\AIGuiders.Platform.Execution.Configurations.Project.Sources.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Language.Xml.Anchors\AIGuiders.Platform.Execution.Language.Xml.Anchors.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Documentation.Correspondence.Core\AIGuiders.Platform.Execution.Documentation.Correspondence.Core.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Documentation.Correspondence.Reverse\AIGuiders.Platform.Execution.Documentation.Correspondence.Reverse.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Documentation.Correspondence.Resolve\AIGuiders.Platform.Execution.Documentation.Correspondence.Resolve.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Language.CSharp.Anchors\AIGuiders.Platform.Execution.Language.CSharp.Anchors.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Language.CSharp.Symbols\AIGuiders.Platform.Execution.Language.CSharp.Symbols.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Bracket\AIGuiders.Platform.Notations.Bracket.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.MCPlane\AIGuiders.Platform.MCPlane.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.MCPlane\AIGuiders.Platform.Execution.MCPlane.csproj" />
   </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>

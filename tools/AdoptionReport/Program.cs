@@ -1,6 +1,6 @@
-using AIGuiders.Platform.Utilities.Adoption;
-using AIGuiders.Platform.Utilities.Adoption.Reports.Markdown;
-using AIGuiders.Platform.Utilities.Adoption.Sources;
+using AIGuiders.Platform.Execution.Utilities.Adoption;
+using AIGuiders.Platform.Execution.Utilities.Adoption.Reports.Markdown;
+using AIGuiders.Platform.Execution.Utilities.Adoption.Sources;
 
 var repoRoot = FindRepoRoot(Directory.GetCurrentDirectory())
     ?? FindRepoRoot(AppContext.BaseDirectory)

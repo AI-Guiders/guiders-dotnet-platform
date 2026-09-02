@@ -1,7 +1,7 @@
 #nullable enable
 
-using AIGuiders.Platform.LanguageIntelligence.Anchors;
-using AIGuiders.Platform.Language.CSharp.Anchors;
+using AIGuiders.Platform.Execution.LanguageIntelligence.Anchors;
+using AIGuiders.Platform.Execution.Language.CSharp.Anchors;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

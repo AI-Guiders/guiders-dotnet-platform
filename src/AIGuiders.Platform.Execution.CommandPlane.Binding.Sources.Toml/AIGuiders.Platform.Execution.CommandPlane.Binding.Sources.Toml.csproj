@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.CommandPlane.Binding.Sources</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.CommandPlane.Binding.Sources.Toml</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.CommandPlane.Binding.Sources.Toml</PackageId>
+    <Description>TOML binding catalog format (hotkeys.toml quarry, GUIDERS-ADR-0017).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.CommandPlane.Binding\AIGuiders.Platform.Execution.CommandPlane.Binding.csproj" />
+    <PackageReference Include="Tomlyn" Version="$(TomlynVersion)" />
+  </ItemGroup>
+</Project>

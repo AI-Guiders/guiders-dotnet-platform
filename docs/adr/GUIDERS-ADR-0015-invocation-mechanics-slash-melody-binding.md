@@ -172,7 +172,7 @@ Both rows are **the same mechanic (Melody)** with different per-step articulatio
 
 **Ship order:** M0 `PureByNote` + slug infer → M1 explicit steps + validation → M2 `PureByChord` capture → M3 `Mixed`.
 
-**Platform contracts** (`AIGuiders.Platform.CommandPlane.Melody` + `InputNotation`):
+**Platform contracts** (`AIGuiders.Platform.Execution.CommandPlane.Melody` + `InputNotation`):
 
 ```csharp
 enum MelodyArticulation { ByNote, ByChord }
@@ -196,7 +196,7 @@ InputNotation.Vim / .KeyGesture / .Emacs
 
 Today: monolithic `InputNotation` (CIDE subset + Eto.Parse interim).
 
-**Melody mechanic** (package `AIGuiders.Platform.CommandPlane.Melody`):
+**Melody mechanic** (package `AIGuiders.Platform.Execution.CommandPlane.Melody`):
 
 ```csharp
 enum MelodyArticulation { ByNote, ByChord }

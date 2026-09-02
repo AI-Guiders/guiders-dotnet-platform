@@ -1,4 +1,4 @@
-using AIGuiders.Platform.Execution.Cockpit.Cds;
+using AIGuiders.Platform.Modeling.Cockpit.Cds;
 using AIGuiders.Platform.Execution.Cockpit.Channels.EnvironmentReadiness;
 using AIGuiders.Platform.Execution.Cockpit.Channels.IdeHealth;
 using AIGuiders.Platform.Execution.Cockpit.Channels.Primitives;
@@ -36,7 +36,7 @@ public class CockpitDtoTests
     [Fact]
     public void AttentionRoutingDecision_payload()
     {
-        var d = new AttentionRoutingDecision("nav", null, true);
+        var d = new AttentionRoutingDecision { Mfd = "nav", DeskDetailNavForced = true };
         Assert.True(d.DeskDetailNavForced);
     }
 

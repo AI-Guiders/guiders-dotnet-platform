@@ -1,4 +1,4 @@
-using AIGuiders.Platform.IntermediateRepresentation.Keyboard;
+using AIGuiders.Platform.Modeling.Notations.Keyboard;
 #nullable enable
 
 namespace AIGuiders.Platform.InputNotation;
@@ -7,49 +7,49 @@ namespace AIGuiders.Platform.InputNotation;
 [Obsolete("Use AIGuiders.Platform.Notations.Keyboard.IKeyboardNotationReader and package AIGuiders.Platform.Notations.Keyboard.")]
 public interface IInputNotationReader : Notations.Keyboard.IKeyboardNotationReader;
 
-[Obsolete("Use AIGuiders.Platform.IntermediateRepresentation.Keyboard.ChordModifierKeys.")]
+[Obsolete("Use AIGuiders.Platform.Modeling.Notations.Keyboard.ChordModifierKeys.")]
 public enum ChordModifierKeys
 {
-    None = IntermediateRepresentation.Keyboard.ChordModifierKeys.None,
-    Control = IntermediateRepresentation.Keyboard.ChordModifierKeys.Control,
-    Alt = IntermediateRepresentation.Keyboard.ChordModifierKeys.Alt,
-    Shift = IntermediateRepresentation.Keyboard.ChordModifierKeys.Shift,
-    Meta = IntermediateRepresentation.Keyboard.ChordModifierKeys.Meta,
+    None = (int)AIGuiders.Platform.Modeling.Notations.Keyboard.ChordModifierKeys.None,
+    Control = (int)AIGuiders.Platform.Modeling.Notations.Keyboard.ChordModifierKeys.Control,
+    Alt = (int)AIGuiders.Platform.Modeling.Notations.Keyboard.ChordModifierKeys.Alt,
+    Shift = (int)AIGuiders.Platform.Modeling.Notations.Keyboard.ChordModifierKeys.Shift,
+    Meta = (int)AIGuiders.Platform.Modeling.Notations.Keyboard.ChordModifierKeys.Meta,
 }
 
-[Obsolete("Use AIGuiders.Platform.IntermediateRepresentation.Keyboard.NormalizedKeySequence.")]
+[Obsolete("Use AIGuiders.Platform.Modeling.Notations.Keyboard.NormalizedKeySequence.")]
 public sealed record NormalizedKeySequence(IReadOnlyList<NormalizedSequenceStep> Steps)
 {
     public static NormalizedKeySequence Empty { get; } = new(Array.Empty<NormalizedSequenceStep>());
 
-    public static implicit operator IntermediateRepresentation.Keyboard.NormalizedKeySequence(NormalizedKeySequence s) =>
+    public static implicit operator AIGuiders.Platform.Modeling.Notations.Keyboard.NormalizedKeySequence(NormalizedKeySequence s) =>
         new(s.Steps.Select(ConvertStep).ToList());
 
-    public static implicit operator NormalizedKeySequence(IntermediateRepresentation.Keyboard.NormalizedKeySequence s) =>
+    public static implicit operator NormalizedKeySequence(AIGuiders.Platform.Modeling.Notations.Keyboard.NormalizedKeySequence s) =>
         new(s.Steps.Select(ConvertStepBack).ToList());
 
-    static IntermediateRepresentation.Keyboard.NormalizedSequenceStep ConvertStep(NormalizedSequenceStep step) => step switch
+    static AIGuiders.Platform.Modeling.Notations.Keyboard.NormalizedSequenceStep ConvertStep(NormalizedSequenceStep step) => step switch
     {
-        NormalizedChordStep c => new IntermediateRepresentation.Keyboard.NormalizedChordStep((IntermediateRepresentation.Keyboard.ChordModifierKeys)c.Modifiers, c.KeySymbol),
-        NormalizedPlainKeyStep p => new IntermediateRepresentation.Keyboard.NormalizedPlainKeyStep(p.KeySymbol),
+        NormalizedChordStep c => new AIGuiders.Platform.Modeling.Notations.Keyboard.NormalizedChordStep((AIGuiders.Platform.Modeling.Notations.Keyboard.ChordModifierKeys)c.Modifiers, c.KeySymbol),
+        NormalizedPlainKeyStep p => new AIGuiders.Platform.Modeling.Notations.Keyboard.NormalizedPlainKeyStep(p.KeySymbol),
         _ => throw new InvalidOperationException("Unknown sequence step."),
     };
 
-    static NormalizedSequenceStep ConvertStepBack(IntermediateRepresentation.Keyboard.NormalizedSequenceStep step) => step switch
+    static NormalizedSequenceStep ConvertStepBack(AIGuiders.Platform.Modeling.Notations.Keyboard.NormalizedSequenceStep step) => step switch
     {
-        IntermediateRepresentation.Keyboard.NormalizedChordStep c => new NormalizedChordStep((ChordModifierKeys)c.Modifiers, c.KeySymbol),
-        IntermediateRepresentation.Keyboard.NormalizedPlainKeyStep p => new NormalizedPlainKeyStep(p.KeySymbol),
+        AIGuiders.Platform.Modeling.Notations.Keyboard.NormalizedChordStep c => new NormalizedChordStep((ChordModifierKeys)c.Modifiers, c.KeySymbol),
+        AIGuiders.Platform.Modeling.Notations.Keyboard.NormalizedPlainKeyStep p => new NormalizedPlainKeyStep(p.KeySymbol),
         _ => throw new InvalidOperationException("Unknown sequence step."),
     };
 }
 
-[Obsolete("Use AIGuiders.Platform.IntermediateRepresentation.Keyboard.NormalizedSequenceStep.")]
+[Obsolete("Use AIGuiders.Platform.Modeling.Notations.Keyboard.NormalizedSequenceStep.")]
 public abstract record NormalizedSequenceStep;
 
-[Obsolete("Use AIGuiders.Platform.IntermediateRepresentation.Keyboard.NormalizedChordStep.")]
+[Obsolete("Use AIGuiders.Platform.Modeling.Notations.Keyboard.NormalizedChordStep.")]
 public sealed record NormalizedChordStep(ChordModifierKeys Modifiers, string KeySymbol) : NormalizedSequenceStep;
 
-[Obsolete("Use AIGuiders.Platform.IntermediateRepresentation.Keyboard.NormalizedPlainKeyStep.")]
+[Obsolete("Use AIGuiders.Platform.Modeling.Notations.Keyboard.NormalizedPlainKeyStep.")]
 public sealed record NormalizedPlainKeyStep(string KeySymbol) : NormalizedSequenceStep;
 
 [Obsolete("Use AIGuiders.Platform.Notations.Keyboard.ChordSemanticNormalizer.")]

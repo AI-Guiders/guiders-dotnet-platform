@@ -1,7 +1,7 @@
 #nullable enable
 
-using AIGuiders.Platform.Documentation.LinkMutate;
-using AIGuiders.Platform.IntermediateRepresentation.Bracket;
+using AIGuiders.Platform.Execution.Documentation.LinkMutate;
+using AIGuiders.Platform.Modeling.Notations.Bracket;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

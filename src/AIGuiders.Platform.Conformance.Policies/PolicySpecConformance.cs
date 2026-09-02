@@ -6,9 +6,9 @@ using AIGuiders.Platform.Combinations;
 using AIGuiders.Platform.Combinations.Binding;
 using AIGuiders.Platform.Combinations.Catalog;
 using AIGuiders.Platform.Combinations.Workspace;
-using AIGuiders.Platform.CommandPlane;
-using AIGuiders.Platform.CommandPlane.Binding;
-using AIGuiders.Platform.Configurations.Workspace;
+using AIGuiders.Platform.Execution.CommandPlane;
+using AIGuiders.Platform.Execution.CommandPlane.Binding;
+using AIGuiders.Platform.Execution.Configurations.Workspace;
 
 namespace AIGuiders.Platform.Conformance.Policies;
 

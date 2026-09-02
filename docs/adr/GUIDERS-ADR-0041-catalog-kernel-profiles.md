@@ -66,7 +66,7 @@ Guild facades remain ergonomic names (`CommandCatalogIndex`, `BindingCatalogInde
 
 ### 5. Migration (one wave, no type-forwards)
 
-1. ~~Introduce `AIGuiders.Platform.Catalog` kernel package.~~ ✓
+1. ~~Introduce `AIGuiders.Platform.Modeling.Catalog` kernel package.~~ ✓
 2. ~~Refactor `CommandCatalogIndex` + `BindingCatalogIndex` to profile + facade (behavior unchanged).~~ ✓
 3. Point `Combinations.Catalog` / `Combinations.Binding` meta-bundles at kernel + guild.
 4. Conformance vectors must pass unchanged — refactor is structural only. ✓

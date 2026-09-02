@@ -1,8 +1,8 @@
 #nullable enable
 using AIGuiders.Platform.Combinations.Sources;
 using AIGuiders.Platform.Combinations.Workspace;
-using AIGuiders.Platform.Configurations.Workspace;
-using AIGuiders.Platform.Sources;
+using AIGuiders.Platform.Execution.Configurations.Workspace;
+using AIGuiders.Platform.Execution.Sources;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

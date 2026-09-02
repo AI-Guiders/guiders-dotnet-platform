@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.Language.CSharp.Symbols</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Language.CSharp.Symbols</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Language.CSharp.Symbols</PackageId>
+    <Description>C# syntax-tree symbol index for documentation anchors (no MSBuild).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.3.0" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Documentation.Anchors\AIGuiders.Platform.Execution.Documentation.Anchors.csproj" />
+  </ItemGroup>
+</Project>

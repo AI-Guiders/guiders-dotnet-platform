@@ -42,7 +42,7 @@ CommandPlane (Core)                    ← CommandDescriptor, CommandCatalogInde
     └── .Catalog.Sources              ← meta-bundle CommandSources.*
 ```
 
-Namespace: `AIGuiders.Platform.CommandPlane.Catalog.Sources`.
+Namespace: `AIGuiders.Platform.Execution.CommandPlane.Catalog.Sources`.
 
 ### 3. Combinations meta-bundle
 

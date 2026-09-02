@@ -1,7 +1,7 @@
 #nullable enable
-using AIGuiders.Platform.Documentation.Anchors;
-using AIGuiders.Platform.Language.CSharp.Symbols;
-using AIGuiders.Platform.IntermediateRepresentation.Bracket;
+using AIGuiders.Platform.Execution.Documentation.Anchors;
+using AIGuiders.Platform.Execution.Language.CSharp.Symbols;
+using AIGuiders.Platform.Modeling.Notations.Bracket;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

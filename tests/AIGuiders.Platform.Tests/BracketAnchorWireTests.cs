@@ -1,6 +1,6 @@
 #nullable enable
-using AIGuiders.Platform.LanguageIntelligence.Anchors;
-using AIGuiders.Platform.IntermediateRepresentation.Bracket;
+using AIGuiders.Platform.Execution.LanguageIntelligence.Anchors;
+using AIGuiders.Platform.Modeling.Notations.Bracket;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

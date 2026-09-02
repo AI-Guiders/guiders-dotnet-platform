@@ -1,5 +1,5 @@
-using AIGuiders.Platform.Documentation.Correspondence;
-using AIGuiders.Platform.Paths;
+using AIGuiders.Platform.Execution.Documentation.Correspondence;
+using AIGuiders.Platform.Modeling.Paths;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests.Paths;

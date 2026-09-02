@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.CommandPlane.ArgSuggestions</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.CommandPlane.ArgSuggestions</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.CommandPlane.ArgSuggestions</PackageId>
+    <Description>Federated arg suggestion broker and planet provider registry (GUIDERS-ADR-0040).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.CommandPlane.Catalog\AIGuiders.Platform.Execution.CommandPlane.Catalog.csproj" />
+  </ItemGroup>
+</Project>

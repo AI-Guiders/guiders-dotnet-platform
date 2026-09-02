@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <UseGuidersModelingPaths>true</UseGuidersModelingPaths>
+    <RootNamespace>AIGuiders.Platform.Execution.Documentation.Correspondence</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Documentation.Correspondence.Core</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Documentation.Correspondence.Core</PackageId>
+    <Description>Correspondence IR: forward/reverse anchors, result bundle (GUIDERS-ADR-0028).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Configurations.Workspace\AIGuiders.Platform.Execution.Configurations.Workspace.csproj" />
+  </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
+</Project>

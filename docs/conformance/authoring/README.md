@@ -22,7 +22,7 @@ Conformance fixtures for federation command catalogs ([GUIDERS-ADR-0047](../../a
 
 | `AIGuiders.Platform.Authoring.Conformance` | `CatalogConformance.ValidateDocument` entry |
 
-| `AIGuiders.Platform.CommandPlane.Catalog.CodeGen` | MCP JSON + C# catalog emitter |
+| `AIGuiders.Platform.Execution.CommandPlane.Catalog.CodeGen` | MCP JSON + C# catalog emitter |
 
 
 

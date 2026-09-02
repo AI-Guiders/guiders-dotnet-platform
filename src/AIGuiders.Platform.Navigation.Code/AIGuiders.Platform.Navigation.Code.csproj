@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingPaths>true</UseGuidersModelingPaths>
     <RootNamespace>AIGuiders.Platform.Navigation.Code</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Navigation.Code</AssemblyName>
     <PackageId>AIGuiders.Platform.Navigation.Code</PackageId>
@@ -8,6 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Navigation.Policy\AIGuiders.Platform.Navigation.Policy.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Navigation\AIGuiders.Platform.Navigation.csproj" />
-    <ProjectReference Include="..\AIGuiders.Platform.Paths\AIGuiders.Platform.Paths.csproj" />
-  </ItemGroup>
+    </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>

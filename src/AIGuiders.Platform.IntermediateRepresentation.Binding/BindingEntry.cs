@@ -1,5 +1,5 @@
 #nullable enable
-using AIGuiders.Platform.IntermediateRepresentation.Keyboard;
+using AIGuiders.Platform.Modeling.Notations.Keyboard;
 
 namespace AIGuiders.Platform.IntermediateRepresentation.Binding;
 

@@ -8,7 +8,7 @@
 
 ## Decision
 
-**Step-based slash autocomplete** (domain → object → intent → arg, plus flat-path fallback) lives in **`AIGuiders.Platform.CommandPlane`** as `SlashStepCompletion` + `SlashArgCompletion` ([ADR-0012](GUIDERS-ADR-0012-arg-picker-completion.md)).
+**Step-based slash autocomplete** (domain → object → intent → arg, plus flat-path fallback) lives in **`AIGuiders.Platform.Execution.CommandPlane`** as `SlashStepCompletion` + `SlashArgCompletion` ([ADR-0012](GUIDERS-ADR-0012-arg-picker-completion.md)).
 
 | Layer | Owns |
 |-------|------|

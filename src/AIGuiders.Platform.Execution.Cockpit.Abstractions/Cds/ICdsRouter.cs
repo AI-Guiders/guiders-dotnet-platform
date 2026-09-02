@@ -1,6 +1,6 @@
 #nullable enable
 
-namespace AIGuiders.Platform.Execution.Cockpit.Cds;
+namespace AIGuiders.Platform.Modeling.Cockpit.Cds;
 
 /// <summary>Generic CDS routing contract (CIDE ADR 0036): input → routing decision.</summary>
 public interface ICdsRouter<in TInput, out TDecision>

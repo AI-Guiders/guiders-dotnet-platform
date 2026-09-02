@@ -1,6 +1,6 @@
 #nullable enable
 
-using AIGuiders.Platform.Catalog;
+using AIGuiders.Platform.Modeling.Catalog;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;
@@ -18,7 +18,7 @@ public sealed class CatalogKernelTests
 
         public CatalogIndexCollisionPolicy MergeCollisionPolicy { get; } = merge;
 
-        public IEnumerable<(string Key, string Entry)> Project(Row descriptor) =>
+        public IEnumerable<(string, string)> Project(Row descriptor) =>
             [(descriptor.Id, descriptor.Label)];
 
         public string NormalizeKey(string key) => key.Trim();
@@ -37,7 +37,8 @@ public sealed class CatalogKernelTests
 
         var merged = baseline.MergeShipFirst(overlay);
 
-        Assert.True(merged.TryGet("a", out var value));
+        string value = default!;
+        Assert.True(merged.TryGet("a", ref value));
         Assert.Equal("one", value);
     }
 
@@ -52,7 +53,8 @@ public sealed class CatalogKernelTests
 
         var merged = baseline.MergeOverlayWins(overlay);
 
-        Assert.True(merged.TryGet("a", out var value));
+        string value = default!;
+        Assert.True(merged.TryGet("a", ref value));
         Assert.Equal("two", value);
     }
 }

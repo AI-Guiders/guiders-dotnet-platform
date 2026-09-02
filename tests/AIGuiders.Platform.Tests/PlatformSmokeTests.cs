@@ -1,5 +1,6 @@
-using AIGuiders.Platform.Abstractions;
-using AIGuiders.Platform.Routing;
+using AIGuiders.Platform.Modeling.Core;
+using AIGuiders.Platform.Modeling.Routing;
+using AIGuiders.Platform.Execution.Routing;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;
@@ -19,7 +20,7 @@ public class PulseFormatTests
     [Fact]
     public void JoinBits_skips_empty()
     {
-        var pulse = PulseFormat.JoinBits(["undo", null, "ok", ""]);
+        var pulse = PulseFormat.JoinBits(["undo", null, "ok", ""], PulseFormat.DefaultMaxChars);
         Assert.Equal("undo ok", pulse);
     }
 }
@@ -29,8 +30,15 @@ public class RouteRefusalTests
     [Fact]
     public void OutcomeNotOk_maps_route_fields()
     {
-        var route = new RoutedIntent("Buffer", "read path=foo", Ok: false, Reason: "nope", Go: "buffer");
-        var outcome = RouteRefusal.OutcomeNotOk(route);
+        var route = new RoutedIntent
+        {
+            Verb = "Buffer",
+            Raw = "read path=foo",
+            Ok = false,
+            Reason = "nope",
+            Go = "buffer",
+        };
+        var outcome = RouteRefusal.OutcomeNotOk(route, null);
         Assert.False(outcome.Ok);
         Assert.Equal("nope", outcome.Reason);
         Assert.Equal("buffer", outcome.Go);
@@ -42,10 +50,17 @@ public class IntentOrganContractTests
     private sealed class EchoOrgan : IIntentOrgan<RoutedIntent, IntentOutcome>
     {
         public RoutedIntent Route(string raw) =>
-            new("Echo", raw, Ok: true, Op: "echo");
+            new() { Verb = "Echo", Raw = raw, Ok = true, Op = "echo" };
 
         public IntentOutcome Execute(RoutedIntent route, DispatchCallOverride? callOverride = null) =>
-            new(route.Raw, route.Verb, Ok: true, Action: route.Op, Pulse: "echo ok");
+            new()
+            {
+                Raw = route.Raw,
+                Verb = route.Verb,
+                Ok = true,
+                Action = route.Op,
+                Pulse = "echo ok",
+            };
     }
 
     [Fact]

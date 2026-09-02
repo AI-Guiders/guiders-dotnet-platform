@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.Utilities.Adoption.Sources</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Utilities.Adoption.Sources</AssemblyName>
+    <Description>Adoption source adapters: csproj, package.json, conformance specs, planet tree transport.</Description>
+    <PackageId>AIGuiders.Platform.Execution.Utilities.Adoption.Sources</PackageId>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Utilities.Adoption\AIGuiders.Platform.Execution.Utilities.Adoption.csproj" />
+  </ItemGroup>
+</Project>

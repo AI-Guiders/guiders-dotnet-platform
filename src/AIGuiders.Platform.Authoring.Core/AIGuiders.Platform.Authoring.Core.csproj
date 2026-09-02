@@ -1,11 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingPaths>true</UseGuidersModelingPaths>
     <RootNamespace>AIGuiders.Platform.Authoring.Core</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Authoring.Core</AssemblyName>
     <PackageId>AIGuiders.Platform.Authoring.Core</PackageId>
     <Description>Federation authoring kit — project graph, diagnostics, table/kv parse helpers (GUIDERS-ADR-0048, ADR-0051).</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.Paths\AIGuiders.Platform.Paths.csproj" />
-  </ItemGroup>
+    </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>

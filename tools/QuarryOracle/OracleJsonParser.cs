@@ -1,4 +1,4 @@
-using AIGuiders.Platform.IntermediateRepresentation.Keyboard;
+using AIGuiders.Platform.Modeling.Notations.Keyboard;
 #nullable enable
 using System.Diagnostics;
 using System.Text.Json;

@@ -90,7 +90,7 @@ Grammar diagnostics unchanged; project + parse diagnostics merge in `CatalogProj
 
 ## Consequences
 
-- `Authoring.Core` takes dependency on `AIGuiders.Platform.Paths` (logical entry only).
+- `Authoring.Core` takes dependency on `AIGuiders.Platform.Modeling.Paths` (logical entry only).
 - Toolchain gets stable workspace API without importing CommandPlane or planet hosts.
 - Planet repos extract headless packages; hosts depend on project + IR, not parser sprawl.
 

@@ -26,7 +26,7 @@ Platform owns catalog **mechanics** (`CommandCatalogIndex`, merge, resolve). Con
 
 | Layer | Package | Responsibility |
 |-------|---------|----------------|
-| **Contract** | `AIGuiders.Platform.CommandPlane` | `ICommandSource`, `CommandSource.From*`, `CommandDescriptor`, `CommandDescriptorMapper` |
+| **Contract** | `AIGuiders.Platform.Execution.CommandPlane` | `ICommandSource`, `CommandSource.From*`, `CommandDescriptor`, `CommandDescriptorMapper` |
 | **Format** | `Sources.Json` · `.Toml` · `.Xml` | `ICommandFormatReader` + `*CommandSources.From*` / `FromFile(.ext)` |
 | **Transport** | `Sources.File` · `.Database` | File path + extension dispatch, embedded resources; DB delegate |
 | **Meta-bundle** | `CommandPlane.Catalog.Sources` | `CommandSources.*` re-exports for all-in-one embed |

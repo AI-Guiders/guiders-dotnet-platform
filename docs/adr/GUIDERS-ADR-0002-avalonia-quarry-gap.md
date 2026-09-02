@@ -39,7 +39,7 @@ Platform v0.1 initially shipped only Abstractions + Routing — **under-scoped**
 | **CDS** | ADR 0036 routers | `ICdsRouter` | `AttentionCdsRouter`, go maps | CabinGlass pins | Router **logic** split product-local |
 | **Compositor** | ADR 0036 compositors | `ISurfaceCompositor` | `SeatsSurfaceCompositor` | WPF bind | Compositor output DTO not shared NuGet type |
 | **IDS** | ADR 0079 palette/overlays | `IIdsFeatureSearch` | `FeatureSearchUnit` | Ctrl+K overlay | Full IDS pipeline still Avalonia-heavy |
-| **Routing** | melody / MCP | `AIGuiders.Platform.Routing` | Citizen organs | Glass melody peel | Wire cdp-mcp → NuGet (wave 2) |
+| **Routing** | melody / MCP | `AIGuiders.Platform.Execution.Routing` | Citizen organs | Glass melody peel | Wire cdp-mcp → NuGet (wave 2) |
 
 **Root miss:** layer **interfaces** duplicated in cdp-mcp and cascade-ide; **domain CCU mechanics** never quarried from Avalonia into headless/platform — only WPF **presence** shipped.
 

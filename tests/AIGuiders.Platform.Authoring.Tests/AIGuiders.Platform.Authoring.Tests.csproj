@@ -20,6 +20,6 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Presentation.Topology\AIGuiders.Platform.Notations.Presentation.Topology.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Authoring.Command.Bundles\AIGuiders.Platform.Authoring.Command.Bundles.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Authoring.Conformance\AIGuiders.Platform.Authoring.Conformance.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Catalog.CodeGen\AIGuiders.Platform.CommandPlane.Catalog.CodeGen.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.CommandPlane.Catalog.CodeGen\AIGuiders.Platform.Execution.CommandPlane.Catalog.CodeGen.csproj" />
   </ItemGroup>
 </Project>

@@ -1,9 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <RootNamespace>AIGuiders.Platform.Utilities.Adoption</RootNamespace>
-    <AssemblyName>AIGuiders.Platform.Utilities.Adoption</AssemblyName>
-    <Description>Scan federation planet repos for hyperlane pins and conformance specs; emit adoption alliance tables.</Description>
-    <PackageId>AIGuiders.Platform.Utilities.Adoption</PackageId>
-    <IsPackable>true</IsPackable>
-  </PropertyGroup>
-</Project>

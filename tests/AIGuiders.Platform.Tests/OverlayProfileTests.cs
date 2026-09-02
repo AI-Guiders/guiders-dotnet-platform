@@ -2,7 +2,7 @@
 using AIGuiders.Platform.Combinations;
 using AIGuiders.Platform.Combinations.Overlay;
 using AIGuiders.Platform.Combinations.Workspace;
-using AIGuiders.Platform.Configurations.Workspace;
+using AIGuiders.Platform.Execution.Configurations.Workspace;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

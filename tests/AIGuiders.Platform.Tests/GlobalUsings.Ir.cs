@@ -1,9 +1,9 @@
 global using AIGuiders.Platform.IntermediateRepresentation.Command;
 global using AIGuiders.Platform.IntermediateRepresentation.Argument;
 global using AIGuiders.Platform.IntermediateRepresentation.Binding;
-global using AIGuiders.Platform.IntermediateRepresentation.Keyboard;
+global using AIGuiders.Platform.Modeling.Notations.Keyboard;
 global using AIGuiders.Platform.IntermediateRepresentation.Invocation;
 global using AIGuiders.Platform.IntermediateRepresentation.Melody;
-global using AIGuiders.Platform.IntermediateRepresentation.Bracket;
+global using AIGuiders.Platform.Modeling.Notations.Bracket;
 global using AIGuiders.Platform.IntermediateRepresentation.Agent;
 global using AIGuiders.Platform.IntermediateRepresentation.Language;

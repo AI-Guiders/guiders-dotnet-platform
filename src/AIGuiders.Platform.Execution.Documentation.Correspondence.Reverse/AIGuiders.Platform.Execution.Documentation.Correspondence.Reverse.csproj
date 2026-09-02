@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.Documentation.Correspondence</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Documentation.Correspondence.Reverse</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Documentation.Correspondence.Reverse</PackageId>
+    <Description>Reverse doc↔code scan in markdown (GUIDERS-ADR-0028).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Configurations.Workspace\AIGuiders.Platform.Execution.Configurations.Workspace.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Documentation.Correspondence.Core\AIGuiders.Platform.Execution.Documentation.Correspondence.Core.csproj" />
+  </ItemGroup>
+</Project>

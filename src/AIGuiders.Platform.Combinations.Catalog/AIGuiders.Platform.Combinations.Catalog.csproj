@@ -6,6 +6,6 @@
     <Description>Meta-bundle: command catalog combinations (types ship in CommandPlane.Catalog, GUIDERS-ADR-0030).</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.CommandPlane.Catalog\AIGuiders.Platform.CommandPlane.Catalog.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.CommandPlane.Catalog\AIGuiders.Platform.Execution.CommandPlane.Catalog.csproj" />
   </ItemGroup>
 </Project>

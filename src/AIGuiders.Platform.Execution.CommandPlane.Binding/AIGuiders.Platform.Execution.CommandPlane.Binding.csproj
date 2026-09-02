@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <UseGuidersModelingCatalog>true</UseGuidersModelingCatalog>
+    <RootNamespace>AIGuiders.Platform.Execution.CommandPlane.Binding</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.CommandPlane.Binding</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.CommandPlane.Binding</PackageId>
+    <Description>Binding mechanic core: gesture catalog, layered merge (GUIDERS-ADR-0017).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Combinations\AIGuiders.Platform.Combinations.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Combinations.Overlay\AIGuiders.Platform.Combinations.Overlay.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Binding\AIGuiders.Platform.IntermediateRepresentation.Binding.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.CommandPlane\AIGuiders.Platform.Execution.CommandPlane.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard.KeyGesture\AIGuiders.Platform.Notations.Keyboard.KeyGesture.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Sources\AIGuiders.Platform.Execution.Sources.csproj" />
+  </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
+</Project>

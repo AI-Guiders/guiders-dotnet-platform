@@ -1,4 +1,4 @@
-using AIGuiders.Platform.Abstractions;
+using AIGuiders.Platform.Modeling.Core;
 
 namespace AIGuiders.Platform.IntermediateRepresentation.Agent;
 

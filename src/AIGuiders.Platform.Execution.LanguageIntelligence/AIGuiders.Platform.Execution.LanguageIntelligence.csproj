@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.LanguageIntelligence</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.LanguageIntelligence</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.LanguageIntelligence</PackageId>
+    <Description>LanguageIntelligence contracts — IAnchorResolver; IR in IntermediateRepresentation.Language (GUIDERS-ADR-0025).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Language\AIGuiders.Platform.IntermediateRepresentation.Language.csproj" />
+  </ItemGroup></Project>

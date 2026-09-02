@@ -20,10 +20,10 @@ Federation already separates **wire paths** (slash/console/catalog phrase — [A
 | Kind | Example | Guild |
 |------|---------|-------|
 | **Wire path** | `buffer open`, `filter.date`, `import <grain/date-filter>` | `Notations.*` / Authoring — not filesystem |
-| **Logical path** | `src/Foo/Bar.cs`, `docs/adr/0047-…` | **`AIGuiders.Platform.Paths`** |
+| **Logical path** | `src/Foo/Bar.cs`, `docs/adr/0047-…` | **`AIGuiders.Platform.Modeling.Paths`** |
 | **Physical path** | `D:\…`, `/home/runner/…` | BCL + **TruePath** at IO boundary only |
 
-### 2. Package `AIGuiders.Platform.Paths`
+### 2. Package `AIGuiders.Platform.Modeling.Paths`
 
 | Type | Role |
 |------|------|
@@ -55,5 +55,5 @@ Doc/correspondence helpers (`GuessTitle`, markdown line excerpt) remain in `Docu
 
 ## Consequences
 
-- New NuGet: `AIGuiders.Platform.Paths` (depends on TruePath privately at compile time; consumers take only logical API).
+- New NuGet: `AIGuiders.Platform.Modeling.Paths` (depends on TruePath privately at compile time; consumers take only logical API).
 - Planets reference quarry package for workspace/doc correlation; native ports may wrap same rules in TS/Kotlin.

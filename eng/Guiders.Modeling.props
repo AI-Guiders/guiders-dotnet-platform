@@ -1,11 +1,30 @@
 <Project>
-  <!-- Sibling monorepo: guiders-fsharp Platform.Modeling.* (ADR-0002 / Phase D). -->
+  <!-- Sibling monorepo: guiders-fsharp Platform.Modeling.* (ADR-0002 / waves B–D). -->
   <PropertyGroup>
     <GuidersFSharpRoot Condition="'$(GuidersFSharpRoot)' == ''">$(MSBuildThisFileDirectory)..\..\guiders-fsharp</GuidersFSharpRoot>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference
-      Condition="'$(UseGuidersModelingCockpitDataBus)' == 'true'"
+    <ProjectReference Condition="'$(UseGuidersModelingCockpitDataBus)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Cockpit.DataBus\AIGuiders.Platform.Modeling.Cockpit.DataBus.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingCockpitCds)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Cockpit.Cds\AIGuiders.Platform.Modeling.Cockpit.Cds.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingCore)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Core\AIGuiders.Platform.Modeling.Core.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingPaths)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Paths\AIGuiders.Platform.Modeling.Paths.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingCatalog)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Catalog\AIGuiders.Platform.Modeling.Catalog.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingRouting)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Routing\AIGuiders.Platform.Modeling.Routing.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingNotationsBracket)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Notations.Bracket\AIGuiders.Platform.Modeling.Notations.Bracket.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingNotationsKeyboard)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Notations.Keyboard\AIGuiders.Platform.Modeling.Notations.Keyboard.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingGdlExpression)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Expression\AIGuiders.Platform.Modeling.Gdl.Expression.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingGdlParseCockpitLogic)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Parse.CockpitLogic\AIGuiders.Platform.Modeling.Gdl.Parse.CockpitLogic.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingCockpitRules)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Cockpit.Rules\AIGuiders.Platform.Modeling.Cockpit.Rules.fsproj" />
   </ItemGroup>
 </Project>

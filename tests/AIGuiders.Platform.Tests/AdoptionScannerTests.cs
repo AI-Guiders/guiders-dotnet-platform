@@ -1,6 +1,6 @@
-using AIGuiders.Platform.Utilities.Adoption;
-using AIGuiders.Platform.Utilities.Adoption.Reports.Markdown;
-using AIGuiders.Platform.Utilities.Adoption.Sources;
+using AIGuiders.Platform.Execution.Utilities.Adoption;
+using AIGuiders.Platform.Execution.Utilities.Adoption.Reports.Markdown;
+using AIGuiders.Platform.Execution.Utilities.Adoption.Sources;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;
@@ -20,14 +20,14 @@ public sealed class AdoptionScannerTests
                 """
                 <Project Sdk="Microsoft.NET.Sdk">
                   <ItemGroup>
-                    <PackageReference Include="AIGuiders.Platform.CommandPlane.Slash" Version="0.10.0" />
+                    <PackageReference Include="AIGuiders.Platform.Execution.CommandPlane.Slash" Version="0.10.0" />
                   </ItemGroup>
                 </Project>
                 """);
 
             var partial = CsProjAdoptionReader.ReadFile(csproj, "AIGuiders.Platform.");
             Assert.Single(partial.Pins);
-            Assert.Equal("AIGuiders.Platform.CommandPlane.Slash", partial.Pins[0].PackageId);
+            Assert.Equal("AIGuiders.Platform.Execution.CommandPlane.Slash", partial.Pins[0].PackageId);
             Assert.Equal(AdoptionPortKind.NuGetPin, partial.Pins[0].PortKind);
         }
         finally
@@ -48,13 +48,13 @@ public sealed class AdoptionScannerTests
                 """
                 <Project Sdk="Microsoft.NET.Sdk">
                   <ItemGroup>
-                    <PackageReference Include="AIGuiders.Platform.CommandPlane" Version="0.4.2" />
+                    <PackageReference Include="AIGuiders.Platform.Execution.CommandPlane" Version="0.4.2" />
                   </ItemGroup>
                 </Project>
                 """);
 
             var planet = new PlanetConfig("test", "Test Planet", ".", "https://example.test/issues");
-            var rules = new[] { new HyperlaneRule("AIGuiders.Platform.CommandPlane", "CommandPlane", "dotnet-nuget") };
+            var rules = new[] { new HyperlaneRule("AIGuiders.Platform.Execution.CommandPlane", "CommandPlane", "dotnet-nuget") };
             var rows = AdoptionAllianceBuilder.BuildPlanet(
                 planet,
                 temp,
@@ -76,7 +76,7 @@ public sealed class AdoptionScannerTests
         var rows = new[]
         {
             new PlanetAdoptionRow("forge", "Agent Forge", "CommandPlane", "dotnet-nuget (0.4.2)",
-                "AIGuiders.Platform.CommandPlane", "slash-arg-completion",
+                "AIGuiders.Platform.Execution.CommandPlane", "slash-arg-completion",
                 "https://github.com/AI-Guiders/agent-forge/issues"),
         };
 

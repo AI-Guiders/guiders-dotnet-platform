@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.Documentation.LinkCheck</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Documentation.LinkCheck</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Documentation.LinkCheck</PackageId>
+    <Description>Markdown Family:doc anchor dry-resolve (GUIDERS-ADR-0027).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Documentation.Anchors\AIGuiders.Platform.Execution.Documentation.Anchors.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Bracket\AIGuiders.Platform.Notations.Bracket.csproj" />
+  </ItemGroup>
+</Project>

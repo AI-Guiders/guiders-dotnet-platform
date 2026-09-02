@@ -26,7 +26,7 @@ Agents need **context economy** (not JSON walls on every turn). Federation defin
 | **Refuse thrash** | No multi-channel / full spray on default path |
 | **Why / course** | Optional structured continuity slots — **shape** in envelope; content is product |
 
-Platform **seed types** in `AIGuiders.Platform.Abstractions`:
+Platform **seed types** in `AIGuiders.Platform.Modeling.Core`:
 
 - `IntentOutcome` — product-neutral execute/observation result
 - `PulseFormat` — truncation defaults (`DefaultMaxChars = 240`)
@@ -62,8 +62,8 @@ These are **not** CommandPlane (no catalog/resolve). They are **agent ingress en
 
 | Plane | Question it answers | NuGet (target) | Not |
 |-------|---------------------|----------------|-----|
-| **CommandPlane** | What command? How resolve path? | `AIGuiders.Platform.CommandPlane.*` | MCP JSON-RPC |
-| **MCPlane** | What does agent **see** back? How expand? What's **next**? | `AIGuiders.Platform.MCPlane` (or split `.Abstractions` growth) | Tool handlers |
+| **CommandPlane** | What command? How resolve path? | `AIGuiders.Platform.Execution.CommandPlane.*` | MCP JSON-RPC |
+| **MCPlane** | What does agent **see** back? How expand? What's **next**? | `AIGuiders.Platform.Execution.MCPlane` (or split `.Abstractions` growth) | Tool handlers |
 
 **Rule:** MCP tool implementation stays in **product**. MCPlane holds **response contract + projection rules** agents and conformance can rely on.
 
@@ -153,7 +153,7 @@ One registry, two projections: **execute** via CommandPlane; **describe + observ
 
 - [GUIDERS-ADR-0019 conformance monorepo](GUIDERS-ADR-0019-conformance-hyperlane-monorepo.md)
 - [FORGE-ADR-0025 human command parity](https://github.com/AI-Guiders/agent-forge/blob/master/design/FORGE-ADR-0025-human-command-parity.md)
-- `AIGuiders.Platform.Abstractions` — `IntentOutcome.cs`, `PulseFormat.cs`
+- `AIGuiders.Platform.Modeling.Core` — `IntentOutcome.cs`, `PulseFormat.cs`
 
 ### Informative only (planets — not federation SSOT)
 

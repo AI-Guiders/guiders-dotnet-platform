@@ -1,5 +1,5 @@
 #nullable enable
-using AIGuiders.Platform.LanguageIntelligence;
+using AIGuiders.Platform.Execution.LanguageIntelligence;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

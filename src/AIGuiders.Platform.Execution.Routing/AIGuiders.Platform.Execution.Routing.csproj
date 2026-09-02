@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <UseGuidersModelingCore>true</UseGuidersModelingCore>
+    <RootNamespace>AIGuiders.Platform.Execution.Routing</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Routing</AssemblyName>
+    <Description>Route + Execute + test override seam for AI Guiders intent organs.</Description>
+    <PackageId>AIGuiders.Platform.Execution.Routing</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
+</Project>
