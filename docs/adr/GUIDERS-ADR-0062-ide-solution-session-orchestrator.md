@@ -5,7 +5,7 @@
 | **Status** | Accepted |
 | **Date** | 2026-09-02 |
 | **Tags** | #guiders #federation #ide #solution #lifecycle #workspace #fsharp #csharp #typescript #lrc #first-class |
-| **Related** | [GUIDERS-ADR-0061](./GUIDERS-ADR-0061-language-resolver-center.md) · [GUIDERS-ADR-0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) · [GUIDERS-ADR-0051](./GUIDERS-ADR-0051-authoring-project-abstraction.md) · [GUIDERS-FSHARP-ADR-0002](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/GUIDERS-FSHARP-ADR-0002-model-guild-fsharp-ownership.md) · [CDP-ADR-0208](https://github.com/AI-Guiders/cdp-mcp/blob/main/docs/adr/CDP-ADR-0208-language-resolver-center-cdp-host.md) · [Constitution](../GUIDERS-FEDERATION-CONSTITUTION.md) |
+| **Related** | [GUIDERS-ADR-0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) · [GUIDERS-ADR-0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) · [GUIDERS-ADR-0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [GUIDERS-FSHARP-ADR-0004](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/GUIDERS-FSHARP-ADR-0004-ide-session-modeling-ownership.md) · [ide-session-axioms-v0](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/math/ide-session-axioms-v0.md) · [CDP-ADR-0208](https://github.com/AI-Guiders/cdp-mcp/blob/main/docs/adr/CDP-ADR-0208-language-resolver-center-cdp-host.md) · [Constitution](../GUIDERS-FEDERATION-CONSTITUTION.md) |
 
 ## Context
 
