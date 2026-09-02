@@ -89,6 +89,7 @@ public sealed class HostDelegatedLanguageBackend : ILanguageBackend
                 NewName = req.NewName,
                 SymbolKind = "",
                 Applied = false,
+                Message = "",
                 Files = [],
                 Changes = [],
             };

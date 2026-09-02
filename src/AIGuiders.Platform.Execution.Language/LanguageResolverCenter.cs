@@ -127,6 +127,7 @@ public sealed class LanguageResolverCenter
                 NewName = req.NewName,
                 SymbolKind = "",
                 Applied = false,
+                Message = "No language backend resolved.",
                 Files = [],
                 Changes = [],
             };
