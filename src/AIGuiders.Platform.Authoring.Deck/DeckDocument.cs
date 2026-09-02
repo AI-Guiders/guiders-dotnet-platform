@@ -1,3 +1,5 @@
+using AIGuiders.Platform.IntermediateRepresentation.Presentation;
+
 namespace AIGuiders.Platform.Authoring.Deck;
 
 public sealed class DeckDocument
@@ -11,7 +13,7 @@ public sealed class DeckDocument
 public sealed class AttentionPreset
 {
     public required string Name { get; init; }
-    public string? TopologyWire { get; init; }
+    public PresentationTopology? Topology { get; init; }
     public string? ForwardZoneId { get; init; }
     public IReadOnlyList<string> MfdZoneIds { get; init; } = [];
     public string? EicasPolicy { get; init; }

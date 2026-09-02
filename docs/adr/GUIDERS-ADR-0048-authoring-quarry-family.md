@@ -128,7 +128,7 @@ Authoring.All                      optional meta-bundle
 |---------|---------|-----------|
 | `.catalog` | `Authoring.Command.Catalog` | `IR.Command` + vocabulary index |
 | `.catalogbundle` | `Authoring.Command.Bundles` | profile rows merged into `profiles` |
-| `.deck` | `Authoring.Deck` ([0055](./GUIDERS-ADR-0055-surface-wpf-guild-deck-authoring.md)) | `DeckDocument`, presets, zone map |
+| `.deck` | `Authoring.Deck` ([0055](./GUIDERS-ADR-0055-surface-wpf-guild-deck-authoring.md)) | `DeckDocument`, presets, **typed** `PresentationTopology` ([0058](./GUIDERS-ADR-0058-presentation-topology-ir.md)) |
 | `.cockpit.logic` | `Authoring.Cockpit.Logic` (**Proposed** [0057](./GUIDERS-ADR-0057-cockpit-logic-authoring-quarry.md)) | `CockpitRuleGraph` — annunciation, projectors, principles |
 | ~~`.businesslogic`~~ | ~~`Authoring.BusinessLogic`~~ | **Deprecated name** — see [0056](./GUIDERS-ADR-0056-businesslogic-authoring-latent.md) (historical) |
 

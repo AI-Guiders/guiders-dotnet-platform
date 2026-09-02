@@ -16,6 +16,8 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Authoring.Core\AIGuiders.Platform.Authoring.Core.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Authoring.Command.Catalog\AIGuiders.Platform.Authoring.Command.Catalog.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Authoring.Deck\AIGuiders.Platform.Authoring.Deck.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.IntermediateRepresentation.Presentation\AIGuiders.Platform.IntermediateRepresentation.Presentation.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Presentation.Topology\AIGuiders.Platform.Notations.Presentation.Topology.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Authoring.Command.Bundles\AIGuiders.Platform.Authoring.Command.Bundles.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Authoring.Conformance\AIGuiders.Platform.Authoring.Conformance.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.CommandPlane.Catalog.CodeGen\AIGuiders.Platform.CommandPlane.Catalog.CodeGen.csproj" />

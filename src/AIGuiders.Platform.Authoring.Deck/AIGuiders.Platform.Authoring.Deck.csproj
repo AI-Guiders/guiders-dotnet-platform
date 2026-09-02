@@ -1,11 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
+
     <RootNamespace>AIGuiders.Platform.Authoring.Deck</RootNamespace>
+
     <AssemblyName>AIGuiders.Platform.Authoring.Deck</AssemblyName>
+
     <PackageId>AIGuiders.Platform.Authoring.Deck</PackageId>
+
     <Description>.deck grammar parser and IR (GUIDERS-ADR-0055 v0).</Description>
+
   </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Authoring.Core\AIGuiders.Platform.Authoring.Core.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Presentation\AIGuiders.Platform.IntermediateRepresentation.Presentation.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Presentation.Topology\AIGuiders.Platform.Notations.Presentation.Topology.csproj" />
   </ItemGroup>
+
 </Project>
+

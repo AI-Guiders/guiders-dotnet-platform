@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Notations.Presentation.Topology</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Notations.Presentation.Topology</AssemblyName>
+    <PackageId>AIGuiders.Platform.Notations.Presentation.Topology</PackageId>
+    <Description>Parse presentation topology wires → IR.Presentation (GUIDERS-ADR-0058).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Presentation\AIGuiders.Platform.IntermediateRepresentation.Presentation.csproj" />
+  </ItemGroup>
+</Project>

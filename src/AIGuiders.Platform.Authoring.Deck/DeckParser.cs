@@ -1,4 +1,6 @@
 using AIGuiders.Platform.Authoring.Core;
+using AIGuiders.Platform.IntermediateRepresentation.Presentation;
+using AIGuiders.Platform.Notations.Presentation.Topology;
 
 namespace AIGuiders.Platform.Authoring.Deck;
 
@@ -90,17 +92,30 @@ public static class DeckParser
         IReadOnlyList<AuthoringLine> body,
         IList<AuthoringDiagnostic> diagnostics)
     {
-        string? topology = null;
         string? forward = null;
         var mfdZones = new List<string>();
         string? eicas = null;
+        PresentationTopology? topology = null;
 
         foreach (var line in body)
         {
             var text = line.Text.Trim();
             if (text.StartsWith("topology ", StringComparison.Ordinal))
             {
-                topology = text["topology ".Length..].Trim();
+                var wire = text["topology ".Length..].Trim();
+                var parsed = TopologyNotation.Parse(wire);
+                if (!parsed.IsSuccess)
+                {
+                    diagnostics.Add(new(
+                        AuthoringDiagnosticCode.TopologyWireInvalid,
+                        parsed.Error ?? "Invalid topology wire.",
+                        line.LineNumber));
+                }
+                else
+                {
+                    topology = parsed.Topology;
+                }
+
                 continue;
             }
 
@@ -136,7 +151,7 @@ public static class DeckParser
         return new AttentionPreset
         {
             Name = name,
-            TopologyWire = topology,
+            Topology = topology,
             ForwardZoneId = forward,
             MfdZoneIds = mfdZones,
             EicasPolicy = eicas,

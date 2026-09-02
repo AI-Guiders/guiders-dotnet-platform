@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.IntermediateRepresentation.Presentation</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.IntermediateRepresentation.Presentation</AssemblyName>
+    <PackageId>AIGuiders.Platform.IntermediateRepresentation.Presentation</PackageId>
+    <Description>Presentation topology IR — logical hosts, roles, display binding (GUIDERS-ADR-0058).</Description>
+  </PropertyGroup>
+</Project>

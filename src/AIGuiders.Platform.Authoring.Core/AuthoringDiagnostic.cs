@@ -9,6 +9,7 @@ public sealed record AuthoringDiagnostic(
 
 public enum AuthoringDiagnosticCode
 {
+    TopologyWireInvalid,
     MissingDeckHeader,
     MissingCatalogHeader,
     MissingGrammarDeclaration,

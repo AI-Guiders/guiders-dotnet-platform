@@ -1,0 +1,38 @@
+{
+  "kind": "notation.presentation.topology",
+  "version": 1,
+  "source": "GUIDERS-ADR-0058",
+  "vectors": [
+    {
+      "id": "mfd-forward-two-host",
+      "wire": "(MFD)(F)",
+      "expect": {
+        "arrangement": "MultiHost",
+        "hostCount": 2,
+        "hosts": [
+          { "hostIndex": 0, "hostId": "mfd", "role": "Mfd" },
+          { "hostIndex": 1, "hostId": "forward", "role": "Forward" }
+        ]
+      }
+    },
+    {
+      "id": "single-surface-compositional",
+      "wire": "single",
+      "expect": {
+        "arrangement": "SingleSurfaceCompositional",
+        "hostCount": 0
+      }
+    },
+    {
+      "id": "one-of-single-top-level",
+      "wire": "(F/P/M)",
+      "expect": {
+        "arrangement": "SingleHostOneOf",
+        "hostCount": 1,
+        "hosts": [
+          { "hostIndex": 0, "role": "PmOneOf", "compose": "OneOf", "channelStack": ["f", "p", "m"] }
+        ]
+      }
+    }
+  ]
+}

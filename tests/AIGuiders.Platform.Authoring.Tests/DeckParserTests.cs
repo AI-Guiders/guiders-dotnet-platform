@@ -1,4 +1,5 @@
 using AIGuiders.Platform.Authoring.Deck;
+using AIGuiders.Platform.IntermediateRepresentation.Presentation;
 using Xunit;
 
 namespace AIGuiders.Platform.Authoring.Tests;
@@ -6,7 +7,7 @@ namespace AIGuiders.Platform.Authoring.Tests;
 public sealed class DeckParserTests
 {
     [Fact]
-    public void Parse_dashspec_studio_fixture_has_preset_zones_topology()
+    public void Parse_dashspec_studio_fixture_has_typed_topology()
     {
         var text = LoadFixture("dashspec-studio.deck");
         var result = DeckParser.Parse(text, "dashspec-studio.deck");
@@ -17,7 +18,12 @@ public sealed class DeckParserTests
 
         var preset = Assert.Single(result.Document.Presets);
         Assert.Equal("report-author", preset.Name);
-        Assert.Equal("(MFD)(F)", preset.TopologyWire);
+        Assert.NotNull(preset.Topology);
+        Assert.Equal("(MFD)(F)", preset.Topology!.SourceWire);
+        Assert.Equal(TopologyArrangement.MultiHost, preset.Topology.Arrangement);
+        Assert.Equal(2, preset.Topology.HostCount);
+        Assert.Equal(AttentionDisplayRole.Mfd, preset.Topology.Hosts[0].Role);
+        Assert.Equal(AttentionDisplayRole.Forward, preset.Topology.Hosts[1].Role);
         Assert.Equal("report-preview", preset.ForwardZoneId);
         Assert.Equal(["spec-tree", "resolve"], preset.MfdZoneIds);
         Assert.Equal("when alerts", preset.EicasPolicy);
