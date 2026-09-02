@@ -20,9 +20,9 @@ Today there is **no federation SSOT** for the solution/session model:
 | F# Sdk phased loader + `IdeWorkspaceWarm` | Planet-local warm hooks; F# not first-class |
 | LRC ([0061](./GUIDERS-ADR-0061-language-resolver-center.md)) | Verb gateway only — receives `SolutionOrProjectPath` as **string hint** |
 | CDP `SessionContext` | Planet session DTO — not domain model |
-| Out-of-process probes / workers (legacy) | Competing pipelines; violate single in-process host |
+| Out-of-process probes / workers (legacy) | **Bypass orchestrator** — ad-hoc sidecars, not graph-attributed capabilities |
 
-**User requirement (normative intent):** every GPL/GDL language is **first-class** in the same solution graph. Adding a language is **adding a project-kind branch** — not a new dispatch rail, warm hook, or out-of-process sidecar.
+**User requirement (normative intent):** every GPL/GDL language is **first-class** in the same solution graph. Adding a language is **adding a project-kind branch** — not a new dispatch rail, warm hook, or planet-local sidecar that **bypasses** the session graph.
 
 **Mental model (operator):**
 
@@ -78,12 +78,13 @@ type ProjectNode =
       Kind: ProjectKind
       AbsolutePath: string
       Phase: LifecyclePhase
-      CompilerServices: CompilerServicesHandle option }
+      Capabilities: CapabilityNode list }
 
 type SolutionGraph =
-    { AnchorPath: string          // sln | slnx | folder | gdlproj root
+    { AnchorPath: string
       Projects: ProjectNode list
-      FileOwnership: Map<string, ProjectId> }
+      FileOwnership: Map<string, ProjectId>
+      Edges: SessionEdge list }
 
 type SolutionSession =
     { Graph: SolutionGraph
@@ -91,7 +92,73 @@ type SolutionSession =
       Policy: SessionPolicy }
 ```
 
-**Rule:** a new language is a **new `ProjectKind` case** + **in-process `ICompilerServices` adapter** — not a new IDE subsystem.
+**Rule:** a new language is a **new `ProjectKind` case** + **capability subtree** under that project — not a new IDE subsystem.
+
+#### 2.1 Capability graph (attributes on nodes)
+
+The session model is a **typed graph**, not a flat project list. A project node **hosts** capability nodes; capabilities carry **execution topology** and other attributes. The orchestrator **routes** verbs to a capability handle based on graph attributes + policy — it does not hard-code in-process vs out-of-process per language.
+
+```text
+SolutionSession
+  └── ProjectNode (fsproj)
+        ├── Capability: CompilerServices     { execution: InProcess, phase: DesignTime }
+        ├── Capability: StaticAnalysis       { execution: Adaptive, … }
+        ├── Capability: Build                { execution: SubprocessTool, phase: CompileTime }
+        └── Capability: TestDiscovery        { execution: OutOfProcess, phase: TestTime }
+```
+
+**Normative node kinds (extensible):**
+
+| Capability | Typical phase | Default `ExecutionTopology` |
+|------------|---------------|-------------------------------|
+| `CompilerServices` | DesignTime | `InProcess` (Roslyn, FCS, warmed TS) |
+| `StaticAnalysis` | DesignTime / CompileTime | `Adaptive` |
+| `Build` | CompileTime | `SubprocessTool` (`dotnet`, `npm`) |
+| `TestDiscovery` / `TestRun` | TestTime | `OutOfProcess` or `SubprocessTool` |
+| `LspBridge` | DesignTime | `OutOfProcess` (Python, Delphi presets) |
+
+```fsharp
+type ExecutionTopology =
+    | InProcess
+    | OutOfProcess
+    | SubprocessTool      // short-lived CLI, not a language host
+    | Adaptive            // orchestrator picks from predicates below
+
+type CapabilityAttributes =
+    { Topology: ExecutionTopology
+      Warmth: WarmthHint              // Cold | Warm | Hot
+      CostTier: CostTier              // Interactive | Standard | Heavy
+      Scope: CapabilityScope          // File | Project | Solution
+      Predicate: AdaptiveRule list }  // when Adaptive
+
+type AdaptiveRule =
+    | WhenProjectFileCountBelow of int -> ExecutionTopology
+    | WhenAlreadyWarm -> ExecutionTopology
+    | WhenFullSolutionScan -> ExecutionTopology
+    | WhenElapsedBudgetExceeds of TimeSpan -> ExecutionTopology
+```
+
+**Example (operator intent):** full-solution static analysis on a large repo → `OutOfProcess` + `Heavy`; same analysis on a warmed small project → `InProcess`. **One capability**, two materializations — chosen by orchestrator from **graph attributes + session state**, not a forked dispatch path.
+
+**Edges** (`SessionEdge`) express dependencies the orchestrator respects:
+
+| Edge | Meaning |
+|------|---------|
+| `requires` | capability B needs A materialized first (e.g. Build requires DesignTime context) |
+| `invalidates` | A advancing invalidates B (e.g. CompileTime invalidates warmed DesignTime caches) |
+| `feeds` | output of A is input to B (build artifacts → refreshed sources) |
+
+Attributes MAY attach to **projects**, **capabilities**, or **edges** — prefer the **most specific** node (capability > project > solution).
+
+```fsharp
+type SessionEdge =
+    { From: GraphNodeId
+      To: GraphNodeId
+      Kind: SessionEdgeKind
+      Attributes: Map<string, string> }
+```
+
+Planets and adapters **declare** capabilities and default attributes in Modeling; orchestrator **materializes** handles. **Forbidden:** ad-hoc out-of-process workers that are not registered as graph capabilities (legacy probe pattern).
 
 ### 3. Lifecycle semantics
 
@@ -113,8 +180,8 @@ type SolutionSession =
 cdp_open(sln)
   → parse graph (Unloaded)
   → SolutionOrchestrator.Enter(DesignTime)
-      → foreach project (or lazy-on-demand): project.Enter(DesignTime)
-      → materialize in-process CompilerServices only
+      → foreach project (or lazy-on-demand): materialize capabilities for DesignTime
+      → topology from capability attributes (default InProcess for CompilerServices)
 
 cdp_build
   → SolutionOrchestrator.Enter(CompileTime)
@@ -126,7 +193,8 @@ cdp_build
 
 `SolutionSessionOrchestrator` (C#) is the **only** place that:
 
-- loads / unloads project compiler hosts
+- loads / unloads **capability handles** (not ad-hoc hosts)
+- resolves `ExecutionTopology` from capability attributes + `SessionPolicy` + warmth
 - advances lifecycle phases (with validation)
 - applies **SessionPolicy** (eager vs lazy design-time, retain vs evict on close)
 - exposes **handles** to LRC, LanguageIntelligence, build/test channels
@@ -139,11 +207,11 @@ cdp_build
                                    │
          ┌─────────────────────────┼─────────────────────────┐
          ▼                         ▼                         ▼
-  Adapter.Roslyn            Adapter.Fcs              Adapter.TypeScript
-  (in-process)              (in-process FCS)         (in-process worker/LSP host)
+  Capability: CompilerServices   …                    Capability: StaticAnalysis
+  (InProcess default)                                  (Adaptive → In|Out)
          │                         │                         │
          └────────────► Modeling.Ide.Session ◄────────────────┘
-                        (graph + lifecycle IR)
+                        (graph + lifecycle + attributes)
 ```
 
 **Orchestrator API (sketch):**
@@ -153,7 +221,7 @@ public interface ISolutionSessionOrchestrator
 {
     SolutionSession Open(string anchorPath, SessionOpenOptions options);
     Task EnterPhaseAsync(LifecyclePhase phase, PhaseScope scope, CancellationToken ct);
-    Task<ICompilerServices> EnsureDesignTimeAsync(ProjectId project, CancellationToken ct);
+    Task<ICapabilityHandle> EnsureCapabilityAsync(ProjectId project, CapabilityId cap, CancellationToken ct);
     Task EvictAsync(ProjectId project, LifecyclePhase downTo);
     void Close();
 }
@@ -170,15 +238,19 @@ public interface ISolutionSessionOrchestrator
 
 Planets **configure** policy; they **do not** implement per-language warm branches.
 
-### 5. Compiler services contract (in-process only)
+### 5. Capability handles and compiler services
 
 ```fsharp
-type ICompilerServices =
-    abstract member LanguageId: string
+type ICapabilityHandle =
+    abstract member CapabilityId: CapabilityId
     abstract member ProjectId: ProjectId
+    abstract member Topology: ExecutionTopology
     abstract member Phase: LifecyclePhase
     abstract member Dispose: unit -> unit
-    // Design-time surface consumed by LRC adapters:
+
+type ICompilerServices =
+    inherit ICapabilityHandle
+    abstract member LanguageId: string
     abstract member GetDiagnostics: LanguageRequest -> Task<DiagnosticsResult>
     abstract member GetDocumentSymbols: LanguageRequest -> Task<DocumentSymbolsResult>
     abstract member GoToDefinition: LanguageRequest -> Task<LanguageNavigation option>
@@ -186,17 +258,18 @@ type ICompilerServices =
 
 **Normative:**
 
-- GPL language services (Roslyn, FCS, TS) run **in-process** in the IDE host.
-- **Forbidden:** out-of-process project-info probes, per-call `fsharp-worker`, duplicate competing pipelines for the same project+phase.
-- External **LSP** presets (Python, Delphi, …) are **optional planet adapters** behind the same `ICompilerServices` seam — still one orchestrator, not a parallel dispatch tree.
+- **Default** for `CompilerServices` on GPL languages (C#, F#, TS): `ExecutionTopology.InProcess`.
+- **Out-of-process is allowed** when declared as a **capability attribute** on the graph (e.g. heavy static analysis, LSP bridge, full-solution scan). Orchestrator materializes the handle; adapters **project the same** `Modeling.Language` envelopes regardless of topology.
+- **Forbidden:** capability implementations that **bypass** the session graph (legacy per-call probes, planet-local workers not registered on the project node).
+- `SubprocessTool` (`dotnet build`, `npm test`) is **not** the same as `OutOfProcess` language host — short-lived tools on **CompileTime** / **TestTime** edges only.
 
 LRC ([0061](./GUIDERS-ADR-0061-language-resolver-center.md)) becomes:
 
 ```text
 LanguageResolverCenter
   → resolve ProjectId from file path (session graph)
-  → orchestrator.EnsureDesignTime(projectId)
-  → adapter projects Modeling.Language envelopes
+  → orchestrator.EnsureCapability(projectId, CompilerServices)
+  → handle (InProcess or OutOfProcess per attributes) → Modeling.Language envelopes
 ```
 
 ### 6. Graph parsing — ports, not SSOT
@@ -214,7 +287,7 @@ LanguageResolverCenter
 
 | Concern | Owner | Uses session how |
 |---------|-------|------------------|
-| **LRC** verbs | `Execution.Language` | `EnsureDesignTime` → `ICompilerServices` |
+| **LRC** verbs | `Execution.Language` | `EnsureCapability(CompilerServices)` → handle |
 | **LanguageIntelligence** ([0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md)) | `LanguageIntelligence.*` | same project ownership + spans |
 | **Build / test** | `Execution` build channels | `Enter(CompileTime)` / `Enter(TestTime)` |
 | **Cockpit DataBus** | `Modeling.Cockpit.DataBus` | events keyed by solution/project id ([FSHARP-ADR-0002](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/GUIDERS-FSHARP-ADR-0002-model-guild-fsharp-ownership.md) §15) |
@@ -225,9 +298,9 @@ LanguageResolverCenter
 A language is **first-class** when:
 
 1. It has a `ProjectKind` case (or documented `Planet` profile).
-2. It has an in-process `ICompilerServices` adapter.
+2. It declares a `CompilerServices` capability (default `InProcess`; other capabilities optional).
 3. `file → project` ownership comes from **session graph**, not walk-up hacks in adapters.
-4. LRC (or LI) routes through **orchestrator**, not planet `if language`.
+4. LRC (or LI) routes through **orchestrator.EnsureCapability**, not planet `if language`.
 
 **Adding F#** should have been step (2)–(4) on the **same graph** — not a separate LRC warm rail.
 
@@ -255,8 +328,9 @@ Phase 5                Node + gdlproj nodes; TS first-class in same graph
 ## Consequences
 
 - **F# first-class** means graph + lifecycle parity with C#, not a special diagnostics pipeline.
-- New languages are **cheap** at the federation level — new `ProjectKind` + adapter.
-- Single in-process orchestrator eliminates competing MSBuild / probe / warm paths.
+- New languages are **cheap** — new `ProjectKind` + capability subtree with attributes.
+- **One orchestrator** routes all topologies; no competing bypass pipelines.
+- Graph attributes encode **when** to go out-of-process (heavy, cold, full scan) vs in-process (interactive, warm, small) — policy is data on the graph, not scattered `if` in planets.
 - `Platform.Modeling.Ide.Session` becomes the right home for DU-heavy lifecycle algebra.
 - LRC stays focused — verb envelopes only ([0061](./GUIDERS-ADR-0061-language-resolver-center.md)).
 - `DotNetWorkspace.Core` shrinks to parser port; tactical phased loader moves under F# `DotNet` design-time materialization.
@@ -264,7 +338,7 @@ Phase 5                Node + gdlproj nodes; TS first-class in same graph
 ## Non-goals
 
 - Merging GDL `gdlproj` IR into dotnet MSBuild project model
-- Out-of-process language services for C# / F# / TS in v1
-- Replacing external LSP for languages without in-process adapters (Python, Delphi) — they plug in, not parallel the model
+- Mandating out-of-process for all GPL design-time compiler services (default remains `InProcess`)
+- Replacing external LSP for languages without in-process adapters — they register as `LspBridge` capability with `OutOfProcess`
 - Rewriting Roslyn or FCS — adapters only
 - Planet-specific solution SSOT (CDP, CIDE)
