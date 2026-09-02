@@ -104,6 +104,7 @@
     <Project Path="src/AIGuiders.Platform.Execution.Utilities.Adoption.Reports.Markdown/AIGuiders.Platform.Execution.Utilities.Adoption.Reports.Markdown.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.Utilities.Adoption.Sources/AIGuiders.Platform.Execution.Utilities.Adoption.Sources.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.Utilities.Adoption/AIGuiders.Platform.Execution.Utilities.Adoption.csproj" />
+    <Project Path="src/AIGuiders.Platform.Execution.Language/AIGuiders.Platform.Execution.Language.csproj" />
   </Folder>
   <Folder Name="/tools/">
     <Project Path="tools/AdoptionReport/AdoptionReport.csproj" />
@@ -121,4 +122,5 @@
   <Project Path="src/AIGuiders.Platform.Execution.Routing/AIGuiders.Platform.Execution.Routing.csproj" />
   <Project Path="tests/AIGuiders.Platform.Tests/AIGuiders.Platform.Tests.csproj" />
   <Project Path="tests/AIGuiders.Platform.Authoring.Tests/AIGuiders.Platform.Authoring.Tests.csproj" />
+  <Project Path="tests/AIGuiders.Platform.Execution.Language.Tests/AIGuiders.Platform.Execution.Language.Tests.csproj" />
 </Solution>

@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <UseGuidersModelingLanguage>true</UseGuidersModelingLanguage>
+    <RootNamespace>AIGuiders.Platform.Execution.Language</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Language</AssemblyName>
+    <Description>Language Resolver Center — federation gateway for IDE language verbs.</Description>
+    <PackageId>AIGuiders.Platform.Execution.Language</PackageId>
+  </PropertyGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
+</Project>

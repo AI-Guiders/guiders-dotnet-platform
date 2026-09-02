@@ -28,5 +28,11 @@
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Parse.CockpitLogic\AIGuiders.Platform.Modeling.Gdl.Parse.CockpitLogic.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingCockpitRules)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Cockpit.Rules\AIGuiders.Platform.Modeling.Cockpit.Rules.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingLanguage)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Language\AIGuiders.Platform.Modeling.Language.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingLanguageAdaptersFcs)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Language.Adapters.Fcs\AIGuiders.Platform.Modeling.Language.Adapters.Fcs.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingLanguageAdaptersGdl)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Language.Adapters.Gdl\AIGuiders.Platform.Modeling.Language.Adapters.Gdl.fsproj" />
   </ItemGroup>
 </Project>
