@@ -33,7 +33,7 @@ The **`config`** GDL quarry addresses **environment wiring, wire interpretation,
 | Intent | *How the environment is wired, how wire is interpreted, what must hold* |
 | IR (Modeling SSOT) | `ConfigurationPack` graph — sources, defaults, contracts, facts (F# package TBD; see §8) |
 
-Register in [0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) quarry registry (amendment):
+Registered in [0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) quarry registry and intent stack:
 
 ```text
 *.catalog.gdl   — what you can do
