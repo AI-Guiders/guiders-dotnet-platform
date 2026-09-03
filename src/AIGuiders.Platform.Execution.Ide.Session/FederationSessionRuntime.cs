@@ -10,6 +10,7 @@ public sealed record FederationCompilerServicesEnsure(
     string? Topology,
     string? LanguageId,
     int MaterializedCount,
+    AIGuiders.Platform.Modeling.Ide.Session.WorkspaceView? WorkspaceView = null,
     string? Reason = null);
 
 /// <summary>Federation session runtime: graph SSOT + contents + M + Λ orchestration.</summary>
@@ -41,7 +42,7 @@ public static class FederationSessionRuntime
     public static FederationCompilerServicesEnsure TryEnsureCompilerServices(string anchorPath, string filePath)
     {
         if (string.IsNullOrWhiteSpace(anchorPath) || string.IsNullOrWhiteSpace(filePath))
-            return new FederationCompilerServicesEnsure(false, null, null, 0, "anchor_or_file_missing");
+            return new FederationCompilerServicesEnsure(false, null, null, 0, Reason: "anchor_or_file_missing");
 
         try
         {
@@ -51,7 +52,7 @@ public static class FederationSessionRuntime
         }
         catch (Exception ex)
         {
-            return new FederationCompilerServicesEnsure(false, null, null, 0, ex.Message);
+            return new FederationCompilerServicesEnsure(false, null, null, 0, Reason: ex.Message);
         }
     }
 
@@ -73,37 +74,37 @@ public static class FederationSessionRuntime
 
     static FederationCompilerServicesEnsure ApplyEnsure(SessionRuntime runtime, string filePath, string fullAnchor)
     {
-        return SessionOrchestrator.ensureCompilerServices(runtime, filePath) switch
+        return DesignTimeCompilerServicesPort.materialize(runtime, filePath) switch
         {
-            CompilerServicesEnsureResult.Ensured ensured => ToEnsureResult(ensured, fullAnchor),
+            CompilerServicesEnsureResult.Ensured ensured => ToEnsureResult(ensured.Item1, ensured.Item2, fullAnchor),
             CompilerServicesEnsureResult.Failed failed => new FederationCompilerServicesEnsure(
                 false,
                 null,
                 null,
                 runtime.Materialized.Entries.Count,
-                failed.reason),
+                Reason: failed.reason),
             _ => new FederationCompilerServicesEnsure(
                 false,
                 null,
                 null,
                 runtime.Materialized.Entries.Count,
-                "unknown_ensure_result")
+                Reason: "unknown_ensure_result")
         };
     }
 
     static FederationCompilerServicesEnsure ToEnsureResult(
-        CompilerServicesEnsureResult.Ensured ensured,
+        CompilerServicesMaterialization mat,
+        SessionRuntime runtime,
         string fullAnchor)
     {
-        var mat = ensured.Item1;
-        var runtime = ensured.Item2;
         Cache[fullAnchor] = runtime;
 
         return new FederationCompilerServicesEnsure(
             true,
             mat.TopologyWire,
             mat.LanguageId,
-            runtime.Materialized.Entries.Count);
+            runtime.Materialized.Entries.Count,
+            mat.WorkspaceView);
     }
 
     static FederationApplyResult StoreRuntime(string anchorPath, SessionRuntime runtime)
