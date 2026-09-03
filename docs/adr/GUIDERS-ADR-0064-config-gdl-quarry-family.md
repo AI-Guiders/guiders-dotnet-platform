@@ -20,9 +20,7 @@ AI-era stacks (CDP, agent-notes MCP, installers) need more than flat TOML:
 
 Today: `agent-notes-mcp.toml`, `workspace-scope-map-v1.md`, and `agent-notes.md` are **transport**; semantics live in playbooks and agent memory. A broken newcomer install (empty personal L0, template scope-map) passes TOML parse but fails operationally — no declared postcondition.
 
-**Not catalog:** command catalogs declare *what you can do* ([0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) intent stack). Environment wiring + correctness is a **sibling quarry**: **`config`**.
-
-**Operator-facing name:** *configuration* / *setup profile* — not internal codename `habitat` (CDP legacy only; do not use in user docs or first-run UX).
+The **`config`** GDL quarry addresses **environment wiring, wire interpretation, and verifiable postconditions** ([0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) intent stack). Operator-facing term: **configuration** or **setup profile** (`*.config.gdl`).
 
 ## Decision
 
@@ -113,15 +111,15 @@ primary = "personal"
 C:/Users/PC/Desktop/Uchoba/ZnaniaMCP => znania
 ```
 
-### 4. Grammar defaults — notation contract (not magic strings)
+### 4. Grammar defaults — notation contract
 
 Follow [0047](./GUIDERS-ADR-0047-command-for-doi.md) keyboard rule:
 
-- Values in `defaults` are **grammar ids** (kebab-case), e.g. `path-absolute-platform`, `path-arrow-scope-id`, `keyboard-key-gesture`.
-- **Do not** use `notation/...` prefixes in `.config.gdl` — that path is for **conformance spec files** only (`docs/conformance/notation/...`, [0021](./GUIDERS-ADR-0021-notations-quarry-family.md) §9).
-- **One id per slot** — no in-string `or` unions (`absolute-posix-or-win` is **rejected**). OS-specific profiles use **separate** `*.config.gdl` documents or future `when os = …` blocks ([0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) `Authoring.Expression`), not permissive combined ids.
+- Values in `defaults` are **grammar ids** (kebab-case), e.g. `path-absolute-platform`, `path-arrow-scope-id`.
+- Grammar ids in `.config.gdl` use the same convention as catalog `defaults` ([`docs/grammar/notation/README.md`](../grammar/notation/README.md)); conformance spec paths live under `docs/conformance/`.
+- **One id per slot.** OS-specific profiles use **separate** `*.config.gdl` documents or future `when os = …` blocks ([0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) `Authoring.Expression`).
 - Unknown grammar id → **compile error** at `config validate` time.
-- Wire mismatch under declared grammar → **`grammar-wire-mismatch`** diagnostic (same class as catalog).
+- Wire mismatch under declared grammar → **`grammar-wire-mismatch`** diagnostic.
 
 Keys use namespace prefix `grammar.<domain>.<slot>` (parallel to `grammar.keyboard.binding` in catalog).
 
@@ -139,9 +137,9 @@ Path kinds align with [0050](./GUIDERS-ADR-0050-paths-guild-logical-physical.md)
 
 **Strings do not cross the materialize boundary into contract semantics** — same rule as presentation topology ([0058](./GUIDERS-ADR-0058-presentation-topology-ir.md) §1).
 
-### 6. Grammar discoverability (anti-magic)
+### 6. Grammar discoverability
 
-Grammar ids are **not** tribal knowledge. v0 requires:
+Grammar ids are listed in registry and docs — v0 requires:
 
 | Mechanism | Location / behavior |
 |-----------|---------------------|
@@ -153,7 +151,7 @@ Grammar ids are **not** tribal knowledge. v0 requires:
 | **Optional `grammars table`** | In-document documentation for custom org packs |
 | **LSP completion** (later) | Grammar id completion on `defaults` values |
 
-Authors extend the guild by: registry entry + spec vectors + README row — **not** by inventing ids in isolation.
+Authors extend the guild by: registry entry + spec vectors + README row.
 
 ### 7. Contracts and facts (Correspondence-aligned)
 
@@ -184,7 +182,7 @@ Planets (CDP, agent-notes-mcp) **consume** IR; do not fork parallel DTO contract
 | Runtime read via existing MCP / CDP | CI validate, install gate, `config check` |
 | Emitted tier-D from other quarries | Author declares stack profile |
 
-**Rule:** if the artifact needs `defaults`, multi-source binding, or `ensures` — it is **GDL config quarry**, not a new flat `*.toml` guild.
+**Rule:** artifacts that need `defaults`, multi-source binding, or `ensures` belong in the **`config`** GDL quarry.
 
 ### 10. Pilot vertical slice
 
@@ -208,8 +206,8 @@ Scope-map binding (`path-arrow-scope-id`) and `scope-*` hot sections are **L2**;
 **Positive**
 
 - Self-check replaces «TOML parsed ⇒ success» for stack installs.
-- Same GDL ergonomics as catalog (`defaults`, tables, import) — no new ad-hoc YAML dialect.
-- Operators keep familiar files; authors own verifiable packs.
+- Reuses GDL catalog ergonomics (`defaults`, tables, `import`).
+- Operators keep familiar wire files; authors ship verifiable packs.
 
 **Negative**
 
@@ -219,16 +217,14 @@ Scope-map binding (`path-arrow-scope-id`) and `scope-*` hot sections are **L2**;
 ## Non-goals (v0)
 
 - Replacing all TOML in CDP/cockpit with GDL.
-- User-facing word **habitat**.
 - Free-form `ensures` prose in operator TOML.
-- `notation/...` syntax inside `.config.gdl` defaults.
-- In-string grammar `or` unions.
+- In-string grammar unions in a single `defaults` slot.
 
-## Anti-patterns
+## Misplacements
 
-| Rejected | Why |
-|----------|-----|
-| Put stack contracts in `*.catalog.gdl` | Wrong intent stack |
-| `grammar.path = posix-or-windows` | No single reader; split packs or `when` |
-| Operator writes `forall(id in l0)` in TOML | Belongs in L1 contract + checker |
-| Planet-local contract JSON fork | Violates federation SSOT |
+| Instead of | Use |
+|------------|-----|
+| Stack contracts in `*.catalog.gdl` | `*.config.gdl` (intent: wiring + Sat) |
+| `grammar.path = posix-or-windows` (one slot, two readers) | Separate config documents per OS/profile, or `when` |
+| `forall(id in l0)` in operator TOML | L1 `contracts table` + named check |
+| Planet-local contract JSON | Federation `ConfigurationPack` IR |
