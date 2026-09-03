@@ -20,6 +20,7 @@ Columns:
 | [0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) | Accepted | In progress | Phase 0 migration |
 | [0027](./GUIDERS-ADR-0027-mdlinker-doc-anchor-check.md) | Accepted | — | Correspondence pilot pending |
 | [0028](./GUIDERS-ADR-0028-documentation-guild-correspondence-family.md) | Accepted | — | GGL horizon; + LC kinds (0006) |
+| [0064](./GUIDERS-ADR-0064-config-gdl-quarry-family.md) | Accepted | In progress | Config quarry P0 signage; pilot `cdp-newcomer` |
 
 **F# mirror:** [guiders-fsharp ADR index](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/README.md)  
 **CDP:** [CDP-ADR-0208](https://github.com/AI-Guiders/cdp-mcp/blob/main/docs/adr/CDP-ADR-0208-language-resolver-center-cdp-host.md) · In progress
@@ -91,6 +92,7 @@ Columns:
 | 0061 | language-resolver-center | Accepted | In progress |
 | 0062 | ide-solution-session-orchestrator | Accepted | In progress |
 | 0063 | anchors-federation-reincarnation | Accepted | — (Phase 0) |
+| 0064 | config-gdl-quarry-family | Accepted | In progress (P0) |
 
 ## Next audit waves
 
