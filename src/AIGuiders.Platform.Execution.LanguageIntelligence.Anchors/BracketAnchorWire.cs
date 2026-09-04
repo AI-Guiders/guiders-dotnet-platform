@@ -150,6 +150,8 @@ public static class BracketAnchorWire
             return ValidateXml(span, out error) ? BracketAxisFamily.Xml : BracketAxisFamily.None;
         if (fam is "code" or "csharp" or "c#")
             return ValidateCode(span, out error) ? BracketAxisFamily.Csharp : BracketAxisFamily.None;
+        if (fam is "fsharp" or "fs" or "f#")
+            return ValidateCode(span, out error) ? BracketAxisFamily.Fsharp : BracketAxisFamily.None;;
 
         var hasNav = !string.IsNullOrWhiteSpace(span.Command)
                      || !string.IsNullOrWhiteSpace(span.Go)
