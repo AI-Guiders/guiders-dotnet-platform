@@ -15,6 +15,8 @@ public static class BracketAnchorWire
         ["File"] = "File",
         ["M"] = "Member",
         ["Member"] = "Member",
+        ["J"] = "Member",
+        ["JsonPath"] = "Member",
         ["L"] = "Line",
         ["Line"] = "Line",
         ["S"] = "Scope",
@@ -151,27 +153,32 @@ public static class BracketAnchorWire
         if (fam is "code" or "csharp" or "c#")
             return ValidateCode(span, out error) ? BracketAxisFamily.Csharp : BracketAxisFamily.None;
         if (fam is "fsharp" or "fs" or "f#")
-            return ValidateCode(span, out error) ? BracketAxisFamily.Fsharp : BracketAxisFamily.None;;
+            return ValidateCode(span, out error) ? BracketAxisFamily.Fsharp : BracketAxisFamily.None;
+        if (fam is "json" or "j")
+            return ValidateJson(span, out error) ? BracketAxisFamily.Json : BracketAxisFamily.None;
 
         var hasNav = !string.IsNullOrWhiteSpace(span.Command)
                      || !string.IsNullOrWhiteSpace(span.Go)
                      || span.NestedAnchor is not null;
-        var hasCsharpStructural = !string.IsNullOrWhiteSpace(span.MemberKey)
+        var memberKey = span.MemberKey;
+        var hasJson = memberKey is { Length: > 0 } mk && mk.TrimStart().StartsWith("$", StringComparison.Ordinal);
+        var hasCsharpStructural = (!string.IsNullOrWhiteSpace(memberKey) && !hasJson)
             || !string.IsNullOrWhiteSpace(span.ScopeKind)
             || span.LineStart is not null
             || !string.IsNullOrWhiteSpace(span.TextNeedle);
         var hasXml = !string.IsNullOrWhiteSpace(span.XmlPath)
             || !string.IsNullOrWhiteSpace(span.Attr);
 
-        if (hasNav && (hasCsharpStructural || hasXml))
+        if (hasNav && (hasCsharpStructural || hasXml || hasJson))
         {
-            // Nested Anchor may carry code/xml; outer nav axes alone are fine.
+            // Nested Anchor may carry code/xml/json; outer nav axes alone are fine.
             if (!string.IsNullOrWhiteSpace(span.MemberKey)
                 || !string.IsNullOrWhiteSpace(span.ScopeKind)
                 || span.LineStart is not null
                 || !string.IsNullOrWhiteSpace(span.TextNeedle)
                 || !string.IsNullOrWhiteSpace(span.XmlPath)
-                || !string.IsNullOrWhiteSpace(span.Attr))
+                || !string.IsNullOrWhiteSpace(span.Attr)
+                || hasJson)
             {
                 error = "mixed_axes";
                 return BracketAxisFamily.None;
@@ -186,6 +193,15 @@ public static class BracketAnchorWire
             error = "mixed_axes";
             return BracketAxisFamily.None;
         }
+
+        if (hasJson && hasXml)
+        {
+            error = "mixed_axes";
+            return BracketAxisFamily.None;
+        }
+
+        if (hasJson)
+            return ValidateJson(span, out error) ? BracketAxisFamily.Json : BracketAxisFamily.None;
 
         if (hasXml)
             return ValidateXml(span, out error) ? BracketAxisFamily.Xml : BracketAxisFamily.None;
@@ -203,6 +219,24 @@ public static class BracketAnchorWire
         if (string.IsNullOrWhiteSpace(span.XmlPath) && !string.IsNullOrWhiteSpace(span.Attr))
         {
             error = "need_X_for_A";
+            return false;
+        }
+
+        return true;
+    }
+
+    static bool ValidateJson(BracketAnchorSpan span, out string? error)
+    {
+        error = null;
+        if (string.IsNullOrWhiteSpace(span.MemberKey))
+        {
+            error = "need_J_for_json";
+            return false;
+        }
+
+        if (!string.IsNullOrWhiteSpace(span.XmlPath) || !string.IsNullOrWhiteSpace(span.Attr))
+        {
+            error = "mixed_axes";
             return false;
         }
 

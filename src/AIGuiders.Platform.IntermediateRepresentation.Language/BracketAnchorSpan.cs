@@ -2,7 +2,7 @@
 
 namespace AIGuiders.Platform.IntermediateRepresentation.Language;
 
-/// <summary>CDP/CIDE anchor span — families code (csharp, fsharp) / xml / navigation (CIDE 0128 / 0186).</summary>
+/// <summary>CDP/CIDE anchor span — families code (csharp, fsharp, json) / xml / navigation (CIDE 0128 / 0186).</summary>
 public enum BracketAxisFamily
 {
     None,
@@ -10,6 +10,7 @@ public enum BracketAxisFamily
     Xml,
     Navigation,
     Fsharp,
+    Json,
 }
 
 public sealed record BracketAnchorSpan(
