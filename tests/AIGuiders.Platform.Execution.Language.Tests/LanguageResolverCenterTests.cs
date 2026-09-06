@@ -9,7 +9,7 @@ public class LanguageResolverCenterTests
 {
     private static LanguageResolverCenter CreateResolver() =>
         new LanguageResolverBuilder()
-            .Register(new FcsLanguageBackend())
+            .Register(new FcsLanguageBackend(null))
             .Register(new GdlLanguageBackend())
             .Build();
 
