@@ -22,7 +22,7 @@ public static class CorrespondenceResolver
         return null;
     }
 
-        public static CorrespondenceResult? TryResolve(string absoluteFilePath, string? workspaceRootHint = null)
+            public static CorrespondenceResult? TryResolve(string absoluteFilePath, string? workspaceRootHint = null)
     {
         if (string.IsNullOrWhiteSpace(absoluteFilePath))
             return null;
@@ -32,6 +32,13 @@ public static class CorrespondenceResolver
         catch { return null; }
 
         var root = FindWorkspaceRoot(abs, workspaceRootHint);
+        if (root is not null && CorrespondencePaths.TryRel(root, abs) is null)
+        {
+            // Hint root did not contain the file (FTC junction case) — walk the file's own
+            // ancestor chain; a workspace root must contain the file it maps.
+            root = FindWorkspaceRoot(abs, null);
+        }
+
         if (root is null)
             return null;
 
