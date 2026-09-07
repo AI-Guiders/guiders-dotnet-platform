@@ -37,7 +37,7 @@ public static class AdrLifecycleTag
 
 public sealed record AdrReference(string Id, string? Fragment = null);
 
-public sealed record ForwardDoc(string Path, string Title);
+public sealed record ForwardDoc(string Path, string Title, string? Abs = null, string? Kind = null);
 
 public sealed record ReverseAnchor(
     string DocPath,

@@ -28,11 +28,11 @@ public static partial class WorkspaceForwardMap
         if (auto == "linked" && docs.Count > 0)
         {
             var primary = docs[0];
-            var absPrimary = Path.Combine(workspaceRoot, primary.Replace('/', Path.DirectorySeparatorChar));
-            if (File.Exists(absPrimary))
+            var primaryAbs = CorrespondenceDocResolve.TryResolve(workspaceRoot, primary).Abs;
+            if (primaryAbs is not null)
             {
                 var linked = ExtractLinkedAdrs(
-                    File.ReadAllText(absPrimary),
+                    File.ReadAllText(primaryAbs),
                     primary,
                     NormalizeAdrRoot(doc?.Workspace?.Adr?.RootDir));
                 var baseCount = docs.Count;
@@ -108,6 +108,7 @@ public static partial class WorkspaceForwardMap
             return [];
 
         var normalized = CorrespondencePaths.NormalizePath(rel);
+        var fileName = Path.GetFileName(normalized);
         string? bestKey = null;
         var bestLen = -1;
         foreach (var rawKey in map.Keys)
@@ -123,7 +124,9 @@ public static partial class WorkspaceForwardMap
                 continue;
             }
 
-            if (!normalized.StartsWith(k, StringComparison.OrdinalIgnoreCase))
+            // forum 003: keys are rel prefixes or bare file names (LogicalPathMatching).
+            if (!normalized.StartsWith(k, StringComparison.OrdinalIgnoreCase)
+                && !CorrespondencePaths.PathsMatch(k, normalized, fileName))
                 continue;
             if (k.Length > bestLen)
             {
@@ -131,7 +134,6 @@ public static partial class WorkspaceForwardMap
                 bestLen = k.Length;
             }
         }
-
         if (bestKey is null || !map.TryGetValue(bestKey, out var v))
             return [];
 

@@ -22,7 +22,7 @@ public static class CorrespondenceResolver
         return null;
     }
 
-    public static CorrespondenceResult? TryResolve(string absoluteFilePath, string? workspaceRootHint = null)
+        public static CorrespondenceResult? TryResolve(string absoluteFilePath, string? workspaceRootHint = null)
     {
         if (string.IsNullOrWhiteSpace(absoluteFilePath))
             return null;
@@ -45,10 +45,18 @@ public static class CorrespondenceResolver
             return null;
 
         var forward = WorkspaceForwardMap.Resolve(doc, root, rel);
+        var forwardDocs = forward.ForwardDocs
+            .Select(d =>
+            {
+                // forum 003 / FTC: own + sibling-anchored ({repo}/{rest}) resolution with honest kind.
+                var r = CorrespondenceDocResolve.TryResolve(root, d.Path);
+                return new ForwardDoc(d.Path, d.Title, r.Abs, r.Kind);
+            })
+            .ToArray();
         var reverse = DocReverseAnchorResolver.ResolveFromToml(doc, root, forward.DocPaths, rel);
         var layers = new List<string>(4);
         if (!string.IsNullOrWhiteSpace(forward.FeatureLine)) layers.Add("L1p");
-        if (forward.ForwardDocs.Length > 0) layers.Add("L1");
+        if (forwardDocs.Length > 0) layers.Add("L1");
         if (reverse.Length > 0) layers.Add("L1r");
 
         return new CorrespondenceResult(
@@ -57,7 +65,7 @@ public static class CorrespondenceResolver
             forward.FeatureLine,
             forward.FeatureDocs,
             forward.AdrLine,
-            forward.ForwardDocs,
+            forwardDocs,
             reverse,
             layers.ToArray(),
             tomlPath);
