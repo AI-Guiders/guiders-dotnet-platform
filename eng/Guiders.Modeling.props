@@ -39,4 +39,9 @@
     <ProjectReference Condition="'$(UseGuidersModelingIdeSessionPortsDotNet)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Ide.Session.Ports.DotNet\AIGuiders.Platform.Modeling.Ide.Session.Ports.DotNet.fsproj" />
   </ItemGroup>
+  <ItemGroup>
+    <!-- FSharp.Core обязателен явно: CPM в sibling guiders-fsharp вычищает транзитивный
+         FSharp.Core из restore-графа → CS0012 FSharpMap/FSharpOption/FSharpList (Тихон 2026-09-08). -->
+    <PackageReference Include="FSharp.Core" Version="10.1.400" />
+  </ItemGroup>
 </Project>
