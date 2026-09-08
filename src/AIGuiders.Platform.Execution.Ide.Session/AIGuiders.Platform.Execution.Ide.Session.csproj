@@ -8,4 +8,7 @@
     <UseGuidersModelingIdeSessionPortsDotNet>true</UseGuidersModelingIdeSessionPortsDotNet>
   </PropertyGroup>
   <Import Project="..\..\eng\Guiders.Modeling.props" />
+  <ItemGroup>
+    <PackageReference Include="FSharp.Core" Version="10.1.400" />
+  </ItemGroup>
 </Project>
