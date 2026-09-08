@@ -47,8 +47,7 @@ public static class CSharpBracketAnchorResolve
             Math.Max(1, lineSpan.EndLinePosition.Character + 1));
         detail = target.Detail;
 
-        // T: is parse-only unless we narrow here — silent ignore made place=after
-        // insert at end of whole M: member (dogfood: IntentRouter RouteOne wiring).
+        // TextNeedle (Text:/Needle:/Content:) narrows the resolved span; T: = Type axis.
         if (!string.IsNullOrWhiteSpace(span.TextNeedle))
         {
             if (!TryNarrowRangeToTextNeedle(target.Tree, target.Node, span.TextNeedle, out range, out var narrowDetail))
@@ -63,7 +62,7 @@ public static class CSharpBracketAnchorResolve
         return true;
     }
 
-    /// <summary>Resolve F+(M|L|S[+K]) to a syntax node for annotate/mutate attach.</summary>
+    /// <summary>Resolve F+(M|T|L|S[+K]) to a syntax node for annotate/mutate attach.</summary>
     public static bool TryFindAttachTarget(
         string absoluteFilePath,
         BracketAnchorSpan span,
@@ -137,6 +136,17 @@ public static class CSharpBracketAnchorResolve
                 resolveDetail = "line";
             }
         }
+        else if (!string.IsNullOrWhiteSpace(span.TypeKey))
+        {
+            // T: = Type axis: type declaration span by name, parse-only (no workspace).
+            var typeDecl = searchRoot.DescendantNodesAndSelf()
+                .OfType<TypeDeclarationSyntax>()
+                .FirstOrDefault(t => t.Identifier.ValueText.Equals(span.TypeKey, StringComparison.Ordinal));
+            if (typeDecl is null)
+                return Fail("type_not_found", out detail);
+            focus = typeDecl;
+            resolveDetail = "type";
+        }
         else if (member is not null)
         {
             focus = member;
@@ -149,7 +159,7 @@ public static class CSharpBracketAnchorResolve
         }
         else if (!string.IsNullOrWhiteSpace(span.TextNeedle))
         {
-            // T: alone: search whole compilation unit (M already narrowed searchRoot above).
+            // TextNeedle alone: search whole compilation unit (M already narrowed searchRoot above).
             focus = searchRoot;
             resolveDetail = "file";
         }

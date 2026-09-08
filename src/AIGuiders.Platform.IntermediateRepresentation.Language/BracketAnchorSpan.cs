@@ -27,4 +27,5 @@ public sealed record BracketAnchorSpan(
     string? Command = null,
     string? Go = null,
     BracketAnchorSpan? NestedAnchor = null,
-    string? TextNeedle = null);
+    string? TextNeedle = null,
+    string? TypeKey = null);

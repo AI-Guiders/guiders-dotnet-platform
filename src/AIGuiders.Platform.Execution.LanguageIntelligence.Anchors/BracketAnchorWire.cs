@@ -21,8 +21,10 @@ public static class BracketAnchorWire
         ["Line"] = "Line",
         ["S"] = "Scope",
         ["Scope"] = "Scope",
-        ["T"] = "Text",
+        ["T"] = "Type",
+        ["Type"] = "Type",
         ["Text"] = "Text",
+        ["Needle"] = "Text",
         ["Content"] = "Text",
         ["K"] = "Kind",
         ["Kind"] = "Kind",
@@ -72,6 +74,7 @@ public static class BracketAnchorWire
         string? command = null;
         string? go = null;
         string? textNeedle = null;
+        string? typeKey = null;
         BracketAnchorSpan? nested = null;
         var legacyNavigate = false;
 
@@ -98,6 +101,9 @@ public static class BracketAnchorWire
                     break;
                 case "Line":
                     ParseLine(val, out lineStart, out lineEnd);
+                    break;
+                case "Type":
+                    typeKey = val;
                     break;
                 case "Text":
                     textNeedle = SanitizeTextNeedle(val);
@@ -131,7 +137,7 @@ public static class BracketAnchorWire
 
         var span = new BracketAnchorSpan(
             file, member, lineStart, lineEnd, scopeKind, scopeIndex, role, xmlPath, attr,
-            family, command, go, nested, textNeedle);
+            family, command, go, nested, textNeedle, typeKey);
         _ = ClassifyFamily(span, out var familyError);
         if (familyError is not null)
             throw new ArgumentException(familyError);
@@ -165,6 +171,7 @@ public static class BracketAnchorWire
         var hasCsharpStructural = (!string.IsNullOrWhiteSpace(memberKey) && !hasJson)
             || !string.IsNullOrWhiteSpace(span.ScopeKind)
             || span.LineStart is not null
+            || !string.IsNullOrWhiteSpace(span.TypeKey)
             || !string.IsNullOrWhiteSpace(span.TextNeedle);
         var hasXml = !string.IsNullOrWhiteSpace(span.XmlPath)
             || !string.IsNullOrWhiteSpace(span.Attr);
@@ -175,6 +182,7 @@ public static class BracketAnchorWire
             if (!string.IsNullOrWhiteSpace(span.MemberKey)
                 || !string.IsNullOrWhiteSpace(span.ScopeKind)
                 || span.LineStart is not null
+                || !string.IsNullOrWhiteSpace(span.TypeKey)
                 || !string.IsNullOrWhiteSpace(span.TextNeedle)
                 || !string.IsNullOrWhiteSpace(span.XmlPath)
                 || !string.IsNullOrWhiteSpace(span.Attr)
@@ -291,6 +299,8 @@ public static class BracketAnchorWire
             parts.Add(Key("File", canon) + ":" + span.File.Trim());
         if (!string.IsNullOrWhiteSpace(span.MemberKey))
             parts.Add(Key("Member", canon) + ":" + span.MemberKey.Trim());
+        if (!string.IsNullOrWhiteSpace(span.TypeKey))
+            parts.Add(Key("Type", canon) + ":" + span.TypeKey.Trim());
         if (span.LineStart is int ls)
         {
             var lineKey = Key("Line", canon);
@@ -329,7 +339,8 @@ public static class BracketAnchorWire
             "Member" => "M",
             "Line" => "L",
             "Scope" => "S",
-            "Text" => "T",
+            "Type" => "T",
+            "Text" => "Text",
             "Kind" => "K",
             "Element" => "X",
             "Attribute" => "A",
