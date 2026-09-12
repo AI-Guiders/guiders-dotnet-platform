@@ -1,36 +1,9 @@
+#nullable enable
+
+using System.Linq;
+using GdlPresentation = AIGuiders.Platform.Modeling.Gdl.Presentation;
+
 namespace AIGuiders.Platform.IntermediateRepresentation.Presentation;
-
-/// <summary>Aviation-aligned display role (GUIDERS-ADR-0007).</summary>
-public enum AttentionDisplayRole
-{
-    Unknown = 0,
-    Pfd,
-    Forward,
-    Mfd,
-    /// <summary>P/M channel stack on one physical TopLevel (OneOf).</summary>
-    PmOneOf,
-    Eicas,
-    Briefing,
-    Hud,
-}
-
-/// <summary>How channels share space inside one host window.</summary>
-public enum ZoneComposeKind
-{
-    Split,
-    OneOf,
-}
-
-/// <summary>How logical hosts relate — independent of physical monitor count.</summary>
-public enum TopologyArrangement
-{
-    /// <summary>One TopLevel; zones composed in-surface (<c>single</c> + layout board).</summary>
-    SingleSurfaceCompositional,
-    /// <summary>One TopLevel; XOR channel stack (<c>(F/P/M)</c>).</summary>
-    SingleHostOneOf,
-    /// <summary>2–N logical hosts (scan slots); bind to 1–N physical screens at runtime.</summary>
-    MultiHost,
-}
 
 /// <summary>Logical host / scan slot from topology wire — ordered, not tied to OS monitor index.</summary>
 public sealed record LogicalDisplayHost(
@@ -39,7 +12,24 @@ public sealed record LogicalDisplayHost(
     AttentionDisplayRole Role,
     ZoneComposeKind Compose,
     IReadOnlyList<string> ChannelStack,
-    string ActiveChannel);
+    string ActiveChannel)
+{
+    public GdlPresentation.LogicalDisplayHost ToModel() => new(
+        HostIndex,
+        HostId,
+        Role,
+        Compose,
+        FSharpInterop.ToFSharpList(ChannelStack),
+        ActiveChannel);
+
+    public static LogicalDisplayHost FromModel(GdlPresentation.LogicalDisplayHost model) => new(
+        model.HostIndex,
+        model.HostId,
+        model.Role,
+        model.Compose,
+        FSharpInterop.FromList(model.ChannelStack),
+        model.ActiveChannel);
+}
 
 /// <summary>Semantic topology from <c>.deck</c> — CDS and surfaces consume this, not raw strings.</summary>
 public sealed record PresentationTopology(
@@ -47,17 +37,17 @@ public sealed record PresentationTopology(
     IReadOnlyList<LogicalDisplayHost> Hosts,
     string SourceWire)
 {
-    public int HostCount => Hosts.Count;
-}
+    public int HostCount => ToModel().HostCount;
 
-/// <summary>How a logical host maps to a physical screen at runtime (deployment profile).</summary>
-public enum PhysicalScreenSelectorKind
-{
-  Primary,
-  Index,
-  DeviceName,
-  /// <summary>Single ultrawide — host occupies a normalized region (0..1).</summary>
-  UltrawideRegion,
+    public GdlPresentation.PresentationTopology ToModel() => new(
+        Arrangement,
+        FSharpInterop.ToFSharpList(Hosts.Select(static host => host.ToModel())),
+        SourceWire);
+
+    public static PresentationTopology FromModel(GdlPresentation.PresentationTopology model) => new(
+        model.Arrangement,
+        FSharpInterop.FromList(model.Hosts).Select(LogicalDisplayHost.FromModel).ToArray(),
+        model.SourceWire);
 }
 
 public sealed record PhysicalScreenSelector(
@@ -67,12 +57,49 @@ public sealed record PhysicalScreenSelector(
     double? RegionLeft = null,
     double? RegionTop = null,
     double? RegionWidth = null,
-    double? RegionHeight = null);
+    double? RegionHeight = null)
+{
+    public GdlPresentation.PhysicalScreenSelector ToModel() => new(
+        Kind,
+        FSharpInterop.OptInt(ScreenIndex),
+        FSharpInterop.OptString(DeviceName),
+        FSharpInterop.OptDouble(RegionLeft),
+        FSharpInterop.OptDouble(RegionTop),
+        FSharpInterop.OptDouble(RegionWidth),
+        FSharpInterop.OptDouble(RegionHeight));
+
+    public static PhysicalScreenSelector FromModel(GdlPresentation.PhysicalScreenSelector model) => new(
+        model.Kind,
+        FSharpInterop.OptInt(model.ScreenIndex),
+        FSharpInterop.OptString(model.DeviceName),
+        FSharpInterop.OptDouble(model.RegionLeft),
+        FSharpInterop.OptDouble(model.RegionTop),
+        FSharpInterop.OptDouble(model.RegionWidth),
+        FSharpInterop.OptDouble(model.RegionHeight));
+}
 
 /// <summary>Runtime binding: logical <see cref="LogicalDisplayHost.HostIndex"/> → physical screen.</summary>
-public sealed record DisplayHostBinding(int HostIndex, PhysicalScreenSelector Screen);
+public sealed record DisplayHostBinding(int HostIndex, PhysicalScreenSelector Screen)
+{
+    public GdlPresentation.DisplayHostBinding ToModel() => new(
+        HostIndex,
+        Screen.ToModel());
+
+    public static DisplayHostBinding FromModel(GdlPresentation.DisplayHostBinding model) => new(
+        model.HostIndex,
+        PhysicalScreenSelector.FromModel(model.Screen));
+}
 
 /// <summary>Operator / machine display layout — separate from <see cref="PresentationTopology"/>.</summary>
 public sealed record DisplayBindingProfile(
     string ProfileId,
-    IReadOnlyList<DisplayHostBinding> Bindings);
+    IReadOnlyList<DisplayHostBinding> Bindings)
+{
+    public GdlPresentation.DisplayBindingProfile ToModel() => new(
+        ProfileId,
+        Bindings.Select(static binding => binding.ToModel()).ToArray());
+
+    public static DisplayBindingProfile FromModel(GdlPresentation.DisplayBindingProfile model) => new(
+        model.ProfileId,
+        model.Bindings.Select(DisplayHostBinding.FromModel).ToArray());
+}

@@ -2,6 +2,8 @@
 
   <PropertyGroup>
 
+    <UseGuidersModelingGdlPresentation>true</UseGuidersModelingGdlPresentation>
+
     <RootNamespace>AIGuiders.Platform.Authoring.Deck</RootNamespace>
 
     <AssemblyName>AIGuiders.Platform.Authoring.Deck</AssemblyName>
@@ -18,5 +20,6 @@
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Presentation.Topology\AIGuiders.Platform.Notations.Presentation.Topology.csproj" />
   </ItemGroup>
 
-</Project>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 
+</Project>
