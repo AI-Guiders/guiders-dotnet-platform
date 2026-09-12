@@ -1,9 +1,11 @@
 #nullable enable
 
+using ModelingNotations = AIGuiders.Platform.Modeling.Notations;
+
 namespace AIGuiders.Platform.Notations;
 
 /// <summary>
-/// Universal KV wire atom: <c>Key</c> + <c>Sign</c> + <c>Value</c> (GUIDERS-ADR-0021/0026).
+/// GUIDERS-FSHARP-ADR-0003 §4.4 cutover: KV wire atom SSOT via <see cref="ToModel"/> (Modeling.Notations.Core).
 /// </summary>
 public sealed record NotationKvPair(string Key, char Sign, string Value)
 {
@@ -12,21 +14,19 @@ public sealed record NotationKvPair(string Key, char Sign, string Value)
     {
         pair = null!;
         error = "";
-        if (string.IsNullOrWhiteSpace(segment))
+        var result = ModelingNotations.NotationKvPairModule.trySplitFirst(segment, sign);
+        if (result.IsOk)
         {
-            error = "Empty segment.";
-            return false;
+            pair = FromModel(result.ResultValue);
+            return true;
         }
 
-        segment = segment.Trim();
-        var index = segment.IndexOf(sign);
-        if (index <= 0)
-        {
-            error = $"Missing KV sign '{sign}'.";
-            return false;
-        }
-
-        pair = new NotationKvPair(segment[..index].Trim(), sign, segment[(index + 1)..].Trim());
-        return true;
+        error = result.ErrorValue;
+        return false;
     }
+
+    public ModelingNotations.NotationKvPair ToModel() => new() { Key = Key, Sign = Sign, Value = Value };
+
+    public static NotationKvPair FromModel(ModelingNotations.NotationKvPair model) =>
+        new(model.Key, model.Sign, model.Value);
 }
