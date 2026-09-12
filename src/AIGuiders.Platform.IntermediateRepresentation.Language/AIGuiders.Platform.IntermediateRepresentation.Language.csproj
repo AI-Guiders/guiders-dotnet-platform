@@ -1,8 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingGdlLanguage>true</UseGuidersModelingGdlLanguage>
     <RootNamespace>AIGuiders.Platform.IntermediateRepresentation.Language</RootNamespace>
     <AssemblyName>AIGuiders.Platform.IntermediateRepresentation.Language</AssemblyName>
     <PackageId>AIGuiders.Platform.IntermediateRepresentation.Language</PackageId>
     <Description>Language-neutral locate/edit IR: Locus, TextEdit, anchor span (GUIDERS-ADR-0042).</Description>
   </PropertyGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>

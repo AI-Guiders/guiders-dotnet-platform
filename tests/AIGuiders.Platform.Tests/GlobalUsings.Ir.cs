@@ -9,3 +9,5 @@ global using AIGuiders.Platform.IntermediateRepresentation.Melody;
 global using AIGuiders.Platform.Modeling.Notations.Bracket;
 global using AIGuiders.Platform.IntermediateRepresentation.Agent;
 global using AIGuiders.Platform.IntermediateRepresentation.Language;
+global using ResolveTier = AIGuiders.Platform.Modeling.Gdl.Language.ResolveTier;
+global using BracketAxisFamily = AIGuiders.Platform.Modeling.Gdl.Language.BracketAxisFamily;
