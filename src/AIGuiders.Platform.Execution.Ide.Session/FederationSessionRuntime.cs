@@ -32,7 +32,7 @@ public static class FederationSessionRuntime
         var session = DotNetSlnxGraphPort.loadSession(full);
         var validation = GraphValidation.validate(session.Graph);
 
-        var contents = SessionOrchestrator.loadContentsFromDisk(session.Graph);
+        var contents = SessionContentsLoader.LoadFromDisk(session.Graph);
         var runtime = SessionOrchestrator.create(session, contents);
         Cache[full] = runtime;
 
