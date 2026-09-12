@@ -5,6 +5,9 @@ global using BindingTargetKind = AIGuiders.Platform.Modeling.Gdl.Command.Binding
 global using BindingDocumentFormat = AIGuiders.Platform.Modeling.Gdl.Command.Binding.BindingDocumentFormat;
 global using AIGuiders.Platform.Modeling.Notations.Keyboard;
 global using AIGuiders.Platform.IntermediateRepresentation.Invocation;
+global using InvocationEngageKind = AIGuiders.Platform.Modeling.Notations.Command.InvocationEngageKind;
+global using InvocationLinePhase = AIGuiders.Platform.Modeling.Notations.Command.InvocationLinePhase;
+global using ArgMechanic = AIGuiders.Platform.Modeling.Notations.Command.ArgMechanic;
 global using AIGuiders.Platform.IntermediateRepresentation.Melody;
 global using AIGuiders.Platform.Modeling.Notations.Bracket;
 global using AIGuiders.Platform.IntermediateRepresentation.Agent;
