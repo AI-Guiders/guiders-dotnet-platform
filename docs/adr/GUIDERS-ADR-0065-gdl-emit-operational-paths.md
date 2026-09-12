@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Status** | **Accepted** (operational playbook — tooling **In progress** per [0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) §10.4) |
+| **Status** | **Accepted** (operational playbook — Wave 1–2 tooling **shipped** on [authoring-toolchain](https://github.com/AI-Guiders/authoring-toolchain) `main`; unified `gdlc validate` / `gdlc sat` still open per [0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) §10.4) |
 | **Date** | 2026-09-12 |
 | **Tags** | #guiders #federation #gdl #authoring #emit #msbuild #planet #dashspec |
 | **Related** | [0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) · [0051](./GUIDERS-ADR-0051-authoring-project-abstraction.md) · [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [0053](./GUIDERS-ADR-0053-planet-responsibilities.md) · [0055](./GUIDERS-ADR-0055-surface-wpf-guild-deck-authoring.md) · [authoring-toolchain](https://github.com/AI-Guiders/authoring-toolchain) |
@@ -11,13 +11,14 @@
 
 [GUIDERS-ADR-0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) §10.2 defines **Author vs consumer distribution** at the architectural level: authors ship `*.gdl` + `*.gdlproj`; consumers may ship `Generated/*.g.cs` without GDL sources.
 
-Today the pipeline is **fragmented**:
+Today the pipeline is **transitional** (Wave 1–2 shipped; full `gdlc` still maturing):
 
 | Current state | Location |
 |---------------|----------|
 | Per-quarry CLI | `authoring emit`, `deck emit` in [authoring-toolchain](https://github.com/AI-Guiders/authoring-toolchain) |
-| Unified `gdlc` | Target name; not yet the only entry |
-| MSBuild hook | `build/Platform.Gdl.Emit.targets` in authoring-toolchain (**Agent A**, Wave 1) |
+| `gdlc emit` (single-file + `--project`) | `Gdlc.Cli` on authoring-toolchain `main` (`2ce80e7+`) |
+| MSBuild hook | `build/Platform.Gdl.Emit.targets` + `GdlEmitVerify` on authoring-toolchain `main` (`077b892+`) |
+| Sample `*.gdlproj` | `samples/planet/planet.gdlproj` in authoring-toolchain |
 | Platform packages | Transitional **C#** `AIGuiders.Platform.Authoring.*` + parallel **F#** `AIGuiders.Platform.Modeling.Gdl.*` |
 
 Operators, planet maintainers, and CI authors need a single **operational** contract: who edits what, what gets committed, what NuGet consumers see, and what DashSpec (and other planets) must not fork.
@@ -30,7 +31,7 @@ This ADR is the operational addendum to [0059](./GUIDERS-ADR-0059-gdl-hyperlane.
 
 | Role | Meaning SSOT | Ships in repo / package | Tooling |
 |------|--------------|-------------------------|---------|
-| **Author** | `*.gdl`, `*.gdlproj` | GDL sources + generated output (policy below) | `gdlc validate`, `gdlc emit`, `gdlc sat` (today: `authoring emit`, `deck emit`) |
+| **Author** | `*.gdl`, `*.gdlproj` | GDL sources + generated output (policy below) | `gdlc emit --project` (preferred); `gdlc emit` / `authoring emit` / `deck emit` |
 | **Consumer** | Generated C# (and optional tier-D wire) | `Generated/*.g.cs`, wire drops — **no** `.gdl` required | Ordinary `dotnet build`; Roslyn IntelliSense on `*.g.cs` |
 
 Authors **must** retain `.gdl` as declare-time SSOT. Consumers **may** compile without ever opening a GDL file — same pattern as consuming protobuf stubs without the `.proto` repo ([0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) §10.3).
@@ -145,9 +146,9 @@ Operational rule unchanged: **declare in GDL → emit → consume `*.g.cs`**. Pa
 
 | Step | Command / gate |
 |------|----------------|
-| Parse + quarry diagnostics | `gdlc validate --project *.gdlproj` |
-| Emit | `gdlc emit --lang=cs --project *.gdlproj --out Generated/` |
-| Stale generated (if checked in) | Re-emit in CI; `git diff --exit-code Generated/` |
+| Parse + quarry diagnostics | `gdlc validate --project *.gdlproj` (**target** — not shipped yet) |
+| Emit | `gdlc emit --lang=cs --project *.gdlproj --out Generated/` (**shipped**) or per-file `gdlc emit` |
+| Stale generated (dotnet projects) | `dotnet msbuild -t:GdlEmitVerify` or `git diff --exit-code Generated/` |
 | Conformance (when vectors exist) | `docs/conformance/authoring/<quarry>/*.spec.json` |
 | Config contracts (optional) | `gdlc sat` for `*.config.gdl` ([0064](./GUIDERS-ADR-0064-config-gdl-quarry-family.md)) |
 
