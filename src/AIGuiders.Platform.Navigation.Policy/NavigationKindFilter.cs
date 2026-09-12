@@ -1,68 +1,47 @@
 #nullable enable
 
+using ModelingNavPolicy = AIGuiders.Platform.Modeling.Navigation.Policy;
+
 namespace AIGuiders.Platform.Navigation.Policy;
 
 /// <summary>
-/// Kind filter: non-empty <c>includeKinds</c> is a whitelist; <c>excludeKinds</c> subtracts.
-/// Unknown tokens in either list are ignored.
+/// GUIDERS-FSHARP-ADR-0003 §4.8 cutover: kind filter SSOT via <see cref="ModelingNavPolicy.KindFilter"/> (Modeling.Navigation.Policy).
+/// Non-empty <c>includeKinds</c> is a whitelist; <c>excludeKinds</c> subtracts. Unknown tokens in either list are ignored.
 /// </summary>
 public readonly struct NavigationKindFilter
 {
-    readonly HashSet<string>? _include;
-    readonly HashSet<string> _exclude;
+    readonly ModelingNavPolicy.KindFilter.Filter _inner;
 
-    NavigationKindFilter(HashSet<string>? include, HashSet<string> exclude)
-    {
-        _include = include;
-        _exclude = exclude;
-    }
+    NavigationKindFilter(ModelingNavPolicy.KindFilter.Filter inner) => _inner = inner;
 
     /// <summary><c>null</c> when no whitelist (all kinds except excluded).</summary>
-    public IReadOnlyList<string>? EffectiveIncludeKinds =>
-        _include is null ? null : _include.OrderBy(x => x, StringComparer.Ordinal).ToList();
-
-    public IReadOnlyList<string> EffectiveExcludeKinds =>
-        _exclude.Count == 0 ? Array.Empty<string>() : _exclude.OrderBy(x => x, StringComparer.Ordinal).ToList();
-
-    public static NavigationKindFilter Create(IReadOnlyList<string>? includeKinds, IReadOnlyList<string>? excludeKinds)
+    public IReadOnlyList<string>? EffectiveIncludeKinds
     {
-        var exclude = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        if (excludeKinds is not null)
+        get
         {
-            foreach (var t in excludeKinds)
-            {
-                var c = NavigationRelatedKinds.TryCanonicalKind(t);
-                if (c is not null)
-                    exclude.Add(c);
-            }
+            var include = ModelingNavPolicy.KindFilter.effectiveInclude(_inner);
+            return FSharpInterop.OptReadOnlyStringList(include) is { Count: > 0 } list
+                ? list.OrderBy(x => x, StringComparer.Ordinal).ToList()
+                : null;
         }
-
-        HashSet<string>? include = null;
-        if (includeKinds is not null && includeKinds.Count > 0)
-        {
-            include = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            foreach (var t in includeKinds)
-            {
-                var c = NavigationRelatedKinds.TryCanonicalKind(t);
-                if (c is not null)
-                    include.Add(c);
-            }
-
-            if (include.Count == 0)
-                include = null;
-        }
-
-        return new NavigationKindFilter(include, exclude);
     }
 
-    public bool Allows(string kind)
+    public IReadOnlyList<string> EffectiveExcludeKinds
     {
-        if (string.IsNullOrEmpty(kind))
-            return false;
-        if (_include is not null && !_include.Contains(kind))
-            return false;
-        if (_exclude.Contains(kind))
-            return false;
-        return true;
+        get
+        {
+            var exclude = FSharpInterop.ToReadOnlyList(ModelingNavPolicy.KindFilter.effectiveExclude(_inner));
+            return exclude.Count == 0
+                ? Array.Empty<string>()
+                : exclude.OrderBy(x => x, StringComparer.Ordinal).ToList();
+        }
     }
+
+    public static NavigationKindFilter Create(IReadOnlyList<string>? includeKinds, IReadOnlyList<string>? excludeKinds) =>
+        new(ModelingNavPolicy.KindFilter.create(
+            FSharpInterop.OptFSharpStringList(includeKinds),
+            FSharpInterop.OptFSharpStringList(excludeKinds)));
+
+    public bool Allows(string kind) =>
+        !string.IsNullOrEmpty(kind) && ModelingNavPolicy.KindFilter.allows(_inner, kind);
 }

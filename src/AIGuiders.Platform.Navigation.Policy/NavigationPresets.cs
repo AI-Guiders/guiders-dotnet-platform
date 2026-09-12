@@ -1,68 +1,50 @@
 #nullable enable
 using System.Text.Json;
+using ModelingNavPolicy = AIGuiders.Platform.Modeling.Navigation.Policy;
 
 namespace AIGuiders.Platform.Navigation.Policy;
 
+/// <summary>GUIDERS-FSHARP-ADR-0003 §4.8 cutover: preset catalog SSOT in Modeling.Navigation.Policy.</summary>
 public sealed record NavigationPresetDefinition(
     IReadOnlyList<string>? IncludeKinds,
-    IReadOnlyList<string>? ExcludeKinds);
+    IReadOnlyList<string>? ExcludeKinds)
+{
+    public static NavigationPresetDefinition FromModel(ModelingNavPolicy.PresetDefinition model) => new(
+        FSharpInterop.OptReadOnlyStringList(model.IncludeKinds),
+        FSharpInterop.OptReadOnlyStringList(model.ExcludeKinds));
+}
 
 public static class NavigationPresets
 {
-    static readonly IReadOnlyDictionary<string, NavigationPresetDefinition> Catalog =
-        new Dictionary<string, NavigationPresetDefinition>(StringComparer.Ordinal)
-        {
-            ["peers_only"] = new([NavigationRelatedKinds.PartialPeer, NavigationRelatedKinds.ProjectPeer], null),
-            ["no_namespace_noise"] = new(null, [NavigationRelatedKinds.SameNamespace, NavigationRelatedKinds.SameDirectory]),
-            ["tests_and_peers"] = new(
-                [NavigationRelatedKinds.PartialPeer, NavigationRelatedKinds.ProjectPeer, NavigationRelatedKinds.TestCounterpart],
-                null),
-            ["structure_only"] = new(
-                [
-                    NavigationRelatedKinds.PartialPeer,
-                    NavigationRelatedKinds.ProjectPeer,
-                    NavigationRelatedKinds.XamlCodeBehindPair,
-                    NavigationRelatedKinds.SameDirectory,
-                ],
-                null),
-            ["explore_default"] = new(null, [NavigationRelatedKinds.ProjectPeer]),
-        };
-
     public static bool TryGet(string? presetId, out NavigationPresetDefinition definition)
     {
-        if (string.IsNullOrWhiteSpace(presetId))
+        var result = ModelingNavPolicy.Presets.tryGet(FSharpInterop.OptString(presetId));
+        if (result is null)
         {
-            definition = new NavigationPresetDefinition(null, null);
-            return true;
+            definition = null!;
+            return false;
         }
 
-        return Catalog.TryGetValue(presetId.Trim(), out definition!);
-    }
-
-    public static bool AllowsKind(string? presetId, string kind)
-    {
-        if (!TryGet(presetId, out var definition))
-            return false;
-
-        if (definition.IncludeKinds is { Count: > 0 } include
-            && !include.Contains(kind, StringComparer.Ordinal))
-            return false;
-
-        if (definition.ExcludeKinds is { Count: > 0 } exclude
-            && exclude.Contains(kind, StringComparer.Ordinal))
-            return false;
-
+        definition = NavigationPresetDefinition.FromModel(result.Value.Item1);
         return true;
     }
 
+    public static bool AllowsKind(string? presetId, string kind) =>
+        ModelingNavPolicy.Presets.allowsKind(FSharpInterop.OptString(presetId), kind);
+
     public static string CatalogJson() =>
         JsonSerializer.Serialize(
-            Catalog.ToDictionary(
-                pair => pair.Key,
-                pair => new
+            FSharpInterop.ToReadOnlyList(ModelingNavPolicy.Presets.names).ToDictionary(
+                name => name,
+                name =>
                 {
-                    include_kinds = pair.Value.IncludeKinds,
-                    exclude_kinds = pair.Value.ExcludeKinds,
+                    var (def, _) = ModelingNavPolicy.Presets.tryGet(
+                        Microsoft.FSharp.Core.FSharpOption<string>.Some(name))!.Value;
+                    return new
+                    {
+                        include_kinds = FSharpInterop.OptReadOnlyStringList(def.IncludeKinds),
+                        exclude_kinds = FSharpInterop.OptReadOnlyStringList(def.ExcludeKinds),
+                    };
                 }),
             new JsonSerializerOptions { WriteIndented = true });
 }

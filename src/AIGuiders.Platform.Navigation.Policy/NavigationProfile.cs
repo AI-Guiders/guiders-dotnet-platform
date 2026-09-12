@@ -1,7 +1,11 @@
 #nullable enable
 
+using AIGuiders.Platform.Navigation;
+using ModelingNavPolicy = AIGuiders.Platform.Modeling.Navigation.Policy;
+
 namespace AIGuiders.Platform.Navigation.Policy;
 
+/// <summary>GUIDERS-FSHARP-ADR-0003 §4.8 cutover: explore profile SSOT via <see cref="ToModel"/> (Modeling.Navigation.Policy).</summary>
 public sealed record NavigationProfile
 {
     public string? Preset { get; init; }
@@ -14,31 +18,46 @@ public sealed record NavigationProfile
     /// <summary>Effective exclude kinds after preset merge (optional).</summary>
     public IReadOnlyList<string>? ExcludeKinds { get; init; }
 
-    public static NavigationProfile ExploreDefault { get; } = new() { Preset = "explore_default", MaxRelated = 24 };
+    public static NavigationProfile ExploreDefault { get; } =
+        FromModel(ModelingNavPolicy.Profile.exploreDefault);
 
-    public static NavigationProfile PeersOnly { get; } = new() { Preset = "peers_only", MaxRelated = 16 };
+    public static NavigationProfile PeersOnly { get; } =
+        FromModel(ModelingNavPolicy.Profile.peersOnly);
 
     /// <summary>Build profile from MCP/CSX explore args (preset + request overrides).</summary>
     public static NavigationProfile FromExplore(
         string? preset,
         int? maxRelated,
         IReadOnlyList<string>? requestInclude,
-        IReadOnlyList<string>? requestExclude)
-    {
-        var (include, exclude, _) = NavigationPresetMerge.Merge(preset, requestInclude, requestExclude);
-        return new NavigationProfile
-        {
-            Preset = preset,
-            MaxRelated = maxRelated is > 0 ? maxRelated.Value : 24,
-            IncludeKinds = include,
-            ExcludeKinds = exclude is { Count: > 0 } ? exclude : null,
-        };
-    }
+        IReadOnlyList<string>? requestExclude) =>
+        FromModel(ModelingNavPolicy.Profile.fromExplore(
+            FSharpInterop.OptString(preset),
+            FSharpInterop.OptInt(maxRelated),
+            FSharpInterop.OptFSharpStringList(requestInclude),
+            FSharpInterop.OptFSharpStringList(requestExclude)));
 
-    public NavigationSceneCaps ToCaps() => new(
-        MaxRelated,
-        MaxNodes,
-        MaxEdges,
-        Preset,
-        NavigationKindCaps.DefaultRelated);
+    public NavigationSceneCaps ToCaps() =>
+        NavigationSceneCaps.FromModel(ModelingNavPolicy.Profile.toCaps(ToModel()));
+
+    public ModelingNavPolicy.NavigationProfile ToModel() => new()
+    {
+        Preset = FSharpInterop.OptString(Preset),
+        MaxRelated = MaxRelated,
+        MaxNodes = MaxNodes,
+        MaxEdges = MaxEdges,
+        WithUsages = WithUsages,
+        IncludeKinds = FSharpInterop.OptFSharpStringList(IncludeKinds),
+        ExcludeKinds = FSharpInterop.OptFSharpStringList(ExcludeKinds),
+    };
+
+    public static NavigationProfile FromModel(ModelingNavPolicy.NavigationProfile model) => new()
+    {
+        Preset = FSharpInterop.OptString(model.Preset),
+        MaxRelated = model.MaxRelated,
+        MaxNodes = model.MaxNodes,
+        MaxEdges = model.MaxEdges,
+        WithUsages = model.WithUsages,
+        IncludeKinds = FSharpInterop.OptReadOnlyStringList(model.IncludeKinds),
+        ExcludeKinds = FSharpInterop.OptReadOnlyStringList(model.ExcludeKinds),
+    };
 }

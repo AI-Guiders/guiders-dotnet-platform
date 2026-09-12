@@ -1,8 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingNavigation>true</UseGuidersModelingNavigation>
     <RootNamespace>AIGuiders.Platform.Navigation</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Navigation</AssemblyName>
     <PackageId>AIGuiders.Platform.Navigation</PackageId>
     <Description>Navigation kernel: anchors, scenes, modes (GUIDERS-ADR-0033).</Description>
   </PropertyGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>
