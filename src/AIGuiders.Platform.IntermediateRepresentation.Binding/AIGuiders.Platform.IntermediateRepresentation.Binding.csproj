@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <UseGuidersModelingNotationsKeyboard>true</UseGuidersModelingNotationsKeyboard>
+    <UseGuidersModelingGdlCommandBinding>true</UseGuidersModelingGdlCommandBinding>
     <RootNamespace>AIGuiders.Platform.IntermediateRepresentation.Binding</RootNamespace>
     <AssemblyName>AIGuiders.Platform.IntermediateRepresentation.Binding</AssemblyName>
     <PackageId>AIGuiders.Platform.IntermediateRepresentation.Binding</PackageId>

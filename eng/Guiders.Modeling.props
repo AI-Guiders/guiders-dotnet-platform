@@ -40,6 +40,8 @@
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Ide.Session.Ports.DotNet\AIGuiders.Platform.Modeling.Ide.Session.Ports.DotNet.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingGdlCommand)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Command\AIGuiders.Platform.Modeling.Gdl.Command.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingGdlCommandBinding)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Command.Binding\AIGuiders.Platform.Modeling.Gdl.Command.Binding.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingGdlCommandMelody)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Command.Melody\AIGuiders.Platform.Modeling.Gdl.Command.Melody.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingGdlAgent)' == 'true'"

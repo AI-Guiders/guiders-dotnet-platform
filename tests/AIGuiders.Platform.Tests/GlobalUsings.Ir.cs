@@ -1,6 +1,8 @@
 global using AIGuiders.Platform.IntermediateRepresentation.Command;
 global using AIGuiders.Platform.Modeling.Notations.Argument;
 global using AIGuiders.Platform.IntermediateRepresentation.Binding;
+global using BindingTargetKind = AIGuiders.Platform.Modeling.Gdl.Command.Binding.BindingTargetKind;
+global using BindingDocumentFormat = AIGuiders.Platform.Modeling.Gdl.Command.Binding.BindingDocumentFormat;
 global using AIGuiders.Platform.Modeling.Notations.Keyboard;
 global using AIGuiders.Platform.IntermediateRepresentation.Invocation;
 global using AIGuiders.Platform.IntermediateRepresentation.Melody;
