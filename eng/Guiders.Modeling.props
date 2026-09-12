@@ -50,6 +50,18 @@
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Agent\AIGuiders.Platform.Modeling.Gdl.Agent.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingGdlCorrespondence)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Correspondence\AIGuiders.Platform.Modeling.Gdl.Correspondence.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingNotationsCommand)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Notations.Command\AIGuiders.Platform.Modeling.Notations.Command.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingGdlLanguage)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Language\AIGuiders.Platform.Modeling.Gdl.Language.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingGdlPresentation)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Presentation\AIGuiders.Platform.Modeling.Gdl.Presentation.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingGdlParseCatalog)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Parse.Catalog\AIGuiders.Platform.Modeling.Gdl.Parse.Catalog.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingNavigation)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Navigation\AIGuiders.Platform.Modeling.Navigation.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingNavigationPolicy)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Navigation.Policy\AIGuiders.Platform.Modeling.Navigation.Policy.fsproj" />
   </ItemGroup>
   <ItemGroup>
     <!-- FSharp.Core обязателен явно: CPM в sibling guiders-fsharp вычищает транзитивный
