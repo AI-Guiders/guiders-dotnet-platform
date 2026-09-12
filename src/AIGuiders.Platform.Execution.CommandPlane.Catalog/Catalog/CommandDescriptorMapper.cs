@@ -339,7 +339,7 @@ public static class CommandDescriptorMapper
 
             var label = parts.Length > 1 ? parts[1] : value;
 
-            choices.Add(new CommandPickerChoice { Value = value, Label = label });
+            choices.Add(new CommandPickerChoice(value, label, null, CommandPickerChoiceKind.Value));
 
         }
 

@@ -25,7 +25,7 @@ public sealed class CommandCatalogProfile : ICatalogProfile<CommandDescriptor, s
                 continue;
             }
 
-            yield return (normalized, CatalogRouteEntry.FromDescriptor(descriptor, normalized));
+            yield return (normalized, IntermediateRepresentation.Command.CatalogRouteEntry.FromDescriptor(descriptor, normalized));
         }
     }
 

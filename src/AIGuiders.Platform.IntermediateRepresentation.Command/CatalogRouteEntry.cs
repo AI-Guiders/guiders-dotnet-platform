@@ -16,4 +16,20 @@ public static class CatalogRouteEntry
         GdlCommand.CatalogRouteEntryModule.fromDescriptorRole(d.ToModel(), path, pathRole);
 
     public static string NormalizePath(string path) => GdlCommand.CatalogRouteEntryModule.normalizePath(path);
+
+    public static GdlCommand.CatalogRouteEntry WithPath(GdlCommand.CatalogRouteEntry entry, string path) =>
+        new(
+            path,
+            entry.CommandId,
+            entry.Help,
+            entry.ArgTailKind,
+            entry.Domain,
+            entry.Object,
+            entry.Intent,
+            entry.PathRole,
+            entry.Group,
+            entry.ArgTail,
+            entry.ArgPickerChoices,
+            entry.ArgHint,
+            entry.ArgConstructors);
 }

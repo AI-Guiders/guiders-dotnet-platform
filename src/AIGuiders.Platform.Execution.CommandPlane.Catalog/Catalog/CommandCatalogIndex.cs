@@ -27,7 +27,7 @@ public sealed class CommandCatalogIndex
             var normalized = CommandCatalogProfile.NormalizePath(entry.Path);
             if (normalized.Length == 0)
                 continue;
-            byPath[normalized] = entry with { Path = normalized };
+            byPath[normalized] = IntermediateRepresentation.Command.CatalogRouteEntry.WithPath(entry, normalized);
         }
 
         return Wrap(CatalogIndex<string, CatalogRouteEntry>.FromMap(
