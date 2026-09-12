@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <UseGuidersModelingCore>true</UseGuidersModelingCore>
+    <UseGuidersModelingGdlAgent>true</UseGuidersModelingGdlAgent>
     <RootNamespace>AIGuiders.Platform.IntermediateRepresentation.Agent</RootNamespace>
     <AssemblyName>AIGuiders.Platform.IntermediateRepresentation.Agent</AssemblyName>
     <PackageId>AIGuiders.Platform.IntermediateRepresentation.Agent</PackageId>

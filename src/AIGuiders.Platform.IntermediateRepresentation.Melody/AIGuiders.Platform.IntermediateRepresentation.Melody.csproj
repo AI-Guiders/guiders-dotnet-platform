@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <UseGuidersModelingNotationsArgument>true</UseGuidersModelingNotationsArgument>
+    <UseGuidersModelingGdlCommandMelody>true</UseGuidersModelingGdlCommandMelody>
     <RootNamespace>AIGuiders.Platform.IntermediateRepresentation.Melody</RootNamespace>
     <AssemblyName>AIGuiders.Platform.IntermediateRepresentation.Melody</AssemblyName>
     <PackageId>AIGuiders.Platform.IntermediateRepresentation.Melody</PackageId>

@@ -1,57 +1,19 @@
 #nullable enable
 
+using GdlCommand = AIGuiders.Platform.Modeling.Gdl.Command;
+
 namespace AIGuiders.Platform.IntermediateRepresentation.Command;
 
-/// <summary>Resolved catalog row: path + command_id (CIDE quarry, headless).</summary>
-public readonly record struct CatalogRouteEntry(
-    string Path,
-    string CommandId,
-    string Help,
-    CommandArgTailKind ArgTailKind,
-    string Domain = "",
-    string Object = "",
-    string Intent = "",
-    CatalogPathRole PathRole = CatalogPathRole.Canonical,
-    string? Group = null,
-    string ArgTail = "",
-    IReadOnlyList<CommandPickerChoice>? ArgPickerChoices = null,
-    string? ArgHint = null,
-    IReadOnlyList<ArgConstructorBinding>? ArgConstructors = null)
+/// <summary>
+/// GUIDERS-FSHARP-ADR-0003 §4.3 cutover factories — row SSOT: Modeling.Gdl.Command.CatalogRouteEntry.
+/// </summary>
+public static class CatalogRouteEntry
 {
-    public IReadOnlyList<CommandPickerChoice> ResolvedPickerChoices => ArgPickerChoices ?? [];
-    public IReadOnlyList<ArgConstructorBinding> ResolvedConstructors => ArgConstructors ?? [];
+    public static GdlCommand.CatalogRouteEntry FromDescriptor(CommandDescriptor d, string path) =>
+        GdlCommand.CatalogRouteEntryModule.fromDescriptor(d.ToModel(), path);
 
-    public static CatalogRouteEntry FromDescriptor(CommandDescriptor d, string path) =>
-        FromDescriptor(d, path, ResolvePathRole(d, path));
+    public static GdlCommand.CatalogRouteEntry FromDescriptor(CommandDescriptor d, string path, CatalogPathRole pathRole) =>
+        GdlCommand.CatalogRouteEntryModule.fromDescriptorRole(d.ToModel(), path, pathRole);
 
-    public static CatalogRouteEntry FromDescriptor(CommandDescriptor d, string path, CatalogPathRole pathRole) =>
-        new(
-            path,
-            d.CommandId,
-            d.Help ?? "",
-            d.ArgTailKind,
-            d.Domain,
-            d.Object,
-            d.Intent,
-            pathRole,
-            d.Group,
-            d.ArgTail,
-            d.ArgPickerChoices,
-            d.ArgHint,
-            d.ArgConstructors);
-
-    static CatalogPathRole ResolvePathRole(CommandDescriptor d, string path) =>
-        string.Equals(NormalizePath(path), NormalizePath(d.Path), StringComparison.OrdinalIgnoreCase)
-            ? CatalogPathRole.Canonical
-            : CatalogPathRole.Alias;
-
-    static string NormalizePath(string path)
-    {
-        var p = path.Trim();
-        if (p.StartsWith('/'))
-            p = p[1..];
-        return p.Trim();
-    }
-
-    public CatalogSemanticFields SemanticFields => new(Domain, Object, Intent, PathRole);
+    public static string NormalizePath(string path) => GdlCommand.CatalogRouteEntryModule.normalizePath(path);
 }

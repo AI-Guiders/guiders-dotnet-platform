@@ -1,13 +1,13 @@
 namespace AIGuiders.Platform.Execution.Language;
 
-/// <summary>Well-known federation language ids for Language Resolver Center.</summary>
+/// <summary>Transitional re-export — GUIDERS-FSHARP-ADR-0003 §4.6 cutover.</summary>
 public static class LanguageIds
 {
-    public const string Csharp = "csharp";
-    public const string Fsharp = "fsharp";
-    public const string Typescript = "typescript";
-    public const string Gdl = "gdl";
-    public const string PowerShell = "powershell";
-    public const string Python = "python";
-    public const string Delphi = "delphi";
+    public const string Csharp = Modeling.Language.LanguageIds.Csharp;
+    public const string Fsharp = Modeling.Language.LanguageIds.Fsharp;
+    public const string Typescript = Modeling.Language.LanguageIds.Typescript;
+    public const string Gdl = Modeling.Language.LanguageIds.Gdl;
+    public const string PowerShell = Modeling.Language.LanguageIds.PowerShell;
+    public const string Python = Modeling.Language.LanguageIds.Python;
+    public const string Delphi = Modeling.Language.LanguageIds.Delphi;
 }

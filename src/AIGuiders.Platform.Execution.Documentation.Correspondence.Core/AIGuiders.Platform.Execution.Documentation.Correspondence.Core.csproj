@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <UseGuidersModelingPaths>true</UseGuidersModelingPaths>
+    <UseGuidersModelingGdlCorrespondence>true</UseGuidersModelingGdlCorrespondence>
     <RootNamespace>AIGuiders.Platform.Execution.Documentation.Correspondence</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Execution.Documentation.Correspondence.Core</AssemblyName>
     <PackageId>AIGuiders.Platform.Execution.Documentation.Correspondence.Core</PackageId>

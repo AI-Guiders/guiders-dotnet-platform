@@ -47,13 +47,13 @@ public sealed class HostDelegatedLanguageBackend : ILanguageBackend
             };
     }
 
-    public async Task<LanguageNavigation?> GoToDefinitionAsync(LanguageRequest req, CancellationToken ct)
+    public async Task<LanguageNavigation> GoToDefinitionAsync(LanguageRequest req, CancellationToken ct)
     {
         var json = await _bridge.DispatchVerbAsync("goto", req, ct).ConfigureAwait(false);
         if (string.IsNullOrWhiteSpace(json) || json == "null")
-            return null;
+            return EmptyNavigation(req.FilePath);
 
-        return JsonSerializer.Deserialize<LanguageNavigation>(json, JsonOptions);
+        return JsonSerializer.Deserialize<LanguageNavigation>(json, JsonOptions) ?? EmptyNavigation(req.FilePath);
     }
 
     public async Task<FindUsagesResult> FindUsagesAsync(LanguageRequest req, CancellationToken ct)
@@ -70,13 +70,13 @@ public sealed class HostDelegatedLanguageBackend : ILanguageBackend
             ?? new CompletionsResult { Items = [] };
     }
 
-    public async Task<SymbolAtPositionResult?> GetSymbolAtPositionAsync(LanguageRequest req, CancellationToken ct)
+    public async Task<SymbolAtPositionResult> GetSymbolAtPositionAsync(LanguageRequest req, CancellationToken ct)
     {
         var json = await _bridge.DispatchVerbAsync("symbol_at_position", req, ct).ConfigureAwait(false);
         if (string.IsNullOrWhiteSpace(json) || json == "null")
-            return null;
+            return EmptySymbolAtPosition(req.FilePath);
 
-        return JsonSerializer.Deserialize<SymbolAtPositionResult>(json, JsonOptions);
+        return JsonSerializer.Deserialize<SymbolAtPositionResult>(json, JsonOptions) ?? EmptySymbolAtPosition(req.FilePath);
     }
 
     public async Task<RenameSymbolResult> RenameSymbolAsync(RenameSymbolRequest req, CancellationToken ct)
@@ -94,6 +94,20 @@ public sealed class HostDelegatedLanguageBackend : ILanguageBackend
                 Changes = [],
             };
     }
+
+    private static LanguageNavigation EmptyNavigation(string path) => new()
+    {
+        Definition = EmptySpan(path),
+        Declarations = [EmptySpan(path)],
+    };
+
+    private static SymbolAtPositionResult EmptySymbolAtPosition(string path) => new()
+    {
+        Kind = "",
+        Name = "",
+        QualifiedName = "",
+        Span = EmptySpan(path),
+    };
 
     private static SourceSpan EmptySpan(string path) =>
         new()
