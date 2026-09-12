@@ -16,6 +16,7 @@
 | [0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) | Accepted · In progress | Migration Phase 0 |
 | [0027](./GUIDERS-ADR-0027-mdlinker-doc-anchor-check.md) | Accepted | Tooling; Correspondence pilot pending |
 | [0064](./GUIDERS-ADR-0064-config-gdl-quarry-family.md) | Accepted · In progress | `.config.gdl` — wiring, interpretation, contracts, Sat |
+| [0065](./GUIDERS-ADR-0065-gdl-emit-operational-paths.md) | Accepted · In progress | GDL emit author vs consumer operational paths |
 
 ## Related repos
 

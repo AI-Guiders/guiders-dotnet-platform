@@ -5,7 +5,7 @@
 | **Status** | **Accepted** (name + hyperlane signage; quarries ship incrementally) |
 | **Date** | 2026-09-02 |
 | **Tags** | #guiders #federation #gdl #authoring #hyperlane #dsl #declare |
-| **Related** | [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [0049](./GUIDERS-ADR-0049-federation-pattern-library.md) · [0051](./GUIDERS-ADR-0051-authoring-project-abstraction.md) · [0052](./GUIDERS-ADR-0052-unified-import-directive.md) · [0057](./GUIDERS-ADR-0057-cockpit-logic-authoring-quarry.md) · [0058](./GUIDERS-ADR-0058-presentation-topology-ir.md) · [0061](./GUIDERS-ADR-0061-language-resolver-center.md) · [0062](./GUIDERS-ADR-0062-ide-solution-session-orchestrator.md) · [0064](./GUIDERS-ADR-0064-config-gdl-quarry-family.md) · [0021](./GUIDERS-ADR-0021-notations-quarry-family.md) · [authoring-toolchain](https://github.com/AI-Guiders/authoring-toolchain) · [GUIDERS-UI-0009](https://github.com/AI-Guiders/guiders-ui-platform/blob/main/docs/adr/GUIDERS-UI-0009-openapi-rest-leg-alignment.md) |
+| **Related** | [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [0049](./GUIDERS-ADR-0049-federation-pattern-library.md) · [0051](./GUIDERS-ADR-0051-authoring-project-abstraction.md) · [0052](./GUIDERS-ADR-0052-unified-import-directive.md) · [0057](./GUIDERS-ADR-0057-cockpit-logic-authoring-quarry.md) · [0058](./GUIDERS-ADR-0058-presentation-topology-ir.md) · [0061](./GUIDERS-ADR-0061-language-resolver-center.md) · [0062](./GUIDERS-ADR-0062-ide-solution-session-orchestrator.md) · [0064](./GUIDERS-ADR-0064-config-gdl-quarry-family.md) · [0065](./GUIDERS-ADR-0065-gdl-emit-operational-paths.md) · [0021](./GUIDERS-ADR-0021-notations-quarry-family.md) · [authoring-toolchain](https://github.com/AI-Guiders/authoring-toolchain) · [GUIDERS-UI-0009](https://github.com/AI-Guiders/guiders-ui-platform/blob/main/docs/adr/GUIDERS-UI-0009-openapi-rest-leg-alignment.md) |
 
 ## Context
 
@@ -208,6 +208,8 @@ Generated C# uses the `*.g.cs` suffix. User extensions live in separate partials
 | **Consumer** (planet app, NuGet user) | `Generated/*.g.cs`, tier-D wire | ordinary C# IntelliSense; `.gdl` optional |
 
 Consumers **may** compile and edit generated C# without `.gdl` sources — same pattern as consuming a library built from `.proto` without the schema repo. Authors **must** retain `.gdl` as meaning SSOT; hand-editing `*.g.cs` without updating GDL is an escape hatch that the next emit overwrites.
+
+**Operational detail:** author workflow, consumer workflow, planet obligations, anti-patterns, and MSBuild integration — [0065](./GUIDERS-ADR-0065-gdl-emit-operational-paths.md).
 
 #### 10.3 External analogies (informative)
 
