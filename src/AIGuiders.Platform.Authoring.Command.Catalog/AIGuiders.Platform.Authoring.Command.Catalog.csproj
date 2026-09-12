@@ -1,14 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingGdlParseCatalog>true</UseGuidersModelingGdlParseCatalog>
     <RootNamespace>AIGuiders.Platform.Authoring.Command.Catalog</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Authoring.Command.Catalog</AssemblyName>
     <PackageId>AIGuiders.Platform.Authoring.Command.Catalog</PackageId>
     <Description>.catalog grammar parser and notation validation (GUIDERS-ADR-0047).</Description>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\guiders-fsharp\src\AIGuiders.Platform.Modeling.Gdl.Authoring\AIGuiders.Platform.Modeling.Gdl.Authoring.fsproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Authoring.Core\AIGuiders.Platform.Authoring.Core.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Command\AIGuiders.Platform.IntermediateRepresentation.Command.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard.KeyGesture\AIGuiders.Platform.Notations.Keyboard.KeyGesture.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard.Vim\AIGuiders.Platform.Notations.Keyboard.Vim.csproj" />
   </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>

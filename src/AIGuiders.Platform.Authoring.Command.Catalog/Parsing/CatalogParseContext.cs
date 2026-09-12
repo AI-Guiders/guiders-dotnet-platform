@@ -1,4 +1,5 @@
 using AIGuiders.Platform.Authoring.Core;
+using GdlParseCatalog = AIGuiders.Platform.Modeling.Gdl.Parse.Catalog;
 
 namespace AIGuiders.Platform.Authoring.Command.Catalog.Parsing;
 
@@ -51,26 +52,9 @@ public sealed class CatalogParseContext
 
     public void ValidateChannels()
     {
-        foreach (var channel in Channels)
+        foreach (var diagnostic in GdlParseCatalog.CatalogGrammarValidator.validateChannels(BuildDocument().ToModel()))
         {
-            if (string.IsNullOrWhiteSpace(channel.Surface))
-            {
-                continue;
-            }
-
-            if (channel.Surface.Equals("palette", StringComparison.OrdinalIgnoreCase))
-            {
-                continue;
-            }
-
-            if (string.IsNullOrWhiteSpace(channel.CommandGrammar) || string.IsNullOrWhiteSpace(channel.ArgumentGrammar))
-            {
-                Diagnostics.Add(new(
-                    AuthoringDiagnosticCode.MissingGrammarDeclaration,
-                    $"Channel `{channel.Surface}{(channel.Sub is null ? "" : "." + channel.Sub)}` missing `grammar` block with command and argument.",
-                    1,
-                    Section: "channels"));
-            }
+            Diagnostics.Add(CatalogInterop.FromDiagnostic(diagnostic));
         }
     }
 }

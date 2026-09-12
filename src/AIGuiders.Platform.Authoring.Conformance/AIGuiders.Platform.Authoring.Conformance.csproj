@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingGdlParseCatalog>true</UseGuidersModelingGdlParseCatalog>
     <RootNamespace>AIGuiders.Platform.Authoring.Conformance</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Authoring.Conformance</AssemblyName>
     <PackageId>AIGuiders.Platform.Authoring.Conformance</PackageId>
@@ -8,4 +9,5 @@
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Authoring.Command.Catalog\AIGuiders.Platform.Authoring.Command.Catalog.csproj" />
   </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>
