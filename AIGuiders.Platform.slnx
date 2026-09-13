@@ -12,6 +12,7 @@
     <Project Path="src/AIGuiders.Platform.Execution.Configurations.Workspace.Sources/AIGuiders.Platform.Execution.Configurations.Workspace.Sources.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.Configurations.Project/AIGuiders.Platform.Execution.Configurations.Project.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.Configurations.Project.Sources/AIGuiders.Platform.Execution.Configurations.Project.Sources.csproj" />
+    <Project Path="src/AIGuiders.Platform.Execution.Presentation.Binding/AIGuiders.Platform.Execution.Presentation.Binding.csproj" />
     <Project Path="src/AIGuiders.Platform.Combinations/AIGuiders.Platform.Combinations.csproj" />
     <Project Path="src/AIGuiders.Platform.Combinations.All/AIGuiders.Platform.Combinations.All.csproj" />
     <Project Path="src/AIGuiders.Platform.Combinations.Binding/AIGuiders.Platform.Combinations.Binding.csproj" />

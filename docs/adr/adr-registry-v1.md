@@ -50,7 +50,7 @@ Columns:
 | 0018 | slash-conformance-vectors | Accepted | audit pending |
 | 0019 | conformance-hyperlane-monorepo | Accepted | audit pending |
 | 0020 | mcplane-agent-ingress | Draft | — |
-| 0021 | notations-quarry-family | Accepted | Implemented (v0 per ADR §12) |
+| 0021 | notations-quarry-family | Accepted | Implemented (v1 Final per ADR §12) |
 | 0022 | utilities-adoption-report | Draft | partial in-repo |
 | 0023 | case-workbench-heritage | ? | audit pending |
 | 0024 | visual-command-tree-capture-stack | Accepted | partial (headless) |
@@ -87,7 +87,7 @@ Columns:
 | 0055 | surface-wpf-guild-deck-authoring | Proposed | — |
 | 0056 | businesslogic-authoring-latent | Superseded | — |
 | 0057 | cockpit-logic-authoring-quarry | Proposed | signage only |
-| 0058 | presentation-topology-ir | Accepted | partial v0 IR |
+| 0058 | presentation-topology-ir | Accepted | v1 IR + binding stub |
 | 0059 | gdl-hyperlane | Accepted | In progress |
 | 0060 | platform-execution-phase-d-cockpit | Accepted | Implemented |
 | 0061 | language-resolver-center | Accepted | In progress |

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Status** | **Accepted** (IR + notation v0 — display binding profile TBD) |
+| **Status** | **Accepted** (v1 — topology notation + `DisplayBindingProfile` IR; `Authoring.Display` defer Wave 2) |
 | **Date** | 2026-09-02 |
 | **Tags** | #guiders #federation #presentation #topology #cds #deck #ir |
 | **Related** | [0021](./GUIDERS-ADR-0021-notations-quarry-family.md) · [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [0007](./GUIDERS-ADR-0007-aviation-mental-model.md) · [0055](./GUIDERS-ADR-0055-surface-wpf-guild-deck-authoring.md) |
@@ -46,12 +46,13 @@ DisplayBindingProfile (runtime, separate SSOT)
 
 **Three monitors:** `topology (P)(F)(M)` defines **3 logical hosts**; operator **`.display`** GDL quarry ([0059](./GUIDERS-ADR-0059-gdl-hyperlane.md)) binds `0→screen-0`, `1→screen-1`, `2→screen-2` (or any permutation).
 
-### 3. Packages (v0 shipped)
+### 3. Packages (v1 shipped)
 
 | Package | Role |
 |---------|------|
-| `AIGuiders.Platform.IntermediateRepresentation.Presentation` | IR types |
-| `AIGuiders.Platform.Notations.Presentation.Topology` | `TopologyNotation.Parse` |
+| `AIGuiders.Platform.IntermediateRepresentation.Presentation` | IR types incl. `DisplayBindingProfile`, `PhysicalScreenSelector` |
+| `AIGuiders.Platform.Notations.Presentation.Topology` | `TopologyNotation.Parse` + conformance harness |
+| `AIGuiders.Platform.Execution.Presentation.Binding` | v1 `DisplayBindingProfileBuilder` (TOML-like table stub) |
 | `AIGuiders.Platform.Authoring.Deck` | `AttentionPreset.Topology: PresentationTopology?` |
 
 ### 4. Conformance
@@ -67,8 +68,8 @@ DisplayBindingProfile (runtime, separate SSOT)
 - Closes string debt in deck IR; CDS can migrate `AttentionRoutingInput` from `string?` to `HostIndex` / `AttentionDisplayRole`.
 - Glass `PresentationSurfaceWire` should **consume** federation notation (extract peel), not duplicate parsers per planet.
 
-## Non-goals (v0)
+## Non-goals (v1)
 
-- `Authoring.Display.Binding` parser / `.display` GDL quarry ([0059](./GUIDERS-ADR-0059-gdl-hyperlane.md))
+- `Authoring.Display.Binding` parser / `.display` GDL quarry ([0059](./GUIDERS-ADR-0059-gdl-hyperlane.md)) — **defer Wave 2**
 - `Notations.Presentation.Layout` (deck layout board)
 - Full 4+ host topology wires

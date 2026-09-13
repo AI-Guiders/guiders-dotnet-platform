@@ -50,7 +50,7 @@ public sealed record PresentationTopology(
         model.SourceWire);
 }
 
-public sealed record PhysicalScreenSelector(
+public sealed partial record PhysicalScreenSelector(
     PhysicalScreenSelectorKind Kind,
     int? ScreenIndex = null,
     string? DeviceName = null,
@@ -59,6 +59,23 @@ public sealed record PhysicalScreenSelector(
     double? RegionWidth = null,
     double? RegionHeight = null)
 {
+    public static PhysicalScreenSelector Primary() =>
+        new(PhysicalScreenSelectorKind.Primary);
+
+    public static PhysicalScreenSelector ByIndex(int index) =>
+        new(PhysicalScreenSelectorKind.Index, ScreenIndex: index);
+
+    public static PhysicalScreenSelector ByDeviceName(string deviceName) =>
+        new(PhysicalScreenSelectorKind.DeviceName, DeviceName: deviceName);
+
+    public static PhysicalScreenSelector UltrawideRegion(double left, double top, double width, double height) =>
+        new(
+            PhysicalScreenSelectorKind.UltrawideRegion,
+            RegionLeft: left,
+            RegionTop: top,
+            RegionWidth: width,
+            RegionHeight: height);
+
     public GdlPresentation.PhysicalScreenSelector ToModel() => new(
         Kind,
         FSharpInterop.OptInt(ScreenIndex),

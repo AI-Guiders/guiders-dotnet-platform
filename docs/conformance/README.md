@@ -109,10 +109,12 @@ Implementations **do not** live in this repo — only contracts.
 | `notation/neovim-kbd` | wire → IR | **shipped** | `QuarryNotationConformanceTests` | — |
 | `notation/emacs-kbd` | wire → IR | **shipped** | `QuarryNotationConformanceTests` | — |
 | `notation/key-gesture` | KeyGesture / hotkeys.toml → IR | **shipped** | `QuarryNotationConformanceTests` | CIDE hotkeys.toml |
+| `notation/presentation-topology` | deck topology wire → `PresentationTopology` | **shipped** | `PresentationTopologyConformanceTests` | ADR-0058 |
 | `language-intelligence/line-range` | line range parse + text delete | planned (ADR-0025 P1) | `EditorSurfaceTests` (quarry) | Forge/CIDE buffer |
-| `notation/bracket-cdp-square-kv` | CDP wire → axes + nested | **shipped** | `BracketConformanceTests` | CSX, sniper, peek |
-| `notation/bracket-angle-opaque` | `<…>` opaque inner | planned (ADR-0026 P1) | `QuarryBracketTokenParser` (quarry) | keyboard oracle |
-| `language-intelligence/anchor-resolve` | normalized wire → locus + tier | planned (ADR-0025 P2) | — | CDP sniper |
+| `notation/bracket-cdp-square-kv` | CDP wire → axes + nested | **shipped** | `NotationConformanceTests` | CSX, sniper, peek |
+| `notation/bracket-angle-opaque` | `<…>` opaque inner | **shipped** | `NotationConformanceTests` | keyboard oracle |
+| `notation/bracket-forge-frg` | Forge FRG compound wire → axes | **shipped** | `BracketForgeFrgConformanceTests` | Forge `[FRG:…]` |
+| `language-intelligence/anchor-resolve` | wire → `BracketAnchorSpan` + family | **shipped** | `AnchorResolveConformanceTests` | CDP sniper |
 | `mcplane/pulse-default` | agent envelope pulse | **shipped** | `McPlaneConformanceTests` | Forge `/capabilities` |
 | `mcplane/next-hints` | `next[]` shape | **shipped** | `McPlaneConformanceTests` | agent follow-ups |
 
@@ -131,6 +133,27 @@ agent-forge CI         → @aiguiders/conformance@1.0.0 → vitest against same 
 
 Platform semver (`AIGuiders.Platform.*`) and conformance semver are **independent**.  
 Breaking vector → conformance major + migration note; platform may lag one release.
+
+---
+
+## Hyperlane gate
+
+**Exit criteria (notation branch, ADR-0021 §9):** every embedded `*.spec.json` under `tests/.../Fixtures/Notation/` and `tests/.../Fixtures/Quarry/` must:
+
+1. **Match JSON Schema** — `ConformanceSchemaValidator.ValidateNotationHyperlaneJson` (surface-based specs + `kind: notation.presentation.topology`).
+2. **Pass reference harness** — `NotationHyperlaneGateTests` routes each surface to the correct parser:
+   - `command-*` / `argument-*` / `invocation-parity` → `NotationSpecConformance`
+   - `bracket-*` → `BracketSpecConformance` (profile per surface)
+   - `neovim-kbd` / `emacs-kbd` / `key-gesture` → `QuarrySpecConformance` + quarry reader
+   - `notation.presentation.topology` → `TopologySpecConformance`
+
+**CI command:**
+
+```bash
+dotnet test --filter "FullyQualifiedName~NotationHyperlaneGateTests"
+```
+
+**Adding a spec:** copy/sync from `docs/conformance/notation/` (or quarry sibling), embed in test fixtures, extend schema registry if new surface/kind, register harness route in `NotationHyperlaneGateTests` when parser family is new.
 
 ---
 
