@@ -1,5 +1,8 @@
 #nullable enable
 
+using Microsoft.FSharp.Collections;
+using Microsoft.FSharp.Core;
+
 namespace AIGuiders.Platform.Combinations;
 
 /// <summary>Ordered fold over materialized layers (GUIDERS-ADR-0030).</summary>
@@ -12,10 +15,7 @@ public static class OrderedCombination
             throw new ArgumentException("At least one layer is required.", nameof(layers));
         ArgumentNullException.ThrowIfNull(combiner);
 
-        var acc = layers[0];
-        for (var i = 1; i < layers.Count; i++)
-            acc = combiner(acc, layers[i]);
-        return acc;
+        return ModelingOrderedCombination.fold(CombinatorBridge.ToFSharp(combiner), ListModule.OfSeq(layers));
     }
 
     /// <summary>Projects each layer to an accumulator and folds with <paramref name="combiner"/>.</summary>
@@ -29,10 +29,10 @@ public static class OrderedCombination
         ArgumentNullException.ThrowIfNull(project);
         ArgumentNullException.ThrowIfNull(combiner);
 
-        var acc = seed;
-        foreach (var layer in layers)
-            acc = combiner(acc, project(layer));
-        return acc;
+        return ModelingOrderedCombination.foldLayers(
+            FSharpFunc<TLayer, TAccum>.FromConverter(new Converter<TLayer, TAccum>(project)),
+            CombinatorBridge.ToFSharp(combiner),
+            seed,
+            layers);
     }
 }
-
