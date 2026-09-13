@@ -43,6 +43,8 @@ public sealed class ConfigSatObserver : ISatObserver
             EvaluatePredicates(contract.Ensures, "ensures", contract, context, parse.Document, failures, notes);
         }
 
+        AppendInstallSeedFactStubs(parse.Document, notes);
+
         if (failures.Count > 0)
         {
             return SatRunResult.Failed(
@@ -90,4 +92,18 @@ public sealed class ConfigSatObserver : ISatObserver
         string.IsNullOrWhiteSpace(raw)
             ? []
             : raw.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+    private static void AppendInstallSeedFactStubs(ConfigDocument document, IList<string> notes)
+    {
+        foreach (var fact in document.Facts)
+        {
+            if (!fact.VerifiedBy.StartsWith("install-cdp.personal-seed@", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            notes.Add(
+                $"facts stub: `{fact.VerifiedBy}` for `{fact.Contract}` — install evidence not verified in SAT P2");
+        }
+    }
 }

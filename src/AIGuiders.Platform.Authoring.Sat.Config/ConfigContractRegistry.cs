@@ -1,4 +1,7 @@
 using AIGuiders.Platform.Authoring.Emit;
+using GdlConfigModel = AIGuiders.Platform.Modeling.Config;
+using GdlConfigPredicates = AIGuiders.Platform.Modeling.Config.ContractPredicates;
+using GdlPredicateResult = AIGuiders.Platform.Modeling.Config.ConfigPredicateResult;
 
 namespace AIGuiders.Platform.Authoring.Sat;
 
@@ -62,13 +65,76 @@ public static class ConfigContractRegistry
     {
         Register(
             "hot_l0_sections_present",
-            static (_, _) => new ConfigContractEvaluation(
-                true,
-                Note: "hot_l0_sections_present pilot stub — L0 section check deferred to P2"));
+            static (context, document) => EvaluateHotL0SectionsPresent(context, document));
 
         Register(
             "primary_is_personal",
             static (context, _) => EvaluatePrimaryIsPersonal(context));
+    }
+
+    private static ConfigContractEvaluation EvaluateHotL0SectionsPresent(SatContext context, ConfigDocument document)
+    {
+        var fsharpDoc = MapToFSharpDocument(document);
+        var result = GdlConfigPredicates.evaluateHotL0SectionsPresent(context.WorkspaceRoot ?? string.Empty, fsharpDoc);
+        return MapPredicateResult(result);
+    }
+
+    private static GdlConfigModel.ConfigDocument MapToFSharpDocument(ConfigDocument document)
+    {
+        var defaults = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var pair in document.Defaults)
+        {
+            defaults[pair.Key] = pair.Value;
+        }
+
+        return new GdlConfigModel.ConfigDocument
+        {
+            Name = document.Name,
+            BasedOnAdr = document.BasedOnAdr,
+            Defaults = defaults,
+            Sources = document.Sources
+                .Select(s => new GdlConfigModel.ConfigSourceRow
+                {
+                    Id = s.Id,
+                    Kind = s.Kind,
+                    Path = s.Path,
+                    Slice = s.Slice,
+                    Line = s.Line,
+                })
+                .ToArray(),
+            Contracts = document.Contracts
+                .Select(c => new GdlConfigModel.ConfigContractRow
+                {
+                    Id = c.Id,
+                    Requires = c.Requires,
+                    Ensures = c.Ensures,
+                    Line = c.Line,
+                })
+                .ToArray(),
+            Facts = document.Facts
+                .Select(f => new GdlConfigModel.ConfigFactRow
+                {
+                    Contract = f.Contract,
+                    VerifiedBy = f.VerifiedBy,
+                    Line = f.Line,
+                })
+                .ToArray(),
+        };
+    }
+
+    private static ConfigContractEvaluation MapPredicateResult(GdlPredicateResult result)
+    {
+        if (result.Satisfied)
+        {
+            return new ConfigContractEvaluation(true, Note: string.IsNullOrWhiteSpace(result.Note) ? null : result.Note);
+        }
+
+        var diagnostic = result.Diagnostic;
+        return new ConfigContractEvaluation(
+            false,
+            Diagnostic: diagnostic is null || string.IsNullOrWhiteSpace(diagnostic.Code)
+                ? new GdlDiagnostic("config-contract-failed", "Contract predicate failed.")
+                : new GdlDiagnostic(diagnostic.Code, diagnostic.Message));
     }
 
     private static ConfigContractEvaluation EvaluatePrimaryIsPersonal(SatContext context)

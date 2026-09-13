@@ -4,8 +4,6 @@ namespace AIGuiders.Platform.Authoring.Sat;
 
 public sealed class AdrFactsSatObserver : ISatObserver
 {
-    private static readonly string[] EvidenceSearchPatterns = ["*.cs", "*.fs"];
-
     public string ObserverId => SatObserverIds.AdrFacts;
 
     public int Priority => 100;
@@ -69,7 +67,7 @@ public sealed class AdrFactsSatObserver : ISatObserver
         var missingGolden = new List<string>();
         foreach (var goldenId in facts.GoldenIds)
         {
-            if (!GoldenEvidenceExists(workspaceRoot, goldenId))
+            if (!GoldenEvidence.Exists(workspaceRoot, goldenId))
             {
                 missingGolden.Add(goldenId);
                 diagnostics.Add(new GdlDiagnostic(
@@ -91,7 +89,19 @@ public sealed class AdrFactsSatObserver : ISatObserver
             }
         }
 
-        var summary = BuildSummary(facts, hoareIds, missingGolden, missingHoare);
+        var missingWf = new List<string>();
+        foreach (var wfId in facts.WellFormednessIds)
+        {
+            if (!WellFormednessObligationRegistry.IsRegistered(wfId))
+            {
+                missingWf.Add(wfId);
+                diagnostics.Add(new GdlDiagnostic(
+                    "sat.wf.unregistered",
+                    $"Well-formedness obligation `{wfId}` is not registered in WellFormednessObligationRegistry."));
+            }
+        }
+
+        var summary = BuildSummary(facts, hoareIds, missingGolden, missingHoare, missingWf);
         if (diagnostics.Count > 0)
         {
             return SatRunResult.Failed(diagnostics, summary);
@@ -125,13 +135,14 @@ public sealed class AdrFactsSatObserver : ISatObserver
         AdrFactsBlock facts,
         IReadOnlyList<string> hoareIds,
         IReadOnlyList<string> missingGolden,
-        IReadOnlyList<string> missingHoare)
+        IReadOnlyList<string> missingHoare,
+        IReadOnlyList<string> missingWf)
     {
         var hoareList = hoareIds.Count == 0
             ? "none"
             : string.Join(", ", hoareIds);
 
-        var status = missingGolden.Count == 0 && missingHoare.Count == 0
+        var status = missingGolden.Count == 0 && missingHoare.Count == 0 && missingWf.Count == 0
             ? "ok"
             : "failed";
 
@@ -140,76 +151,4 @@ public sealed class AdrFactsSatObserver : ISatObserver
             + (string.IsNullOrWhiteSpace(facts.AdrId) ? string.Empty : $"; adr={facts.AdrId}");
     }
 
-    private static bool GoldenEvidenceExists(string workspaceRoot, string goldenId)
-    {
-        if (string.IsNullOrWhiteSpace(goldenId))
-        {
-            return false;
-        }
-
-        foreach (var file in EnumerateEvidenceFiles(workspaceRoot))
-        {
-            if (!LooksLikeTestFile(file))
-            {
-                continue;
-            }
-
-            var content = File.ReadAllText(file);
-            if (ContainsGoldenEvidence(content, goldenId))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private static IEnumerable<string> EnumerateEvidenceFiles(string workspaceRoot)
-    {
-        if (!Directory.Exists(workspaceRoot))
-        {
-            return [];
-        }
-
-        var files = new List<string>();
-        foreach (var pattern in EvidenceSearchPatterns)
-        {
-            files.AddRange(
-                Directory.EnumerateFiles(workspaceRoot, pattern, SearchOption.AllDirectories)
-                    .Where(static path => !IsExcludedPath(path)));
-        }
-
-        return files;
-    }
-
-    private static bool IsExcludedPath(string path) =>
-        path.Contains($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}", StringComparison.OrdinalIgnoreCase)
-        || path.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}", StringComparison.OrdinalIgnoreCase)
-        || path.Contains($"{Path.DirectorySeparatorChar}node_modules{Path.DirectorySeparatorChar}", StringComparison.OrdinalIgnoreCase);
-
-    private static bool LooksLikeTestFile(string path) =>
-        path.Contains("Tests", StringComparison.OrdinalIgnoreCase)
-        || path.Contains(".Test.", StringComparison.OrdinalIgnoreCase)
-        || path.EndsWith("Tests.cs", StringComparison.OrdinalIgnoreCase)
-        || path.EndsWith("Tests.fs", StringComparison.OrdinalIgnoreCase);
-
-    private static bool ContainsGoldenEvidence(string content, string goldenId)
-    {
-        if (content.Contains(goldenId, StringComparison.OrdinalIgnoreCase))
-        {
-            if (content.Contains($"member", StringComparison.OrdinalIgnoreCase)
-                || content.Contains("[Fact", StringComparison.OrdinalIgnoreCase)
-                || content.Contains("[Theory", StringComparison.OrdinalIgnoreCase)
-                || content.Contains("[Test", StringComparison.OrdinalIgnoreCase)
-                || content.Contains("TestMethod", StringComparison.OrdinalIgnoreCase)
-                || content.Contains("golden:", StringComparison.OrdinalIgnoreCase)
-                || content.Contains("GoldenSession", StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
-        }
-
-        return content.Contains($"golden:{goldenId}", StringComparison.OrdinalIgnoreCase)
-            || content.Contains($"golden: {goldenId}", StringComparison.OrdinalIgnoreCase);
-    }
 }

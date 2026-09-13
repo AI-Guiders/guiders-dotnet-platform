@@ -1,34 +1,34 @@
 namespace AIGuiders.Platform.Authoring.Sat;
 
 /// <summary>
-/// Pilot registry for Hoare obligation ids declared in ADR facts blocks.
-/// Production wiring can populate this from ide-session gates / HoareChecker.
+/// Registry for well-formedness obligation ids declared in ADR facts blocks.
+/// Built-in catalog entries delegate to F# SSOT; runtime entries may be added explicitly.
 /// </summary>
-public static class HoareObligationRegistry
+public static class WellFormednessObligationRegistry
 {
     private static readonly object Gate = new();
     private static readonly HashSet<string> Registered = new(StringComparer.OrdinalIgnoreCase);
 
-    static HoareObligationRegistry()
+    static WellFormednessObligationRegistry()
     {
-        RegisterRange(HoareCatalogBridge.RegisteredHoareIds());
+        RegisterRange(HoareCatalogBridge.RegisteredWellFormednessIds());
     }
 
-    public static void Register(string obligationId)
+    public static void Register(string wfId)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(obligationId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(wfId);
         lock (Gate)
         {
-            Registered.Add(obligationId.Trim());
+            Registered.Add(wfId.Trim());
         }
     }
 
-    public static void RegisterRange(IEnumerable<string> obligationIds)
+    public static void RegisterRange(IEnumerable<string> wfIds)
     {
-        ArgumentNullException.ThrowIfNull(obligationIds);
+        ArgumentNullException.ThrowIfNull(wfIds);
         lock (Gate)
         {
-            foreach (var id in obligationIds)
+            foreach (var id in wfIds)
             {
                 if (!string.IsNullOrWhiteSpace(id))
                 {
@@ -38,11 +38,11 @@ public static class HoareObligationRegistry
         }
     }
 
-    public static bool IsRegistered(string obligationId)
+    public static bool IsRegistered(string wfId)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(obligationId);
-        var trimmed = obligationId.Trim();
-        if (HoareCatalogBridge.IsRegisteredHoare(trimmed))
+        ArgumentException.ThrowIfNullOrWhiteSpace(wfId);
+        var trimmed = wfId.Trim();
+        if (HoareCatalogBridge.IsRegisteredWellFormedness(trimmed))
         {
             return true;
         }
@@ -58,7 +58,7 @@ public static class HoareObligationRegistry
         lock (Gate)
         {
             var merged = new HashSet<string>(Registered, StringComparer.OrdinalIgnoreCase);
-            foreach (var id in HoareCatalogBridge.RegisteredHoareIds())
+            foreach (var id in HoareCatalogBridge.RegisteredWellFormednessIds())
             {
                 merged.Add(id);
             }

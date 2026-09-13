@@ -1,6 +1,8 @@
-using AIGuiders.Platform.Authoring.Core;
 using AIGuiders.Platform.Authoring.Emit;
 using AIGuiders.Platform.Authoring.Sat;
+using GdlIdeSession = AIGuiders.Platform.Modeling.Gdl.Parse.IdeSession;
+using GdlIdeSessionModel = AIGuiders.Platform.Modeling.IdeSession.GateCatalog;
+using Microsoft.FSharp.Core;
 
 namespace AIGuiders.Platform.Authoring.Sat.IdeSession;
 
@@ -11,92 +13,41 @@ public sealed class IdeSessionCatalogParseResult
     public IReadOnlyList<GdlDiagnostic> Diagnostics { get; init; } = [];
 }
 
+/// <summary>
+/// Thin C# bridge to F# SSOT parser in <c>Modeling.Gdl.Parse.IdeSession</c> (SAT-004).
+/// </summary>
 public static class IdeSessionCatalogParser
 {
-    const string GatesSectionKeyword = "gates";
-
-    public static IdeSessionCatalogParseResult ParseFile(string path) =>
-        ParseLines(AuthoringSource.FromFile(path), path);
-
-    public static IdeSessionCatalogParseResult Parse(string text, string? sourcePath = null) =>
-        ParseLines(AuthoringSource.FromText(text), sourcePath ?? "<text>");
-
-    static IdeSessionCatalogParseResult ParseLines(IReadOnlyList<AuthoringLine> lines, string sourcePath)
+    public static IdeSessionCatalogParseResult ParseFile(string path)
     {
-        var diagnostics = new List<GdlDiagnostic>();
-
-        for (var i = 0; i < lines.Count; i++)
-        {
-            var line = lines[i];
-            if (!BlockReader.TryParseOpener(line.Text, out var opener)
-                || !string.Equals(opener.Keyword, GatesSectionKeyword, StringComparison.OrdinalIgnoreCase)
-                || opener.Kind != AuthoringSurfaceKind.Table)
-            {
-                continue;
-            }
-
-            var block = BlockReader.Read(lines, i + 1, GatesSectionKeyword);
-            if (!block.IsClosed)
-            {
-                diagnostics.Add(new(
-                    "ide-session.gates.unclosed",
-                    "Unclosed `gates table` block.",
-                    line.LineNumber));
-                return new() { Diagnostics = diagnostics };
-            }
-
-            var gates = ParseGateRows(TableSurface.ParseMaps(block.Body), diagnostics, sourcePath);
-            return new()
-            {
-                Catalog = new IdeSessionGateCatalog
-                {
-                    SourcePath = sourcePath,
-                    Gates = gates,
-                },
-                Diagnostics = diagnostics,
-            };
-        }
-
-        diagnostics.Add(new(
-            "ide-session.gates.missing",
-            "Missing `gates table` block.",
-            1));
-        return new() { Diagnostics = diagnostics };
+        var result = GdlIdeSession.IdeSessionCatalogParser.parseFile(path);
+        return Map(result);
     }
 
-    static IReadOnlyList<IdeSessionGateRow> ParseGateRows(
-        IReadOnlyList<Dictionary<string, string>> rows,
-        IList<GdlDiagnostic> diagnostics,
-        string sourcePath)
+    public static IdeSessionCatalogParseResult Parse(string text, string? sourcePath = null)
     {
-        var gates = new List<IdeSessionGateRow>();
-        foreach (var row in rows)
-        {
-            if (!row.TryGetValue("gate", out var gateId) || string.IsNullOrWhiteSpace(gateId))
-            {
-                diagnostics.Add(new(
-                    "ide-session.gates.row",
-                    "Gate row is missing the `gate` column.",
-                    1));
-                continue;
-            }
-
-            row.TryGetValue("reject-when", out var rejectWhen);
-            row.TryGetValue("code", out var code);
-            gates.Add(new IdeSessionGateRow(
-                gateId.Trim(),
-                (rejectWhen ?? string.Empty).Trim(),
-                (code ?? string.Empty).Trim()));
-        }
-
-        if (gates.Count == 0)
-        {
-            diagnostics.Add(new(
-                "ide-session.gates.empty",
-                $"No gate rows found in `{sourcePath}`.",
-                1));
-        }
-
-        return gates;
+        var result = GdlIdeSession.IdeSessionCatalogParser.parseText(text, sourcePath ?? "<text>");
+        return Map(result);
     }
+
+    private static IdeSessionCatalogParseResult Map(GdlIdeSession.IdeSessionCatalogParseResult result) =>
+        new()
+        {
+            Catalog = FSharpOption<GdlIdeSessionModel.IdeSessionGateCatalog>.get_IsSome(result.Catalog)
+                ? MapCatalog(result.Catalog!.Value)
+                : null,
+            Diagnostics = result.Diagnostics.Select(MapDiagnostic).ToArray(),
+        };
+
+    private static IdeSessionGateCatalog MapCatalog(GdlIdeSessionModel.IdeSessionGateCatalog catalog) =>
+        new()
+        {
+            SourcePath = catalog.SourcePath,
+            Gates = catalog.Gates
+                .Select(g => new IdeSessionGateRow(g.GateId, g.RejectWhen, g.Code))
+                .ToArray(),
+        };
+
+    private static GdlDiagnostic MapDiagnostic(GdlIdeSession.IdeSessionCatalogParseDiagnostic d) =>
+        new(d.Code, d.Message, d.Line);
 }

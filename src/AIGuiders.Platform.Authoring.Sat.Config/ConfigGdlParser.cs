@@ -58,7 +58,9 @@ public static class ConfigGdlParser
             Name = doc.Name,
             BasedOnAdr = FSharpOption<string>.get_IsSome(doc.BasedOnAdr) ? doc.BasedOnAdr.Value : null,
             Defaults = new Dictionary<string, string>(doc.Defaults, StringComparer.OrdinalIgnoreCase),
+            Sources = doc.Sources.Select(s => new ConfigSourceRow(s.Id, s.Kind, s.Path, s.Slice, s.Line)).ToArray(),
             Contracts = doc.Contracts.Select(c => new ConfigContractRow(c.Id, c.Requires, c.Ensures, c.Line)).ToArray(),
+            Facts = doc.Facts.Select(f => new ConfigFactRow(f.Contract, f.VerifiedBy, f.Line)).ToArray(),
         };
 
     private static GdlDiagnostic MapDiagnostic(GdlConfig.ConfigParseDiagnostic d) =>
