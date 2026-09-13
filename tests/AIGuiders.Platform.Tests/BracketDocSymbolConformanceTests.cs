@@ -1,5 +1,4 @@
 #nullable enable
-using System.Reflection;
 using AIGuiders.Platform.Modeling.Notations.Bracket;
 using AIGuiders.Platform.Notations.Bracket.Conformance;
 using Xunit;
@@ -11,7 +10,7 @@ public sealed class BracketDocSymbolConformanceTests
     [Fact]
     public void Bracket_doc_symbol_spec_vectors_pass()
     {
-        var json = LoadEmbedded("AIGuiders.Platform.Tests.Fixtures.Notation.bracket-doc-symbol.spec.json");
+        var json = ConformanceFixture.LoadEmbedded("AIGuiders.Platform.Tests.Fixtures.Notation.bracket-doc-symbol.spec.json");
         var spec = BracketSpecConformance.Load(json);
         var profile = BracketProfiles.DocSymbol;
         var errors = new List<string>();
@@ -24,12 +23,4 @@ public sealed class BracketDocSymbolConformanceTests
         Assert.Empty(errors);
     }
 
-    static string LoadEmbedded(string resourceName)
-    {
-        var asm = Assembly.GetExecutingAssembly();
-        using var stream = asm.GetManifestResourceStream(resourceName)
-            ?? throw new InvalidOperationException($"Missing embedded resource: {resourceName}");
-        using var reader = new StreamReader(stream);
-        return reader.ReadToEnd();
-    }
 }

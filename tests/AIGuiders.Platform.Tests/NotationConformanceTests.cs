@@ -1,5 +1,5 @@
 #nullable enable
-using System.Reflection;
+using AIGuiders.Platform.Modeling.Notations.Bracket;
 using AIGuiders.Platform.Notations.Bracket.Conformance;
 using AIGuiders.Platform.Notations.Conformance;
 using Xunit;
@@ -59,10 +59,19 @@ public sealed class NotationConformanceTests
     [Fact]
     public void Bracket_cdp_square_kv_vectors_conform()
     {
-        var json = LoadEmbedded("AIGuiders.Platform.Tests.Fixtures.Notation.bracket-cdp-square-kv.spec.json");
+        var json = ConformanceFixture.LoadEmbedded("AIGuiders.Platform.Tests.Fixtures.Notation.bracket-cdp-square-kv.spec.json");
         var spec = BracketSpecConformance.Load(json);
         Assert.Equal("bracket-cdp-square-kv", spec.Surface);
         Assert.Empty(BracketSpecConformance.ValidateDocument(spec));
+    }
+
+    [Fact]
+    public void Bracket_angle_opaque_vectors_conform()
+    {
+        var json = ConformanceFixture.LoadEmbedded("AIGuiders.Platform.Tests.Fixtures.Notation.bracket-angle-opaque.spec.json");
+        var spec = BracketSpecConformance.Load(json);
+        Assert.Equal("bracket-angle-opaque", spec.Surface);
+        Assert.Empty(BracketSpecConformance.ValidateDocument(spec, BracketProfiles.AngleOpaque));
     }
 
     [Fact]
@@ -76,12 +85,5 @@ public sealed class NotationConformanceTests
     static NotationSpecDocument LoadSpec(string resourceName) =>
         NotationSpecConformance.Load(LoadEmbedded(resourceName));
 
-    static string LoadEmbedded(string resourceName)
-    {
-        var asm = Assembly.GetExecutingAssembly();
-        using var stream = asm.GetManifestResourceStream(resourceName)
-            ?? throw new InvalidOperationException($"Missing embedded resource: {resourceName}");
-        using var reader = new StreamReader(stream);
-        return reader.ReadToEnd();
-    }
+    static string LoadEmbedded(string resourceName) => ConformanceFixture.LoadEmbedded(resourceName);
 }

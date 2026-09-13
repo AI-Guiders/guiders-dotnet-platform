@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "surface": "bracket-forge-frg",
+  "source": "GUIDERS-ADR-0026 §2.1 Forge FRG compound profile",
+  "vectors": [
+    {
+      "id": "frg-path-only",
+      "wire": "[FRG:pilot/issues/7]",
+      "expect": {
+        "axes": [
+          { "key": "FRG", "value": "pilot/issues/7", "valueWireClass": "command.path" }
+        ]
+      }
+    },
+    {
+      "id": "frg-path-file-member",
+      "wire": "[FRG:pilot/issues/7; F:Program.cs; M:Foo]",
+      "expect": {
+        "axes": [
+          { "key": "FRG", "value": "pilot/issues/7", "valueWireClass": "command.path" },
+          { "key": "F", "value": "Program.cs", "valueWireClass": "command.path" },
+          { "key": "M", "value": "Foo" }
+        ]
+      }
+    },
+    {
+      "id": "frg-scope-inner-kv",
+      "wire": "[FRG:repos/guiders-platform; F:a.cs; S:for:2]",
+      "expect": {
+        "axes": [
+          { "key": "FRG", "value": "repos/guiders-platform", "valueWireClass": "command.path" },
+          { "key": "F", "value": "a.cs", "valueWireClass": "command.path" },
+          { "key": "S", "value": "for:2", "valueWireClass": "notation.kv" }
+        ]
+      }
+    }
+  ]
+}

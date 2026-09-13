@@ -7,7 +7,14 @@
   "additionalProperties": false,
   "properties": {
     "version": { "$ref": "conformance-common.schema.json#/$defs/specVersion" },
-    "surface": { "enum": ["bracket-cdp-square-kv", "bracket-doc-symbol"] },
+    "surface": {
+      "enum": [
+        "bracket-cdp-square-kv",
+        "bracket-doc-symbol",
+        "bracket-angle-opaque",
+        "bracket-forge-frg"
+      ]
+    },
     "source": { "$ref": "conformance-common.schema.json#/$defs/specSource" },
     "vectors": {
       "type": "array",

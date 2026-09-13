@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guiders.dev/conformance/schemas/anchor-resolve-spec.schema.json",
+  "title": "LanguageIntelligence anchor resolve conformance spec",
+  "type": "object",
+  "required": ["version", "surface", "vectors"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "$ref": "conformance-common.schema.json#/$defs/specVersion" },
+    "surface": { "const": "anchor-resolve" },
+    "source": { "$ref": "conformance-common.schema.json#/$defs/specSource" },
+    "vectors": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/anchorResolveVector" }
+    }
+  },
+  "$defs": {
+    "anchorResolveVector": {
+      "type": "object",
+      "required": ["id", "wire", "expect"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "conformance-common.schema.json#/$defs/vectorId" },
+        "wire": { "type": "string", "minLength": 1 },
+        "expect": { "$ref": "#/$defs/anchorResolveExpectation" }
+      }
+    },
+    "anchorResolveExpectation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "type": "string",
+          "enum": ["None", "Csharp", "Xml", "Navigation", "Fsharp", "Json"]
+        },
+        "familyError": { "type": "string" },
+        "familyName": { "type": "string" },
+        "file": { "type": "string" },
+        "memberKey": { "type": "string" },
+        "lineStart": { "type": "integer" },
+        "lineEnd": { "type": "integer" },
+        "scopeKind": { "type": "string" },
+        "scopeIndex": { "type": "integer" },
+        "xmlPath": { "type": "string" },
+        "attr": { "type": "string" },
+        "command": { "type": "string" },
+        "go": { "type": "string" },
+        "textNeedle": { "type": "string" },
+        "typeKey": { "type": "string" },
+        "nestedAnchor": { "$ref": "#/$defs/anchorResolveExpectation" }
+      }
+    }
+  }
+}

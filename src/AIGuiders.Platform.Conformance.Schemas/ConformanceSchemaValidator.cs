@@ -192,6 +192,7 @@ public static class ConformanceSchemaValidator
             "mcplane-pulse-default.schema.json" => "mcplane-pulse-default",
             "mcplane-next-hints.schema.json" => "mcplane-next-hints",
             "bracket-spec.schema.json" => "bracket-cdp-square-kv",
+            "anchor-resolve-spec.schema.json" => "anchor-resolve",
             _ => null,
         };
 
@@ -199,7 +200,11 @@ public static class ConformanceSchemaValidator
         {
             bySurface[surface] = schema;
             if (fileName == "bracket-spec.schema.json")
+            {
                 bySurface["bracket-doc-symbol"] = schema;
+                bySurface["bracket-angle-opaque"] = schema;
+                bySurface["bracket-forge-frg"] = schema;
+            }
         }
     }
 

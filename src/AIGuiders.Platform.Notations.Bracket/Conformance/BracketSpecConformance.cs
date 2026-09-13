@@ -1,6 +1,7 @@
 #nullable enable
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using AIGuiders.Platform.Modeling.Notations.Bracket;
 
 namespace AIGuiders.Platform.Notations.Bracket.Conformance;
 
@@ -10,13 +11,18 @@ public static class BracketSpecConformance
         JsonSerializer.Deserialize<BracketSpecDocument>(json, JsonOptions)
         ?? throw new InvalidOperationException("Bracket spec JSON deserialized to null.");
 
-    public static IReadOnlyList<string> ValidateDocument(BracketSpecDocument spec)
+    public static IReadOnlyList<string> ValidateDocument(BracketSpecDocument spec) =>
+        ValidateDocument(spec, BracketProfiles.CdpSquareKeyValue, BracketAxisValuePlans.CdpCode);
+
+    public static IReadOnlyList<string> ValidateDocument(
+        BracketSpecDocument spec,
+        BracketNotationProfile profile,
+        BracketAxisValuePlan? valuePlan = null)
     {
         var errors = new List<string>();
-        var profile = BracketProfiles.CdpSquareKeyValue;
         foreach (var vector in spec.Vectors)
         {
-            if (!TryValidateVector(vector, profile, out var error))
+            if (!TryValidateVector(vector, profile, valuePlan, out var error))
                 errors.Add($"[{vector.Id}] {error}");
         }
 
@@ -26,13 +32,23 @@ public static class BracketSpecConformance
     public static bool TryValidateVector(
         BracketSpecVector vector,
         BracketNotationProfile profile,
+        out string error) =>
+        TryValidateVector(vector, profile, valuePlan: null, out error);
+
+    public static bool TryValidateVector(
+        BracketSpecVector vector,
+        BracketNotationProfile profile,
+        BracketAxisValuePlan? valuePlan,
         out string error)
     {
         error = "";
         if (vector.Wire is null)
             return Fail("wire is required.", out error);
 
-        if (!BracketReader.Default.TryRead(vector.Wire, profile, out var actual, out error) || actual is null)
+        var effectivePlan = valuePlan
+            ?? (profile.AxisShape == BracketAxisShape.KeyValue ? BracketAxisValuePlans.CdpCode : null);
+
+        if (!BracketReader.Default.TryRead(vector.Wire, profile, effectivePlan, out var actual, out error) || actual is null)
             return false;
 
         if (vector.Expect.Axes is null)

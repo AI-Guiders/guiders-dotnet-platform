@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Status** | Accepted (Phase 0 — plan + Core IR stub) |
+| **Status** | Accepted (Phase 3 shipped — profiles + conformance) |
 | **Date** | 2026-08-30 |
 | **Tags** | #guiders #notations #bracket #quarry #anchor #keyboard |
 | **Relates to** | [GUIDERS-ADR-0021](GUIDERS-ADR-0021-notations-quarry-family.md) · [GUIDERS-ADR-0025](GUIDERS-ADR-0025-language-intelligence-boundary.md) · [GUIDERS-ADR-0016](GUIDERS-ADR-0016-input-notation-quarry-family.md) |
@@ -146,10 +146,10 @@ Notations.Bracket.All   optional meta-bundle
 
 | Phase | Action |
 |-------|--------|
-| **0 (now)** | This ADR; Core IR (`BracketNotationProfile`, `BracketAxis`, …) |
+| **0** | ✓ This ADR; Core IR (`BracketNotationProfile`, `BracketAxis`, …) |
 | **1** | ✓ `BracketReader` + `NotationKvPair`/`NotationListSplit` in Core; conformance `notation/bracket-cdp-square-kv` |
-| **2** | Conformance `notation/bracket-cdp-square-kv`; LI resolver consumes `Axes[]` |
-| **3** | Forge `FRG` compound profile; CIDE H1 profile — promote when vectors exist |
+| **2** | ✓ `BracketAnchorWire` consumes `BracketReader` axes; conformance `language-intelligence/anchor-resolve` |
+| **3** | ✓ `BracketProfiles.ForgeFrg` + conformance `notation/bracket-forge-frg`; ✓ `notation/bracket-angle-opaque`; CIDE H1 profile — defer |
 
 ### 6. CDP/CIDE audit (2026-08-30)
 

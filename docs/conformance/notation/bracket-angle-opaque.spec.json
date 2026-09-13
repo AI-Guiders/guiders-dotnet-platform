@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "surface": "bracket-angle-opaque",
+  "source": "GUIDERS-ADR-0026 Notations.Bracket angle opaque profile",
+  "vectors": [
+    {
+      "id": "ctrl-k",
+      "wire": "<C-k>",
+      "expect": {
+        "axes": [
+          { "key": "_", "value": "C-k", "valueWireClass": "opaque" }
+        ]
+      }
+    },
+    {
+      "id": "shift-tab",
+      "wire": "<S-Tab>",
+      "expect": {
+        "axes": [
+          { "key": "_", "value": "S-Tab", "valueWireClass": "opaque" }
+        ]
+      }
+    },
+    {
+      "id": "ctrl-shift-tab",
+      "wire": "<C-S-Tab>",
+      "expect": {
+        "axes": [
+          { "key": "_", "value": "C-S-Tab", "valueWireClass": "opaque" }
+        ]
+      }
+    },
+    {
+      "id": "bare-inner",
+      "wire": "C-k",
+      "expect": {
+        "axes": [
+          { "key": "_", "value": "C-k", "valueWireClass": "opaque" }
+        ]
+      }
+    }
+  ]
+}
