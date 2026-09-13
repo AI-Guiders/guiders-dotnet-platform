@@ -321,15 +321,33 @@ Package: `AIGuiders.Platform.Notations.Presentation.Topology` — parse wire →
 | # | Question | Decision |
 |---|----------|----------|
 | 1 | Single `Notations.Core` reader interface vs branch-specific? | **Keep branch-specific interfaces** (`IKeyboardNotationReader`, command/argument readers per branch). Shared hooks stay in `Notations` / quarry packages; no forced universal `INotationReader<T>` in v1. |
-| 2 | `Console` reader: path tokens only, or tool names too? | **`Command.Console` accepts tool names** as single-token paths (e.g. `buffer`, `cdp_buffer`) before multi-segment subcommand chains. |
+| 2 | `Console` reader: path tokens only, or tool names too? | **Notations = wire projections** to shared invocation IR (see **Projection model** below). **`Command.Console`** parses multi-token path + argument tail only; a single token is a **one-segment path**, not registry/tool-name lookup. **Surface projections** (MCP tool names, `.exe`, `@intent` / sigil strip, catalog `commandId` aliases) live in **CommandPlane / MCPlane**, not in Notations. |
 | 3 | `Argument.Json` with MCPlane conformance or product-local? | **Defer** `Notations.Argument.Json`; MCP JSON args remain schema-driven via MCPlane / catalog projection until a conformance gate needs a shared wire IR. |
 | 4 | `InputNotation` NuGet obsoletion timeline? | **Obsoletion shipped** (warnings + migration doc); **package removal sunset TBD** after CIDE/Forge pin `Notations.*`. |
 | 5 | `Argument.Cli`: pin `System.CommandLine` vs own lexer? | **Own lexer** for v1 subset (`CliArgumentNotation`); align vectors with System.CommandLine semantics without taking a NuGet dependency. Descriptor-driven full quarry stays v2. |
 | 6 | Which `notation/*` vectors in next hyperlane gate? | **v1 gate complete** per §9 table; future gates add GNU edge cases, `argument-json`, and native-port parity only when a planet declares need. |
 
+### 13.1 Projection model (normative)
+
+**Operator rule (2026-09-13):** treat **Slash, Console, KeyGesture, Bracket, Presentation.Topology, Argument.\*** as **projections** of the same canonical invocation — not independent grammars per surface.
+
+| Canonical semantics | Slash wire | Console wire (flavor-dependent) |
+|--------------------|------------|----------------------------------|
+| `git plan verify` | `/git plan verify` | `git plan --verify` or `git -p -v` (profile + `Argument.Cli` / Kv) |
+
+```text
+Surface projection (CommandPlane / MCPlane)  →  strip aliases, map toolName → commandId
+Notation projection (Notations.*)            →  wire → NormalizedCommandLine / NormalizedArguments / …
+CommandPlane resolve                         →  catalog longest-prefix, runnable policy
+```
+
+- **Keyboard / KeyGesture:** projection → `NormalizedKeySequence`; **Binding** maps chord → command (mechanic, not notation).
+- **MCP JSON args:** surface projection + schema validation — **not** `Notations.Argument.Json` in v1 (§13 row 3).
+- **Conformance:** vectors assert **wire → IR** for a named projection; catalog phrase slots come from GDL emit, not duplicated in notation specs.
+
 ## Consequences
 
-- One mental model: **Notation = wire alphabet**, **Mechanic = how user invokes**, **Plane = federation contract layer**.
+- One mental model: **Notation = wire projection → IR**, **Mechanic = how user invokes**, **Plane = federation contract layer** (surface projection + resolve).
 - Forge JS slash port targets **Notations.Command/Argument** specs, not `CommandPlane.Slash` internals.
 - **`SlashLineResolver` boundary:** slash **wire tokenize** lives in `Modeling.Notations.Command` (`SlashCommandNotation`); **catalog longest-prefix resolution** stays in `CommandPlane.Slash` (`SlashLineResolver`). Notations owns alphabet → IR; CommandPlane owns registry lookup and runnable policy.
 - Constitution hyperlane row evolves: `Notations.*` supersedes `InputNotation.*` label when packages ship.
