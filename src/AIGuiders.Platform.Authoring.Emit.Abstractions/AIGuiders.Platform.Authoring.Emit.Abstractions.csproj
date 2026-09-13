@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Authoring.Emit</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Authoring.Emit.Abstractions</AssemblyName>
+    <PackageId>AIGuiders.Platform.Authoring.Emit.Abstractions</PackageId>
+    <Description>gdlc quarry plugin registry contracts (GUIDERS-ADR-0059 §10, ATC-ADR-0002).</Description>
+  </PropertyGroup>
+</Project>

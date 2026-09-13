@@ -6,6 +6,8 @@
     <Description>Emit MCP and wire artifacts from .catalog (GUIDERS-ADR-0047).</Description>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Authoring.Emit.Abstractions\AIGuiders.Platform.Authoring.Emit.Abstractions.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Authoring.Command.Bundles\AIGuiders.Platform.Authoring.Command.Bundles.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Authoring.Command.Catalog\AIGuiders.Platform.Authoring.Command.Catalog.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Execution.CommandPlane.Catalog\AIGuiders.Platform.Execution.CommandPlane.Catalog.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Command\AIGuiders.Platform.IntermediateRepresentation.Command.csproj" />
