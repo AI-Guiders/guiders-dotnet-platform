@@ -34,7 +34,10 @@ public static class CatalogParser
         CatalogProfileResolver.ValidateCommandProfiles(context);
 
         var document = context.BuildDocument();
-        CatalogGrammarValidator.Validate(document, context.Diagnostics);
+        CatalogGrammarValidator.Validate(
+            document,
+            context.Diagnostics,
+            context.DefaultsKv.GetValueOrDefault("command.surfaces"));
         context.ValidateChannels();
 
         return new() { Document = document, Diagnostics = context.Diagnostics };

@@ -11,7 +11,10 @@ namespace AIGuiders.Platform.Authoring.Command.Catalog;
 /// </summary>
 public static class CatalogGrammarValidator
 {
-    public static void Validate(CatalogDocument document, List<AuthoringDiagnostic> diagnostics)
+    public static void Validate(
+        CatalogDocument document,
+        List<AuthoringDiagnostic> diagnostics,
+        string? defaultsSurfacesRaw = null)
     {
         var keyboardParse =
             FSharpFunc<string, FSharpFunc<string, Tuple<bool, FSharpOption<string>>>>.FromConverter(
@@ -29,6 +32,13 @@ public static class CatalogGrammarValidator
         foreach (var diagnostic in GdlParseCatalog.CatalogGrammarValidator.validate(
                      FSharpOption<FSharpFunc<string, FSharpFunc<string, Tuple<bool, FSharpOption<string>>>>>.Some(
                          keyboardParse),
+                     document.ToModel()))
+        {
+            diagnostics.Add(CatalogInterop.FromDiagnostic(diagnostic));
+        }
+
+        foreach (var diagnostic in GdlParseCatalog.CatalogGrammarValidator.validateInvocationSurfaces(
+                     FSharpInterop.OptString(defaultsSurfacesRaw),
                      document.ToModel()))
         {
             diagnostics.Add(CatalogInterop.FromDiagnostic(diagnostic));

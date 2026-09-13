@@ -56,6 +56,7 @@ internal static class AuthoringDiagnosticExtensions
         AuthoringDiagnosticCode.UnknownProfile => GdlAuthoring.AuthoringDiagnosticCode.UnknownProfile,
         AuthoringDiagnosticCode.EntryFileNotFound => GdlAuthoring.AuthoringDiagnosticCode.EntryFileNotFound,
         AuthoringDiagnosticCode.EntryOutsideWorkspace => GdlAuthoring.AuthoringDiagnosticCode.EntryOutsideWorkspace,
+        AuthoringDiagnosticCode.UnknownInvocationSurface => GdlAuthoring.AuthoringDiagnosticCode.UnknownInvocationSurface,
         _ => GdlAuthoring.AuthoringDiagnosticCode.InvalidSyntax,
     };
 

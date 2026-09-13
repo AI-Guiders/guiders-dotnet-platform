@@ -50,6 +50,41 @@ public sealed class CatalogParserTests
     }
 
     [Fact]
+    public void Federation_defaults_surfaces_validate_without_invocation_errors()
+    {
+        var text = LoadFixture("dash.catalog.gdl");
+        var result = CatalogParser.Parse(text, bundleLibrary: CatalogBundleLibrary.Federation);
+
+        Assert.DoesNotContain(result.Diagnostics, d => d.Code == AuthoringDiagnosticCode.UnknownInvocationSurface);
+        Assert.Contains(result.Document!.Defaults.CommandSurfaces, s => s == "slash.bar");
+        Assert.Contains(result.Document.Defaults.CommandSurfaces, s => s == "ccl.filter");
+    }
+
+    [Fact]
+    public void Blank_surface_wire_in_defaults_is_rejected()
+    {
+        const string text = """
+            catalog bad
+
+            defaults
+              command.surfaces = slash.bar, , palette
+            end defaults
+
+            commands table
+              | command |
+              | ping    |
+            end commands
+            """;
+
+        var result = CatalogConformance.ValidateDocument(text);
+
+        Assert.Contains(
+            result.Diagnostics,
+            d => d.Code == AuthoringDiagnosticCode.UnknownInvocationSurface
+                 && d.Message.Contains("defaults command.surfaces", StringComparison.Ordinal));
+    }
+
+    [Fact]
     public void Grammar_mismatch_is_compile_error()
     {
         var text = LoadFixture("grammar-mismatch.catalog.gdl");

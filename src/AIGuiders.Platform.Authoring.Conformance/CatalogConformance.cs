@@ -16,5 +16,6 @@ public static class CatalogConformance
                 or AuthoringDiagnosticCode.GrammarWireMismatch
                 or AuthoringDiagnosticCode.UnknownGrammarId
                 or AuthoringDiagnosticCode.UnknownBundle
-                or AuthoringDiagnosticCode.UnknownProfile);
+                or AuthoringDiagnosticCode.UnknownProfile
+                or AuthoringDiagnosticCode.UnknownInvocationSurface);
 }

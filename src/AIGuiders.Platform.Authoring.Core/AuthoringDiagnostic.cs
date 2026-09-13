@@ -23,4 +23,5 @@ public enum AuthoringDiagnosticCode
     UnknownProfile,
     EntryFileNotFound,
     EntryOutsideWorkspace,
+    UnknownInvocationSurface,
 }
