@@ -20,7 +20,7 @@ public class PulseFormatTests
     [Fact]
     public void JoinBits_skips_empty()
     {
-        var pulse = PulseFormat.JoinBits(["undo", null, "ok", ""], PulseFormat.DefaultMaxChars);
+        var pulse = PulseFormat.JoinBits(new string?[] { "undo", null, "ok", "" }, PulseFormat.DefaultMaxChars);
         Assert.Equal("undo ok", pulse);
     }
 }

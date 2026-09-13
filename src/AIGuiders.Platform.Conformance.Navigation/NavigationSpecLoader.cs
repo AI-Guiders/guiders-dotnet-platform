@@ -50,7 +50,7 @@ public static class NavigationSpecLoader
             MaxRelated = FSharpInterop.OptInt(wire.MaxRelated) ?? NavigationProfile.ExploreDefault.MaxRelated,
             MaxNodes = FSharpInterop.OptInt(wire.MaxNodes) ?? NavigationProfile.ExploreDefault.MaxNodes,
             MaxEdges = FSharpInterop.OptInt(wire.MaxEdges) ?? NavigationProfile.ExploreDefault.MaxEdges,
-            WithUsages = FSharpOption<bool>.get_IsSome(wire.WithUsages) && wire.WithUsages.Value,
+            WithUsages = wire.WithUsages is FSharpOption<bool> withUsagesOpt && FSharpOption<bool>.get_IsSome(withUsagesOpt) && withUsagesOpt.Value,
         };
     }
 
