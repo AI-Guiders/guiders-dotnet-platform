@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingConformance>true</UseGuidersModelingConformance>
     <RootNamespace>AIGuiders.Platform.Conformance.Policies</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Conformance.Policies</AssemblyName>
     <PackageId>AIGuiders.Platform.Conformance.Policies</PackageId>
@@ -12,4 +13,5 @@
     <ProjectReference Include="..\AIGuiders.Platform.Conformance.Schemas\AIGuiders.Platform.Conformance.Schemas.csproj" />
     <PackageReference Include="Tomlyn" Version="$(TomlynVersion)" />
   </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>

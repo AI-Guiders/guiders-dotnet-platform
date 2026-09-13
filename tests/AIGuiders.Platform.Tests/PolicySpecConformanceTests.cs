@@ -35,7 +35,7 @@ public sealed class PolicySpecConformanceTests
 
         Assert.Equal(jsonSpec.Policy, tomlSpec.Policy);
         Assert.Equal(jsonSpec.Semantics, tomlSpec.Semantics);
-        Assert.Equal(jsonSpec.Vectors.Count, tomlSpec.Vectors.Count);
+        Assert.Equal(jsonSpec.Vectors.Length, tomlSpec.Vectors.Length);
 
         var tomlSchemaErrors = PolicySpecFormats.ValidateFile(tomlPath);
         Assert.True(tomlSchemaErrors.Count == 0, string.Join(Environment.NewLine, tomlSchemaErrors));

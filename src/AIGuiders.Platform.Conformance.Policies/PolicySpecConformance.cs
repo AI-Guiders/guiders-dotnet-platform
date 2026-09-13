@@ -1,4 +1,3 @@
-using AIGuiders.Platform.IntermediateRepresentation.Binding;
 using AIGuiders.Platform.IntermediateRepresentation.Command;
 #nullable enable
 using System.Text.Json;
@@ -39,30 +38,29 @@ public static class PolicySpecConformance
         out string error)
     {
         error = "";
-        return spec.Semantics switch
-        {
-            CombinationSemantics.ShipFirst => TryValidateSlashVector(
-                (Combinator<CommandCatalogIndex>)combinator, vector, out error),
-            CombinationSemantics.OverlayWins => TryValidateBindingVector(
-                (Combinator<BindingCatalogIndex>)combinator, vector, out error),
-            CombinationSemantics.FieldOverlay or CombinationSemantics.SectionReplace =>
-                TryValidateWorkspaceVector(
-                    (Combinator<WorkspaceDocument>)combinator, vector, out error),
-            _ => Fail(vector.Id, $"Unsupported semantics \"{spec.Semantics}\".", out error),
-        };
+        var semantics = PolicySpecInterop.ParseSemantics(spec.Semantics);
+        if (semantics == CombinationSemantics.ShipFirst)
+            return TryValidateSlashVector((Combinator<CommandCatalogIndex>)combinator, vector, out error);
+        if (semantics == CombinationSemantics.OverlayWins)
+            return TryValidateBindingVector((Combinator<BindingCatalogIndex>)combinator, vector, out error);
+        if (semantics == CombinationSemantics.FieldOverlay || semantics == CombinationSemantics.SectionReplace)
+            return TryValidateWorkspaceVector((Combinator<WorkspaceDocument>)combinator, vector, out error);
+
+        return Fail(vector.Id, $"Unsupported semantics \"{spec.Semantics}\".", out error);
     }
 
     static bool TryResolveCombinator(PolicySpecDocument spec, out object? combinator, out string error)
     {
         combinator = null;
         error = "";
+        var semantics = PolicySpecInterop.ParseSemantics(spec.Semantics);
         combinator = spec.Policy switch
         {
-            "slash.ship-first" when spec.Semantics == CombinationSemantics.ShipFirst
+            "slash.ship-first" when semantics == CombinationSemantics.ShipFirst
                 => CommandCatalogCombinators.ShipFirst,
-            "binding.overlay-wins" when spec.Semantics == CombinationSemantics.OverlayWins
+            "binding.overlay-wins" when semantics == CombinationSemantics.OverlayWins
                 => BindingCombinators.OverlayWins,
-            "workspace.field-overlay" when spec.Semantics == CombinationSemantics.FieldOverlay
+            "workspace.field-overlay" when semantics == CombinationSemantics.FieldOverlay
                 => WorkspaceCombinators.FieldOverlay,
             _ => null,
         };
@@ -82,13 +80,16 @@ public static class PolicySpecConformance
         out string error)
     {
         error = "";
-        if (vector.Baseline is null || vector.Overlay is null || vector.Expect is null)
+        if (string.IsNullOrWhiteSpace(vector.BaselineJson)
+            || string.IsNullOrWhiteSpace(vector.OverlayJson)
+            || string.IsNullOrWhiteSpace(vector.ExpectJson))
             return Fail(vector.Id, "Slash vectors require baseline, overlay, and expect.", out error);
 
-        var baseline = BuildSlashIndex(vector.Baseline.Value);
-        var overlay = BuildSlashIndex(vector.Overlay.Value);
+        var baseline = BuildSlashIndex(PolicySpecInterop.ParseJson(vector.BaselineJson));
+        var overlay = BuildSlashIndex(PolicySpecInterop.ParseJson(vector.OverlayJson));
         var merged = combinator(baseline, overlay);
-        var expect = vector.Expect.Value.Deserialize<SlashExpectWire>(PolicySpecLoader.JsonOptions);
+        var expect = PolicySpecInterop.ParseJson(vector.ExpectJson)
+            .Deserialize<SlashExpectWire>(PolicySpecLoader.JsonOptions);
         if (expect?.Paths is null)
             return Fail(vector.Id, "expect.paths is required.", out error);
 
@@ -115,13 +116,16 @@ public static class PolicySpecConformance
         out string error)
     {
         error = "";
-        if (vector.Baseline is null || vector.Overlay is null || vector.Expect is null)
+        if (string.IsNullOrWhiteSpace(vector.BaselineJson)
+            || string.IsNullOrWhiteSpace(vector.OverlayJson)
+            || string.IsNullOrWhiteSpace(vector.ExpectJson))
             return Fail(vector.Id, "Binding vectors require baseline, overlay, and expect.", out error);
 
-        var baseline = BuildBindingIndex(vector.Baseline.Value);
-        var overlay = BuildBindingIndex(vector.Overlay.Value);
+        var baseline = BuildBindingIndex(PolicySpecInterop.ParseJson(vector.BaselineJson));
+        var overlay = BuildBindingIndex(PolicySpecInterop.ParseJson(vector.OverlayJson));
         var merged = combinator(baseline, overlay);
-        var expect = vector.Expect.Value.Deserialize<BindingExpectWire>(PolicySpecLoader.JsonOptions);
+        var expect = PolicySpecInterop.ParseJson(vector.ExpectJson)
+            .Deserialize<BindingExpectWire>(PolicySpecLoader.JsonOptions);
         if (expect?.Bindings is null)
             return Fail(vector.Id, "expect.bindings is required.", out error);
 
@@ -148,14 +152,19 @@ public static class PolicySpecConformance
         out string error)
     {
         error = "";
-        if (vector.Baseline is null || vector.Overlay is null || vector.Expect is null)
+        if (string.IsNullOrWhiteSpace(vector.BaselineJson)
+            || string.IsNullOrWhiteSpace(vector.OverlayJson)
+            || string.IsNullOrWhiteSpace(vector.ExpectJson))
             return Fail(vector.Id, "Workspace vectors require baseline, overlay, and expect.", out error);
 
-        var baseline = vector.Baseline.Value.Deserialize<WorkspaceDocument>(PolicySpecLoader.JsonOptions)
+        var baseline = PolicySpecInterop.ParseJson(vector.BaselineJson)
+            .Deserialize<WorkspaceDocument>(PolicySpecLoader.JsonOptions)
             ?? new WorkspaceDocument();
-        var overlay = vector.Overlay.Value.Deserialize<WorkspaceDocument>(PolicySpecLoader.JsonOptions)
+        var overlay = PolicySpecInterop.ParseJson(vector.OverlayJson)
+            .Deserialize<WorkspaceDocument>(PolicySpecLoader.JsonOptions)
             ?? new WorkspaceDocument();
-        var expect = vector.Expect.Value.Deserialize<WorkspaceDocument>(PolicySpecLoader.JsonOptions)
+        var expect = PolicySpecInterop.ParseJson(vector.ExpectJson)
+            .Deserialize<WorkspaceDocument>(PolicySpecLoader.JsonOptions)
             ?? new WorkspaceDocument();
 
         var merged = combinator(baseline, overlay);
