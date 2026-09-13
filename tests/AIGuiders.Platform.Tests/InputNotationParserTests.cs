@@ -105,8 +105,8 @@ public sealed class InputNotationParserTests
             Profile = MelodyLineProfile.PureByChord,
             Steps =
             [
-                new MelodyStep { Articulation = MelodyArticulation.ByChord, Wire = "Ctrl+R" },
-                new MelodyStep { Articulation = MelodyArticulation.ByChord, Wire = "Ctrl+R" },
+                new MelodyStep(MelodyArticulation.ByChord, "Ctrl+R", Microsoft.FSharp.Core.FSharpOption<string>.None),
+                new MelodyStep(MelodyArticulation.ByChord, "Ctrl+R", Microsoft.FSharp.Core.FSharpOption<string>.None),
             ],
         };
 

@@ -24,7 +24,7 @@ public static class MelodyLinePolicy
         return hasChord ? MelodyLineProfile.PureByChord : MelodyLineProfile.PureByNote;
     }
 
-    public static IReadOnlyList<MelodyStep> InferStepsFromSlug(string slug)
+        public static IReadOnlyList<MelodyStep> InferStepsFromSlug(string slug)
     {
         if (string.IsNullOrEmpty(slug))
             return [];
@@ -32,17 +32,16 @@ public static class MelodyLinePolicy
         var steps = new MelodyStep[slug.Length];
         for (var i = 0; i < slug.Length; i++)
         {
-            steps[i] = new MelodyStep
-            {
-                Articulation = MelodyArticulation.ByNote,
-                Wire = slug[i].ToString(),
-            };
+            steps[i] = new MelodyStep(
+                MelodyArticulation.ByNote,
+                slug[i].ToString(),
+                Microsoft.FSharp.Core.FSharpOption<string>.None);
         }
 
         return steps;
     }
 
-    public static MelodyDescriptor Normalize(MelodyDescriptor descriptor)
+        public static MelodyDescriptor Normalize(MelodyDescriptor descriptor)
     {
         var steps = descriptor.Steps.Count > 0
             ? descriptor.Steps
@@ -58,7 +57,6 @@ public static class MelodyLinePolicy
             Slug = descriptor.Slug,
             Profile = profile,
             Steps = steps,
-            ArgumentNotation = descriptor.ArgumentNotation,
             Help = descriptor.Help,
         };
     }

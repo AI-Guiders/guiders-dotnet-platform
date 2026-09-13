@@ -1,7 +1,7 @@
 using AIGuiders.Platform.IntermediateRepresentation.Melody;
 #nullable enable
 using AIGuiders.Platform.Execution.CommandPlane.Melody;
-using AIGuiders.Platform.Modeling.Notations.Argument;
+using Microsoft.FSharp.Core;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;
@@ -45,8 +45,8 @@ public sealed class MelodyLinePolicyTests
             Profile = MelodyLineProfile.PureByChord,
             Steps =
             [
-                new MelodyStep { Articulation = MelodyArticulation.ByChord, Wire = "Ctrl+R" },
-                new MelodyStep { Articulation = MelodyArticulation.ByChord, Wire = "Ctrl+R" },
+                new MelodyStep(MelodyArticulation.ByChord, "Ctrl+R", FSharpOption<string>.None),
+                new MelodyStep(MelodyArticulation.ByChord, "Ctrl+R", FSharpOption<string>.None),
             ],
         };
 
@@ -63,8 +63,8 @@ public sealed class MelodyLinePolicyTests
             Profile = MelodyLineProfile.Mixed,
             Steps =
             [
-                new MelodyStep { Articulation = MelodyArticulation.ByNote, Wire = "b" },
-                new MelodyStep { Articulation = MelodyArticulation.ByChord, Wire = "Ctrl+Shift+P" },
+                new MelodyStep(MelodyArticulation.ByNote, "b", FSharpOption<string>.None),
+                new MelodyStep(MelodyArticulation.ByChord, "Ctrl+Shift+P", FSharpOption<string>.None),
             ],
         };
 
@@ -81,8 +81,8 @@ public sealed class MelodyLinePolicyTests
             Profile = MelodyLineProfile.Mixed,
             Steps =
             [
-                new MelodyStep { Articulation = MelodyArticulation.ByNote, Wire = "b" },
-                new MelodyStep { Articulation = MelodyArticulation.ByNote, Wire = "s" },
+                new MelodyStep(MelodyArticulation.ByNote, "b", FSharpOption<string>.None),
+                new MelodyStep(MelodyArticulation.ByNote, "s", FSharpOption<string>.None),
             ],
         };
 
@@ -101,8 +101,8 @@ public sealed class MelodyLinePolicyTests
             Profile = MelodyLineProfile.PureByNote,
             Steps =
             [
-                new MelodyStep { Articulation = MelodyArticulation.ByNote, Wire = "b" },
-                new MelodyStep { Articulation = MelodyArticulation.ByChord, Wire = "Ctrl+R" },
+                new MelodyStep(MelodyArticulation.ByNote, "b", FSharpOption<string>.None),
+                new MelodyStep(MelodyArticulation.ByChord, "Ctrl+R", FSharpOption<string>.None),
             ],
         };
 
@@ -119,13 +119,12 @@ public sealed class MelodyLinePolicyTests
             CommandId = "git.status",
             Slug = "gs",
             Help = "Git Status",
-            ArgumentNotation = new ArgumentNotationProfile("line_range"),
         };
 
         var line = descriptor.ToLine();
 
         Assert.Equal("gs", line.Slug);
         Assert.Equal("Git Status", line.Help);
-        Assert.Equal("line_range", line.ArgumentNotation!.ReaderId);
+        Assert.Null(line.ArgumentNotation);
     }
 }
