@@ -5,7 +5,11 @@
     <PackageId>AIGuiders.Platform.InputNotation</PackageId>
     <Description>Legacy alias package for keyboard notation core — use AIGuiders.Platform.Notations.Keyboard (GUIDERS-ADR-0021 Wave 4).</Description>
   </PropertyGroup>
+  <PropertyGroup>
+    <InputNotationReplacementPackage>AIGuiders.Platform.Notations.Keyboard</InputNotationReplacementPackage>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard\AIGuiders.Platform.Notations.Keyboard.csproj" />
   </ItemGroup>
+  <Import Project="../../eng/InputNotation.Legacy.props" />
 </Project>

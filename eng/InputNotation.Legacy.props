@@ -1,0 +1,10 @@
+<Project>
+  <!-- GUIDERS-ADR-0021 §7 — InputNotation sunset; packages remain published until sunset date TBD. -->
+  <PropertyGroup>
+    <InputNotationReplacementPackage Condition="'$(InputNotationReplacementPackage)' == ''">AIGuiders.Platform.Notations.Keyboard.*</InputNotationReplacementPackage>
+    <Description>$(Description) **[OBSOLETE]** Replace with $(InputNotationReplacementPackage). See docs/migration/inputnotation-to-notations-v1.md. Sunset date TBD.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)..\src\InputNotation.Legacy\ObsoletePackageAssembly.cs" Link="ObsoletePackageAssembly.cs" />
+  </ItemGroup>
+</Project>
