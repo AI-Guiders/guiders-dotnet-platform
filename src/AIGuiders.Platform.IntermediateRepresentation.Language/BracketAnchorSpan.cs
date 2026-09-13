@@ -58,7 +58,7 @@ public sealed record BracketAnchorSpan(
         FSharpInterop.OptString(model.Family),
         FSharpInterop.OptString(model.Command),
         FSharpInterop.OptString(model.Go),
-        Microsoft.FSharp.Core.FSharpOption<GdlLanguage.BracketAnchorSpan>.get_IsSome(model.NestedAnchor)
+        model.NestedAnchor is not null && Microsoft.FSharp.Core.FSharpOption<GdlLanguage.BracketAnchorSpan>.get_IsSome(model.NestedAnchor)
             ? FromModel(model.NestedAnchor.Value)
             : null,
         FSharpInterop.OptString(model.TextNeedle),

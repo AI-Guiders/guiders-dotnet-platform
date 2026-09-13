@@ -23,9 +23,11 @@ public static class CSharpBracketAnchorResolve
     public static bool TryResolve(string absoluteFilePath, BracketAnchorSpan span, out TextRange range, out string detail) =>
         TryResolve(absoluteFilePath, sourceText: null, span, out range, out detail);
 
-    /// <param name="sourceText">
-    /// Optional buffer text (cdp_buffer). When null, reads <paramref name="absoluteFilePath"/> from disk.
-    /// </param>
+    /// <param name="absoluteFilePath">Absolute path to the C# source file.</param>
+    /// <param name="sourceText">Optional buffer text (cdp_buffer). When null, reads <paramref name="absoluteFilePath"/> from disk.</param>
+    /// <param name="span">Bracket anchor span to resolve.</param>
+    /// <param name="range">Resolved text range when successful.</param>
+    /// <param name="detail">Diagnostic detail for attach target resolution.</param>
     public static bool TryResolve(
         string absoluteFilePath,
         string? sourceText,
@@ -70,7 +72,11 @@ public static class CSharpBracketAnchorResolve
         out string detail) =>
         TryFindAttachTarget(absoluteFilePath, sourceText: null, span, out target, out detail);
 
+    /// <param name="absoluteFilePath">Absolute path to the C# source file.</param>
     /// <param name="sourceText">When set, parse this instead of disk (dirty buffer / in-memory).</param>
+    /// <param name="span">Bracket anchor span to resolve.</param>
+    /// <param name="target">Resolved attach target when successful.</param>
+    /// <param name="detail">Diagnostic detail for attach target resolution.</param>
     public static bool TryFindAttachTarget(
         string absoluteFilePath,
         string? sourceText,

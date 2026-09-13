@@ -59,7 +59,7 @@ public sealed class CommandCatalogIndex
         argTail = "";
         isExactPath = false;
         endsWithSpaceAfterPath = false;
-        entry = default;
+        entry = default!;
         if (tokens.Count == 0)
             return false;
 

@@ -151,7 +151,7 @@ public static class CommandDescriptorMapper
 
 
 
-        return new ArgumentNotationProfile(readerId, slots.Count > 0 ? slots : null);
+        return new ArgumentNotationProfile(readerId ?? "", slots);
 
     }
 
@@ -368,7 +368,7 @@ public static class CommandDescriptorMapper
             bindings.Add(new ArgConstructorBinding(
                 parts[0],
                 parts.Length > 1 ? parts[1] : parts[0],
-                parts.Length > 2 ? parts[2] : null));
+                parts.Length > 2 ? parts[2] : ""));
         }
 
         return bindings;
@@ -398,9 +398,9 @@ public static class CommandDescriptorMapper
 
             ParseArgumentSlotKind(ReadJsonString(element, "kind")),
 
-            ReadJsonString(element, "longOption", "long_option"),
+            ReadJsonString(element, "longOption", "long_option") ?? "",
 
-            ReadJsonString(element, "shortOption", "short_option"));
+            ReadJsonString(element, "shortOption", "short_option") ?? "");
 
     }
 

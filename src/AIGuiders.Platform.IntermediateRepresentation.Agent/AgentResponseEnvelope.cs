@@ -26,8 +26,8 @@ public sealed record AgentResponseEnvelope(
         new(
             model.Ok,
             model.Tier,
-            Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(model.Pulse) ? model.Pulse.Value : null,
-            Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(model.Reason) ? model.Reason.Value : null,
-            Microsoft.FSharp.Core.FSharpOption<IReadOnlyList<NextHint>>.get_IsSome(model.Next) ? model.Next.Value : null,
+            model.Pulse is not null && Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(model.Pulse) ? model.Pulse.Value : null,
+            model.Reason is not null && Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(model.Reason) ? model.Reason.Value : null,
+            model.Next is not null && Microsoft.FSharp.Core.FSharpOption<IReadOnlyList<NextHint>>.get_IsSome(model.Next) ? model.Next.Value : null,
             outcome);
 }

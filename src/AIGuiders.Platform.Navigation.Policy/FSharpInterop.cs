@@ -7,8 +7,8 @@ namespace AIGuiders.Platform.Navigation.Policy;
 
 internal static class FSharpInterop
 {
-    internal static string? OptString(FSharpOption<string> value) =>
-        FSharpOption<string>.get_IsSome(value) ? value.Value : null;
+    internal static string? OptString(FSharpOption<string>? value) =>
+        value is not null && FSharpOption<string>.get_IsSome(value) ? value.Value : null;
 
     internal static FSharpOption<string> OptString(string? value) =>
         string.IsNullOrEmpty(value) ? FSharpOption<string>.None : FSharpOption<string>.Some(value!);
@@ -21,8 +21,8 @@ internal static class FSharpInterop
             ? []
             : ListModule.OfSeq(list);
 
-    internal static IReadOnlyList<string>? OptReadOnlyStringList(FSharpOption<FSharpList<string>> value) =>
-        FSharpOption<FSharpList<string>>.get_IsSome(value)
+    internal static IReadOnlyList<string>? OptReadOnlyStringList(FSharpOption<FSharpList<string>>? value) =>
+        value is not null && FSharpOption<FSharpList<string>>.get_IsSome(value)
             ? ToReadOnlyList(value.Value)
             : null;
 

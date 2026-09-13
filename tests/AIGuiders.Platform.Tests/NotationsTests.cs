@@ -83,7 +83,7 @@ public sealed class NotationsTests
         Assert.True(FSharpOption<SlashWireBody>.get_IsSome(slashWire));
         Assert.True(ConsoleCommandNotation.TryParse(consoleLine, out var consoleWire, out _));
 
-        var slashPath = InvocationNotation.fromPathSegments(slashWire.Value!.Tokens);
+        var slashPath = InvocationNotation.fromPathSegments(slashWire!.Value.Tokens);
         var consolePath = InvocationNotation.fromPathSegments(consoleWire.Tokens);
 
         Assert.True(InvocationNotation.pathsEqual(slashPath, consolePath));

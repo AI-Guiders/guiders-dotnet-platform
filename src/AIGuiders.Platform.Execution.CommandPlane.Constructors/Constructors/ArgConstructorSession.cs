@@ -2,9 +2,11 @@
 
 namespace AIGuiders.Platform.Execution.CommandPlane;
 
-public sealed class ArgConstructorSession(ValueConstructorNavigator navigator)
+public sealed class ArgConstructorSession
 {
-    public ValueConstructorNavigator Navigator { get; } = navigator;
+    public ValueConstructorNavigator Navigator { get; }
+
+    public ArgConstructorSession(ValueConstructorNavigator navigator) => Navigator = navigator;
 
     ArgConstructorDraft? _draft;
     string _typedArgTail = "";
@@ -24,7 +26,7 @@ public sealed class ArgConstructorSession(ValueConstructorNavigator navigator)
                 return false;
             }
 
-            return navigator.TryEmitWire(_draft, out _, out _);
+            return Navigator.TryEmitWire(_draft, out _, out _);
         }
     }
 
@@ -41,7 +43,7 @@ public sealed class ArgConstructorSession(ValueConstructorNavigator navigator)
     public void SetTypedArgTail(string typedArgTail) => _typedArgTail = typedArgTail.Trim();
 
     public bool TryAdvance(string pickedValue) =>
-        _draft is not null && navigator.TryAdvance(_draft, pickedValue);
+        _draft is not null && Navigator.TryAdvance(_draft, pickedValue);
 
     public bool TryApplyLocaleParts(
         LocaleDateParts parts,
@@ -65,7 +67,7 @@ public sealed class ArgConstructorSession(ValueConstructorNavigator navigator)
             return false;
         }
 
-        if (!navigator.TryEmitWire(_draft, out wireValue, out _))
+        if (!Navigator.TryEmitWire(_draft, out wireValue, out _))
         {
             return false;
         }

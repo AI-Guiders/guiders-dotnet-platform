@@ -11,7 +11,7 @@ public static class ArgumentNotation
     public static NormalizedArguments Parse(string? wire, ArgumentNotationProfile? profile = null)
     {
         if (string.IsNullOrWhiteSpace(wire))
-            return NormalizedArguments.FromRaw("", profile?.ReaderId);
+            return NormalizedArguments.FromRaw("", profile?.ReaderId ?? "");
 
         var readerId = ResolveReaderId(wire, profile);
         return readerId switch

@@ -1,6 +1,7 @@
 #nullable enable
 using System.Text.Json;
 using AIGuiders.Platform.Modeling.Core;
+using Microsoft.FSharp.Core;
 
 namespace AIGuiders.Platform.Execution.MCPlane.Conformance;
 
@@ -84,7 +85,11 @@ public static class McPlaneSpecConformance
             return Fail("outcome is required.", out error);
 
         var next = (vector.Next ?? [])
-            .Select(h => new NextHint(h.Kind, h.CommandId, h.ToolName, h.Label))
+            .Select(h => new NextHint(
+                h.Kind,
+                ToFSharpOpt(h.CommandId),
+                ToFSharpOpt(h.ToolName),
+                ToFSharpOpt(h.Label)))
             .ToList();
 
         var envelope = AgentResponseProjection.FromOutcome(ToOutcome(vector.Outcome), DetailTier.Pulse, next);
@@ -115,9 +120,12 @@ public static class McPlaneSpecConformance
             Raw = spec.Raw,
             Verb = spec.Verb,
             Ok = spec.Ok,
-            Pulse = spec.Pulse,
-            Reason = spec.Reason,
+            Pulse = spec.Pulse ?? "",
+            Reason = spec.Reason ?? "",
         };
+
+    static FSharpOption<string> ToFSharpOpt(string? value) =>
+        string.IsNullOrEmpty(value) ? FSharpOption<string>.None : FSharpOption<string>.Some(value!);
 
     static bool Fail(string message, out string error)
     {

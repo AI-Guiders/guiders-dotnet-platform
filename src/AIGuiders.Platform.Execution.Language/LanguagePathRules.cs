@@ -8,6 +8,6 @@ public static class LanguagePathRules
     public static string? ResolveLanguageId(string path)
     {
         var option = Modeling.Language.LanguagePathRules.resolveLanguageId(path);
-        return FSharpOption<string>.get_IsSome(option) ? option.Value : null;
+        return option is not null && FSharpOption<string>.get_IsSome(option) ? option.Value : null;
     }
 }

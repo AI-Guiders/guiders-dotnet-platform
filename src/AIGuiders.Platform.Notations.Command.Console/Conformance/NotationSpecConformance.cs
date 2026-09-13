@@ -205,7 +205,7 @@ public static class NotationSpecConformance
         var slashOpt = SlashCommandNotation.tryParseLine(vector.SlashLine);
         if (!FSharpOption<AIGuiders.Platform.Modeling.Notations.Command.SlashWireBody>.get_IsSome(slashOpt))
             return Fail($"invalid slashLine \"{vector.SlashLine}\".", out error);
-        var slashWire = slashOpt.Value;
+        var slashWire = slashOpt!.Value;
 
         if (!ConsoleCommandNotation.TryParse(vector.ConsoleLine, out var consoleWire, out var consoleArgs))
             return Fail($"invalid consoleLine \"{vector.ConsoleLine}\".", out error);

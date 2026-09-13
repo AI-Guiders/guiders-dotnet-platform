@@ -22,7 +22,7 @@ public sealed record SlashInputGuidance(
     {
         InvocationLinePhase.Path => nameof(InvocationLinePhase.Path),
         InvocationLinePhase.Ready => nameof(InvocationLinePhase.Ready),
-        InvocationLinePhase.Arg => ArgMechanic!.ToString(),
+        InvocationLinePhase.Arg => ArgMechanic?.ToString() ?? nameof(InvocationLinePhase.Arg),
         _ => Phase.ToString(),
     };
 }

@@ -77,7 +77,7 @@ public sealed record BufferEditOutcome
         SelectionStart = FSharpInterop.OptInt(model.SelectionStart),
         SelectionEnd = FSharpInterop.OptInt(model.SelectionEnd),
         TextMode = FSharpInterop.OptString(model.TextMode),
-        Edits = FSharpOption<IReadOnlyList<GdlLanguage.TextEdit>>.get_IsSome(model.Edits)
+        Edits = model.Edits is not null && FSharpOption<IReadOnlyList<GdlLanguage.TextEdit>>.get_IsSome(model.Edits)
             ? model.Edits.Value.Select(static edit => TextEdit.FromModel(edit)).ToList()
             : null,
     };

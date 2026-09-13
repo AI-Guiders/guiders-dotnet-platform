@@ -1,6 +1,7 @@
 #nullable enable
 
 using GdlCorrespondence = AIGuiders.Platform.Modeling.Gdl.Correspondence;
+using Microsoft.FSharp.Core;
 
 namespace AIGuiders.Platform.Execution.Documentation.Correspondence;
 
@@ -39,20 +40,26 @@ public static class AdrLifecycleTag
 
 public sealed record AdrReference(string Id, string? Fragment = null)
 {
-    public GdlCorrespondence.AdrReference ToModel() => new() { Id = Id, Fragment = Fragment };
+    public GdlCorrespondence.AdrReference ToModel() => new() { Id = Id, Fragment = CorrespondenceFSharpInterop.ToFSharpOpt(Fragment) };
     public static AdrReference FromModel(GdlCorrespondence.AdrReference model) => new(
         model.Id,
-        Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(model.Fragment) ? model.Fragment.Value : null);
+        model.Fragment is not null && Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(model.Fragment) ? model.Fragment.Value : null);
 }
 
 public sealed record ForwardDoc(string Path, string Title, string? Abs = null, string? Kind = null)
 {
-    public GdlCorrespondence.ForwardDoc ToModel() => new() { Path = Path, Title = Title, Abs = Abs, Kind = Kind };
+    public GdlCorrespondence.ForwardDoc ToModel() => new()
+    {
+        Path = Path,
+        Title = Title,
+        Abs = CorrespondenceFSharpInterop.ToFSharpOpt(Abs),
+        Kind = CorrespondenceFSharpInterop.ToFSharpOpt(Kind),
+    };
     public static ForwardDoc FromModel(GdlCorrespondence.ForwardDoc model) => new(
         model.Path,
         model.Title,
-        Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(model.Abs) ? model.Abs.Value : null,
-        Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(model.Kind) ? model.Kind.Value : null);
+        model.Abs is not null && Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(model.Abs) ? model.Abs.Value : null,
+        model.Kind is not null && Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(model.Kind) ? model.Kind.Value : null);
 }
 
 public sealed record ReverseAnchor(
@@ -77,10 +84,10 @@ public sealed record ReverseAnchor(
         File = File,
         LineStart = LineStart,
         LineEnd = LineEnd,
-        MemberKey = MemberKey,
+        MemberKey = CorrespondenceFSharpInterop.ToFSharpOpt(MemberKey),
         Wire = Wire,
         DocLineHint = DocLineHint,
-        Excerpt = Excerpt,
+        Excerpt = CorrespondenceFSharpInterop.ToFSharpOpt(Excerpt),
     };
 }
 
@@ -100,7 +107,7 @@ public sealed record ExplicitCodeAnchor(
         File = File,
         LineStart = LineStart,
         LineEnd = LineEnd,
-        MemberKey = MemberKey,
+        MemberKey = CorrespondenceFSharpInterop.ToFSharpOpt(MemberKey),
         Provenance = Provenance,
         Kind = Kind,
         DefaultKind = DefaultKind,
@@ -121,8 +128,8 @@ public sealed record CorrespondenceResult(
     public GdlCorrespondence.CorrespondenceResult ToModel() => new()
     {
         WorkspaceRoot = WorkspaceRoot,
-        FileRel = FileRel,
-        FeatureLine = FeatureLine,
+        FileRel = CorrespondenceFSharpInterop.ToFSharpOpt(FileRel),
+        FeatureLine = CorrespondenceFSharpInterop.ToFSharpOpt(FeatureLine),
         FeatureDocs = FeatureDocs,
         AdrLine = AdrLine,
         ForwardDocs = ForwardDocs.Select(d => d.ToModel()).ToArray(),
@@ -141,10 +148,16 @@ public sealed record ForwardMapResult(
 {
     public GdlCorrespondence.ForwardMapResult ToModel() => new()
     {
-        FeatureLine = FeatureLine,
+        FeatureLine = CorrespondenceFSharpInterop.ToFSharpOpt(FeatureLine),
         FeatureDocs = FeatureDocs,
         AdrLine = AdrLine,
         DocPaths = Microsoft.FSharp.Collections.ListModule.OfSeq(DocPaths),
         ForwardDocs = ForwardDocs.Select(d => d.ToModel()).ToArray(),
     };
+}
+
+internal static class CorrespondenceFSharpInterop
+{
+    internal static FSharpOption<string> ToFSharpOpt(string? value) =>
+        string.IsNullOrEmpty(value) ? FSharpOption<string>.None : FSharpOption<string>.Some(value!);
 }

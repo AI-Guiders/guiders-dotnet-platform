@@ -25,7 +25,7 @@ public sealed class CatalogParseResult
 
     public static CatalogParseResult FromModel(GdlParseCatalog.CatalogParseResult model) => new()
     {
-        Document = FSharpOption<GdlParseCatalog.CatalogDocument>.get_IsSome(model.Document)
+        Document = model.Document is not null && FSharpOption<GdlParseCatalog.CatalogDocument>.get_IsSome(model.Document)
             ? CatalogDocument.FromModel(model.Document.Value)
             : null,
         Diagnostics = FSharpInterop.FromList(model.Diagnostics).Select(AuthoringDiagnosticExtensions.FromModel).ToList(),

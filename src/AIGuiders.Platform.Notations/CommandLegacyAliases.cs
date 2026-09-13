@@ -17,7 +17,7 @@ public sealed record NormalizedCommandLine(
         new(line.CanonicalPath, line.PathSegments);
 }
 
-/// <summary>Legacy alias for <see cref="Command.SlashWireBody"/> (GUIDERS-ADR-0021 Wave 4b).</summary>
+/// <summary>Legacy alias for <see cref="AIGuiders.Platform.Modeling.Notations.Command.SlashWireBody"/> (GUIDERS-ADR-0021 Wave 4b).</summary>
 [Obsolete("Use AIGuiders.Platform.Notations.Command.SlashWireBody and package AIGuiders.Platform.Notations.Command.")]
 public sealed record SlashWireBody(
     IReadOnlyList<string> Tokens,
@@ -32,7 +32,7 @@ public sealed record SlashWireBody(
         new(body.Tokens, body.EndsWithSpaceAfterTokens);
 }
 
-/// <summary>Legacy alias for <see cref="Command.InvocationNotation"/> (GUIDERS-ADR-0021 Wave 4b).</summary>
+/// <summary>Legacy alias for <see cref="AIGuiders.Platform.Modeling.Notations.Command.InvocationNotation"/> (GUIDERS-ADR-0021 Wave 4b).</summary>
 [Obsolete("Use AIGuiders.Platform.Notations.Command.InvocationNotation and package AIGuiders.Platform.Notations.Command.")]
 public static class InvocationNotation
 {

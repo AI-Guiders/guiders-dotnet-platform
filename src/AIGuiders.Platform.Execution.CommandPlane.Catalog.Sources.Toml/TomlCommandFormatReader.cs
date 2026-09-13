@@ -65,7 +65,7 @@ public sealed class TomlCommandFormatReader : ICommandFormatReader
         if (readerId is null && slots.Count == 0)
             return null;
 
-        return new ArgumentNotationProfile(readerId, slots.Count > 0 ? slots : null);
+        return new ArgumentNotationProfile(readerId ?? "", slots);
     }
 
     static string? GetTailWireClass(TomlTable table)
@@ -99,8 +99,8 @@ public sealed class TomlCommandFormatReader : ICommandFormatReader
         return new ArgumentSlot(
             name.Trim(),
             ParseKind(ReadString(table, "kind")),
-            ReadString(table, "long_option", "longOption"),
-            ReadString(table, "short_option", "shortOption"));
+            ReadString(table, "long_option", "longOption") ?? "",
+            ReadString(table, "short_option", "shortOption") ?? "");
     }
 
     static ArgumentSlotKind ParseKind(string? raw) =>

@@ -46,7 +46,7 @@ public static class ConfigGdlParser
     private static ConfigParseResult Map(GdlConfig.ConfigParseResult result) =>
         new()
         {
-            Document = FSharpOption<GdlConfigModel.ConfigDocument>.get_IsSome(result.Document)
+            Document = result.Document is not null && FSharpOption<GdlConfigModel.ConfigDocument>.get_IsSome(result.Document)
                 ? MapDocument(result.Document.Value)
                 : null,
             Diagnostics = result.Diagnostics.Select(MapDiagnostic).ToArray(),
@@ -56,7 +56,7 @@ public static class ConfigGdlParser
         new()
         {
             Name = doc.Name,
-            BasedOnAdr = FSharpOption<string>.get_IsSome(doc.BasedOnAdr) ? doc.BasedOnAdr.Value : null,
+            BasedOnAdr = doc.BasedOnAdr is not null && FSharpOption<string>.get_IsSome(doc.BasedOnAdr) ? doc.BasedOnAdr.Value : null,
             Defaults = new Dictionary<string, string>(doc.Defaults, StringComparer.OrdinalIgnoreCase),
             Sources = doc.Sources.Select(s => new ConfigSourceRow(s.Id, s.Kind, s.Path, s.Slice, s.Line)).ToArray(),
             Contracts = doc.Contracts.Select(c => new ConfigContractRow(c.Id, c.Requires, c.Ensures, c.Line)).ToArray(),

@@ -114,6 +114,9 @@ public sealed class CatalogParserTests
 
         Assert.Contains("slash.bar", code, StringComparison.Ordinal);
         Assert.Contains("dash.filter.date", code, StringComparison.Ordinal);
+        Assert.Contains("public static CatalogDocument Document", code, StringComparison.Ordinal);
+        Assert.Contains("BindingChordRoot = \"Ctrl+K\"", code, StringComparison.Ordinal);
+        Assert.Contains("new CatalogBindingRow(\"Ctrl+K\"", code, StringComparison.Ordinal);
     }
 
     static string LoadFixture(string name)

@@ -28,7 +28,7 @@ public sealed class MelodyLine
         Slug = model.Slug,
         Profile = model.Profile,
         Steps = model.Steps,
-        Help = Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(model.Help) ? model.Help.Value : null,
+        Help = model.Help is not null && Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(model.Help) ? model.Help.Value : null,
         ArgumentNotation = notation,
     };
 }

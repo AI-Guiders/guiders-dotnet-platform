@@ -90,7 +90,9 @@ public static class ConfigContractRegistry
         return new GdlConfigModel.ConfigDocument
         {
             Name = document.Name,
-            BasedOnAdr = document.BasedOnAdr,
+            BasedOnAdr = string.IsNullOrEmpty(document.BasedOnAdr)
+                ? Microsoft.FSharp.Core.FSharpOption<string>.None
+                : Microsoft.FSharp.Core.FSharpOption<string>.Some(document.BasedOnAdr),
             Defaults = defaults,
             Sources = document.Sources
                 .Select(s => new GdlConfigModel.ConfigSourceRow

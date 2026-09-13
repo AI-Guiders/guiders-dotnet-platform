@@ -7,20 +7,20 @@ namespace AIGuiders.Platform.IntermediateRepresentation.Presentation;
 
 internal static class FSharpInterop
 {
-    internal static string? OptString(FSharpOption<string> value) =>
-        FSharpOption<string>.get_IsSome(value) ? value.Value : null;
+    internal static string? OptString(FSharpOption<string>? value) =>
+        value is not null && FSharpOption<string>.get_IsSome(value) ? value.Value : null;
 
     internal static FSharpOption<string> OptString(string? value) =>
         value is null ? FSharpOption<string>.None : FSharpOption<string>.Some(value);
 
-    internal static int? OptInt(FSharpOption<int> value) =>
-        FSharpOption<int>.get_IsSome(value) ? value.Value : null;
+    internal static int? OptInt(FSharpOption<int>? value) =>
+        value is not null && FSharpOption<int>.get_IsSome(value) ? value.Value : null;
 
     internal static FSharpOption<int> OptInt(int? value) =>
         value is null ? FSharpOption<int>.None : FSharpOption<int>.Some(value.Value);
 
-    internal static double? OptDouble(FSharpOption<double> value) =>
-        FSharpOption<double>.get_IsSome(value) ? value.Value : null;
+    internal static double? OptDouble(FSharpOption<double>? value) =>
+        value is not null && FSharpOption<double>.get_IsSome(value) ? value.Value : null;
 
     internal static FSharpOption<double> OptDouble(double? value) =>
         value is null ? FSharpOption<double>.None : FSharpOption<double>.Some(value.Value);

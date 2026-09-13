@@ -2,7 +2,7 @@
 
 namespace AIGuiders.Platform.Execution.Sources;
 
-/// <summary>Factories for <see cref="ISource{T}"/> (GUIDERS-ADR-0029). Layer merge: <see cref="Combinations.Sources.SourceCombination"/>.</summary>
+/// <summary>Factories for ISource (GUIDERS-ADR-0029). Layer merge via SourceCombination.</summary>
 public static class SourceCatalog
 {
     public static ISource<T> From<T>(T value, string? sourceId = null) =>
@@ -44,4 +44,4 @@ public static class SourceCatalog
         public TOut Load() => reader.Read(text);
     }
 }
-
+

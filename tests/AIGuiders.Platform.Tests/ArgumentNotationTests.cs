@@ -13,7 +13,7 @@ public sealed class ArgumentNotationTests
         "config",
         ArgumentSlotKind.Value,
         "--config",
-        (string?)null);
+        "");
 
     static readonly ArgumentSlot VerboseSlot = new(
         "verbose",

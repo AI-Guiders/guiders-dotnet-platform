@@ -174,9 +174,16 @@ public static class PolicySpecConformance
         return true;
     }
 
+    static readonly JsonSerializerOptions SlashWireJsonOptions = new()
+    {
+        PropertyNameCaseInsensitive = true,
+        ReadCommentHandling = JsonCommentHandling.Skip,
+        AllowTrailingCommas = true,
+    };
+
     static CommandCatalogIndex BuildSlashIndex(JsonElement layer)
     {
-        var wire = layer.Deserialize<SlashLayerWire>(PolicySpecLoader.JsonOptions);
+        var wire = layer.Deserialize<SlashLayerWire>(SlashWireJsonOptions);
         var descriptors = (wire?.Paths ?? [])
             .Select(path => new CommandDescriptor
             {

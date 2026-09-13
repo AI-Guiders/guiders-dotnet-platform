@@ -18,7 +18,10 @@ public sealed class MelodyDescriptor
     public MelodyLine ToLine() => MelodyLine.FromModel(GdlMelody.MelodyDescriptorModule.toLine(ToModel()));
 
     public static MelodyDescriptor FromSlug(string commandId, string slug, string? help = null) =>
-        FromModel(GdlMelody.MelodyDescriptorModule.fromSlug(commandId, slug, help));
+        FromModel(GdlMelody.MelodyDescriptorModule.fromSlug(
+            commandId,
+            slug,
+            help is null ? Microsoft.FSharp.Core.FSharpOption<string>.None : Microsoft.FSharp.Core.FSharpOption<string>.Some(help)));
 
     public GdlMelody.MelodyDescriptor ToModel() => new(
         CommandId,
@@ -33,6 +36,6 @@ public sealed class MelodyDescriptor
         Slug = model.Slug,
         Profile = model.Profile,
         Steps = model.Steps,
-        Help = Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(model.Help) ? model.Help.Value : null,
+        Help = model.Help is not null && Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(model.Help) ? model.Help.Value : null,
     };
 }

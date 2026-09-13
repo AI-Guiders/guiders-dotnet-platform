@@ -101,7 +101,7 @@ public static class SlashStepCompletion
         out CatalogSemanticFields fields,
         out string matchedPath)
     {
-        fields = default;
+        fields = default!;
         matchedPath = "";
         if (tokens.Count == 0)
             return false;

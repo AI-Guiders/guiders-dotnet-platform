@@ -22,14 +22,14 @@ public static class AdrFactsParser
             return null;
         }
 
-        return Map(parsed.Value);
+        return Map(parsed!.Value);
     }
 
     private static AdrFactsBlock Map(GdlCorrespondence.AdrFactsBlock facts) =>
         new()
         {
             SourcePath = facts.SourcePath,
-            AdrId = FSharpOption<string>.get_IsSome(facts.AdrId) ? facts.AdrId.Value : null,
+            AdrId = facts.AdrId is not null && FSharpOption<string>.get_IsSome(facts.AdrId) ? facts.AdrId.Value : null,
             GoldenIds = facts.GoldenIds,
             HoareObligations = facts.HoareObligations.Select(MapHoare).ToArray(),
             WellFormednessIds = facts.WellFormednessIds,

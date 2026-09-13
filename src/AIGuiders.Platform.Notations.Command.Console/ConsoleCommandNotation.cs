@@ -3,8 +3,7 @@ using AIGuiders.Platform.Notations.Argument;
 using AIGuiders.Platform.Notations.Argument.Kv;
 
 using AIGuiders.Platform.Notations.Command;
-
-
+using ModelingSlashWireBody = AIGuiders.Platform.Modeling.Notations.Command.SlashWireBody;
 
 namespace AIGuiders.Platform.Notations.Command.Console;
 
@@ -14,19 +13,13 @@ public static class ConsoleCommandNotation
 
 {
 
-    /// <summary>
+    /// <summary>Splits <paramref name="line"/> into path tokens (before first kv token) and kv tail.</summary>
 
-    /// Splits <paramref name="line"/> into path tokens (before first kv token) and kv tail.
-
-    /// Example: <c>buffer open doc=README.md</c> → path <c>buffer open</c>, slot <c>doc=README.md</c>.
-
-    /// </summary>
-
-    public static bool TryParse(string line, out SlashWireBody pathWire, out NormalizedArguments args)
+    public static bool TryParse(string line, out ModelingSlashWireBody pathWire, out NormalizedArguments args)
 
     {
 
-        pathWire = new SlashWireBody([], false);
+        pathWire = new ModelingSlashWireBody([], false);
 
         args = NormalizedArguments.FromRaw("");
 
@@ -80,7 +73,7 @@ public static class ConsoleCommandNotation
 
 
 
-        pathWire = new SlashWireBody(pathTokens, endsWithSpace && kvStart >= tokens.Count);
+        pathWire = new ModelingSlashWireBody(pathTokens, endsWithSpace && kvStart >= tokens.Count);
 
         var kvTail = kvStart < tokens.Count
 
@@ -98,11 +91,11 @@ public static class ConsoleCommandNotation
 
     /// <summary>Path/tail split + profile-driven argument parse (kv default path split).</summary>
 
-    public static bool TryParse(string line, ArgumentNotationProfile? profile, out SlashWireBody pathWire, out NormalizedArguments args)
+    public static bool TryParse(string line, ArgumentNotationProfile? profile, out ModelingSlashWireBody pathWire, out NormalizedArguments args)
 
     {
 
-        pathWire = new SlashWireBody([], false);
+        pathWire = new ModelingSlashWireBody([], false);
 
         args = NormalizedArguments.FromRaw("");
 
@@ -148,7 +141,7 @@ public static class ConsoleCommandNotation
 
 
 
-        pathWire = new SlashWireBody(pathTokens, endsWithSpace && tailStart >= tokens.Count);
+        pathWire = new ModelingSlashWireBody(pathTokens, endsWithSpace && tailStart >= tokens.Count);
 
         var tail = tailStart < tokens.Count ? string.Join(' ', tokens.Skip(tailStart)) : "";
 

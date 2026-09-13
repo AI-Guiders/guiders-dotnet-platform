@@ -17,20 +17,20 @@ public static class CatalogGrammarValidator
         string? defaultsSurfacesRaw = null)
     {
         var keyboardParse =
-            FSharpFunc<string, FSharpFunc<string, Tuple<bool, FSharpOption<string>>>>.FromConverter(
-                grammarId => FSharpFunc<string, Tuple<bool, FSharpOption<string>>>.FromConverter(
+            FSharpFunc<string, FSharpFunc<string, Tuple<bool, FSharpOption<string>?>>>.FromConverter(
+                grammarId => FSharpFunc<string, Tuple<bool, FSharpOption<string>?>>.FromConverter(
                     wire =>
                     {
                         if (TryParseKeyboard(grammarId, wire, out var looksLike))
                         {
-                            return Tuple.Create(true, FSharpInterop.OptString(looksLike));
+                            return Tuple.Create<bool, FSharpOption<string>?>(true, FSharpInterop.OptString(looksLike));
                         }
 
-                        return Tuple.Create(false, FSharpInterop.OptString(looksLike));
+                        return Tuple.Create<bool, FSharpOption<string>?>(false, FSharpInterop.OptString(looksLike));
                     }));
 
         foreach (var diagnostic in GdlParseCatalog.CatalogGrammarValidator.validate(
-                     FSharpOption<FSharpFunc<string, FSharpFunc<string, Tuple<bool, FSharpOption<string>>>>>.Some(
+                     FSharpOption<FSharpFunc<string, FSharpFunc<string, Tuple<bool, FSharpOption<string>?>>>>.Some(
                          keyboardParse),
                      document.ToModel()))
         {

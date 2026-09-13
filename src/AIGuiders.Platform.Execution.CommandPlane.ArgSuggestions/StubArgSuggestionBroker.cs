@@ -32,7 +32,8 @@ public sealed class StubArgSuggestionBroker : ICommandArgSuggestionBroker
         || ContainsOpt(choice.Label, partial)
         || ContainsOpt(choice.Hint, partial);
 
-    static bool ContainsOpt(Microsoft.FSharp.Core.FSharpOption<string> value, string partial) =>
-        Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(value)
+    static bool ContainsOpt(Microsoft.FSharp.Core.FSharpOption<string>? value, string partial) =>
+        value is not null
+        && Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(value)
         && value.Value.Contains(partial, StringComparison.OrdinalIgnoreCase);
 }

@@ -18,10 +18,10 @@ public static class ConstructorEntryCompletion
         var items = new List<ArgCompletionItem>();
         foreach (var binding in bindings)
         {
-            var hint = Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(binding.Hint)
+            var hint = binding.Hint is not null && Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(binding.Hint)
                 ? binding.Hint.Value
                 : binding.Label;
-            var group = Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(route.Group)
+            var group = route.Group is not null && Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(route.Group)
                 ? route.Group.Value
                 : null;
             items.Add(new ArgCompletionItem(

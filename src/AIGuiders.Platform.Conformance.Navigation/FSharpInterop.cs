@@ -7,11 +7,11 @@ namespace AIGuiders.Platform.Conformance.Navigation;
 
 internal static class FSharpInterop
 {
-    internal static string? OptString(FSharpOption<string> value) =>
-        FSharpOption<string>.get_IsSome(value) ? value.Value : null;
+    internal static string? OptString(FSharpOption<string>? value) =>
+        value is not null && FSharpOption<string>.get_IsSome(value) ? value.Value : null;
 
-    internal static int? OptInt(FSharpOption<int> value) =>
-        FSharpOption<int>.get_IsSome(value) ? value.Value : null;
+    internal static int? OptInt(FSharpOption<int>? value) =>
+        value is not null && FSharpOption<int>.get_IsSome(value) ? value.Value : null;
 
     internal static IReadOnlyList<T> ToReadOnlyList<T>(FSharpList<T> list) =>
         ListModule.ToArray(list);

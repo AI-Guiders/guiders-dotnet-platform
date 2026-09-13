@@ -102,7 +102,9 @@ public sealed class BracketReader : IBracketNotationReader
                     return false;
             }
 
-            axes.Add(new BracketAxis(kv.Key, kv.Sign, kv.Value, valueClass, nested));
+            axes.Add(nested is null
+                ? new BracketAxis(kv.Key, kv.Sign, kv.Value ?? "", valueClass)
+                : new BracketAxis(kv.Key, kv.Sign, kv.Value ?? "", valueClass, nested));
         }
 
         if (axes.Count == 0)
