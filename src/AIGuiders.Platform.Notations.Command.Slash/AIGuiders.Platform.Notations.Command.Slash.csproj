@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingNotationsCommand>true</UseGuidersModelingNotationsCommand>
     <RootNamespace>AIGuiders.Platform.Notations.Command.Slash</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Notations.Command.Slash</AssemblyName>
     <Description>Slash command notation — space-tokenized body wire (GUIDERS-ADR-0021).</Description>
@@ -8,4 +9,5 @@
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Command\AIGuiders.Platform.Notations.Command.csproj" />
   </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>

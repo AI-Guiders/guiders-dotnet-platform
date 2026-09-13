@@ -2,9 +2,8 @@ using AIGuiders.Platform.Notations.Argument.Cli;
 using AIGuiders.Platform.Notations.Argument.Delimited;
 using AIGuiders.Platform.Notations.Argument.Kv;
 using AIGuiders.Platform.Notations.Argument.Positional;
-using AIGuiders.Platform.Notations.Command;
 using AIGuiders.Platform.Notations.Command.Console;
-using AIGuiders.Platform.Notations.Command.Slash;
+using Microsoft.FSharp.Core;
 using Xunit;namespace AIGuiders.Platform.Tests;
 
 public sealed class NotationsTests
@@ -12,7 +11,7 @@ public sealed class NotationsTests
     [Fact]
     public void Slash_body_tokenizes_with_trailing_space_flag()
     {
-        var wire = SlashCommandNotation.ParseBody("buffer open ");
+        var wire = SlashCommandNotation.parseBody("buffer open ");
         Assert.Equal(["buffer", "open"], wire.Tokens);
         Assert.True(wire.EndsWithSpaceAfterTokens);
     }
@@ -77,12 +76,14 @@ public sealed class NotationsTests
     [InlineData("/scene focus", "scene focus")]
     public void Invocation_parity_slash_and_console_paths(string slashLine, string consoleLine)
     {
-        Assert.True(SlashCommandNotation.TryParseLine(slashLine, out var slashWire));
+        var slashWire = SlashCommandNotation.tryParseLine(slashLine);
+        Assert.True(FSharpOption<SlashWireBody>.get_IsSome(slashWire));
         Assert.True(ConsoleCommandNotation.TryParse(consoleLine, out var consoleWire, out _));
 
-        var slashPath = InvocationNotation.FromPathSegments(slashWire.Tokens);
-        var consolePath = InvocationNotation.FromPathSegments(consoleWire.Tokens);
+        var slashPath = InvocationNotation.fromPathSegments(slashWire.Value.Tokens);
+        var consolePath = InvocationNotation.fromPathSegments(consoleWire.Tokens);
 
-        Assert.True(InvocationNotation.PathsEqual(slashPath, consolePath));
+        Assert.True(InvocationNotation.pathsEqual(slashPath, consolePath));
     }
 }
+
