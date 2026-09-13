@@ -1,13 +1,15 @@
 #nullable enable
 using System.Text.Json;
+using Microsoft.FSharp.Core;
 using AIGuiders.Platform.Modeling.Notations.Argument;
 using AIGuiders.Platform.Notations.Argument.Cli;
 using AIGuiders.Platform.Notations.Argument.Delimited;
 using AIGuiders.Platform.Notations.Argument.Kv;
 using AIGuiders.Platform.Notations.Argument.Positional;
-using AIGuiders.Platform.Notations.Command;
 using AIGuiders.Platform.Notations.Command.Console;
-using AIGuiders.Platform.Notations.Command.Slash;
+using SlashCommandNotation = AIGuiders.Platform.Modeling.Notations.Command.Slash.SlashCommandNotation;
+using SlashWireBody = AIGuiders.Platform.Modeling.Notations.Command.SlashWireBody;
+using NotationsInvocation = AIGuiders.Platform.Modeling.Notations.Command.InvocationNotation;
 
 namespace AIGuiders.Platform.Notations.Conformance;
 
@@ -200,16 +202,18 @@ public static class NotationSpecConformance
         if (vector.SlashLine is null || vector.ConsoleLine is null)
             return Fail("slashLine and consoleLine are required.", out error);
 
-        if (!SlashCommandNotation.TryParseLine(vector.SlashLine, out var slashWire))
+        var slashOpt = SlashCommandNotation.tryParseLine(vector.SlashLine);
+        if (!FSharpOption<AIGuiders.Platform.Modeling.Notations.Command.SlashWireBody>.get_IsSome(slashOpt))
             return Fail($"invalid slashLine \"{vector.SlashLine}\".", out error);
+        var slashWire = slashOpt.Value;
 
         if (!ConsoleCommandNotation.TryParse(vector.ConsoleLine, out var consoleWire, out var consoleArgs))
             return Fail($"invalid consoleLine \"{vector.ConsoleLine}\".", out error);
 
-        var slashPath = global::AIGuiders.Platform.Notations.Command.InvocationNotation.FromPathSegments(slashWire.Tokens);
-        var consolePath = global::AIGuiders.Platform.Notations.Command.InvocationNotation.FromPathSegments(consoleWire.Tokens);
+        var slashPath = NotationsInvocation.fromPathSegments(slashWire.Tokens);
+        var consolePath = NotationsInvocation.fromPathSegments(consoleWire.Tokens);
 
-        if (!global::AIGuiders.Platform.Notations.Command.InvocationNotation.PathsEqual(slashPath, consolePath))
+        if (!NotationsInvocation.pathsEqual(slashPath, consolePath))
         {
             error = $"paths differ: slash \"{slashPath.CanonicalPath}\" vs console \"{consolePath.CanonicalPath}\".";
             return false;

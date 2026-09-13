@@ -1,5 +1,5 @@
 using AIGuiders.Platform.IntermediateRepresentation.Invocation;
-using NotationsCommand = global::AIGuiders.Platform.Notations.Command;
+using NotationsCommand = AIGuiders.Platform.Modeling.Notations.Command;
 #nullable enable
 
 namespace AIGuiders.Platform.Notations;
@@ -38,12 +38,12 @@ public static class InvocationNotation
 {
     public static NormalizedCommandLine FromPathSegments(IReadOnlyList<string> segments)
     {
-        var line = NotationsCommand.InvocationNotation.FromPathSegments(segments);
+        var line = NotationsCommand.InvocationNotation.fromPathSegments(segments);
         return new NormalizedCommandLine(line.CanonicalPath, line.PathSegments);
     }
 
     public static bool PathsEqual(NormalizedCommandLine a, NormalizedCommandLine b) =>
-        NotationsCommand.InvocationNotation.PathsEqual(
-            new IntermediateRepresentation.Invocation.NormalizedCommandLine(a.CanonicalPath, a.PathSegments),
-            new IntermediateRepresentation.Invocation.NormalizedCommandLine(b.CanonicalPath, b.PathSegments));
+        NotationsCommand.InvocationNotation.pathsEqual(
+            new NotationsCommand.NormalizedCommandLine(a.CanonicalPath, a.PathSegments),
+            new NotationsCommand.NormalizedCommandLine(b.CanonicalPath, b.PathSegments));
 }

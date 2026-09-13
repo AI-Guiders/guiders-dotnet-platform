@@ -35,7 +35,7 @@ static class Program
         var errors = PolicySpecConformance.ValidateDocument(spec);
         if (errors.Count == 0)
         {
-            Console.WriteLine($"OK {spec.Policy} ({spec.Vectors.Count} vectors)");
+            Console.WriteLine($"OK {spec.Policy} ({spec.Vectors.Length} vectors)");
             return 0;
         }
 

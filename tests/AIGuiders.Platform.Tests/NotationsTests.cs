@@ -2,9 +2,12 @@ using AIGuiders.Platform.Notations.Argument.Cli;
 using AIGuiders.Platform.Notations.Argument.Delimited;
 using AIGuiders.Platform.Notations.Argument.Kv;
 using AIGuiders.Platform.Notations.Argument.Positional;
+using AIGuiders.Platform.Notations.Command;
 using AIGuiders.Platform.Notations.Command.Console;
 using Microsoft.FSharp.Core;
-using Xunit;namespace AIGuiders.Platform.Tests;
+using Xunit;
+
+namespace AIGuiders.Platform.Tests;
 
 public sealed class NotationsTests
 {

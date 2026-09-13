@@ -2,7 +2,9 @@
 
 using AIGuiders.Platform.Modeling.Notations.Argument;
 using AIGuiders.Platform.Notations.Command.Console;
-using AIGuiders.Platform.Notations.Command.Slash;
+using Microsoft.FSharp.Core;
+using SlashCommandNotation = AIGuiders.Platform.Modeling.Notations.Command.Slash.SlashCommandNotation;
+using SlashWireBody = AIGuiders.Platform.Modeling.Notations.Command.SlashWireBody;
 
 namespace AIGuiders.Platform.Notations.Command;
 
@@ -23,9 +25,22 @@ public static class CommandNotationParser
 
         return surface switch
         {
-            CommandNotationSurface.Slash => SlashCommandNotation.TryParseLine(line, out pathWire),
+            CommandNotationSurface.Slash => TryParseSlash(line, out pathWire),
             CommandNotationSurface.Console => ConsoleCommandNotation.TryParse(line, out pathWire, out args),
             _ => false,
         };
+    }
+
+    static bool TryParseSlash(string line, out SlashWireBody pathWire)
+    {
+        var opt = SlashCommandNotation.tryParseLine(line);
+        if (FSharpOption<AIGuiders.Platform.Modeling.Notations.Command.SlashWireBody>.get_IsSome(opt))
+        {
+            pathWire = opt.Value;
+            return true;
+        }
+
+        pathWire = new SlashWireBody([], false);
+        return false;
     }
 }
