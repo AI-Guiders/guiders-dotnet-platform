@@ -21,12 +21,14 @@ public sealed class ConformanceSchemaTests
     [InlineData("AIGuiders.Platform.Tests.Fixtures.Slash.slash-line-resolve.spec.json")]
     [InlineData("AIGuiders.Platform.Tests.Fixtures.Quarry.neovim-kbd.spec.json")]
     [InlineData("AIGuiders.Platform.Tests.Fixtures.Quarry.emacs-kbd.spec.json")]
+    [InlineData("AIGuiders.Platform.Tests.Fixtures.Quarry.key-gesture.spec.json")]
+    [InlineData("AIGuiders.Platform.Tests.Fixtures.Notation.presentation-topology.spec.json")]
     [InlineData("AIGuiders.Platform.Tests.Fixtures.MCPlane.pulse-default.spec.json")]
     [InlineData("AIGuiders.Platform.Tests.Fixtures.MCPlane.next-hints.spec.json")]
     public void Embedded_spec_matches_json_schema(string resourceName)
     {
         var json = LoadEmbedded(resourceName);
-        var errors = ConformanceSchemaValidator.ValidateJson(json);
+        var errors = ConformanceSchemaValidator.ValidateNotationHyperlaneJson(json);
         Assert.True(errors.Count == 0, string.Join(Environment.NewLine, errors));
     }
 

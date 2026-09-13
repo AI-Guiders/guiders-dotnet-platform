@@ -44,10 +44,13 @@ public static class ConformanceSchemaValidator
         {
             bySurface["neovim-kbd"] = quarrySchema;
             bySurface["emacs-kbd"] = quarrySchema;
+            bySurface["key-gesture"] = quarrySchema;
         }
 
         SchemasBySurface = bySurface;
     }
+
+    public const string PresentationTopologyKind = "notation.presentation.topology";
 
     public static IReadOnlyCollection<string> KnownSurfaces => SchemasBySurface.Keys.ToArray();
 
@@ -55,6 +58,33 @@ public static class ConformanceSchemaValidator
     {
         using var document = JsonDocument.Parse(json);
         return ValidateElement(document.RootElement);
+    }
+
+    public static IReadOnlyList<string> ValidateNotationHyperlaneJson(string json)
+    {
+        using var document = JsonDocument.Parse(json);
+        var root = document.RootElement;
+        if (root.TryGetProperty("kind", out var kindNode)
+            && kindNode.ValueKind == JsonValueKind.String
+            && string.Equals(kindNode.GetString(), PresentationTopologyKind, StringComparison.Ordinal))
+        {
+            return ValidatePresentationTopologyJson(json);
+        }
+
+        return ValidateElement(root);
+    }
+
+    public static IReadOnlyList<string> ValidatePresentationTopologyJson(string json)
+    {
+        if (!CatalogSchemas.TryGetValue("presentation-topology.schema.json", out var schema))
+            return ["Missing embedded schema presentation-topology.schema.json."];
+
+        using var document = JsonDocument.Parse(json);
+        var result = schema.Evaluate(
+            document.RootElement,
+            new EvaluationOptions { OutputFormat = OutputFormat.List });
+
+        return result.IsValid ? [] : CollectErrors(result);
     }
 
     public static IReadOnlyList<string> ValidateElement(JsonElement element)

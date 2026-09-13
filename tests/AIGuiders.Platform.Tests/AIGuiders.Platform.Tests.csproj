@@ -31,6 +31,7 @@
     <EmbeddedResource Include="Fixtures\Notation\bracket-angle-opaque.spec.json" />
     <EmbeddedResource Include="Fixtures\Notation\bracket-forge-frg.spec.json" />
     <EmbeddedResource Include="Fixtures\Notation\bracket-doc-symbol.spec.json" />
+    <EmbeddedResource Include="Fixtures\Notation\presentation-topology.spec.json" />
     <EmbeddedResource Include="Fixtures\LanguageIntelligence\anchor-resolve.spec.json" />
     <EmbeddedResource Include="Fixtures\MCPlane\pulse-default.spec.json" />
     <EmbeddedResource Include="Fixtures\MCPlane\next-hints.spec.json" />
@@ -96,6 +97,7 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Language.CSharp.Anchors\AIGuiders.Platform.Execution.Language.CSharp.Anchors.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Language.CSharp.Symbols\AIGuiders.Platform.Execution.Language.CSharp.Symbols.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Bracket\AIGuiders.Platform.Notations.Bracket.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Presentation.Topology\AIGuiders.Platform.Notations.Presentation.Topology.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.MCPlane\AIGuiders.Platform.Execution.MCPlane.csproj" />
   </ItemGroup>
   <Import Project="../../eng/Guiders.Modeling.props" />

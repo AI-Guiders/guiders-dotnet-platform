@@ -9,7 +9,7 @@
     "version": { "$ref": "conformance-common.schema.json#/$defs/specVersion" },
     "surface": {
       "type": "string",
-      "enum": ["neovim-kbd", "emacs-kbd"]
+      "enum": ["neovim-kbd", "emacs-kbd", "key-gesture"]
     },
     "source": { "$ref": "conformance-common.schema.json#/$defs/specSource" },
     "vectors": {
@@ -24,7 +24,7 @@
       "required": ["wire"],
       "additionalProperties": false,
       "properties": {
-        "wire": { "type": "string", "minLength": 1 },
+        "wire": { "type": "string" },
         "chords": {
           "type": "array",
           "items": { "$ref": "conformance-common.schema.json#/$defs/quarryChord" }
