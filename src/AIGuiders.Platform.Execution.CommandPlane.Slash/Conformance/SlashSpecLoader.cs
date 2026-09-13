@@ -30,12 +30,7 @@ public static class SlashSpecLoader
             ArgTail = entry.ArgTail ?? "optional",
             ArgHint = entry.ArgHint,
             ArgPickerChoices = (entry.ArgPickerChoices ?? [])
-                .Select(c => new CommandPickerChoice
-                {
-                    Value = c.Value,
-                    Label = c.Label,
-                    Hint = c.Hint,
-                })
+                .Select(c => CommandPickerChoiceInterop.FromValue(c.Value, c.Label, c.Hint))
                 .ToList(),
         };
 

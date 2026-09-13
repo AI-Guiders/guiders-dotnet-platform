@@ -34,7 +34,7 @@ static class SlashArgCompletion
         {
             items.AddRange(ConstructorEntryCompletion.BuildEntryItems(line.CanonicalPath, route));
         }
-        else if (route.ResolvedConstructors.Count > 0)
+        else if (route.ArgConstructors is { Count: > 0 })
         {
             items.AddRange(FilterConstructorEntries(line, route, partial));
         }
@@ -66,7 +66,7 @@ static class SlashArgCompletion
         string partial,
         ICommandArgSuggestionBroker? suggestionBroker) =>
         ResolveChoices(null, route, partial, suggestionBroker).Count > 0
-        || route.ResolvedConstructors.Count > 0;
+        || route.ArgConstructors is { Count: > 0 };
 
     static IReadOnlyList<ArgCompletionItem> BuildPickerItems(
         SlashLineResolver.SlashLineResolution line,
@@ -85,12 +85,12 @@ static class SlashArgCompletion
 
             if (choice.Kind == CommandPickerChoiceKind.Constructor)
             {
-                var constructorLabel = choice.Label ?? choice.Value;
+                var constructorLabel = choice.LabelOrNull() ?? choice.Value;
                 buckets[constructorLabel] = new ArgCompletionItem(
                     canonicalPath + " ",
                     line.CanonicalPath,
-                    choice.Hint ?? constructorLabel,
-                    route.Group,
+                    choice.HintOrNull() ?? constructorLabel,
+                    route.GroupOrNull(),
                     constructorLabel,
                     ArgCompletionItemKind.ConstructorEntry,
                     choice.Value);
@@ -103,10 +103,12 @@ static class SlashArgCompletion
                 continue;
             }
 
-            var label = string.IsNullOrWhiteSpace(choice.Label) ? value : choice.Label.Trim();
+            var choiceLabel = choice.LabelOrNull();
+            var label = string.IsNullOrWhiteSpace(choiceLabel) ? value : choiceLabel.Trim();
             var insert = canonicalPath + " " + value;
-            var help = string.IsNullOrWhiteSpace(choice.Hint) ? label : choice.Hint.Trim();
-            AddPickerSuggestion(buckets, label, insert, canonicalPath, help, route.Group, value);
+            var choiceHint = choice.HintOrNull();
+            var help = string.IsNullOrWhiteSpace(choiceHint) ? label : choiceHint.Trim();
+            AddPickerSuggestion(buckets, label, insert, canonicalPath, help, route.GroupOrNull(), value);
         }
 
         return SlashCompletionSort.Order(buckets.Values);
@@ -118,9 +120,9 @@ static class SlashArgCompletion
         string partial,
         ICommandArgSuggestionBroker? suggestionBroker)
     {
-        if (route.ResolvedPickerChoices.Count > 0)
+        if (route.ArgPickerChoices is { Count: > 0 } choices)
         {
-            return route.ResolvedPickerChoices;
+            return choices;
         }
 
         if (route.ArgTailKind != CommandArgTailKind.Picker || suggestionBroker is null)
@@ -170,8 +172,8 @@ static class SlashArgCompletion
         }
 
         var value = choice.Value ?? "";
-        var label = choice.Label ?? "";
-        var hint = choice.Hint ?? "";
+        var label = choice.LabelOrNull() ?? "";
+        var hint = choice.HintOrNull() ?? "";
         return value.StartsWith(partial, StringComparison.OrdinalIgnoreCase)
                || label.Contains(partial, StringComparison.OrdinalIgnoreCase)
                || hint.Contains(partial, StringComparison.OrdinalIgnoreCase);

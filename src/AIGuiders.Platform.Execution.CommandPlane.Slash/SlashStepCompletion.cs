@@ -111,7 +111,7 @@ public static class SlashStepCompletion
             return false;
 
         if (catalog.TryGet(matchedPath, out var route))
-            fields = route.SemanticFields;
+            fields = route.SemanticFields();
         else
             return false;
 
@@ -472,7 +472,7 @@ public static class SlashStepCompletion
 
         foreach (var route in catalog.Routes)
         {
-            var sem = route.SemanticFields;
+            var sem = route.SemanticFields();
             var pathSegs = SplitPath(route.Path);
             if (pathSegs.Count == 0)
                 continue;
@@ -582,7 +582,7 @@ public static class SlashStepCompletion
     {
         public string CommandPath => "/" + string.Join(' ', PathSegments);
         public string Help => Route.Help;
-        public string? Group => Route.Group;
+        public string? Group => Route.GroupOrNull();
     }
 
     sealed class Snapshot

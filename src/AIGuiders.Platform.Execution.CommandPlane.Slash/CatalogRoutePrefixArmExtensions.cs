@@ -7,8 +7,8 @@ public static class CatalogRoutePrefixArmExtensions
 {
     public static PrefixArmSite ToPrefixArmSite(this CatalogRouteEntry route) =>
         PrefixArmSite.FromBindings(
-            route.ResolvedConstructors,
-            route.ArgHint,
+            route.ArgConstructors,
+            route.ArgHintOrNull(),
             route.Help,
             route.ArgTailKind.ToString());
 }

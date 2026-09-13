@@ -159,8 +159,8 @@ public sealed class CommandPlaneTests
             {
                 ["dash.field.app"] =
                 [
-                    new CommandPickerChoice { Value = "AutoCAD", Label = "AutoCAD" },
-                    new CommandPickerChoice { Value = "Revit", Label = "Revit" },
+                    CommandPickerChoiceInterop.FromValue("AutoCAD", "AutoCAD"),
+                    CommandPickerChoiceInterop.FromValue("Revit", "Revit"),
                 ],
             });
 

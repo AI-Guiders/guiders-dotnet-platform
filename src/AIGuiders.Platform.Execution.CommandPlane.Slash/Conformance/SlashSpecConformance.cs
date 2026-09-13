@@ -207,12 +207,7 @@ public static class SlashSpecConformance
         var map = stubs.ToDictionary(
             static kv => kv.Key,
             static kv => (IReadOnlyList<CommandPickerChoice>)kv.Value.Choices
-                .Select(static c => new CommandPickerChoice
-                {
-                    Value = c.Value,
-                    Label = c.Label,
-                    Hint = c.Hint,
-                })
+                .Select(static c => CommandPickerChoiceInterop.FromValue(c.Value, c.Label, c.Hint))
                 .ToList());
 
         return new StubArgSuggestionBroker(map);

@@ -191,7 +191,7 @@ static class SlashInputGuidanceResolver
             return new SlashInputGuidance(
                 breadcrumb,
                 localeProfile?.InputPlaceholder ?? "Type value",
-                route.ArgHint ?? "Continue typing — prefix arms constructor or completes wire",
+                route.ArgHintOrNull() ?? "Continue typing — prefix arms constructor or completes wire",
                 InvocationLinePhase.Arg,
                 ArgMechanic.TypedInput,
                 line.CanonicalPath,
@@ -201,14 +201,14 @@ static class SlashInputGuidanceResolver
 
         if (localeProfile is not null
             && partial.Length > 0
-            && route.ResolvedConstructors.Count > 0
+            && route.ArgConstructors is { Count: > 0 }
             && LocaleDateParser.TryParse(partial, localeProfile, out _, out var completeness)
             && completeness is LocaleDateCompleteness.Partial or LocaleDateCompleteness.MonthYear)
         {
             return new SlashInputGuidance(
                 breadcrumb,
                 localeProfile.InputPlaceholder,
-                route.ArgHint ?? "Type date in locale format",
+                route.ArgHintOrNull() ?? "Type date in locale format",
                 InvocationLinePhase.Arg,
                 ArgMechanic.TypedInput,
                 line.CanonicalPath,
@@ -217,20 +217,20 @@ static class SlashInputGuidanceResolver
         }
 
         var hasPickerSurface = route.ArgTailKind == CommandArgTailKind.Picker
-                               || route.ResolvedPickerChoices.Count > 0
+                               || route.ArgPickerChoices is { Count: > 0 }
                                || CommandArgTailPolicy.ExtractSuggestionId(route.ArgTail) is not null;
 
         if (hasPickerSurface)
         {
             var hasChoices = items.Count > 0
                              || SlashArgCompletion.HasChoices(route, partial, suggestionBroker);
-            var hasConstructors = route.ResolvedConstructors.Count > 0;
-            var hint = route.ArgHint
+            var hasConstructors = route.ArgConstructors is { Count: > 0 };
+            var hint = route.ArgHintOrNull()
                        ?? (hasChoices || hasConstructors
                            ? "Choose a value — Tab to insert, or type locale date"
                            : "Type locale date or search choices");
             var placeholder = localeProfile?.InputPlaceholder
-                              ?? route.ArgHint
+                              ?? route.ArgHintOrNull()
                               ?? (hasChoices || hasConstructors
                                   ? "Pick a value or type locale date"
                                   : "Type to filter choices");
@@ -252,16 +252,16 @@ static class SlashInputGuidanceResolver
         {
             CommandArgTailKind.Required => new SlashInputGuidance(
                 breadcrumb,
-                FormatFreeTextPlaceholder(route.ArgHint),
-                route.ArgHint ?? "Type the required argument and press Enter",
+                FormatFreeTextPlaceholder(route.ArgHintOrNull()),
+                route.ArgHintOrNull() ?? "Type the required argument and press Enter",
                 InvocationLinePhase.Arg,
                 ArgMechanic.FreeText,
                 line.CanonicalPath,
                 argTailKind),
             CommandArgTailKind.Optional => new SlashInputGuidance(
                 breadcrumb,
-                route.ArgHint ?? "Optional argument — Enter to run",
-                route.ArgHint ?? "Add an argument or press Enter to run without it",
+                route.ArgHintOrNull() ?? "Optional argument — Enter to run",
+                route.ArgHintOrNull() ?? "Add an argument or press Enter to run without it",
                 InvocationLinePhase.Arg,
                 ArgMechanic.Optional,
                 line.CanonicalPath,

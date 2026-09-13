@@ -159,7 +159,7 @@ public static class CatalogPathCompletion
 
         foreach (var route in catalog.Routes)
         {
-            var sem = route.SemanticFields;
+            var sem = route.SemanticFields();
             var pathSegs = SplitPath(route.Path);
             if (pathSegs.Count == 0)
             {
@@ -200,7 +200,7 @@ public static class CatalogPathCompletion
     {
         public string CommandPath => "/" + string.Join(' ', PathSegments);
         public string Help => Route.Help;
-        public string? Group => Route.Group;
+        public string? Group => Route.GroupOrNull();
     }
 
     sealed class PathSnapshot(List<IndexedRoute> allRoutes, bool hasSemanticStructure)

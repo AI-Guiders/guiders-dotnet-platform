@@ -1,3 +1,2 @@
 global using AIGuiders.Platform.IntermediateRepresentation.Command;
-global using CommandPickerChoice = AIGuiders.Platform.Modeling.Gdl.Command.CommandPickerChoice;
 global using CatalogRouteEntry = AIGuiders.Platform.Modeling.Gdl.Command.CatalogRouteEntry;

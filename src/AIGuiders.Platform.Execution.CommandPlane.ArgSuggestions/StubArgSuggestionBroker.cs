@@ -27,8 +27,12 @@ public sealed class StubArgSuggestionBroker : ICommandArgSuggestionBroker
             .ToList();
     }
 
-    static bool Matches(CommandPickerChoice choice, string partial) =>
+        static bool Matches(CommandPickerChoice choice, string partial) =>
         choice.Value.Contains(partial, StringComparison.OrdinalIgnoreCase)
-        || (choice.Label?.Contains(partial, StringComparison.OrdinalIgnoreCase) ?? false)
-        || (choice.Hint?.Contains(partial, StringComparison.OrdinalIgnoreCase) ?? false);
+        || ContainsOpt(choice.Label, partial)
+        || ContainsOpt(choice.Hint, partial);
+
+    static bool ContainsOpt(Microsoft.FSharp.Core.FSharpOption<string> value, string partial) =>
+        Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(value)
+        && value.Value.Contains(partial, StringComparison.OrdinalIgnoreCase);
 }
