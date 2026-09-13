@@ -1,5 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingConfig>true</UseGuidersModelingConfig>
+    <UseGuidersModelingGdlParseConfig>true</UseGuidersModelingGdlParseConfig>
     <RootNamespace>AIGuiders.Platform.Authoring.Sat</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Authoring.Sat.Config</AssemblyName>
     <PackageId>AIGuiders.Platform.Authoring.Sat.Config</PackageId>
@@ -9,4 +11,5 @@
     <ProjectReference Include="..\AIGuiders.Platform.Authoring.Core\AIGuiders.Platform.Authoring.Core.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Authoring.Sat.Abstractions\AIGuiders.Platform.Authoring.Sat.Abstractions.csproj" />
   </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>

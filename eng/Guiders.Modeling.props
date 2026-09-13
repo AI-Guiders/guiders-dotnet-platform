@@ -50,6 +50,10 @@
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Agent\AIGuiders.Platform.Modeling.Gdl.Agent.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingGdlCorrespondence)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Correspondence\AIGuiders.Platform.Modeling.Gdl.Correspondence.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingConfig)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Config\AIGuiders.Platform.Modeling.Config.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingGdlParseConfig)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Parse.Config\AIGuiders.Platform.Modeling.Gdl.Parse.Config.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingNotationsCommand)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Notations.Command\AIGuiders.Platform.Modeling.Notations.Command.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingGdlLanguage)' == 'true'"
