@@ -62,6 +62,10 @@
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Navigation\AIGuiders.Platform.Modeling.Navigation.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingNavigationPolicy)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Navigation.Policy\AIGuiders.Platform.Modeling.Navigation.Policy.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingCombinations)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Combinations\AIGuiders.Platform.Modeling.Combinations.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingConformance)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Conformance\AIGuiders.Platform.Modeling.Conformance.fsproj" />
   </ItemGroup>
   <ItemGroup>
     <!-- FSharp.Core обязателен явно: CPM в sibling guiders-fsharp вычищает транзитивный
