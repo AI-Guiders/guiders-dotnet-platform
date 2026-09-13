@@ -2,14 +2,26 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using AIGuiders.Platform.Navigation.Policy;
+using Microsoft.FSharp.Core;
 
 namespace AIGuiders.Platform.Conformance.Navigation;
 
 public static class NavigationSpecLoader
 {
-    public static NavigationSpecDocument LoadJson(string json) =>
-        JsonSerializer.Deserialize<NavigationSpecDocument>(json, JsonOptions)
-        ?? throw new InvalidOperationException("Navigation spec JSON deserialized to null.");
+    public static NavigationSpecDocument LoadJson(string json)
+    {
+        var wire = JsonSerializer.Deserialize<NavigationSpecJsonDocument>(json, JsonOptions)
+            ?? throw new InvalidOperationException("Navigation spec JSON deserialized to null.");
+
+        return new NavigationSpecDocument
+        {
+            Kind = wire.Kind,
+            Surface = wire.Surface,
+            Version = wire.Version,
+            Source = wire.Source ?? "",
+            Vectors = FSharpInterop.ToFSharpList(wire.Vectors.Select(ToModelVector).ToList()),
+        };
+    }
 
     public static NavigationSpecDocument LoadFile(string path) =>
         LoadJson(File.ReadAllText(path));
@@ -23,22 +35,39 @@ public static class NavigationSpecLoader
         DictionaryKeyPolicy = JsonNamingPolicy.SnakeCaseLower,
     };
 
-    public static NavigationProfile LoadProfile(JsonElement? profileNode)
+    public static NavigationProfile LoadProfileJson(string? profileJson)
     {
-        if (profileNode is null or { ValueKind: JsonValueKind.Null or JsonValueKind.Undefined })
+        if (string.IsNullOrWhiteSpace(profileJson))
             return NavigationProfile.ExploreDefault;
 
-        var wire = profileNode.Value.Deserialize<NavigationProfileWire>(JsonOptions);
+        var wire = JsonSerializer.Deserialize<NavigationProfileWire>(profileJson, JsonOptions);
         if (wire is null)
             return NavigationProfile.ExploreDefault;
 
         return new NavigationProfile
         {
-            Preset = wire.Preset,
-            MaxRelated = wire.MaxRelated ?? NavigationProfile.ExploreDefault.MaxRelated,
-            MaxNodes = wire.MaxNodes ?? NavigationProfile.ExploreDefault.MaxNodes,
-            MaxEdges = wire.MaxEdges ?? NavigationProfile.ExploreDefault.MaxEdges,
-            WithUsages = wire.WithUsages ?? false,
+            Preset = FSharpInterop.OptString(wire.Preset),
+            MaxRelated = FSharpInterop.OptInt(wire.MaxRelated) ?? NavigationProfile.ExploreDefault.MaxRelated,
+            MaxNodes = FSharpInterop.OptInt(wire.MaxNodes) ?? NavigationProfile.ExploreDefault.MaxNodes,
+            MaxEdges = FSharpInterop.OptInt(wire.MaxEdges) ?? NavigationProfile.ExploreDefault.MaxEdges,
+            WithUsages = FSharpOption<bool>.get_IsSome(wire.WithUsages) && wire.WithUsages.Value,
         };
     }
+
+    public static NavigationExpectModel LoadExpectation(string expectJson)
+    {
+        var wire = JsonSerializer.Deserialize<NavigationExpectJsonWire>(expectJson, JsonOptions)
+            ?? throw new InvalidOperationException("Navigation expect JSON deserialized to null.");
+        return wire.ToModel();
+    }
+
+    static NavigationSpecVector ToModelVector(NavigationSpecJsonVector vector) => new()
+    {
+        Id = vector.Id,
+        WireJson = vector.Wire.GetRawText(),
+        ProfileJson = vector.Profile is { ValueKind: not JsonValueKind.Null and not JsonValueKind.Undefined } profile
+            ? profile.GetRawText()
+            : "",
+        ExpectJson = vector.Expect.GetRawText(),
+    };
 }

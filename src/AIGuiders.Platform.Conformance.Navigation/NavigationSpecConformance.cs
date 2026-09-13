@@ -1,5 +1,4 @@
 #nullable enable
-using System.Text.Json;
 using AIGuiders.Platform.Navigation.Code;
 
 namespace AIGuiders.Platform.Conformance.Navigation;
@@ -15,7 +14,7 @@ public static class NavigationSpecConformance
             return [$"Unsupported surface \"{spec.Surface}\" (v0.29: code.explore-scene only)."];
 
         var errors = new List<string>();
-        foreach (var vector in spec.Vectors)
+        foreach (var vector in FSharpInterop.ToReadOnlyList(spec.Vectors))
         {
             if (!TryValidateVector(vector, out var error))
                 errors.Add(error);
@@ -27,26 +26,30 @@ public static class NavigationSpecConformance
     public static bool TryValidateVector(NavigationSpecVector vector, out string error)
     {
         error = "";
-        var profile = NavigationSpecLoader.LoadProfile(vector.Profile);
-        var wireJson = vector.Wire.GetRawText();
-        var scene = NavigationCodeExplorer.ExploreRelatedFromWire(wireJson, profile);
-        var expect = vector.Expect.Deserialize<NavigationExpectWire>(NavigationSpecLoader.JsonOptions);
-        if (expect is null)
+        var profile = NavigationSpecLoader.LoadProfileJson(
+            string.IsNullOrWhiteSpace(vector.ProfileJson) ? null : vector.ProfileJson);
+        var scene = NavigationCodeExplorer.ExploreRelatedFromWire(vector.WireJson, profile);
+        NavigationExpectModel expect;
+        try
         {
-            error = $"vector \"{vector.Id}\": expect missing.";
+            expect = NavigationSpecLoader.LoadExpectation(vector.ExpectJson);
+        }
+        catch (Exception ex)
+        {
+            error = $"vector \"{vector.Id}\": expect invalid — {ex.Message}";
             return false;
         }
 
-        if (expect.NodeCount is { } nodeCount && scene.Nodes.Count != nodeCount)
+        if (expect.NodeCount > 0 && scene.Nodes.Count != expect.NodeCount)
         {
-            error = $"vector \"{vector.Id}\": expected node_count {nodeCount}, got {scene.Nodes.Count}.";
+            error = $"vector \"{vector.Id}\": expected node_count {expect.NodeCount}, got {scene.Nodes.Count}.";
             return false;
         }
 
-        if (expect.Kinds is { Count: > 0 })
+        if (expect.Kinds.Length > 0)
         {
             var actualKinds = scene.Nodes.Select(n => n.Kind).ToHashSet(StringComparer.Ordinal);
-            foreach (var kind in expect.Kinds)
+            foreach (var kind in FSharpInterop.ToReadOnlyList(expect.Kinds))
             {
                 if (!actualKinds.Contains(kind))
                 {
@@ -56,10 +59,10 @@ public static class NavigationSpecConformance
             }
         }
 
-        if (expect.ExcludedKinds is { Count: > 0 })
+        if (expect.ExcludedKinds.Length > 0)
         {
             var actualKinds = scene.Nodes.Select(n => n.Kind).ToHashSet(StringComparer.Ordinal);
-            foreach (var kind in expect.ExcludedKinds)
+            foreach (var kind in FSharpInterop.ToReadOnlyList(expect.ExcludedKinds))
             {
                 if (actualKinds.Contains(kind))
                 {
@@ -69,17 +72,17 @@ public static class NavigationSpecConformance
             }
         }
 
-        if (expect.MaxKindCount is { Count: > 0 })
+        if (expect.MaxKindCounts.Length > 0)
         {
             var counts = scene.Nodes
                 .GroupBy(n => n.Kind, StringComparer.Ordinal)
                 .ToDictionary(g => g.Key, g => g.Count(), StringComparer.Ordinal);
 
-            foreach (var (kind, max) in expect.MaxKindCount)
+            foreach (var pair in FSharpInterop.ToReadOnlyList(expect.MaxKindCounts))
             {
-                if (counts.TryGetValue(kind, out var count) && count > max)
+                if (counts.TryGetValue(pair.Item1, out var count) && count > pair.Item2)
                 {
-                    error = $"vector \"{vector.Id}\": kind \"{kind}\" count {count} exceeds max {max}.";
+                    error = $"vector \"{vector.Id}\": kind \"{pair.Item1}\" count {count} exceeds max {pair.Item2}.";
                     return false;
                 }
             }

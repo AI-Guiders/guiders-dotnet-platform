@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingConformance>true</UseGuidersModelingConformance>
     <RootNamespace>AIGuiders.Platform.Conformance.Navigation</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Conformance.Navigation</AssemblyName>
     <PackageId>AIGuiders.Platform.Conformance.Navigation</PackageId>
@@ -10,4 +11,5 @@
     <ProjectReference Include="..\AIGuiders.Platform.Navigation.Code\AIGuiders.Platform.Navigation.Code.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Navigation.Policy\AIGuiders.Platform.Navigation.Policy.csproj" />
   </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>
