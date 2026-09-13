@@ -1,4 +1,5 @@
 using AIGuiders.Platform.IntermediateRepresentation.Invocation;
+using NotationsCommand = global::AIGuiders.Platform.Notations.Command;
 #nullable enable
 
 namespace AIGuiders.Platform.Notations;
@@ -24,10 +25,10 @@ public sealed record SlashWireBody(
 {
     public string JoinedTokens => string.Join(' ', Tokens);
 
-    public static implicit operator Command.SlashWireBody(SlashWireBody body) =>
+    public static implicit operator NotationsCommand.SlashWireBody(SlashWireBody body) =>
         new(body.Tokens, body.EndsWithSpaceAfterTokens);
 
-    public static implicit operator SlashWireBody(Command.SlashWireBody body) =>
+    public static implicit operator SlashWireBody(NotationsCommand.SlashWireBody body) =>
         new(body.Tokens, body.EndsWithSpaceAfterTokens);
 }
 
@@ -35,9 +36,14 @@ public sealed record SlashWireBody(
 [Obsolete("Use AIGuiders.Platform.Notations.Command.InvocationNotation and package AIGuiders.Platform.Notations.Command.")]
 public static class InvocationNotation
 {
-    public static NormalizedCommandLine FromPathSegments(IReadOnlyList<string> segments) =>
-        Command.InvocationNotation.FromPathSegments(segments);
+    public static NormalizedCommandLine FromPathSegments(IReadOnlyList<string> segments)
+    {
+        var line = NotationsCommand.InvocationNotation.FromPathSegments(segments);
+        return new NormalizedCommandLine(line.CanonicalPath, line.PathSegments);
+    }
 
     public static bool PathsEqual(NormalizedCommandLine a, NormalizedCommandLine b) =>
-        Command.InvocationNotation.PathsEqual(a, b);
+        NotationsCommand.InvocationNotation.PathsEqual(
+            new IntermediateRepresentation.Invocation.NormalizedCommandLine(a.CanonicalPath, a.PathSegments),
+            new IntermediateRepresentation.Invocation.NormalizedCommandLine(b.CanonicalPath, b.PathSegments));
 }
