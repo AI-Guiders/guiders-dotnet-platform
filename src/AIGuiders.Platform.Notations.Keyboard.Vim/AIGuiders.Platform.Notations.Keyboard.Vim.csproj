@@ -7,6 +7,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Keyboard\AIGuiders.Platform.Notations.Keyboard.csproj" />
-    <PackageReference Include="Eto.Parse" Version="1.0.0" />
+    <PackageReference Include="Eto.Parse" Version="1.6.0" />
   </ItemGroup>
 </Project>
