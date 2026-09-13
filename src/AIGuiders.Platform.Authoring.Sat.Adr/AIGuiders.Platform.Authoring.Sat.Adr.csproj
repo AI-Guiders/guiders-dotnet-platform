@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Authoring.Sat</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Authoring.Sat.Adr</AssemblyName>
+    <PackageId>AIGuiders.Platform.Authoring.Sat.Adr</PackageId>
+    <Description>ADR facts-block Sat observer (SAT-001 Epic B / FSHARP-0006 / FSHARP-0007).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Authoring.Sat.Abstractions\AIGuiders.Platform.Authoring.Sat.Abstractions.csproj" />
+  </ItemGroup>
+</Project>

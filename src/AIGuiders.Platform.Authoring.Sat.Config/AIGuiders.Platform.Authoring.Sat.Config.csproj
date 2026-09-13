@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Authoring.Sat</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Authoring.Sat.Config</AssemblyName>
+    <PackageId>AIGuiders.Platform.Authoring.Sat.Config</PackageId>
+    <Description>Config quarry Sat observer and pilot *.config.gdl parser (SAT-001 Epic C / ADR-0064).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Authoring.Core\AIGuiders.Platform.Authoring.Core.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Authoring.Sat.Abstractions\AIGuiders.Platform.Authoring.Sat.Abstractions.csproj" />
+  </ItemGroup>
+</Project>

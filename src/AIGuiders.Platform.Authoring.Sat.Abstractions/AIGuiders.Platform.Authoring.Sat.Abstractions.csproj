@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Authoring.Sat</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Authoring.Sat.Abstractions</AssemblyName>
+    <PackageId>AIGuiders.Platform.Authoring.Sat.Abstractions</PackageId>
+    <Description>Hoare-style Sat observers and registry (SAT-001 / ADR-0064 / FSHARP-0006).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Authoring.Emit.Abstractions\AIGuiders.Platform.Authoring.Emit.Abstractions.csproj" />
+  </ItemGroup>
+</Project>
