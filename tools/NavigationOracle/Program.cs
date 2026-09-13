@@ -52,7 +52,7 @@ static class Program
         var errors = NavigationSpecConformance.ValidateDocument(spec);
         if (errors.Count == 0)
         {
-            Console.WriteLine($"OK {spec.Surface} ({spec.Vectors.Count} vectors)");
+            Console.WriteLine($"OK {spec.Surface} ({spec.Vectors.Length} vectors)");
             return 0;
         }
 
