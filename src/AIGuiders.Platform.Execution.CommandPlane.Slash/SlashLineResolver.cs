@@ -1,7 +1,7 @@
 using AIGuiders.Platform.IntermediateRepresentation.Command;
 #nullable enable
 
-using AIGuiders.Platform.Notations.Command.Slash;
+using global::AIGuiders.Platform.Notations.Command.Slash;
 
 namespace AIGuiders.Platform.Execution.CommandPlane;
 
