@@ -51,7 +51,7 @@ public static class NotationSpecConformance
         if (vector.Body is null)
             return Fail("body is required.", out error);
 
-        var wire = SlashCommandNotation.ParseBody(vector.Body);
+        var wire = SlashCommandNotation.parseBody(vector.Body);
         var expect = vector.Expect;
 
         if (expect.Tokens is not null

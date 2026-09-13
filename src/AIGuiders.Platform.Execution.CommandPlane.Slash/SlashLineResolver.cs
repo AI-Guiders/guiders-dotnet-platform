@@ -1,7 +1,7 @@
 using AIGuiders.Platform.IntermediateRepresentation.Command;
 #nullable enable
 
-using global::AIGuiders.Platform.Notations.Command.Slash;
+using SlashCommandNotation = AIGuiders.Platform.Modeling.Notations.Command.Slash.SlashCommandNotation;
 
 namespace AIGuiders.Platform.Execution.CommandPlane;
 
@@ -66,7 +66,7 @@ public static class SlashLineResolver
 
     internal static void ParseTypedBody(string body, out List<string> tokens, out bool endsWithSpace)
     {
-        var wire = SlashCommandNotation.ParseBody(body);
+        var wire = SlashCommandNotation.parseBody(body);
         endsWithSpace = wire.EndsWithSpaceAfterTokens;
         tokens = wire.Tokens.ToList();
     }
