@@ -10,4 +10,5 @@ public static class LanguageIds
     public const string PowerShell = Modeling.Language.LanguageIds.PowerShell;
     public const string Python = Modeling.Language.LanguageIds.Python;
     public const string Delphi = Modeling.Language.LanguageIds.Delphi;
+    public const string Dashspec = Modeling.Language.LanguageIds.Dashspec;
 }
