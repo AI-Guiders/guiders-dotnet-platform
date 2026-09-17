@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <UseGuidersModelingGdlCorrespondence>true</UseGuidersModelingGdlCorrespondence>
+    <UseGuidersModelingDocumentationCorrespondence>true</UseGuidersModelingDocumentationCorrespondence>
     <RootNamespace>AIGuiders.Platform.Authoring.Sat</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Authoring.Sat.Adr</AssemblyName>
     <PackageId>AIGuiders.Platform.Authoring.Sat.Adr</PackageId>

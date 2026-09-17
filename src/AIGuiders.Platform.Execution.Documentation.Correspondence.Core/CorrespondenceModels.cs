@@ -1,11 +1,11 @@
 #nullable enable
 
-using GdlCorrespondence = AIGuiders.Platform.Modeling.Gdl.Correspondence;
+using GdlCorrespondence = AIGuiders.Platform.Modeling.Documentation.Correspondence;
 using Microsoft.FSharp.Core;
 
 namespace AIGuiders.Platform.Execution.Documentation.Correspondence;
 
-// GUIDERS-FSHARP-ADR-0003 §4.8 cutover: wire shapes SSOT in Modeling.Gdl.Correspondence.
+// GUIDERS-FSHARP-ADR-0003 §4.8 cutover: wire shapes SSOT in Modeling.Documentation.Correspondence.
 
 public static class CorrespondenceSchema
 {

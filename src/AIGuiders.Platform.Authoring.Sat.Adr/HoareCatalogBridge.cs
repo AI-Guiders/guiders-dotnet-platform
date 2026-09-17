@@ -1,4 +1,4 @@
-using GdlCorrespondence = AIGuiders.Platform.Modeling.Gdl.Correspondence;
+using GdlCorrespondence = AIGuiders.Platform.Modeling.Documentation.Correspondence;
 
 namespace AIGuiders.Platform.Authoring.Sat;
 
