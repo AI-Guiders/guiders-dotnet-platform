@@ -1,4 +1,5 @@
 using AIGuiders.Platform.Modeling.Language;
+using AIGuiders.Platform.Execution.Ide.Session;
 
 namespace AIGuiders.Platform.Execution.Language;
 
@@ -40,7 +41,12 @@ public sealed class LanguageResolverCenter
         if (backend is null)
             return new DiagnosticsResult { Diagnostics = [] };
 
-        return await backend.GetDiagnosticsAsync(req, ct).ConfigureAwait(false);
+        var result = await backend.GetDiagnosticsAsync(req, ct).ConfigureAwait(false);
+
+        if (!string.IsNullOrWhiteSpace(req.SolutionOrProjectPath))
+            FederationSessionRuntime.TryRefreshDiagnosticIndex(req.SolutionOrProjectPath, result);
+
+        return result;
     }
 
     public async Task<DocumentSymbolsResult> DispatchDocumentSymbolsAsync(

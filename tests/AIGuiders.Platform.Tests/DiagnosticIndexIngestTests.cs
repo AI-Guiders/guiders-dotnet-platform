@@ -3,6 +3,7 @@
 using AIGuiders.Platform.Execution.Ide.Session;
 using AIGuiders.Platform.Modeling.Core.Identity;
 using AIGuiders.Platform.Modeling.Ide.Session;
+using AIGuiders.Platform.Modeling.Language;
 using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
 using AIGuiders.Platform.Modeling.Paths;
 using Microsoft.FSharp.Collections;
@@ -76,5 +77,63 @@ public sealed class DiagnosticIndexIngestTests
         Assert.Equal(0, result.Ingested);
         Assert.Equal(1, result.SkippedUnregistered);
         Assert.Equal(0, MapModule.Count(result.Runtime.Diagnostics));
+    }
+
+    [Fact]
+    public void RefreshLrc_replaces_prior_session_index()
+    {
+        const string relativePath = @"D:\repo\src\Foo.fs";
+        var runtime = CreateRuntime(relativePath, "let x = 1");
+
+        var first = DiagnosticIndexIngest.RefreshLrc(
+            [
+                new LanguageDiagnostic
+                {
+                    Id = "CS0246",
+                    Severity = Severity.Error,
+                    Message = "first",
+                    Span = new SourceSpan
+                    {
+                        Path = relativePath,
+                        Line = 1,
+                        Column = 1,
+                        EndLine = 1,
+                        EndColumn = 5,
+                    },
+                    Tags = [],
+                    Language = "fsharp",
+                },
+            ],
+            runtime);
+
+        Assert.Equal(1, MapModule.Count(first.Runtime.Diagnostics));
+
+        var second = DiagnosticIndexIngest.RefreshLrc(
+            [
+                new LanguageDiagnostic
+                {
+                    Id = "CS0001",
+                    Severity = Severity.Warning,
+                    Message = "second",
+                    Span = new SourceSpan
+                    {
+                        Path = relativePath,
+                        Line = 2,
+                        Column = 1,
+                        EndLine = 2,
+                        EndColumn = 3,
+                    },
+                    Tags = [],
+                    Language = "fsharp",
+                },
+            ],
+            first.Runtime);
+
+        Assert.Equal(1, MapModule.Count(second.Runtime.Diagnostics));
+        Assert.Equal(1, second.Ingested);
+
+        var found = DiagnosticIndexOps.tryFindByCode("CS0001", second.Runtime.Diagnostics);
+        Assert.True(FSharpOption<Tuple<Identity<Diagnostic, NumericId>, DiagnosticRecord>>.get_IsSome(found));
+        Assert.Equal("second", found!.Value.Item2.Message);
     }
 }

@@ -2,10 +2,10 @@ using System.Collections.Concurrent;
 using AIGuiders.Platform.Modeling.Core.Identity;
 using AIGuiders.Platform.Modeling.Ide.Session;
 using AIGuiders.Platform.Modeling.Ide.Session.Ports.DotNet;
+using AIGuiders.Platform.Modeling.Language;
 using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
 using AIGuiders.Platform.Execution.Language.Adapters.Fcs;
 using Microsoft.FSharp.Collections;
-
 namespace AIGuiders.Platform.Execution.Ide.Session;
 
 /// <summary>ADR-0062 §5 — result of orchestrator <c>EnsureCompilerServices</c> before LRC dispatch.</summary>
@@ -41,6 +41,33 @@ public static class FederationSessionRuntime
         Cache[full] = runtime;
 
         return new FederationSessionOpenResult(runtime, validation);
+    }
+
+    /// <summary>Replace session diagnostic index from LRC refresh (plan §2.4.2).</summary>
+    public static DiagnosticIndexIngest.IngestResult? TryRefreshDiagnosticIndex(
+        string anchorPath,
+        DiagnosticsResult diagnostics)
+    {
+        ArgumentNullException.ThrowIfNull(diagnostics);
+        if (string.IsNullOrWhiteSpace(anchorPath))
+            return null;
+
+        var full = Path.GetFullPath(anchorPath.Trim());
+        if (!Cache.TryGetValue(full, out var runtime))
+        {
+            try
+            {
+                runtime = Open(anchorPath).Runtime;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        var result = DiagnosticIndexIngest.RefreshLrc(diagnostics.Diagnostics ?? [], runtime);
+        Cache[full] = result.Runtime;
+        return result;
     }
 
     public static FederationCompilerServicesEnsure TryEnsureCompilerServices(string anchorPath, string filePath)

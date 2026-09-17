@@ -7,4 +7,7 @@
     <PackageId>AIGuiders.Platform.Execution.Language</PackageId>
   </PropertyGroup>
   <Import Project="../../eng/Guiders.Modeling.props" />
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Ide.Session\AIGuiders.Platform.Execution.Ide.Session.csproj" />
+  </ItemGroup>
 </Project>

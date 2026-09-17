@@ -8,6 +8,7 @@
     <UseGuidersModelingIdeSessionPortsDotNet>true</UseGuidersModelingIdeSessionPortsDotNet>
     <UseGuidersModelingRelations>true</UseGuidersModelingRelations>
     <UseGuidersModelingCore>true</UseGuidersModelingCore>
+    <UseGuidersModelingLanguage>true</UseGuidersModelingLanguage>
   </PropertyGroup>
   <Import Project="..\..\eng\Guiders.Modeling.props" />
   <ItemGroup>
