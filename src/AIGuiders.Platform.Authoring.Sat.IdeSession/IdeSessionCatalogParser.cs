@@ -20,8 +20,8 @@ public static class IdeSessionCatalogParser
 {
     public static IdeSessionCatalogParseResult ParseFile(string path)
     {
-        var result = GdlIdeSession.IdeSessionCatalogParser.parseFile(path);
-        return Map(result);
+        var text = File.ReadAllText(path);
+        return Parse(text, path);
     }
 
     public static IdeSessionCatalogParseResult Parse(string text, string? sourcePath = null)

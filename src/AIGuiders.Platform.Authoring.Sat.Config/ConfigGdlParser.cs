@@ -22,8 +22,8 @@ public static class ConfigGdlParser
 {
     public static ConfigParseResult ParseFile(string path)
     {
-        var result = GdlConfig.ConfigParser.parseFile(path);
-        return Map(result);
+        var text = File.ReadAllText(path);
+        return ParseText(text);
     }
 
     public static ConfigParseResult ParseText(string text)
