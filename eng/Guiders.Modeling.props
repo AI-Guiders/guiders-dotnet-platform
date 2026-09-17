@@ -1,5 +1,12 @@
 <Project>
-  <!-- Sibling monorepo: guiders-fsharp Platform.Modeling.* (ADR-0002 / waves B–D). -->
+  <!-- Sibling monorepo: guiders-fsharp Platform.Modeling.* (ADR-0002 / federation split-audit).
+       Opt-in flags (set true on consuming .csproj):
+         UseGuidersModelingRelations          — RelationSpec kernel (ship-1 SSOT)
+         UseGuidersModelingIdeSession         — session graph G, SessionPatch
+         UseGuidersModelingLanguageAdaptersFcs — FCS backend (bind Execution.Language.Adapters.Fcs @ runtime)
+         UseGuidersModelingNotationsBracket   — Kind: wire canon
+         UseGuidersModelingCommandPlane       — AttachSchema
+       Convenience import: eng/Guiders.Modeling.relations.props (Relations + Bracket + CommandPlane). -->
   <PropertyGroup>
     <GuidersFSharpRoot Condition="'$(GuidersFSharpRoot)' == ''">$(MSBuildThisFileDirectory)..\..\guiders-fsharp</GuidersFSharpRoot>
   </PropertyGroup>

@@ -1,0 +1,9 @@
+<Project>
+  <!-- Federation RelationSpec consumer bundle (model_execution_split_audit ship-5). -->
+  <Import Project="$(MSBuildThisFileDirectory)Guiders.Modeling.props" />
+  <PropertyGroup>
+    <UseGuidersModelingRelations>true</UseGuidersModelingRelations>
+    <UseGuidersModelingNotationsBracket>true</UseGuidersModelingNotationsBracket>
+    <UseGuidersModelingCommandPlane>true</UseGuidersModelingCommandPlane>
+  </PropertyGroup>
+</Project>

@@ -36,12 +36,12 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.Modeling.Notations.Argument` | Profile (`ArgumentNotationProfile`), slots, `NormalizedArguments` |
 | `AIGuiders.Platform.Modeling.Notations.Keyboard` | `NormalizedKeySequence` + step records |
 | `AIGuiders.Platform.IntermediateRepresentation.Invocation` | `NormalizedCommandLine` |
-| `AIGuiders.Platform.Modeling.Notations.Bracket` | Bracket wire IR |
+| `AIGuiders.Platform.Modeling.Notations.Bracket` | Bracket wire IR — `Kind:` canon (F# sibling) |
 | `AIGuiders.Platform.IntermediateRepresentation.Command` | Command catalog descriptors + route rows |
 | `AIGuiders.Platform.IntermediateRepresentation.Binding` | Binding descriptors + entries |
 | `AIGuiders.Platform.IntermediateRepresentation.Melody` | Melody descriptor + line/step IR |
 | `AIGuiders.Platform.IntermediateRepresentation.Agent` | Agent envelope IR (`DetailTier`, `NextHint`, `AgentResponseEnvelope`) |
-| `AIGuiders.Platform.IntermediateRepresentation.Language` | Locate/edit IR (`Locus`, `TextEdit`, `BracketAnchorSpan`, …) |
+| `AIGuiders.Platform.Modeling.LanguageIntelligence.Relations` | **F# SSOT** — `RelationSpec`, `Locus`, `NavSeed` (replaces deleted `IR.Language`) |
 | `AIGuiders.Platform.Notations.Argument.All` | Profile-driven parse facade (`ArgumentNotation.Parse`) |
 | `AIGuiders.Platform.Notations.Keyboard` | `IKeyboardNotationReader` (parsers → IR.Keyboard) |
 | `AIGuiders.Platform.Notations.Keyboard.Quarry` | Shared quarry lexer, normalizer, spec conformance |
@@ -59,7 +59,8 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.Notations.Command.Console` | Console path + kv tail wire |
 | `AIGuiders.Platform.Notations.Command.All` | Meta-bundle: facade `CommandNotationParser` |
 | `AIGuiders.Platform.Execution.CommandPlane.Melody` | Melody line policy, notation bridge (IR in `IR.Melody`) |
-| `AIGuiders.Platform.Execution.LanguageIntelligence` | `IRelationResolver` contract (IR in `IR.Language`) |
+| `AIGuiders.Platform.Execution.LanguageIntelligence` | `IRelationResolver`, `RelationWire` seam (canonical types in F# `Modeling.LanguageIntelligence.Relations`) |
+| `AIGuiders.Platform.Execution.LanguageIntelligence.Relations` | Legacy F/M/L boundary parse, conformance runners, attach brokers |
 | `AIGuiders.Platform.Execution.MCPlane` | Agent projection + conformance (IR in `IR.Agent`) |
 | `AIGuiders.Platform.Execution.CommandPlane.Binding` | Binding catalog core: merge, index, gesture normalize |
 | `AIGuiders.Platform.Execution.CommandPlane.Binding.Sources.Toml` | `hotkeys.toml` flat map (CIDE quarry) |

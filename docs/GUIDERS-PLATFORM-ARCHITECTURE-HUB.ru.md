@@ -259,7 +259,7 @@ Platform шипит **дороги** (neutral IR, MCPlane tiers, conformance). �
 | `IntermediateRepresentation.Binding` | Binding descriptors + entries |
 | `IntermediateRepresentation.Melody` | Melody descriptor + line/step IR |
 | `IntermediateRepresentation.Agent` | Agent envelope: `DetailTier`, `NextHint`, `AgentResponseEnvelope` |
-| `IntermediateRepresentation.Language` | `Locus`, `TextEdit`, `BracketAnchorSpan`, `SniperScope`, … |
+| `Modeling.LanguageIntelligence.Relations` (F#, guiders-fsharp) | **SSOT** — `RelationSpec`, `Locus`, `NavSeed`; заменяет удалённый `IntermediateRepresentation.Language` |
 
 См. [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md). **Authoring** парсит declare-time файлы → IR; **Notations** — wire → IR; **CommandPlane** guilds — механики.
 

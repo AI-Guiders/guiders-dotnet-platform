@@ -259,7 +259,7 @@ From [GUIDERS-ADR-0001](./adr/GUIDERS-ADR-0001-platform-boundary.md) and [GUIDER
 | `IntermediateRepresentation.Binding` | Binding descriptors + entries |
 | `IntermediateRepresentation.Melody` | Melody descriptor + line/step IR |
 | `IntermediateRepresentation.Agent` | Agent envelope: `DetailTier`, `NextHint`, `AgentResponseEnvelope` |
-| `IntermediateRepresentation.Language` | `Locus`, `TextEdit`, `BracketAnchorSpan`, `SniperScope`, … |
+| `Modeling.LanguageIntelligence.Relations` (F#, guiders-fsharp) | **SSOT** — `RelationSpec`, `Locus`, `NavSeed`; replaces retired `IntermediateRepresentation.Language` |
 
 See [ADR-0042](./adr/GUIDERS-ADR-0042-intermediate-representation-family.md). **Authoring** parses declare-time files → IR; **Notations** parse wire → IR; **CommandPlane** guilds own mechanics.
 
