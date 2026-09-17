@@ -7,6 +7,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.IntermediateRepresentation.Language\AIGuiders.Platform.IntermediateRepresentation.Language.csproj" />
-    <ProjectReference Include="..\AIGuiders.Platform.Execution.LanguageIntelligence.Anchors\AIGuiders.Platform.Execution.LanguageIntelligence.Anchors.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.LanguageIntelligence.Relations\AIGuiders.Platform.Execution.LanguageIntelligence.Relations.csproj" />
   </ItemGroup>
 </Project>

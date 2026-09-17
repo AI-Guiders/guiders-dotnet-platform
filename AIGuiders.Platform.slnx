@@ -83,7 +83,7 @@
     <Project Path="src/AIGuiders.Platform.Execution.Language.CSharp.Anchors/AIGuiders.Platform.Execution.Language.CSharp.Anchors.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.Language.Xml.Anchors/AIGuiders.Platform.Execution.Language.Xml.Anchors.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.Language.CSharp.Symbols/AIGuiders.Platform.Execution.Language.CSharp.Symbols.csproj" />
-    <Project Path="src/AIGuiders.Platform.Execution.LanguageIntelligence.Anchors/AIGuiders.Platform.Execution.LanguageIntelligence.Anchors.csproj" />
+    <Project Path="src/AIGuiders.Platform.Execution.LanguageIntelligence.Relations/AIGuiders.Platform.Execution.LanguageIntelligence.Relations.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.LanguageIntelligence/AIGuiders.Platform.Execution.LanguageIntelligence.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.MCPlane/AIGuiders.Platform.Execution.MCPlane.csproj" />
     <Project Path="src/AIGuiders.Platform.Notations.Argument.All/AIGuiders.Platform.Notations.Argument.All.csproj" />

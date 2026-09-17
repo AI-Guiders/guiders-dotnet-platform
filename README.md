@@ -59,7 +59,7 @@ Shared contracts and routing kit for AI Guiders products (CDP habitat, Glass, Fo
 | `AIGuiders.Platform.Notations.Command.Console` | Console path + kv tail wire |
 | `AIGuiders.Platform.Notations.Command.All` | Meta-bundle: facade `CommandNotationParser` |
 | `AIGuiders.Platform.Execution.CommandPlane.Melody` | Melody line policy, notation bridge (IR in `IR.Melody`) |
-| `AIGuiders.Platform.Execution.LanguageIntelligence` | `IAnchorResolver` contract (IR in `IR.Language`) |
+| `AIGuiders.Platform.Execution.LanguageIntelligence` | `IRelationResolver` contract (IR in `IR.Language`) |
 | `AIGuiders.Platform.Execution.MCPlane` | Agent projection + conformance (IR in `IR.Agent`) |
 | `AIGuiders.Platform.Execution.CommandPlane.Binding` | Binding catalog core: merge, index, gesture normalize |
 | `AIGuiders.Platform.Execution.CommandPlane.Binding.Sources.Toml` | `hotkeys.toml` flat map (CIDE quarry) |

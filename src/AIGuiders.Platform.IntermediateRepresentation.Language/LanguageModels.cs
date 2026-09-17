@@ -18,12 +18,22 @@ public sealed record Locus(
     public static Locus OfRange(int start, int end) => new(start, end, ResolveTier.Syntax);
 }
 
-/// <summary>Resolve input for anchor (raw wire). Prefer NormalizedBracketWire from IR.Bracket (ADR-0026).</summary>
+/// <summary>Resolve input for relation (raw wire). Prefer NormalizedBracketWire from IR.Bracket (ADR-0026).</summary>
+public sealed record RelationWire(string Value)
+{
+    public ModelingLanguage.AnchorWire ToModel() => new(Value);
+
+    public static RelationWire FromModel(ModelingLanguage.AnchorWire model) => new(model.Value);
+}
+
+/// <summary>Legacy alias — prefer <see cref="RelationWire"/>.</summary>
 public sealed record AnchorWire(string Value)
 {
     public ModelingLanguage.AnchorWire ToModel() => new(Value);
 
     public static AnchorWire FromModel(ModelingLanguage.AnchorWire model) => new(model.Value);
+
+    public RelationWire ToRelationWire() => new(Value);
 }
 
 /// <summary>LSP-shaped single edit (language-neutral).</summary>

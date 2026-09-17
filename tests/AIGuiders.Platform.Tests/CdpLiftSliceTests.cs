@@ -2,7 +2,7 @@
 using AIGuiders.Platform.Execution.Configurations.Project;
 using AIGuiders.Platform.Execution.Configurations.Workspace;
 using AIGuiders.Platform.Execution.Language.Xml.Anchors;
-using AIGuiders.Platform.Execution.LanguageIntelligence.Anchors;
+using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 using AIGuiders.Platform.Navigation;
 using AIGuiders.Platform.Navigation.Code;
 using AIGuiders.Platform.Navigation.Policy;
@@ -87,7 +87,7 @@ public sealed class XmlBracketAnchorResolveTests
               <Item>hello</Item>
             </Root>
             """;
-        var span = BracketAnchorWire.Parse("[F:doc.xml;X:Root/Item]");
+        var span = BracketRelationWire.Parse("[F:doc.xml;X:Root/Item]");
 
         var ok = XmlBracketAnchorResolve.TryResolve(
             "doc.xml",

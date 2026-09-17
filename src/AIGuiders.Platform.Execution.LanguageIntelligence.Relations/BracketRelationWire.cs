@@ -1,13 +1,12 @@
 #nullable enable
 
 using AIGuiders.Platform.Modeling.Notations.Bracket;
-using AIGuiders.Platform.IntermediateRepresentation.Language;
 using AIGuiders.Platform.Notations.Bracket;
 
-namespace AIGuiders.Platform.Execution.LanguageIntelligence.Anchors;
+namespace AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 
-/// <summary>Parse/format/classify via <see cref="BracketReader"/>.</summary>
-public static class BracketAnchorWire
+/// <summary>Legacy F/M/L bracket span projection; Kind: canon lives in Modeling BracketRelationWire.</summary>
+public static class BracketRelationWire
 {
     static readonly Dictionary<string, string> AxisAlias = new(StringComparer.OrdinalIgnoreCase)
     {

@@ -4,7 +4,7 @@ using AIGuiders.Platform.IntermediateRepresentation.Language;
 
 namespace AIGuiders.Platform.Execution.LanguageIntelligence;
 
-public interface IAnchorResolver
+public interface IRelationResolver
 {
-    bool TryResolve(AnchorWire wire, out Locus locus, out string error);
+    bool TryResolveRelation(RelationWire wire, out Locus locus, out string error);
 }

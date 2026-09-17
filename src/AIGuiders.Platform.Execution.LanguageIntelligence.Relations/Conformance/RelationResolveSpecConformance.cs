@@ -3,15 +3,15 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using AIGuiders.Platform.IntermediateRepresentation.Language;
 
-namespace AIGuiders.Platform.Execution.LanguageIntelligence.Anchors.Conformance;
+namespace AIGuiders.Platform.Execution.LanguageIntelligence.Relations.Conformance;
 
-public static class AnchorResolveSpecConformance
+public static class RelationResolveSpecConformance
 {
-    public static AnchorResolveSpecDocument Load(string json) =>
-        JsonSerializer.Deserialize<AnchorResolveSpecDocument>(json, JsonOptions)
-        ?? throw new InvalidOperationException("Anchor resolve spec JSON deserialized to null.");
+    public static RelationResolveSpecDocument Load(string json) =>
+        JsonSerializer.Deserialize<RelationResolveSpecDocument>(json, JsonOptions)
+        ?? throw new InvalidOperationException("Relation resolve spec JSON deserialized to null.");
 
-    public static IReadOnlyList<string> ValidateDocument(AnchorResolveSpecDocument spec)
+    public static IReadOnlyList<string> ValidateDocument(RelationResolveSpecDocument spec)
     {
         var errors = new List<string>();
         foreach (var vector in spec.Vectors)
@@ -23,7 +23,7 @@ public static class AnchorResolveSpecConformance
         return errors;
     }
 
-    public static bool TryValidateVector(AnchorResolveSpecVector vector, out string error)
+    public static bool TryValidateVector(RelationResolveSpecVector vector, out string error)
     {
         error = "";
         if (vector.Wire is null)
@@ -35,7 +35,7 @@ public static class AnchorResolveSpecConformance
         BracketAnchorSpan span;
         try
         {
-            span = BracketAnchorWire.Parse(vector.Wire);
+            span = BracketRelationWire.Parse(vector.Wire);
         }
         catch (ArgumentException ex)
         {
@@ -43,7 +43,7 @@ public static class AnchorResolveSpecConformance
             return false;
         }
 
-        var family = BracketAnchorWire.ClassifyFamily(span, out var familyError);
+        var family = BracketRelationWire.ClassifyFamily(span, out var familyError);
         if (vector.Expect.Family is not null)
         {
             if (!Enum.TryParse<BracketAxisFamily>(vector.Expect.Family, ignoreCase: true, out var expectedFamily))
@@ -68,7 +68,7 @@ public static class AnchorResolveSpecConformance
         return true;
     }
 
-    static bool SpanMatches(AnchorResolveSpecExpectation expect, BracketAnchorSpan actual, out string error)
+    static bool SpanMatches(RelationResolveSpecExpectation expect, BracketAnchorSpan actual, out string error)
     {
         error = "";
         if (expect.File is not null && expect.File != actual.File)
@@ -172,18 +172,18 @@ public static class AnchorResolveSpecConformance
     };
 }
 
-public sealed record AnchorResolveSpecDocument(
+public sealed record RelationResolveSpecDocument(
     [property: JsonPropertyName("version")] int Version,
     [property: JsonPropertyName("surface")] string Surface,
     [property: JsonPropertyName("source")] string? Source,
-    [property: JsonPropertyName("vectors")] IReadOnlyList<AnchorResolveSpecVector> Vectors);
+    [property: JsonPropertyName("vectors")] IReadOnlyList<RelationResolveSpecVector> Vectors);
 
-public sealed record AnchorResolveSpecVector(
+public sealed record RelationResolveSpecVector(
     [property: JsonPropertyName("id")] string Id,
     [property: JsonPropertyName("wire")] string? Wire,
-    [property: JsonPropertyName("expect")] AnchorResolveSpecExpectation? Expect);
+    [property: JsonPropertyName("expect")] RelationResolveSpecExpectation? Expect);
 
-public sealed record AnchorResolveSpecExpectation(
+public sealed record RelationResolveSpecExpectation(
     [property: JsonPropertyName("family")] string? Family,
     [property: JsonPropertyName("familyError")] string? FamilyError,
     [property: JsonPropertyName("familyName")] string? FamilyName,
@@ -199,4 +199,4 @@ public sealed record AnchorResolveSpecExpectation(
     [property: JsonPropertyName("go")] string? Go,
     [property: JsonPropertyName("textNeedle")] string? TextNeedle,
     [property: JsonPropertyName("typeKey")] string? TypeKey,
-    [property: JsonPropertyName("nestedAnchor")] AnchorResolveSpecExpectation? NestedAnchor);
+    [property: JsonPropertyName("nestedAnchor")] RelationResolveSpecExpectation? NestedAnchor);

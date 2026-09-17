@@ -80,7 +80,7 @@
     <ProjectReference Include="..\..\tools\QuarryOracle\QuarryOracle.csproj" />
     <ProjectReference Include="..\..\tools\CombinationsProof\CombinationsProof.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.LanguageIntelligence\AIGuiders.Platform.Execution.LanguageIntelligence.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.LanguageIntelligence.Anchors\AIGuiders.Platform.Execution.LanguageIntelligence.Anchors.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.LanguageIntelligence.Relations\AIGuiders.Platform.Execution.LanguageIntelligence.Relations.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Documentation.Anchors\AIGuiders.Platform.Execution.Documentation.Anchors.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Documentation.LinkCheck\AIGuiders.Platform.Execution.Documentation.LinkCheck.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Documentation.LinkMutate\AIGuiders.Platform.Execution.Documentation.LinkMutate.csproj" />

@@ -1,6 +1,6 @@
 #nullable enable
 
-using AIGuiders.Platform.Execution.LanguageIntelligence.Anchors;
+using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -281,7 +281,7 @@ public static class CSharpBracketAnchorResolve
 
     /// <summary>
     /// Narrow a resolved syntax node range to the first <c>T:</c> needle match inside it.
-    /// Needle is <see cref="BracketAnchorWire.SanitizeTextNeedle"/> (same as wire parse).
+    /// Needle is <see cref="BracketRelationWire.SanitizeTextNeedle"/> (same as wire parse).
     /// </summary>
     public static bool TryNarrowRangeToTextNeedle(
         SyntaxTree tree,
@@ -291,7 +291,7 @@ public static class CSharpBracketAnchorResolve
         out string detail)
     {
         range = default!;
-        var needle = BracketAnchorWire.SanitizeTextNeedle(needleRaw);
+        var needle = BracketRelationWire.SanitizeTextNeedle(needleRaw);
         if (needle.Length == 0)
         {
             detail = "text_needle_empty";
