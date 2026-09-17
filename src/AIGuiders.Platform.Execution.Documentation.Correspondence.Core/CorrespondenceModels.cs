@@ -1,6 +1,7 @@
 #nullable enable
 
 using GdlCorrespondence = AIGuiders.Platform.Modeling.Documentation.Correspondence;
+using Microsoft.FSharp.Collections;
 using Microsoft.FSharp.Core;
 
 namespace AIGuiders.Platform.Execution.Documentation.Correspondence;
@@ -41,26 +42,28 @@ public static class AdrLifecycleTag
 
 public sealed record AdrReference(string Id, string? Fragment = null)
 {
-    public GdlCorrespondence.AdrReference ToModel() => new() { Id = Id, Fragment = CorrespondenceFSharpInterop.ToFSharpOpt(Fragment) };
+    public GdlCorrespondence.AdrReference ToModel() =>
+        new(Id, CorrespondenceFSharpInterop.ToFSharpOpt(Fragment));
+
     public static AdrReference FromModel(GdlCorrespondence.AdrReference model) => new(
         model.Id,
-        model.Fragment is not null && Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(model.Fragment) ? model.Fragment.Value : null);
+        model.Fragment is not null && FSharpOption<string>.get_IsSome(model.Fragment) ? model.Fragment.Value : null);
 }
 
 public sealed record ForwardDoc(string Path, string Title, string? Abs = null, string? Kind = null)
 {
-    public GdlCorrespondence.ForwardDoc ToModel() => new()
-    {
-        Path = Path,
-        Title = Title,
-        Abs = CorrespondenceFSharpInterop.ToFSharpOpt(Abs),
-        Kind = CorrespondenceFSharpInterop.ToFSharpOpt(Kind),
-    };
+    public GdlCorrespondence.ForwardDoc ToModel() =>
+        new(
+            Path,
+            Title,
+            CorrespondenceFSharpInterop.ToFSharpOpt(Abs),
+            CorrespondenceFSharpInterop.ToFSharpOpt(Kind));
+
     public static ForwardDoc FromModel(GdlCorrespondence.ForwardDoc model) => new(
         model.Path,
         model.Title,
-        model.Abs is not null && Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(model.Abs) ? model.Abs.Value : null,
-        model.Kind is not null && Microsoft.FSharp.Core.FSharpOption<string>.get_IsSome(model.Kind) ? model.Kind.Value : null);
+        model.Abs is not null && FSharpOption<string>.get_IsSome(model.Abs) ? model.Abs.Value : null,
+        model.Kind is not null && FSharpOption<string>.get_IsSome(model.Kind) ? model.Kind.Value : null);
 }
 
 public sealed record ReverseAnchor(
@@ -76,20 +79,19 @@ public sealed record ReverseAnchor(
     int? DocLineHint = null,
     string? Excerpt = null)
 {
-    public GdlCorrespondence.ReverseAnchor ToModel() => new()
-    {
-        DocPath = DocPath,
-        DocTitle = DocTitle,
-        Provenance = Provenance,
-        Kind = Kind,
-        File = File,
-        LineStart = LineStart,
-        LineEnd = LineEnd,
-        MemberKey = CorrespondenceFSharpInterop.ToFSharpOpt(MemberKey),
-        Wire = Wire,
-        DocLineHint = DocLineHint,
-        Excerpt = CorrespondenceFSharpInterop.ToFSharpOpt(Excerpt),
-    };
+    public GdlCorrespondence.ReverseAnchor ToModel() =>
+        new(
+            DocPath,
+            DocTitle,
+            Provenance,
+            Kind,
+            File,
+            CorrespondenceFSharpInterop.ToFSharpOpt(LineStart),
+            CorrespondenceFSharpInterop.ToFSharpOpt(LineEnd),
+            CorrespondenceFSharpInterop.ToFSharpOpt(MemberKey),
+            Wire,
+            CorrespondenceFSharpInterop.ToFSharpOpt(DocLineHint),
+            CorrespondenceFSharpInterop.ToFSharpOpt(Excerpt));
 }
 
 public sealed record ExplicitCodeAnchor(
@@ -102,17 +104,16 @@ public sealed record ExplicitCodeAnchor(
     string Kind,
     string DefaultKind = "documents")
 {
-    public GdlCorrespondence.ExplicitCodeAnchor ToModel() => new()
-    {
-        DocPath = DocPath,
-        File = File,
-        LineStart = LineStart,
-        LineEnd = LineEnd,
-        MemberKey = CorrespondenceFSharpInterop.ToFSharpOpt(MemberKey),
-        Provenance = Provenance,
-        Kind = Kind,
-        DefaultKind = DefaultKind,
-    };
+    public GdlCorrespondence.ExplicitCodeAnchor ToModel() =>
+        new(
+            DocPath,
+            File,
+            CorrespondenceFSharpInterop.ToFSharpOpt(LineStart),
+            CorrespondenceFSharpInterop.ToFSharpOpt(LineEnd),
+            CorrespondenceFSharpInterop.ToFSharpOpt(MemberKey),
+            Provenance,
+            Kind,
+            DefaultKind);
 }
 
 public sealed record CorrespondenceResult(
@@ -126,18 +127,17 @@ public sealed record CorrespondenceResult(
     string[] ActiveLayers,
     string TomlPath)
 {
-    public GdlCorrespondence.CorrespondenceResult ToModel() => new()
-    {
-        WorkspaceRoot = WorkspaceRoot,
-        FileRel = CorrespondenceFSharpInterop.ToFSharpOpt(FileRel),
-        FeatureLine = CorrespondenceFSharpInterop.ToFSharpOpt(FeatureLine),
-        FeatureDocs = FeatureDocs,
-        AdrLine = AdrLine,
-        ForwardDocs = ForwardDocs.Select(d => d.ToModel()).ToArray(),
-        ReverseAnchors = ReverseAnchors.Select(a => a.ToModel()).ToArray(),
-        ActiveLayers = ActiveLayers,
-        TomlPath = TomlPath,
-    };
+    public GdlCorrespondence.CorrespondenceResult ToModel() =>
+        new(
+            WorkspaceRoot,
+            CorrespondenceFSharpInterop.ToFSharpOpt(FileRel),
+            CorrespondenceFSharpInterop.ToFSharpOpt(FeatureLine),
+            FeatureDocs,
+            AdrLine,
+            ForwardDocs.Select(d => d.ToModel()).ToArray(),
+            ReverseAnchors.Select(a => a.ToModel()).ToArray(),
+            ActiveLayers,
+            TomlPath);
 }
 
 public sealed record ForwardMapResult(
@@ -147,18 +147,20 @@ public sealed record ForwardMapResult(
     IReadOnlyList<string> DocPaths,
     ForwardDoc[] ForwardDocs)
 {
-    public GdlCorrespondence.ForwardMapResult ToModel() => new()
-    {
-        FeatureLine = CorrespondenceFSharpInterop.ToFSharpOpt(FeatureLine),
-        FeatureDocs = FeatureDocs,
-        AdrLine = AdrLine,
-        DocPaths = Microsoft.FSharp.Collections.ListModule.OfSeq(DocPaths),
-        ForwardDocs = ForwardDocs.Select(d => d.ToModel()).ToArray(),
-    };
+    public GdlCorrespondence.ForwardMapResult ToModel() =>
+        new(
+            CorrespondenceFSharpInterop.ToFSharpOpt(FeatureLine),
+            FeatureDocs,
+            AdrLine,
+            ListModule.OfSeq(DocPaths),
+            ForwardDocs.Select(d => d.ToModel()).ToArray());
 }
 
 internal static class CorrespondenceFSharpInterop
 {
     internal static FSharpOption<string> ToFSharpOpt(string? value) =>
         string.IsNullOrEmpty(value) ? FSharpOption<string>.None : FSharpOption<string>.Some(value!);
+
+    internal static FSharpOption<int> ToFSharpOpt(int? value) =>
+        value is int v ? FSharpOption<int>.Some(v) : FSharpOption<int>.None;
 }
