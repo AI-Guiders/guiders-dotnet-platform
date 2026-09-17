@@ -22,7 +22,8 @@ public static class CorrespondenceProvenance
 public static class CorrespondenceKind
 {
     public const string Documents = GdlCorrespondence.Kind.Documents;
-    public const string Implements = GdlCorrespondence.Kind.Implements;
+    /// <summary>ADR obligation wire token "implements" (not TypeSystem implements-interface).</summary>
+    public const string ImplementsObligation = GdlCorrespondence.Kind.ImplementsObligation;
     public const string Related = GdlCorrespondence.Kind.Related;
     public const string Constrains = GdlCorrespondence.Kind.Constrains;
     public const string Normates = GdlCorrespondence.Kind.Normates;

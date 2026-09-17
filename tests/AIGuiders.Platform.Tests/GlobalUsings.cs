@@ -5,3 +5,4 @@ global using CommandPickerChoice = AIGuiders.Platform.Modeling.Gdl.Command.Comma
 global using MelodyArticulation = AIGuiders.Platform.Modeling.Gdl.Command.Melody.MelodyArticulation;
 global using MelodyLineProfile = AIGuiders.Platform.Modeling.Gdl.Command.Melody.MelodyLineProfile;
 global using MelodyStep = AIGuiders.Platform.Modeling.Gdl.Command.Melody.MelodyStep;
+global using BindingTargetKind = AIGuiders.Platform.Modeling.Gdl.Command.Binding.BindingTargetKind;

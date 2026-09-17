@@ -16,9 +16,9 @@ public sealed class LanguageIntelligenceCoreTests
     }
 
     [Fact]
-    public void Locus_defaults_to_text_tier()
+    public void Locus_defaults_to_syntax_tier()
     {
         var locus = new Locus(0, 5);
-        Assert.Equal(ResolveTier.Text, locus.Tier);
+        Assert.Equal(ResolveTier.Syntax, locus.Tier);
     }
 }

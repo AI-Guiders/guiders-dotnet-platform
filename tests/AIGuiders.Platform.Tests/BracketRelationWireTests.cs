@@ -1,5 +1,5 @@
 #nullable enable
-using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
+using LegacyBracketRelationWire = AIGuiders.Platform.Execution.LanguageIntelligence.Relations.BracketRelationWire;
 using AIGuiders.Platform.Modeling.Notations.Bracket;
 using Xunit;
 
@@ -10,17 +10,17 @@ public sealed class BracketRelationWireTests
     [Fact]
     public void Parse_code_family_roundtrip()
     {
-        var span = BracketRelationWire.Parse("[F:Program.cs;M:Foo;L:10]");
-        Assert.Equal(BracketAxisFamily.Csharp, BracketRelationWire.ClassifyFamily(span, out var error));
+        var span = LegacyBracketRelationWire.Parse("[F:Program.cs;M:Foo;L:10]");
+        Assert.Equal(BracketAxisFamily.Csharp, LegacyBracketRelationWire.ClassifyFamily(span, out var error));
         Assert.Null(error);
-        Assert.Contains("F:Program.cs", BracketRelationWire.Format(span));
+        Assert.Contains("F:Program.cs", LegacyBracketRelationWire.Format(span));
     }
 
     [Fact]
     public void Parse_navigation_nested_anchor()
     {
-        var span = BracketRelationWire.Parse("[Family:navigation;Command:open;Anchor:[F:README.md;L:10]]");
-        Assert.Equal(BracketAxisFamily.Navigation, BracketRelationWire.ClassifyFamily(span, out _));
+        var span = LegacyBracketRelationWire.Parse("[Family:navigation;Command:open;Anchor:[F:README.md;L:10]]");
+        Assert.Equal(BracketAxisFamily.Navigation, LegacyBracketRelationWire.ClassifyFamily(span, out _));
         Assert.NotNull(span.NestedAnchor);
         Assert.Equal("README.md", span.NestedAnchor!.File);
     }
