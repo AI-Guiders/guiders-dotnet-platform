@@ -21,5 +21,6 @@ internal static class FcsModelingBindings
         AIGuiders.Platform.Modeling.Language.Adapters.Fcs.FcsSessionPatchApply.bindApplier(new FcsSessionPatchApplier());
         AIGuiders.Platform.Modeling.Language.Adapters.Fcs.FcsSourceText.bindSource(workspaceIo);
         AIGuiders.Platform.Modeling.Language.Adapters.Fcs.FcsSolutionGraph.bindSource(workspaceIo);
+        AIGuiders.Platform.Modeling.Language.Adapters.Fcs.FcsProjectOwnership.bindSource(new FcsProjectOwnershipSource(workspaceIo));
     }
 }
