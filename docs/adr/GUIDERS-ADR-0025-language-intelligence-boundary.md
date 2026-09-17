@@ -169,6 +169,17 @@ Products:
 
 ---
 
+## Federation TO-BE alignment (2026-09-17)
+
+Per [model execution split audit](https://github.com/AI-Guiders/guiders-fsharp/blob/develop/docs/federation/model-extraction-living-matrix.md):
+
+- **`RelationSpec`** + graph `Relation` supersede public **Anchor** entity for attach/persist paths ([0063 §9](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md)).
+- Stored **`Locus`** = `Syntax` | `Semantic` only — **`ResolveTier.Text` deleted**.
+- F# SSOT: **`Modeling.LanguageIntelligence.Relations`** (not `.Anchors`).
+- Bracket **`Kind:`** wire → `RelationSpec` at host boundary; legacy **`F:`/`M:`/`L:`** parse remains transitional in Execution until conformance green.
+
+---
+
 ## References
 
 - CIDE Anchor rename (Bracket → Anchor), Body.At, EditSniper — agent-notes / cascade-ide
