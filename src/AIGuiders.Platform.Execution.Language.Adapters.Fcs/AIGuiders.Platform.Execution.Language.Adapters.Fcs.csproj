@@ -1,6 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseGuidersModelingCore>true</UseGuidersModelingCore>
+    <UseGuidersModelingRelations>true</UseGuidersModelingRelations>
     <UseGuidersModelingIdeSession>true</UseGuidersModelingIdeSession>
+    <UseGuidersModelingIdeSessionPortsDotNet>true</UseGuidersModelingIdeSessionPortsDotNet>
     <UseGuidersModelingLanguageAdaptersFcs>true</UseGuidersModelingLanguageAdaptersFcs>
     <RootNamespace>AIGuiders.Platform.Execution.Language.Adapters.Fcs</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Execution.Language.Adapters.Fcs</AssemblyName>

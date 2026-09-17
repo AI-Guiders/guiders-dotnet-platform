@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Status** | Accepted (architecture; implementation Phase 0) |
+| **Status** | Accepted (architecture); **v1 entity semantics superseded by §9–§10** (RelationSpec era, 2026-09-17) |
 | **Date** | 2026-09-02 |
 | **Tags** | #guiders #federation #anchor #language-intelligence #edit-plane #buffer #sniper #first-class |
 | **Related** | [GUIDERS-ADR-0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) · [GUIDERS-ADR-0026](./GUIDERS-ADR-0026-notations-bracket-branch.md) · [GUIDERS-ADR-0027](./GUIDERS-ADR-0027-mdlinker-doc-anchor-check.md) · [GUIDERS-ADR-0061](./GUIDERS-ADR-0061-language-resolver-center.md) · [GUIDERS-ADR-0062](./GUIDERS-ADR-0062-ide-solution-session-orchestrator.md) · [GUIDERS-ADR-0066](./GUIDERS-ADR-0066-code-center-federation-product.md) · [GUIDERS-ADR-0067](./GUIDERS-ADR-0067-language-profile-federation-model.md) · [CDP BUF-001](https://github.com/AI-Guiders/agent-notes/blob/main/knowledge/work/projects/door-to-singularity/cdp-mcp/subprojects/cdp-buffer-v1-known-gaps.md) · [Constitution](../GUIDERS-FEDERATION-CONSTITUTION.md) |
@@ -28,6 +28,8 @@ Operator requirement (2026-09-02): **Federation-first reincarnation** — typed 
 ---
 
 ## Decision
+
+> **Historical (v1 — 2026-09-02):** §1–§7 describe the **AnchorIntent** era. Federation SSOT is now **`RelationSpec`** + graph `Relation` (§9–§10). Retained for migration context only.
 
 ### 1. Entity model (normative)
 
@@ -234,7 +236,126 @@ Pre-Federation code was built **without** a federation Modeling layer — tactic
 
 **Attach UX** (plan §4): human verbs → `AttachSchema` steps → `RelationSpec` witness → `Relation` in session graph `G`. Bracket remains **WireProjection**, not SSOT.
 
-Implementation status: Phase 1 Relations kernel **shipped**; Navigation.Code **NavSeed-only** on `develop`; FCS host IO **shipped** @ Execution; legacy wire shims deleted (`LegacyBracketRelationWire` boundary only; Kind: canon in Modeling); 0063 product phases remain paused until split-audit checklist closes.
+Implementation status: Phase 1 Relations kernel **shipped**; Navigation.Code **NavSeed-only** on `develop`; FCS host IO **shipped** @ Execution; legacy wire shims deleted (`LegacyBracketRelationWire` boundary only; Kind: canon in Modeling); FCS session patch apply IO **shipped** @ Execution (`FcsSessionPatchApplier`); 0063 product phases (A2–A5) remain paused until split-audit checklist closes.
+
+---
+
+## 10. TO-BE normative (RelationSpec era)
+
+This section is the **current** federation contract for edit locus, attach, and wire. It aligns with [model execution split audit](https://github.com/AI-Guiders/guiders-fsharp/blob/develop/docs/federation/model-extraction-living-matrix.md) and math ledger field **`relation_spec_i`** ([ide-session §12](https://github.com/AI-Guiders/guiders-fsharp/blob/develop/docs/math/ide-session/12-relation-spec.md)).
+
+### 10.1 Entity model
+
+Three layers — do not collapse (witness → ephemeral outcome → persistent edge):
+
+```text
+RelationSpec       typed witness (partial intent before interpret)
+      │ Resolve(spec, ctx)     ⇀  Locus | NavSeed | Artifact     (ephemeral)
+      │ Materialize(spec, ctx) ⇀  Relation ⊆ G                   (persistent u R v)
+      ▼
+BufferEditOutcome / TextEdit / Navigation.Scene projection
+```
+
+| Type | Role | Package |
+|------|------|---------|
+| **`RelationSpec`** | Serializable witness; bracket/JSON are projections | `Modeling.LanguageIntelligence.Relations` |
+| **`Locus`** | Resolved span @ revision; **`Syntax` \| `Semantic` only** (no Text tier) | Relations |
+| **`Relation` / `RelationType`** | Materialized typed edge in session graph `G` | `Modeling.Ide.Session` |
+| **`NavSeed`** | Navigation entry (path + optional line/command) | Relations + `Navigation` |
+| **`ResolveCtx`** | Active doc, registry, diagnostic index, max tier | Relations (types); Execution (interpret) |
+
+**Public naming:** teach agents **`RelationSpec`** and attach verbs — not bracket axes, not `AnchorIntent`, not `NavigationAnchor` (deleted).
+
+**Witness vs graph:** `RelationSpec` is intent before interpret; **`Relation` in G** is SSOT for persisted correspondence. `Navigation.Scene.Edge.Kind` is a **derived label** from `G` — not a parallel edge SSOT.
+
+### 10.2 RelationSpec cases (sketch)
+
+Normative shape lives in F# Relations kernel; cases include:
+
+| Case | Resolve / materialize |
+|------|------------------------|
+| `CodeEdit` | active buffer → `Locus` |
+| `DocToCode` | document place → `Relation` (correspondence) |
+| `Diag` | `DiagnosticRef` → `Locus` |
+| `Address` | `AddressRef` → artifact (optional hint) |
+| `Nav` | `NavSeed` → scene / action |
+| `Resource` | resource path (+ optional code tail) |
+
+**CodeTarget policy:** persisted targets = `Symbol` \| `TreeNode` only. Line hints snap to AST; snap failure → `Result.Error` (no Text-tier fallback).
+
+**Path policy ([ADR-0050](./GUIDERS-ADR-0050-paths-guild-logical-physical.md)):** wire `File:` → `LogicalPath.Create` at parse boundary; kernel forbids bare `string` paths.
+
+### 10.3 Transport
+
+| Path | When |
+|------|------|
+| JSON `RelationSpec` | MCP tools, CSX builders, agents (primary) |
+| Bracket **`Kind:`** canon | md/prose; `[Kind:CodeEdit; File:…; Member:…]` |
+| Legacy `F:`/`M:`/`L:` | **boundary parse only** — `LegacyBracketRelationWire` @ Execution; not SSOT |
+
+Delete from agent canon: bracket as entity, `NavigationAnchor`, `AnchorIntent`, `ResolveTier.Text`, Family/FRG axis routers.
+
+### 10.4 Resolvers (Execution)
+
+```text
+IResolveRelation / IMaterializeRelation
+  Resolve(spec, ctx)     → Result<Locus, _>
+  Materialize(spec, ctx) → Result<Relation, _>
+```
+
+| Surface | Spec case | Execution package |
+|---------|-----------|-------------------|
+| C# / F# | `CodeEdit`, `CodeTarget.Symbol` | `Execution.LanguageIntelligence.Adapters.*` |
+| XML / csproj | `TreeNode` | Xml adapter |
+| Markdown ADR | `DocToCode` / `TreeNode` | Markdown adapter |
+| Diagnostics | `Diag` | ingest → `DiagnosticIndex` → resolve |
+| Navigation | `Nav` | `Navigation.Code` + scene projection |
+
+LRC ([0061](./GUIDERS-ADR-0061-language-resolver-center.md)) ingests diagnostics; **`LanguageDiagnostic.Id`** = rule code (CS0246), not session `DiagnosticRef`.
+
+### 10.5 Attach UX (human)
+
+Machine layer = `RelationSpec` + optional `ToWire` / `ToJson`. Human attach = CommandPlane pipeline:
+
+```text
+attach [verb]  →  AttachSchema steps  →  RelationSpec + preview label
+```
+
+Verbs: `error` → `Diag`; `issue` → `Resource`; `document` → `DocToCode`; `code` → `CodeEdit`; `nav` → `Nav`; `manual` → Kind picker + browse-all.
+
+Gestural bypass: squiggle → `Diag`; sniper → `CodeEdit`; MdLinker → `DocToCode`.
+
+### 10.6 Package map (TO-BE)
+
+| Layer | Package | Repo |
+|-------|---------|------|
+| IR (`RelationSpec`, `Locus`, `NavSeed`, identity) | `Modeling.LanguageIntelligence.Relations` | guiders-fsharp |
+| Graph algebra (`Relation`, `RelationType`) | `Modeling.Ide.Session` | guiders-fsharp |
+| Bracket wire (`Kind:` canon) | `Modeling.Notations.Bracket` | guiders-fsharp |
+| Attach schema | `Modeling.CommandPlane` | guiders-fsharp |
+| Resolvers + registry + attach brokers | `Execution.LanguageIntelligence.Relations` | guiders-platform |
+| FCS host + probe + patch apply IO | `Execution.Language.Adapters.Fcs` | guiders-platform |
+| MCP serialize | CDP `cdp_buffer` / MetaToolCatalog | cdp-mcp |
+
+**Dependency:** Execution → Modeling Relations + Notations.Bracket. Modeling **never** calls `File.*`, MSBuild, or FCS host threads.
+
+### 10.7 Migration phases (split-audit aligned)
+
+| Phase | Deliverable | Status @ develop |
+|-------|-------------|------------------|
+| **R1** | Relations kernel + Kind: wire + NavSeed | **shipped** |
+| **R2** | Scene projection; attach schema + contextual pickers | **shipped** |
+| **R3** | FCS host/probe/projinfo IO @ Execution | **shipped** |
+| **R4** | Legacy wire shim delete; ADR/math amend | **in progress** (this ADR §10; math §12 shipped) |
+| **R5** | Modeling tree renames (§6 plan); `FcsLanguageBackend` File IO trim | **pending** |
+| **A2–A5** | CDP JSON anchor field, CSX rename, agent canon | **paused** until R4–R5 green |
+
+### 10.8 Non-goals (unchanged from v1)
+
+- Replacing LSP positions or Roslyn `Location` internally — adapters map **to** `Locus`.
+- Universal XPath/string path as Federation SSOT.
+- Regex-based markdown/XML mutate.
+- Merging LRC and LanguageIntelligence into one guild.
 
 ---
 

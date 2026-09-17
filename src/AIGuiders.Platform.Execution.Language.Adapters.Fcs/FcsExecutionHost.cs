@@ -16,6 +16,7 @@ public static class FcsExecutionHost
     static FcsExecutionHost()
     {
         FcsProjectOptions.bindSource(new FcsExecutionProjectOptionsSource());
+        FcsSessionPatchApply.bindApplier(new FcsSessionPatchApplier());
     }
 
     public static WorkspaceView Materialize(WorkspaceView view) =>
