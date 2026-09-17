@@ -5,7 +5,7 @@
 | **Status** | **Accepted** (architecture charter; implementation Phase 0) |
 | **Date** | 2026-09-17 |
 | **Tags** | #guiders #federation #language-profile #concept-graph #code-center #language-intelligence #gdl #modeling #profile-island #flavour |
-| **Related** | [0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) · [0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) · [0061](./GUIDERS-ADR-0061-language-resolver-center.md) · [0063](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md) · [0066](./GUIDERS-ADR-0066-code-center-federation-product.md) · [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [DASHSPEC-ADR-0006](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0006-sql-datasource-and-sqldialect.md) · [DASHSPEC-ADR-0051](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0051-language-affinity-modeling-execution.md) · [STUDIO-ADR-0002](https://github.com/AI-Guiders/dash-spec-studio/blob/main/design/STUDIO-ADR-0002-component-model-and-navigation.md) · [GUIDERS-FSHARP-ADR-0002](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/GUIDERS-FSHARP-ADR-0002-model-guild-fsharp-ownership.md) · [Constitution](../GUIDERS-FEDERATION-CONSTITUTION.md) |
+| **Related** | [0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) · [0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) · [0061](./GUIDERS-ADR-0061-language-resolver-center.md) · [0063](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md) · [0066](./GUIDERS-ADR-0066-code-center-federation-product.md) · [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [0064](./GUIDERS-ADR-0064-config-gdl-quarry-family.md) · [0032](./GUIDERS-ADR-0032-conformance-obligations-policy-specs.md) · [DASHSPEC-ADR-0006](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0006-sql-datasource-and-sqldialect.md) · [DASHSPEC-ADR-0051](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0051-language-affinity-modeling-execution.md) · [STUDIO-ADR-0002](https://github.com/AI-Guiders/dash-spec-studio/blob/main/design/STUDIO-ADR-0002-component-model-and-navigation.md) · [GUIDERS-FSHARP-ADR-0002](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/GUIDERS-FSHARP-ADR-0002-model-guild-fsharp-ownership.md) · [Constitution](../GUIDERS-FEDERATION-CONSTITUTION.md) |
 
 ## Context
 
@@ -205,22 +205,25 @@ LanguageProfile
 ├── InvariantLaw[]                          F# — graph laws, cross-node rules, dialect edge cases
 └── SchemaRef[]                             declarative — runner interprets
          │
-         ├── JsonSchema     YAML/TOML → JSON value → validate
-         ├── Xsd            XML → DOM/infoset → validate (primary for XmlTree)
+         ├── TomlSemantic   TOML-native syntax + spec semantics (Taplo-class)
+         ├── JsonSchema     YAML → JSON; TOML optional data-model overlay
+         ├── Xsd            XML → DOM/infoset (primary for XmlTree)
          └── SatPredicate   requires/ensures over facts ([0064](./GUIDERS-ADR-0064-config-gdl-quarry-family.md) style)
 ```
 
 | SurfaceFamily | Typical `SchemaRef` | Role |
 |---------------|---------------------|------|
-| `YamlMapping` | JSON Schema | unique keys, required fields, types after parse-to-JSON |
-| `TomlMapping` | JSON Schema | same pattern on TOML document model |
+| `YamlMapping` | JSON Schema | types, required keys, enums after parse-to-JSON |
+| `TomlMapping` | **TOML-native** (+ optional JSON Schema) | [Taplo](https://taplo.tamasfe.dev/cli/usage/validation.html)-class: `taplo check` — syntax, duplicate keys, spec semantics without JSON round-trip |
 | `XmlTree` | **XSD** (+ optional Schematron later) | extensible XML without hand-written element matrices |
 | `SqlScript` | dialect grammar / lint ruleset (planet) | optional; syntax + policy hooks |
-| Profile Island | schema per Region | e.g. frontmatter YAML schema, embedded config XSD |
+| Profile Island | schema per Region | frontmatter YAML schema; TOML island native check; embedded XSD |
 
-**XML:** `XmlTree` profiles **SHOULD** declare `SchemaRef` (XSD path, target namespace, optional `xsi:schemaLocation` policy). Well-formedness = parse laws; **validity** = XSD (and planet-specific semantic overlays in F# where XSD stops). XAML/SVG inherit the same mechanism with planet schema packs.
+**TOML (`TomlMapping`):** default validation is **native**, not JSON Schema. Federation runner aligns with **Taplo** semantics: parse → DOM → `validate()` (duplicate keys, invalid dates, inline-table rules, …). Equivalent CLI: `taplo check foo.toml`. Optional **data-model** constraints: JSON Schema overlay via `#:schema` directive, `$schema` key, profile `SchemaRef`, or schema catalog — same as Taplo’s `--schema` / `--default-schema-catalogs`. JSON Schema is an **add-on**, not the primary TOML path.
 
-**YAML/TOML:** parse → canonical JSON (or typed mapping model) → JSON Schema. Keys, types, enums, `oneOf`/`allOf` live in schema files; golden vectors in `docs/conformance/language-profile/`.
+**YAML (`YamlMapping`):** parse → canonical JSON → JSON Schema (natural fit; no first-class native schema in spec).
+
+**XML (`XmlTree`):** profiles **SHOULD** declare XSD (`path`, target namespace, optional `xsi:schemaLocation` policy). Well-formedness = parse; **validity** = XSD (+ planet F# overlays where XSD stops). XAML/SVG use planet schema packs.
 
 **Composition:**
 
@@ -240,7 +243,7 @@ Given `ConceptGraph` at revision `r`, these **SHOULD** be implementations of the
 
 | Behavior | Derivation |
 |----------|------------|
-| **Validate** | run all `InvariantLaws` (composite dispatch per Region — §4.2) |
+| **Validate** | `InvariantLaws` + `SchemaRefs` via schema runner (composite per Region — §4.2–§4.3) |
 | **Classify / highlight** | span projection over nodes (Syntax tier) |
 | **Format** | layout visitor respecting `InvariantLaws` + serialize policy (e.g. `end` at opener depth = law, not formatter hack) |
 | **Outline / tree projection** | filter + order on `ConceptOntology` |
@@ -318,13 +321,19 @@ type ConceptGraph = { Root: NodeId; Nodes: Map<NodeId, ConceptNode>; Edges: (Nod
 
 type InvariantLaw = ConceptGraph -> Diagnostic list
 
+type SchemaRef =
+    | JsonSchema of path: string
+    | Xsd of path: string * targetNamespace: string voption
+    | SatPredicate of path: string
+
 type LanguageProfile =
     { Profile: ProfileRef
       Surface: SurfaceFamily
-      BaseProfile: ProfileRef voption          // flavour extends base laws
+      BaseProfile: ProfileRef voption
       Parse: string -> Result<ConceptGraph, Diagnostic list>
       Serialize: ConceptGraph -> string
       Laws: InvariantLaw list
+      Schemas: SchemaRef list
       IslandRules: (ConceptGraph -> RegionNode list) voption
       ResolvePolicy: ResolvePolicy }
 ```
@@ -344,6 +353,7 @@ Per Profile registration:
 7. **Flavour overlay** — `md.gfm` vectors include GFM-only constructs failing under `md.commonmark` laws.
 8. **Inline config diagnostics** — invalid YAML or TOML island produces diagnostics on the Region span in the host document.
 9. **SQL dialect vectors** — same `sql.script` ontology; `tsql` vs `postgres` flavours produce different accept/reject for limit/date/literal edge cases; DashSpec filter-compile golden per dialect.
+10. **Schema-bound vectors** — YAML/TOML island fails JSON Schema; XML document fails attached XSD; diagnostics map to Region/document span.
 
 ### 10. Migration phases
 
@@ -352,7 +362,7 @@ Per Profile registration:
 | **0** | Name + charter (this ADR); map GDL + dashspec as implicit profiles | dashspec syntax tree = proto-ontology |
 | **1** | `Platform.Modeling.LanguageProfile` kernel + `SurfaceFamily` + `ProfileRef`/`FlavourRef`; 0063 A1 anchors shipped | unblocks Code Center Phase 1 |
 | **2** | Explicit `DashSpecLanguageProfile` planet ADR; laws extracted from formatter/classifier | [DASHSPEC-ADR-0051](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0051-language-affinity-modeling-execution.md) |
-| **3** | Shared kernels: `MdBlockAst`, `YamlMapping`, `TomlMapping`, **`SqlScript` (+ dialect flavours)**, `XmlTree`; Profile Island dispatch | md + yaml + toml + sql + mermaid conformance pack |
+| **3** | Shared kernels: `MdBlockAst`, `YamlMapping`, `TomlMapping`, **`SqlScript`**, `XmlTree` (+ **schema runner**: JSON Schema, XSD); Profile Island dispatch | md + yaml + toml + sql + xml + mermaid conformance pack |
 | **4** | GPL thin profiles + `AdapterSlot` symbol → `NodeId` shim; Razor/TagHelper hybrid pilots | pairs with LRC |
 | **5** | **DashSpec Studio** — SQL editor zones (migrations, Data Lab, card SQL) on `sql.script` session + dialect switch | [STUDIO-ADR-0002](https://github.com/AI-Guiders/dash-spec-studio/blob/main/design/STUDIO-ADR-0002-component-model-and-navigation.md) |
 
@@ -371,7 +381,7 @@ Per Profile registration:
 - Unified parser generator for all languages in v1
 - Replacing LRC or merging Language Profile into `ILanguageBackend`
 - Storing full GPL AST inside federation SSOT
-- Authoring Language Profile in GDL declare files (F# remains SSOT for laws in v1; GDL declare may follow later)
+- Authoring **law logic** in GDL declare files (F# + external schemas only)
 
 ---
 
@@ -381,8 +391,9 @@ Per Profile registration:
 |---|----------|---------|
 | 1 | Shared md/xml kernels in federation vs planet-only? | Federation kernel Phase 3; planets may ship earlier locally |
 | 2 | `ProfileId` registry location? | `Platform.Modeling.LanguageProfile` module + docs index |
-| 3 | Law authoring: code-only vs future declare quarry? | F# `InvariantLaw` lists Phase 1–2 |
+| 3 | Law layers | F# `InvariantLaw` + `SchemaRef` runner; optional profile manifest for wiring only |
 | 4 | Flavour inheritance: explicit `BaseProfile` chain vs law list merge? | `BaseProfile` optional field (§8 sketch) |
+| 5 | XML beyond XSD (Schematron, planet semantic overlays)? | XSD Phase 3; Schematron defer |
 
 ## First planet instance (informative)
 
