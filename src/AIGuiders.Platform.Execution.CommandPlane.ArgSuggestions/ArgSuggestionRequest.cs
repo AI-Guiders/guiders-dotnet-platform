@@ -10,16 +10,21 @@ public sealed class ArgSuggestionRequest
     public required CatalogRouteEntry Route { get; init; }
     public required string CanonicalPath { get; init; }
 
+    /// <summary>Workspace anchor (slnx/sln path) for session-scoped contextual pickers.</summary>
+    public string? WorkspaceAnchor { get; init; }
+
     public static ArgSuggestionRequest Create(
         string suggestionId,
         string partial,
         CatalogRouteEntry route,
-        string canonicalPath) =>
+        string canonicalPath,
+        string? workspaceAnchor = null) =>
         new()
         {
             SuggestionId = suggestionId,
             Partial = partial,
             Route = route,
             CanonicalPath = canonicalPath,
+            WorkspaceAnchor = workspaceAnchor,
         };
 }

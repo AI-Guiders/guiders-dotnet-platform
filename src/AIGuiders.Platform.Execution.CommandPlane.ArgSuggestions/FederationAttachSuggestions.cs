@@ -1,5 +1,6 @@
 #nullable disable
 
+using AIGuiders.Platform.Execution.Ide.Session;
 using AIGuiders.Platform.IntermediateRepresentation.Command;
 using AIGuiders.Platform.Modeling.CommandPlane;
 using Microsoft.FSharp.Collections;
@@ -39,9 +40,13 @@ public sealed class AttachVerbArgSuggestionProvider : IArgSuggestionProvider
 /// <summary>Default federation attach suggestion registry.</summary>
 public static class FederationAttachSuggestions
 {
-    public static ICommandArgSuggestionBroker CreateBroker() =>
-        new CommandArgSuggestionRegistry()
+    public static ICommandArgSuggestionBroker CreateBroker(IAttachSessionAccessor sessionAccessor = null)
+    {
+        var diagnostics = new AttachDiagnosticArgSuggestionProvider(sessionAccessor);
+        return new CommandArgSuggestionRegistry()
             .RegisterExact(AttachSchemaCatalog.VerbSuggestionId, new AttachVerbArgSuggestionProvider())
+            .RegisterExact("federation.attach.step.pick_diagnostic", diagnostics)
             .RegisterPrefix("federation.attach.step.", new AttachStepArgSuggestionProvider())
             .Build();
+    }
 }

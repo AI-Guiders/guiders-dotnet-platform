@@ -4,8 +4,10 @@ using System.Text.Json;
 using AIGuiders.Platform.Execution.CommandPlane;
 using AIGuiders.Platform.Execution.CommandPlane.ArgSuggestions;
 using AIGuiders.Platform.Execution.CommandPlane.Catalog;
+using AIGuiders.Platform.Execution.Ide.Session;
 using AIGuiders.Platform.Execution.LanguageIntelligence.Bundled;
 using AIGuiders.Platform.Modeling.CommandPlane;
+using AIGuiders.Platform.Modeling.Ide.Session;
 using AIGuiders.Platform.Modeling.Notations.Bracket;
 using AIGuiders.Platform.Notations.Bracket;
 using Xunit;
@@ -94,6 +96,29 @@ public sealed class AttachCommandTests
         Assert.Single(choices);
         Assert.Equal("pick_file", choices[0].Value);
     }
+
+    [Fact]
+    public void AttachDiagnosticArgSuggestionProvider_falls_back_without_session()
+    {
+        var catalog = CommandCatalogIndex.FromDescriptors(FederationAttachCatalog.AllDescriptors());
+        Assert.True(catalog.TryGet("attach error", out var errorRoute));
+
+        var broker = FederationAttachSuggestions.CreateBroker(new NullAttachSessionAccessor());
+        var request = ArgSuggestionRequest.Create(
+            "federation.attach.step.pick_diagnostic",
+            "",
+            errorRoute,
+            "attach error");
+
+        var choices = broker.GetSuggestions(request);
+        Assert.Single(choices);
+        Assert.Equal("pick_diagnostic", choices[0].Value);
+    }
+}
+
+file sealed class NullAttachSessionAccessor : IAttachSessionAccessor
+{
+    public SessionRuntime? TryGet(string? workspaceAnchor) => null;
 }
 
 public sealed class BracketKindCanonSpecTests

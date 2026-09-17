@@ -8,5 +8,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Execution.CommandPlane.Catalog\AIGuiders.Platform.Execution.CommandPlane.Catalog.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Ide.Session\AIGuiders.Platform.Execution.Ide.Session.csproj" />
   </ItemGroup>
 </Project>
