@@ -5,11 +5,11 @@
 | **Status** | **Accepted** (architecture charter; implementation Phase 0) |
 | **Date** | 2026-09-17 |
 | **Tags** | #guiders #federation #language-profile #concept-graph #code-center #language-intelligence #gdl #modeling #profile-island #flavour |
-| **Related** | [0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) · [0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) · [0061](./GUIDERS-ADR-0061-language-resolver-center.md) · [0063](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md) · [0066](./GUIDERS-ADR-0066-code-center-federation-product.md) · [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [DASHSPEC-ADR-0051](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0051-language-affinity-modeling-execution.md) · [GUIDERS-FSHARP-ADR-0002](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/GUIDERS-FSHARP-ADR-0002-model-guild-fsharp-ownership.md) · [Constitution](../GUIDERS-FEDERATION-CONSTITUTION.md) |
+| **Related** | [0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) · [0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) · [0061](./GUIDERS-ADR-0061-language-resolver-center.md) · [0063](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md) · [0066](./GUIDERS-ADR-0066-code-center-federation-product.md) · [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [DASHSPEC-ADR-0006](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0006-sql-datasource-and-sqldialect.md) · [DASHSPEC-ADR-0051](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0051-language-affinity-modeling-execution.md) · [STUDIO-ADR-0002](https://github.com/AI-Guiders/dash-spec-studio/blob/main/design/STUDIO-ADR-0002-component-model-and-navigation.md) · [GUIDERS-FSHARP-ADR-0002](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/GUIDERS-FSHARP-ADR-0002-model-guild-fsharp-ownership.md) · [Constitution](../GUIDERS-FEDERATION-CONSTITUTION.md) |
 
 ## Context
 
-Federation hosts edit **many language families** — md, yaml, html, xml, C#, F#, C++, GDL quarries, planet DSLs (`.dashspec`, …). Today each family tends to ship:
+Federation hosts edit **many language families** — md, yaml, toml, html, xml, **sql**, C#, F#, C++, GDL quarries, planet DSLs (`.dashspec`, …). Today each family tends to ship:
 
 | Artifact | Typical owner today | Problem |
 |----------|---------------------|---------|
@@ -89,12 +89,15 @@ Initial normative families (extend by ADR, not string registry):
 | `HtmlTree` | html | Syntax | planet or shared kernel |
 | `YamlMapping` | yaml, yaml frontmatter | Syntax | planet or shared kernel |
 | `TomlMapping` | toml | Syntax | planet or shared kernel |
+| `SqlScript` | `.sql`, migration scripts, `datasource sql` bodies | Syntax → Semantic | planet F# Modeling + dialect backend |
 | `PlainLines` | logs, env, legacy | Text | minimal graph |
 | `CodeAst` | C#, F#, C++ | Semantic | **AdapterSlot** (Roslyn, FCS, …) |
 
-Each `SurfaceFamily` has its own `ProfileId`, ontology, and law set. `YamlMapping` and `TomlMapping` are independent families (mapping/sequence/anchor vs table/inline-table/array-of-tables). Either may be a whole file or a **Profile Island** inside md/html/xml (§4.2).
+Each `SurfaceFamily` has its own `ProfileId`, ontology, and law set. `YamlMapping` and `TomlMapping` are independent families. Any family may be a whole file or a **Profile Island** inside a host document (§4.2).
 
-`FlavourRef` selects a dialect **within** one family (`yaml-1.2`, `toml-1.1`, …).
+**SQL (`SqlScript`):** one ontology (statement, clause, identifier, literal, comment); **dialect** selects engine-specific laws — `TOP` vs `LIMIT`, date functions, quoting, identifier rules. DashSpec planet registers dialect backends via `SqlDialectRegistry` ([DASHSPEC-ADR-0006](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0006-sql-datasource-and-sqldialect.md)); Studio edits `.sql` migrations, `datasource sql query` / `file` carriers, and Data Lab buffers under the same Profile + active flavour ([STUDIO-ADR-0002](https://github.com/AI-Guiders/dash-spec-studio/blob/main/design/STUDIO-ADR-0002-component-model-and-navigation.md)).
+
+`FlavourRef` selects a dialect **within** one family (`yaml-1.2`, `toml-1.1`, `tsql`, `postgres`, …).
 
 `DocumentSurface` in [0063](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md) **maps 1:1** to `SurfaceFamily` for anchor resolve; Language Profile adds **ontology + laws + flavour + islands** beneath the surface label.
 
@@ -104,7 +107,7 @@ From [0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) — Profile de
 
 | Class | Description | Profile body | Semantic source |
 |-------|-------------|--------------|-----------------|
-| **Structural** | Tree/block/mapping languages | full `ConceptOntology` + `InvariantLaws` in F# | graph + cross-ref resolve |
+| **Structural** | Tree/block/mapping/**sql** languages | full `ConceptOntology` + `InvariantLaws` in F# | graph + cross-ref resolve; SQL dialect via `FlavourRef` |
 | **GPL** | Roslyn/FCS/LSP backends | thin Profile: `CodeAst` + `AdapterSlot` | external backend via LRC |
 | **Hybrid** | embedded islands (razor-ish, templated html) | composite Profile: regions map to sub-profiles | per-region tier |
 
@@ -120,13 +123,16 @@ One **SurfaceFamily** may host multiple **flavours** — dialects that share ont
 | `md.gfm` | `gfm` | tables, task lists, strikethrough, autolink laws **extends** commonmark |
 | `yaml.mapping` | `yaml-1.2` | YAML syntax + schema hooks |
 | `toml.document` | `toml-1.1` | [TOML v1.1.0](https://toml.io/en/v1.1.0): tables, inline tables, multiline inline tables, `\e`, optional datetime seconds |
+| `sql.script` | `tsql` | T-SQL: `TOP`, `DATEADD`, bracket identifiers, … ([DASHSPEC-ADR-0006](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0006-sql-datasource-and-sqldialect.md)) |
+| `sql.script` | `postgres` | PostgreSQL: `LIMIT`, `INTERVAL`, double-quote identifiers, … |
+| `sql.script` | `generic` | portable subset; filter-compile fallback |
 | `html.whatwg` | `whatwg` | vs XML-compatible subset |
 
 **Rules:**
 
 - `ProfileId` **SHOULD** encode base family; `FlavourRef` selects law pack (inheritance or overlay list — planet choice, conformance required).
 - Flavour is **not** a new SurfaceFamily unless ontology shape diverges (ADR amendment).
-- Code Center caret resolve: active laws = flavour of **Region under caret** (§4.2), not file extension alone.
+- Code Center caret resolve: active laws = flavour of **Region under caret** (§4.2), not file extension alone. SQL buffers inherit `@sqldialect` from enclosing dashspec or project default when opened from Studio tree.
 - Diagnostics from `InvariantLaws` apply **inline in the host document** — no separate “lint pass” product.
 
 ### 4.2 Profile Islands (embedded subgraphs)
@@ -173,12 +179,16 @@ File
 | `md.gfm` | fenced code | `yaml.mapping` | inline config validation |
 | `md.gfm` | fenced code | `toml.document` | inline config validation |
 | `md.gfm` | frontmatter | `yaml.mapping` | same laws as standalone `.yaml` |
+| `dashspec.block` | `datasource sql query` / `file` | `sql.script` | flavour from `@sqldialect` or manifest default |
+| `dashspec.block` | card-embedded query body | `sql.script` | compile + validate against active dialect |
+| `.sql` file | whole file | `sql.script` | migrations tree; Studio SQL editor zone |
+| `md.gfm` | fenced code | `sql.script` | optional ` ```sql ` islands |
 | `razor` | `@…` block | `csharp.expression` / `CodeAst` | Roslyn tier on island only |
 | `razor` | markup | `html.tree` | HTML laws on markup regions |
 | `html` + TagHelpers | element | tag profile overlay | element node → helper semantics + attribute laws |
 | `xml` | CDATA / embed | nested profile | policy-driven |
 
-Embedded config islands (`yaml.mapping`, `toml.document`) run `InvariantLaws` on the Region subgraph; diagnostics attach to the fence or frontmatter span in the host document.
+Embedded config islands (`yaml.mapping`, `toml.document`) and SQL islands (`sql.script`) run `InvariantLaws` on the Region subgraph; diagnostics attach to the host span. SQL dialect laws cover syntax validity and planet compile rules (filter injection surface, reserved wrapper aliases).
 
 **Hybrid class (§4):** composite outer Profile + `IslandRules` + registry of embeddable inner ProfileIds. Outer **must not** duplicate inner semantic rules in ad-hoc string checks.
 
@@ -246,7 +256,7 @@ Modeling lives in F# per [GUIDERS-FSHARP-ADR-0002](https://github.com/AI-Guiders
 
 ```fsharp
 type SurfaceFamily =
-    | BlockText | MdBlockAst | XmlTree | HtmlTree | YamlMapping | TomlMapping | PlainLines | CodeAst
+    | BlockText | MdBlockAst | XmlTree | HtmlTree | YamlMapping | TomlMapping | SqlScript | PlainLines | CodeAst
 
 type FlavourRef = string
 
@@ -293,6 +303,7 @@ Per Profile registration:
 6. **Island round-trip** — md file with ` ```yaml ` / ` ```toml ` / ` ```mermaid ` islands: each Region subgraph satisfies inner Profile laws; outer serialize restores fences.
 7. **Flavour overlay** — `md.gfm` vectors include GFM-only constructs failing under `md.commonmark` laws.
 8. **Inline config diagnostics** — invalid YAML or TOML island produces diagnostics on the Region span in the host document.
+9. **SQL dialect vectors** — same `sql.script` ontology; `tsql` vs `postgres` flavours produce different accept/reject for limit/date/literal edge cases; DashSpec filter-compile golden per dialect.
 
 ### 10. Migration phases
 
@@ -301,8 +312,9 @@ Per Profile registration:
 | **0** | Name + charter (this ADR); map GDL + dashspec as implicit profiles | dashspec syntax tree = proto-ontology |
 | **1** | `Platform.Modeling.LanguageProfile` kernel + `SurfaceFamily` + `ProfileRef`/`FlavourRef`; 0063 A1 anchors shipped | unblocks Code Center Phase 1 |
 | **2** | Explicit `DashSpecLanguageProfile` planet ADR; laws extracted from formatter/classifier | [DASHSPEC-ADR-0051](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0051-language-affinity-modeling-execution.md) |
-| **3** | Shared kernels: `MdBlockAst` (+ flavours), `YamlMapping`, `TomlMapping`, `XmlTree`; **Profile Island** dispatch | md + yaml + toml + mermaid conformance pack |
+| **3** | Shared kernels: `MdBlockAst`, `YamlMapping`, `TomlMapping`, **`SqlScript` (+ dialect flavours)**, `XmlTree`; Profile Island dispatch | md + yaml + toml + sql + mermaid conformance pack |
 | **4** | GPL thin profiles + `AdapterSlot` symbol → `NodeId` shim; Razor/TagHelper hybrid pilots | pairs with LRC |
+| **5** | **DashSpec Studio** — SQL editor zones (migrations, Data Lab, card SQL) on `sql.script` session + dialect switch | [STUDIO-ADR-0002](https://github.com/AI-Guiders/dash-spec-studio/blob/main/design/STUDIO-ADR-0002-component-model-and-navigation.md) |
 
 ---
 
@@ -334,6 +346,6 @@ Per Profile registration:
 
 ## First planet instance (informative)
 
-**DashSpec** — `BlockText` family; syntax tree + block formatter + classifier should converge on explicit `DashSpecLanguageProfile` ([DASHSPEC-ADR-0051](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0051-language-affinity-modeling-execution.md)). Dogfoods Code Center TextSurface ([STUDIO-ADR-0005](https://github.com/AI-Guiders/dash-spec-studio/blob/main/design/STUDIO-ADR-0005-model-first-language-editor.md)).
+**DashSpec** — `BlockText` family; syntax tree + block formatter + classifier → `DashSpecLanguageProfile`. **`sql.script`** with `tsql` / `postgres` / `generic` flavours for migrations, `datasource sql`, and filter compile ([DASHSPEC-ADR-0006](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0006-sql-datasource-and-sqldialect.md)). Dogfoods Code Center TextSurface ([STUDIO-ADR-0005](https://github.com/AI-Guiders/dash-spec-studio/blob/main/design/STUDIO-ADR-0005-model-first-language-editor.md)).
 
-**Federation pilot (informative):** `md.gfm` host with `yaml.mapping`, `toml.document`, and `mermaid.diagram` island profiles — Phase 3 conformance pack.
+**Federation pilot (informative):** `md.gfm` host with `yaml.mapping`, `toml.document`, `mermaid.diagram`, and **`sql.script`** island profiles — Phase 3 conformance pack.
