@@ -4,6 +4,7 @@ using System.Text.Json;
 using AIGuiders.Platform.Execution.CommandPlane;
 using AIGuiders.Platform.Execution.CommandPlane.ArgSuggestions;
 using AIGuiders.Platform.Execution.CommandPlane.Catalog;
+using AIGuiders.Platform.Execution.LanguageIntelligence.Bundled;
 using AIGuiders.Platform.Modeling.CommandPlane;
 using AIGuiders.Platform.Modeling.Notations.Bracket;
 using AIGuiders.Platform.Notations.Bracket;
@@ -60,6 +61,19 @@ public sealed class AttachCommandTests
         var choices = broker.GetSuggestions(request);
         Assert.Single(choices);
         Assert.Equal("document", choices[0].Value);
+    }
+
+    [Fact]
+    public void FederationBundledCatalog_merges_with_editor_registry()
+    {
+        var registry = EditorCommandRegistry.CreateBundled();
+        var catalog = CommandCatalogComposer.Build(
+            FederationBundledCatalog.AttachSource,
+            RegistryCatalogBuilder.ToCommandSource(registry));
+
+        Assert.True(catalog.TryGet("attach", out var attach));
+        Assert.Equal(FederationAttachCatalog.AttachCommandId, attach.CommandId);
+        Assert.True(catalog.TryGet("editor line select", out _));
     }
 }
 

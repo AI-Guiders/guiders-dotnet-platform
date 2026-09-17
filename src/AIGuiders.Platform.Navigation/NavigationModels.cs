@@ -23,12 +23,31 @@ public enum NavigationDomain
     Workspace,
 }
 
+/// <summary>Federation navigation seed — supersedes <see cref="NavigationAnchor"/> per plan §8.</summary>
+public sealed record NavSeed(
+    string Path,
+    int? Line = null,
+    int? Column = null,
+    string? Command = null,
+    string? Go = null,
+    string? SolutionPath = null)
+{
+    public static NavSeed FromNavigationAnchor(NavigationAnchor anchor) =>
+        new(anchor.Path, anchor.Line, anchor.Column, SolutionPath: anchor.SolutionPath);
+
+    public NavigationAnchor ToNavigationAnchor() =>
+        new(Path, Line, Column, SolutionPath);
+}
+
 public sealed record NavigationAnchor(
     string Path,
     int? Line = null,
     int? Column = null,
     string? SolutionPath = null)
 {
+    [Obsolete("Use NavSeed — federation TO-BE plan §8")]
+    public NavSeed ToNavSeed() => NavSeed.FromNavigationAnchor(this);
+
     public ModelingNavigation.Anchor ToModel() => new()
     {
         Path = Path,

@@ -92,6 +92,18 @@ public sealed class NavigationTests
     }
 
     [Fact]
+    public void NavSeed_roundtrips_navigation_anchor()
+    {
+        var anchor = new NavigationAnchor(Path.GetFullPath("src/Widget.cs"), 10, 3, Path.GetFullPath("App.slnx"));
+        var seed = NavSeed.FromNavigationAnchor(anchor);
+        Assert.Equal(anchor.Path, seed.Path);
+        Assert.Equal(10, seed.Line);
+        var back = seed.ToNavigationAnchor();
+        Assert.Equal(anchor.Path, back.Path);
+        Assert.Equal(anchor.Line, back.Line);
+    }
+
+    [Fact]
     public void InMemory_explorer_finds_test_counterpart()
     {
         var anchor = new NavigationAnchor(Path.GetFullPath("src/Widget.cs"));

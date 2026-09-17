@@ -220,4 +220,22 @@ Pre-Federation code was built **without** a federation Modeling layer — tactic
 
 ---
 
+## 9. Federation TO-BE supersession (2026-09-17)
+
+[Model execution split audit](https://github.com/AI-Guiders/guiders-fsharp/blob/develop/docs/federation/model-extraction-living-matrix.md) replaces **Anchor** as primary public entity with **`RelationSpec`** + graph edge `Relation`:
+
+| Pre-0063 (this ADR v1) | TO-BE SSOT |
+|------------------------|------------|
+| `AnchorIntent` sum | `RelationSpec` cases (`CodeEdit`, `DocToCode`, `Diag`, `Nav`, `Resource`, …) |
+| `NavigationAnchor` (platform) | `NavSeed` in `Modeling.LanguageIntelligence.Relations` |
+| `ResolveTier.Text` | **deleted** — stored `Locus` = `Syntax` \| `Semantic` only |
+| `LanguageIntelligence.Anchors` package | **`LanguageIntelligence.Relations`** |
+| Bracket `[F:…;M:…;L:…]` agent model | `Kind:` canon wire → `RelationSpec` at parse boundary only |
+
+**Attach UX** (plan §4): human verbs → `AttachSchema` steps → `RelationSpec` witness → `Relation` in session graph `G`. Bracket remains **WireProjection**, not SSOT.
+
+Implementation status: Phase 1 Relations kernel **shipped** on `develop`; 0063 product phases remain paused until split-audit checklist closes.
+
+---
+
 *Supersedes informal anchor guidance in pre-Federation CDP docs for **entity semantics**; [0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) guild boundary remains. Bracket notation: [0026](./GUIDERS-ADR-0026-notations-bracket-branch.md).*
