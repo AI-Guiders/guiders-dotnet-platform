@@ -347,7 +347,7 @@ Gestural bypass: squiggle → `Diag`; sniper → `CodeEdit`; MdLinker → `DocTo
 | **R2** | Scene projection; attach schema + contextual pickers | **shipped** |
 | **R3** | FCS host/probe/projinfo IO @ Execution | **shipped** |
 | **R4** | Legacy wire shim delete; ADR/math amend; relation-spec-witness conformance | **shipped** (math §12 + `relation-spec-witness.spec.json`; legacy F/M/L parse boundary only @ Execution) |
-| **R5** | Modeling tree renames (§6 plan); residual Execution IO trim | **in progress** (ship-3 Modeling zero File IO ✓; FcsLanguageBackend + attach body audit remain) |
+| **R5** | Modeling tree renames (§6 plan); residual Execution IO trim | **in progress** (RelationSeamRegistry + Roslyn profile registration ✓; E_dep ingest + FcsLanguageBackend trim remain) |
 | **A2–A5** | CDP JSON anchor field, CSX rename, agent canon | **paused** until R5 green |
 
 ### 10.8 Non-goals (unchanged from v1)
