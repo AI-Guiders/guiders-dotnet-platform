@@ -326,7 +326,7 @@ Glass WPF = **projection** snapshots; не владеет CCU mechanics.
 
 | Пакет | Возможности |
 |-------|-------------|
-| `Documentation.Anchors` | Family:doc wire resolve |
+| `Documentation.Relations` | Family:doc wire resolve (SSOT; `Documentation.Anchors` TypeForwardedTo shim) |
 | `Documentation.LinkCheck` | md dry-resolve (`--check`) |
 | `Documentation.LinkMutate` | Structured axis patch (`--apply-rename`) |
 | `Documentation.Reports` | Generated vocabulary tables |
@@ -348,7 +348,8 @@ Hosts (CDP SemanticMap, CIDE Skia) = projectors, не SSOT.
 |-------|-------------|
 | `LanguageIntelligence` | Anchor/Locus/TextEdit IR, resolve tiers |
 | `LanguageIntelligence.Adapters.Roslyn` | Roslyn adapter |
-| `Language.CSharp.*` / `Language.Xml.Anchors` | Symbol/anchor wires |
+| `LanguageIntelligence.Relations` | Kind: + legacy F/M/L wire boundary (`RelationWireBoundary`) |
+| `Language.CSharp.Relations` / `Language.Xml.Relations` | Symbol/element resolve (SSOT; `*.Anchors` TypeForwardedTo shims) |
 
 ### 7.11 Configurations
 
