@@ -4,7 +4,7 @@
 |---|---|
 | **Status** | **Accepted** (architecture charter; implementation Phase 0) |
 | **Date** | 2026-09-17 |
-| **Tags** | #guiders #federation #language-profile #concept-graph #code-center #language-intelligence #gdl #modeling |
+| **Tags** | #guiders #federation #language-profile #concept-graph #code-center #language-intelligence #gdl #modeling #profile-island #flavour |
 | **Related** | [0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) · [0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) · [0061](./GUIDERS-ADR-0061-language-resolver-center.md) · [0063](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md) · [0066](./GUIDERS-ADR-0066-code-center-federation-product.md) · [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [DASHSPEC-ADR-0051](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0051-language-affinity-modeling-execution.md) · [GUIDERS-FSHARP-ADR-0002](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/GUIDERS-FSHARP-ADR-0002-model-guild-fsharp-ownership.md) · [Constitution](../GUIDERS-FEDERATION-CONSTITUTION.md) |
 
 ## Context
@@ -38,11 +38,13 @@ Operator direction (2026-09-17): describe each language’s **concepts and princ
 ```text
 LanguageProfile
 ├── ProfileId              stable id ("dashspec.block", "gdl.catalog", "md.commonmark", …)
+├── FlavourRef             optional dialect within family ("commonmark", "gfm", "yaml-1.2", …)
 ├── SurfaceFamily          federation sum (links DocumentSurface in 0063)
 ├── ConceptOntology        node kinds + typed edges (contains, references, scope, …)
 ├── InvariantLaws          pure validators on ConceptGraph instances
 ├── SerializeRules         text ↔ graph roundtrip (one text projection)
 ├── ResolvePolicy          Text | Syntax | Semantic + optional AdapterSlot
+├── IslandRules            optional: how outer profile discovers embedded subgraph boundaries
 └── ProjectionHints        concept → diagram / tree / form capabilities
 ```
 
@@ -68,7 +70,8 @@ text ──parse(SerializeRules)──► ConceptGraph(doc_id, r)
 | Type | Role |
 |------|------|
 | **ConceptNode** | Typed node with `NodeId`, span optional, payload DU |
-| **ConceptEdge** | `Contains` \| `References` \| `Scopes` \| `Orders` \| … (extend by sum) |
+| **ConceptEdge** | `Contains` \| `Embeds` \| `References` \| `Scopes` \| `Orders` \| … (extend by sum) |
+| **Region** | `ConceptNode` subtype: `{ profileRef, flavourRef?, subgraph }` — see §4.2 |
 | **ConceptGraph** | Root + index; bumps `surface_version` on structural edit |
 | **InvariantLaw** | `ConceptGraph → Diagnostic[]` (pure; no IO) |
 
@@ -84,11 +87,13 @@ Initial normative families (extend by ADR, not string registry):
 | `MdBlockAst` | md, md-like | Syntax | planet or shared kernel |
 | `XmlTree` | xml, xaml, svg | Syntax | planet or shared kernel |
 | `HtmlTree` | html | Syntax | planet or shared kernel |
-| `YamlMapping` | yaml, toml-like | Syntax | planet or shared kernel |
+| `YamlMapping` | yaml, toml, frontmatter blobs | Syntax | planet or shared kernel |
 | `PlainLines` | logs, env, legacy | Text | minimal graph |
 | `CodeAst` | C#, F#, C++ | Semantic | **AdapterSlot** (Roslyn, FCS, …) |
 
-`DocumentSurface` in [0063](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md) **maps 1:1** to `SurfaceFamily` for anchor resolve; Language Profile adds **ontology + laws** beneath the surface label.
+`YamlMapping` covers **YAML and TOML** as the same structural family (mapping/table/scalar); **flavour** (`yaml-1.2`, `toml-1.0`) selects law sets. Either the **whole file** or an **embedded island** inside md/html/xml (§4.2).
+
+`DocumentSurface` in [0063](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md) **maps 1:1** to `SurfaceFamily` for anchor resolve; Language Profile adds **ontology + laws + flavour + islands** beneath the surface label.
 
 ### 4. Three language classes (honest ResolveTier)
 
@@ -102,13 +107,85 @@ From [0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) — Profile de
 
 **GPL rule:** federation Profile **must not** re-parse C# into a parallel AST SSOT; `AdapterSlot` bridges LRC/`ILanguageBackend` symbols to `NodeId` policy defined by planet or federation shim.
 
+### 4.1 Profile Flavour (dialect within a family)
+
+One **SurfaceFamily** may host multiple **flavours** — dialects that share ontology shape but differ in laws and serialize edge cases.
+
+| ProfileId | FlavourRef | Adds / differs |
+|-----------|------------|----------------|
+| `md.commonmark` | `commonmark` | baseline block/inline AST |
+| `md.gfm` | `gfm` | tables, task lists, strikethrough, autolink laws **extends** commonmark |
+| `yaml.mapping` | `yaml-1.2` | YAML syntax + schema hooks |
+| `toml.mapping` | `toml-1.0` | TOML tables/inline tables |
+| `html.whatwg` | `whatwg` | vs XML-compatible subset |
+
+**Rules:**
+
+- `ProfileId` **SHOULD** encode base family; `FlavourRef` selects law pack (inheritance or overlay list — planet choice, conformance required).
+- Flavour is **not** a new SurfaceFamily unless ontology shape diverges (ADR amendment).
+- Code Center caret resolve: active laws = flavour of **Region under caret** (§4.2), not file extension alone.
+- Diagnostics from `InvariantLaws` apply **inline in the host document** — no separate “lint pass” product.
+
+### 4.2 Profile Islands (embedded subgraphs)
+
+**Profile Island** = typed **Region** node: outer graph holds boundary; inner **subgraph** parsed and validated by another `ProfileId` (+ optional `FlavourRef`).
+
+```text
+FileRoot (outer profile: md.gfm)
+├── Region { profile: md.gfm }           → paragraph, headings, …
+├── Region { profile: mermaid.diagram }   → fenced ```mermaid … ```
+├── Region { profile: md.gfm }
+├── Region { profile: yaml.mapping, flavour: yaml-1.2 }  → fenced ```yaml … ``` or frontmatter
+└── Region { profile: toml.mapping, flavour: toml-1.0 }  → fenced ```toml … ```
+```
+
+Graph shape (informative):
+
+```text
+File
+├── MD
+├── Mermaid
+├── MD
+├── YAML          ← InvariantLaws(yaml) run on subgraph; errors attach to Region span in parent
+└── MD
+```
+
+**Normative mechanics:**
+
+| Mechanism | Role |
+|-----------|------|
+| `Region` node | `{ profileRef, flavourRef?, span, subgraph: ConceptGraph }` |
+| `Embeds` edge | outer `Contains`/`Embeds` inner root; stable `NodeId` for anchor |
+| `IslandRules` | outer profile declares delimiters only (fences, `@` … `@`, `<tag>`, frontmatter `---`) |
+| **Delegating parse** | outer parse → discover boundary → inner `LanguageProfile.Parse` on slice |
+| **Composite validate** | dispatch `InvariantLaws` per Region; diagnostics merged with parent path |
+| **Revision** | inner edit bumps Region `surface_version`; full file reserialize via outer rules |
+
+**Canonical examples (conformance SHOULD cover):**
+
+| Host | Island | Inner profile | Notes |
+|------|--------|---------------|-------|
+| `md.gfm` | fenced code | `mermaid.diagram` | diagram projection on Region |
+| `md.gfm` | fenced code | `yaml.mapping` / `toml.mapping` | **config validity inside docs** |
+| `md.gfm` | frontmatter | `yaml.mapping` | same laws as standalone `.yaml` |
+| `razor` | `@…` block | `csharp.expression` / `CodeAst` | Roslyn tier on island only |
+| `razor` | markup | `html.tree` | HTML laws on markup regions |
+| `html` + TagHelpers | element | tag profile overlay | element node → helper semantics + attribute laws |
+| `xml` | CDATA / embed | nested profile | policy-driven |
+
+**TOML / YAML inside documents:** structural correctness (syntax, duplicate keys, type shape, optional schema/sat) is **not** a separate tool — it is `InvariantLaws` on the **YamlMapping/Toml Region subgraph**, surfaced as diagnostics on the enclosing markdown/html file. Agents and humans fix islands in place; Code Center shows squiggles on the fence span.
+
+**Hybrid class (§4):** composite outer Profile + `IslandRules` + registry of embeddable inner ProfileIds. Outer **must not** duplicate inner semantic rules in ad-hoc string checks.
+
+**Anchor resolve:** `AnchorIntent.TreeNode(doc, regionNodeId)` → active profile = Region’s `profileRef`; drill-in to inner node uses inner graph index. Cross-island navigation is Code Center conformance (§9).
+
 ### 5. Derived behaviors (normative pipeline)
 
 Given `ConceptGraph` at revision `r`, these **SHOULD** be implementations of the same SSOT:
 
 | Behavior | Derivation |
 |----------|------------|
-| **Validate** | run all `InvariantLaws` |
+| **Validate** | run all `InvariantLaws` (composite dispatch per Region — §4.2) |
 | **Classify / highlight** | span projection over nodes (Syntax tier) |
 | **Format** | layout visitor respecting `InvariantLaws` + serialize policy (e.g. `end` at opener depth = law, not formatter hack) |
 | **Outline / tree projection** | filter + order on `ConceptOntology` |
@@ -166,20 +243,34 @@ Modeling lives in F# per [GUIDERS-FSHARP-ADR-0002](https://github.com/AI-Guiders
 type SurfaceFamily =
     | BlockText | MdBlockAst | XmlTree | HtmlTree | YamlMapping | PlainLines | CodeAst
 
-type ConceptEdgeKind = Contains | References | Scopes | Orders
+type FlavourRef = string
 
-type ConceptNode = { Id: NodeId; Kind: string; Span: TextSpan voption; Payload: obj }
+type ProfileRef = { ProfileId: string; Flavour: FlavourRef voption }
+
+type ConceptEdgeKind = Contains | Embeds | References | Scopes | Orders
+
+type RegionNode =
+    { Id: NodeId
+      Profile: ProfileRef
+      Span: TextSpan
+      Subgraph: ConceptGraph }
+
+type ConceptNode =
+    | Region of RegionNode
+    | Atom of { Id: NodeId; Kind: string; Span: TextSpan voption; Payload: obj }
 
 type ConceptGraph = { Root: NodeId; Nodes: Map<NodeId, ConceptNode>; Edges: (NodeId * ConceptEdgeKind * NodeId) list }
 
 type InvariantLaw = ConceptGraph -> Diagnostic list
 
 type LanguageProfile =
-    { ProfileId: string
+    { Profile: ProfileRef
       Surface: SurfaceFamily
+      BaseProfile: ProfileRef voption          // flavour extends base laws
       Parse: string -> Result<ConceptGraph, Diagnostic list>
       Serialize: ConceptGraph -> string
       Laws: InvariantLaw list
+      IslandRules: (ConceptGraph -> RegionNode list) voption
       ResolvePolicy: ResolvePolicy }
 ```
 
@@ -194,16 +285,19 @@ Per Profile registration:
 3. **Anchor stability** — `TreeNode` for a concept survives edits outside its subtree until structural change bumps `surface_version`.
 4. **Projection coherence** — classify spans and tree outline agree on node boundaries (Syntax tier).
 5. **Tier honesty** — Semantic projections disabled or marked partial when Profile class is Structural-only.
+6. **Island round-trip** — md file with ` ```yaml ` / ` ```toml ` / ` ```mermaid ` islands: each Region subgraph satisfies inner Profile laws; outer serialize restores fences.
+7. **Flavour overlay** — `md.gfm` vectors include GFM-only constructs failing under `md.commonmark` laws.
+8. **Inline config diagnostics** — invalid YAML/TOML island produces diagnostics anchored to Region span in parent doc (not a separate file lint).
 
 ### 10. Migration phases
 
 | Phase | Deliverable | Notes |
 |-------|-------------|-------|
 | **0** | Name + charter (this ADR); map GDL + dashspec as implicit profiles | dashspec syntax tree = proto-ontology |
-| **1** | `Platform.Modeling.LanguageProfile` kernel + `SurfaceFamily`; 0063 A1 anchors shipped | unblocks Code Center Phase 1 |
+| **1** | `Platform.Modeling.LanguageProfile` kernel + `SurfaceFamily` + `ProfileRef`/`FlavourRef`; 0063 A1 anchors shipped | unblocks Code Center Phase 1 |
 | **2** | Explicit `DashSpecLanguageProfile` planet ADR; laws extracted from formatter/classifier | [DASHSPEC-ADR-0051](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0051-language-affinity-modeling-execution.md) |
-| **3** | Shared kernels: `MdBlockAst`, `XmlTree` packages (optional federation) | avoid N planet forks |
-| **4** | GPL thin profiles + `AdapterSlot` symbol → `NodeId` shim | pairs with LRC |
+| **3** | Shared kernels: `MdBlockAst` (+ flavours), `YamlMapping`, `XmlTree`; **Profile Island** dispatch | md+yaml+toml+mermaid conformance pack |
+| **4** | GPL thin profiles + `AdapterSlot` symbol → `NodeId` shim; Razor/TagHelper hybrid pilots | pairs with LRC |
 
 ---
 
@@ -231,7 +325,10 @@ Per Profile registration:
 | 1 | Shared md/xml kernels in federation vs planet-only? | Federation kernel Phase 3; planets may ship earlier locally |
 | 2 | `ProfileId` registry location? | `Platform.Modeling.LanguageProfile` module + docs index |
 | 3 | Law authoring: code-only vs future declare quarry? | F# `InvariantLaw` lists Phase 1–2 |
+| 4 | Flavour inheritance: explicit `BaseProfile` chain vs law list merge? | `BaseProfile` optional field (§8 sketch) |
 
 ## First planet instance (informative)
 
 **DashSpec** — `BlockText` family; syntax tree + block formatter + classifier should converge on explicit `DashSpecLanguageProfile` ([DASHSPEC-ADR-0051](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0051-language-affinity-modeling-execution.md)). Dogfoods Code Center TextSurface ([STUDIO-ADR-0005](https://github.com/AI-Guiders/dash-spec-studio/blob/main/design/STUDIO-ADR-0005-model-first-language-editor.md)).
+
+**Federation pilot (informative):** `md.gfm` host + `yaml.mapping` / `toml.mapping` / `mermaid.diagram` islands — canonical Phase 3 conformance pack for Profile Islands + inline config validation in docs.
