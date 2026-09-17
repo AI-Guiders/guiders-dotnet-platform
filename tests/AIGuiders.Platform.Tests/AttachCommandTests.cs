@@ -114,6 +114,24 @@ public sealed class AttachCommandTests
         Assert.Single(choices);
         Assert.Equal("pick_diagnostic", choices[0].Value);
     }
+
+    [Fact]
+    public void AttachRegistryPathArgSuggestionProvider_falls_back_without_session()
+    {
+        var catalog = CommandCatalogIndex.FromDescriptors(FederationAttachCatalog.AllDescriptors());
+        Assert.True(catalog.TryGet("attach code", out var codeRoute));
+
+        var broker = FederationAttachSuggestions.CreateBroker(new NullAttachSessionAccessor());
+        var request = ArgSuggestionRequest.Create(
+            "federation.attach.step.pick_file",
+            "",
+            codeRoute,
+            "attach code");
+
+        var choices = broker.GetSuggestions(request);
+        Assert.Single(choices);
+        Assert.Equal("pick_file", choices[0].Value);
+    }
 }
 
 file sealed class NullAttachSessionAccessor : IAttachSessionAccessor

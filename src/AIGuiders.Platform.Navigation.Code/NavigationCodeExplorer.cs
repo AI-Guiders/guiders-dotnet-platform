@@ -21,10 +21,17 @@ public static class NavigationCodeExplorer
     public static NavigationScene ExploreRelatedInMemory(
         NavigationAnchor anchor,
         IReadOnlyList<string> solutionFiles,
+        NavigationProfile profile) =>
+        ExploreRelatedInMemory(NavSeed.FromNavigationAnchor(anchor), solutionFiles, profile);
+
+    public static NavigationScene ExploreRelatedInMemory(
+        NavSeed seed,
+        IReadOnlyList<string> solutionFiles,
         NavigationProfile profile)
     {
+        var anchor = seed.ToNavigationAnchor();
         var items = InMemoryRelatedProvider.Collect(anchor.Path, solutionFiles);
-        return NavigationSceneBuilder.BuildRelated(anchor, items, profile);
+        return NavigationSceneBuilder.BuildRelated(seed, items, profile);
     }
 }
 

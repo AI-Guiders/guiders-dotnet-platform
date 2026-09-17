@@ -104,6 +104,25 @@ public sealed class NavigationTests
     }
 
     [Fact]
+    public void InMemory_explorer_accepts_nav_seed()
+    {
+        var seed = new NavSeed(Path.GetFullPath("src/Widget.cs"));
+        var files = new[]
+        {
+            seed.Path,
+            Path.GetFullPath("src/WidgetTests.cs"),
+            Path.GetFullPath("src/Other.cs"),
+        };
+
+        var scene = NavigationCodeExplorer.ExploreRelatedInMemory(
+            seed,
+            files,
+            NavigationProfile.ExploreDefault);
+
+        Assert.Contains(scene.Nodes, n => n.Kind == "test_counterpart");
+    }
+
+    [Fact]
     public void InMemory_explorer_finds_test_counterpart()
     {
         var anchor = new NavigationAnchor(Path.GetFullPath("src/Widget.cs"));

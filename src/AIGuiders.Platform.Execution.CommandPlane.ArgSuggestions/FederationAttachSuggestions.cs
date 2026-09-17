@@ -43,9 +43,13 @@ public static class FederationAttachSuggestions
     public static ICommandArgSuggestionBroker CreateBroker(IAttachSessionAccessor sessionAccessor = null)
     {
         var diagnostics = new AttachDiagnosticArgSuggestionProvider(sessionAccessor);
+        var registryPaths = new AttachRegistryPathArgSuggestionProvider(sessionAccessor);
         return new CommandArgSuggestionRegistry()
             .RegisterExact(AttachSchemaCatalog.VerbSuggestionId, new AttachVerbArgSuggestionProvider())
             .RegisterExact("federation.attach.step.pick_diagnostic", diagnostics)
+            .RegisterExact("federation.attach.step.pick_file", registryPaths)
+            .RegisterExact("federation.attach.step.pick_doc", registryPaths)
+            .RegisterExact("federation.attach.step.pick_nav", registryPaths)
             .RegisterPrefix("federation.attach.step.", new AttachStepArgSuggestionProvider())
             .Build();
     }

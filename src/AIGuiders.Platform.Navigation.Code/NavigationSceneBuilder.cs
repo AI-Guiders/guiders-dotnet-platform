@@ -11,8 +11,15 @@ public static class NavigationSceneBuilder
     public static NavigationScene BuildRelated(
         NavigationAnchor anchor,
         IEnumerable<NavigationRelatedItem> candidates,
+        NavigationProfile profile) =>
+        BuildRelated(NavSeed.FromNavigationAnchor(anchor), candidates, profile);
+
+    public static NavigationScene BuildRelated(
+        NavSeed seed,
+        IEnumerable<NavigationRelatedItem> candidates,
         NavigationProfile profile)
     {
+        var anchor = seed.ToNavigationAnchor();
         var caps = profile.ToCaps();
         var filtered = ApplyFilters(candidates, profile).Take(caps.MaxRelated).ToList();
         var nodes = new List<NavigationNode>
