@@ -37,6 +37,7 @@ public static class FederationSessionRuntime
         var ownership = DotNetSlnxGraphSources.LoadDocumentOwnership(full);
         var contents = SessionContentsLoader.LoadFromDisk(ownership);
         var runtime = SessionOrchestrator.create(session, MapModule.ToSeq(contents), ownership);
+        runtime = DependencyRelationIngest.IngestFromContents(runtime).Runtime;
         var validation = GraphValidation.validate(runtime.Session.Graph, runtime.Registry);
         Cache[full] = runtime;
 

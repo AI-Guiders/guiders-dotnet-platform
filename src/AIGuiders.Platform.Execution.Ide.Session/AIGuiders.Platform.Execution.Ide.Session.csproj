@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Execution.Ide.Session.Sources\AIGuiders.Platform.Execution.Ide.Session.Sources.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Execution.Language.Adapters.Fcs\AIGuiders.Platform.Execution.Language.Adapters.Fcs.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Language.CSharp.Relations\AIGuiders.Platform.Execution.Language.CSharp.Relations.csproj" />
     <PackageReference Include="FSharp.Core" Version="10.1.400" />
   </ItemGroup>
 </Project>
