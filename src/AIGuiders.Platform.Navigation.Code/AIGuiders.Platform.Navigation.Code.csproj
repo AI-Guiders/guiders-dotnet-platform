@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <UseGuidersModelingPaths>true</UseGuidersModelingPaths>
+    <UseGuidersModelingIdeSession>true</UseGuidersModelingIdeSession>
     <RootNamespace>AIGuiders.Platform.Navigation.Code</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Navigation.Code</AssemblyName>
     <PackageId>AIGuiders.Platform.Navigation.Code</PackageId>

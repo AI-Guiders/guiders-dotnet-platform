@@ -1,4 +1,5 @@
 #nullable enable
+using AIGuiders.Platform.Modeling.Ide.Session;
 using AIGuiders.Platform.Navigation;
 using AIGuiders.Platform.Navigation.Policy;
 using AIGuiders.Platform.Modeling.Paths;
@@ -44,7 +45,7 @@ public static class NavigationSceneBuilder
                 item.Rationale,
                 item.RelativePath,
                 Path.GetFileName(full)));
-            edges.Add(new NavigationEdge("n0", id, "related_to", item.Kind));
+            edges.Add(new NavigationEdge("n0", id, SceneProjection.RelatedToWire, item.Kind));
         }
 
         var kindSummary = nodes
