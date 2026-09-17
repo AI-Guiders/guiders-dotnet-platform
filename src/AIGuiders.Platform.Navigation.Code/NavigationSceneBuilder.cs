@@ -45,7 +45,7 @@ public static class NavigationSceneBuilder
                 item.Rationale,
                 item.RelativePath,
                 Path.GetFileName(full)));
-            edges.Add(new NavigationEdge("n0", id, SceneProjection.RelatedToWire, item.Kind));
+            edges.Add(SceneProjectionBridge.ProjectRelatedNeighbor("n0", id, item.Kind));
         }
 
         var kindSummary = nodes
@@ -70,6 +70,36 @@ public static class NavigationSceneBuilder
             edges,
             caps,
             summary);
+    }
+
+    /// <summary>
+    /// Build a subgraph scene from pre-mapped node ids and persisted G relations (projection only).
+    /// </summary>
+    public static NavigationScene BuildSubgraph(
+        NavSeed seed,
+        IReadOnlyList<NavigationNode> nodes,
+        IEnumerable<(string FromId, string ToId, Relation Relation)> relationProjections,
+        NavigationProfile profile,
+        string? summary = null)
+    {
+        var caps = profile.ToCaps();
+        var edges = relationProjections
+            .Select(p => SceneProjectionBridge.ProjectRelation(p.FromId, p.ToId, p.Relation))
+            .Take(caps.MaxEdges)
+            .ToList();
+
+        var fileName = Path.GetFileName(seed.Path);
+        var resolvedSummary = summary
+            ?? $"Navigation (Subgraph): {nodes.Count} node(s), {edges.Count} relation edge(s) around {fileName}.";
+
+        return new NavigationScene(
+            NavigationSchemes.SceneV1,
+            NavigationMode.Subgraph,
+            seed,
+            nodes,
+            edges,
+            caps,
+            resolvedSummary);
     }
 
     static IEnumerable<NavigationRelatedItem> ApplyFilters(

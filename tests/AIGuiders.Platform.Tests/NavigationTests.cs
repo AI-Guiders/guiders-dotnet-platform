@@ -1,6 +1,7 @@
 #nullable enable
 using AIGuiders.Platform.Conformance.Navigation;
 using AIGuiders.Platform.Conformance.Schemas;
+using AIGuiders.Platform.Modeling.Ide.Session;
 using AIGuiders.Platform.Navigation;
 using AIGuiders.Platform.Navigation.Code;
 using AIGuiders.Platform.Navigation.Policy;
@@ -129,6 +130,46 @@ public sealed class NavigationTests
 
         Assert.Equal(seed.Path, scene.Seed.Path);
         Assert.Equal(10, scene.Seed.Line);
+    }
+
+    [Fact]
+    public void SceneProjectionBridge_projects_project_ref_from_G()
+    {
+        var app = ProjectIdModule.create(Path.GetFullPath("App.fsproj"));
+        var lib = ProjectIdModule.create(Path.GetFullPath("Lib.fsproj"));
+        var relation = RelationGraph.fromProjectEdge(ProjectEdgeModule.create(app, lib));
+
+        var edge = SceneProjectionBridge.ProjectRelation("n0", "n1", relation);
+
+        Assert.Equal("project_ref", edge.Kind);
+        Assert.Null(edge.RelatedKind);
+    }
+
+    [Fact]
+    public void BuildSubgraph_projects_relation_edges_via_SceneProjection()
+    {
+        var seed = new NavSeed(Path.GetFullPath("App.fsproj"));
+        var app = ProjectIdModule.create(seed.Path);
+        var lib = ProjectIdModule.create(Path.GetFullPath("Lib.fsproj"));
+        var relation = RelationGraph.fromProjectEdge(ProjectEdgeModule.create(app, lib));
+
+        var nodes = new List<NavigationNode>
+        {
+            new("n0", seed.Path, "project", Label: "App"),
+            new("n1", Path.GetFullPath("Lib.fsproj"), "project", Label: "Lib"),
+        };
+
+        var scene = NavigationSceneBuilder.BuildSubgraph(
+            seed,
+            nodes,
+            [("n0", "n1", relation)],
+            NavigationProfile.ExploreDefault);
+
+        Assert.Equal(NavigationMode.Subgraph, scene.Mode);
+        Assert.Single(scene.Edges);
+        Assert.Equal("project_ref", scene.Edges[0].Kind);
+        Assert.Equal("n0", scene.Edges[0].FromId);
+        Assert.Equal("n1", scene.Edges[0].ToId);
     }
 }
 
