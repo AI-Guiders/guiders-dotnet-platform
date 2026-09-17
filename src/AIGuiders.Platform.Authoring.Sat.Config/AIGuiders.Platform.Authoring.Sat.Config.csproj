@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Authoring.Core\AIGuiders.Platform.Authoring.Core.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Authoring.Sat.Abstractions\AIGuiders.Platform.Authoring.Sat.Abstractions.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Configurations.Workspace.Sources\AIGuiders.Platform.Execution.Configurations.Workspace.Sources.csproj" />
   </ItemGroup>
   <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>

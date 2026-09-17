@@ -1,6 +1,6 @@
 using AIGuiders.Platform.Authoring.Emit;
+using AIGuiders.Platform.Execution.Configurations.Workspace;
 using GdlConfigModel = AIGuiders.Platform.Modeling.Configurations;
-using GdlConfigPredicates = AIGuiders.Platform.Modeling.Configurations.ContractPredicates;
 using GdlPredicateResult = AIGuiders.Platform.Modeling.Configurations.ConfigPredicateResult;
 
 namespace AIGuiders.Platform.Authoring.Sat;
@@ -75,7 +75,7 @@ public static class ConfigContractRegistry
     private static ConfigContractEvaluation EvaluateHotL0SectionsPresent(SatContext context, ConfigDocument document)
     {
         var fsharpDoc = MapToFSharpDocument(document);
-        var result = GdlConfigPredicates.evaluateHotL0SectionsPresent(context.WorkspaceRoot ?? string.Empty, fsharpDoc);
+        var result = ConfigurationContractSources.EvaluateHotL0SectionsPresent(context.WorkspaceRoot ?? string.Empty, fsharpDoc);
         return MapPredicateResult(result);
     }
 
@@ -150,7 +150,7 @@ public static class ConfigContractRegistry
                     "primary_is_personal requires WorkspaceRoot in SatContext."));
         }
 
-        var tomlPath = FindAgentNotesToml(context.WorkspaceRoot);
+        var tomlPath = KnowledgeWireSources.TryFindAgentNotesToml(context.WorkspaceRoot);
         if (tomlPath is null)
         {
             return new ConfigContractEvaluation(
@@ -160,7 +160,7 @@ public static class ConfigContractRegistry
                     $"agent-notes-mcp.toml not found under workspace `{context.WorkspaceRoot}`."));
         }
 
-        if (!TryReadKnowledgePrimary(tomlPath, out var primary))
+        if (!KnowledgeWireSources.TryReadKnowledgePrimary(tomlPath, out var primary))
         {
             return new ConfigContractEvaluation(
                 false,
@@ -179,68 +179,5 @@ public static class ConfigContractRegistry
         }
 
         return new ConfigContractEvaluation(true, Note: $"primary_is_personal via `{tomlPath}`");
-    }
-
-    private static string? FindAgentNotesToml(string workspaceRoot)
-    {
-        var root = Path.GetFullPath(workspaceRoot);
-        var direct = Path.Combine(root, "agent-notes-mcp.toml");
-        if (File.Exists(direct))
-        {
-            return direct;
-        }
-
-        try
-        {
-            foreach (var file in Directory.EnumerateFiles(root, "agent-notes-mcp.toml", SearchOption.AllDirectories))
-            {
-                return file;
-            }
-        }
-        catch (IOException)
-        {
-        }
-        catch (UnauthorizedAccessException)
-        {
-        }
-
-        return null;
-    }
-
-    private static bool TryReadKnowledgePrimary(string tomlPath, out string? primary)
-    {
-        primary = null;
-        var inKnowledge = false;
-
-        foreach (var rawLine in File.ReadLines(tomlPath))
-        {
-            var line = rawLine.Trim();
-            if (line.Length == 0 || line.StartsWith('#'))
-            {
-                continue;
-            }
-
-            if (line.StartsWith('['))
-            {
-                inKnowledge = line.Equals("[knowledge]", StringComparison.OrdinalIgnoreCase);
-                continue;
-            }
-
-            if (!inKnowledge || !line.StartsWith("primary", StringComparison.OrdinalIgnoreCase))
-            {
-                continue;
-            }
-
-            var eq = line.IndexOf('=');
-            if (eq <= 0)
-            {
-                continue;
-            }
-
-            primary = line[(eq + 1)..].Trim().Trim('"', '\'');
-            return primary.Length > 0;
-        }
-
-        return false;
     }
 }
