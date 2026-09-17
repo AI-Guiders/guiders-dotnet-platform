@@ -10,6 +10,8 @@
 
     <Description>C# RelationSpec / bracket wire resolve via Roslyn syntax parse.</Description>
 
+    <UseGuidersModelingIdeSession>true</UseGuidersModelingIdeSession>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,4 +26,5 @@
 
   </ItemGroup>
 
+  <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>
