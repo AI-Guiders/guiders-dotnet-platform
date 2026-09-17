@@ -38,7 +38,7 @@ Operator direction (2026-09-17): describe each language’s **concepts and princ
 ```text
 LanguageProfile
 ├── ProfileId              stable id ("dashspec.block", "gdl.catalog", "md.commonmark", …)
-├── FlavourRef             optional dialect within family ("commonmark", "gfm", "yaml-1.2", …)
+├── FlavourRef             optional dialect within family ("commonmark", "gfm", "yaml-1.2", "toml-1.1", …)
 ├── SurfaceFamily          federation sum (links DocumentSurface in 0063)
 ├── ConceptOntology        node kinds + typed edges (contains, references, scope, …)
 ├── InvariantLaws          pure validators on ConceptGraph instances
@@ -92,9 +92,9 @@ Initial normative families (extend by ADR, not string registry):
 | `PlainLines` | logs, env, legacy | Text | minimal graph |
 | `CodeAst` | C#, F#, C++ | Semantic | **AdapterSlot** (Roslyn, FCS, …) |
 
-**YAML ≠ TOML.** Separate `SurfaceFamily`, separate `ProfileId`, separate ontology (YAML: mapping/sequence/anchor; TOML: table/inline-table/array-of-tables). They share only the **Profile Island role** — config/data blob embeddable in md/html — not grammar or flavour lineage.
+Each `SurfaceFamily` has its own `ProfileId`, ontology, and law set. `YamlMapping` and `TomlMapping` are independent families (mapping/sequence/anchor vs table/inline-table/array-of-tables). Either may be a whole file or a **Profile Island** inside md/html/xml (§4.2).
 
-Either family may be the **whole file** or an **embedded island** inside md/html/xml (§4.2). `FlavourRef` selects dialect **within** one family (e.g. `yaml-1.2`; `toml-1.1` — current spec; `toml-1.0` legacy) — never crosses families.
+`FlavourRef` selects a dialect **within** one family (`yaml-1.2`, `toml-1.1`, …).
 
 `DocumentSurface` in [0063](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md) **maps 1:1** to `SurfaceFamily` for anchor resolve; Language Profile adds **ontology + laws + flavour + islands** beneath the surface label.
 
@@ -118,9 +118,8 @@ One **SurfaceFamily** may host multiple **flavours** — dialects that share ont
 |-----------|------------|----------------|
 | `md.commonmark` | `commonmark` | baseline block/inline AST |
 | `md.gfm` | `gfm` | tables, task lists, strikethrough, autolink laws **extends** commonmark |
-| `yaml.mapping` | `yaml-1.2` | YAML syntax + schema hooks (YamlMapping family only) |
-| `toml.document` | `toml-1.1` | current spec ([TOML v1.1.0](https://toml.io/en/v1.1.0), Dec 2025): multiline inline tables, `\e`, optional seconds, … |
-| `toml.document` | `toml-1.0` | legacy flavour — conformance only where backward compat required |
+| `yaml.mapping` | `yaml-1.2` | YAML syntax + schema hooks |
+| `toml.document` | `toml-1.1` | [TOML v1.1.0](https://toml.io/en/v1.1.0): tables, inline tables, multiline inline tables, `\e`, optional datetime seconds |
 | `html.whatwg` | `whatwg` | vs XML-compatible subset |
 
 **Rules:**
@@ -150,9 +149,9 @@ File
 ├── MD
 ├── Mermaid
 ├── MD
-├── YAML          ← YamlMapping laws on subgraph
+├── YAML          ← YamlMapping laws
 ├── MD
-└── TOML          ← TomlMapping laws on subgraph (separate profile, not YAML)
+└── TOML          ← TomlMapping laws
 ```
 
 **Normative mechanics:**
@@ -171,15 +170,15 @@ File
 | Host | Island | Inner profile | Notes |
 |------|--------|---------------|-------|
 | `md.gfm` | fenced code | `mermaid.diagram` | diagram projection on Region |
-| `md.gfm` | fenced code | `yaml.mapping` | YAML island — YamlMapping profile |
-| `md.gfm` | fenced code | `toml.document` | TOML island — TomlMapping profile (distinct) |
+| `md.gfm` | fenced code | `yaml.mapping` | inline config validation |
+| `md.gfm` | fenced code | `toml.document` | inline config validation |
 | `md.gfm` | frontmatter | `yaml.mapping` | same laws as standalone `.yaml` |
 | `razor` | `@…` block | `csharp.expression` / `CodeAst` | Roslyn tier on island only |
 | `razor` | markup | `html.tree` | HTML laws on markup regions |
 | `html` + TagHelpers | element | tag profile overlay | element node → helper semantics + attribute laws |
 | `xml` | CDATA / embed | nested profile | policy-driven |
 
-**YAML / TOML inside documents:** each island uses its **own** Profile (`yaml.mapping` vs `toml.document`). Structural correctness (syntax, duplicate keys, type shape, optional schema/sat) is `InvariantLaws` on that Region’s subgraph — diagnostics attach to the fence/frontmatter span in the parent doc, not a separate lint product.
+Embedded config islands (`yaml.mapping`, `toml.document`) run `InvariantLaws` on the Region subgraph; diagnostics attach to the fence or frontmatter span in the host document.
 
 **Hybrid class (§4):** composite outer Profile + `IslandRules` + registry of embeddable inner ProfileIds. Outer **must not** duplicate inner semantic rules in ad-hoc string checks.
 
@@ -293,7 +292,7 @@ Per Profile registration:
 5. **Tier honesty** — Semantic projections disabled or marked partial when Profile class is Structural-only.
 6. **Island round-trip** — md file with ` ```yaml ` / ` ```toml ` / ` ```mermaid ` islands: each Region subgraph satisfies inner Profile laws; outer serialize restores fences.
 7. **Flavour overlay** — `md.gfm` vectors include GFM-only constructs failing under `md.commonmark` laws.
-8. **Inline config diagnostics** — invalid YAML/TOML island produces diagnostics anchored to Region span in parent doc (not a separate file lint).
+8. **Inline config diagnostics** — invalid YAML or TOML island produces diagnostics on the Region span in the host document.
 
 ### 10. Migration phases
 
@@ -302,7 +301,7 @@ Per Profile registration:
 | **0** | Name + charter (this ADR); map GDL + dashspec as implicit profiles | dashspec syntax tree = proto-ontology |
 | **1** | `Platform.Modeling.LanguageProfile` kernel + `SurfaceFamily` + `ProfileRef`/`FlavourRef`; 0063 A1 anchors shipped | unblocks Code Center Phase 1 |
 | **2** | Explicit `DashSpecLanguageProfile` planet ADR; laws extracted from formatter/classifier | [DASHSPEC-ADR-0051](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0051-language-affinity-modeling-execution.md) |
-| **3** | Shared kernels: `MdBlockAst` (+ flavours), `YamlMapping`, `TomlMapping`, `XmlTree`; **Profile Island** dispatch | md + yaml + toml + mermaid conformance pack (yaml/toml separate profiles) |
+| **3** | Shared kernels: `MdBlockAst` (+ flavours), `YamlMapping`, `TomlMapping`, `XmlTree`; **Profile Island** dispatch | md + yaml + toml + mermaid conformance pack |
 | **4** | GPL thin profiles + `AdapterSlot` symbol → `NodeId` shim; Razor/TagHelper hybrid pilots | pairs with LRC |
 
 ---
@@ -337,4 +336,4 @@ Per Profile registration:
 
 **DashSpec** — `BlockText` family; syntax tree + block formatter + classifier should converge on explicit `DashSpecLanguageProfile` ([DASHSPEC-ADR-0051](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0051-language-affinity-modeling-execution.md)). Dogfoods Code Center TextSurface ([STUDIO-ADR-0005](https://github.com/AI-Guiders/dash-spec-studio/blob/main/design/STUDIO-ADR-0005-model-first-language-editor.md)).
 
-**Federation pilot (informative):** `md.gfm` host + separate `yaml.mapping`, `toml.document`, and `mermaid.diagram` island profiles — Phase 3 conformance pack for Profile Islands + inline config validation in docs.
+**Federation pilot (informative):** `md.gfm` host with `yaml.mapping`, `toml.document`, and `mermaid.diagram` island profiles — Phase 3 conformance pack.
