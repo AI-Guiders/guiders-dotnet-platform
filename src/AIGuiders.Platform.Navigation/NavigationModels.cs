@@ -45,29 +45,6 @@ public sealed record NavSeed(
         FSharpInterop.OptInt(model.Line),
         FSharpInterop.OptInt(model.Column),
         FSharpInterop.OptString(model.SolutionPath));
-
-#pragma warning disable CS0618
-    public static NavSeed FromNavigationAnchor(NavigationAnchor anchor) =>
-        new(anchor.Path, anchor.Line, anchor.Column, SolutionPath: anchor.SolutionPath);
-
-    public NavigationAnchor ToNavigationAnchor() =>
-        new(Path, Line, Column, SolutionPath);
-#pragma warning restore CS0618
-}
-
-[Obsolete("Use NavSeed — federation TO-BE plan §8")]
-public sealed record NavigationAnchor(
-    string Path,
-    int? Line = null,
-    int? Column = null,
-    string? SolutionPath = null)
-{
-    public NavSeed ToNavSeed() => NavSeed.FromNavigationAnchor(this);
-
-    public ModelingNavigation.Anchor ToModel() => ToNavSeed().ToModel();
-
-    public static NavigationAnchor FromModel(ModelingNavigation.Anchor model) =>
-        NavSeed.FromModel(model).ToNavigationAnchor();
 }
 
 public sealed record NavigationNode(
@@ -151,17 +128,8 @@ public sealed record NavigationScene(
     NavigationSceneCaps Caps,
     string Summary)
 {
-    [Obsolete("Use Seed — federation TO-BE plan §8")]
-#pragma warning disable CS0618
-    public NavigationAnchor Anchor => Seed.ToNavigationAnchor();
-#pragma warning restore CS0618
-
     public static NavigationScene Empty(NavSeed seed, NavigationMode mode, NavigationSceneCaps caps) =>
         FromModel(ModelingNavigation.SceneModule.empty(seed.ToModel(), ToMode(mode), caps.ToModel()));
-
-    [Obsolete("Use Empty(NavSeed, ...) — federation TO-BE plan §8")]
-    public static NavigationScene Empty(NavigationAnchor anchor, NavigationMode mode, NavigationSceneCaps caps) =>
-        Empty(NavSeed.FromNavigationAnchor(anchor), mode, caps);
 
     public ModelingNavigation.Scene ToModel() => new()
     {

@@ -18,13 +18,6 @@ public static class NavigationCodeExplorer
         return NavigationSceneBuilder.BuildRelated(seed, items, profile);
     }
 
-    [Obsolete("Use ExploreRelatedInMemory(NavSeed, ...) — federation TO-BE plan §8")]
-    public static NavigationScene ExploreRelatedInMemory(
-        NavigationAnchor anchor,
-        IReadOnlyList<string> solutionFiles,
-        NavigationProfile profile) =>
-        ExploreRelatedInMemory(NavSeed.FromNavigationAnchor(anchor), solutionFiles, profile);
-
     public static NavigationScene ExploreRelatedInMemory(
         NavSeed seed,
         IReadOnlyList<string> solutionFiles,

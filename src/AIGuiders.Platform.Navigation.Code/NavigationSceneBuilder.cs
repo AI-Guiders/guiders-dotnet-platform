@@ -8,13 +8,6 @@ namespace AIGuiders.Platform.Navigation.Code;
 
 public static class NavigationSceneBuilder
 {
-    [Obsolete("Use BuildRelated(NavSeed, ...) — federation TO-BE plan §8")]
-    public static NavigationScene BuildRelated(
-        NavigationAnchor anchor,
-        IEnumerable<NavigationRelatedItem> candidates,
-        NavigationProfile profile) =>
-        BuildRelated(NavSeed.FromNavigationAnchor(anchor), candidates, profile);
-
     public static NavigationScene BuildRelated(
         NavSeed seed,
         IEnumerable<NavigationRelatedItem> candidates,

@@ -227,14 +227,14 @@ Pre-Federation code was built **without** a federation Modeling layer — tactic
 | Pre-0063 (this ADR v1) | TO-BE SSOT |
 |------------------------|------------|
 | `AnchorIntent` sum | `RelationSpec` cases (`CodeEdit`, `DocToCode`, `Diag`, `Nav`, `Resource`, …) |
-| `NavigationAnchor` (platform) | `NavSeed` in `Modeling.LanguageIntelligence.Relations` |
+| `NavigationAnchor` (platform) | **deleted** — `NavSeed` in `Navigation` + `Relations` |
 | `ResolveTier.Text` | **deleted** — stored `Locus` = `Syntax` \| `Semantic` only |
 | `LanguageIntelligence.Anchors` package | **`LanguageIntelligence.Relations`** |
 | Bracket `[F:…;M:…;L:…]` agent model | `Kind:` canon wire → `RelationSpec` at parse boundary only |
 
 **Attach UX** (plan §4): human verbs → `AttachSchema` steps → `RelationSpec` witness → `Relation` in session graph `G`. Bracket remains **WireProjection**, not SSOT.
 
-Implementation status: Phase 1 Relations kernel **shipped**; Navigation.Code **NavSeed-primary** (scene/wire/json, `NavigationAnchor` obsolete shim) on `develop`; 0063 product phases remain paused until split-audit checklist closes.
+Implementation status: Phase 1 Relations kernel **shipped**; Navigation.Code **NavSeed-only** (`NavigationAnchor` deleted) on `develop`; FCS host materialize **shipped** to `Execution.Language.Adapters.Fcs`; 0063 product phases remain paused until split-audit checklist closes.
 
 ---
 
