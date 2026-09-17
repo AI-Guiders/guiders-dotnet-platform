@@ -5,7 +5,7 @@
 | **Status** | **Accepted** (architecture charter; implementation Phase 0) |
 | **Date** | 2026-09-17 |
 | **Tags** | #guiders #federation #language-profile #concept-graph #code-center #language-intelligence #gdl #modeling #profile-island #flavour |
-| **Related** | [0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) · [0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) · [0061](./GUIDERS-ADR-0061-language-resolver-center.md) · [0063](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md) · [0066](./GUIDERS-ADR-0066-code-center-federation-product.md) · [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [0064](./GUIDERS-ADR-0064-config-gdl-quarry-family.md) · [0032](./GUIDERS-ADR-0032-conformance-obligations-policy-specs.md) · [DASHSPEC-ADR-0006](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0006-sql-datasource-and-sqldialect.md) · [DASHSPEC-ADR-0051](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0051-language-affinity-modeling-execution.md) · [STUDIO-ADR-0002](https://github.com/AI-Guiders/dash-spec-studio/blob/main/design/STUDIO-ADR-0002-component-model-and-navigation.md) · [GUIDERS-FSHARP-ADR-0002](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/GUIDERS-FSHARP-ADR-0002-model-guild-fsharp-ownership.md) · [Constitution](../GUIDERS-FEDERATION-CONSTITUTION.md) |
+| **Related** | [0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) · [0059](./GUIDERS-ADR-0059-gdl-hyperlane.md) · [0061](./GUIDERS-ADR-0061-language-resolver-center.md) · [0063](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md) · [0066](./GUIDERS-ADR-0066-code-center-federation-product.md) · [0048](./GUIDERS-ADR-0048-authoring-quarry-family.md) · [0064](./GUIDERS-ADR-0064-config-gdl-quarry-family.md) · [0032](./GUIDERS-ADR-0032-conformance-obligations-policy-specs.md) · [DASHSPEC-ADR-0006](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0006-sql-datasource-and-sqldialect.md) · [DASHSPEC-ADR-0051](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0051-language-affinity-modeling-execution.md) · [STUDIO-ADR-0002](https://github.com/AI-Guiders/dash-spec-studio/blob/main/design/STUDIO-ADR-0002-component-model-and-navigation.md) · [TomlCheck (guiders-assist)](https://github.com/AI-Guiders/guiders-assist/tree/main/src/AIGuiders.DotnetTools.TomlCheck) · [GUIDERS-FSHARP-ADR-0002](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/GUIDERS-FSHARP-ADR-0002-model-guild-fsharp-ownership.md) · [Constitution](../GUIDERS-FEDERATION-CONSTITUTION.md) |
 
 ## Context
 
@@ -322,7 +322,8 @@ type ConceptGraph = { Root: NodeId; Nodes: Map<NodeId, ConceptNode>; Edges: (Nod
 type InvariantLaw = ConceptGraph -> Diagnostic list
 
 type SchemaRef =
-    | JsonSchema of path: string
+    | TomlSemantic                              // Taplo-class native validate (default for TomlMapping)
+    | JsonSchema of path: string                // YAML primary; TOML optional overlay
     | Xsd of path: string * targetNamespace: string voption
     | SatPredicate of path: string
 
@@ -353,7 +354,7 @@ Per Profile registration:
 7. **Flavour overlay** — `md.gfm` vectors include GFM-only constructs failing under `md.commonmark` laws.
 8. **Inline config diagnostics** — invalid YAML or TOML island produces diagnostics on the Region span in the host document.
 9. **SQL dialect vectors** — same `sql.script` ontology; `tsql` vs `postgres` flavours produce different accept/reject for limit/date/literal edge cases; DashSpec filter-compile golden per dialect.
-10. **Schema-bound vectors** — YAML/TOML island fails JSON Schema; XML document fails attached XSD; diagnostics map to Region/document span.
+10. **Schema-bound vectors** — YAML island fails JSON Schema; TOML island fails native semantic check (duplicate key, …) and optional schema overlay; XML fails XSD; diagnostics map to Region/document span.
 
 ### 10. Migration phases
 
@@ -362,7 +363,7 @@ Per Profile registration:
 | **0** | Name + charter (this ADR); map GDL + dashspec as implicit profiles | dashspec syntax tree = proto-ontology |
 | **1** | `Platform.Modeling.LanguageProfile` kernel + `SurfaceFamily` + `ProfileRef`/`FlavourRef`; 0063 A1 anchors shipped | unblocks Code Center Phase 1 |
 | **2** | Explicit `DashSpecLanguageProfile` planet ADR; laws extracted from formatter/classifier | [DASHSPEC-ADR-0051](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0051-language-affinity-modeling-execution.md) |
-| **3** | Shared kernels: `MdBlockAst`, `YamlMapping`, `TomlMapping`, **`SqlScript`**, `XmlTree` (+ **schema runner**: JSON Schema, XSD); Profile Island dispatch | md + yaml + toml + sql + xml + mermaid conformance pack |
+| **3** | Shared kernels + **schema runner**: YAML (JSON Schema), **TOML (Taplo-class native + optional schema)**, XML (XSD), `SqlScript`; Profile Island dispatch | md + yaml + toml + sql + xml + mermaid conformance pack |
 | **4** | GPL thin profiles + `AdapterSlot` symbol → `NodeId` shim; Razor/TagHelper hybrid pilots | pairs with LRC |
 | **5** | **DashSpec Studio** — SQL editor zones (migrations, Data Lab, card SQL) on `sql.script` session + dialect switch | [STUDIO-ADR-0002](https://github.com/AI-Guiders/dash-spec-studio/blob/main/design/STUDIO-ADR-0002-component-model-and-navigation.md) |
 
