@@ -5,7 +5,7 @@
 | **Status** | **Accepted** (product charter; implementation Phase 0) |
 | **Date** | 2026-09-17 |
 | **Tags** | #guiders #federation #code-center #surface #projection #language-intelligence #avalonedit #editor |
-| **Related** | [0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) · [0021](./GUIDERS-ADR-0021-notations-quarry-family.md) · [0061](./GUIDERS-ADR-0061-language-resolver-center.md) · [0062](./GUIDERS-ADR-0062-ide-solution-session-orchestrator.md) · [0063](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md) · [0055](https://github.com/AI-Guiders/guiders-wpf/blob/main/docs/adr/GUIDERS-ADR-0055-surface-wpf-guild-deck-authoring.md) · [STUDIO-ADR-0005](https://github.com/AI-Guiders/dash-spec-studio/blob/main/design/STUDIO-ADR-0005-model-first-language-editor.md) · [Constitution](../GUIDERS-FEDERATION-CONSTITUTION.md) |
+| **Related** | [0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) · [0021](./GUIDERS-ADR-0021-notations-quarry-family.md) · [0061](./GUIDERS-ADR-0061-language-resolver-center.md) · [0062](./GUIDERS-ADR-0062-ide-solution-session-orchestrator.md) · [0063](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md) · [0067](./GUIDERS-ADR-0067-language-profile-federation-model.md) · [0055](https://github.com/AI-Guiders/guiders-wpf/blob/main/docs/adr/GUIDERS-ADR-0055-surface-wpf-guild-deck-authoring.md) · [STUDIO-ADR-0005](https://github.com/AI-Guiders/dash-spec-studio/blob/main/design/STUDIO-ADR-0005-model-first-language-editor.md) · [Constitution](../GUIDERS-FEDERATION-CONSTITUTION.md) |
 
 ## Context
 

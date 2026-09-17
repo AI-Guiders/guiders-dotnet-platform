@@ -23,11 +23,12 @@ Columns:
 | [0064](./GUIDERS-ADR-0064-config-gdl-quarry-family.md) | Accepted | In progress | Config quarry P0 signage; pilot `cdp-newcomer` |
 | [0065](./GUIDERS-ADR-0065-gdl-emit-operational-paths.md) | Accepted | In progress | GDL emit author/consumer playbook; MSBuild link |
 | [0066](./GUIDERS-ADR-0066-code-center-federation-product.md) | Accepted | In progress | TextEngine = TextSurface v0; DashSpec Studio dogfood |
+| [0067](./GUIDERS-ADR-0067-language-profile-federation-model.md) | Accepted | — | Phase 0 charter; GDL + dashspec as implicit profiles |
 
 **F# mirror:** [guiders-fsharp ADR index](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/README.md)  
 **CDP:** [CDP-ADR-0208](https://github.com/AI-Guiders/cdp-mcp/blob/main/docs/adr/CDP-ADR-0208-language-resolver-center-cdp-host.md) · In progress
 
-## Full index (0001–0066)
+## Full index (0001–0067)
 
 | # | Slug | Decision (header) | Implementation |
 |---|------|---------------------|--------------|
@@ -96,6 +97,8 @@ Columns:
 | 0063 | anchors-federation-reincarnation | Accepted | — (Phase 0) |
 | 0064 | config-gdl-quarry-family | Accepted | In progress (P0) |
 | 0065 | gdl-emit-operational-paths | Accepted | In progress (Wave 1 ops) |
+| 0066 | code-center-federation-product | Accepted | In progress (TextSurface v0) |
+| 0067 | language-profile-federation-model | Accepted | — (Phase 0) |
 
 ## Next audit waves
 

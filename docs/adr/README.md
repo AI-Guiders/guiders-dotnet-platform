@@ -18,6 +18,7 @@
 | [0064](./GUIDERS-ADR-0064-config-gdl-quarry-family.md) | Accepted · In progress | `.config.gdl` — wiring, interpretation, contracts, Sat |
 | [0065](./GUIDERS-ADR-0065-gdl-emit-operational-paths.md) | Accepted · In progress | GDL emit author vs consumer operational paths |
 | [0066](./GUIDERS-ADR-0066-code-center-federation-product.md) | Accepted · Phase 0 | Multi-projection edit host; TextEngine = TextSurface v0 |
+| [0067](./GUIDERS-ADR-0067-language-profile-federation-model.md) | Accepted · Phase 0 | Concept graph SSOT; rules derive from Profile |
 
 ## Related repos
 
