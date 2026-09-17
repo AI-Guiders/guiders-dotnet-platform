@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <UseGuidersModelingConfig>true</UseGuidersModelingConfig>
+    <UseGuidersModelingConfigurations>true</UseGuidersModelingConfigurations>
     <UseGuidersModelingGdlParseConfig>true</UseGuidersModelingGdlParseConfig>
     <RootNamespace>AIGuiders.Platform.Authoring.Sat</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Authoring.Sat.Config</AssemblyName>

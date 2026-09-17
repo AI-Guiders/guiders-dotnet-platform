@@ -1,7 +1,7 @@
 using AIGuiders.Platform.Authoring.Emit;
-using GdlConfigModel = AIGuiders.Platform.Modeling.Config;
-using GdlConfigPredicates = AIGuiders.Platform.Modeling.Config.ContractPredicates;
-using GdlPredicateResult = AIGuiders.Platform.Modeling.Config.ConfigPredicateResult;
+using GdlConfigModel = AIGuiders.Platform.Modeling.Configurations;
+using GdlConfigPredicates = AIGuiders.Platform.Modeling.Configurations.ContractPredicates;
+using GdlPredicateResult = AIGuiders.Platform.Modeling.Configurations.ConfigPredicateResult;
 
 namespace AIGuiders.Platform.Authoring.Sat;
 

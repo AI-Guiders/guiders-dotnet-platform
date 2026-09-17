@@ -2,7 +2,7 @@ using AIGuiders.Platform.Authoring.Core;
 using AIGuiders.Platform.Authoring.Emit;
 using GdlAuthoring = AIGuiders.Platform.Modeling.Gdl.Authoring;
 using GdlConfig = AIGuiders.Platform.Modeling.Gdl.Parse.Config;
-using GdlConfigModel = AIGuiders.Platform.Modeling.Config;
+using GdlConfigModel = AIGuiders.Platform.Modeling.Configurations;
 using Microsoft.FSharp.Collections;
 using Microsoft.FSharp.Core;
 
