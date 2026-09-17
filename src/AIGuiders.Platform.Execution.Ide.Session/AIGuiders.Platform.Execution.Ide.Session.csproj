@@ -6,6 +6,8 @@
     <Description>IDE solution session orchestrator host — loads Modeling graph via ports.</Description>
     <UseGuidersModelingIdeSession>true</UseGuidersModelingIdeSession>
     <UseGuidersModelingIdeSessionPortsDotNet>true</UseGuidersModelingIdeSessionPortsDotNet>
+    <UseGuidersModelingRelations>true</UseGuidersModelingRelations>
+    <UseGuidersModelingCore>true</UseGuidersModelingCore>
   </PropertyGroup>
   <Import Project="..\..\eng\Guiders.Modeling.props" />
   <ItemGroup>
