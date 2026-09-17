@@ -9,7 +9,7 @@ namespace AIGuiders.Platform.Execution.Language.Adapters.Fcs;
 
 /// <summary>
 /// FCS host boundary (plan §7) — MSBuild/ProjInfo materialization + revision cache.
-/// Modeling keeps language transforms; Execution owns host lifecycle until full File IO split.
+/// Modeling keeps language transforms; Execution owns host lifecycle + File/MSBuild IO (plan §7).
 /// </summary>
 public static class FcsExecutionHost
 {
@@ -19,19 +19,19 @@ public static class FcsExecutionHost
     }
 
     public static WorkspaceView Materialize(WorkspaceView view) =>
-        FcsCompilerServicesHost.materialize(view);
+        FcsCompilerServicesHost.Materialize(view);
 
     public static FSharpOption<FSharpProjectOptions> TryGetOptions(string projectPath) =>
-        FcsCompilerServicesHost.tryGetOptions(projectPath);
+        FcsCompilerServicesHost.TryGetOptions(projectPath);
 
     public static WorkspaceView TryGetView(string anchorPath)
     {
-        var opt = FcsCompilerServicesHost.tryGetView(anchorPath);
+        var opt = FcsCompilerServicesHost.TryGetView(anchorPath);
         return FSharpOption<WorkspaceView>.get_IsSome(opt) ? opt.Value : null;
     }
 
     public static void Invalidate(string anchorPath) =>
-        FcsCompilerServicesHost.invalidate(
+        FcsCompilerServicesHost.Invalidate(
             string.IsNullOrWhiteSpace(anchorPath)
                 ? FSharpOption<string>.None
                 : FSharpOption<string>.Some(anchorPath));
