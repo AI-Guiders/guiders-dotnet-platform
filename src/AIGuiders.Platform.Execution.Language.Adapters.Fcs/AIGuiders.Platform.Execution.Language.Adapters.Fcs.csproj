@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <UseGuidersModelingIdeSession>true</UseGuidersModelingIdeSession>
+    <UseGuidersModelingLanguageAdaptersFcs>true</UseGuidersModelingLanguageAdaptersFcs>
+    <RootNamespace>AIGuiders.Platform.Execution.Language.Adapters.Fcs</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Language.Adapters.Fcs</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Language.Adapters.Fcs</PackageId>
+    <Description>F# Compiler Service host lifecycle — materialize/invalidate @ WorkspaceView revision (ship-3).</Description>
+  </PropertyGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
+</Project>
