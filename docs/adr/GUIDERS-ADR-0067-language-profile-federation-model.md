@@ -119,7 +119,8 @@ One **SurfaceFamily** may host multiple **flavours** — dialects that share ont
 | `md.commonmark` | `commonmark` | baseline block/inline AST |
 | `md.gfm` | `gfm` | tables, task lists, strikethrough, autolink laws **extends** commonmark |
 | `yaml.mapping` | `yaml-1.2` | YAML syntax + schema hooks (YamlMapping family only) |
-| `toml.document` | `toml-1.0` | TOML tables / inline tables (TomlMapping family only) |
+| `toml.document` | `toml-1.1` | current spec ([TOML v1.1.0](https://toml.io/en/v1.1.0), Dec 2025): multiline inline tables, `\e`, optional seconds, … |
+| `toml.document` | `toml-1.0` | legacy flavour — conformance only where backward compat required |
 | `html.whatwg` | `whatwg` | vs XML-compatible subset |
 
 **Rules:**
@@ -139,7 +140,7 @@ FileRoot (outer profile: md.gfm)
 ├── Region { profile: mermaid.diagram }   → fenced ```mermaid … ```
 ├── Region { profile: md.gfm }
 ├── Region { profile: yaml.mapping, flavour: yaml-1.2 }  → fenced ```yaml … ``` or frontmatter
-└── Region { profile: toml.document, flavour: toml-1.0 }  → fenced ```toml … ```
+└── Region { profile: toml.document, flavour: toml-1.1 }  → fenced ```toml … ```
 ```
 
 Graph shape (informative):
