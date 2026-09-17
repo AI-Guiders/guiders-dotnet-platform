@@ -1,5 +1,5 @@
 using AIGuiders.Platform.Modeling.Core;
-using GdlAgent = AIGuiders.Platform.Modeling.Gdl.Agent;
+using GdlAgent = AIGuiders.Platform.Modeling.Agent;
 
 namespace AIGuiders.Platform.IntermediateRepresentation.Agent;
 
