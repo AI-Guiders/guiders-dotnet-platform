@@ -5,7 +5,7 @@
 | **Status** | Accepted (architecture; implementation Phase 0) |
 | **Date** | 2026-09-02 |
 | **Tags** | #guiders #federation #anchor #language-intelligence #edit-plane #buffer #sniper #first-class |
-| **Related** | [GUIDERS-ADR-0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) · [GUIDERS-ADR-0026](./GUIDERS-ADR-0026-notations-bracket-branch.md) · [GUIDERS-ADR-0027](./GUIDERS-ADR-0027-mdlinker-doc-anchor-check.md) · [GUIDERS-ADR-0061](./GUIDERS-ADR-0061-language-resolver-center.md) · [GUIDERS-ADR-0062](./GUIDERS-ADR-0062-ide-solution-session-orchestrator.md) · [CDP BUF-001](https://github.com/AI-Guiders/agent-notes/blob/main/knowledge/work/projects/door-to-singularity/cdp-mcp/subprojects/cdp-buffer-v1-known-gaps.md) · [Constitution](../GUIDERS-FEDERATION-CONSTITUTION.md) |
+| **Related** | [GUIDERS-ADR-0025](./GUIDERS-ADR-0025-language-intelligence-boundary.md) · [GUIDERS-ADR-0026](./GUIDERS-ADR-0026-notations-bracket-branch.md) · [GUIDERS-ADR-0027](./GUIDERS-ADR-0027-mdlinker-doc-anchor-check.md) · [GUIDERS-ADR-0061](./GUIDERS-ADR-0061-language-resolver-center.md) · [GUIDERS-ADR-0062](./GUIDERS-ADR-0062-ide-solution-session-orchestrator.md) · [GUIDERS-ADR-0066](./GUIDERS-ADR-0066-code-center-federation-product.md) · [CDP BUF-001](https://github.com/AI-Guiders/agent-notes/blob/main/knowledge/work/projects/door-to-singularity/cdp-mcp/subprojects/cdp-buffer-v1-known-gaps.md) · [Constitution](../GUIDERS-FEDERATION-CONSTITUTION.md) |
 
 ## Context
 

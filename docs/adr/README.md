@@ -17,6 +17,7 @@
 | [0027](./GUIDERS-ADR-0027-mdlinker-doc-anchor-check.md) | Accepted | Tooling; Correspondence pilot pending |
 | [0064](./GUIDERS-ADR-0064-config-gdl-quarry-family.md) | Accepted · In progress | `.config.gdl` — wiring, interpretation, contracts, Sat |
 | [0065](./GUIDERS-ADR-0065-gdl-emit-operational-paths.md) | Accepted · In progress | GDL emit author vs consumer operational paths |
+| [0066](./GUIDERS-ADR-0066-code-center-federation-product.md) | Accepted · Phase 0 | Multi-projection edit host; TextEngine = TextSurface v0 |
 
 ## Related repos
 

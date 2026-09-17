@@ -22,11 +22,12 @@ Columns:
 | [0028](./GUIDERS-ADR-0028-documentation-guild-correspondence-family.md) | Accepted | — | GGL horizon; + LC kinds (0006) |
 | [0064](./GUIDERS-ADR-0064-config-gdl-quarry-family.md) | Accepted | In progress | Config quarry P0 signage; pilot `cdp-newcomer` |
 | [0065](./GUIDERS-ADR-0065-gdl-emit-operational-paths.md) | Accepted | In progress | GDL emit author/consumer playbook; MSBuild link |
+| [0066](./GUIDERS-ADR-0066-code-center-federation-product.md) | Accepted | In progress | TextEngine = TextSurface v0; DashSpec Studio dogfood |
 
 **F# mirror:** [guiders-fsharp ADR index](https://github.com/AI-Guiders/guiders-fsharp/blob/main/docs/adr/README.md)  
 **CDP:** [CDP-ADR-0208](https://github.com/AI-Guiders/cdp-mcp/blob/main/docs/adr/CDP-ADR-0208-language-resolver-center-cdp-host.md) · In progress
 
-## Full index (0001–0065)
+## Full index (0001–0066)
 
 | # | Slug | Decision (header) | Implementation |
 |---|------|---------------------|--------------|
