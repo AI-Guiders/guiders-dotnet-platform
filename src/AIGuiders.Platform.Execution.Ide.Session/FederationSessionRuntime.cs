@@ -3,6 +3,7 @@ using AIGuiders.Platform.Modeling.Core.Identity;
 using AIGuiders.Platform.Modeling.Ide.Session;
 using AIGuiders.Platform.Modeling.Ide.Session.Ports.DotNet;
 using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
+using AIGuiders.Platform.Execution.Language.Adapters.Fcs;
 using Microsoft.FSharp.Collections;
 
 namespace AIGuiders.Platform.Execution.Ide.Session;
@@ -102,12 +103,19 @@ public static class FederationSessionRuntime
     {
         Cache[fullAnchor] = runtime;
 
+        var view = mat.WorkspaceView;
+        if (view is not null
+            && string.Equals(mat.LanguageId, "fsharp", StringComparison.OrdinalIgnoreCase))
+        {
+            view = FcsExecutionHost.Materialize(view);
+        }
+
         return new FederationCompilerServicesEnsure(
             true,
             mat.TopologyWire,
             mat.LanguageId,
             runtime.Materialized.Entries.Count,
-            mat.WorkspaceView);
+            view);
     }
 
     static FederationApplyResult StoreRuntime(string anchorPath, SessionRuntime runtime)

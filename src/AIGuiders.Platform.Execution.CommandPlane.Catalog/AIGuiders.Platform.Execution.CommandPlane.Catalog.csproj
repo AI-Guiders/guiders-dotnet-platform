@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <UseGuidersModelingCatalog>true</UseGuidersModelingCatalog>
+    <UseGuidersModelingCommandPlane>true</UseGuidersModelingCommandPlane>
     <RootNamespace>AIGuiders.Platform.Execution.CommandPlane</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Execution.CommandPlane.Catalog</AssemblyName>
     <PackageId>AIGuiders.Platform.Execution.CommandPlane.Catalog</PackageId>

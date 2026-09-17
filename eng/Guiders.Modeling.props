@@ -62,6 +62,8 @@
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Parse.IdeSession\AIGuiders.Platform.Modeling.Gdl.Parse.IdeSession.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingNotationsCommand)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Notations.Command\AIGuiders.Platform.Modeling.Notations.Command.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingCommandPlane)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.CommandPlane\AIGuiders.Platform.Modeling.CommandPlane.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingGdlPresentation)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Presentation\AIGuiders.Platform.Modeling.Gdl.Presentation.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingGdlParseCatalog)' == 'true'"
