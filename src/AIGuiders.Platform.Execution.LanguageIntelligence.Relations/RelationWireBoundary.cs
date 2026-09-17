@@ -5,8 +5,8 @@ using AIGuiders.Platform.Notations.Bracket;
 
 namespace AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 
-/// <summary>Legacy F/M/L bracket span projection; Kind: canon lives in Modeling BracketRelationWire.</summary>
-public static class LegacyBracketRelationWire
+/// <summary>Execution parse boundary: legacy F/M/L span projection; Kind: canon via <see cref="RelationSpecWireBoundary"/>.</summary>
+public static class RelationWireBoundary
 {
     static readonly Dictionary<string, string> AxisAlias = new(StringComparer.OrdinalIgnoreCase)
     {

@@ -88,7 +88,7 @@ public sealed class XmlBracketAnchorResolveTests
               <Item>hello</Item>
             </Root>
             """;
-        var span = LegacyBracketRelationWire.Parse("[F:doc.xml;X:Root/Item]");
+        var span = RelationWireBoundary.Parse("[F:doc.xml;X:Root/Item]");
 
         var ok = XmlBracketAnchorResolve.TryResolve(
             "doc.xml",

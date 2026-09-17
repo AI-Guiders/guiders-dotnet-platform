@@ -309,7 +309,7 @@ public static class CSharpBracketAnchorResolve
 
     /// <summary>
     /// Narrow a resolved syntax node range to the first <c>T:</c> needle match inside it.
-    /// Needle is <see cref="LegacyBracketRelationWire.SanitizeTextNeedle"/> (same as wire parse).
+    /// Needle is <see cref="RelationWireBoundary.SanitizeTextNeedle"/> (same as wire parse).
     /// </summary>
     public static bool TryNarrowRangeToTextNeedle(
         SyntaxTree tree,
@@ -319,7 +319,7 @@ public static class CSharpBracketAnchorResolve
         out string detail)
     {
         range = default!;
-        var needle = LegacyBracketRelationWire.SanitizeTextNeedle(needleRaw);
+        var needle = RelationWireBoundary.SanitizeTextNeedle(needleRaw);
         if (needle.Length == 0)
         {
             detail = "text_needle_empty";

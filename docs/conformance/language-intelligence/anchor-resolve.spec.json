@@ -1,7 +1,7 @@
 {
   "version": 1,
   "surface": "anchor-resolve",
-  "source": "GUIDERS-ADR-0025 Phase 2 + LegacyBracketRelationWire boundary + Kind: RelationSpec dual path",
+  "source": "GUIDERS-ADR-0025 Phase 2 + RelationWireBoundary legacy-span + Kind: RelationSpec dual path",
   "vectors": [
     {
       "id": "code-file-member-line",
