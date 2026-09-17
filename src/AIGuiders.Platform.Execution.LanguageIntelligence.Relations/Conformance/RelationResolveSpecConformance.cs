@@ -35,7 +35,7 @@ public static class RelationResolveSpecConformance
         BracketAnchorSpan span;
         try
         {
-            span = BracketRelationWire.Parse(vector.Wire);
+            span = LegacyBracketRelationWire.Parse(vector.Wire);
         }
         catch (ArgumentException ex)
         {
@@ -43,7 +43,7 @@ public static class RelationResolveSpecConformance
             return false;
         }
 
-        var family = BracketRelationWire.ClassifyFamily(span, out var familyError);
+        var family = LegacyBracketRelationWire.ClassifyFamily(span, out var familyError);
         if (vector.Expect.Family is not null)
         {
             if (!Enum.TryParse<BracketAxisFamily>(vector.Expect.Family, ignoreCase: true, out var expectedFamily))

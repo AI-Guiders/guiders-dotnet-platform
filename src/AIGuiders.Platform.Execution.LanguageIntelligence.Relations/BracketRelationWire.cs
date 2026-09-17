@@ -6,7 +6,7 @@ using AIGuiders.Platform.Notations.Bracket;
 namespace AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 
 /// <summary>Legacy F/M/L bracket span projection; Kind: canon lives in Modeling BracketRelationWire.</summary>
-public static class BracketRelationWire
+public static class LegacyBracketRelationWire
 {
     static readonly Dictionary<string, string> AxisAlias = new(StringComparer.OrdinalIgnoreCase)
     {
@@ -418,4 +418,21 @@ public static class BracketRelationWire
         val.Equals("true", StringComparison.OrdinalIgnoreCase)
         || val.Equals("1", StringComparison.OrdinalIgnoreCase)
         || val.Equals("yes", StringComparison.OrdinalIgnoreCase);
+}
+
+/// <summary>Transitional alias — prefer <see cref="LegacyBracketRelationWire"/>.</summary>
+[Obsolete("Use LegacyBracketRelationWire. Legacy F/M/L parse at Execution boundary only.")]
+public static class BracketRelationWire
+{
+    public static BracketAnchorSpan Parse(string bracketOrInner) =>
+        LegacyBracketRelationWire.Parse(bracketOrInner);
+
+    public static BracketAxisFamily ClassifyFamily(BracketAnchorSpan span, out string? error) =>
+        LegacyBracketRelationWire.ClassifyFamily(span, out error);
+
+    public static string Format(BracketAnchorSpan span, bool preferCanonical = false) =>
+        LegacyBracketRelationWire.Format(span, preferCanonical);
+
+    public static string SanitizeTextNeedle(string? raw) =>
+        LegacyBracketRelationWire.SanitizeTextNeedle(raw);
 }

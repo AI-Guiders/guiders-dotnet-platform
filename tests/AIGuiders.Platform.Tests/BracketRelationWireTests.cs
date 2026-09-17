@@ -1,5 +1,5 @@
 #nullable enable
-using LegacyBracketRelationWire = AIGuiders.Platform.Execution.LanguageIntelligence.Relations.BracketRelationWire;
+using LegacyBracketRelationWire = AIGuiders.Platform.Execution.LanguageIntelligence.Relations.LegacyBracketRelationWire;
 using AIGuiders.Platform.Modeling.Notations.Bracket;
 using Xunit;
 

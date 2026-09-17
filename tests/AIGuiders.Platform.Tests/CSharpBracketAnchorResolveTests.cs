@@ -28,7 +28,7 @@ public sealed class CSharpBracketAnchorResolveTests
             }
             """);
 
-        var span = BracketRelationWire.Parse("[F:Sample.cs; M:GetValue]");
+        var span = LegacyBracketRelationWire.Parse("[F:Sample.cs; M:GetValue]");
 
         Assert.True(
             CSharpBracketAnchorResolve.TryFindAttachTarget(file, span, out var target, out var detail),
@@ -55,7 +55,7 @@ public sealed class CSharpBracketAnchorResolveTests
             }
             """);
 
-        var span = BracketRelationWire.Parse("[F:Lines.cs; L:3]");
+        var span = LegacyBracketRelationWire.Parse("[F:Lines.cs; L:3]");
 
         Assert.True(
             CSharpBracketAnchorResolve.TryResolve(file, span, out var range, out var detail),
