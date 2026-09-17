@@ -1,7 +1,7 @@
 {
   "version": 1,
   "surface": "anchor-resolve",
-  "source": "GUIDERS-ADR-0025 Phase 2 + GUIDERS-ADR-0026 BracketAnchorWire",
+  "source": "GUIDERS-ADR-0025 Phase 2 + LegacyBracketRelationWire boundary (transitional F/M/L parse)",
   "vectors": [
     {
       "id": "code-file-member-line",

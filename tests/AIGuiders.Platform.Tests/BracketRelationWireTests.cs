@@ -5,7 +5,7 @@ using Xunit;
 
 namespace AIGuiders.Platform.Tests;
 
-public sealed class BracketRelationWireTests
+public sealed class LegacyBracketRelationWireTests
 {
     [Fact]
     public void Parse_code_family_roundtrip()
