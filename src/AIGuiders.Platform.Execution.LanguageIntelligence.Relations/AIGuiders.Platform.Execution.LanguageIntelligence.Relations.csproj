@@ -3,6 +3,7 @@
   <PropertyGroup>
 
     <UseGuidersModelingRelations>true</UseGuidersModelingRelations>
+    <UseGuidersModelingIdeSession>true</UseGuidersModelingIdeSession>
 
     <RootNamespace>AIGuiders.Platform.Execution.LanguageIntelligence.Relations</RootNamespace>
 
