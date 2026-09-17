@@ -1,9 +1,11 @@
 #nullable enable
 
+using System.Linq;
+using AIGuiders.Platform.Execution.LanguageIntelligence;
 using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
 using AIGuiders.Platform.Modeling.Notations.Bracket;
 using AIGuiders.Platform.Notations.Bracket;
-using BracketModel = AIGuiders.Platform.Modeling.Notations.Bracket;
+using Microsoft.FSharp.Collections;
 using Microsoft.FSharp.Core;
 
 namespace AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
@@ -39,11 +41,40 @@ public static class RelationSpecLegacyBridge
     public static bool TryToLegacySpan(RelationSpec spec, out BracketAnchorSpan span)
     {
         span = default!;
-        var modelOpt = BracketModel.RelationSpecLegacyBridge.tryToLegacySpan(spec);
-        if (!FSharpOption<BracketModel.BracketAnchorSpan>.get_IsSome(modelOpt))
+        if (spec is not RelationSpec.CodeEdit codeEdit)
             return false;
 
-        span = global::AIGuiders.Platform.Execution.LanguageIntelligence.BracketAnchorSpan.FromModel(modelOpt!.Value);
+        if (codeEdit.target is not CodeTarget.Symbol symbolTarget)
+            return false;
+
+        if (symbolTarget.doc is not DocumentRef.File fileRef || fileRef.Item.IsEmpty)
+            return false;
+
+        var symbol = symbolTarget.symbol;
+        var container = ListModule.ToArray(symbol.Container);
+
+        if (container.Length >= 3 && container[0] == XmlWireEncoding.Marker)
+        {
+            span = new BracketAnchorSpan(
+                File: fileRef.Item.Value,
+                MemberKey: null,
+                LineStart: null,
+                LineEnd: null,
+                XmlPath: symbol.Name,
+                Attr: OptNonEmpty(container[1]),
+                Role: OptNonEmpty(container[2]));
+            return true;
+        }
+
+        span = new BracketAnchorSpan(
+            File: fileRef.Item.Value,
+            MemberKey: symbol.Name,
+            LineStart: null,
+            LineEnd: null,
+            ScopeKind: container.Length == 0 ? null : string.Join(".", container));
         return true;
     }
+
+    static string? OptNonEmpty(string? raw) =>
+        string.IsNullOrWhiteSpace(raw) ? null : raw.Trim();
 }

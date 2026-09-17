@@ -1,6 +1,6 @@
 #nullable enable
+using AIGuiders.Platform.Execution.LanguageIntelligence;
 using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
-using AIGuiders.Platform.Modeling.Notations.Bracket;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;
@@ -31,11 +31,38 @@ public sealed class RelationWireBoundaryTests
         const string wire = "[Kind:CodeEdit; File:Program.cs; Member:Foo]";
         var spec = RelationSpecWireBoundary.TryParseKindSpec(wire);
         Assert.NotNull(spec);
-        Assert.True(AIGuiders.Platform.Execution.LanguageIntelligence.Relations.RelationSpecLegacyBridge.TryToLegacySpan(spec, out var kindSpan));
+        Assert.True(RelationSpecLegacyBridge.TryToLegacySpan(spec, out var kindSpan));
 
         var legacySpan = RelationWireBoundary.Parse("[F:Program.cs;M:Foo]");
         Assert.Equal(legacySpan.File, kindSpan.File);
         Assert.Equal(legacySpan.MemberKey, kindSpan.MemberKey);
+    }
+
+    [Fact]
+    public void RelationSpecLegacyBridge_maps_xml_wire_encoding_to_span()
+    {
+        const string wire = "[Kind:CodeEdit; File:doc.xml; Element:Root/Item]";
+        var spec = RelationSpecWireBoundary.TryParseKindSpec(wire);
+        Assert.NotNull(spec);
+        Assert.True(RelationSpecLegacyBridge.TryToLegacySpan(spec, out var span));
+        Assert.Equal("doc.xml", span.File);
+        Assert.Equal("Root/Item", span.XmlPath);
+        Assert.Null(span.MemberKey);
+    }
+
+    [Fact]
+    public void BracketAxisFamily_includes_Json_equals_5()
+    {
+        Assert.Equal(0, (int)BracketAxisFamily.None);
+        Assert.Equal(5, (int)BracketAxisFamily.Json);
+    }
+
+    [Fact]
+    public void BracketAnchorSpan_supports_nested_anchors()
+    {
+        var inner = new BracketAnchorSpan(null, "inner", null, null);
+        var outer = new BracketAnchorSpan("a.fs", null, null, null, NestedAnchor: inner);
+        Assert.Same(inner, outer.NestedAnchor);
     }
 
     [Fact]
