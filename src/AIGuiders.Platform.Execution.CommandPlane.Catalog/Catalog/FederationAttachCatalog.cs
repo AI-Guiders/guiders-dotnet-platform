@@ -29,15 +29,21 @@ public static class FederationAttachCatalog
         foreach (var schema in AttachSchemaCatalog.schemas)
         {
             var wire = AttachSchemaCatalog.verbWireName(schema.Verb);
-            list.Add(
-                CommandDescriptors.Describe($"{AttachCommandId}.{wire}")
-                    .Domain("federation")
-                    .Object("relation")
-                    .Intent($"attach-{wire}")
-                    .Path($"attach {wire}")
-                    .Help($"Attach via {wire} verb")
-                    .Surfaces("slash.bar", "palette")
-                    .Build());
+            var firstStep = schema.Steps?.Cast<AttachSchemaStep>().FirstOrDefault();
+            var builder = CommandDescriptors.Describe($"{AttachCommandId}.{wire}")
+                .Domain("federation")
+                .Object("relation")
+                .Intent($"attach-{wire}")
+                .Path($"attach {wire}")
+                .Help($"Attach via {wire} verb")
+                .Surfaces("slash.bar", "palette");
+
+            if (firstStep is not null)
+            {
+                builder = builder.ArgTail($"picker:{AttachSchemaModule.stepSuggestionId(firstStep.Id)}");
+            }
+
+            list.Add(builder.Build());
         }
 
         return list;

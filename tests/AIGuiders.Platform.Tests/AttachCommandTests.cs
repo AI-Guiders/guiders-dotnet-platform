@@ -75,6 +75,25 @@ public sealed class AttachCommandTests
         Assert.Equal(FederationAttachCatalog.AttachCommandId, attach.CommandId);
         Assert.True(catalog.TryGet("editor line select", out _));
     }
+
+    [Fact]
+    public void AttachStepArgSuggestionProvider_resolves_schema_prompt()
+    {
+        var catalog = CommandCatalogIndex.FromDescriptors(FederationAttachCatalog.AllDescriptors());
+        Assert.True(catalog.TryGet("attach code", out var code));
+        Assert.Equal(CommandArgTailKind.Picker, code.ArgTailKind);
+
+        var broker = FederationAttachSuggestions.CreateBroker();
+        var request = ArgSuggestionRequest.Create(
+            "federation.attach.step.pick_file",
+            "",
+            code,
+            "attach code");
+
+        var choices = broker.GetSuggestions(request);
+        Assert.Single(choices);
+        Assert.Equal("pick_file", choices[0].Value);
+    }
 }
 
 public sealed class BracketKindCanonSpecTests

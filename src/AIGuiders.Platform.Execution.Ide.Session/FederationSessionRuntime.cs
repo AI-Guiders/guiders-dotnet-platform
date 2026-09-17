@@ -121,7 +121,11 @@ public static class FederationSessionRuntime
     static FederationApplyResult StoreRuntime(string anchorPath, SessionRuntime runtime)
     {
         if (!string.IsNullOrWhiteSpace(anchorPath))
-            Cache[Path.GetFullPath(anchorPath.Trim())] = runtime;
+        {
+            var full = Path.GetFullPath(anchorPath.Trim());
+            Cache[full] = runtime;
+            FcsExecutionHost.Invalidate(full);
+        }
 
         return new FederationApplyResult(true, runtime, []);
     }

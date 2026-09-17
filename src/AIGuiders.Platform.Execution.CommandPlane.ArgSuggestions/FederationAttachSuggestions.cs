@@ -42,5 +42,6 @@ public static class FederationAttachSuggestions
     public static ICommandArgSuggestionBroker CreateBroker() =>
         new CommandArgSuggestionRegistry()
             .RegisterExact(AttachSchemaCatalog.VerbSuggestionId, new AttachVerbArgSuggestionProvider())
+            .RegisterPrefix("federation.attach.step.", new AttachStepArgSuggestionProvider())
             .Build();
 }
