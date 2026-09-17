@@ -236,7 +236,7 @@ Pre-Federation code was built **without** a federation Modeling layer — tactic
 
 **Attach UX** (plan §4): human verbs → `AttachSchema` steps → `RelationSpec` witness → `Relation` in session graph `G`. Bracket remains **WireProjection**, not SSOT.
 
-Implementation status: Phase 1 Relations kernel **shipped**; Navigation.Code **NavSeed-only** on `develop`; FCS host IO **shipped** @ Execution; legacy wire renamed (`RelationWireBoundary` SSOT + obsolete `LegacyBracketRelationWire` shim; Kind: canon in Modeling); FCS session patch apply IO **shipped** @ Execution (`FcsSessionPatchApplier`); 0063 product phases (A2–A5) remain paused until split-audit checklist closes.
+Implementation status: Phase 1 Relations kernel **shipped**; Navigation.Code **NavSeed-only** on `develop`; FCS host IO **shipped** @ Execution; legacy wire cutover complete (`RelationWireBoundary` @ Execution; Kind: canon in Modeling); FCS session patch apply IO **shipped** @ Execution (`FcsSessionPatchApplier`); 0063 product phases (A2–A5) remain paused until split-audit checklist closes.
 
 ---
 
@@ -291,7 +291,7 @@ Normative shape lives in F# Relations kernel; cases include:
 |------|------|
 | JSON `RelationSpec` | MCP tools, CSX builders, agents (primary) |
 | Bracket **`Kind:`** canon | md/prose; `[Kind:CodeEdit; File:…; Member:…]` |
-| Legacy `F:`/`M:`/`L:` | **boundary parse only** — `RelationWireBoundary` @ Execution; obsolete `LegacyBracketRelationWire` shim; Kind: canon in Modeling |
+| Legacy `F:`/`M:`/`L:` | **boundary parse only** — `RelationWireBoundary` @ Execution; Kind: canon in Modeling |
 
 Delete from agent canon: bracket as entity, `NavigationAnchor`, `AnchorIntent`, `ResolveTier.Text`, Family/FRG axis routers.
 

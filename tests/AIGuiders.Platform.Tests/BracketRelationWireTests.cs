@@ -39,16 +39,6 @@ public sealed class RelationWireBoundaryTests
     }
 
     [Fact]
-    public void Obsolete_LegacyBracketRelationWire_delegates_to_RelationWireBoundary()
-    {
-#pragma warning disable CS0618
-        var span = LegacyBracketRelationWire.Parse("[F:a.cs;M:B]");
-#pragma warning restore CS0618
-        Assert.Equal("a.cs", span.File);
-        Assert.Equal("B", span.MemberKey);
-    }
-
-    [Fact]
     public void EnvelopeScan_finds_nested_outer_only()
     {
         const string text = "See [Anchor:[F:a.cs;M:B]] here";
