@@ -37,16 +37,15 @@ public static class KnowledgeWireSources
             return null;
 
         var wire = GdlKnowledgeWire.tryBuildPersonalRootWire(tomlPath, File.ReadLines(tomlPath));
-        if (!FSharpOption<GdlKnowledgeWire.PersonalRootWire>.get_IsSome(wire))
-            return null;
-
-        return wire.Value;
+        return wire is not null && FSharpOption<GdlKnowledgeWire.PersonalRootWire>.get_IsSome(wire)
+            ? wire.Value
+            : null;
     }
 
     public static bool TryReadKnowledgePrimary(string tomlPath, out string? primary)
     {
         var parsed = GdlKnowledgeWire.parseSectionValue(File.ReadLines(tomlPath), "knowledge", "primary");
-        if (!FSharpOption<string>.get_IsSome(parsed))
+        if (parsed is null || !FSharpOption<string>.get_IsSome(parsed))
         {
             primary = null;
             return false;

@@ -114,7 +114,9 @@ Implementations **do not** live in this repo — only contracts.
 | `notation/bracket-cdp-square-kv` | CDP wire → axes + nested | **shipped** | `NotationConformanceTests` | CSX, sniper, peek |
 | `notation/bracket-angle-opaque` | `<…>` opaque inner | **shipped** | `NotationConformanceTests` | keyboard oracle |
 | `notation/bracket-forge-frg` | Forge FRG compound wire → axes | **shipped** | `BracketForgeFrgConformanceTests` | Forge `[FRG:…]` |
-| `language-intelligence/anchor-resolve` | wire → `BracketAnchorSpan` + family | **shipped** | `AnchorResolveConformanceTests` | CDP sniper |
+| `language-intelligence/anchor-resolve` | wire → `RelationSpec` resolve + legacy span dual path | **shipped** | `RelationResolveConformanceTests` | CDP sniper |
+| `language-intelligence/bracket-kind-canon` | Kind: wire → `RelationSpec` case | **shipped** | `AttachCommandTests` + `BracketKindCanonTests` | attach UX |
+| `language-intelligence/relation-spec-witness` | Kind: wire → `RelationSpec` witness cases | **shipped** | `RelationSpecWitnessConformanceTests` | math §12 |
 | `mcplane/pulse-default` | agent envelope pulse | **shipped** | `McPlaneConformanceTests` | Forge `/capabilities` |
 | `mcplane/next-hints` | `next[]` shape | **shipped** | `McPlaneConformanceTests` | agent follow-ups |
 

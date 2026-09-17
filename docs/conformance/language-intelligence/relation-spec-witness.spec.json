@@ -1,0 +1,32 @@
+{
+  "kind": "language-intelligence.relation-spec-witness",
+  "version": 1,
+  "source": "guiders-fsharp/docs/math/ide-session/12-relation-spec.md",
+  "vectors": [
+    {
+      "id": "witness-code-edit-member",
+      "wire": "[Kind:CodeEdit; File:Program.cs; Member:Foo]",
+      "expectCase": "CodeEdit"
+    },
+    {
+      "id": "witness-code-edit-xml",
+      "wire": "[Kind:CodeEdit; File:doc.xml; Element:Root/Item]",
+      "expectCase": "CodeEdit"
+    },
+    {
+      "id": "witness-diag",
+      "wire": "[Kind:Diag; DiagnosticId:42]",
+      "expectCase": "Diag"
+    },
+    {
+      "id": "witness-nav",
+      "wire": "[Kind:Nav; File:README.md; Line:10; Command:open]",
+      "expectCase": "Nav"
+    },
+    {
+      "id": "legacy-fml-not-witness",
+      "wire": "[F:Program.cs; M:Foo; L:10]",
+      "expectCase": null
+    }
+  ]
+}

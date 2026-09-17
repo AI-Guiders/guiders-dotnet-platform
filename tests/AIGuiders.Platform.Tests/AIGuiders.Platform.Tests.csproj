@@ -40,6 +40,7 @@
     <EmbeddedResource Include="Fixtures\Notation\presentation-topology.spec.json" />
     <EmbeddedResource Include="Fixtures\LanguageIntelligence\anchor-resolve.spec.json" />
     <EmbeddedResource Include="Fixtures\LanguageIntelligence\bracket-kind-canon.spec.json" />
+    <EmbeddedResource Include="Fixtures\LanguageIntelligence\relation-spec-witness.spec.json" />
     <EmbeddedResource Include="Fixtures\MCPlane\pulse-default.spec.json" />
     <EmbeddedResource Include="Fixtures\MCPlane\next-hints.spec.json" />
     <None Include="Fixtures\hotkeys.toml" CopyToOutputDirectory="PreserveNewest" Link="Fixtures\hotkeys.toml" />
