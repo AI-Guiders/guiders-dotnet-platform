@@ -94,7 +94,7 @@ Initial normative families (extend by ADR, not string registry):
 
 **YAML ≠ TOML.** Separate `SurfaceFamily`, separate `ProfileId`, separate ontology (YAML: mapping/sequence/anchor; TOML: table/inline-table/array-of-tables). They share only the **Profile Island role** — config/data blob embeddable in md/html — not grammar or flavour lineage.
 
-Either family may be the **whole file** or an **embedded island** inside md/html/xml (§4.2). `FlavourRef` selects dialect **within** one family (e.g. `yaml-1.2` vs legacy YAML; `toml-1.0`) — never crosses families.
+Either family may be the **whole file** or an **embedded island** inside md/html/xml (§4.2). `FlavourRef` selects dialect **within** one family (e.g. `yaml-1.2`; `toml-1.1` — current spec; `toml-1.0` legacy) — never crosses families.
 
 `DocumentSurface` in [0063](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md) **maps 1:1** to `SurfaceFamily` for anchor resolve; Language Profile adds **ontology + laws + flavour + islands** beneath the surface label.
 
