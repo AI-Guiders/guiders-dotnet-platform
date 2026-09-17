@@ -13,11 +13,7 @@ namespace AIGuiders.Platform.Execution.Language.Adapters.Fcs;
 /// </summary>
 public static class FcsExecutionHost
 {
-    static FcsExecutionHost()
-    {
-        FcsProjectOptions.bindSource(new FcsExecutionProjectOptionsSource());
-        FcsSessionPatchApply.bindApplier(new FcsSessionPatchApplier());
-    }
+    static FcsExecutionHost() => FcsModelingBindings.EnsureInitialized();
 
     public static WorkspaceView Materialize(WorkspaceView view) =>
         FcsCompilerServicesHost.Materialize(view);

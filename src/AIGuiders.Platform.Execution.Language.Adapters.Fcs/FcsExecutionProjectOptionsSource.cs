@@ -13,6 +13,8 @@ namespace AIGuiders.Platform.Execution.Language.Adapters.Fcs;
 /// </summary>
 public sealed class FcsExecutionProjectOptionsSource : IFcsProjectOptionsSource
 {
+    static FcsExecutionProjectOptionsSource() => FcsModelingBindings.EnsureInitialized();
+
     public FSharpResult<FSharpProjectOptions, FcsProjectOptionsLoadError> TryLoad(string fsprojPath)
     {
         var opt = FcsExecutionHost.TryGetOptions(fsprojPath);

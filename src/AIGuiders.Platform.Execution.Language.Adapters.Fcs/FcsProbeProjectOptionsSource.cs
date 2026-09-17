@@ -14,6 +14,8 @@ namespace AIGuiders.Platform.Execution.Language.Adapters.Fcs;
 /// </summary>
 public sealed class FcsProbeProjectOptionsSource : IFcsProjectOptionsSource
 {
+    static FcsProbeProjectOptionsSource() => FcsModelingBindings.EnsureInitialized();
+
     static readonly ConcurrentDictionary<string, (DateTime Mtime, FSharpProjectOptions Options)> Cache =
         new(StringComparer.OrdinalIgnoreCase);
 
