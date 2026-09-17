@@ -3,9 +3,9 @@
     <RootNamespace>AIGuiders.Platform.Execution.Language.Xml.Anchors</RootNamespace>
     <AssemblyName>AIGuiders.Platform.Execution.Language.Xml.Anchors</AssemblyName>
     <PackageId>AIGuiders.Platform.Execution.Language.Xml.Anchors</PackageId>
-    <Description>XML/XAML bracket anchor resolve (X:/A:) via text walk.</Description>
+    <Description>Obsolete shim — types forwarded to Language.Xml.Relations (federation ship-16).</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.Execution.LanguageIntelligence.Relations\AIGuiders.Platform.Execution.LanguageIntelligence.Relations.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Language.Xml.Relations\AIGuiders.Platform.Execution.Language.Xml.Relations.csproj" />
   </ItemGroup>
 </Project>

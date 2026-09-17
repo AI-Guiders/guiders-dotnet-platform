@@ -1,7 +1,7 @@
 #nullable enable
 
 using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
-using AIGuiders.Platform.Execution.Language.CSharp.Anchors;
+using AIGuiders.Platform.Execution.Language.CSharp.Relations;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

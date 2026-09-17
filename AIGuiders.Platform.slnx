@@ -79,7 +79,9 @@
     <Project Path="src/AIGuiders.Platform.InputNotation.Quarry/AIGuiders.Platform.InputNotation.Quarry.csproj" />
     <Project Path="src/AIGuiders.Platform.InputNotation.Vim/AIGuiders.Platform.InputNotation.Vim.csproj" />
     <Project Path="src/AIGuiders.Platform.InputNotation/AIGuiders.Platform.InputNotation.csproj" />
+    <Project Path="src/AIGuiders.Platform.Execution.Language.CSharp.Relations/AIGuiders.Platform.Execution.Language.CSharp.Relations.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.Language.CSharp.Anchors/AIGuiders.Platform.Execution.Language.CSharp.Anchors.csproj" />
+    <Project Path="src/AIGuiders.Platform.Execution.Language.Xml.Relations/AIGuiders.Platform.Execution.Language.Xml.Relations.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.Language.Xml.Anchors/AIGuiders.Platform.Execution.Language.Xml.Anchors.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.Language.CSharp.Symbols/AIGuiders.Platform.Execution.Language.CSharp.Symbols.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.LanguageIntelligence.Relations/AIGuiders.Platform.Execution.LanguageIntelligence.Relations.csproj" />

@@ -1,10 +1,11 @@
+using AIGuiders.Platform.Execution.LanguageIntelligence;
 using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace AIGuiders.Platform.Execution.Language.Xml.Anchors;
+namespace AIGuiders.Platform.Execution.Language.Xml.Relations;
 
 /// <summary>
 /// Resolve <c>X:</c>/<c>A:</c> to a 1-based text range (MSBuild-ish XML, no namespaces).

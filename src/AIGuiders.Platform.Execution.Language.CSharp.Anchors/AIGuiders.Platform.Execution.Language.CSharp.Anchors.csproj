@@ -1,13 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
+
     <RootNamespace>AIGuiders.Platform.Execution.Language.CSharp.Anchors</RootNamespace>
+
     <AssemblyName>AIGuiders.Platform.Execution.Language.CSharp.Anchors</AssemblyName>
+
     <PackageId>AIGuiders.Platform.Execution.Language.CSharp.Anchors</PackageId>
-    <Description>C# bracket anchor resolve (F/M/L/S) via Roslyn syntax parse.</Description>
+
+    <Description>Obsolete shim — types forwarded to Language.CSharp.Relations (federation ship-16).</Description>
+
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.3.0" />
-    <ProjectReference Include="..\AIGuiders.Platform.Execution.LanguageIntelligence.Relations\AIGuiders.Platform.Execution.LanguageIntelligence.Relations.csproj" />
-    <ProjectReference Include="..\AIGuiders.Platform.Notations.Bracket\AIGuiders.Platform.Notations.Bracket.csproj" />
+
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Language.CSharp.Relations\AIGuiders.Platform.Execution.Language.CSharp.Relations.csproj" />
+
   </ItemGroup>
+
 </Project>
+

@@ -1,12 +1,13 @@
 #nullable enable
 
+using AIGuiders.Platform.Execution.LanguageIntelligence;
 using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace AIGuiders.Platform.Execution.Language.CSharp.Anchors;
+namespace AIGuiders.Platform.Execution.Language.CSharp.Relations;
 
 
 /// <summary>Resolve S(+K) to line/column range via local C# parse (no MSBuild).</summary>

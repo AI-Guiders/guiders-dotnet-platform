@@ -96,10 +96,12 @@
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Combinations.Sources\AIGuiders.Platform.Combinations.Sources.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Configurations.Workspace.Sources\AIGuiders.Platform.Execution.Configurations.Workspace.Sources.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Configurations.Project.Sources\AIGuiders.Platform.Execution.Configurations.Project.Sources.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Language.Xml.Relations\AIGuiders.Platform.Execution.Language.Xml.Relations.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Language.Xml.Anchors\AIGuiders.Platform.Execution.Language.Xml.Anchors.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Documentation.Correspondence.Core\AIGuiders.Platform.Execution.Documentation.Correspondence.Core.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Documentation.Correspondence.Reverse\AIGuiders.Platform.Execution.Documentation.Correspondence.Reverse.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Documentation.Correspondence.Resolve\AIGuiders.Platform.Execution.Documentation.Correspondence.Resolve.csproj" />
+    <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Language.CSharp.Relations\AIGuiders.Platform.Execution.Language.CSharp.Relations.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Language.CSharp.Anchors\AIGuiders.Platform.Execution.Language.CSharp.Anchors.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Language.CSharp.Symbols\AIGuiders.Platform.Execution.Language.CSharp.Symbols.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Notations.Bracket\AIGuiders.Platform.Notations.Bracket.csproj" />

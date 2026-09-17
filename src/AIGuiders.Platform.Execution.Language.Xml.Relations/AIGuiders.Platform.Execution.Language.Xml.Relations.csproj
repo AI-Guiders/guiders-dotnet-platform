@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.Language.Xml.Relations</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Language.Xml.Relations</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Language.Xml.Relations</PackageId>
+    <Description>XML RelationSpec / X: wire resolve via text walk.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.LanguageIntelligence\AIGuiders.Platform.Execution.LanguageIntelligence.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.LanguageIntelligence.Relations\AIGuiders.Platform.Execution.LanguageIntelligence.Relations.csproj" />
+  </ItemGroup>
+</Project>
