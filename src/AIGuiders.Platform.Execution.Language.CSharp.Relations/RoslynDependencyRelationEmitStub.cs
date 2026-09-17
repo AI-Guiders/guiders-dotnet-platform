@@ -36,6 +36,6 @@ public static class RoslynDependencyRelationEmitStub
     public static IReadOnlyList<Relation> EmitFromSource(string logicalPath, string sourceText, ProjectId projectId)
     {
         RegisterDefaults();
-        return RoslynDependencyRelationIngest.IngestUsesFromSource(logicalPath, sourceText, projectId);
+        return RoslynDependencyRelationIngest.IngestFromSource(logicalPath, sourceText, projectId);
     }
 }

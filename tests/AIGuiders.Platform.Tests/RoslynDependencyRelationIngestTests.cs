@@ -27,9 +27,30 @@ public sealed class RoslynDependencyRelationIngestTests
         var direct = CorrespondenceMaterialize.buildUsesFromTypeNames("src/App.cs", "Consumer", "Helper", project);
         Assert.True(RelationGraph.validateRelation(direct).IsOk);
 
-        var relations = RoslynDependencyRelationIngest.IngestUsesFromSource("src/App.cs", source, project);
+        var relations = RoslynDependencyRelationIngest.IngestFromSource("src/App.cs", source, project);
 
-        Assert.Single(relations);
-        Assert.Equal(RelationType.Uses, relations[0].Type);
+        Assert.Contains(relations, r => r.Type == RelationType.Uses);
+    }
+
+    [Fact]
+    public void IngestProjectSources_emits_extends_and_implements()
+    {
+        const string source = """
+            namespace Demo;
+
+            public interface IWorker { }
+
+            public class Base { }
+
+            public class Derived : Base, IWorker { }
+            """;
+
+        var project = ProjectIdModule.create(@"D:\repo\App.csproj");
+        var relations = RoslynDependencyRelationIngest.IngestProjectSources(
+            [("src/App.cs", source)],
+            project);
+
+        Assert.Contains(relations, r => r.Type == RelationType.Extends);
+        Assert.Contains(relations, r => r.Type == RelationType.ImplementsInterface);
     }
 }

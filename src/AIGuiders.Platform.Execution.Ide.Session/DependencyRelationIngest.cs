@@ -1,6 +1,7 @@
 #nullable enable
 
 using AIGuiders.Platform.Execution.Language.CSharp.Relations;
+using AIGuiders.Platform.Modeling.Core.Identity;
 using AIGuiders.Platform.Modeling.Ide.Session;
 using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
 using Microsoft.FSharp.Collections;
@@ -8,13 +9,19 @@ using Microsoft.FSharp.Collections;
 namespace AIGuiders.Platform.Execution.Ide.Session;
 
 /// <summary>
-/// Execution ingest: session <c>Contents</c> → Roslyn E_dep Uses → graph <c>Relations</c> (plan §2.3).
+/// Execution ingest: session <c>Contents</c> → Roslyn E_dep → graph <c>Relations</c> (plan §2.3).
 /// </summary>
 public static class DependencyRelationIngest
 {
     public sealed record IngestResult(SessionRuntime Runtime, int Ingested, int SkippedNonCs);
 
-    public static IngestResult IngestFromContents(SessionRuntime runtime)
+    public static IngestResult IngestFromContents(SessionRuntime runtime) =>
+        IngestScoped(runtime, projectId: null);
+
+    public static IngestResult IngestForProject(SessionRuntime runtime, ProjectId projectId) =>
+        IngestScoped(runtime, projectId);
+
+    static IngestResult IngestScoped(SessionRuntime runtime, ProjectId? projectId)
     {
         ArgumentNullException.ThrowIfNull(runtime);
 
@@ -22,24 +29,57 @@ public static class DependencyRelationIngest
         var incoming = new List<Relation>();
         var skippedNonCs = 0;
 
-        foreach (var docId in runtime.Contents.Keys)
+        var owners =
+            projectId is null
+                ? runtime.Registry.Values.Select(meta => meta.Owner).Distinct().ToArray()
+                : [projectId];
+
+        foreach (var owner in owners)
         {
-            if (!runtime.Registry.TryGetValue(docId, out var meta))
-                continue;
-
-            var path = meta.Path.Value;
-            if (!path.EndsWith(".cs", StringComparison.OrdinalIgnoreCase))
-            {
-                skippedNonCs++;
-                continue;
-            }
-
-            var text = runtime.Contents[docId].text;
-            incoming.AddRange(RoslynDependencyRelationIngest.IngestUsesFromSource(path, text, meta.Owner));
+            var sources = CollectProjectSources(runtime, owner).ToArray();
+            skippedNonCs += CountSkippedNonCs(runtime, owner);
+            incoming.AddRange(RoslynDependencyRelationIngest.IngestProjectSources(sources, owner));
         }
 
         var updated = DependencyRelationOps.ingest(ListModule.OfSeq(incoming), runtime);
         var ingested = updated.Session.Graph.Relations.Length - before;
         return new IngestResult(updated, ingested, skippedNonCs);
+    }
+
+    static int CountSkippedNonCs(SessionRuntime runtime, ProjectId owner)
+    {
+        var skipped = 0;
+
+        foreach (var docId in runtime.Contents.Keys)
+        {
+            if (!runtime.Registry.TryGetValue(docId, out var meta))
+                continue;
+
+            if (meta.Owner != owner)
+                continue;
+
+            if (!meta.Path.Value.EndsWith(".cs", StringComparison.OrdinalIgnoreCase))
+                skipped++;
+        }
+
+        return skipped;
+    }
+
+    static IEnumerable<(string Path, string Text)> CollectProjectSources(SessionRuntime runtime, ProjectId owner)
+    {
+        foreach (var docId in runtime.Contents.Keys)
+        {
+            if (!runtime.Registry.TryGetValue(docId, out var meta))
+                continue;
+
+            if (meta.Owner != owner)
+                continue;
+
+            var path = meta.Path.Value;
+            if (!path.EndsWith(".cs", StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            yield return (path, runtime.Contents[docId].text);
+        }
     }
 }

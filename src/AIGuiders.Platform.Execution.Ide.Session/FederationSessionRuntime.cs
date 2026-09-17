@@ -129,6 +129,11 @@ public static class FederationSessionRuntime
         SessionRuntime runtime,
         string fullAnchor)
     {
+        if (string.Equals(mat.LanguageId, "csharp", StringComparison.OrdinalIgnoreCase))
+        {
+            runtime = DependencyRelationIngest.IngestForProject(runtime, mat.ProjectId).Runtime;
+        }
+
         Cache[fullAnchor] = runtime;
 
         var view = mat.WorkspaceView;
