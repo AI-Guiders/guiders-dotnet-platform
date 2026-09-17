@@ -23,5 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../../../guiders-core/src/DotNetWorkspace.Core/DotNetWorkspace.Core.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Ide.Session.Sources\AIGuiders.Platform.Execution.Ide.Session.Sources.csproj" />
   </ItemGroup>
 </Project>

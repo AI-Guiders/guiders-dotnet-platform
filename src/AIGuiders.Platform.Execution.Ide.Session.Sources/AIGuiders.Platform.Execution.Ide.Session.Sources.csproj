@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.Ide.Session</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Ide.Session.Sources</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Ide.Session.Sources</PackageId>
+    <Description>IDE session port IO — slnx/workspace scan (plan §7).</Description>
+    <UseGuidersModelingIdeSession>true</UseGuidersModelingIdeSession>
+    <UseGuidersModelingIdeSessionPortsDotNet>true</UseGuidersModelingIdeSessionPortsDotNet>
+    <UseGuidersModelingCore>true</UseGuidersModelingCore>
+  </PropertyGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\guiders-core\src\DotNetWorkspace.Core\DotNetWorkspace.Core.csproj" />
+    <ProjectReference Include="..\..\..\guiders-fsharp\src\AIGuiders.Platform.Modeling.Ide.Session.Ports.Workspace\AIGuiders.Platform.Modeling.Ide.Session.Ports.Workspace.fsproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.Core" Version="10.1.400" />
+  </ItemGroup>
+</Project>

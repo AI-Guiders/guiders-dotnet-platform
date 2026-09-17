@@ -2,9 +2,9 @@
 
 using System;
 using System.IO;
+using AIGuiders.Platform.Execution.Ide.Session;
 using AIGuiders.Platform.Modeling.Core.Identity;
 using AIGuiders.Platform.Modeling.Ide.Session;
-using AIGuiders.Platform.Modeling.Ide.Session.Ports.DotNet;
 using AIGuiders.Platform.Modeling.Language.Adapters.Fcs;
 using Microsoft.FSharp.Collections;
 using Microsoft.FSharp.Core;
@@ -38,7 +38,7 @@ public sealed class FcsWorkspaceIoSource : IFcsSourceTextSource, IFcsSolutionGra
 
         try
         {
-            return FSharpOption<SolutionGraph>.Some(DotNetSlnxGraphPort.load(anchorPath));
+            return FSharpOption<SolutionGraph>.Some(DotNetSlnxGraphSources.Load(anchorPath));
         }
         catch
         {
@@ -53,7 +53,7 @@ public sealed class FcsWorkspaceIoSource : IFcsSourceTextSource, IFcsSolutionGra
 
         try
         {
-            var ownership = DotNetSlnxGraphPort.loadDocumentOwnership(anchorPath);
+            var ownership = DotNetSlnxGraphSources.LoadDocumentOwnership(anchorPath);
             return FSharpOption<FSharpMap<string, ProjectId>>.Some(ownership);
         }
         catch

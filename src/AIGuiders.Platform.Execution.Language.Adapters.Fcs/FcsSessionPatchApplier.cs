@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using AIGuiders.Platform.Execution.Ide.Session;
 using AIGuiders.Platform.Modeling.Core.Identity;
 using AIGuiders.Platform.Modeling.Ide.Session;
-using AIGuiders.Platform.Modeling.Ide.Session.Ports.DotNet;
 using AIGuiders.Platform.Modeling.Language.Adapters.Fcs;
 using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
 using AIGuiders.Platform.Modeling.Paths;
@@ -33,9 +33,9 @@ public sealed class FcsSessionPatchApplier : IFcsSessionPatchApplier
 
         try
         {
-            var ownership = DotNetSlnxGraphPort.loadDocumentOwnership(anchorPath);
+            var ownership = DotNetSlnxGraphSources.LoadDocumentOwnership(anchorPath);
             var pathContents = BuildPathContents(ownership, sourceOverrides);
-            var session = DotNetSlnxGraphPort.loadSession(anchorPath);
+            var session = DotNetSlnxGraphSources.LoadSession(anchorPath);
             var runtime = SessionOrchestrator.create(session, pathContents, ownership);
             var gitPin = new GitPin(null);
 

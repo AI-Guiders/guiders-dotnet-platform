@@ -33,8 +33,8 @@ public static class FederationSessionRuntime
             return new FederationSessionOpenResult(cached, cachedValidation);
         }
 
-        var session = DotNetSlnxGraphPort.loadSession(full);
-        var ownership = DotNetSlnxGraphPort.loadDocumentOwnership(full);
+        var session = DotNetSlnxGraphSources.LoadSession(full);
+        var ownership = DotNetSlnxGraphSources.LoadDocumentOwnership(full);
         var contents = SessionContentsLoader.LoadFromDisk(ownership);
         var runtime = SessionOrchestrator.create(session, MapModule.ToSeq(contents), ownership);
         var validation = GraphValidation.validate(runtime.Session.Graph, runtime.Registry);
