@@ -1,6 +1,7 @@
 #nullable enable
 
 using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
+using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -22,6 +23,32 @@ public static class CSharpBracketAnchorResolve
 
     public static bool TryResolve(string absoluteFilePath, BracketAnchorSpan span, out TextRange range, out string detail) =>
         TryResolve(absoluteFilePath, sourceText: null, span, out range, out detail);
+
+    /// <summary>Resolve <see cref="RelationSpec.CodeEdit"/> via transitional legacy span bridge.</summary>
+    public static bool TryResolve(
+        string absoluteFilePath,
+        RelationSpec spec,
+        out TextRange range,
+        out string detail) =>
+        TryResolve(absoluteFilePath, sourceText: null, spec, out range, out detail);
+
+    /// <summary>Resolve <see cref="RelationSpec.CodeEdit"/> via transitional legacy span bridge.</summary>
+    public static bool TryResolve(
+        string absoluteFilePath,
+        string? sourceText,
+        RelationSpec spec,
+        out TextRange range,
+        out string detail)
+    {
+        if (!RelationSpecLegacyBridge.TryToLegacySpan(spec, out var span))
+        {
+            range = default!;
+            detail = "unsupported_relation_spec";
+            return false;
+        }
+
+        return TryResolve(absoluteFilePath, sourceText, span, out range, out detail);
+    }
 
     /// <param name="absoluteFilePath">Absolute path to the C# source file.</param>
     /// <param name="sourceText">Optional buffer text (cdp_buffer). When null, reads <paramref name="absoluteFilePath"/> from disk.</param>

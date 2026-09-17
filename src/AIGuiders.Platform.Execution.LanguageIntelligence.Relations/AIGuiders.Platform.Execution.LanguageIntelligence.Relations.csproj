@@ -1,11 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
+
+    <UseGuidersModelingRelations>true</UseGuidersModelingRelations>
+
     <RootNamespace>AIGuiders.Platform.Execution.LanguageIntelligence.Relations</RootNamespace>
+
     <AssemblyName>AIGuiders.Platform.Execution.LanguageIntelligence.Relations</AssemblyName>
+
     <PackageId>AIGuiders.Platform.Execution.LanguageIntelligence.Relations</PackageId>
+
     <Description>Relation wire IR: legacy bracket span projection, family classify, format (code/xml/navigation).</Description>
+
   </PropertyGroup>
+
   <ItemGroup>
+
     <ProjectReference Include="..\AIGuiders.Platform.Execution.LanguageIntelligence\AIGuiders.Platform.Execution.LanguageIntelligence.csproj" />
+
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Bracket\AIGuiders.Platform.Notations.Bracket.csproj" />
-  </ItemGroup></Project>
+
+  </ItemGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
+</Project>
+

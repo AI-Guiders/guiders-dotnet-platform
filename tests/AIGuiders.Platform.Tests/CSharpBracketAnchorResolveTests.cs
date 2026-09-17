@@ -65,4 +65,33 @@ public sealed class CSharpBracketAnchorResolveTests
 
         Directory.Delete(dir, recursive: true);
     }
+
+    [Fact]
+    public void TryResolve_Kind_CodeEdit_wire_via_RelationSpec_path()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), "guiders-csharp-relspec-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(dir);
+        var file = Path.Combine(dir, "Sample.cs");
+        File.WriteAllText(
+            file,
+            """
+            namespace Demo;
+
+            public class Sample
+            {
+                public int GetValue() => 42;
+            }
+            """);
+
+        var spec = RelationSpecWireBoundary.TryParseKindSpec("[Kind:CodeEdit; File:Sample.cs; Member:GetValue]");
+        Assert.NotNull(spec);
+
+        Assert.True(
+            CSharpBracketAnchorResolve.TryResolve(file, spec!, out var range, out var detail),
+            detail);
+        Assert.Equal("member", detail);
+        Assert.True(range.LineStart >= 1);
+
+        Directory.Delete(dir, recursive: true);
+    }
 }
