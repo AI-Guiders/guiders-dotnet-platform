@@ -6,7 +6,7 @@
     <Description>Patch Family:doc bracket wires after symbol rename (GUIDERS-ADR-0027).</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIGuiders.Platform.Execution.Documentation.Anchors\AIGuiders.Platform.Execution.Documentation.Anchors.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Documentation.Relations\AIGuiders.Platform.Execution.Documentation.Relations.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Notations.Bracket\AIGuiders.Platform.Notations.Bracket.csproj" />
   </ItemGroup>
 </Project>

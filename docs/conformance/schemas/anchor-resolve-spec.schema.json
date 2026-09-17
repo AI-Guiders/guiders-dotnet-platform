@@ -23,6 +23,7 @@
       "properties": {
         "id": { "$ref": "conformance-common.schema.json#/$defs/vectorId" },
         "wire": { "type": "string", "minLength": 1 },
+        "mode": { "type": "string", "enum": ["legacy-span", "kind-spec"] },
         "expect": { "$ref": "#/$defs/anchorResolveExpectation" }
       }
     },
@@ -36,6 +37,7 @@
         },
         "familyError": { "type": "string" },
         "familyName": { "type": "string" },
+        "relationSpecCase": { "type": "string" },
         "file": { "type": "string" },
         "memberKey": { "type": "string" },
         "lineStart": { "type": "integer" },

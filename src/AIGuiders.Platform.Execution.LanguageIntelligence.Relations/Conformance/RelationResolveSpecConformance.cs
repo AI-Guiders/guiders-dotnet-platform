@@ -1,6 +1,10 @@
 #nullable enable
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
+using AIGuiders.Platform.Modeling.Notations.Bracket;
+using AIGuiders.Platform.Notations.Bracket;
+using Microsoft.FSharp.Core;
 
 namespace AIGuiders.Platform.Execution.LanguageIntelligence.Relations.Conformance;
 
@@ -30,6 +34,9 @@ public static class RelationResolveSpecConformance
 
         if (vector.Expect is null)
             return Fail("expect is required.", out error);
+
+        if (string.Equals(vector.Mode, "kind-spec", StringComparison.OrdinalIgnoreCase))
+            return TryValidateKindSpecVector(vector, out error);
 
         BracketAnchorSpan span;
         try
@@ -66,6 +73,74 @@ public static class RelationResolveSpecConformance
 
         return true;
     }
+
+    static bool TryValidateKindSpecVector(RelationResolveSpecVector vector, out string error)
+    {
+        error = "";
+        if (!BracketReader.Default.TryRead(
+                vector.Wire!,
+                BracketProfiles.CdpSquareKeyValue,
+                out var wire,
+                out var readError))
+        {
+            error = readError;
+            return false;
+        }
+
+        var parsed = BracketRelationWire.tryParseRelationSpec(wire!);
+        if (!FSharpOption<RelationSpec>.get_IsSome(parsed))
+            return Fail("Kind wire did not parse to RelationSpec.", out error);
+
+        var spec = parsed!.Value;
+        if (vector.Expect!.RelationSpecCase is not null)
+        {
+            var caseName = RelationSpecCaseName(spec);
+            if (!caseName.Equals(vector.Expect.RelationSpecCase, StringComparison.OrdinalIgnoreCase))
+            {
+                error = $"relationSpecCase expected \"{vector.Expect.RelationSpecCase}\", got \"{caseName}\".";
+                return false;
+            }
+        }
+
+        if (!RelationSpecLegacyBridge.TryToLegacySpan(spec, out var span))
+        {
+            if (HasSpanExpectation(vector.Expect))
+                return Fail("RelationSpec did not bridge to legacy span.", out error);
+            return true;
+        }
+
+        return SpanMatches(vector.Expect, span, out error);
+    }
+
+    static bool HasSpanExpectation(RelationResolveSpecExpectation expect) =>
+        expect.Family is not null
+        || expect.FamilyError is not null
+        || expect.FamilyName is not null
+        || expect.File is not null
+        || expect.MemberKey is not null
+        || expect.LineStart is not null
+        || expect.LineEnd is not null
+        || expect.ScopeKind is not null
+        || expect.ScopeIndex is not null
+        || expect.XmlPath is not null
+        || expect.Attr is not null
+        || expect.Command is not null
+        || expect.Go is not null
+        || expect.TextNeedle is not null
+        || expect.TypeKey is not null
+        || expect.NestedAnchor is not null;
+
+    static string RelationSpecCaseName(RelationSpec spec) =>
+        spec switch
+        {
+            RelationSpec.CodeEdit _ => "CodeEdit",
+            RelationSpec.DocToCode _ => "DocToCode",
+            RelationSpec.Diag _ => "Diag",
+            RelationSpec.Address _ => "Address",
+            RelationSpec.Nav _ => "Nav",
+            RelationSpec.Resource _ => "Resource",
+            _ => "",
+        };
 
     static bool SpanMatches(RelationResolveSpecExpectation expect, BracketAnchorSpan actual, out string error)
     {
@@ -180,12 +255,14 @@ public sealed record RelationResolveSpecDocument(
 public sealed record RelationResolveSpecVector(
     [property: JsonPropertyName("id")] string Id,
     [property: JsonPropertyName("wire")] string? Wire,
+    [property: JsonPropertyName("mode")] string? Mode,
     [property: JsonPropertyName("expect")] RelationResolveSpecExpectation? Expect);
 
 public sealed record RelationResolveSpecExpectation(
     [property: JsonPropertyName("family")] string? Family,
     [property: JsonPropertyName("familyError")] string? FamilyError,
     [property: JsonPropertyName("familyName")] string? FamilyName,
+    [property: JsonPropertyName("relationSpecCase")] string? RelationSpecCase,
     [property: JsonPropertyName("file")] string? File,
     [property: JsonPropertyName("memberKey")] string? MemberKey,
     [property: JsonPropertyName("lineStart")] int? LineStart,

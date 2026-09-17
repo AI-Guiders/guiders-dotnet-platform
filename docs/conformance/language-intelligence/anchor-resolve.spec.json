@@ -1,7 +1,7 @@
 {
   "version": 1,
   "surface": "anchor-resolve",
-  "source": "GUIDERS-ADR-0025 Phase 2 + LegacyBracketRelationWire boundary (transitional F/M/L parse)",
+  "source": "GUIDERS-ADR-0025 Phase 2 + LegacyBracketRelationWire boundary + Kind: RelationSpec dual path",
   "vectors": [
     {
       "id": "code-file-member-line",
@@ -70,6 +70,34 @@
           "file": "Inner.cs",
           "memberKey": "B"
         }
+      }
+    },
+    {
+      "id": "kind-code-edit-member",
+      "mode": "kind-spec",
+      "wire": "[Kind:CodeEdit; File:Program.cs; Member:Foo]",
+      "expect": {
+        "relationSpecCase": "CodeEdit",
+        "file": "Program.cs",
+        "memberKey": "Foo"
+      }
+    },
+    {
+      "id": "kind-code-edit-xml-element",
+      "mode": "kind-spec",
+      "wire": "[Kind:CodeEdit; File:doc.xml; Element:Root/Item]",
+      "expect": {
+        "relationSpecCase": "CodeEdit",
+        "file": "doc.xml",
+        "xmlPath": "Root/Item"
+      }
+    },
+    {
+      "id": "kind-nav-seed",
+      "mode": "kind-spec",
+      "wire": "[Kind:Nav; File:README.md; Line:10; Command:open]",
+      "expect": {
+        "relationSpecCase": "Nav"
       }
     }
   ]

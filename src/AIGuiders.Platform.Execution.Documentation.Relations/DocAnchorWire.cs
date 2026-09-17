@@ -2,7 +2,7 @@
 
 using AIGuiders.Platform.Modeling.Notations.Bracket;
 
-namespace AIGuiders.Platform.Execution.Documentation.Anchors;
+namespace AIGuiders.Platform.Execution.Documentation.Relations;
 
 public static class DocAnchorWire
 {

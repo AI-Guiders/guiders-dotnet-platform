@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>AIGuiders.Platform.Execution.Documentation.Relations</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Documentation.Relations</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Documentation.Relations</PackageId>
+    <Description>Family:doc RelationSpec / bracket wire resolve against symbol catalogs.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Notations.Bracket\AIGuiders.Platform.Notations.Bracket.csproj" />
+  </ItemGroup>
+</Project>

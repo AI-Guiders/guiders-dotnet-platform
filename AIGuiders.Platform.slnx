@@ -64,6 +64,7 @@
     <Project Path="src/AIGuiders.Platform.Navigation/AIGuiders.Platform.Navigation.csproj" />
     <Project Path="src/AIGuiders.Platform.Navigation.Policy/AIGuiders.Platform.Navigation.Policy.csproj" />
     <Project Path="src/AIGuiders.Platform.Navigation.Code/AIGuiders.Platform.Navigation.Code.csproj" />
+    <Project Path="src/AIGuiders.Platform.Execution.Documentation.Relations/AIGuiders.Platform.Execution.Documentation.Relations.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.Documentation.Anchors/AIGuiders.Platform.Execution.Documentation.Anchors.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.Documentation.Correspondence.Core/AIGuiders.Platform.Execution.Documentation.Correspondence.Core.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.Documentation.Correspondence.Resolve/AIGuiders.Platform.Execution.Documentation.Correspondence.Resolve.csproj" />

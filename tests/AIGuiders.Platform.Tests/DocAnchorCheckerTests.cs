@@ -1,6 +1,6 @@
 #nullable enable
 
-using AIGuiders.Platform.Execution.Documentation.Anchors;
+using AIGuiders.Platform.Execution.Documentation.Relations;
 using AIGuiders.Platform.Execution.Documentation.LinkCheck;
 using AIGuiders.Platform.Modeling.Notations.Bracket;
 using Xunit;

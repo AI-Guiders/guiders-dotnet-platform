@@ -1,6 +1,6 @@
 #nullable enable
 
-using AIGuiders.Platform.Execution.Documentation.Anchors;
+using AIGuiders.Platform.Execution.Documentation.Relations;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;

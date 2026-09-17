@@ -2,7 +2,7 @@
 
 using AIGuiders.Platform.Modeling.Notations.Bracket;
 
-namespace AIGuiders.Platform.Execution.Documentation.Anchors;
+namespace AIGuiders.Platform.Execution.Documentation.Relations;
 
 /// <summary>Resolve <c>Family:doc</c> bracket wires against a symbol catalog (GUIDERS-ADR-0027).</summary>
 public sealed class DocSymbolAnchorResolver

@@ -1,6 +1,6 @@
 #nullable enable
 
-namespace AIGuiders.Platform.Execution.Documentation.Anchors;
+namespace AIGuiders.Platform.Execution.Documentation.Relations;
 
 public interface IDocSymbolCatalog
 {
