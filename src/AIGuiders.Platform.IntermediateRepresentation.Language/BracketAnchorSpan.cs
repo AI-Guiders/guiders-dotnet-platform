@@ -1,11 +1,11 @@
 #nullable enable
 
-using GdlLanguage = AIGuiders.Platform.Modeling.Gdl.Language;
+using BracketModel = AIGuiders.Platform.Modeling.Notations.Bracket;
 
 namespace AIGuiders.Platform.IntermediateRepresentation.Language;
 
 /// <summary>
-/// GUIDERS-FSHARP-ADR-0003 §4.3 cutover: anchor span SSOT via <see cref="ToModel"/> (Modeling.Gdl.Language).
+/// Transitional anchor span seam — SSOT migrating to RelationSpec + Kind: bracket canon.
 /// </summary>
 public sealed record BracketAnchorSpan(
     string? File,
@@ -24,9 +24,9 @@ public sealed record BracketAnchorSpan(
     string? TextNeedle = null,
     string? TypeKey = null)
 {
-    public static BracketAnchorSpan Empty() => FromModel(GdlLanguage.BracketAnchorSpanModule.empty);
+    public static BracketAnchorSpan Empty() => FromModel(BracketModel.BracketAnchorSpanModule.empty);
 
-    public GdlLanguage.BracketAnchorSpan ToModel() => new(
+    public BracketModel.BracketAnchorSpan ToModel() => new(
         FSharpInterop.OptString(File),
         FSharpInterop.OptString(MemberKey),
         FSharpInterop.OptInt(LineStart),
@@ -40,12 +40,12 @@ public sealed record BracketAnchorSpan(
         FSharpInterop.OptString(Command),
         FSharpInterop.OptString(Go),
         NestedAnchor is null
-            ? Microsoft.FSharp.Core.FSharpOption<GdlLanguage.BracketAnchorSpan>.None
-            : Microsoft.FSharp.Core.FSharpOption<GdlLanguage.BracketAnchorSpan>.Some(NestedAnchor.ToModel()),
+            ? Microsoft.FSharp.Core.FSharpOption<BracketModel.BracketAnchorSpan>.None
+            : Microsoft.FSharp.Core.FSharpOption<BracketModel.BracketAnchorSpan>.Some(NestedAnchor.ToModel()),
         FSharpInterop.OptString(TextNeedle),
         FSharpInterop.OptString(TypeKey));
 
-    public static BracketAnchorSpan FromModel(GdlLanguage.BracketAnchorSpan model) => new(
+    public static BracketAnchorSpan FromModel(BracketModel.BracketAnchorSpan model) => new(
         FSharpInterop.OptString(model.File),
         FSharpInterop.OptString(model.MemberKey),
         FSharpInterop.OptInt(model.LineStart),
@@ -58,7 +58,7 @@ public sealed record BracketAnchorSpan(
         FSharpInterop.OptString(model.Family),
         FSharpInterop.OptString(model.Command),
         FSharpInterop.OptString(model.Go),
-        model.NestedAnchor is not null && Microsoft.FSharp.Core.FSharpOption<GdlLanguage.BracketAnchorSpan>.get_IsSome(model.NestedAnchor)
+        model.NestedAnchor is not null && Microsoft.FSharp.Core.FSharpOption<BracketModel.BracketAnchorSpan>.get_IsSome(model.NestedAnchor)
             ? FromModel(model.NestedAnchor.Value)
             : null,
         FSharpInterop.OptString(model.TextNeedle),

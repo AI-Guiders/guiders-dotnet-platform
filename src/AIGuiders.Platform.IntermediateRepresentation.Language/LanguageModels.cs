@@ -2,51 +2,36 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using GdlLanguage = AIGuiders.Platform.Modeling.Gdl.Language;
+using ModelingLanguage = AIGuiders.Platform.Modeling.Language;
 using Microsoft.FSharp.Core;
 
 namespace AIGuiders.Platform.IntermediateRepresentation.Language;
 
-/// <summary>Resolved location in a document buffer (range + optional symbol id).</summary>
+/// <summary>Legacy char-offset locate seam (Execution IR). Canonical locate is Relations.Locus DU.</summary>
 public sealed record Locus(
     int Start,
     int End,
-    ResolveTier Tier = ResolveTier.Text,
+    ResolveTier Tier = ResolveTier.Syntax,
     string? SymbolId = null,
     string? FilePath = null)
 {
-    public static Locus OfRange(int start, int end) =>
-        FromModel(GdlLanguage.LocusModule.ofRange(start, end));
-
-    public GdlLanguage.Locus ToModel() => new(
-        Start,
-        End,
-        Tier,
-        FSharpInterop.OptString(SymbolId),
-        FSharpInterop.OptString(FilePath));
-
-    public static Locus FromModel(GdlLanguage.Locus model) => new(
-        model.Start,
-        model.End,
-        model.Tier,
-        FSharpInterop.OptString(model.SymbolId),
-        FSharpInterop.OptString(model.FilePath));
+    public static Locus OfRange(int start, int end) => new(start, end, ResolveTier.Syntax);
 }
 
 /// <summary>Resolve input for anchor (raw wire). Prefer NormalizedBracketWire from IR.Bracket (ADR-0026).</summary>
 public sealed record AnchorWire(string Value)
 {
-    public GdlLanguage.AnchorWire ToModel() => new(Value);
+    public ModelingLanguage.AnchorWire ToModel() => new(Value);
 
-    public static AnchorWire FromModel(GdlLanguage.AnchorWire model) => new(model.Value);
+    public static AnchorWire FromModel(ModelingLanguage.AnchorWire model) => new(model.Value);
 }
 
 /// <summary>LSP-shaped single edit (language-neutral).</summary>
 public sealed record TextEdit(int Start, int End, string NewText)
 {
-    public GdlLanguage.TextEdit ToModel() => new(Start, End, NewText);
+    public ModelingLanguage.TextEdit ToModel() => new(Start, End, NewText);
 
-    public static TextEdit FromModel(GdlLanguage.TextEdit model) => new(model.Start, model.End, model.NewText);
+    public static TextEdit FromModel(ModelingLanguage.TextEdit model) => new(model.Start, model.End, model.NewText);
 }
 
 /// <summary>Buffer command result payload (replaces <c>EditorBufferOutcome</c> in Phase 1).</summary>
@@ -59,25 +44,25 @@ public sealed record BufferEditOutcome
     public IReadOnlyList<TextEdit>? Edits { get; init; }
 
     public static BufferEditOutcome FromText(string text, int selectionStart, int selectionEnd) =>
-        FromModel(GdlLanguage.BufferEditOutcomeModule.fromText(text, selectionStart, selectionEnd));
+        FromModel(ModelingLanguage.BufferEditOutcomeModule.fromText(text, selectionStart, selectionEnd));
 
-    public GdlLanguage.BufferEditOutcome ToModel() => new(
+    public ModelingLanguage.BufferEditOutcome ToModel() => new(
         FSharpInterop.OptString(Text),
         FSharpInterop.OptInt(SelectionStart),
         FSharpInterop.OptInt(SelectionEnd),
         FSharpInterop.OptString(TextMode),
         Edits is null
-            ? FSharpOption<IReadOnlyList<GdlLanguage.TextEdit>>.None
-            : FSharpOption<IReadOnlyList<GdlLanguage.TextEdit>>.Some(
+            ? FSharpOption<IReadOnlyList<ModelingLanguage.TextEdit>>.None
+            : FSharpOption<IReadOnlyList<ModelingLanguage.TextEdit>>.Some(
                 Edits.Select(static edit => edit.ToModel()).ToList()));
 
-    public static BufferEditOutcome FromModel(GdlLanguage.BufferEditOutcome model) => new()
+    public static BufferEditOutcome FromModel(ModelingLanguage.BufferEditOutcome model) => new()
     {
         Text = FSharpInterop.OptString(model.Text),
         SelectionStart = FSharpInterop.OptInt(model.SelectionStart),
         SelectionEnd = FSharpInterop.OptInt(model.SelectionEnd),
         TextMode = FSharpInterop.OptString(model.TextMode),
-        Edits = model.Edits is not null && FSharpOption<IReadOnlyList<GdlLanguage.TextEdit>>.get_IsSome(model.Edits)
+        Edits = model.Edits is not null && FSharpOption<IReadOnlyList<ModelingLanguage.TextEdit>>.get_IsSome(model.Edits)
             ? model.Edits.Value.Select(static edit => TextEdit.FromModel(edit)).ToList()
             : null,
     };
@@ -90,15 +75,15 @@ public sealed record SniperScope(
     string? Wire = null,
     string? Pad = null)
 {
-    public static SniperScope Empty() => FromModel(GdlLanguage.SniperScopeModule.empty);
+    public static SniperScope Empty() => FromModel(ModelingLanguage.SniperScopeModule.empty);
 
-    public GdlLanguage.SniperScope ToModel() => new(
+    public ModelingLanguage.SniperScope ToModel() => new(
         FSharpInterop.OptInt(FromLine),
         FSharpInterop.OptInt(TillLine),
         FSharpInterop.OptString(Wire),
         FSharpInterop.OptString(Pad));
 
-    public static SniperScope FromModel(GdlLanguage.SniperScope model) => new(
+    public static SniperScope FromModel(ModelingLanguage.SniperScope model) => new(
         FSharpInterop.OptInt(model.FromLine),
         FSharpInterop.OptInt(model.TillLine),
         FSharpInterop.OptString(model.Wire),

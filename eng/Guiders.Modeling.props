@@ -32,6 +32,8 @@
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Cockpit.Rules\AIGuiders.Platform.Modeling.Cockpit.Rules.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingLanguage)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Language\AIGuiders.Platform.Modeling.Language.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingRelations)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.LanguageIntelligence.Relations\AIGuiders.Platform.Modeling.LanguageIntelligence.Relations.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingLanguageAdaptersFcs)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Language.Adapters.Fcs\AIGuiders.Platform.Modeling.Language.Adapters.Fcs.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingLanguageAdaptersGdl)' == 'true'"
@@ -60,8 +62,6 @@
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Parse.IdeSession\AIGuiders.Platform.Modeling.Gdl.Parse.IdeSession.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingNotationsCommand)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Notations.Command\AIGuiders.Platform.Modeling.Notations.Command.fsproj" />
-    <ProjectReference Condition="'$(UseGuidersModelingGdlLanguage)' == 'true'"
-      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Language\AIGuiders.Platform.Modeling.Gdl.Language.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingGdlPresentation)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Gdl.Presentation\AIGuiders.Platform.Modeling.Gdl.Presentation.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingGdlParseCatalog)' == 'true'"

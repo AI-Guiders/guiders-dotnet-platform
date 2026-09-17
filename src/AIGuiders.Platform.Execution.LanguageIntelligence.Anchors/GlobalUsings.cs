@@ -1,2 +1,1 @@
-global using AIGuiders.Platform.IntermediateRepresentation.Language;
-global using BracketAxisFamily = AIGuiders.Platform.Modeling.Gdl.Language.BracketAxisFamily;
+global using BracketAxisFamily = AIGuiders.Platform.Modeling.Notations.Bracket.BracketAxisFamily;

@@ -1,16 +1,2 @@
-global using AIGuiders.Platform.IntermediateRepresentation.Command;
-global using AIGuiders.Platform.Modeling.Notations.Argument;
-global using AIGuiders.Platform.IntermediateRepresentation.Binding;
-global using BindingTargetKind = AIGuiders.Platform.Modeling.Gdl.Command.Binding.BindingTargetKind;
-global using BindingDocumentFormat = AIGuiders.Platform.Modeling.Gdl.Command.Binding.BindingDocumentFormat;
-global using AIGuiders.Platform.Modeling.Notations.Keyboard;
-global using AIGuiders.Platform.IntermediateRepresentation.Invocation;
-global using InvocationEngageKind = AIGuiders.Platform.Modeling.Notations.Command.InvocationEngageKind;
-global using InvocationLinePhase = AIGuiders.Platform.Modeling.Notations.Command.InvocationLinePhase;
-global using ArgMechanic = AIGuiders.Platform.Modeling.Notations.Command.ArgMechanic;
-global using AIGuiders.Platform.IntermediateRepresentation.Melody;
-global using AIGuiders.Platform.Modeling.Notations.Bracket;
-global using AIGuiders.Platform.IntermediateRepresentation.Agent;
-global using AIGuiders.Platform.IntermediateRepresentation.Language;
-global using ResolveTier = AIGuiders.Platform.Modeling.Gdl.Language.ResolveTier;
-global using BracketAxisFamily = AIGuiders.Platform.Modeling.Gdl.Language.BracketAxisFamily;
+global using ResolveTier = AIGuiders.Platform.Modeling.LanguageIntelligence.Relations.ResolveTier;
+global using BracketAxisFamily = AIGuiders.Platform.Modeling.Notations.Bracket.BracketAxisFamily;
