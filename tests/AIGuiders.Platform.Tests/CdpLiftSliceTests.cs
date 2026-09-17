@@ -102,4 +102,27 @@ public sealed class XmlBracketAnchorResolveTests
         Assert.Equal("xml_text", result.Detail);
         Assert.True(result.Range.LineStart >= 1);
     }
+
+    [Fact]
+    public void TryResolve_Kind_CodeEdit_Element_wire_via_RelationSpec_path()
+    {
+        const string xml = """
+            <Root>
+              <Item>hello</Item>
+            </Root>
+            """;
+        var spec = RelationSpecWireBoundary.TryParseKindSpec("[Kind:CodeEdit; File:doc.xml; Element:Root/Item]");
+        Assert.NotNull(spec);
+
+        var ok = XmlBracketAnchorResolve.TryResolve(
+            "doc.xml",
+            xml,
+            spec!,
+            out var result,
+            out var detail);
+
+        Assert.True(ok, detail);
+        Assert.False(result.Insert);
+        Assert.Equal("xml_text", result.Detail);
+    }
 }

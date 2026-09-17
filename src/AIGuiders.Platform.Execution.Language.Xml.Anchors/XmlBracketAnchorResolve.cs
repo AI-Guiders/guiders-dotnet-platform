@@ -1,7 +1,8 @@
+using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
+using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
-using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 
 namespace AIGuiders.Platform.Execution.Language.Xml.Anchors;
 
@@ -24,6 +25,32 @@ public static class XmlBracketAnchorResolve
     static readonly Regex SegmentRx = new(
         @"^(?<name>[A-Za-z_][\w.-]*)(?:@(?<attr>[A-Za-z_][\w.-]*)=(?<val>[^:]+))?(?::(?<index>\d+))?$",
         RegexOptions.CultureInvariant | RegexOptions.Compiled);
+
+    /// <summary>Resolve <see cref="RelationSpec.CodeEdit"/> via transitional legacy span bridge.</summary>
+    public static bool TryResolve(
+        string absoluteFilePath,
+        RelationSpec spec,
+        out ResolveResult result,
+        out string detail) =>
+        TryResolve(absoluteFilePath, sourceText: null, spec, out result, out detail);
+
+    /// <summary>Resolve <see cref="RelationSpec.CodeEdit"/> via transitional legacy span bridge.</summary>
+    public static bool TryResolve(
+        string absoluteFilePath,
+        string? sourceText,
+        RelationSpec spec,
+        out ResolveResult result,
+        out string detail)
+    {
+        if (!RelationSpecLegacyBridge.TryToLegacySpan(spec, out var span))
+        {
+            result = default!;
+            detail = "unsupported_relation_spec";
+            return false;
+        }
+
+        return TryResolve(absoluteFilePath, sourceText, span, out result, out detail);
+    }
 
     public static bool TryResolve(
         string absoluteFilePath,

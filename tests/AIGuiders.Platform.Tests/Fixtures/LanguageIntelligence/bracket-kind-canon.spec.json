@@ -9,6 +9,11 @@
       "expectRelationSpec": true
     },
     {
+      "id": "kind-code-edit-xml",
+      "wire": "[Kind:CodeEdit; File:doc.xml; Element:Root/Item]",
+      "expectRelationSpec": true
+    },
+    {
       "id": "kind-nav",
       "wire": "[Kind:Nav; File:README.md; Command:open]",
       "expectRelationSpec": true
