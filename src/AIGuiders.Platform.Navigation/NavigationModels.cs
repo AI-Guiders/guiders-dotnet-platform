@@ -32,13 +32,12 @@ public sealed record NavSeed(
     string? Go = null,
     string? SolutionPath = null)
 {
-    public ModelingNavigation.Anchor ToModel() => new()
-    {
-        Path = Path,
-        Line = FSharpInterop.OptInt(Line),
-        Column = FSharpInterop.OptInt(Column),
-        SolutionPath = FSharpInterop.OptString(SolutionPath),
-    };
+    public ModelingNavigation.Anchor ToModel() =>
+        new(
+            Path,
+            FSharpInterop.OptInt(Line),
+            FSharpInterop.OptInt(Column),
+            FSharpInterop.OptString(SolutionPath));
 
     public static NavSeed FromModel(ModelingNavigation.Anchor model) => new(
         model.Path,
@@ -55,15 +54,14 @@ public sealed record NavigationNode(
     string? RelativePath = null,
     string? Label = null)
 {
-    public ModelingNavigation.Node ToModel() => new()
-    {
-        Id = Id,
-        Path = Path,
-        Kind = Kind,
-        Rationale = FSharpInterop.OptString(Rationale),
-        RelativePath = FSharpInterop.OptString(RelativePath),
-        Label = FSharpInterop.OptString(Label),
-    };
+    public ModelingNavigation.Node ToModel() =>
+        new(
+            Id,
+            Path,
+            Kind,
+            FSharpInterop.OptString(Rationale),
+            FSharpInterop.OptString(RelativePath),
+            FSharpInterop.OptString(Label));
 
     public static NavigationNode FromModel(ModelingNavigation.Node model) => new(
         model.Id,
@@ -80,13 +78,12 @@ public sealed record NavigationEdge(
     string Kind,
     string? RelatedKind = null)
 {
-    public ModelingNavigation.Edge ToModel() => new()
-    {
-        FromId = FromId,
-        ToId = ToId,
-        Kind = Kind,
-        RelatedKind = FSharpInterop.OptString(RelatedKind),
-    };
+    public ModelingNavigation.Edge ToModel() =>
+        new(
+            FromId,
+            ToId,
+            Kind,
+            FSharpInterop.OptString(RelatedKind));
 
     public static NavigationEdge FromModel(ModelingNavigation.Edge model) => new(
         model.FromId,
@@ -102,14 +99,13 @@ public sealed record NavigationSceneCaps(
     string? Preset,
     IReadOnlyDictionary<string, int>? KindCaps = null)
 {
-    public ModelingNavigation.SceneCaps ToModel() => new()
-    {
-        MaxRelated = MaxRelated,
-        MaxNodes = MaxNodes,
-        MaxEdges = MaxEdges,
-        Preset = FSharpInterop.OptString(Preset),
-        KindCaps = FSharpInterop.ToFSharpMap(KindCaps),
-    };
+    public ModelingNavigation.SceneCaps ToModel() =>
+        new(
+            MaxRelated,
+            MaxNodes,
+            MaxEdges,
+            FSharpInterop.OptString(Preset),
+            FSharpInterop.ToFSharpMap(KindCaps));
 
     public static NavigationSceneCaps FromModel(ModelingNavigation.SceneCaps model) => new(
         model.MaxRelated,
@@ -131,16 +127,15 @@ public sealed record NavigationScene(
     public static NavigationScene Empty(NavSeed seed, NavigationMode mode, NavigationSceneCaps caps) =>
         FromModel(ModelingNavigation.SceneModule.empty(seed.ToModel(), ToMode(mode), caps.ToModel()));
 
-    public ModelingNavigation.Scene ToModel() => new()
-    {
-        Schema = Schema,
-        Mode = ToMode(Mode),
-        Anchor = Seed.ToModel(),
-        Nodes = FSharpInterop.ToFSharpList(Nodes.Select(n => n.ToModel()).ToList()),
-        Edges = FSharpInterop.ToFSharpList(Edges.Select(e => e.ToModel()).ToList()),
-        Caps = Caps.ToModel(),
-        Summary = Summary,
-    };
+    public ModelingNavigation.Scene ToModel() =>
+        new(
+            Schema,
+            ToMode(Mode),
+            Seed.ToModel(),
+            FSharpInterop.ToFSharpList(Nodes.Select(n => n.ToModel()).ToList()),
+            FSharpInterop.ToFSharpList(Edges.Select(e => e.ToModel()).ToList()),
+            Caps.ToModel(),
+            Summary);
 
     public static NavigationScene FromModel(ModelingNavigation.Scene model) => new(
         model.Schema,
