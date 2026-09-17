@@ -8,6 +8,7 @@ namespace AIGuiders.Platform.Navigation.Code;
 
 public static class NavigationSceneBuilder
 {
+    [Obsolete("Use BuildRelated(NavSeed, ...) — federation TO-BE plan §8")]
     public static NavigationScene BuildRelated(
         NavigationAnchor anchor,
         IEnumerable<NavigationRelatedItem> candidates,
@@ -19,19 +20,18 @@ public static class NavigationSceneBuilder
         IEnumerable<NavigationRelatedItem> candidates,
         NavigationProfile profile)
     {
-        var anchor = seed.ToNavigationAnchor();
         var caps = profile.ToCaps();
         var filtered = ApplyFilters(candidates, profile).Take(caps.MaxRelated).ToList();
         var nodes = new List<NavigationNode>
         {
             new(
                 "n0",
-                anchor.Path,
+                seed.Path,
                 "anchor",
-                Label: Path.GetFileName(anchor.Path)),
+                Label: Path.GetFileName(seed.Path)),
         };
         var edges = new List<NavigationEdge>();
-        var anchorKey = PathBoundary.TryCanonicalPhysical(anchor.Path) ?? anchor.Path;
+        var anchorKey = PathBoundary.TryCanonicalPhysical(seed.Path) ?? seed.Path;
         var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { anchorKey };
 
         var index = 1;
@@ -64,15 +64,15 @@ public static class NavigationSceneBuilder
             .ToList();
 
         var summary = nodes.Count <= 1
-            ? NavigationScene.Empty(anchor, NavigationMode.Related, caps).Summary
+            ? NavigationScene.Empty(seed, NavigationMode.Related, caps).Summary
             : kindSummary.Count == 0
-                ? $"Navigation (Related): {nodes.Count - 1} neighbor(s) around {Path.GetFileName(anchor.Path)}."
+                ? $"Navigation (Related): {nodes.Count - 1} neighbor(s) around {Path.GetFileName(seed.Path)}."
                 : $"Navigation (Related): {nodes.Count - 1} neighbor(s) ({string.Join(", ", kindSummary)}).";
 
         return new NavigationScene(
             NavigationSchemes.SceneV1,
             NavigationMode.Related,
-            anchor,
+            seed,
             nodes,
             edges,
             caps,

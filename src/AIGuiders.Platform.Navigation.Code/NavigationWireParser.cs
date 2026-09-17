@@ -9,18 +9,18 @@ public static class NavigationWireParser
 {
     public static bool TryParseRelatedWire(
         string json,
-        out NavigationAnchor anchor,
+        out NavSeed seed,
         out IReadOnlyList<NavigationRelatedItem> items,
         out string error)
     {
-        anchor = new NavigationAnchor("");
+        seed = new NavSeed("");
         items = [];
         error = "";
 
         try
         {
             using var doc = JsonDocument.Parse(json);
-            return TryParseRelatedElement(doc.RootElement, out anchor, out items, out error);
+            return TryParseRelatedElement(doc.RootElement, out seed, out items, out error);
         }
         catch (JsonException ex)
         {
@@ -31,11 +31,11 @@ public static class NavigationWireParser
 
     public static bool TryParseRelatedElement(
         JsonElement root,
-        out NavigationAnchor anchor,
+        out NavSeed seed,
         out IReadOnlyList<NavigationRelatedItem> items,
         out string error)
     {
-        anchor = new NavigationAnchor("");
+        seed = new NavSeed("");
         items = [];
         error = "";
 
@@ -60,7 +60,7 @@ public static class NavigationWireParser
 
         int? line = root.TryGetProperty("line", out var lineNode) && lineNode.TryGetInt32(out var l) ? l : null;
         int? column = root.TryGetProperty("column", out var colNode) && colNode.TryGetInt32(out var c) ? c : null;
-        anchor = new NavigationAnchor(anchorPath, line, column);
+        seed = new NavSeed(anchorPath, line, column);
 
         if (root.TryGetProperty("items", out var itemsNode) && itemsNode.ValueKind == JsonValueKind.Array)
         {

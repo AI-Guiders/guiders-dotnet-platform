@@ -9,15 +9,16 @@ public static class NavigationCodeExplorer
 {
     public static NavigationScene ExploreRelatedFromWire(string roslynWireJson, NavigationProfile profile)
     {
-        if (!NavigationWireParser.TryParseRelatedWire(roslynWireJson, out var anchor, out var items, out _))
+        if (!NavigationWireParser.TryParseRelatedWire(roslynWireJson, out var seed, out var items, out _))
             return NavigationScene.Empty(
-                new NavigationAnchor(""),
+                new NavSeed(""),
                 NavigationMode.Related,
                 profile.ToCaps());
 
-        return NavigationSceneBuilder.BuildRelated(anchor, items, profile);
+        return NavigationSceneBuilder.BuildRelated(seed, items, profile);
     }
 
+    [Obsolete("Use ExploreRelatedInMemory(NavSeed, ...) — federation TO-BE plan §8")]
     public static NavigationScene ExploreRelatedInMemory(
         NavigationAnchor anchor,
         IReadOnlyList<string> solutionFiles,
@@ -29,8 +30,7 @@ public static class NavigationCodeExplorer
         IReadOnlyList<string> solutionFiles,
         NavigationProfile profile)
     {
-        var anchor = seed.ToNavigationAnchor();
-        var items = InMemoryRelatedProvider.Collect(anchor.Path, solutionFiles);
+        var items = InMemoryRelatedProvider.Collect(seed.Path, solutionFiles);
         return NavigationSceneBuilder.BuildRelated(seed, items, profile);
     }
 }

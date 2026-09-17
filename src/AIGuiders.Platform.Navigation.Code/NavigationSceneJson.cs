@@ -20,11 +20,11 @@ public static class NavigationSceneJson
         new(
             scene.Schema,
             scene.Mode.ToString().ToLowerInvariant(),
-            new NavigationAnchorDto(
-                scene.Anchor.Path,
-                scene.Anchor.Line,
-                scene.Anchor.Column,
-                scene.Anchor.SolutionPath),
+            new NavSeedDto(
+                scene.Seed.Path,
+                scene.Seed.Line,
+                scene.Seed.Column,
+                scene.Seed.SolutionPath),
             scene.Nodes.Select(n => new NavigationNodeDto(
                 n.Id,
                 n.Path,
@@ -48,13 +48,13 @@ public static class NavigationSceneJson
     public sealed record NavigationSceneDto(
         string Schema,
         string Mode,
-        NavigationAnchorDto Anchor,
+        NavSeedDto Seed,
         IReadOnlyList<NavigationNodeDto> Nodes,
         IReadOnlyList<NavigationEdgeDto> Edges,
         NavigationCapsDto Caps,
         string Summary);
 
-    public sealed record NavigationAnchorDto(
+    public sealed record NavSeedDto(
         string Path,
         int? Line,
         int? Column,

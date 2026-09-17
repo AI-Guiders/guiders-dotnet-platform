@@ -28,6 +28,7 @@ public sealed class NavigationSceneJsonTests
 
         Assert.Contains("\"schema\":\"navigation_scene/v1\"", json, StringComparison.Ordinal);
         Assert.Contains("\"mode\":\"related\"", json, StringComparison.Ordinal);
+        Assert.Contains("\"seed\":", json, StringComparison.Ordinal);
         Assert.Equal(NavigationSchemes.SceneV1, scene.Schema);
     }
 }

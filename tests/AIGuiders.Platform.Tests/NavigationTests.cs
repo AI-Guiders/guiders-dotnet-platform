@@ -92,8 +92,9 @@ public sealed class NavigationTests
     }
 
     [Fact]
-    public void NavSeed_roundtrips_navigation_anchor()
+    public void NavSeed_roundtrips_obsolete_navigation_anchor()
     {
+#pragma warning disable CS0618
         var anchor = new NavigationAnchor(Path.GetFullPath("src/Widget.cs"), 10, 3, Path.GetFullPath("App.slnx"));
         var seed = NavSeed.FromNavigationAnchor(anchor);
         Assert.Equal(anchor.Path, seed.Path);
@@ -101,6 +102,7 @@ public sealed class NavigationTests
         var back = seed.ToNavigationAnchor();
         Assert.Equal(anchor.Path, back.Path);
         Assert.Equal(anchor.Line, back.Line);
+#pragma warning restore CS0618
     }
 
     [Fact]
@@ -123,18 +125,31 @@ public sealed class NavigationTests
     }
 
     [Fact]
+    public void Scene_uses_nav_seed_primary()
+    {
+        var seed = new NavSeed(Path.GetFullPath("src/Widget.cs"), 10, 3, SolutionPath: Path.GetFullPath("App.slnx"));
+        var scene = NavigationSceneBuilder.BuildRelated(seed, [], NavigationProfile.ExploreDefault);
+
+        Assert.Equal(seed.Path, scene.Seed.Path);
+        Assert.Equal(10, scene.Seed.Line);
+#pragma warning disable CS0618
+        Assert.Equal(seed.Path, scene.Anchor.Path);
+#pragma warning restore CS0618
+    }
+
+    [Fact]
     public void InMemory_explorer_finds_test_counterpart()
     {
-        var anchor = new NavigationAnchor(Path.GetFullPath("src/Widget.cs"));
+        var seed = new NavSeed(Path.GetFullPath("src/Widget.cs"));
         var files = new[]
         {
-            anchor.Path,
+            seed.Path,
             Path.GetFullPath("src/WidgetTests.cs"),
             Path.GetFullPath("src/Other.cs"),
         };
 
         var scene = NavigationCodeExplorer.ExploreRelatedInMemory(
-            anchor,
+            seed,
             files,
             NavigationProfile.ExploreDefault);
 

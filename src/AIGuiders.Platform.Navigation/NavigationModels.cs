@@ -4,7 +4,7 @@ using ModelingNavigation = AIGuiders.Platform.Modeling.Navigation;
 
 namespace AIGuiders.Platform.Navigation;
 
-/// <summary>GUIDERS-FSHARP-ADR-0003 §4.8 cutover: scene IR SSOT via <see cref="NavigationAnchor.ToModel"/> (Modeling.Navigation).</summary>
+/// <summary>GUIDERS-FSHARP-ADR-0003 §4.8 cutover: scene IR SSOT via <see cref="NavSeed.ToModel"/> (Modeling.Navigation).</summary>
 public static class NavigationSchemes
 {
     public const string SceneV1 = ModelingNavigation.Schemes.SceneV1;
@@ -23,7 +23,7 @@ public enum NavigationDomain
     Workspace,
 }
 
-/// <summary>Federation navigation seed — supersedes <see cref="NavigationAnchor"/> per plan §8.</summary>
+/// <summary>Federation navigation seed — primary platform type per plan §8.</summary>
 public sealed record NavSeed(
     string Path,
     int? Line = null,
@@ -32,22 +32,6 @@ public sealed record NavSeed(
     string? Go = null,
     string? SolutionPath = null)
 {
-    public static NavSeed FromNavigationAnchor(NavigationAnchor anchor) =>
-        new(anchor.Path, anchor.Line, anchor.Column, SolutionPath: anchor.SolutionPath);
-
-    public NavigationAnchor ToNavigationAnchor() =>
-        new(Path, Line, Column, SolutionPath);
-}
-
-public sealed record NavigationAnchor(
-    string Path,
-    int? Line = null,
-    int? Column = null,
-    string? SolutionPath = null)
-{
-    [Obsolete("Use NavSeed — federation TO-BE plan §8")]
-    public NavSeed ToNavSeed() => NavSeed.FromNavigationAnchor(this);
-
     public ModelingNavigation.Anchor ToModel() => new()
     {
         Path = Path,
@@ -56,11 +40,34 @@ public sealed record NavigationAnchor(
         SolutionPath = FSharpInterop.OptString(SolutionPath),
     };
 
-    public static NavigationAnchor FromModel(ModelingNavigation.Anchor model) => new(
+    public static NavSeed FromModel(ModelingNavigation.Anchor model) => new(
         model.Path,
         FSharpInterop.OptInt(model.Line),
         FSharpInterop.OptInt(model.Column),
         FSharpInterop.OptString(model.SolutionPath));
+
+#pragma warning disable CS0618
+    public static NavSeed FromNavigationAnchor(NavigationAnchor anchor) =>
+        new(anchor.Path, anchor.Line, anchor.Column, SolutionPath: anchor.SolutionPath);
+
+    public NavigationAnchor ToNavigationAnchor() =>
+        new(Path, Line, Column, SolutionPath);
+#pragma warning restore CS0618
+}
+
+[Obsolete("Use NavSeed — federation TO-BE plan §8")]
+public sealed record NavigationAnchor(
+    string Path,
+    int? Line = null,
+    int? Column = null,
+    string? SolutionPath = null)
+{
+    public NavSeed ToNavSeed() => NavSeed.FromNavigationAnchor(this);
+
+    public ModelingNavigation.Anchor ToModel() => ToNavSeed().ToModel();
+
+    public static NavigationAnchor FromModel(ModelingNavigation.Anchor model) =>
+        NavSeed.FromModel(model).ToNavigationAnchor();
 }
 
 public sealed record NavigationNode(
@@ -138,20 +145,29 @@ public sealed record NavigationSceneCaps(
 public sealed record NavigationScene(
     string Schema,
     NavigationMode Mode,
-    NavigationAnchor Anchor,
+    NavSeed Seed,
     IReadOnlyList<NavigationNode> Nodes,
     IReadOnlyList<NavigationEdge> Edges,
     NavigationSceneCaps Caps,
     string Summary)
 {
+    [Obsolete("Use Seed — federation TO-BE plan §8")]
+#pragma warning disable CS0618
+    public NavigationAnchor Anchor => Seed.ToNavigationAnchor();
+#pragma warning restore CS0618
+
+    public static NavigationScene Empty(NavSeed seed, NavigationMode mode, NavigationSceneCaps caps) =>
+        FromModel(ModelingNavigation.SceneModule.empty(seed.ToModel(), ToMode(mode), caps.ToModel()));
+
+    [Obsolete("Use Empty(NavSeed, ...) — federation TO-BE plan §8")]
     public static NavigationScene Empty(NavigationAnchor anchor, NavigationMode mode, NavigationSceneCaps caps) =>
-        FromModel(ModelingNavigation.SceneModule.empty(anchor.ToModel(), ToMode(mode), caps.ToModel()));
+        Empty(NavSeed.FromNavigationAnchor(anchor), mode, caps);
 
     public ModelingNavigation.Scene ToModel() => new()
     {
         Schema = Schema,
         Mode = ToMode(Mode),
-        Anchor = Anchor.ToModel(),
+        Anchor = Seed.ToModel(),
         Nodes = FSharpInterop.ToFSharpList(Nodes.Select(n => n.ToModel()).ToList()),
         Edges = FSharpInterop.ToFSharpList(Edges.Select(e => e.ToModel()).ToList()),
         Caps = Caps.ToModel(),
@@ -161,7 +177,7 @@ public sealed record NavigationScene(
     public static NavigationScene FromModel(ModelingNavigation.Scene model) => new(
         model.Schema,
         FromMode(model.Mode),
-        NavigationAnchor.FromModel(model.Anchor),
+        NavSeed.FromModel(model.Anchor),
         FSharpInterop.ToReadOnlyList(model.Nodes).Select(NavigationNode.FromModel).ToList(),
         FSharpInterop.ToReadOnlyList(model.Edges).Select(NavigationEdge.FromModel).ToList(),
         NavigationSceneCaps.FromModel(model.Caps),
