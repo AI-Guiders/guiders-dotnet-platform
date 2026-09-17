@@ -1,7 +1,5 @@
 #nullable enable
 
-using AIGuiders.Platform.IntermediateRepresentation.Language;
-
 namespace AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 
 /// <summary>Legacy name — use <see cref="LegacyBracketRelationWire"/>.</summary>

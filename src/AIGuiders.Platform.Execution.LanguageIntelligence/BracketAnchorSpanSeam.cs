@@ -2,7 +2,7 @@
 
 using BracketModel = AIGuiders.Platform.Modeling.Notations.Bracket;
 
-namespace AIGuiders.Platform.IntermediateRepresentation.Language;
+namespace AIGuiders.Platform.Execution.LanguageIntelligence;
 
 /// <summary>
 /// Transitional anchor span seam — SSOT migrating to RelationSpec + Kind: bracket canon.

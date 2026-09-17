@@ -2,7 +2,7 @@
 
 using Microsoft.FSharp.Core;
 
-namespace AIGuiders.Platform.IntermediateRepresentation.Language;
+namespace AIGuiders.Platform.Execution.LanguageIntelligence;
 
 internal static class FSharpInterop
 {

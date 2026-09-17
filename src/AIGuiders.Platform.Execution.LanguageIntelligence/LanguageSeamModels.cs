@@ -5,9 +5,9 @@ using System.Linq;
 using ModelingLanguage = AIGuiders.Platform.Modeling.Language;
 using Microsoft.FSharp.Core;
 
-namespace AIGuiders.Platform.IntermediateRepresentation.Language;
+namespace AIGuiders.Platform.Execution.LanguageIntelligence;
 
-/// <summary>Legacy char-offset locate seam (Execution IR). Canonical locate is Relations.Locus DU.</summary>
+/// <summary>Legacy char-offset locate seam. Canonical locate is Relations.Locus DU (plan §2.4).</summary>
 public sealed record Locus(
     int Start,
     int End,
@@ -18,7 +18,7 @@ public sealed record Locus(
     public static Locus OfRange(int start, int end) => new(start, end, ResolveTier.Syntax);
 }
 
-/// <summary>Resolve input for relation (raw wire). Prefer NormalizedBracketWire from IR.Bracket (ADR-0026).</summary>
+/// <summary>Resolve input for relation (raw wire). Prefer NormalizedBracketWire (ADR-0026).</summary>
 public sealed record RelationWire(string Value)
 {
     public ModelingLanguage.AnchorWire ToModel() => new(Value);

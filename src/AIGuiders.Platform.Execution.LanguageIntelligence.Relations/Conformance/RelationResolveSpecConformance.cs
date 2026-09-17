@@ -1,7 +1,6 @@
 #nullable enable
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using AIGuiders.Platform.IntermediateRepresentation.Language;
 
 namespace AIGuiders.Platform.Execution.LanguageIntelligence.Relations.Conformance;
 

@@ -1,1 +1,1 @@
-global using AIGuiders.Platform.IntermediateRepresentation.Language;
+global using AIGuiders.Platform.Execution.LanguageIntelligence;
