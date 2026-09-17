@@ -137,7 +137,7 @@ public sealed class NavigationTests
     {
         var app = ProjectIdModule.create(Path.GetFullPath("App.fsproj"));
         var lib = ProjectIdModule.create(Path.GetFullPath("Lib.fsproj"));
-        var relation = RelationGraph.fromProjectEdge(ProjectEdgeModule.create(app, lib));
+        var relation = RelationGraph.projectRef(app, lib);
 
         var edge = SceneProjectionBridge.ProjectRelation("n0", "n1", relation);
 
@@ -151,7 +151,7 @@ public sealed class NavigationTests
         var seed = new NavSeed(Path.GetFullPath("App.fsproj"));
         var app = ProjectIdModule.create(seed.Path);
         var lib = ProjectIdModule.create(Path.GetFullPath("Lib.fsproj"));
-        var relation = RelationGraph.fromProjectEdge(ProjectEdgeModule.create(app, lib));
+        var relation = RelationGraph.projectRef(app, lib);
 
         var nodes = new List<NavigationNode>
         {
