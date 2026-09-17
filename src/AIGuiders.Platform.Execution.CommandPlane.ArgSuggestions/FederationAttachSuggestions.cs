@@ -44,12 +44,18 @@ public static class FederationAttachSuggestions
     {
         var diagnostics = new AttachDiagnosticArgSuggestionProvider(sessionAccessor);
         var registryPaths = new AttachRegistryPathArgSuggestionProvider(sessionAccessor);
+        var members = new AttachSemanticMemberArgSuggestionProvider(sessionAccessor);
+        var manualKind = new AttachManualKindArgSuggestionProvider();
+        var manualBrowse = new AttachManualBrowseAllArgSuggestionProvider(sessionAccessor);
         return new CommandArgSuggestionRegistry()
             .RegisterExact(AttachSchemaCatalog.VerbSuggestionId, new AttachVerbArgSuggestionProvider())
             .RegisterExact("federation.attach.step.pick_diagnostic", diagnostics)
             .RegisterExact("federation.attach.step.pick_file", registryPaths)
             .RegisterExact("federation.attach.step.pick_doc", registryPaths)
             .RegisterExact("federation.attach.step.pick_nav", registryPaths)
+            .RegisterExact("federation.attach.step.pick_member", members)
+            .RegisterExact("federation.attach.step.pick_kind", manualKind)
+            .RegisterExact("federation.attach.step.browse_all", manualBrowse)
             .RegisterPrefix("federation.attach.step.", new AttachStepArgSuggestionProvider())
             .Build();
     }
