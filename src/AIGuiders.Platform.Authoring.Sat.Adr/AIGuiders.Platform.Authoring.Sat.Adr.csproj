@@ -8,6 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIGuiders.Platform.Authoring.Sat.Abstractions\AIGuiders.Platform.Authoring.Sat.Abstractions.csproj" />
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Documentation.Correspondence.Core\AIGuiders.Platform.Execution.Documentation.Correspondence.Core.csproj" />
   </ItemGroup>
   <Import Project="../../eng/Guiders.Modeling.props" />
 </Project>

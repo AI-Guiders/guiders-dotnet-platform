@@ -67,7 +67,7 @@ public sealed class AdrFactsSatObserver : ISatObserver
         var missingGolden = new List<string>();
         foreach (var goldenId in facts.GoldenIds)
         {
-            if (!GoldenEvidence.Exists(workspaceRoot, goldenId))
+            if (!AIGuiders.Platform.Execution.Documentation.Correspondence.GoldenEvidence.Exists(workspaceRoot, goldenId))
             {
                 missingGolden.Add(goldenId);
                 diagnostics.Add(new GdlDiagnostic(

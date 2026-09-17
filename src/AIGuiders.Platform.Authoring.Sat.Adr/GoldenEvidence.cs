@@ -1,12 +1,11 @@
-using GdlCorrespondence = AIGuiders.Platform.Modeling.Documentation.Correspondence;
+using AIGuiders.Platform.Execution.Documentation.Correspondence;
 
 namespace AIGuiders.Platform.Authoring.Sat;
 
-/// <summary>
-/// Thin C# bridge to F# SSOT evidence locator in <c>Modeling.Gdl.Correspondence</c> (SAT-003).
-/// </summary>
-public static class GoldenEvidence
+/// <summary>Deprecated — use <see cref="GoldenEvidence"/> in Execution.Documentation.Correspondence.Core.</summary>
+[Obsolete("Use AIGuiders.Platform.Execution.Documentation.Correspondence.GoldenEvidence.")]
+public static class GoldenEvidenceBridge
 {
     public static bool Exists(string workspaceRoot, string goldenId) =>
-        GdlCorrespondence.GoldenEvidence.exists(workspaceRoot, goldenId);
+        GoldenEvidence.Exists(workspaceRoot, goldenId);
 }
