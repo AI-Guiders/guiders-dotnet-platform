@@ -234,7 +234,7 @@ Pre-Federation code was built **without** a federation Modeling layer — tactic
 
 **Attach UX** (plan §4): human verbs → `AttachSchema` steps → `RelationSpec` witness → `Relation` in session graph `G`. Bracket remains **WireProjection**, not SSOT.
 
-Implementation status: Phase 1 Relations kernel **shipped** on `develop`; 0063 product phases remain paused until split-audit checklist closes.
+Implementation status: Phase 1 Relations kernel **shipped**; Navigation.Code **NavSeed-primary** (scene/wire/json, `NavigationAnchor` obsolete shim) on `develop`; 0063 product phases remain paused until split-audit checklist closes.
 
 ---
 
