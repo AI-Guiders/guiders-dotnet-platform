@@ -1,6 +1,9 @@
 using System.Collections.Concurrent;
+using AIGuiders.Platform.Modeling.Core.Identity;
 using AIGuiders.Platform.Modeling.Ide.Session;
 using AIGuiders.Platform.Modeling.Ide.Session.Ports.DotNet;
+using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
+using Microsoft.FSharp.Collections;
 
 namespace AIGuiders.Platform.Execution.Ide.Session;
 
@@ -25,15 +28,15 @@ public static class FederationSessionRuntime
         var full = Path.GetFullPath(anchorPath.Trim());
         if (Cache.TryGetValue(full, out var cached))
         {
-            var cachedValidation = GraphValidation.validate(cached.Session.Graph);
+            var cachedValidation = GraphValidation.validate(cached.Session.Graph, cached.Registry);
             return new FederationSessionOpenResult(cached, cachedValidation);
         }
 
         var session = DotNetSlnxGraphPort.loadSession(full);
-        var validation = GraphValidation.validate(session.Graph);
-
-        var contents = SessionContentsLoader.LoadFromDisk(session.Graph);
-        var runtime = SessionOrchestrator.create(session, contents);
+        var ownership = DotNetSlnxGraphPort.loadDocumentOwnership(full);
+        var contents = SessionContentsLoader.LoadFromDisk(ownership);
+        var runtime = SessionOrchestrator.create(session, MapModule.ToSeq(contents), ownership);
+        var validation = GraphValidation.validate(runtime.Session.Graph, runtime.Registry);
         Cache[full] = runtime;
 
         return new FederationSessionOpenResult(runtime, validation);
@@ -66,7 +69,7 @@ public static class FederationSessionRuntime
         return SessionOrchestrator.applyPatch(runtime, patch, pin) switch
         {
             PatchApplyResult.PatchApplied applied =>
-                StoreRuntime(applied.Item.Session.Graph.AnchorPath, applied.Item),
+                StoreRuntime(applied.Item.Session.Graph.Anchor.Value, applied.Item),
             PatchApplyResult.PatchRejected rejected => new FederationApplyResult(false, runtime, rejected.reasons),
             _ => new FederationApplyResult(false, runtime, ["unknown_patch_apply_result"])
         };

@@ -1,5 +1,8 @@
+using AIGuiders.Platform.Modeling.Core.Identity;
 using AIGuiders.Platform.Modeling.Ide.Session;
 using AIGuiders.Platform.Modeling.Ide.Session.Ports.DotNet;
+using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
+using Microsoft.FSharp.Collections;
 
 namespace AIGuiders.Platform.Execution.Ide.Session;
 
@@ -11,7 +14,10 @@ public static class SolutionSessionHost
         ArgumentException.ThrowIfNullOrWhiteSpace(anchorPath);
 
         var session = DotNetSlnxGraphPort.loadSession(anchorPath);
-        var validation = GraphValidation.validate(session.Graph);
+        var validation =
+            GraphValidation.validate(
+                session.Graph,
+                MapModule.Empty<Identity<Document, NumericId>, DocumentMeta>());
 
         return new SolutionSessionOpenResult(session, validation);
     }
