@@ -45,6 +45,7 @@ LanguageProfile
 ├── SerializeRules         text ↔ graph roundtrip (one text projection)
 ├── ResolvePolicy          Text | Syntax | Semantic + optional AdapterSlot
 ├── IslandRules            optional: how outer profile discovers embedded subgraph boundaries
+├── SchemaRefs             optional: external validation schemas (§4.3)
 └── ProjectionHints        concept → diagram / tree / form capabilities
 ```
 
@@ -85,7 +86,7 @@ Initial normative families (extend by ADR, not string registry):
 |---------------|----------|--------------|-------------|
 | `BlockText` | dashspec, GDL quarries | Syntax → Semantic | planet F# Modeling |
 | `MdBlockAst` | md, md-like | Syntax | planet or shared kernel |
-| `XmlTree` | xml, xaml, svg | Syntax | planet or shared kernel |
+| `XmlTree` | xml, xaml, svg | Syntax → Semantic | planet or shared kernel; **XSD** (§4.3) |
 | `HtmlTree` | html | Syntax | planet or shared kernel |
 | `YamlMapping` | yaml, yaml frontmatter | Syntax | planet or shared kernel |
 | `TomlMapping` | toml | Syntax | planet or shared kernel |
@@ -193,6 +194,45 @@ Embedded config islands (`yaml.mapping`, `toml.document`) and SQL islands (`sql.
 **Hybrid class (§4):** composite outer Profile + `IslandRules` + registry of embeddable inner ProfileIds. Outer **must not** duplicate inner semantic rules in ad-hoc string checks.
 
 **Anchor resolve:** `AnchorIntent.TreeNode(doc, regionNodeId)` → active profile = Region’s `profileRef`; drill-in to inner node uses inner graph index. Cross-island navigation is Code Center conformance (§9).
+
+### 4.3 Schema-bound laws (declarative validation)
+
+Many structural checks need not be hand-coded F#. A Profile **attaches external schemas**; an F# **schema runner** evaluates them against parsed content and emits `Diagnostic[]` as `InvariantLaw` results.
+
+```text
+LanguageProfile
+├── Parse / Serialize / ConceptOntology     F# (hard model)
+├── InvariantLaw[]                          F# — graph laws, cross-node rules, dialect edge cases
+└── SchemaRef[]                             declarative — runner interprets
+         │
+         ├── JsonSchema     YAML/TOML → JSON value → validate
+         ├── Xsd            XML → DOM/infoset → validate (primary for XmlTree)
+         └── SatPredicate   requires/ensures over facts ([0064](./GUIDERS-ADR-0064-config-gdl-quarry-family.md) style)
+```
+
+| SurfaceFamily | Typical `SchemaRef` | Role |
+|---------------|---------------------|------|
+| `YamlMapping` | JSON Schema | unique keys, required fields, types after parse-to-JSON |
+| `TomlMapping` | JSON Schema | same pattern on TOML document model |
+| `XmlTree` | **XSD** (+ optional Schematron later) | extensible XML without hand-written element matrices |
+| `SqlScript` | dialect grammar / lint ruleset (planet) | optional; syntax + policy hooks |
+| Profile Island | schema per Region | e.g. frontmatter YAML schema, embedded config XSD |
+
+**XML:** `XmlTree` profiles **SHOULD** declare `SchemaRef` (XSD path, target namespace, optional `xsi:schemaLocation` policy). Well-formedness = parse laws; **validity** = XSD (and planet-specific semantic overlays in F# where XSD stops). XAML/SVG inherit the same mechanism with planet schema packs.
+
+**YAML/TOML:** parse → canonical JSON (or typed mapping model) → JSON Schema. Keys, types, enums, `oneOf`/`allOf` live in schema files; golden vectors in `docs/conformance/language-profile/`.
+
+**Composition:**
+
+```text
+validate(graph) =
+  F# InvariantLaws graph
+  @ SchemaRunner.eval(SchemaRefs, graph, activeRegion)
+```
+
+Schema-bound results map to the same diagnostic pipeline as code laws (span from Region or node index). Code Center shows squiggles; agents see unified `Diagnostic[]`.
+
+**Profile manifest (optional, later):** a thin GDL or TOML **wiring file** may list `SchemaRefs` and law pack ids — not law logic ([0064](./GUIDERS-ADR-0064-config-gdl-quarry-family.md) `requires`/`ensures` pattern for Sat). SSOT for schema **text** = repo files; SSOT for **interpretation** = F# runner in `Platform.Modeling.LanguageProfile` / Execution.
 
 ### 5. Derived behaviors (normative pipeline)
 
