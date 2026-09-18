@@ -82,6 +82,22 @@ public sealed class BracketResolveBoundaryTests
     }
 
     [Fact]
+    public void TryFormatNav_flattens_legacy_nested_anchor_with_member()
+    {
+        var legacy = RelationWireBoundary.Parse(
+            "[Family:navigation;Command:open;Anchor:[File:CitizenRouteHost.cs;Member:RunLand;Line:50]]");
+        Assert.True(BracketResolveBoundary.TryFormatNav(legacy, out var wire), wire);
+        Assert.Equal(
+            "[Kind:Nav; File:CitizenRouteHost.cs; Line:50; Member:RunLand; Command:open]",
+            wire);
+        Assert.True(BracketResolveBoundary.TryParseNav(wire, out var axes, out _));
+        Assert.Equal("CitizenRouteHost.cs", axes.File);
+        Assert.Equal(50, axes.Line);
+        Assert.Equal("RunLand", axes.Member);
+        Assert.Equal("open", axes.Command);
+    }
+
+    [Fact]
     public void TryFormatNav_flattens_legacy_nested_anchor()
     {
         var legacy = RelationWireBoundary.Parse("[Family:navigation;Command:open;Anchor:[F:README.md;L:10]]");

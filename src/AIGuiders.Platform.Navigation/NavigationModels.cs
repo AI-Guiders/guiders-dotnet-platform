@@ -34,7 +34,8 @@ public sealed record NavSeed(
     int? Column = null,
     string? Command = null,
     string? Go = null,
-    string? SolutionPath = null)
+    string? SolutionPath = null,
+    string? Member = null)
 {
     public ModelingRelations.NavSeed ToModel() =>
         new(
@@ -45,7 +46,8 @@ public sealed record NavSeed(
             FSharpInterop.OptString(Go),
             SolutionPath is { } solutionPath
                 ? FSharpOption<LogicalPath>.Some(LogicalPath.Create(solutionPath))
-                : FSharpOption<LogicalPath>.None);
+                : FSharpOption<LogicalPath>.None,
+            FSharpInterop.OptString(Member));
 
     public static NavSeed FromModel(ModelingRelations.NavSeed model) => new(
         model.Path.Value,
@@ -55,7 +57,8 @@ public sealed record NavSeed(
         FSharpInterop.OptString(model.Go),
         model.Solution is not null && FSharpOption<LogicalPath>.get_IsSome(model.Solution)
             ? model.Solution.Value.Value
-            : null);
+            : null,
+        FSharpInterop.OptString(model.Member));
 }
 
 public sealed record NavigationNode(

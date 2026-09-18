@@ -9,4 +9,5 @@ public sealed record NavResolveAxes(
     int? Column = null,
     string? Command = null,
     string? Go = null,
-    string? Solution = null);
+    string? Solution = null,
+    string? Member = null);

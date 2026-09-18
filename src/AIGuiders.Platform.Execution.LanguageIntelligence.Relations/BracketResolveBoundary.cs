@@ -110,6 +110,8 @@ public static class BracketResolveBoundary
             parts.Add($"Line:{line}");
         if (axes.Column is int column)
             parts.Add($"Column:{column}");
+        if (!string.IsNullOrWhiteSpace(axes.Member))
+            parts.Add($"Member:{axes.Member.Trim()}");
         if (!string.IsNullOrWhiteSpace(axes.Command))
             parts.Add($"Command:{axes.Command.Trim()}");
         if (!string.IsNullOrWhiteSpace(axes.Go))

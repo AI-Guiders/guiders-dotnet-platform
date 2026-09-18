@@ -25,7 +25,8 @@ public static class NavResolveProjection
             Go: seed.Go is not null && FSharpOption<string>.get_IsSome(seed.Go) ? seed.Go.Value : null,
             Solution: seed.Solution is not null && FSharpOption<LogicalPath>.get_IsSome(seed.Solution)
                 ? seed.Solution.Value.Value
-                : null);
+                : null,
+            Member: seed.Member is not null && FSharpOption<string>.get_IsSome(seed.Member) ? seed.Member.Value : null);
         return true;
     }
 
@@ -37,17 +38,20 @@ public static class NavResolveProjection
 
         var file = legacy.File;
         int? line = legacy.LineStart;
+        string? member = legacy.MemberKey;
         if (legacy.NestedAnchor is { } nested)
         {
             file ??= nested.File;
             line ??= nested.LineStart;
+            member ??= nested.MemberKey;
         }
 
         axes = new NavResolveAxes(
             File: file,
             Line: line,
             Command: legacy.Command,
-            Go: legacy.Go);
+            Go: legacy.Go,
+            Member: member);
         return !string.IsNullOrWhiteSpace(file)
                || !string.IsNullOrWhiteSpace(legacy.Command)
                || !string.IsNullOrWhiteSpace(legacy.Go);
