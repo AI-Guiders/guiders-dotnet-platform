@@ -18,21 +18,12 @@ public sealed record Locus(
     public static Locus OfRange(int start, int end) => new(start, end, ResolveTier.Syntax);
 }
 
-/// <summary>Resolve input for relation (raw wire). Prefer NormalizedBracketWire (ADR-0026).</summary>
-public sealed record RelationWire(string Value)
-{
-    public ModelingLanguage.AnchorWire ToModel() => new(Value);
-
-    public static RelationWire FromModel(ModelingLanguage.AnchorWire model) => new(model.Value);
-}
+/// <summary>Resolve input for relation (raw wire). Prefer Kind: bracket wire / RelationSpec (ADR-0026).</summary>
+public sealed record RelationWire(string Value);
 
 /// <summary>Legacy alias — prefer <see cref="RelationWire"/>.</summary>
 public sealed record AnchorWire(string Value)
 {
-    public ModelingLanguage.AnchorWire ToModel() => new(Value);
-
-    public static AnchorWire FromModel(ModelingLanguage.AnchorWire model) => new(model.Value);
-
     public RelationWire ToRelationWire() => new(Value);
 }
 
@@ -78,24 +69,13 @@ public sealed record BufferEditOutcome
     };
 }
 
-/// <summary>EditSniper-style scope (CDP: from/till/wire/pad).</summary>
+/// <summary>EditSniper-style scope (CDP: from/till/wire/pad) — Execution-only until RelationSpec canon.</summary>
 public sealed record SniperScope(
     int? FromLine = null,
     int? TillLine = null,
     string? Wire = null,
     string? Pad = null)
 {
-    public static SniperScope Empty() => FromModel(ModelingLanguage.SniperScopeModule.empty);
-
-    public ModelingLanguage.SniperScope ToModel() => new(
-        FSharpInterop.OptInt(FromLine),
-        FSharpInterop.OptInt(TillLine),
-        FSharpInterop.OptString(Wire),
-        FSharpInterop.OptString(Pad));
-
-    public static SniperScope FromModel(ModelingLanguage.SniperScope model) => new(
-        FSharpInterop.OptInt(model.FromLine),
-        FSharpInterop.OptInt(model.TillLine),
-        FSharpInterop.OptString(model.Wire),
-        FSharpInterop.OptString(model.Pad));
+    public static SniperScope Empty() => new();
 }
+
