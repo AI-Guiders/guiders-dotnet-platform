@@ -98,10 +98,14 @@ public static class BracketResolveBoundary
     public static bool TryFormatNav(NavResolveAxes axes, out string wire)
     {
         wire = "";
-        if (string.IsNullOrWhiteSpace(axes.File))
+        if (string.IsNullOrWhiteSpace(axes.File)
+            && string.IsNullOrWhiteSpace(axes.Command)
+            && string.IsNullOrWhiteSpace(axes.Go))
             return false;
 
-        var parts = new List<string> { "Kind:Nav", $"File:{axes.File.Trim()}" };
+        var parts = new List<string> { "Kind:Nav" };
+        if (!string.IsNullOrWhiteSpace(axes.File))
+            parts.Add($"File:{axes.File.Trim()}");
         if (axes.Line is int line)
             parts.Add($"Line:{line}");
         if (axes.Column is int column)

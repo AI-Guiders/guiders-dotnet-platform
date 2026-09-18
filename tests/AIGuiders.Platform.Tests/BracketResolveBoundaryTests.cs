@@ -67,6 +67,21 @@ public sealed class BracketResolveBoundaryTests
     }
 
     [Fact]
+    public void TryFormatNav_emits_command_only_kind_nav()
+    {
+        Assert.True(
+            BracketResolveBoundary.TryFormatNav(
+                new NavResolveAxes(null, Command: "restore"),
+                out var wire),
+            wire);
+        Assert.Equal("[Kind:Nav; Command:restore]", wire);
+        Assert.True(BracketResolveBoundary.TryParseNav(wire, out var axes, out var path));
+        Assert.Equal("kind-nav", path);
+        Assert.Null(axes.File);
+        Assert.Equal("restore", axes.Command);
+    }
+
+    [Fact]
     public void TryFormatNav_flattens_legacy_nested_anchor()
     {
         var legacy = RelationWireBoundary.Parse("[Family:navigation;Command:open;Anchor:[F:README.md;L:10]]");

@@ -16,8 +16,9 @@ public static class NavResolveProjection
             return false;
 
         var seed = nav.source;
+        var file = seed.Path.IsEmpty ? null : seed.Path.Value;
         axes = new NavResolveAxes(
-            File: seed.Path.Value,
+            File: file,
             Line: seed.Line is not null && FSharpOption<int>.get_IsSome(seed.Line) ? seed.Line.Value : null,
             Column: seed.Column is not null && FSharpOption<int>.get_IsSome(seed.Column) ? seed.Column.Value : null,
             Command: seed.Command is not null && FSharpOption<string>.get_IsSome(seed.Command) ? seed.Command.Value : null,
