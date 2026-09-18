@@ -1,5 +1,6 @@
 #nullable enable
 
+using AIGuiders.Platform.Modeling.Notations.Bracket;
 using AIGuiders.Platform.Notations.Bracket;
 
 namespace AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
