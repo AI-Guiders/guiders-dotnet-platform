@@ -1,9 +1,6 @@
 #nullable enable
 
-#pragma warning disable CS0618 // BracketAnchorSpan legacy wire IR (plan §10 delete)
-
 using System.Linq;
-using AIGuiders.Platform.Execution.LanguageIntelligence;
 using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
 using AIGuiders.Platform.Modeling.Notations.Bracket;
 using AIGuiders.Platform.Notations.Bracket;
@@ -35,14 +32,12 @@ public static class RelationSpecWireBoundary
     }
 }
 
-/// <summary>
-/// Transitional bridge: RelationSpec witness → legacy <see cref="BracketAnchorSpan"/> for language resolvers.
-/// </summary>
-public static class RelationSpecLegacyBridge
+/// <summary>Project RelationSpec.CodeEdit and legacy wire spans into resolver axes (plan §10).</summary>
+public static class CodeEditResolveProjection
 {
-    public static bool TryToLegacySpan(RelationSpec spec, out BracketAnchorSpan span)
+    public static bool TryFromRelationSpec(RelationSpec spec, out CodeEditResolveAxes axes)
     {
-        span = default!;
+        axes = default!;
         if (spec is not RelationSpec.CodeEdit codeEdit)
             return false;
 
@@ -57,7 +52,7 @@ public static class RelationSpecLegacyBridge
 
         if (container.Length >= 3 && container[0] == XmlWireEncoding.Marker)
         {
-            span = new BracketAnchorSpan(
+            axes = new CodeEditResolveAxes(
                 File: fileRef.Item.Value,
                 MemberKey: null,
                 LineStart: null,
@@ -68,13 +63,22 @@ public static class RelationSpecLegacyBridge
             return true;
         }
 
-        span = new BracketAnchorSpan(
+        axes = new CodeEditResolveAxes(
             File: fileRef.Item.Value,
             MemberKey: symbol.Name,
             LineStart: null,
             LineEnd: null,
             ScopeKind: container.Length == 0 ? null : string.Join(".", container));
         return true;
+    }
+
+    public static bool TryFromLegacyWire(LegacyWireSpan legacy, out CodeEditResolveAxes axes)
+    {
+        axes = legacy.ToCodeEditAxes();
+        return !string.IsNullOrWhiteSpace(axes.File)
+               || !string.IsNullOrWhiteSpace(axes.MemberKey)
+               || axes.LineStart is not null
+               || !string.IsNullOrWhiteSpace(axes.XmlPath);
     }
 
     static string? OptNonEmpty(string? raw) =>

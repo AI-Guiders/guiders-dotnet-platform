@@ -1,8 +1,8 @@
 #nullable enable
 
-#pragma warning disable CS0618 // BracketAnchorSpan legacy wire IR conformance (plan §10 delete)
-
-using AIGuiders.Platform.Execution.LanguageIntelligence;using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
+using AIGuiders.Platform.Execution.LanguageIntelligence;
+using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
+using AIGuiders.Platform.Notations.Bracket;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;
@@ -33,23 +33,23 @@ public sealed class RelationWireBoundaryTests
         const string wire = "[Kind:CodeEdit; File:Program.cs; Member:Foo]";
         var spec = RelationSpecWireBoundary.TryParseKindSpec(wire);
         Assert.NotNull(spec);
-        Assert.True(RelationSpecLegacyBridge.TryToLegacySpan(spec, out var kindSpan));
+        Assert.True(CodeEditResolveProjection.TryFromRelationSpec(spec, out var kindAxes));
 
         var legacySpan = RelationWireBoundary.Parse("[F:Program.cs;M:Foo]");
-        Assert.Equal(legacySpan.File, kindSpan.File);
-        Assert.Equal(legacySpan.MemberKey, kindSpan.MemberKey);
+        Assert.Equal(legacySpan.File, kindAxes.File);
+        Assert.Equal(legacySpan.MemberKey, kindAxes.MemberKey);
     }
 
     [Fact]
-    public void RelationSpecLegacyBridge_maps_xml_wire_encoding_to_span()
+    public void CodeEditResolveProjection_maps_xml_wire_encoding_to_axes()
     {
         const string wire = "[Kind:CodeEdit; File:doc.xml; Element:Root/Item]";
         var spec = RelationSpecWireBoundary.TryParseKindSpec(wire);
         Assert.NotNull(spec);
-        Assert.True(RelationSpecLegacyBridge.TryToLegacySpan(spec, out var span));
-        Assert.Equal("doc.xml", span.File);
-        Assert.Equal("Root/Item", span.XmlPath);
-        Assert.Null(span.MemberKey);
+        Assert.True(CodeEditResolveProjection.TryFromRelationSpec(spec, out var axes));
+        Assert.Equal("doc.xml", axes.File);
+        Assert.Equal("Root/Item", axes.XmlPath);
+        Assert.Null(axes.MemberKey);
     }
 
     [Fact]
@@ -60,10 +60,10 @@ public sealed class RelationWireBoundaryTests
     }
 
     [Fact]
-    public void BracketAnchorSpan_supports_nested_anchors()
+    public void LegacyWireSpan_supports_nested_anchors()
     {
-        var inner = new BracketAnchorSpan(null, "inner", null, null);
-        var outer = new BracketAnchorSpan("a.fs", null, null, null, NestedAnchor: inner);
+        var inner = new LegacyWireSpan(null, "inner", null, null);
+        var outer = new LegacyWireSpan("a.fs", null, null, null, NestedAnchor: inner);
         Assert.Same(inner, outer.NestedAnchor);
     }
 

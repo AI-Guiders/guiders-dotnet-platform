@@ -1,6 +1,6 @@
 #nullable enable
 
-#pragma warning disable CS0618 // BracketAnchorSpan legacy wire IR (plan §10 delete)
+#pragma warning disable CS0618 // LegacyWireSpan legacy wire IR (plan §10 delete)
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -41,7 +41,7 @@ public static class RelationResolveSpecConformance
         if (string.Equals(vector.Mode, "kind-spec", StringComparison.OrdinalIgnoreCase))
             return TryValidateKindSpecVector(vector, out error);
 
-        BracketAnchorSpan span;
+        LegacyWireSpan span;
         try
         {
             span = RelationWireBoundary.Parse(vector.Wire);
@@ -105,14 +105,83 @@ public static class RelationResolveSpecConformance
             }
         }
 
-        if (!RelationSpecLegacyBridge.TryToLegacySpan(spec, out var span))
+        if (!CodeEditResolveProjection.TryFromRelationSpec(spec, out var axes))
         {
             if (HasSpanExpectation(vector.Expect))
-                return Fail("RelationSpec did not bridge to legacy span.", out error);
+                return Fail("RelationSpec did not project to CodeEdit resolve axes.", out error);
             return true;
         }
 
-        return SpanMatches(vector.Expect, span, out error);
+        return AxesMatches(vector.Expect, axes, out error);
+    }
+
+    static bool AxesMatches(RelationResolveSpecExpectation expect, CodeEditResolveAxes actual, out string error)
+    {
+        error = "";
+        if (expect.File is not null && expect.File != actual.File)
+        {
+            error = $"file expected \"{expect.File}\", got \"{actual.File}\".";
+            return false;
+        }
+
+        if (expect.MemberKey is not null && expect.MemberKey != actual.MemberKey)
+        {
+            error = $"memberKey expected \"{expect.MemberKey}\", got \"{actual.MemberKey}\".";
+            return false;
+        }
+
+        if (expect.LineStart is not null && expect.LineStart != actual.LineStart)
+        {
+            error = $"lineStart expected {expect.LineStart}, got {actual.LineStart}.";
+            return false;
+        }
+
+        if (expect.LineEnd is not null && expect.LineEnd != actual.LineEnd)
+        {
+            error = $"lineEnd expected {expect.LineEnd}, got {actual.LineEnd}.";
+            return false;
+        }
+
+        if (expect.ScopeKind is not null && expect.ScopeKind != actual.ScopeKind)
+        {
+            error = $"scopeKind expected \"{expect.ScopeKind}\", got \"{actual.ScopeKind}\".";
+            return false;
+        }
+
+        if (expect.ScopeIndex is not null && expect.ScopeIndex != actual.ScopeIndex)
+        {
+            error = $"scopeIndex expected {expect.ScopeIndex}, got {actual.ScopeIndex}.";
+            return false;
+        }
+
+        if (expect.XmlPath is not null && expect.XmlPath != actual.XmlPath)
+        {
+            error = $"xmlPath expected \"{expect.XmlPath}\", got \"{actual.XmlPath}\".";
+            return false;
+        }
+
+        if (expect.Attr is not null && expect.Attr != actual.Attr)
+        {
+            error = $"attr expected \"{expect.Attr}\", got \"{actual.Attr}\".";
+            return false;
+        }
+
+        if (expect.FamilyName is not null || expect.Command is not null || expect.Go is not null || expect.NestedAnchor is not null)
+            return Fail("legacy navigation span fields are not projected from RelationSpec.", out error);
+
+        if (expect.TextNeedle is not null && expect.TextNeedle != actual.TextNeedle)
+        {
+            error = $"textNeedle expected \"{expect.TextNeedle}\", got \"{actual.TextNeedle}\".";
+            return false;
+        }
+
+        if (expect.TypeKey is not null && expect.TypeKey != actual.TypeKey)
+        {
+            error = $"typeKey expected \"{expect.TypeKey}\", got \"{actual.TypeKey}\".";
+            return false;
+        }
+
+        return true;
     }
 
     static bool HasSpanExpectation(RelationResolveSpecExpectation expect) =>
@@ -145,7 +214,7 @@ public static class RelationResolveSpecConformance
             _ => "",
         };
 
-    static bool SpanMatches(RelationResolveSpecExpectation expect, BracketAnchorSpan actual, out string error)
+    static bool SpanMatches(RelationResolveSpecExpectation expect, LegacyWireSpan actual, out string error)
     {
         error = "";
         if (expect.File is not null && expect.File != actual.File)

@@ -1,6 +1,6 @@
 #nullable enable
 
-#pragma warning disable CS0618 // BracketAnchorSpan legacy wire IR (plan §10 delete)
+#pragma warning disable CS0618 // LegacyWireSpan legacy wire IR (plan §10 delete)
 
 using AIGuiders.Platform.Modeling.Notations.Bracket;
 using AIGuiders.Platform.Notations.Bracket;
@@ -47,7 +47,7 @@ public static class RelationWireBoundary
         ["Navigate"] = "Navigate",
     };
 
-    public static BracketAnchorSpan Parse(string bracketOrInner)
+    public static LegacyWireSpan Parse(string bracketOrInner)
     {
         if (!BracketReader.Default.TryRead(
                 bracketOrInner,
@@ -60,7 +60,7 @@ public static class RelationWireBoundary
         return SpanFromWire(wire);
     }
 
-    static BracketAnchorSpan SpanFromWire(NormalizedBracketWire wire)
+    static LegacyWireSpan SpanFromWire(NormalizedBracketWire wire)
     {
         string? file = null;
         string? member = null;
@@ -76,7 +76,7 @@ public static class RelationWireBoundary
         string? go = null;
         string? textNeedle = null;
         string? typeKey = null;
-        BracketAnchorSpan? nested = null;
+        LegacyWireSpan? nested = null;
         var legacyNavigate = false;
 
         foreach (var axis in wire.Axes)
@@ -136,7 +136,7 @@ public static class RelationWireBoundary
         if (legacyNavigate && string.IsNullOrWhiteSpace(family))
             family = "navigation";
 
-        var span = new BracketAnchorSpan(
+        var span = new LegacyWireSpan(
             file, member, lineStart, lineEnd, scopeKind, scopeIndex, role, xmlPath, attr,
             family, command, go, nested, textNeedle, typeKey);
         _ = ClassifyFamily(span, out var familyError);
@@ -149,7 +149,7 @@ public static class RelationWireBoundary
     /// Explicit <c>Family:</c> wins; else infer code (M/S/L) vs xml (Element/Attribute).
     /// Navigation = Family or Command/Go/nested.
     /// </summary>
-    public static BracketAxisFamily ClassifyFamily(BracketAnchorSpan span, out string? error)
+    public static BracketAxisFamily ClassifyFamily(LegacyWireSpan span, out string? error)
     {
         error = null;
         var fam = NormalizeFamilyName(span.Family);
@@ -222,7 +222,7 @@ public static class RelationWireBoundary
         return BracketAxisFamily.None;
     }
 
-    static bool ValidateXml(BracketAnchorSpan span, out string? error)
+    static bool ValidateXml(LegacyWireSpan span, out string? error)
     {
         error = null;
         if (string.IsNullOrWhiteSpace(span.XmlPath) && !string.IsNullOrWhiteSpace(span.Attr))
@@ -234,7 +234,7 @@ public static class RelationWireBoundary
         return true;
     }
 
-    static bool ValidateJson(BracketAnchorSpan span, out string? error)
+    static bool ValidateJson(LegacyWireSpan span, out string? error)
     {
         error = null;
         if (string.IsNullOrWhiteSpace(span.MemberKey))
@@ -252,7 +252,7 @@ public static class RelationWireBoundary
         return true;
     }
 
-    static bool ValidateCode(BracketAnchorSpan span, out string? error)
+    static bool ValidateCode(LegacyWireSpan span, out string? error)
     {
         error = null;
         if (!string.IsNullOrWhiteSpace(span.XmlPath) || !string.IsNullOrWhiteSpace(span.Attr))
@@ -268,7 +268,7 @@ public static class RelationWireBoundary
     /// Emit wire. Navigation → canonical names + Family.
     /// Code/xml → short aliases (compat) unless <paramref name="preferCanonical"/>.
     /// </summary>
-    public static string Format(BracketAnchorSpan span, bool preferCanonical = false)
+    public static string Format(LegacyWireSpan span, bool preferCanonical = false)
     {
         var family = ClassifyFamily(span, out _);
         var canon = preferCanonical || family == BracketAxisFamily.Navigation

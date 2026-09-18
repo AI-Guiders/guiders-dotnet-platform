@@ -1,6 +1,3 @@
-#pragma warning disable CS0618 // BracketAnchorSpan legacy wire IR (plan §10 delete)
-
-using AIGuiders.Platform.Execution.LanguageIntelligence;
 using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
 using System.Globalization;
@@ -29,7 +26,39 @@ public static class XmlBracketAnchorResolve
         @"^(?<name>[A-Za-z_][\w.-]*)(?:@(?<attr>[A-Za-z_][\w.-]*)=(?<val>[^:]+))?(?::(?<index>\d+))?$",
         RegexOptions.CultureInvariant | RegexOptions.Compiled);
 
-    /// <summary>Resolve <see cref="RelationSpec.CodeEdit"/> via transitional legacy span bridge.</summary>
+    public static bool TryResolve(
+        string absoluteFilePath,
+        LegacyWireSpan legacy,
+        out ResolveResult result,
+        out string detail)
+    {
+        if (!CodeEditResolveProjection.TryFromLegacyWire(legacy, out var axes))
+        {
+            result = default!;
+            detail = "unsupported_legacy_wire";
+            return false;
+        }
+
+        return TryResolve(absoluteFilePath, sourceText: null, axes, out result, out detail);
+    }
+
+    public static bool TryResolve(
+        string absoluteFilePath,
+        string? sourceText,
+        LegacyWireSpan legacy,
+        out ResolveResult result,
+        out string detail)
+    {
+        if (!CodeEditResolveProjection.TryFromLegacyWire(legacy, out var axes))
+        {
+            result = default!;
+            detail = "unsupported_legacy_wire";
+            return false;
+        }
+
+        return TryResolve(absoluteFilePath, sourceText, axes, out result, out detail);
+    }
+
     public static bool TryResolve(
         string absoluteFilePath,
         RelationSpec spec,
@@ -37,7 +66,7 @@ public static class XmlBracketAnchorResolve
         out string detail) =>
         TryResolve(absoluteFilePath, sourceText: null, spec, out result, out detail);
 
-    /// <summary>Resolve <see cref="RelationSpec.CodeEdit"/> via transitional legacy span bridge.</summary>
+    /// <summary>Resolve <see cref="RelationSpec.CodeEdit"/> via CodeEdit projection.</summary>
     public static bool TryResolve(
         string absoluteFilePath,
         string? sourceText,
@@ -45,33 +74,33 @@ public static class XmlBracketAnchorResolve
         out ResolveResult result,
         out string detail)
     {
-        if (!RelationSpecLegacyBridge.TryToLegacySpan(spec, out var span))
+        if (!CodeEditResolveProjection.TryFromRelationSpec(spec, out var axes))
         {
             result = default!;
             detail = "unsupported_relation_spec";
             return false;
         }
 
-        return TryResolve(absoluteFilePath, sourceText, span, out result, out detail);
+        return TryResolve(absoluteFilePath, sourceText, axes, out result, out detail);
     }
 
     public static bool TryResolve(
         string absoluteFilePath,
         string? sourceText,
-        BracketAnchorSpan span,
+        CodeEditResolveAxes axes,
         out ResolveResult result,
         out string detail)
     {
         result = default!;
         detail = "";
 
-        if (string.IsNullOrWhiteSpace(span.XmlPath))
+        if (string.IsNullOrWhiteSpace(axes.XmlPath))
         {
             detail = "need_X";
             return false;
         }
 
-        if (!string.IsNullOrWhiteSpace(span.MemberKey) || !string.IsNullOrWhiteSpace(span.ScopeKind))
+        if (!string.IsNullOrWhiteSpace(axes.MemberKey) || !string.IsNullOrWhiteSpace(axes.ScopeKind))
         {
             detail = "mixed_axes";
             return false;
@@ -88,7 +117,7 @@ public static class XmlBracketAnchorResolve
             return false;
         }
 
-        var segments = span.XmlPath.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        var segments = axes.XmlPath.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         if (segments.Length == 0)
         {
             detail = "empty_X";
@@ -103,15 +132,15 @@ public static class XmlBracketAnchorResolve
             path.Add(seg);
         }
 
-        var wantAttr = string.IsNullOrWhiteSpace(span.Attr) ? null : span.Attr.Trim();
-        var upsert = span.Role is not null
-            && span.Role.Equals("Element", StringComparison.OrdinalIgnoreCase);
+        var wantAttr = string.IsNullOrWhiteSpace(axes.Attr) ? null : axes.Attr.Trim();
+        var upsert = axes.Role is not null
+            && axes.Role.Equals("Element", StringComparison.OrdinalIgnoreCase);
 
         if (wantAttr is not null
-            && span.Role is not null
-            && !span.Role.Equals("Attr", StringComparison.OrdinalIgnoreCase)
-            && !span.Role.Equals("Attribute", StringComparison.OrdinalIgnoreCase)
-            && !span.Role.Equals("Element", StringComparison.OrdinalIgnoreCase))
+            && axes.Role is not null
+            && !axes.Role.Equals("Attr", StringComparison.OrdinalIgnoreCase)
+            && !axes.Role.Equals("Attribute", StringComparison.OrdinalIgnoreCase)
+            && !axes.Role.Equals("Element", StringComparison.OrdinalIgnoreCase))
         {
             detail = "axis_not_consumed:K";
             return false;

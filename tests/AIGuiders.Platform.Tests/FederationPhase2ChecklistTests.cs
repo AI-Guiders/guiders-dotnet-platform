@@ -1,6 +1,6 @@
 using System.Reflection;
 using AIGuiders.Platform.Execution.Ide.Session;
-using AIGuiders.Platform.Execution.LanguageIntelligence;
+using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 using AIGuiders.Platform.Modeling.Documentation.Correspondence;
 using Xunit;
 
@@ -10,15 +10,19 @@ namespace AIGuiders.Platform.Tests;
 public sealed class FederationPhase2ChecklistTests
 {
     [Fact]
-    public void BracketAnchorSpan_is_obsolete_Execution_only_legacy_wire_ir()
+    public void BracketAnchorSpan_type_is_deleted_from_Execution()
     {
         var modelingAssembly = typeof(DocToCodeWitness).Assembly;
         Assert.Null(modelingAssembly.GetType("AIGuiders.Platform.Modeling.LanguageIntelligence.BracketAnchorSpan"));
+        Assert.Null(typeof(CodeEditResolveAxes).Assembly.GetType("AIGuiders.Platform.Execution.LanguageIntelligence.BracketAnchorSpan"));
+    }
 
-#pragma warning disable CS0618 // intentional gate on legacy wire IR type
-        Assert.True(typeof(BracketAnchorSpan).IsPublic);
-        Assert.NotNull(typeof(BracketAnchorSpan).GetCustomAttribute<ObsoleteAttribute>());
-#pragma warning restore CS0618
+    [Fact]
+    public void CodeEdit_resolve_projection_and_legacy_wire_types_are_public()
+    {
+        Assert.True(typeof(CodeEditResolveAxes).IsPublic);
+        Assert.True(typeof(LegacyWireSpan).IsPublic);
+        Assert.True(typeof(CodeEditResolveProjection).IsPublic);
     }
 
     [Fact]

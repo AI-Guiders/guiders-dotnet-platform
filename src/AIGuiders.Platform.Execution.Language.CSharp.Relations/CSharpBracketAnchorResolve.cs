@@ -1,8 +1,5 @@
 #nullable enable
 
-#pragma warning disable CS0618 // BracketAnchorSpan legacy wire IR (plan §10 delete)
-
-using AIGuiders.Platform.Execution.LanguageIntelligence;
 using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
 using Microsoft.CodeAnalysis;
@@ -24,10 +21,22 @@ public static class CSharpBracketAnchorResolve
         SyntaxNode Node,
         string Detail);
 
-    public static bool TryResolve(string absoluteFilePath, BracketAnchorSpan span, out TextRange range, out string detail) =>
-        TryResolve(absoluteFilePath, sourceText: null, span, out range, out detail);
+    public static bool TryResolve(string absoluteFilePath, LegacyWireSpan legacy, out TextRange range, out string detail)
+    {
+        if (!CodeEditResolveProjection.TryFromLegacyWire(legacy, out var axes))
+        {
+            range = default!;
+            detail = "unsupported_legacy_wire";
+            return false;
+        }
 
-    /// <summary>Resolve <see cref="RelationSpec.CodeEdit"/> via transitional legacy span bridge.</summary>
+        return TryResolve(absoluteFilePath, axes, out range, out detail);
+    }
+
+    public static bool TryResolve(string absoluteFilePath, CodeEditResolveAxes axes, out TextRange range, out string detail) =>
+        TryResolve(absoluteFilePath, sourceText: null, axes, out range, out detail);
+
+    /// <summary>Resolve <see cref="RelationSpec.CodeEdit"/> via CodeEdit projection.</summary>
     public static bool TryResolve(
         string absoluteFilePath,
         RelationSpec spec,
@@ -35,7 +44,7 @@ public static class CSharpBracketAnchorResolve
         out string detail) =>
         TryResolve(absoluteFilePath, sourceText: null, spec, out range, out detail);
 
-    /// <summary>Resolve <see cref="RelationSpec.CodeEdit"/> via transitional legacy span bridge.</summary>
+    /// <summary>Resolve <see cref="RelationSpec.CodeEdit"/> via CodeEdit projection.</summary>
     public static bool TryResolve(
         string absoluteFilePath,
         string? sourceText,
@@ -43,29 +52,29 @@ public static class CSharpBracketAnchorResolve
         out TextRange range,
         out string detail)
     {
-        if (!RelationSpecLegacyBridge.TryToLegacySpan(spec, out var span))
+        if (!CodeEditResolveProjection.TryFromRelationSpec(spec, out var axes))
         {
             range = default!;
             detail = "unsupported_relation_spec";
             return false;
         }
 
-        return TryResolve(absoluteFilePath, sourceText, span, out range, out detail);
+        return TryResolve(absoluteFilePath, sourceText, axes, out range, out detail);
     }
 
     /// <param name="absoluteFilePath">Absolute path to the C# source file.</param>
     /// <param name="sourceText">Optional buffer text (cdp_buffer). When null, reads <paramref name="absoluteFilePath"/> from disk.</param>
-    /// <param name="span">Bracket anchor span to resolve.</param>
+    /// <param name="axes">CodeEdit resolve axes to resolve.</param>
     /// <param name="range">Resolved text range when successful.</param>
     /// <param name="detail">Diagnostic detail for attach target resolution.</param>
     public static bool TryResolve(
         string absoluteFilePath,
         string? sourceText,
-        BracketAnchorSpan span,
+        CodeEditResolveAxes axes,
         out TextRange range,
         out string detail)
     {
-        if (!TryFindAttachTarget(absoluteFilePath, sourceText, span, out var target, out detail))
+        if (!TryFindAttachTarget(absoluteFilePath, sourceText, axes, out var target, out detail))
         {
             range = default!;
             return false;
@@ -80,9 +89,9 @@ public static class CSharpBracketAnchorResolve
         detail = target.Detail;
 
         // TextNeedle (Text:/Needle:/Content:) narrows the resolved span; T: = Type axis.
-        if (!string.IsNullOrWhiteSpace(span.TextNeedle))
+        if (!string.IsNullOrWhiteSpace(axes.TextNeedle))
         {
-            if (!TryNarrowRangeToTextNeedle(target.Tree, target.Node, span.TextNeedle, out range, out var narrowDetail))
+            if (!TryNarrowRangeToTextNeedle(target.Tree, target.Node, axes.TextNeedle, out range, out var narrowDetail))
             {
                 detail = narrowDetail;
                 return false;
@@ -94,23 +103,39 @@ public static class CSharpBracketAnchorResolve
         return true;
     }
 
+    public static bool TryFindAttachTarget(
+        string absoluteFilePath,
+        LegacyWireSpan legacy,
+        out AttachTarget target,
+        out string detail)
+    {
+        if (!CodeEditResolveProjection.TryFromLegacyWire(legacy, out var axes))
+        {
+            target = default!;
+            detail = "unsupported_legacy_wire";
+            return false;
+        }
+
+        return TryFindAttachTarget(absoluteFilePath, axes, out target, out detail);
+    }
+
     /// <summary>Resolve F+(M|T|L|S[+K]) to a syntax node for annotate/mutate attach.</summary>
     public static bool TryFindAttachTarget(
         string absoluteFilePath,
-        BracketAnchorSpan span,
+        CodeEditResolveAxes axes,
         out AttachTarget target,
         out string detail) =>
-        TryFindAttachTarget(absoluteFilePath, sourceText: null, span, out target, out detail);
+        TryFindAttachTarget(absoluteFilePath, sourceText: null, axes, out target, out detail);
 
     /// <param name="absoluteFilePath">Absolute path to the C# source file.</param>
     /// <param name="sourceText">When set, parse this instead of disk (dirty buffer / in-memory).</param>
-    /// <param name="span">Bracket anchor span to resolve.</param>
+    /// <param name="axes">CodeEdit resolve axes to resolve.</param>
     /// <param name="target">Resolved attach target when successful.</param>
     /// <param name="detail">Diagnostic detail for attach target resolution.</param>
     public static bool TryFindAttachTarget(
         string absoluteFilePath,
         string? sourceText,
-        BracketAnchorSpan span,
+        CodeEditResolveAxes axes,
         out AttachTarget target,
         out string detail)
     {
@@ -136,11 +161,11 @@ public static class CSharpBracketAnchorResolve
 
         SyntaxNode searchRoot = root;
         MemberDeclarationSyntax? member = null;
-        if (!string.IsNullOrWhiteSpace(span.MemberKey))
+        if (!string.IsNullOrWhiteSpace(axes.MemberKey))
         {
             member = root.DescendantNodes()
                 .OfType<MemberDeclarationSyntax>()
-                .FirstOrDefault(m => MemberName(m).Equals(span.MemberKey, StringComparison.Ordinal));
+                .FirstOrDefault(m => MemberName(m).Equals(axes.MemberKey, StringComparison.Ordinal));
             if (member is null)
             {
                 detail = "member_not_found";
@@ -152,19 +177,19 @@ public static class CSharpBracketAnchorResolve
         SyntaxNode? focus;
         string resolveDetail;
 
-        if (!string.IsNullOrWhiteSpace(span.ScopeKind))
+        if (!string.IsNullOrWhiteSpace(axes.ScopeKind))
         {
-            if (!TryResolveScope(searchRoot, span, out focus, out resolveDetail))
+            if (!TryResolveScope(searchRoot, axes, out focus, out resolveDetail))
                 return Fail(resolveDetail, out detail);
         }
-        else if (span.LineStart is >= 1)
+        else if (axes.LineStart is >= 1)
         {
-            focus = FindNodeAtLine(tree, root, searchRoot, span.LineStart.Value);
+            focus = FindNodeAtLine(tree, root, searchRoot, axes.LineStart.Value);
             if (focus is null)
                 return Fail("line_node_not_found", out detail);
-            if (!string.IsNullOrWhiteSpace(span.Role))
+            if (!string.IsNullOrWhiteSpace(axes.Role))
             {
-                if (!TryApplyLineRole(focus, span.Role.Trim(), out focus, out resolveDetail))
+                if (!TryApplyLineRole(focus, axes.Role.Trim(), out focus, out resolveDetail))
                     return Fail(resolveDetail, out detail);
             }
             else
@@ -172,12 +197,12 @@ public static class CSharpBracketAnchorResolve
                 resolveDetail = "line";
             }
         }
-        else if (!string.IsNullOrWhiteSpace(span.TypeKey))
+        else if (!string.IsNullOrWhiteSpace(axes.TypeKey))
         {
             // T: = Type axis: type declaration span by name, parse-only (no workspace).
             var typeDecl = searchRoot.DescendantNodesAndSelf()
                 .OfType<TypeDeclarationSyntax>()
-                .FirstOrDefault(t => t.Identifier.ValueText.Equals(span.TypeKey, StringComparison.Ordinal));
+                .FirstOrDefault(t => t.Identifier.ValueText.Equals(axes.TypeKey, StringComparison.Ordinal));
             if (typeDecl is null)
                 return Fail("type_not_found", out detail);
             focus = typeDecl;
@@ -187,13 +212,13 @@ public static class CSharpBracketAnchorResolve
         {
             focus = member;
             resolveDetail = "member";
-            if (!string.IsNullOrWhiteSpace(span.Role))
+            if (!string.IsNullOrWhiteSpace(axes.Role))
             {
-                if (!TryApplyMemberRole(member, span.Role.Trim(), out focus, out resolveDetail))
+                if (!TryApplyMemberRole(member, axes.Role.Trim(), out focus, out resolveDetail))
                     return Fail(resolveDetail, out detail);
             }
         }
-        else if (!string.IsNullOrWhiteSpace(span.TextNeedle))
+        else if (!string.IsNullOrWhiteSpace(axes.TextNeedle))
         {
             // TextNeedle alone: search whole compilation unit (M already narrowed searchRoot above).
             focus = searchRoot;
@@ -536,14 +561,14 @@ public static class CSharpBracketAnchorResolve
 
     private static bool TryResolveScope(
         SyntaxNode searchRoot,
-        BracketAnchorSpan span,
+        CodeEditResolveAxes axes,
         out SyntaxNode? focus,
         out string detail)
     {
         focus = null;
         detail = "";
-        var index = span.ScopeIndex is > 0 ? span.ScopeIndex.Value : 1;
-        SyntaxNode? target = span.ScopeKind switch
+        var index = axes.ScopeIndex is > 0 ? axes.ScopeIndex.Value : 1;
+        SyntaxNode? target = axes.ScopeKind switch
         {
             "if" => searchRoot.DescendantNodes().OfType<IfStatementSyntax>().Skip(index - 1).FirstOrDefault(),
             "for" => searchRoot.DescendantNodes().OfType<ForStatementSyntax>().Skip(index - 1).FirstOrDefault(),
@@ -554,14 +579,14 @@ public static class CSharpBracketAnchorResolve
 
         if (target is null)
         {
-            detail = $"scope_not_found:{span.ScopeKind}:{index}";
+            detail = $"scope_not_found:{axes.ScopeKind}:{index}";
             return false;
         }
 
         focus = target;
-        if (!string.IsNullOrWhiteSpace(span.Role))
+        if (!string.IsNullOrWhiteSpace(axes.Role))
         {
-            var role = span.Role.Trim();
+            var role = axes.Role.Trim();
             if (!TryApplyRole(target, role, out focus, out detail))
                 return false;
             detail = $"syntax_scope+{role}";
