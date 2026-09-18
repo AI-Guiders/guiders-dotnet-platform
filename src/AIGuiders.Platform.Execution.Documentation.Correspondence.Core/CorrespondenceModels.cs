@@ -66,7 +66,7 @@ public sealed record ForwardDoc(string Path, string Title, string? Abs = null, s
         model.Kind is not null && FSharpOption<string>.get_IsSome(model.Kind) ? model.Kind.Value : null);
 }
 
-public sealed record ReverseAnchor(
+public sealed record DocToCodeWitness(
     string DocPath,
     string DocTitle,
     string Provenance,
@@ -79,12 +79,18 @@ public sealed record ReverseAnchor(
     int? DocLineHint = null,
     string? Excerpt = null)
 {
-    public GdlCorrespondence.ReverseAnchor ToModel() =>
-        new(
+    public GdlCorrespondence.DocToCodeWitness ToModel()
+    {
+        var parsedKind = GdlCorrespondence.CorrespondenceRelationKindModule.tryParse(Kind);
+        var kind = GdlCorrespondence.CorrespondenceRelationKind.Documents;
+        if (FSharpOption<GdlCorrespondence.CorrespondenceRelationKind>.get_IsSome(parsedKind))
+            kind = parsedKind!.Value;
+
+        return new(
             DocPath,
             DocTitle,
             Provenance,
-            Kind,
+            kind,
             File,
             CorrespondenceFSharpInterop.ToFSharpOpt(LineStart),
             CorrespondenceFSharpInterop.ToFSharpOpt(LineEnd),
@@ -92,6 +98,20 @@ public sealed record ReverseAnchor(
             Wire,
             CorrespondenceFSharpInterop.ToFSharpOpt(DocLineHint),
             CorrespondenceFSharpInterop.ToFSharpOpt(Excerpt));
+    }
+
+    public static DocToCodeWitness FromModel(GdlCorrespondence.DocToCodeWitness model) => new(
+        model.DocPath,
+        model.DocTitle,
+        model.Provenance,
+        GdlCorrespondence.CorrespondenceRelationKindModule.toWire(model.Kind),
+        model.File,
+        model.LineStart is not null && FSharpOption<int>.get_IsSome(model.LineStart) ? model.LineStart.Value : null,
+        model.LineEnd is not null && FSharpOption<int>.get_IsSome(model.LineEnd) ? model.LineEnd.Value : null,
+        model.MemberKey is not null && FSharpOption<string>.get_IsSome(model.MemberKey) ? model.MemberKey.Value : null,
+        model.Wire,
+        model.DocLineHint is not null && FSharpOption<int>.get_IsSome(model.DocLineHint) ? model.DocLineHint.Value : null,
+        model.Excerpt is not null && FSharpOption<string>.get_IsSome(model.Excerpt) ? model.Excerpt.Value : null);
 }
 
 public sealed record ExplicitCodeAnchor(
@@ -123,7 +143,7 @@ public sealed record CorrespondenceResult(
     string[] FeatureDocs,
     string AdrLine,
     ForwardDoc[] ForwardDocs,
-    ReverseAnchor[] ReverseAnchors,
+    DocToCodeWitness[] DocToCodeWitnesses,
     string[] ActiveLayers,
     string TomlPath)
 {
@@ -135,7 +155,7 @@ public sealed record CorrespondenceResult(
             FeatureDocs,
             AdrLine,
             ForwardDocs.Select(d => d.ToModel()).ToArray(),
-            ReverseAnchors.Select(a => a.ToModel()).ToArray(),
+            DocToCodeWitnesses.Select(a => a.ToModel()).ToArray(),
             ActiveLayers,
             TomlPath);
 }

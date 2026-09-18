@@ -12,13 +12,13 @@ public static class CorrespondenceRelationIngest
 {
     public sealed record IngestResult(SessionRuntime Runtime, int Materialized, int Skipped);
 
-    public static IngestResult IngestReverseAnchors(IEnumerable<ReverseAnchor> anchors, SessionRuntime runtime)
+    public static IngestResult IngestDocToCodeWitnesses(IEnumerable<DocToCodeWitness> witnesses, SessionRuntime runtime)
     {
-        ArgumentNullException.ThrowIfNull(anchors);
+        ArgumentNullException.ThrowIfNull(witnesses);
         ArgumentNullException.ThrowIfNull(runtime);
 
-        var models = anchors.Select(static anchor => anchor.ToModel()).ToArray();
-        var (updated, materialized, skipped) = CorrespondenceRelationOps.ingestReverseAnchors(models, runtime);
+        var models = witnesses.Select(static witness => witness.ToModel()).ToArray();
+        var (updated, materialized, skipped) = CorrespondenceRelationOps.ingestDocToCodeWitnesses(models, runtime);
         return new IngestResult(updated, materialized, skipped);
     }
 
@@ -31,9 +31,9 @@ public static class CorrespondenceRelationIngest
         ArgumentException.ThrowIfNullOrWhiteSpace(absoluteFilePath);
 
         var bundle = CorrespondenceResolver.TryResolve(absoluteFilePath, workspaceRootHint);
-        if (bundle is null || bundle.ReverseAnchors.Length == 0)
+        if (bundle is null || bundle.DocToCodeWitnesses.Length == 0)
             return new IngestResult(runtime, 0, 0);
 
-        return IngestReverseAnchors(bundle.ReverseAnchors, runtime);
+        return IngestDocToCodeWitnesses(bundle.DocToCodeWitnesses, runtime);
     }
 }

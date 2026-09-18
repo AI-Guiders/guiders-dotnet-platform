@@ -7,7 +7,7 @@ namespace AIGuiders.Platform.Execution.Documentation.Correspondence;
 /// <summary>Reverse anchors: scan ADR/KB bodies for code paths and brackets (ADR 0156 §2.3).</summary>
 public static partial class DocReverseAnchorResolver
 {
-    public static IReadOnlyList<ReverseAnchor> Resolve(
+    public static IReadOnlyList<DocToCodeWitness> Resolve(
         string? workspaceRoot,
         string? navigationAbsolutePath,
         IReadOnlyList<string> forwardDocRepoPaths,
@@ -24,14 +24,14 @@ public static partial class DocReverseAnchorResolver
         return ResolveFromRel(root, rel, forwardDocRepoPaths, explicitAnchors: explicitAnchors);
     }
 
-    public static ReverseAnchor[] ResolveFromToml(
+    public static DocToCodeWitness[] ResolveFromToml(
         WorkspaceDocument? doc,
         string workspaceRoot,
         IReadOnlyList<string> forwardDocPaths,
         string fileRel) =>
         ResolveFromRel(workspaceRoot, fileRel, forwardDocPaths, doc).ToArray();
 
-    static IReadOnlyList<ReverseAnchor> ResolveFromRel(
+    static IReadOnlyList<DocToCodeWitness> ResolveFromRel(
         string workspaceRoot,
         string fileRel,
         IReadOnlyList<string> forwardDocPaths,
@@ -40,7 +40,7 @@ public static partial class DocReverseAnchorResolver
     {
         var fileNorm = CorrespondencePaths.NormalizePath(fileRel);
         var fileName = Path.GetFileName(fileNorm);
-        var list = new List<ReverseAnchor>();
+        var list = new List<DocToCodeWitness>();
         var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var overrides = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
@@ -129,7 +129,7 @@ public static partial class DocReverseAnchorResolver
         string fileNorm,
         string fileName,
         HashSet<string> overrides,
-        List<ReverseAnchor> list,
+        List<DocToCodeWitness> list,
         HashSet<string> seen)
     {
         var title = CorrespondencePaths.GuessTitle(docRel);
@@ -240,7 +240,7 @@ public static partial class DocReverseAnchorResolver
     }
 
     static void AddReverse(
-        List<ReverseAnchor> list,
+        List<DocToCodeWitness> list,
         HashSet<string> seen,
         string docPath,
         string title,
@@ -258,7 +258,7 @@ public static partial class DocReverseAnchorResolver
         if (!seen.Add(key))
             return;
 
-        list.Add(new ReverseAnchor(
+        list.Add(new DocToCodeWitness(
             docPath,
             title,
             provenance,

@@ -31,14 +31,14 @@ public sealed class CorrespondenceRelationIngestTests
     }
 
     [Fact]
-    public void IngestReverseAnchors_merges_normates_edge_into_graph()
+    public void IngestDocToCodeWitnesses_merges_normates_edge_into_graph()
     {
         var runtime = CreateRuntime(@"D:\repo\src\Foo.cs", "class Bar {}");
         Assert.Empty(runtime.Session.Graph.Relations);
 
-        var result = CorrespondenceRelationIngest.IngestReverseAnchors(
+        var result = CorrespondenceRelationIngest.IngestDocToCodeWitnesses(
             [
-                new ReverseAnchor(
+                new DocToCodeWitness(
                     "docs/adr/0063.md",
                     "ADR-0063",
                     CorrespondenceProvenance.Bracket,

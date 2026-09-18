@@ -9,9 +9,9 @@ namespace AIGuiders.Platform.Tests;
 public sealed class CorrespondenceModelsInteropTests
 {
     [Fact]
-    public void ReverseAnchor_ToModel_roundtrips_without_CLIMutable_initializer()
+    public void DocToCodeWitness_ToModel_roundtrips_without_CLIMutable_initializer()
     {
-        var seam = new ReverseAnchor(
+        var seam = new DocToCodeWitness(
             "docs/adr/0063.md",
             "ADR-0063",
             CorrespondenceProvenance.Bracket,

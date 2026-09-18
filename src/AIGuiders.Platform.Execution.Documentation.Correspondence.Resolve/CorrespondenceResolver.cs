@@ -90,7 +90,7 @@ public static class CorrespondenceResolver
         forwardDocs = result.ForwardDocs
             .Select(d => new { path = d.Path, title = d.Title })
             .ToArray(),
-        reverseAnchors = result.ReverseAnchors
+        reverseAnchors = result.DocToCodeWitnesses
             .Select(r => new
             {
                 docPath = r.DocPath,
