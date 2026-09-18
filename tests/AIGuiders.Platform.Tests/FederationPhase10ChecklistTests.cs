@@ -1,0 +1,103 @@
+#nullable enable
+
+using System.Reflection;
+using System.Text.Json;
+using AIGuiders.Platform.Execution.Documentation.Correspondence;
+using AIGuiders.Platform.Execution.Ide.Session;
+using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
+using AIGuiders.Platform.Execution.LanguageIntelligence.Relations.Conformance;
+using AIGuiders.Platform.Modeling.Build;
+using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
+using Xunit;
+
+namespace AIGuiders.Platform.Tests;
+
+/// <summary>Plan §10 TO-BE closure gate — audit presence + Execution boundary evidence (ship-51).</summary>
+public sealed class FederationPhase10ChecklistTests
+{
+    [Fact]
+    public void To_be_audit_document_exists_in_guiders_fsharp()
+    {
+        var audit = FindGuidersFsharpFile("docs", "federation", "model-extraction-to-be-audit.md");
+        Assert.True(File.Exists(audit), audit);
+        var text = File.ReadAllText(audit);
+        Assert.Contains("CLOSURE: BLOCKED", text);
+    }
+
+    [Fact]
+    public void IntermediateRepresentation_Language_project_is_deleted()
+    {
+        for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir is not null; dir = dir.Parent)
+        {
+            var candidate = Path.Combine(dir.FullName, "src", "AIGuiders.Platform.IntermediateRepresentation.Language");
+            if (Directory.Exists(candidate))
+                Assert.Fail($"legacy IR.Language project still present: {candidate}");
+        }
+    }
+
+    [Fact]
+    public void BuildDiagnostic_model_exposes_RelationSpec_Spec_field()
+    {
+        var spec = typeof(BuildDiagnostic).GetProperty(nameof(BuildDiagnostic.Spec));
+        Assert.NotNull(spec);
+        Assert.Equal(typeof(RelationSpec), spec!.PropertyType);
+    }
+
+    [Fact]
+    public void LegacyWireSpan_is_execution_boundary_not_modeling()
+    {
+        var modelingAssembly = typeof(AIGuiders.Platform.Modeling.Documentation.Correspondence.DocToCodeWitness).Assembly;
+        Assert.Null(modelingAssembly.GetType("AIGuiders.Platform.Modeling.LanguageIntelligence.LegacyWireSpan"));
+        Assert.True(typeof(LegacyWireSpan).IsPublic);
+        Assert.True(typeof(RelationWireBoundary).IsPublic);
+    }
+
+    [Fact]
+    public void Federation_runtime_exposes_open_build_and_correspondence_hooks()
+    {
+        Assert.NotNull(typeof(FederationSessionRuntime).GetMethod(
+            nameof(FederationSessionRuntime.Open),
+            BindingFlags.Public | BindingFlags.Static));
+        Assert.NotNull(typeof(FederationSessionRuntime).GetMethod(
+            nameof(FederationSessionRuntime.TryRunBuildAndIngestDiagnostics),
+            BindingFlags.Public | BindingFlags.Static));
+        Assert.NotNull(typeof(CorrespondenceRelationIngest).GetMethod(
+            nameof(CorrespondenceRelationIngest.IngestFromRegistry),
+            BindingFlags.Public | BindingFlags.Static));
+    }
+
+    [Fact]
+    public void Bracket_and_anchor_conformance_specs_are_kind_first_v2()
+    {
+        foreach (var resource in new[]
+                 {
+                     "AIGuiders.Platform.Tests.Fixtures.LanguageIntelligence.bracket-kind-canon.spec.json",
+                     "AIGuiders.Platform.Tests.Fixtures.LanguageIntelligence.anchor-resolve.spec.json",
+                     "AIGuiders.Platform.Tests.Fixtures.LanguageIntelligence.relation-spec-witness.spec.json",
+                 })
+        {
+            var json = ConformanceFixture.LoadEmbedded(resource);
+            using var doc = JsonDocument.Parse(json);
+            Assert.True(doc.RootElement.TryGetProperty("version", out var version));
+            Assert.True(version.GetInt32() >= 2, resource);
+        }
+
+        var anchor = RelationResolveSpecConformance.Load(
+            ConformanceFixture.LoadEmbedded(
+                "AIGuiders.Platform.Tests.Fixtures.LanguageIntelligence.anchor-resolve.spec.json"));
+        Assert.All(anchor.Vectors, vector =>
+            Assert.Equal("kind-spec", vector.Mode, StringComparer.OrdinalIgnoreCase));
+    }
+
+    static string FindGuidersFsharpFile(params string[] parts)
+    {
+        for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir is not null; dir = dir.Parent)
+        {
+            var sibling = Path.Combine([dir.FullName, "guiders-fsharp", .. parts]);
+            if (File.Exists(sibling))
+                return sibling;
+        }
+
+        throw new InvalidOperationException($"Could not locate guiders-fsharp/{string.Join('/', parts)}.");
+    }
+}
