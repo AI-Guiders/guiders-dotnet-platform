@@ -71,6 +71,60 @@ public static class FederationSessionRuntime
         return result;
     }
 
+    /// <summary>Ingest build toolchain diagnostics into session DiagnosticIndex (plan §2.4.2 / Build package).</summary>
+    public static BuildDiagnosticIngest.IngestResult? TryIngestBuildDiagnostics(
+        string anchorPath,
+        IEnumerable<BuildDiagnosticIngest.BuildDiagnosticWire> diagnostics)
+    {
+        ArgumentNullException.ThrowIfNull(diagnostics);
+        if (string.IsNullOrWhiteSpace(anchorPath))
+            return null;
+
+        var full = Path.GetFullPath(anchorPath.Trim());
+        if (!Cache.TryGetValue(full, out var runtime))
+        {
+            try
+            {
+                runtime = Open(anchorPath).Runtime;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        var result = BuildDiagnosticIngest.Ingest(diagnostics, runtime);
+        Cache[full] = result.Runtime;
+        return result;
+    }
+
+    /// <summary>Materialize CRS reverse anchors for a file into session graph G.</summary>
+    public static CorrespondenceRelationIngest.IngestResult? TryIngestCorrespondenceForFile(
+        string anchorPath,
+        string absoluteFilePath,
+        string? workspaceRootHint = null)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(anchorPath);
+        ArgumentException.ThrowIfNullOrWhiteSpace(absoluteFilePath);
+
+        var full = Path.GetFullPath(anchorPath.Trim());
+        if (!Cache.TryGetValue(full, out var runtime))
+        {
+            try
+            {
+                runtime = Open(anchorPath).Runtime;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        var result = CorrespondenceRelationIngest.TryIngestForFile(runtime, absoluteFilePath, workspaceRootHint);
+        Cache[full] = result.Runtime;
+        return result;
+    }
+
     public static FederationCompilerServicesEnsure TryEnsureCompilerServices(string anchorPath, string filePath)
     {
         if (string.IsNullOrWhiteSpace(anchorPath) || string.IsNullOrWhiteSpace(filePath))
