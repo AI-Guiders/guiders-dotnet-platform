@@ -162,7 +162,7 @@ public static class FederationSessionRuntime
     {
         return DesignTimeCompilerServicesPort.materialize(runtime, filePath) switch
         {
-            CompilerServicesEnsureResult.Ensured ensured => ToEnsureResult(ensured.Item1, ensured.Item2, fullAnchor),
+            CompilerServicesEnsureResult.Ensured ensured => ToEnsureResult(ensured.Item1, ensured.Item2, filePath, fullAnchor),
             CompilerServicesEnsureResult.Failed failed => new FederationCompilerServicesEnsure(
                 false,
                 null,
@@ -181,6 +181,7 @@ public static class FederationSessionRuntime
     static FederationCompilerServicesEnsure ToEnsureResult(
         CompilerServicesMaterialization mat,
         SessionRuntime runtime,
+        string filePath,
         string fullAnchor)
     {
         if (string.Equals(mat.LanguageId, "csharp", StringComparison.OrdinalIgnoreCase))
@@ -188,6 +189,7 @@ public static class FederationSessionRuntime
             runtime = DependencyRelationIngest.IngestForProject(runtime, mat.ProjectId).Runtime;
         }
 
+        runtime = CorrespondenceRelationIngest.TryIngestForFile(runtime, Path.GetFullPath(filePath.Trim())).Runtime;
         Cache[fullAnchor] = runtime;
 
         var view = mat.WorkspaceView;
