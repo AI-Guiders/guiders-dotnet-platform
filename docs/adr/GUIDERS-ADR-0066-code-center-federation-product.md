@@ -110,7 +110,7 @@ guiders-wpf (Surface)
 
 | Layer | Owner | Notes |
 |-------|-------|-------|
-| AvalonEdit (NuGet → fork) | **internal** to TextEngine | IME, undo stack, caret, line rendering only |
+| AvalonEdit (fork substrate) | **internal** to TextEngine | IME, undo stack, caret, line rendering only |
 | `LanguageTextEditor` | TextEngine | RoslynPad-style customization layer |
 | `LanguageEditorHost` | TextEngine v0 | Debounced text ↔ session sync; becomes `TextSurface` adapter |
 | **CodeCenterHost** | Surface.Wpf.CodeCenter (Phase 1) | Supersedes “LanguageEditorHost” as product entry |
@@ -119,7 +119,7 @@ AvalonEdit is **not replaced** by another text engine; it is **encapsulated**. F
 
 #### 4.1 AvalonEdit upstream policy (Phase 4 — operator 2026-09-18)
 
-Today TextEngine consumes **NuGet** `AvalonEdit` 6.3.1.120 — a peel, not a GitHub fork. Phase 4 adopts a **two-repo** upstream watch model:
+TextEngine consumes **`federation-text-surface`** (`AIGuiders.TextSurface.Substrate`) — AvalonEdit pinned via git submodule, not NuGet. Phase 4 **two-repo** upstream watch model:
 
 | Repo | Role | Rule |
 |------|------|------|
@@ -128,7 +128,7 @@ Today TextEngine consumes **NuGet** `AvalonEdit` 6.3.1.120 — a peel, not a Git
 
 **Bump ritual:** upstream release → sync mirror → bump submodule tag → build TextEngine/CodeCenter → Studio smoke → living matrix note.
 
-**Do not:** rename upstream types in the mirror; mix federation patches into the mirror-fork; add direct `PackageReference AvalonEdit` on planets (Studio completion leak = ship-63 debt).
+**Do not:** rename upstream types in the mirror; mix federation patches into the mirror-fork; add direct `PackageReference AvalonEdit` or `using ICSharpCode.AvalonEdit` on planets — use CodeCenter/TextEngine facades (`TextCompletionPresenter`, `CodeCenterEditorControl` input hooks).
 
 Optional internal NuGet (`AIGuiders.TextSurface.AvalonEdit`) may wrap the submodule build for consumers that do not vendor source.
 
@@ -153,7 +153,7 @@ Cross-projection navigation: click diagram box → `AnchorIntent.TreeNode` → T
 | **1** | `CodeCenterHost`, rename mental model TextEngine → TextSurface, `IDocumentSession` superset | **Shipped** — `Surface.Wpf.CodeCenter` + `SessionLocusResolver` (ship-62) |
 | **2** | Second projection (diagram or tree) on same session in one planet (DashSpec) | **Shipped** — `DashSpec.CodeCenter.Plugin` + V12 (ship-62f) |
 | **3** | Semantic-tier session; bracket wire read-only shim | **Shipped** — `Platform.Modeling.CodeCenter` Λ_doc slice @ [ide-session §2.12](https://github.com/AI-Guiders/guiders-fsharp/blob/develop/docs/math/ide-session/07-revision-ledger.md#212-revision-ledger-δ-stream--git-subgraph) (ship-62d) |
-| **4** | Submodule mirror-fork + deprecate NuGet/direct AvalonEdit refs in federation samples | Planned ([§4.1](./GUIDERS-ADR-0066-code-center-federation-product.md#41-avalonedit-upstream-policy-phase-4--operator-2026-09-18)) |
+| **4** | Submodule mirror-fork + deprecate NuGet/direct AvalonEdit refs in federation samples | **Shipped** — `federation-text-surface` @ v6.3.1, TextEngine substrate peel, Studio via CodeCenter facade (ship-avalonedit-phase4) |
 
 **Deprecation:** new planet code **must not** add AvalonEdit package references; use TextEngine until CodeCenter package ships, then CodeCenter.TextSurface.
 
