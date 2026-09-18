@@ -24,19 +24,13 @@ public sealed class BracketResolveBoundaryTests
     }
 
     [Fact]
-    public void TryParseToAxes_falls_back_to_legacy_wire()
+    public void TryParseToAxes_rejects_legacy_fml_wire()
     {
-        Assert.True(
+        Assert.False(
             BracketResolveBoundary.TryParseToAxes(
                 "[F:Program.cs; M:Foo; L:10]",
-                out var axes,
-                out var path),
-            path);
-
-        Assert.Equal("legacy-wire", path);
-        Assert.Equal("Program.cs", axes.File);
-        Assert.Equal("Foo", axes.MemberKey);
-        Assert.Equal(10, axes.LineStart);
+                out _,
+                out _));
     }
 
     [Fact]

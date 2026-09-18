@@ -5,7 +5,7 @@ using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
 namespace AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 
 /// <summary>
-/// Unified bracket wire resolve entry: Kind: RelationSpec first, legacy F/M/L fallback (plan §10).
+/// Unified bracket wire resolve entry: Kind: RelationSpec only (plan §10). Legacy F/M/L ingest via <see cref="RelationWireBoundary"/>.
 /// </summary>
 public static class BracketResolveBoundary
 {
@@ -22,20 +22,6 @@ public static class BracketResolveBoundary
         {
             parsePath = "kind-spec";
             return true;
-        }
-
-        try
-        {
-            var legacy = RelationWireBoundary.Parse(bracketOrInner);
-            if (CodeEditResolveProjection.TryFromLegacyWire(legacy, out axes))
-            {
-                parsePath = "legacy-wire";
-                return true;
-            }
-        }
-        catch (ArgumentException)
-        {
-            return false;
         }
 
         return false;
