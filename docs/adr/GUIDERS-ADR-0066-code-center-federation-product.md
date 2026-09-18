@@ -151,11 +151,23 @@ Cross-projection navigation: click diagram box → `AnchorIntent.TreeNode` → T
 |-------|-------------|--------|
 | **0** | TextEngine peel + `ILanguageDocumentSession` + planet F# session (syntax tree) | **Shipped** — DashSpec Studio ([STUDIO-ADR-0005](https://github.com/AI-Guiders/dash-spec-studio/blob/main/design/STUDIO-ADR-0005-model-first-language-editor.md)) |
 | **1** | `CodeCenterHost`, rename mental model TextEngine → TextSurface, `IDocumentSession` superset | **Shipped** — `Surface.Wpf.CodeCenter` + `SessionLocusResolver` (ship-62) |
-| **2** | Second projection (diagram or tree) on same session in one planet (DashSpec) | Planned |
-| **3** | Semantic-tier session; bracket wire read-only shim | Planned |
+| **2** | Second projection (diagram or tree) on same session in one planet (DashSpec) | **Shipped** — `DashSpec.CodeCenter.Plugin` + V12 (ship-62f) |
+| **3** | Semantic-tier session; bracket wire read-only shim | **Shipped** — `Platform.Modeling.CodeCenter` Λ_doc slice @ [ide-session §2.12](https://github.com/AI-Guiders/guiders-fsharp/blob/develop/docs/math/ide-session/07-revision-ledger.md#212-revision-ledger-δ-stream--git-subgraph) (ship-62d) |
 | **4** | Submodule mirror-fork + deprecate NuGet/direct AvalonEdit refs in federation samples | Planned ([§4.1](./GUIDERS-ADR-0066-code-center-federation-product.md#41-avalonedit-upstream-policy-phase-4--operator-2026-09-18)) |
 
 **Deprecation:** new planet code **must not** add AvalonEdit package references; use TextEngine until CodeCenter package ships, then CodeCenter.TextSurface.
+
+#### 6.1 Document-scope ledger slice (CodeCenter)
+
+File-scope editor sessions inherit ide-session **§2.12** replay undo — not a simplified delta stack:
+
+```text
+εᵢ = (rᵢ, scopeᵢ, θᵢ, Δᵢ, anchorᵢ, γᵢ)     // LedgerEntryDoc
+Λ_doc = committed entries only; ephemeral mechanical outside Λ until save batch
+tryUndo = replayToRevision(n−1) — Δ-replay or Re-plan per RePlannableΘ registry (LD3)
+```
+
+SSOT: `Platform.Modeling.CodeCenter` (`LedgerEntryDoc`, `RePlannableThetaRegistry`, `DocumentSession`). Solution-level Λ ingress (LD4) reuses `Platform.Modeling.Ide.Session.RevisionLedger` — doc slice, not parallel IR.
 
 ### 7. Conformance
 

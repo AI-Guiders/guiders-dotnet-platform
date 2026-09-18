@@ -205,23 +205,31 @@ LanguageProfile
 ├── InvariantLaw[]                          F# — graph laws, cross-node rules, dialect edge cases
 └── SchemaRef[]                             declarative — runner interprets
          │
-         ├── TomlSemantic   TOML-native syntax + spec semantics (Taplo-class)
-         ├── JsonSchema     YAML → JSON; TOML optional data-model overlay
-         ├── Xsd            XML → DOM/infoset (primary for XmlTree)
-         └── SatPredicate   requires/ensures over facts ([0064](./GUIDERS-ADR-0064-config-gdl-quarry-family.md) style)
+         ├── TomlSchemaCheck  Tomlyn parse + `#:schema` + Toml→JSON + JSON Schema ([TomlCheck](https://github.com/AI-Guiders/guiders-assist/tree/main/src/AIGuiders.DotnetTools.TomlCheck))
+         ├── JsonSchema       YAML → JSON → validate
+         ├── Xsd              XML → DOM/infoset (primary for XmlTree)
+         └── SatPredicate     requires/ensures over facts ([0064](./GUIDERS-ADR-0064-config-gdl-quarry-family.md) style)
 ```
 
 | SurfaceFamily | Typical `SchemaRef` | Role |
 |---------------|---------------------|------|
 | `YamlMapping` | JSON Schema | types, required keys, enums after parse-to-JSON |
-| `TomlMapping` | **TOML-native** (+ optional JSON Schema) | [Taplo](https://taplo.tamasfe.dev/cli/usage/validation.html)-class: `taplo check` — syntax, duplicate keys, spec semantics without JSON round-trip |
+| `TomlMapping` | **TomlSchemaCheck** | federation .NET runner `AIGuiders.DotnetTools.TomlCheck` (`aig-toml-check`) |
 | `XmlTree` | **XSD** (+ optional Schematron later) | extensible XML without hand-written element matrices |
 | `SqlScript` | dialect grammar / lint ruleset (planet) | optional; syntax + policy hooks |
-| Profile Island | schema per Region | frontmatter YAML schema; TOML island native check; embedded XSD |
+| Profile Island | schema per Region | frontmatter YAML schema; TOML island `#:schema`; embedded XSD |
 
-**TOML (`TomlMapping`):** default validation is **native**, not JSON Schema. Federation runner aligns with **Taplo** semantics: parse → DOM → `validate()` (duplicate keys, invalid dates, inline-table rules, …). Equivalent CLI: `taplo check foo.toml`. Optional **data-model** constraints: JSON Schema overlay via `#:schema` directive, `$schema` key, profile `SchemaRef`, or schema catalog — same as Taplo’s `--schema` / `--default-schema-catalogs`. JSON Schema is an **add-on**, not the primary TOML path.
+**TOML (`TomlMapping`):** federation SSOT = **[TomlCheck](https://github.com/AI-Guiders/guiders-assist/tree/main/src/AIGuiders.DotnetTools.TomlCheck)** (guiders-assist). Taplo-inspired **`#:schema`** directive in file header; paths resolved relative to the TOML file. Pipeline:
 
-**YAML (`YamlMapping`):** parse → canonical JSON → JSON Schema (natural fit; no first-class native schema in spec).
+```text
+Tomlyn parse  →  TomlToJsonConverter  →  JsonSchema validate  →  Diagnostic[]
+     ↑                    ↑
+ #:schema path      TOML types → JSON (dates, tables, arrays)
+```
+
+Schema text stays **JSON Schema**; ergonomics beat hand-rolling YAML-style paths: co-located `#:schema ../schemas/foo.schema.json`, optional `--schema` / Profile `SchemaRef` override, `aig-toml-check check` in CI. Language Profile schema runner **SHOULD** call the TomlCheck engine (library extract), not reimplement the bridge.
+
+**YAML (`YamlMapping`):** parse → canonical JSON → JSON Schema.
 
 **XML (`XmlTree`):** profiles **SHOULD** declare XSD (`path`, target namespace, optional `xsi:schemaLocation` policy). Well-formedness = parse; **validity** = XSD (+ planet F# overlays where XSD stops). XAML/SVG use planet schema packs.
 
@@ -287,6 +295,7 @@ CodeCenterHost + projections Text, Diagram, Tree, Form, Preview
 | Profile schema + laws | `Platform.Modeling.LanguageProfile` | guiders-fsharp |
 | Anchors + surfaces | `Platform.Modeling.LanguageIntelligence.Anchors` | guiders-fsharp ([0063](./GUIDERS-ADR-0063-anchors-federation-reincarnation.md) A1) |
 | Session + projections | `Platform.Modeling.CodeCenter` | guiders-fsharp ([0066](./GUIDERS-ADR-0066-code-center-federation-product.md)) |
+| Doc-scope Λ replay | `LedgerEntryDoc` + `RePlannableThetaRegistry` | CodeCenter doc slice @ ide-session §2.12; structural completion visitor |
 | Planet ontology | e.g. `DashSpec.Modeling.Parse` / `DashSpec.Modeling.LanguageEditor` | planet |
 | Planet adapter | e.g. `DashSpec.Execution.LanguageEditor` | planet |
 | WPF host | `Surface.Wpf.CodeCenter` / TextEngine | guiders-wpf |
@@ -322,8 +331,8 @@ type ConceptGraph = { Root: NodeId; Nodes: Map<NodeId, ConceptNode>; Edges: (Nod
 type InvariantLaw = ConceptGraph -> Diagnostic list
 
 type SchemaRef =
-    | TomlSemantic                              // Taplo-class native validate (default for TomlMapping)
-    | JsonSchema of path: string                // YAML primary; TOML optional overlay
+    | TomlSchemaCheck of schemaPath: string voption   // #:schema or Profile override; TomlCheck engine
+    | JsonSchema of path: string                      // YAML primary
     | Xsd of path: string * targetNamespace: string voption
     | SatPredicate of path: string
 
@@ -354,7 +363,7 @@ Per Profile registration:
 7. **Flavour overlay** — `md.gfm` vectors include GFM-only constructs failing under `md.commonmark` laws.
 8. **Inline config diagnostics** — invalid YAML or TOML island produces diagnostics on the Region span in the host document.
 9. **SQL dialect vectors** — same `sql.script` ontology; `tsql` vs `postgres` flavours produce different accept/reject for limit/date/literal edge cases; DashSpec filter-compile golden per dialect.
-10. **Schema-bound vectors** — YAML island fails JSON Schema; TOML island fails native semantic check (duplicate key, …) and optional schema overlay; XML fails XSD; diagnostics map to Region/document span.
+10. **Schema-bound vectors** — YAML island fails JSON Schema; TOML island fails TomlCheck pipeline (parse, `#:schema`, schema match); XML fails XSD; diagnostics map to Region/document span.
 
 ### 10. Migration phases
 
@@ -363,7 +372,7 @@ Per Profile registration:
 | **0** | Name + charter (this ADR); map GDL + dashspec as implicit profiles | dashspec syntax tree = proto-ontology |
 | **1** | `Platform.Modeling.LanguageProfile` kernel + `SurfaceFamily` + `ProfileRef`/`FlavourRef`; 0063 A1 anchors shipped | unblocks Code Center Phase 1 |
 | **2** | Explicit `DashSpecLanguageProfile` planet ADR; laws extracted from formatter/classifier | [DASHSPEC-ADR-0051](https://github.com/AI-Guiders/dash-spec/blob/develop/design/DASHSPEC-ADR-0051-language-affinity-modeling-execution.md) |
-| **3** | Shared kernels + **schema runner**: YAML (JSON Schema), **TOML (Taplo-class native + optional schema)**, XML (XSD), `SqlScript`; Profile Island dispatch | md + yaml + toml + sql + xml + mermaid conformance pack |
+| **3** | Shared kernels + **schema runner**: YAML (JSON Schema), **TOML ([TomlCheck](https://github.com/AI-Guiders/guiders-assist/tree/main/src/AIGuiders.DotnetTools.TomlCheck))**, XML (XSD), `SqlScript`; Profile Island dispatch | md + yaml + toml + sql + xml + mermaid conformance pack |
 | **4** | GPL thin profiles + `AdapterSlot` symbol → `NodeId` shim; Razor/TagHelper hybrid pilots | pairs with LRC |
 | **5** | **DashSpec Studio** — SQL editor zones (migrations, Data Lab, card SQL) on `sql.script` session + dialect switch | [STUDIO-ADR-0002](https://github.com/AI-Guiders/dash-spec-studio/blob/main/design/STUDIO-ADR-0002-component-model-and-navigation.md) |
 

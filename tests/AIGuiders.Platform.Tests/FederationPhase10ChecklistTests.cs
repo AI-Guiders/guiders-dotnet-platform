@@ -137,7 +137,8 @@ public sealed class FederationPhase10ChecklistTests
         Assert.True(File.Exists(host), host);
         var livingMatrix = FindGuidersFsharpFile("docs", "federation", "model-extraction-living-matrix.md");
         var matrix = File.ReadAllText(livingMatrix);
-        Assert.Contains("ship-62", matrix);
+        Assert.Contains("ship-62d", matrix);
+        Assert.Contains("RePlannable", matrix);
         Assert.Contains("**shipped**", matrix);
     }
 
