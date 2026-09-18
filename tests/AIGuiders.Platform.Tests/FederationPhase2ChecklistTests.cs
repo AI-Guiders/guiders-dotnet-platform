@@ -54,6 +54,10 @@ public sealed class FederationPhase2ChecklistTests
             out _,
             out var path));
         Assert.Equal("kind-spec", path);
+        Assert.True(BracketResolveBoundary.TryFormatCodeEdit(
+            new CodeEditResolveAxes("a.cs", "B", null, null),
+            out var wire));
+        Assert.Contains("Kind:CodeEdit", wire);
     }
 
     [Fact]

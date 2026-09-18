@@ -98,7 +98,7 @@ public static partial class DocReverseAnchorResolver
                     entry.LineStart,
                     entry.LineEnd,
                     entry.MemberKey,
-                    CorrespondenceWire.Build(entry.File, entry.LineStart, entry.LineEnd, entry.MemberKey),
+                    CorrespondenceWire.BuildCodeEdit(entry.File, entry.LineStart, entry.LineEnd, entry.MemberKey),
                     entry.LineStart,
                     null);
             }
@@ -156,7 +156,7 @@ public static partial class DocReverseAnchorResolver
                 ls,
                 le,
                 member,
-                CorrespondenceWire.Build(file, ls, le, member),
+                CorrespondenceWire.BuildCodeEdit(file, ls, le, member),
                 lineHint,
                 CorrespondencePaths.ExcerptAt(markdown, lineHint));
         }
@@ -181,7 +181,7 @@ public static partial class DocReverseAnchorResolver
                 null,
                 null,
                 null,
-                CorrespondenceWire.Build(path, null, null, null),
+                CorrespondenceWire.BuildCodeEdit(path, null, null, null),
                 lineHint,
                 CorrespondencePaths.ExcerptAt(markdown, lineHint));
         }
@@ -206,7 +206,7 @@ public static partial class DocReverseAnchorResolver
                 null,
                 null,
                 null,
-                CorrespondenceWire.Build(path, null, null, null),
+                CorrespondenceWire.BuildCodeEdit(path, null, null, null),
                 lineHint,
                 CorrespondencePaths.ExcerptAt(markdown, lineHint));
         }
@@ -233,7 +233,7 @@ public static partial class DocReverseAnchorResolver
                 ls,
                 le,
                 null,
-                CorrespondenceWire.Build(path, ls, le, null),
+                CorrespondenceWire.BuildCodeEdit(path, ls, le, null),
                 lineHint,
                 CorrespondencePaths.ExcerptAt(markdown, lineHint));
         }
@@ -301,7 +301,7 @@ public static partial class DocReverseAnchorResolver
                 return false;
         }
 
-        wire = CorrespondenceWire.Build(file, lineStart, lineEnd, member);
+        wire = CorrespondenceWire.BuildCodeEdit(file, lineStart, lineEnd, member);
         return true;
     }
 

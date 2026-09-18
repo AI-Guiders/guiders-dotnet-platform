@@ -21,6 +21,22 @@ public static partial class CorrespondenceWire
         return "[" + string.Join("; ", parts) + "]";
     }
 
+    /// <summary>Kind: canon wire for Execution resolve (plan §10). Member wins over line span.</summary>
+    public static string BuildCodeEdit(string file, int? lineStart, int? lineEnd, string? member)
+    {
+        var parts = new List<string> { "Kind:CodeEdit", $"File:{CorrespondencePaths.NormalizePath(file)}" };
+        if (member is { Length: > 0 })
+            parts.Add($"Member:{member}");
+        else if (lineStart is int ls)
+        {
+            parts.Add(lineEnd is int le && le != ls
+                ? $"Line:{ls}-{le}"
+                : $"Line:{ls}");
+        }
+
+        return "[" + string.Join("; ", parts) + "]";
+    }
+
     public static bool TryParseBracket(
         string bracket,
         out string file,

@@ -28,6 +28,8 @@ public sealed class DocReverseAnchorResolverTests
             Assert.Single(hits);
             Assert.Equal(CorrespondenceProvenance.Bracket, hits[0].Provenance);
             Assert.Equal("RunAsync", hits[0].MemberKey);
+            Assert.StartsWith("[Kind:CodeEdit;", hits[0].Wire);
+            Assert.Contains("Member:RunAsync", hits[0].Wire);
         }
         finally
         {

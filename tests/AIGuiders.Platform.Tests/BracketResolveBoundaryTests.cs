@@ -38,4 +38,21 @@ public sealed class BracketResolveBoundaryTests
         Assert.Equal("Foo", axes.MemberKey);
         Assert.Equal(10, axes.LineStart);
     }
+
+    [Fact]
+    public void TryFormatCodeEdit_emits_kind_spec_roundtrip()
+    {
+        Assert.True(
+            BracketResolveBoundary.TryFormatCodeEdit(
+                new CodeEditResolveAxes("Program.cs", null, 10, 10),
+                out var wire),
+            wire);
+
+        Assert.Equal("[Kind:CodeEdit; File:Program.cs; Line:10]", wire);
+        Assert.True(BracketResolveBoundary.TryParseToAxes(wire, out var axes, out var path));
+        Assert.Equal("kind-spec", path);
+        Assert.Equal("Program.cs", axes.File);
+        Assert.Null(axes.MemberKey);
+        Assert.Equal(10, axes.LineStart);
+    }
 }
