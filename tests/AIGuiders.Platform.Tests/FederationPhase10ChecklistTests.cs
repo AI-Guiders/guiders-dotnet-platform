@@ -122,6 +122,15 @@ public sealed class FederationPhase10ChecklistTests
     }
 
     [Fact]
+    public void TextEngine_uses_federation_text_surface_substrate_not_nuget_avalonedit()
+    {
+        var csproj = FindGuidersWpfFile("src", "AIGuiders.Surface.Wpf.TextEngine", "AIGuiders.Surface.Wpf.TextEngine.csproj");
+        var text = File.ReadAllText(csproj);
+        Assert.Contains("AIGuiders.TextSurface.Substrate", text);
+        Assert.DoesNotContain("PackageReference Include=\"AvalonEdit\"", text);
+    }
+
+    [Fact]
     public void CodeCenterHost_exists_for_ship_62_semantic_editor_slice()
     {
         var host = FindGuidersWpfFile("src", "AIGuiders.Surface.Wpf.CodeCenter", "CodeCenterHost.cs");
