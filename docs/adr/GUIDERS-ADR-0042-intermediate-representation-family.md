@@ -81,6 +81,18 @@ LanguageIntelligence.Anchors → IR.Language + BracketAnchorWire parse/format
 - Guild packages shrink to mechanics; catalog field schemas are versioned with IR packages.
 - ADR-0041 §4 “Descriptor field schemas → guild IR” is superseded: schemas live in **`IR.Command` / `IR.Binding` / `IR.Melody` / `IR.Agent` / `IR.Language`**.
 
+## Amendment — federation split-audit (2026-09, ship-52)
+
+`IntermediateRepresentation.Language` is **retired**. Language locate/edit SSOT:
+
+| Was (IR.Language) | Now (TO-BE) |
+|-------------------|-------------|
+| `Locus`, `TextEdit`, `ResolveTier` | `Modeling.LanguageIntelligence.Relations` + `Modeling.Language` |
+| `BracketAnchorSpan`, anchor wire IR | `RelationSpec` + Kind: bracket wire (`Notations.Bracket`); legacy F/M/L parse @ `Execution.LanguageIntelligence.Relations.RelationWireBoundary` only |
+| `IAnchorResolver` host contract | `Execution.Language.*.Relations` resolve/materialize seams |
+
+`LanguageIntelligence` / `LanguageIntelligence.Anchors` rows in §3 dependency spine → **`Modeling.LanguageIntelligence.Relations`** (F# SSOT) + **`Execution.Language.*.Relations`** (host IO). No new code in `IR.Language`.
+
 ## Non-goals
 
 - Renaming `ArgConstructorBinding` → `CommandConstructorBinding` (cosmetic; optional later ADR).

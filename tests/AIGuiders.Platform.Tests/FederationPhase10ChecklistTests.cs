@@ -22,6 +22,29 @@ public sealed class FederationPhase10ChecklistTests
         Assert.True(File.Exists(audit), audit);
         var text = File.ReadAllText(audit);
         Assert.Contains("CLOSURE: BLOCKED", text);
+        Assert.Contains("| P4-01 |", text);
+        Assert.Contains("verified", text);
+    }
+
+    [Fact]
+    public void Adr_0042_documents_ir_language_retirement()
+    {
+        var adr = FindRepoFile("docs", "adr", "GUIDERS-ADR-0042-intermediate-representation-family.md");
+        var text = File.ReadAllText(adr);
+        Assert.Contains("IntermediateRepresentation.Language` is **retired**", text);
+        Assert.Contains("Modeling.LanguageIntelligence.Relations", text);
+    }
+
+    static string FindRepoFile(params string[] parts)
+    {
+        for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir is not null; dir = dir.Parent)
+        {
+            var candidate = Path.Combine([dir.FullName, .. parts]);
+            if (File.Exists(candidate))
+                return candidate;
+        }
+
+        throw new InvalidOperationException($"Could not locate {string.Join('/', parts)}.");
     }
 
     [Fact]

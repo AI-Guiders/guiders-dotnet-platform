@@ -46,6 +46,17 @@ public sealed class FederationPhase2ChecklistTests
     }
 
     [Fact]
+    public void Bracket_resolve_boundary_is_public_kind_first_entry()
+    {
+        Assert.True(typeof(BracketResolveBoundary).IsPublic);
+        Assert.True(BracketResolveBoundary.TryParseToAxes(
+            "[Kind:CodeEdit; File:a.cs; Member:B]",
+            out _,
+            out var path));
+        Assert.Equal("kind-spec", path);
+    }
+
+    [Fact]
     public void Anchor_resolve_conformance_is_kind_spec_only()
     {
         var json = ConformanceFixture.LoadEmbedded(
