@@ -121,6 +121,29 @@ public sealed class FederationPhase10ChecklistTests
             Assert.Equal("kind-spec", vector.Mode, StringComparer.OrdinalIgnoreCase));
     }
 
+    [Fact]
+    public void CodeCenterHost_exists_for_ship_62_semantic_editor_slice()
+    {
+        var host = FindGuidersWpfFile("src", "AIGuiders.Surface.Wpf.CodeCenter", "CodeCenterHost.cs");
+        Assert.True(File.Exists(host), host);
+        var livingMatrix = FindGuidersFsharpFile("docs", "federation", "model-extraction-living-matrix.md");
+        var matrix = File.ReadAllText(livingMatrix);
+        Assert.Contains("ship-62", matrix);
+        Assert.Contains("**shipped**", matrix);
+    }
+
+    static string FindGuidersWpfFile(params string[] parts)
+    {
+        for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir is not null; dir = dir.Parent)
+        {
+            var sibling = Path.Combine([dir.FullName, "guiders-wpf", .. parts]);
+            if (File.Exists(sibling))
+                return sibling;
+        }
+
+        throw new InvalidOperationException($"Could not locate guiders-wpf/{string.Join('/', parts)}.");
+    }
+
     static string FindGuidersFsharpFile(params string[] parts)
     {
         for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir is not null; dir = dir.Parent)
