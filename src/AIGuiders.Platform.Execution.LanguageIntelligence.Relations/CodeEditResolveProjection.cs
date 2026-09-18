@@ -96,15 +96,6 @@ public static class CodeEditResolveProjection
         return true;
     }
 
-    public static bool TryFromLegacyWire(LegacyWireSpan legacy, out CodeEditResolveAxes axes)
-    {
-        axes = legacy.ToCodeEditAxes();
-        return !string.IsNullOrWhiteSpace(axes.File)
-               || !string.IsNullOrWhiteSpace(axes.MemberKey)
-               || axes.LineStart is not null
-               || !string.IsNullOrWhiteSpace(axes.XmlPath);
-    }
-
     static string? OptNonEmpty(string? raw) =>
         string.IsNullOrWhiteSpace(raw) ? null : raw.Trim();
 }

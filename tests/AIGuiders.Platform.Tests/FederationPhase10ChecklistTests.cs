@@ -21,7 +21,7 @@ public sealed class FederationPhase10ChecklistTests
         var audit = FindGuidersFsharpFile("docs", "federation", "model-extraction-to-be-audit.md");
         Assert.True(File.Exists(audit), audit);
         var text = File.ReadAllText(audit);
-        Assert.Contains("CLOSURE: BLOCKED", text);
+        Assert.Contains("CLOSED", text);
         Assert.Contains("| P4-01 |", text);
         Assert.Contains("verified", text);
     }
@@ -67,11 +67,12 @@ public sealed class FederationPhase10ChecklistTests
     }
 
     [Fact]
-    public void LegacyWireSpan_is_execution_boundary_not_modeling()
+    public void LegacyWireSpan_is_deleted_from_execution_boundary()
     {
         var modelingAssembly = typeof(AIGuiders.Platform.Modeling.Documentation.Correspondence.DocToCodeWitness).Assembly;
+        var executionAssembly = typeof(RelationWireBoundary).Assembly;
         Assert.Null(modelingAssembly.GetType("AIGuiders.Platform.Modeling.LanguageIntelligence.LegacyWireSpan"));
-        Assert.True(typeof(LegacyWireSpan).IsPublic);
+        Assert.Null(executionAssembly.GetType("AIGuiders.Platform.Execution.LanguageIntelligence.Relations.LegacyWireSpan"));
         Assert.True(typeof(RelationWireBoundary).IsPublic);
     }
 

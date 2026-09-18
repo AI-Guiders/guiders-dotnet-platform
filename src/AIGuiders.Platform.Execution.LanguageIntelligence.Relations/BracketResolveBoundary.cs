@@ -5,7 +5,7 @@ using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
 namespace AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 
 /// <summary>
-/// Unified bracket wire resolve entry: Kind: RelationSpec only (plan §10). Legacy F/M/L ingest via <see cref="RelationWireBoundary"/>.
+/// Unified bracket wire resolve entry: Kind: RelationSpec + doc-scan F/M/L ingest (plan §10).
 /// </summary>
 public static class BracketResolveBoundary
 {
@@ -24,6 +24,12 @@ public static class BracketResolveBoundary
             return true;
         }
 
+        if (RelationWireBoundary.TryParseDocScan(bracketOrInner, out axes, out _))
+        {
+            parsePath = "doc-scan";
+            return true;
+        }
+
         return false;
     }
 
@@ -38,6 +44,12 @@ public static class BracketResolveBoundary
         if (spec is not null && NavResolveProjection.TryFromRelationSpec(spec, out axes))
         {
             parsePath = "kind-nav";
+            return true;
+        }
+
+        if (LegacyNavWireIngest.TryParse(bracketOrInner, out axes, out _))
+        {
+            parsePath = "legacy-nav";
             return true;
         }
 
@@ -88,13 +100,6 @@ public static class BracketResolveBoundary
         return true;
     }
 
-    public static bool TryFormatCodeEdit(LegacyWireSpan legacy, out string wire)
-    {
-        wire = "";
-        return CodeEditResolveProjection.TryFromLegacyWire(legacy, out var axes)
-               && TryFormatCodeEdit(axes, out wire);
-    }
-
     public static bool TryFormatNav(NavResolveAxes axes, out string wire)
     {
         wire = "";
@@ -121,12 +126,5 @@ public static class BracketResolveBoundary
 
         wire = "[" + string.Join("; ", parts) + "]";
         return true;
-    }
-
-    public static bool TryFormatNav(LegacyWireSpan legacy, out string wire)
-    {
-        wire = "";
-        return NavResolveProjection.TryFromLegacyNav(legacy, out var axes)
-               && TryFormatNav(axes, out wire);
     }
 }

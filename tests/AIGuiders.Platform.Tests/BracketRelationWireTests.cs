@@ -10,34 +10,42 @@ namespace AIGuiders.Platform.Tests;
 public sealed class RelationWireBoundaryTests
 {
     [Fact]
-    public void Parse_code_family_roundtrip()
+    public void DocScan_parses_code_family_axes()
     {
-        var span = RelationWireBoundary.Parse("[F:Program.cs;M:Foo;L:10]");
-        Assert.Equal(BracketAxisFamily.Csharp, RelationWireBoundary.ClassifyFamily(span, out var error));
+        Assert.True(RelationWireBoundary.TryParseDocScan("[F:Program.cs;M:Foo;L:10]", out var axes, out var error), error);
+        Assert.Equal("Program.cs", axes.File);
+        Assert.Equal("Foo", axes.MemberKey);
+        Assert.Equal(10, axes.LineStart);
+        Assert.Equal(BracketAxisFamily.Csharp, WireFamilyClassifier.Classify(WireFamilyClassifier.Probe.FromCodeEdit(axes), out error));
         Assert.Null(error);
-        Assert.Contains("F:Program.cs", RelationWireBoundary.Format(span));
     }
 
     [Fact]
-    public void Parse_navigation_nested_anchor()
+    public void DocScan_rejects_navigation_wires()
     {
-        var span = RelationWireBoundary.Parse("[Family:navigation;Command:open;Anchor:[F:README.md;L:10]]");
-        Assert.Equal(BracketAxisFamily.Navigation, RelationWireBoundary.ClassifyFamily(span, out _));
-        Assert.NotNull(span.NestedAnchor);
-        Assert.Equal("README.md", span.NestedAnchor!.File);
+        Assert.False(RelationWireBoundary.TryParseDocScan(
+            "[Family:navigation;Command:open;Anchor:[F:README.md;L:10]]",
+            out _,
+            out _));
+        Assert.True(LegacyNavWireIngest.TryParse(
+            "[Family:navigation;Command:open;Anchor:[F:README.md;L:10]]",
+            out var nav,
+            out _));
+        Assert.Equal("README.md", nav.File);
+        Assert.Equal(10, nav.Line);
     }
 
     [Fact]
-    public void Kind_first_parse_boundary_matches_legacy_span()
+    public void Kind_first_parse_boundary_matches_doc_scan()
     {
         const string wire = "[Kind:CodeEdit; File:Program.cs; Member:Foo]";
         var spec = RelationSpecWireBoundary.TryParseKindSpec(wire);
         Assert.NotNull(spec);
         Assert.True(CodeEditResolveProjection.TryFromRelationSpec(spec, out var kindAxes));
 
-        var legacySpan = RelationWireBoundary.Parse("[F:Program.cs;M:Foo]");
-        Assert.Equal(legacySpan.File, kindAxes.File);
-        Assert.Equal(legacySpan.MemberKey, kindAxes.MemberKey);
+        Assert.True(RelationWireBoundary.TryParseDocScan("[F:Program.cs;M:Foo]", out var docAxes, out _));
+        Assert.Equal(docAxes.File, kindAxes.File);
+        Assert.Equal(docAxes.MemberKey, kindAxes.MemberKey);
     }
 
     [Fact]
@@ -60,11 +68,15 @@ public sealed class RelationWireBoundaryTests
     }
 
     [Fact]
-    public void LegacyWireSpan_supports_nested_anchors()
+    public void LegacyNavWireIngest_flattens_nested_anchor()
     {
-        var inner = new LegacyWireSpan(null, "inner", null, null);
-        var outer = new LegacyWireSpan("a.fs", null, null, null, NestedAnchor: inner);
-        Assert.Same(inner, outer.NestedAnchor);
+        Assert.True(LegacyNavWireIngest.TryParse(
+            "[Family:navigation;Command:open;Anchor:[File:a.fs;Member:inner]]",
+            out var nav,
+            out _));
+        Assert.Equal("a.fs", nav.File);
+        Assert.Equal("inner", nav.Member);
+        Assert.Equal("open", nav.Command);
     }
 
     [Fact]
@@ -77,3 +89,4 @@ public sealed class RelationWireBoundaryTests
         Assert.Equal("[Anchor:[F:a.cs;M:B]]", envelopes[0].Wire);
     }
 }
+

@@ -19,11 +19,13 @@ public sealed class FederationPhase2ChecklistTests
     }
 
     [Fact]
-    public void CodeEdit_resolve_projection_and_legacy_wire_types_are_public()
+    public void CodeEdit_resolve_projection_and_doc_scan_ingest_are_public()
     {
         Assert.True(typeof(CodeEditResolveAxes).IsPublic);
-        Assert.True(typeof(LegacyWireSpan).IsPublic);
+        Assert.Null(typeof(CodeEditResolveAxes).Assembly.GetType(
+            "AIGuiders.Platform.Execution.LanguageIntelligence.Relations.LegacyWireSpan"));
         Assert.True(typeof(CodeEditResolveProjection).IsPublic);
+        Assert.True(typeof(RelationWireBoundary).IsPublic);
     }
 
     [Fact]
@@ -54,10 +56,12 @@ public sealed class FederationPhase2ChecklistTests
             out _,
             out var path));
         Assert.Equal("kind-spec", path);
-        Assert.False(BracketResolveBoundary.TryParseToAxes(
+        Assert.True(BracketResolveBoundary.TryParseToAxes(
             "[F:a.cs; M:B]",
-            out _,
-            out _));
+            out var legacyAxes,
+            out var legacyPath));
+        Assert.Equal("doc-scan", legacyPath);
+        Assert.Equal("a.cs", legacyAxes.File);
         Assert.True(BracketResolveBoundary.TryFormatCodeEdit(
             new CodeEditResolveAxes("a.cs", "B", null, null),
             out var wire));

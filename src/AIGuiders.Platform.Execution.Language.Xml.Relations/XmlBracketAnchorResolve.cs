@@ -28,39 +28,6 @@ public static class XmlBracketAnchorResolve
 
     public static bool TryResolve(
         string absoluteFilePath,
-        LegacyWireSpan legacy,
-        out ResolveResult result,
-        out string detail)
-    {
-        if (!CodeEditResolveProjection.TryFromLegacyWire(legacy, out var axes))
-        {
-            result = default!;
-            detail = "unsupported_legacy_wire";
-            return false;
-        }
-
-        return TryResolve(absoluteFilePath, sourceText: null, axes, out result, out detail);
-    }
-
-    public static bool TryResolve(
-        string absoluteFilePath,
-        string? sourceText,
-        LegacyWireSpan legacy,
-        out ResolveResult result,
-        out string detail)
-    {
-        if (!CodeEditResolveProjection.TryFromLegacyWire(legacy, out var axes))
-        {
-            result = default!;
-            detail = "unsupported_legacy_wire";
-            return false;
-        }
-
-        return TryResolve(absoluteFilePath, sourceText, axes, out result, out detail);
-    }
-
-    public static bool TryResolve(
-        string absoluteFilePath,
         RelationSpec spec,
         out ResolveResult result,
         out string detail) =>

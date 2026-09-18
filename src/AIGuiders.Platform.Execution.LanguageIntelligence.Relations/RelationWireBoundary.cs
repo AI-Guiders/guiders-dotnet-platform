@@ -1,16 +1,14 @@
 #nullable enable
 
-#pragma warning disable CS0618 // LegacyWireSpan legacy wire IR (plan §10 delete)
-
 using AIGuiders.Platform.Modeling.Notations.Bracket;
 using AIGuiders.Platform.Notations.Bracket;
 
 namespace AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 
-/// <summary>Legacy bracket wire ingest (doc reverse-scan F/M/L + Family:navigation) — plan §10 shrink target.</summary>
+/// <summary>Doc reverse-scan F/M/L wire ingest only (plan §10). Nav wires → <see cref="LegacyNavWireIngest"/>.</summary>
 public static class RelationWireBoundary
 {
-    static readonly Dictionary<string, string> AxisAlias = new(StringComparer.OrdinalIgnoreCase)
+    internal static readonly Dictionary<string, string> AxisAlias = new(StringComparer.OrdinalIgnoreCase)
     {
         ["F"] = "File",
         ["File"] = "File",
@@ -42,12 +40,48 @@ public static class RelationWireBoundary
         ["Go"] = "Go",
         ["G"] = "Go",
         ["Anchor"] = "Anchor",
-        // legacy flag → Family:navigation
         ["N"] = "Navigate",
         ["Navigate"] = "Navigate",
     };
 
-    public static LegacyWireSpan Parse(string bracketOrInner)
+    public static bool TryParseDocScan(string bracketOrInner, out CodeEditResolveAxes axes, out string? error)
+    {
+        axes = default!;
+        error = null;
+        if (string.IsNullOrWhiteSpace(bracketOrInner))
+            return false;
+
+        if (!BracketReader.Default.TryRead(
+                bracketOrInner,
+                BracketProfiles.CdpSquareKeyValue,
+                out var wire,
+                out error)
+            || wire is null)
+            return false;
+
+        try
+        {
+            var parsed = ParseDocScan(wire, out var probe);
+            if (WireFamilyClassifier.Classify(probe, out error) == BracketAxisFamily.Navigation)
+            {
+                error ??= "nav_wire";
+                return false;
+            }
+
+            axes = parsed;
+            return !string.IsNullOrWhiteSpace(axes.File)
+                   || !string.IsNullOrWhiteSpace(axes.MemberKey)
+                   || axes.LineStart is not null
+                   || !string.IsNullOrWhiteSpace(axes.XmlPath);
+        }
+        catch (ArgumentException ex)
+        {
+            error = ex.Message;
+            return false;
+        }
+    }
+
+    internal static NormalizedBracketWire ReadWire(string bracketOrInner)
     {
         if (!BracketReader.Default.TryRead(
                 bracketOrInner,
@@ -57,10 +91,10 @@ public static class RelationWireBoundary
             || wire is null)
             throw new ArgumentException(error);
 
-        return SpanFromWire(wire);
+        return wire;
     }
 
-    static LegacyWireSpan SpanFromWire(NormalizedBracketWire wire)
+    static CodeEditResolveAxes ParseDocScan(NormalizedBracketWire wire, out WireFamilyClassifier.Probe probe)
     {
         string? file = null;
         string? member = null;
@@ -72,11 +106,8 @@ public static class RelationWireBoundary
         string? xmlPath = null;
         string? attr = null;
         string? family = null;
-        string? command = null;
-        string? go = null;
         string? textNeedle = null;
         string? typeKey = null;
-        LegacyWireSpan? nested = null;
         var legacyNavigate = false;
 
         foreach (var axis in wire.Axes)
@@ -122,233 +153,43 @@ public static class RelationWireBoundary
                     attr = val;
                     break;
                 case "Command":
-                    command = val.ToLowerInvariant();
-                    break;
                 case "Go":
-                    go = val;
-                    break;
                 case "Anchor":
-                    nested = axis.Nested is not null ? SpanFromWire(axis.Nested) : Parse(val);
-                    break;
+                    throw new ArgumentException("nav_wire");
             }
         }
 
-        if (legacyNavigate && string.IsNullOrWhiteSpace(family))
-            family = "navigation";
+        if (legacyNavigate)
+            throw new ArgumentException("nav_wire");
 
-        var span = new LegacyWireSpan(
-            file, member, lineStart, lineEnd, scopeKind, scopeIndex, role, xmlPath, attr,
-            family, command, go, nested, textNeedle, typeKey);
-        _ = ClassifyFamily(span, out var familyError);
-        if (familyError is not null)
-            throw new ArgumentException(familyError);
-        return span;
+        probe = new WireFamilyClassifier.Probe(
+            file,
+            member,
+            lineStart,
+            scopeKind,
+            role,
+            xmlPath,
+            attr,
+            family,
+            Command: null,
+            Go: null,
+            NestedAnchor: null,
+            textNeedle,
+            typeKey);
+
+        return new CodeEditResolveAxes(
+            file,
+            member,
+            lineStart,
+            lineEnd,
+            scopeKind,
+            scopeIndex,
+            role,
+            xmlPath,
+            attr,
+            textNeedle,
+            typeKey);
     }
-
-    /// <summary>
-    /// Explicit <c>Family:</c> wins; else infer code (M/S/L) vs xml (Element/Attribute).
-    /// Navigation = Family or Command/Go/nested.
-    /// </summary>
-    public static BracketAxisFamily ClassifyFamily(LegacyWireSpan span, out string? error)
-    {
-        error = null;
-        var fam = NormalizeFamilyName(span.Family);
-        if (fam is "navigation" or "nav")
-            return BracketAxisFamily.Navigation;
-        if (fam is "xml")
-            return ValidateXml(span, out error) ? BracketAxisFamily.Xml : BracketAxisFamily.None;
-        if (fam is "code" or "csharp" or "c#")
-            return ValidateCode(span, out error) ? BracketAxisFamily.Csharp : BracketAxisFamily.None;
-        if (fam is "fsharp" or "fs" or "f#")
-            return ValidateCode(span, out error) ? BracketAxisFamily.Fsharp : BracketAxisFamily.None;
-        if (fam is "json" or "j")
-            return ValidateJson(span, out error) ? BracketAxisFamily.Json : BracketAxisFamily.None;
-
-        var hasNav = !string.IsNullOrWhiteSpace(span.Command)
-                     || !string.IsNullOrWhiteSpace(span.Go)
-                     || span.NestedAnchor is not null;
-        var memberKey = span.MemberKey;
-        var hasJson = memberKey is { Length: > 0 } mk && mk.TrimStart().StartsWith("$", StringComparison.Ordinal);
-        var hasCsharpStructural = (!string.IsNullOrWhiteSpace(memberKey) && !hasJson)
-            || !string.IsNullOrWhiteSpace(span.ScopeKind)
-            || span.LineStart is not null
-            || !string.IsNullOrWhiteSpace(span.TypeKey)
-            || !string.IsNullOrWhiteSpace(span.TextNeedle);
-        var hasXml = !string.IsNullOrWhiteSpace(span.XmlPath)
-            || !string.IsNullOrWhiteSpace(span.Attr);
-
-        if (hasNav && (hasCsharpStructural || hasXml || hasJson))
-        {
-            // Nested Anchor may carry code/xml/json; outer nav axes alone are fine.
-            if (!string.IsNullOrWhiteSpace(span.MemberKey)
-                || !string.IsNullOrWhiteSpace(span.ScopeKind)
-                || span.LineStart is not null
-                || !string.IsNullOrWhiteSpace(span.TypeKey)
-                || !string.IsNullOrWhiteSpace(span.TextNeedle)
-                || !string.IsNullOrWhiteSpace(span.XmlPath)
-                || !string.IsNullOrWhiteSpace(span.Attr)
-                || hasJson)
-            {
-                error = "mixed_axes";
-                return BracketAxisFamily.None;
-            }
-        }
-
-        if (hasNav)
-            return BracketAxisFamily.Navigation;
-
-        if (hasCsharpStructural && hasXml)
-        {
-            error = "mixed_axes";
-            return BracketAxisFamily.None;
-        }
-
-        if (hasJson && hasXml)
-        {
-            error = "mixed_axes";
-            return BracketAxisFamily.None;
-        }
-
-        if (hasJson)
-            return ValidateJson(span, out error) ? BracketAxisFamily.Json : BracketAxisFamily.None;
-
-        if (hasXml)
-            return ValidateXml(span, out error) ? BracketAxisFamily.Xml : BracketAxisFamily.None;
-
-        if (hasCsharpStructural || !string.IsNullOrWhiteSpace(span.Role))
-            return BracketAxisFamily.Csharp;
-
-        // File-only → none (open path uses navigation or plain file label)
-        return BracketAxisFamily.None;
-    }
-
-    static bool ValidateXml(LegacyWireSpan span, out string? error)
-    {
-        error = null;
-        if (string.IsNullOrWhiteSpace(span.XmlPath) && !string.IsNullOrWhiteSpace(span.Attr))
-        {
-            error = "need_X_for_A";
-            return false;
-        }
-
-        return true;
-    }
-
-    static bool ValidateJson(LegacyWireSpan span, out string? error)
-    {
-        error = null;
-        if (string.IsNullOrWhiteSpace(span.MemberKey))
-        {
-            error = "need_J_for_json";
-            return false;
-        }
-
-        if (!string.IsNullOrWhiteSpace(span.XmlPath) || !string.IsNullOrWhiteSpace(span.Attr))
-        {
-            error = "mixed_axes";
-            return false;
-        }
-
-        return true;
-    }
-
-    static bool ValidateCode(LegacyWireSpan span, out string? error)
-    {
-        error = null;
-        if (!string.IsNullOrWhiteSpace(span.XmlPath) || !string.IsNullOrWhiteSpace(span.Attr))
-        {
-            error = "mixed_axes";
-            return false;
-        }
-
-        return true;
-    }
-
-    /// <summary>
-    /// Emit wire. Navigation → canonical names + Family.
-    /// Code/xml → short aliases (compat) unless <paramref name="preferCanonical"/>.
-    /// </summary>
-    public static string Format(LegacyWireSpan span, bool preferCanonical = false)
-    {
-        var family = ClassifyFamily(span, out _);
-        var canon = preferCanonical || family == BracketAxisFamily.Navigation
-                    || !string.IsNullOrWhiteSpace(span.Family);
-
-        var parts = new List<string>();
-        var famName = family switch
-        {
-            BracketAxisFamily.Navigation => "navigation",
-            BracketAxisFamily.Xml => "xml",
-            BracketAxisFamily.Csharp => "code",
-            _ => NormalizeFamilyName(span.Family)
-        };
-        if (canon && !string.IsNullOrWhiteSpace(famName))
-            parts.Add(Key("Family", canon) + ":" + famName);
-
-        if (family == BracketAxisFamily.Navigation)
-        {
-            if (!string.IsNullOrWhiteSpace(span.Command))
-                parts.Add(Key("Command", canon) + ":" + span.Command.Trim());
-            if (!string.IsNullOrWhiteSpace(span.Go))
-                parts.Add(Key("Go", canon) + ":" + span.Go.Trim());
-            if (span.NestedAnchor is { } nested)
-                parts.Add("Anchor:" + Format(nested, preferCanonical: true));
-            return "[" + string.Join(';', parts) + "]";
-        }
-
-        if (!string.IsNullOrWhiteSpace(span.File))
-            parts.Add(Key("File", canon) + ":" + span.File.Trim());
-        if (!string.IsNullOrWhiteSpace(span.MemberKey))
-            parts.Add(Key("Member", canon) + ":" + span.MemberKey.Trim());
-        if (!string.IsNullOrWhiteSpace(span.TypeKey))
-            parts.Add(Key("Type", canon) + ":" + span.TypeKey.Trim());
-        if (span.LineStart is int ls)
-        {
-            var lineKey = Key("Line", canon);
-            parts.Add(span.LineEnd is int le && le != ls
-                ? $"{lineKey}:{ls}-{le}"
-                : $"{lineKey}:{ls}");
-        }
-
-        if (!string.IsNullOrWhiteSpace(span.TextNeedle))
-            parts.Add(Key("Text", canon) + ":" + SanitizeTextNeedle(span.TextNeedle));
-
-        if (!string.IsNullOrWhiteSpace(span.ScopeKind))
-        {
-            var kind = span.ScopeKind.Trim().ToLowerInvariant();
-            var idx = span.ScopeIndex is > 0 ? span.ScopeIndex.Value : 1;
-            var scopeKey = Key("Scope", canon);
-            parts.Add(idx == 1 ? $"{scopeKey}:{kind}" : $"{scopeKey}:{kind}:{idx}");
-        }
-
-        if (!string.IsNullOrWhiteSpace(span.XmlPath))
-            parts.Add(Key("Element", canon) + ":" + span.XmlPath.Trim());
-        if (!string.IsNullOrWhiteSpace(span.Attr))
-            parts.Add(Key("Attribute", canon) + ":" + span.Attr.Trim());
-        if (!string.IsNullOrWhiteSpace(span.Role))
-            parts.Add(Key("Kind", canon) + ":" + span.Role.Trim());
-
-        return "[" + string.Join(';', parts) + "]";
-    }
-
-    static string Key(string canonical, bool preferCanonical) => preferCanonical
-        ? canonical
-        : canonical switch
-        {
-            "Family" => "Family",
-            "File" => "F",
-            "Member" => "M",
-            "Line" => "L",
-            "Scope" => "S",
-            "Type" => "T",
-            "Text" => "Text",
-            "Kind" => "K",
-            "Element" => "X",
-            "Attribute" => "A",
-            "Command" => "Command",
-            "Go" => "Go",
-            _ => canonical
-        };
 
     /// <summary>Strip axis separators from content needle so wire stays parseable.</summary>
     public static string SanitizeTextNeedle(string? raw)
@@ -363,7 +204,7 @@ public static class RelationWireBoundary
         return s.Trim();
     }
 
-    static void ParseLine(string val, out int? lineStart, out int? lineEnd)
+    internal static void ParseLine(string val, out int? lineStart, out int? lineEnd)
     {
         lineStart = null;
         lineEnd = null;
@@ -419,5 +260,5 @@ public static class RelationWireBoundary
     static bool IsTruthy(string val) =>
         val.Equals("true", StringComparison.OrdinalIgnoreCase)
         || val.Equals("1", StringComparison.OrdinalIgnoreCase)
-        ||         val.Equals("yes", StringComparison.OrdinalIgnoreCase);
+        || val.Equals("yes", StringComparison.OrdinalIgnoreCase);
 }

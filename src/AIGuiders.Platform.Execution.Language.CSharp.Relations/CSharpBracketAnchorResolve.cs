@@ -21,18 +21,6 @@ public static class CSharpBracketAnchorResolve
         SyntaxNode Node,
         string Detail);
 
-    public static bool TryResolve(string absoluteFilePath, LegacyWireSpan legacy, out TextRange range, out string detail)
-    {
-        if (!CodeEditResolveProjection.TryFromLegacyWire(legacy, out var axes))
-        {
-            range = default!;
-            detail = "unsupported_legacy_wire";
-            return false;
-        }
-
-        return TryResolve(absoluteFilePath, axes, out range, out detail);
-    }
-
     public static bool TryResolve(string absoluteFilePath, CodeEditResolveAxes axes, out TextRange range, out string detail) =>
         TryResolve(absoluteFilePath, sourceText: null, axes, out range, out detail);
 
@@ -101,22 +89,6 @@ public static class CSharpBracketAnchorResolve
         }
 
         return true;
-    }
-
-    public static bool TryFindAttachTarget(
-        string absoluteFilePath,
-        LegacyWireSpan legacy,
-        out AttachTarget target,
-        out string detail)
-    {
-        if (!CodeEditResolveProjection.TryFromLegacyWire(legacy, out var axes))
-        {
-            target = default!;
-            detail = "unsupported_legacy_wire";
-            return false;
-        }
-
-        return TryFindAttachTarget(absoluteFilePath, axes, out target, out detail);
     }
 
     /// <summary>Resolve F+(M|T|L|S[+K]) to a syntax node for annotate/mutate attach.</summary>
