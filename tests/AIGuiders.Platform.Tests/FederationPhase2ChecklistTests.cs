@@ -1,7 +1,8 @@
 using System.Reflection;
+using AIGuiders.Platform.Execution.Documentation.Correspondence;
 using AIGuiders.Platform.Execution.Ide.Session;
 using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
-using AIGuiders.Platform.Modeling.Documentation.Correspondence;
+using AIGuiders.Platform.Execution.LanguageIntelligence.Relations.Conformance;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;
@@ -12,7 +13,7 @@ public sealed class FederationPhase2ChecklistTests
     [Fact]
     public void BracketAnchorSpan_type_is_deleted_from_Execution()
     {
-        var modelingAssembly = typeof(DocToCodeWitness).Assembly;
+        var modelingAssembly = typeof(AIGuiders.Platform.Modeling.Documentation.Correspondence.DocToCodeWitness).Assembly;
         Assert.Null(modelingAssembly.GetType("AIGuiders.Platform.Modeling.LanguageIntelligence.BracketAnchorSpan"));
         Assert.Null(typeof(CodeEditResolveAxes).Assembly.GetType("AIGuiders.Platform.Execution.LanguageIntelligence.BracketAnchorSpan"));
     }
@@ -42,5 +43,16 @@ public sealed class FederationPhase2ChecklistTests
         Assert.NotNull(typeof(FederationSessionRuntime).GetMethod(
             nameof(FederationSessionRuntime.TryRunBuildAndIngestDiagnostics),
             BindingFlags.Public | BindingFlags.Static));
+    }
+
+    [Fact]
+    public void Anchor_resolve_conformance_is_kind_spec_only()
+    {
+        var json = ConformanceFixture.LoadEmbedded(
+            "AIGuiders.Platform.Tests.Fixtures.LanguageIntelligence.anchor-resolve.spec.json");
+        var spec = RelationResolveSpecConformance.Load(json);
+        Assert.True(spec.Version >= 2);
+        Assert.All(spec.Vectors, vector =>
+            Assert.Equal("kind-spec", vector.Mode, StringComparer.OrdinalIgnoreCase));
     }
 }

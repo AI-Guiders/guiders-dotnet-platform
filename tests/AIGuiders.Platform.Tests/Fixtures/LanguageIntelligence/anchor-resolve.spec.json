@@ -1,208 +1,94 @@
 {
-
-  "version": 1,
-
+  "version": 2,
   "surface": "anchor-resolve",
-
-  "source": "GUIDERS-ADR-0025 Phase 2 + RelationWireBoundary legacy-span + Kind: RelationSpec dual path",
-
+  "source": "GUIDERS-ADR-0025 Phase 2 + Kind: RelationSpec canon (plan §10; legacy F/M/L retired from conformance)",
   "vectors": [
-
     {
-
       "id": "code-file-member-line",
-
-      "wire": "[F:Program.cs;M:Foo;L:10]",
-
+      "mode": "kind-spec",
+      "wire": "[Kind:CodeEdit; File:Program.cs; Member:Foo; Line:10]",
       "expect": {
-
-        "family": "Csharp",
-
+        "relationSpecCase": "CodeEdit",
         "file": "Program.cs",
-
         "memberKey": "Foo",
-
         "lineStart": 10,
-
         "lineEnd": 10
-
       }
-
     },
-
     {
-
       "id": "code-scope-index",
-
-      "wire": "[F:a.cs;S:for:2]",
-
+      "mode": "kind-spec",
+      "wire": "[Kind:CodeEdit; File:a.cs; Scope:for; ScopeIndex:2]",
       "expect": {
-
-        "family": "Csharp",
-
+        "relationSpecCase": "CodeEdit",
         "file": "a.cs",
-
         "scopeKind": "for",
-
         "scopeIndex": 2
-
       }
-
     },
-
     {
-
       "id": "xml-element",
-
-      "wire": "[Family:xml;F:doc.xml;X:Root/Item]",
-
-      "expect": {
-
-        "family": "Xml",
-
-        "familyName": "xml",
-
-        "file": "doc.xml",
-
-        "xmlPath": "Root/Item"
-
-      }
-
-    },
-
-    {
-
-      "id": "json-member",
-
-      "wire": "[F:data.json;J:$.items[0].name]",
-
-      "expect": {
-
-        "family": "Json",
-
-        "file": "data.json",
-
-        "memberKey": "$.items[0].name"
-
-      }
-
-    },
-
-    {
-
-      "id": "navigation-nested",
-
-      "wire": "[Family:navigation;Command:open;Anchor:[F:README.md;L:10]]",
-
-      "expect": {
-
-        "family": "Navigation",
-
-        "familyName": "navigation",
-
-        "command": "open",
-
-        "nestedAnchor": {
-
-          "family": "Csharp",
-
-          "file": "README.md",
-
-          "lineStart": 10,
-
-          "lineEnd": 10
-
-        }
-
-      }
-
-    },
-
-    {
-
-      "id": "navigation-legacy-n-flag",
-
-      "wire": "[N:true;Command:peek;Anchor:[F:Inner.cs;M:B]]",
-
-      "expect": {
-
-        "family": "Navigation",
-
-        "familyName": "navigation",
-
-        "command": "peek",
-
-        "nestedAnchor": {
-
-          "family": "Csharp",
-
-          "file": "Inner.cs",
-
-          "memberKey": "B"
-
-        }
-
-      }
-
-    },
-
-    {
-
-      "id": "kind-code-edit-member",
-
       "mode": "kind-spec",
-
-      "wire": "[Kind:CodeEdit; File:Program.cs; Member:Foo]",
-
-      "expect": {
-
-        "relationSpecCase": "CodeEdit",
-
-        "file": "Program.cs",
-
-        "memberKey": "Foo"
-
-      }
-
-    },
-
-    {
-
-      "id": "kind-code-edit-xml-element",
-
-      "mode": "kind-spec",
-
       "wire": "[Kind:CodeEdit; File:doc.xml; Element:Root/Item]",
-
       "expect": {
-
         "relationSpecCase": "CodeEdit",
-
         "file": "doc.xml",
-
         "xmlPath": "Root/Item"
-
       }
-
     },
-
     {
-
-      "id": "kind-nav-seed",
-
+      "id": "json-member",
       "mode": "kind-spec",
-
-      "wire": "[Kind:Nav; File:README.md; Line:10; Command:open]",
-
+      "wire": "[Kind:CodeEdit; File:data.json; Member:$.items[0].name]",
       "expect": {
-
-        "relationSpecCase": "Nav"
-
+        "relationSpecCase": "CodeEdit",
+        "file": "data.json",
+        "memberKey": "$.items[0].name"
       }
-
+    },
+    {
+      "id": "navigation-open-line",
+      "mode": "kind-spec",
+      "wire": "[Kind:Nav; File:README.md; Line:10; Command:open]",
+      "expect": {
+        "relationSpecCase": "Nav"
+      }
+    },
+    {
+      "id": "navigation-peek",
+      "mode": "kind-spec",
+      "wire": "[Kind:Nav; File:Inner.cs; Command:peek]",
+      "expect": {
+        "relationSpecCase": "Nav"
+      }
+    },
+    {
+      "id": "kind-code-edit-member",
+      "mode": "kind-spec",
+      "wire": "[Kind:CodeEdit; File:Program.cs; Member:Foo]",
+      "expect": {
+        "relationSpecCase": "CodeEdit",
+        "file": "Program.cs",
+        "memberKey": "Foo"
+      }
+    },
+    {
+      "id": "kind-code-edit-xml-element",
+      "mode": "kind-spec",
+      "wire": "[Kind:CodeEdit; File:doc.xml; Element:Root/Item]",
+      "expect": {
+        "relationSpecCase": "CodeEdit",
+        "file": "doc.xml",
+        "xmlPath": "Root/Item"
+      }
+    },
+    {
+      "id": "kind-nav-seed",
+      "mode": "kind-spec",
+      "wire": "[Kind:Nav; File:README.md; Line:10; Command:open]",
+      "expect": {
+        "relationSpecCase": "Nav"
+      }
     }
-
   ]
-
 }
-

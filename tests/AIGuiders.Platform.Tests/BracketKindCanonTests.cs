@@ -1,5 +1,8 @@
 #nullable enable
+using Microsoft.FSharp.Core;
+using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
 using AIGuiders.Platform.Modeling.Notations.Bracket;
+using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 using AIGuiders.Platform.Notations.Bracket;
 using Xunit;
 
@@ -49,5 +52,26 @@ public sealed class BracketKindCanonTests
             error);
 
         Assert.Null(BracketRelationWire.tryParseRelationSpec(wire!));
+    }
+
+    [Fact]
+    public void Kind_CodeEdit_line_parses_and_projects()
+    {
+        Assert.True(
+            BracketReader.Default.TryRead(
+                "[Kind:CodeEdit; File:Program.cs; Member:Foo; Line:10]",
+                BracketProfiles.CdpSquareKeyValue,
+                out var wire,
+                out var error),
+            error);
+
+        var parsed = BracketRelationWire.tryParseRelationSpec(wire!);
+        Assert.NotNull(parsed);
+        Assert.True(FSharpOption<RelationSpec>.get_IsSome(parsed!));
+        Assert.True(CodeEditResolveProjection.TryFromRelationSpec(parsed!.Value, out var axes));
+        Assert.Equal("Program.cs", axes.File);
+        Assert.Equal("Foo", axes.MemberKey);
+        Assert.Equal(10, axes.LineStart);
+        Assert.Equal(10, axes.LineEnd);
     }
 }

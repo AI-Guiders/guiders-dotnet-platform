@@ -1,11 +1,16 @@
 {
   "kind": "language-intelligence.bracket-kind-canon",
-  "version": 1,
-  "source": "Federation RelationSpec Kind: wire canon (plan §8)",
+  "version": 2,
+  "source": "Federation RelationSpec Kind: wire canon (plan §8; legacy F/M/L retired from conformance)",
   "vectors": [
     {
       "id": "kind-code-edit",
       "wire": "[Kind:CodeEdit; File:Program.cs; Member:Foo]",
+      "expectRelationSpec": true
+    },
+    {
+      "id": "kind-code-edit-line",
+      "wire": "[Kind:CodeEdit; File:Program.cs; Member:Foo; Line:10]",
       "expectRelationSpec": true
     },
     {
@@ -17,11 +22,6 @@
       "id": "kind-nav",
       "wire": "[Kind:Nav; File:README.md; Command:open]",
       "expectRelationSpec": true
-    },
-    {
-      "id": "legacy-fml",
-      "wire": "[F:Program.cs; M:Foo; L:10]",
-      "expectRelationSpec": false
     }
   ]
 }

@@ -48,27 +48,51 @@ public static class CodeEditResolveProjection
             return false;
 
         var symbol = symbolTarget.symbol;
-        var container = ListModule.ToArray(symbol.Container);
+        var container = symbol.Container;
+        var lineHint = CodeEditWireEncoding.tryDecodeLine(container);
+        var scopeHint = CodeEditWireEncoding.tryDecodeScope(container);
+        var stripped = ListModule.ToArray(CodeEditWireEncoding.stripHints(container));
 
-        if (container.Length >= 3 && container[0] == XmlWireEncoding.Marker)
+        int? lineStart = null;
+        int? lineEnd = null;
+        if (OptionModule.IsSome(lineHint))
+        {
+            var decoded = OptionModule.GetValue(lineHint);
+            lineStart = decoded.Item1;
+            lineEnd = OptionModule.IsSome(decoded.Item2)
+                ? OptionModule.GetValue(decoded.Item2)
+                : decoded.Item1;
+        }
+
+        string? scopeKind = null;
+        int? scopeIndex = null;
+        if (OptionModule.IsSome(scopeHint))
+        {
+            var decoded = OptionModule.GetValue(scopeHint);
+            scopeKind = decoded.Item1;
+            scopeIndex = decoded.Item2;
+        }
+
+        if (stripped.Length >= 3 && stripped[0] == XmlWireEncoding.Marker)
         {
             axes = new CodeEditResolveAxes(
                 File: fileRef.Item.Value,
                 MemberKey: null,
-                LineStart: null,
-                LineEnd: null,
+                LineStart: lineStart,
+                LineEnd: lineEnd,
                 XmlPath: symbol.Name,
-                Attr: OptNonEmpty(container[1]),
-                Role: OptNonEmpty(container[2]));
+                Attr: OptNonEmpty(stripped[1]),
+                Role: OptNonEmpty(stripped[2]));
             return true;
         }
 
         axes = new CodeEditResolveAxes(
             File: fileRef.Item.Value,
-            MemberKey: symbol.Name,
-            LineStart: null,
-            LineEnd: null,
-            ScopeKind: container.Length == 0 ? null : string.Join(".", container));
+            MemberKey: string.IsNullOrWhiteSpace(symbol.Name) ? null : symbol.Name,
+            LineStart: lineStart,
+            LineEnd: lineEnd,
+            ScopeKind: scopeKind,
+            ScopeIndex: scopeIndex);
         return true;
     }
 
