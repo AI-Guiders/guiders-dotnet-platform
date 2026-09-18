@@ -26,9 +26,9 @@ Alternatives considered in operator review (2026-08-30):
 CDP and CIDE already treat **bracket wire** as the federation pointer:
 
 ```text
-[F:File.cs; M:Member]                    Family:code  → Locus (re-resolve)
-[Family:navigation; Command:open; …]     Family:navigation
-[FRG:pilot/issues/7]                     Forge family (CIDE 0159)
+[Kind:CodeEdit; File:File.cs; Member:Member]   Kind:CodeEdit → Locus (re-resolve)
+[Kind:Nav; Command:open; File:README.md]       Kind:Nav (legacy Family:navigation ingest)
+[FRG:pilot/issues/7]                           Forge family (CIDE 0159)
 ```
 
 **MdLinker** is not a new bracket language. It is a **Utilities** tool that scans markdown for existing bracket envelopes and runs **dry-resolve** — CI exit code on broken anchors (doc-time `CS0246`).
