@@ -62,6 +62,11 @@ public sealed class FederationPhase2ChecklistTests
             new CodeEditResolveAxes("a.cs", "B", null, null),
             out var wire));
         Assert.Contains("Kind:CodeEdit", wire);
+        Assert.True(BracketResolveBoundary.TryParseNav(
+            "[Kind:Nav; File:README.md; Line:10; Command:open]",
+            out _,
+            out var navPath));
+        Assert.Equal("kind-nav", navPath);
     }
 
     [Fact]

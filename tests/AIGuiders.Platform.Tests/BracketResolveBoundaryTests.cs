@@ -49,4 +49,32 @@ public sealed class BracketResolveBoundaryTests
         Assert.Null(axes.MemberKey);
         Assert.Equal(10, axes.LineStart);
     }
+
+    [Fact]
+    public void TryParseNav_parses_kind_nav_wire()
+    {
+        Assert.True(
+            BracketResolveBoundary.TryParseNav(
+                "[Kind:Nav; File:README.md; Line:10; Command:open]",
+                out var axes,
+                out var path),
+            path);
+
+        Assert.Equal("kind-nav", path);
+        Assert.Equal("README.md", axes.File);
+        Assert.Equal(10, axes.Line);
+        Assert.Equal("open", axes.Command);
+    }
+
+    [Fact]
+    public void TryFormatNav_flattens_legacy_nested_anchor()
+    {
+        var legacy = RelationWireBoundary.Parse("[Family:navigation;Command:open;Anchor:[F:README.md;L:10]]");
+        Assert.True(BracketResolveBoundary.TryFormatNav(legacy, out var wire), wire);
+        Assert.Equal("[Kind:Nav; File:README.md; Line:10; Command:open]", wire);
+        Assert.True(BracketResolveBoundary.TryParseNav(wire, out var axes, out _));
+        Assert.Equal("README.md", axes.File);
+        Assert.Equal(10, axes.Line);
+        Assert.Equal("open", axes.Command);
+    }
 }

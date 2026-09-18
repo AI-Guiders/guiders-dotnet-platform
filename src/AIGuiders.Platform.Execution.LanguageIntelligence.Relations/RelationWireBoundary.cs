@@ -7,7 +7,7 @@ using AIGuiders.Platform.Notations.Bracket;
 
 namespace AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 
-/// <summary>Execution parse boundary: legacy F/M/L span projection; Kind: canon via <see cref="RelationSpecWireBoundary"/>.</summary>
+/// <summary>Legacy bracket wire ingest (doc reverse-scan F/M/L + Family:navigation) — plan §10 shrink target.</summary>
 public static class RelationWireBoundary
 {
     static readonly Dictionary<string, string> AxisAlias = new(StringComparer.OrdinalIgnoreCase)

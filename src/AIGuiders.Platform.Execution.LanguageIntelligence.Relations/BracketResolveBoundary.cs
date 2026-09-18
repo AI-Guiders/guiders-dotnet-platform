@@ -27,6 +27,23 @@ public static class BracketResolveBoundary
         return false;
     }
 
+    public static bool TryParseNav(string bracketOrInner, out NavResolveAxes axes, out string? parsePath)
+    {
+        axes = default!;
+        parsePath = null;
+        if (string.IsNullOrWhiteSpace(bracketOrInner))
+            return false;
+
+        var spec = RelationSpecWireBoundary.TryParseKindSpec(bracketOrInner);
+        if (spec is not null && NavResolveProjection.TryFromRelationSpec(spec, out axes))
+        {
+            parsePath = "kind-nav";
+            return true;
+        }
+
+        return false;
+    }
+
     /// <summary>Emit Kind:CodeEdit wire from resolve axes (plan §10 consumer codemod).</summary>
     public static bool TryFormatCodeEdit(CodeEditResolveAxes axes, out string wire)
     {
@@ -76,5 +93,34 @@ public static class BracketResolveBoundary
         wire = "";
         return CodeEditResolveProjection.TryFromLegacyWire(legacy, out var axes)
                && TryFormatCodeEdit(axes, out wire);
+    }
+
+    public static bool TryFormatNav(NavResolveAxes axes, out string wire)
+    {
+        wire = "";
+        if (string.IsNullOrWhiteSpace(axes.File))
+            return false;
+
+        var parts = new List<string> { "Kind:Nav", $"File:{axes.File.Trim()}" };
+        if (axes.Line is int line)
+            parts.Add($"Line:{line}");
+        if (axes.Column is int column)
+            parts.Add($"Column:{column}");
+        if (!string.IsNullOrWhiteSpace(axes.Command))
+            parts.Add($"Command:{axes.Command.Trim()}");
+        if (!string.IsNullOrWhiteSpace(axes.Go))
+            parts.Add($"Go:{axes.Go.Trim()}");
+        if (!string.IsNullOrWhiteSpace(axes.Solution))
+            parts.Add($"Solution:{axes.Solution.Trim()}");
+
+        wire = "[" + string.Join("; ", parts) + "]";
+        return true;
+    }
+
+    public static bool TryFormatNav(LegacyWireSpan legacy, out string wire)
+    {
+        wire = "";
+        return NavResolveProjection.TryFromLegacyNav(legacy, out var axes)
+               && TryFormatNav(axes, out wire);
     }
 }
