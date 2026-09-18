@@ -34,4 +34,13 @@ public sealed class FederationPhase2ChecklistTests
 
         Assert.NotNull(method);
     }
+
+    [Fact]
+    public void Build_diagnostic_producer_and_runtime_build_hook_are_public()
+    {
+        Assert.True(typeof(BuildDiagnosticProducer).IsPublic);
+        Assert.NotNull(typeof(FederationSessionRuntime).GetMethod(
+            nameof(FederationSessionRuntime.TryRunBuildAndIngestDiagnostics),
+            BindingFlags.Public | BindingFlags.Static));
+    }
 }

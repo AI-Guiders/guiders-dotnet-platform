@@ -102,6 +102,26 @@ public static class FederationSessionRuntime
         return result;
     }
 
+    /// <summary>Run <c>dotnet build</c> on anchor slnx and ingest toolchain diagnostics (plan §7 CompileTime / Build).</summary>
+    public static BuildDiagnosticIngest.IngestResult? TryRunBuildAndIngestDiagnostics(
+        string anchorPath,
+        string configuration = "Debug",
+        bool noRestore = false)
+    {
+        if (string.IsNullOrWhiteSpace(anchorPath))
+            return null;
+
+        var collected = BuildDiagnosticProducer.TryCollectFromDotNetBuild(
+            anchorPath,
+            configuration,
+            noRestore);
+
+        if (collected.FailureReason is not null && collected.Diagnostics.Count == 0)
+            return null;
+
+        return TryIngestBuildDiagnostics(anchorPath, collected.Diagnostics);
+    }
+
     /// <summary>Materialize CRS reverse anchors for a file into session graph G.</summary>
     public static CorrespondenceRelationIngest.IngestResult? TryIngestCorrespondenceForFile(
         string anchorPath,
