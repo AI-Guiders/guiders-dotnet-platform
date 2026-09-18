@@ -29,6 +29,19 @@ public static class CorrespondenceKind
     public const string Constrains = GdlCorrespondence.Kind.Constrains;
     public const string Normates = GdlCorrespondence.Kind.Normates;
     public const string VerifiedBy = GdlCorrespondence.Kind.VerifiedBy;
+
+    /// <summary>Normalize CRS kind wire to canon token (plan §10 Correspondence.Kind → RelationType).</summary>
+    public static string NormalizeWire(string? raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw))
+            return Documents;
+
+        var parsed = GdlCorrespondence.CorrespondenceRelationKindModule.tryParse(raw.Trim());
+        if (FSharpOption<GdlCorrespondence.CorrespondenceRelationKind>.get_IsSome(parsed))
+            return GdlCorrespondence.CorrespondenceRelationKindModule.toWire(parsed!.Value);
+
+        return Documents;
+    }
 }
 
 public static class AdrLifecycleTag

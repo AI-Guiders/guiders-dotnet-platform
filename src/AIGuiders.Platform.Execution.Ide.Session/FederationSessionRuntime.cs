@@ -4,6 +4,7 @@ using AIGuiders.Platform.Modeling.Ide.Session;
 using AIGuiders.Platform.Modeling.Ide.Session.Ports.DotNet;
 using AIGuiders.Platform.Modeling.Language;
 using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
+using AIGuiders.Platform.Execution.Documentation.Correspondence;
 using AIGuiders.Platform.Execution.Language.Adapters.Fcs;
 using Microsoft.FSharp.Collections;
 namespace AIGuiders.Platform.Execution.Ide.Session;
@@ -38,6 +39,9 @@ public static class FederationSessionRuntime
         var contents = SessionContentsLoader.LoadFromDisk(ownership);
         var runtime = SessionOrchestrator.create(session, MapModule.ToSeq(contents), ownership);
         runtime = DependencyRelationIngest.IngestFromContents(runtime).Runtime;
+        var workspaceRoot = CorrespondenceResolver.FindWorkspaceRoot(full, Path.GetDirectoryName(full));
+        if (workspaceRoot is not null)
+            runtime = CorrespondenceRelationIngest.IngestFromRegistry(runtime, workspaceRoot).Runtime;
         var validation = GraphValidation.validate(runtime.Session.Graph, runtime.Registry);
         Cache[full] = runtime;
 

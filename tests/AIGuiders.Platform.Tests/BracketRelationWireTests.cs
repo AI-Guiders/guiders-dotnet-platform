@@ -1,6 +1,8 @@
 #nullable enable
-using AIGuiders.Platform.Execution.LanguageIntelligence;
-using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
+
+#pragma warning disable CS0618 // BracketAnchorSpan legacy wire IR conformance (plan §10 delete)
+
+using AIGuiders.Platform.Execution.LanguageIntelligence;using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 using Xunit;
 
 namespace AIGuiders.Platform.Tests;

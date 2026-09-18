@@ -1,3 +1,5 @@
+#pragma warning disable CS0618 // BracketAnchorSpan legacy wire IR (plan §10 delete)
+
 using AIGuiders.Platform.Execution.LanguageIntelligence;
 using AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;

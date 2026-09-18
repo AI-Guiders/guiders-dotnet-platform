@@ -1,5 +1,7 @@
 #nullable enable
 
+#pragma warning disable CS0618 // BracketAnchorSpan legacy wire IR (plan §10 delete)
+
 using System.Linq;
 using AIGuiders.Platform.Execution.LanguageIntelligence;
 using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;

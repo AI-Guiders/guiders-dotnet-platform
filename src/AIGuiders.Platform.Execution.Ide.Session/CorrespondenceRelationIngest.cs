@@ -36,4 +36,43 @@ public static class CorrespondenceRelationIngest
 
         return IngestDocToCodeWitnesses(bundle.DocToCodeWitnesses, runtime);
     }
+
+    /// <summary>Scan session registry paths for CRS doc→code witnesses (plan product wiring @ Open).</summary>
+    public static IngestResult IngestFromRegistry(SessionRuntime runtime, string? workspaceRootHint = null)
+    {
+        ArgumentNullException.ThrowIfNull(runtime);
+
+        var updated = runtime;
+        var materialized = 0;
+        var skipped = 0;
+        var seenPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var meta in runtime.Registry.Values)
+        {
+            var path = meta.Path.Value;
+            if (string.IsNullOrWhiteSpace(path) || !seenPaths.Add(path))
+                continue;
+
+            string abs;
+            try
+            {
+                abs = Path.GetFullPath(path);
+            }
+            catch (ArgumentException)
+            {
+                skipped++;
+                continue;
+            }
+
+            if (!File.Exists(abs))
+                continue;
+
+            var result = TryIngestForFile(updated, abs, workspaceRootHint);
+            updated = result.Runtime;
+            materialized += result.Materialized;
+            skipped += result.Skipped;
+        }
+
+        return new IngestResult(updated, materialized, skipped);
+    }
 }

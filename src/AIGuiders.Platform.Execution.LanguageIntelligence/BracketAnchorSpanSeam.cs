@@ -3,8 +3,9 @@
 namespace AIGuiders.Platform.Execution.LanguageIntelligence;
 
 /// <summary>
-/// Transitional anchor span seam — SSOT migrating to RelationSpec + Kind: bracket canon.
+/// Transitional anchor span seam — legacy F/M/L wire IR only; resolve hot path uses RelationSpec (plan §10 delete).
 /// </summary>
+[Obsolete("Legacy F/M/L wire IR. Use RelationSpec + CodeEdit resolve path. Plan §10 delete BracketAnchorSpan.")]
 public sealed record BracketAnchorSpan(
     string? File,
     string? MemberKey,

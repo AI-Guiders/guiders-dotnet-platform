@@ -1,5 +1,7 @@
 #nullable enable
 
+#pragma warning disable CS0618 // BracketAnchorSpan legacy wire IR (plan §10 delete)
+
 using AIGuiders.Platform.Modeling.Notations.Bracket;
 using AIGuiders.Platform.Notations.Bracket;
 

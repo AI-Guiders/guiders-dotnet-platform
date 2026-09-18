@@ -59,7 +59,7 @@ public static partial class DocReverseAnchorResolver
                 if (!CorrespondencePaths.PathsMatch(file, fileNorm, fileName))
                     continue;
 
-                var kind = string.IsNullOrWhiteSpace(row.Kind) ? "documents" : row.Kind.Trim();
+                var kind = CorrespondenceKind.NormalizeWire(row.Kind);
                 overrides.Add($"{docPath}|{CorrespondencePaths.NormalizePath(file)}");
                 AddReverse(
                     list,
@@ -262,7 +262,7 @@ public static partial class DocReverseAnchorResolver
             docPath,
             title,
             provenance,
-            kind,
+            CorrespondenceKind.NormalizeWire(kind),
             file,
             lineStart,
             lineEnd,
