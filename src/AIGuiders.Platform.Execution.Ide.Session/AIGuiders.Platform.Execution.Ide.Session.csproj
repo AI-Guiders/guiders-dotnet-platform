@@ -7,6 +7,7 @@
     <UseGuidersModelingIdeSession>true</UseGuidersModelingIdeSession>
     <UseGuidersModelingIdeSessionPortsDotNet>true</UseGuidersModelingIdeSessionPortsDotNet>
     <UseGuidersModelingRelations>true</UseGuidersModelingRelations>
+    <UseGuidersModelingBuild>true</UseGuidersModelingBuild>
     <UseGuidersModelingCore>true</UseGuidersModelingCore>
     <UseGuidersModelingLanguage>true</UseGuidersModelingLanguage>
   </PropertyGroup>

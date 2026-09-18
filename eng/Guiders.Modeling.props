@@ -2,6 +2,7 @@
   <!-- Sibling monorepo: guiders-fsharp Platform.Modeling.* (ADR-0002 / federation split-audit).
        Opt-in flags (set true on consuming .csproj):
          UseGuidersModelingRelations          — RelationSpec kernel (ship-1 SSOT)
+         UseGuidersModelingBuild              — build-result model + DiagnosticIndex ingest witnesses
          UseGuidersModelingIdeSession         — session graph G, SessionPatch
          UseGuidersModelingLanguageAdaptersFcs — FCS backend (bind Execution.Language.Adapters.Fcs @ runtime)
          UseGuidersModelingNotationsBracket   — Kind: wire canon
@@ -41,6 +42,8 @@
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Language\AIGuiders.Platform.Modeling.Language.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingRelations)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.LanguageIntelligence.Relations\AIGuiders.Platform.Modeling.LanguageIntelligence.Relations.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingBuild)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Build\AIGuiders.Platform.Modeling.Build.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingLanguageAdaptersFcs)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Language.Adapters.Fcs\AIGuiders.Platform.Modeling.Language.Adapters.Fcs.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingLanguageAdaptersGdl)' == 'true'"
