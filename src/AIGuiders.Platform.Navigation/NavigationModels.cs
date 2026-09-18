@@ -1,6 +1,10 @@
 #nullable enable
 
+using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
 using ModelingNavigation = AIGuiders.Platform.Modeling.Navigation;
+using ModelingRelations = AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
+using AIGuiders.Platform.Modeling.Paths;
+using Microsoft.FSharp.Core;
 
 namespace AIGuiders.Platform.Navigation;
 
@@ -32,18 +36,26 @@ public sealed record NavSeed(
     string? Go = null,
     string? SolutionPath = null)
 {
-    public ModelingNavigation.Anchor ToModel() =>
+    public ModelingRelations.NavSeed ToModel() =>
         new(
-            Path,
+            LogicalPath.Create(Path),
             FSharpInterop.OptInt(Line),
             FSharpInterop.OptInt(Column),
-            FSharpInterop.OptString(SolutionPath));
+            FSharpInterop.OptString(Command),
+            FSharpInterop.OptString(Go),
+            SolutionPath is { } solutionPath
+                ? FSharpOption<LogicalPath>.Some(LogicalPath.Create(solutionPath))
+                : FSharpOption<LogicalPath>.None);
 
-    public static NavSeed FromModel(ModelingNavigation.Anchor model) => new(
-        model.Path,
+    public static NavSeed FromModel(ModelingRelations.NavSeed model) => new(
+        model.Path.Value,
         FSharpInterop.OptInt(model.Line),
         FSharpInterop.OptInt(model.Column),
-        FSharpInterop.OptString(model.SolutionPath));
+        FSharpInterop.OptString(model.Command),
+        FSharpInterop.OptString(model.Go),
+        model.Solution is not null && FSharpOption<LogicalPath>.get_IsSome(model.Solution)
+            ? model.Solution.Value.Value
+            : null);
 }
 
 public sealed record NavigationNode(
@@ -140,7 +152,7 @@ public sealed record NavigationScene(
     public static NavigationScene FromModel(ModelingNavigation.Scene model) => new(
         model.Schema,
         FromMode(model.Mode),
-        NavSeed.FromModel(model.Anchor),
+        NavSeed.FromModel(model.Seed),
         FSharpInterop.ToReadOnlyList(model.Nodes).Select(NavigationNode.FromModel).ToList(),
         FSharpInterop.ToReadOnlyList(model.Edges).Select(NavigationEdge.FromModel).ToList(),
         NavigationSceneCaps.FromModel(model.Caps),

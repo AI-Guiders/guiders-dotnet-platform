@@ -2,6 +2,7 @@
 using AIGuiders.Platform.Conformance.Navigation;
 using AIGuiders.Platform.Conformance.Schemas;
 using AIGuiders.Platform.Modeling.Ide.Session;
+using AIGuiders.Platform.Modeling.Paths;
 using AIGuiders.Platform.Navigation;
 using AIGuiders.Platform.Navigation.Code;
 using AIGuiders.Platform.Navigation.Policy;
@@ -93,14 +94,16 @@ public sealed class NavigationTests
     }
 
     [Fact]
-    public void NavSeed_roundtrips_model_anchor()
+    public void NavSeed_roundtrips_relations_nav_seed()
     {
-        var seed = new NavSeed(Path.GetFullPath("src/Widget.cs"), 10, 3, SolutionPath: Path.GetFullPath("App.slnx"));
+        var seed = new NavSeed(Path.GetFullPath("src/Widget.cs"), 10, 3, Command: "go", SolutionPath: Path.GetFullPath("App.slnx"));
         var model = seed.ToModel();
         var back = NavSeed.FromModel(model);
-        Assert.Equal(seed.Path, back.Path);
+        Assert.Equal(LogicalPath.Create(seed.Path).Value, back.Path);
         Assert.Equal(10, back.Line);
         Assert.Equal(3, back.Column);
+        Assert.Equal("go", back.Command);
+        Assert.Equal(LogicalPath.Create(seed.SolutionPath!).Value, back.SolutionPath);
     }
 
     [Fact]
