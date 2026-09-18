@@ -47,12 +47,6 @@ public static class BracketResolveBoundary
             return true;
         }
 
-        if (LegacyNavWireIngest.TryParse(bracketOrInner, out axes, out _))
-        {
-            parsePath = "legacy-nav";
-            return true;
-        }
-
         return false;
     }
 

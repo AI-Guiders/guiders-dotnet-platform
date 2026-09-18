@@ -5,7 +5,7 @@ using AIGuiders.Platform.Notations.Bracket;
 
 namespace AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 
-/// <summary>Doc reverse-scan F/M/L wire ingest only (plan §10). Nav wires → <see cref="LegacyNavWireIngest"/>.</summary>
+/// <summary>Doc reverse-scan F/M/L wire ingest only (plan §10). Nav wires → <see cref="BracketResolveBoundary.TryParseNav"/> Kind:Nav only (ship-60).</summary>
 public static class RelationWireBoundary
 {
     internal static readonly Dictionary<string, string> AxisAlias = new(StringComparer.OrdinalIgnoreCase)

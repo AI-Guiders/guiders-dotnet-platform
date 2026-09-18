@@ -67,6 +67,14 @@ public sealed class FederationPhase10ChecklistTests
     }
 
     [Fact]
+    public void LegacyNavWireIngest_is_deleted_from_execution_boundary()
+    {
+        var executionAssembly = typeof(RelationWireBoundary).Assembly;
+        Assert.Null(executionAssembly.GetType(
+            "AIGuiders.Platform.Execution.LanguageIntelligence.Relations.LegacyNavWireIngest"));
+    }
+
+    [Fact]
     public void LegacyWireSpan_is_deleted_from_execution_boundary()
     {
         var modelingAssembly = typeof(AIGuiders.Platform.Modeling.Documentation.Correspondence.DocToCodeWitness).Assembly;

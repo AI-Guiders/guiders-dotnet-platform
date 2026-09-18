@@ -24,13 +24,19 @@ public sealed class BracketResolveBoundaryTests
     }
 
     [Fact]
-    public void TryParseToAxes_rejects_legacy_fml_wire()
+    public void TryParseToAxes_doc_scan_still_ingests_legacy_fml_at_boundary()
     {
-        Assert.False(
+        Assert.True(
             BracketResolveBoundary.TryParseToAxes(
                 "[F:Program.cs; M:Foo; L:10]",
-                out _,
-                out _));
+                out var axes,
+                out var path),
+            path);
+
+        Assert.Equal("doc-scan", path);
+        Assert.Equal("Program.cs", axes.File);
+        Assert.Equal("Foo", axes.MemberKey);
+        Assert.Equal(10, axes.LineStart);
     }
 
     [Fact]
@@ -82,32 +88,28 @@ public sealed class BracketResolveBoundaryTests
     }
 
     [Fact]
-    public void TryFormatNav_flattens_legacy_nested_anchor_with_member()
+    public void TryParseNav_rejects_legacy_family_navigation()
     {
-        Assert.True(BracketResolveBoundary.TryParseNav(
-            "[Family:navigation;Command:open;Anchor:[File:CitizenRouteHost.cs;Member:RunLand;Line:50]]",
-            out var axes,
-            out var path),
-            path);
-        Assert.Equal("legacy-nav", path);
-        Assert.True(BracketResolveBoundary.TryFormatNav(axes, out var wire), wire);
-        Assert.Equal(
-            "[Kind:Nav; File:CitizenRouteHost.cs; Line:50; Member:RunLand; Command:open]",
-            wire);
+        Assert.False(
+            BracketResolveBoundary.TryParseNav(
+                "[Family:navigation;Command:open;Anchor:[F:README.md;L:10]]",
+                out _,
+                out _));
     }
 
     [Fact]
-    public void TryFormatNav_flattens_legacy_nested_anchor()
+    public void TryFormatNav_member_roundtrip()
     {
-        Assert.True(BracketResolveBoundary.TryParseNav(
-            "[Family:navigation;Command:open;Anchor:[F:README.md;L:10]]",
-            out var axes,
-            out _));
-        Assert.True(BracketResolveBoundary.TryFormatNav(axes, out var wire), wire);
-        Assert.Equal("[Kind:Nav; File:README.md; Line:10; Command:open]", wire);
-        Assert.True(BracketResolveBoundary.TryParseNav(wire, out var roundtrip, out _));
-        Assert.Equal("README.md", roundtrip.File);
-        Assert.Equal(10, roundtrip.Line);
-        Assert.Equal("open", roundtrip.Command);
+        Assert.True(
+            BracketResolveBoundary.TryFormatNav(
+                new NavResolveAxes("CitizenRouteHost.cs", Line: 50, Command: "open", Member: "RunLand"),
+                out var wire),
+            wire);
+        Assert.Equal(
+            "[Kind:Nav; File:CitizenRouteHost.cs; Line:50; Member:RunLand; Command:open]",
+            wire);
+        Assert.True(BracketResolveBoundary.TryParseNav(wire, out var axes, out var path));
+        Assert.Equal("kind-nav", path);
+        Assert.Equal("RunLand", axes.Member);
     }
 }
