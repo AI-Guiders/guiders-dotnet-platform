@@ -4,6 +4,7 @@ namespace AIGuiders.Platform.Execution.Language;
 public sealed class LanguageResolverBuilder
 {
     private readonly List<ILanguageBackend> _backends = [];
+    private ILanguageActivationCatalog? _activation;
 
     public LanguageResolverBuilder Register(ILanguageBackend backend)
     {
@@ -19,5 +20,12 @@ public sealed class LanguageResolverBuilder
         return this;
     }
 
-    public LanguageResolverCenter Build() => new(_backends);
+    public LanguageResolverBuilder WithActivation(ILanguageActivationCatalog activation)
+    {
+        ArgumentNullException.ThrowIfNull(activation);
+        _activation = activation;
+        return this;
+    }
+
+    public LanguageResolverCenter Build() => new(_backends, _activation);
 }

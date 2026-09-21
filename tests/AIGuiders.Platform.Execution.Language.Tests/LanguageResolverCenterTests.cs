@@ -34,6 +34,8 @@ public class LanguageResolverCenterTests
     [Theory]
     [InlineData("App.fsproj", LanguageIds.Fsharp)]
     [InlineData("planet.gdlproj", LanguageIds.Gdl)]
+    [InlineData("dashboard.dash", LanguageIds.Dashspec)]
+    [InlineData("report.dashspec", LanguageIds.Dashspec)]
     public void LanguagePathRules_resolve_expected_ids(string path, string expected)
     {
         Assert.Equal(expected, LanguagePathRules.ResolveLanguageId(path));

@@ -12,3 +12,4 @@ global using SymbolAtPositionResult = AIGuiders.Platform.Modeling.Language.Symbo
 global using RenameSymbolResult = AIGuiders.Platform.Modeling.Language.RenameSymbolResult;
 global using LanguageSymbol = AIGuiders.Platform.Modeling.Language.LanguageSymbol;
 global using SourceSpan = AIGuiders.Platform.Modeling.Language.SourceSpan;
+global using ILanguageActivationCatalog = AIGuiders.Platform.Modeling.Language.ILanguageActivationCatalog;

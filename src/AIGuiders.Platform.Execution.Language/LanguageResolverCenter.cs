@@ -7,13 +7,24 @@ namespace AIGuiders.Platform.Execution.Language;
 public sealed class LanguageResolverCenter
 {
     private readonly IReadOnlyList<ILanguageBackend> _backends;
+    private readonly ILanguageActivationCatalog? _activation;
 
     public LanguageResolverCenter(IEnumerable<ILanguageBackend> backends)
+        : this(backends, activation: null)
+    {
+    }
+
+    public LanguageResolverCenter(
+        IEnumerable<ILanguageBackend> backends,
+        ILanguageActivationCatalog? activation)
     {
         _backends = backends?.ToList() ?? throw new ArgumentNullException(nameof(backends));
+        _activation = activation;
     }
 
     public IReadOnlyList<ILanguageBackend> Backends => _backends;
+
+    public ILanguageActivationCatalog? Activation => _activation;
 
     public ILanguageBackend? Resolve(string path, ProjectHint? hint = null)
     {
@@ -25,8 +36,8 @@ public sealed class LanguageResolverCenter
                 return backend;
         }
 
-        var languageId = LanguagePathRules.ResolveLanguageId(path);
-        if (languageId is null)
+        var languageId = ResolveLanguageId(path);
+        if (string.IsNullOrEmpty(languageId))
             return null;
 
         return _backends.FirstOrDefault(b =>
@@ -140,6 +151,18 @@ public sealed class LanguageResolverCenter
         }
 
         return await backend.RenameSymbolAsync(req, ct).ConfigureAwait(false);
+    }
+
+    private string? ResolveLanguageId(string path)
+    {
+        if (_activation is not null)
+        {
+            var activated = _activation.ResolveLanguageId(path);
+            if (!string.IsNullOrEmpty(activated))
+                return activated;
+        }
+
+        return LanguagePathRules.ResolveLanguageId(path);
     }
 
     private static ProjectHint Hint(string? solutionOrProjectPath) =>
