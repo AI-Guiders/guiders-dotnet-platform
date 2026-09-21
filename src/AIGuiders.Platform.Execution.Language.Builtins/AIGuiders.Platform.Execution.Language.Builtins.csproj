@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <UseGuidersModelingLanguage>true</UseGuidersModelingLanguage>
+    <UseGuidersModelingLanguageAdaptersFcs>true</UseGuidersModelingLanguageAdaptersFcs>
+    <UseGuidersModelingLanguageAdaptersGdl>true</UseGuidersModelingLanguageAdaptersGdl>
+    <RootNamespace>AIGuiders.Platform.Execution.Language.Builtins</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Execution.Language.Builtins</AssemblyName>
+    <PackageId>AIGuiders.Platform.Execution.Language.Builtins</PackageId>
+    <Description>Built-in language.* family plugins (F#, GDL) for LRC and activation.</Description>
+  </PropertyGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Language\AIGuiders.Platform.Execution.Language.csproj" />
+  </ItemGroup>
+</Project>
