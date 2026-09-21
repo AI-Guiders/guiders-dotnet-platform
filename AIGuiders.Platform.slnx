@@ -113,7 +113,9 @@
     <Project Path="src/AIGuiders.Platform.Execution.Utilities.Adoption.Sources/AIGuiders.Platform.Execution.Utilities.Adoption.Sources.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.Utilities.Adoption/AIGuiders.Platform.Execution.Utilities.Adoption.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.Language/AIGuiders.Platform.Execution.Language.csproj" />
-    <Project Path="src/AIGuiders.Platform.Execution.Language.Builtins/AIGuiders.Platform.Execution.Language.Builtins.csproj" />
+    <Project Path="src/AIGuiders.Platform.Language.Fsharp/AIGuiders.Platform.Language.Fsharp.csproj" />
+    <Project Path="src/AIGuiders.Platform.Language.Gdl/AIGuiders.Platform.Language.Gdl.csproj" />
+    <Project Path="src/AIGuiders.Platform.Language.CSharp/AIGuiders.Platform.Language.CSharp.csproj" />
   </Folder>
   <Folder Name="/tools/">
     <Project Path="tools/AdoptionReport/AdoptionReport.csproj" />

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <UseGuidersModelingLanguage>true</UseGuidersModelingLanguage>
+    <RootNamespace>AIGuiders.Platform.Language.CSharp</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Language.CSharp</AssemblyName>
+    <PackageId>AIGuiders.Platform.Language.CSharp</PackageId>
+    <Description>Standard ship plugin language.csharp (LRC + activation).</Description>
+  </PropertyGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Language\AIGuiders.Platform.Execution.Language.csproj" />
+  </ItemGroup>
+</Project>

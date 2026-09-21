@@ -1,8 +1,9 @@
 using System.IO;
 
-namespace AIGuiders.Platform.Execution.Language.Builtins;
+namespace AIGuiders.Platform.Execution.Language;
 
-static class ExtensionLanguagePathRules
+/// <summary>Extension matching for language family plugins.</summary>
+public static class LanguageFamilyPathRules
 {
     public static bool HasAnyExtension(string documentPathOrId, IReadOnlyList<string> extensions)
     {

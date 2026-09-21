@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <UseGuidersModelingLanguage>true</UseGuidersModelingLanguage>
+    <UseGuidersModelingLanguageAdaptersGdl>true</UseGuidersModelingLanguageAdaptersGdl>
+    <RootNamespace>AIGuiders.Platform.Language.Gdl</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Language.Gdl</AssemblyName>
+    <PackageId>AIGuiders.Platform.Language.Gdl</PackageId>
+    <Description>Standard ship plugin language.gdl (LRC + activation).</Description>
+  </PropertyGroup>
+  <Import Project="../../eng/Guiders.Modeling.props" />
+  <ItemGroup>
+    <ProjectReference Include="..\AIGuiders.Platform.Execution.Language\AIGuiders.Platform.Execution.Language.csproj" />
+  </ItemGroup>
+</Project>

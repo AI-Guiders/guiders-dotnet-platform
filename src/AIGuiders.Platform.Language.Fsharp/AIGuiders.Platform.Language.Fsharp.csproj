@@ -2,11 +2,10 @@
   <PropertyGroup>
     <UseGuidersModelingLanguage>true</UseGuidersModelingLanguage>
     <UseGuidersModelingLanguageAdaptersFcs>true</UseGuidersModelingLanguageAdaptersFcs>
-    <UseGuidersModelingLanguageAdaptersGdl>true</UseGuidersModelingLanguageAdaptersGdl>
-    <RootNamespace>AIGuiders.Platform.Execution.Language.Builtins</RootNamespace>
-    <AssemblyName>AIGuiders.Platform.Execution.Language.Builtins</AssemblyName>
-    <PackageId>AIGuiders.Platform.Execution.Language.Builtins</PackageId>
-    <Description>Built-in language.* family plugins (F#, GDL) for LRC and activation.</Description>
+    <RootNamespace>AIGuiders.Platform.Language.Fsharp</RootNamespace>
+    <AssemblyName>AIGuiders.Platform.Language.Fsharp</AssemblyName>
+    <PackageId>AIGuiders.Platform.Language.Fsharp</PackageId>
+    <Description>Standard ship plugin language.fsharp (LRC + activation).</Description>
   </PropertyGroup>
   <Import Project="../../eng/Guiders.Modeling.props" />
   <ItemGroup>
