@@ -91,6 +91,24 @@ public class LanguageResolverCenterTests
         Assert.Equal(LanguageIds.Csharp, backend!.LanguageId);
     }
 
+    [Fact]
+    public async Task DispatchDiagnostics_sql_mssql_rejects_limit_via_request_hint()
+    {
+        var resolver = CreateResolver();
+        var result = await resolver.DispatchDiagnosticsAsync(new LanguageRequest
+        {
+            FilePath = "studio://data-lab/repl.sql",
+            Line = 1,
+            Column = 1,
+            SourceText = "SELECT * FROM users LIMIT 10",
+            SolutionOrProjectPath = "",
+            SessionDefaultLanguageId = LanguageIds.SqlMssql,
+        });
+
+        Assert.Contains(result.Diagnostics, diagnostic =>
+            diagnostic.Message.Contains("LIMIT", StringComparison.OrdinalIgnoreCase));
+    }
+
     [Theory]
     [InlineData("App.fsproj", LanguageIds.Fsharp)]
     [InlineData("planet.gdlproj", LanguageIds.Gdl)]

@@ -48,7 +48,7 @@ public sealed class LanguageResolverCenter
         LanguageRequest req,
         CancellationToken ct = default)
     {
-        var backend = Resolve(req.FilePath, Hint(req.SolutionOrProjectPath));
+        var backend = Resolve(req.FilePath, Hint(req));
         if (backend is null)
             return new DiagnosticsResult { Diagnostics = [] };
 
@@ -64,7 +64,7 @@ public sealed class LanguageResolverCenter
         LanguageRequest req,
         CancellationToken ct = default)
     {
-        var backend = Resolve(req.FilePath, Hint(req.SolutionOrProjectPath));
+        var backend = Resolve(req.FilePath, Hint(req));
         if (backend is null)
         {
             return new DocumentSymbolsResult
@@ -87,7 +87,7 @@ public sealed class LanguageResolverCenter
         LanguageRequest req,
         CancellationToken ct = default)
     {
-        var backend = Resolve(req.FilePath, Hint(req.SolutionOrProjectPath));
+        var backend = Resolve(req.FilePath, Hint(req));
         if (backend is null)
             return null;
 
@@ -98,7 +98,7 @@ public sealed class LanguageResolverCenter
         LanguageRequest req,
         CancellationToken ct = default)
     {
-        var backend = Resolve(req.FilePath, Hint(req.SolutionOrProjectPath));
+        var backend = Resolve(req.FilePath, Hint(req));
         if (backend is null)
             return new FindUsagesResult { References = [] };
 
@@ -109,7 +109,7 @@ public sealed class LanguageResolverCenter
         LanguageRequest req,
         CancellationToken ct = default)
     {
-        var backend = Resolve(req.FilePath, Hint(req.SolutionOrProjectPath));
+        var backend = Resolve(req.FilePath, Hint(req));
         if (backend is null)
             return new CompletionsResult { Items = [] };
 
@@ -120,7 +120,7 @@ public sealed class LanguageResolverCenter
         LanguageRequest req,
         CancellationToken ct = default)
     {
-        var backend = Resolve(req.FilePath, Hint(req.SolutionOrProjectPath));
+        var backend = Resolve(req.FilePath, Hint(req));
         if (backend is null)
             return null;
 
@@ -135,7 +135,7 @@ public sealed class LanguageResolverCenter
         RenameSymbolRequest req,
         CancellationToken ct = default)
     {
-        var backend = Resolve(req.Request.FilePath, Hint(req.Request.SolutionOrProjectPath));
+        var backend = Resolve(req.Request.FilePath, Hint(req.Request));
         if (backend is null)
         {
             return new RenameSymbolResult
@@ -165,8 +165,12 @@ public sealed class LanguageResolverCenter
         return LanguagePathRules.ResolveLanguageId(path);
     }
 
-    private static ProjectHint Hint(string? solutionOrProjectPath) =>
-        new() { SolutionOrProjectPath = solutionOrProjectPath ?? "", SessionDefaultLanguageId = "" };
+    private static ProjectHint Hint(LanguageRequest req) =>
+        new()
+        {
+            SolutionOrProjectPath = req.SolutionOrProjectPath ?? "",
+            SessionDefaultLanguageId = req.SessionDefaultLanguageId ?? "",
+        };
 
     private static SourceSpan EmptySpan(string path) =>
         new()
