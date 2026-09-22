@@ -2,8 +2,8 @@ using System.IO;
 
 namespace AIGuiders.Platform.Execution.Language;
 
-/// <summary>Extension matching for language family plugins.</summary>
-public static class LanguageFamilyPathRules
+/// <summary>Extension matching for Code Center language plugins.</summary>
+public static class CodeCenterDocumentPathRules
 {
     public static bool HasAnyExtension(string documentPathOrId, IReadOnlyList<string> extensions)
     {

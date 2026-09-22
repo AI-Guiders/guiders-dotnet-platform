@@ -1,17 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <GuidersFSharpRoot Condition="'$(GuidersFSharpRoot)' == ''">..\..\..\guiders-fsharp</GuidersFSharpRoot>
   </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Language\AIGuiders.Platform.Execution.Language.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Language.Fsharp\AIGuiders.Platform.Language.Fsharp.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Language.Gdl\AIGuiders.Platform.Language.Gdl.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Language.CSharp\AIGuiders.Platform.Language.CSharp.csproj" />
+    <ProjectReference Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Language.Adapters.Fcs\AIGuiders.Platform.Modeling.Language.Adapters.Fcs.fsproj" />
+    <ProjectReference Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Language.Adapters.Gdl\AIGuiders.Platform.Modeling.Language.Adapters.Gdl.fsproj" />
   </ItemGroup>
+
 </Project>

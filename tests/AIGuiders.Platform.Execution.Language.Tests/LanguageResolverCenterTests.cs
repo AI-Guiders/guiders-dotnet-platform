@@ -1,27 +1,21 @@
 using AIGuiders.Platform.Execution.Language;
 using AIGuiders.Platform.Language.CSharp;
-using AIGuiders.Platform.Language.Fsharp;
-using AIGuiders.Platform.Language.Gdl;
 using AIGuiders.Platform.Modeling.Language;
+using AIGuiders.Platform.Modeling.Language.Adapters.Fcs;
+using AIGuiders.Platform.Modeling.Language.Adapters.Gdl;
 using Xunit;
 
 namespace AIGuiders.Platform.Execution.Language.Tests;
 
 public class LanguageResolverCenterTests
 {
-    private static LanguageResolverCenter CreateResolver()
-    {
-        ILanguageFamilyPlugin[] families =
-        [
-            new FsharpLanguageFamily(),
-            new GdlLanguageFamily(),
-            new CsharpLanguageFamily(),
-        ];
-
-        return LanguageFamilyResolverHost.Create(
-            families,
-            new LanguageFamilyActivationCatalog(families));
-    }
+    private static LanguageResolverCenter CreateResolver() =>
+        new LanguageResolverBuilder()
+            .WithActivation(new PathRulesLanguageActivationCatalog())
+            .Register(new FcsLanguageBackend(null))
+            .Register(new GdlLanguageBackend())
+            .Register(new CsharpLanguageBackend())
+            .Build();
 
     [Fact]
     public void Resolve_fs_returns_fsharp_backend()
@@ -61,4 +55,3 @@ public class LanguageResolverCenterTests
         Assert.Equal(expected, LanguagePathRules.ResolveLanguageId(path));
     }
 }
-
