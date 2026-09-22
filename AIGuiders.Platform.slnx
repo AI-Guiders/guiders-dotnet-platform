@@ -114,6 +114,7 @@
     <Project Path="src/AIGuiders.Platform.Execution.Utilities.Adoption/AIGuiders.Platform.Execution.Utilities.Adoption.csproj" />
     <Project Path="src/AIGuiders.Platform.Execution.Language/AIGuiders.Platform.Execution.Language.csproj" />
     <Project Path="src/AIGuiders.Platform.Language.CSharp/AIGuiders.Platform.Language.CSharp.csproj" />
+    <Project Path="src/AIGuiders.Platform.Language.Sql/AIGuiders.Platform.Language.Sql.csproj" />
   </Folder>
   <Folder Name="/tools/">
     <Project Path="tools/AdoptionReport/AdoptionReport.csproj" />

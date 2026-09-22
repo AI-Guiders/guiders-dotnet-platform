@@ -11,4 +11,7 @@ public static class LanguageIds
     public const string Python = Modeling.Language.LanguageIds.Python;
     public const string Delphi = Modeling.Language.LanguageIds.Delphi;
     public const string Dashspec = Modeling.Language.LanguageIds.Dashspec;
+    public const string Sql = Modeling.Language.LanguageIds.Sql;
+    public const string SqlPostgres = Modeling.Language.LanguageIds.SqlPostgres;
+    public const string SqlMssql = Modeling.Language.LanguageIds.SqlMssql;
 }
