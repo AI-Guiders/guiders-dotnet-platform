@@ -1,9 +1,9 @@
 using AIGuiders.Platform.Execution.Language;
 using AIGuiders.Platform.Language.CSharp;
-using AIGuiders.Platform.Language.Sql;
 using AIGuiders.Platform.Modeling.Language;
 using AIGuiders.Platform.Modeling.Language.Adapters.Fcs;
 using AIGuiders.Platform.Modeling.Language.Adapters.Gdl;
+using AIGuiders.Platform.Modeling.Language.Adapters.Sql;
 using Xunit;
 
 namespace AIGuiders.Platform.Execution.Language.Tests;
@@ -18,6 +18,7 @@ public class LanguageResolverCenterTests
             .Register(new CsharpLanguageBackend())
             .Register(new SqlPostgresLanguageBackend())
             .Register(new SqlMssqlLanguageBackend())
+            .Register(new SqlSqliteLanguageBackend())
             .Register(new SqlLanguageBackend())
             .Build();
 
@@ -71,6 +72,17 @@ public class LanguageResolverCenterTests
     }
 
     [Fact]
+    public void Resolve_sql_sqlite_with_hint()
+    {
+        var resolver = CreateResolver();
+        var backend = resolver.Resolve(
+            "queries/local.sql",
+            new ProjectHint { SessionDefaultLanguageId = LanguageIds.SqlSqlite });
+        Assert.NotNull(backend);
+        Assert.Equal(LanguageIds.SqlSqlite, backend!.LanguageId);
+    }
+
+    [Fact]
     public void Resolve_cs_returns_csharp_backend()
     {
         var resolver = CreateResolver();
@@ -91,4 +103,3 @@ public class LanguageResolverCenterTests
         Assert.Equal(expected, LanguagePathRules.ResolveLanguageId(path));
     }
 }
-

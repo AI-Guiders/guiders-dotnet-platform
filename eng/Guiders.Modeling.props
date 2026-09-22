@@ -48,6 +48,8 @@
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Language.Adapters.Fcs\AIGuiders.Platform.Modeling.Language.Adapters.Fcs.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingLanguageAdaptersGdl)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Language.Adapters.Gdl\AIGuiders.Platform.Modeling.Language.Adapters.Gdl.fsproj" />
+    <ProjectReference Condition="'$(UseGuidersModelingLanguageAdaptersSql)' == 'true'"
+      Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Language.Adapters.Sql\AIGuiders.Platform.Modeling.Language.Adapters.Sql.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingIdeSession)' == 'true'"
       Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Ide.Session\AIGuiders.Platform.Modeling.Ide.Session.fsproj" />
     <ProjectReference Condition="'$(UseGuidersModelingCodeCenter)' == 'true'"
@@ -92,6 +94,6 @@
   <ItemGroup>
     <!-- FSharp.Core обязателен явно: CPM в sibling guiders-fsharp вычищает транзитивный
          FSharp.Core из restore-графа → CS0012 FSharpMap/FSharpOption/FSharpList (Тихон 2026-09-08). -->
-    <PackageReference Include="FSharp.Core" Version="10.1.400" />
+    <PackageReference Include="FSharp.Core" Version="10.1.401" />
   </ItemGroup>
 </Project>

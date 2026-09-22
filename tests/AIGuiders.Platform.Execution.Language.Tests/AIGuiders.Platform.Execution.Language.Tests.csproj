@@ -15,9 +15,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Execution.Language\AIGuiders.Platform.Execution.Language.csproj" />
     <ProjectReference Include="..\..\src\AIGuiders.Platform.Language.CSharp\AIGuiders.Platform.Language.CSharp.csproj" />
-    <ProjectReference Include="..\..\src\AIGuiders.Platform.Language.Sql\AIGuiders.Platform.Language.Sql.csproj" />
     <ProjectReference Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Language.Adapters.Fcs\AIGuiders.Platform.Modeling.Language.Adapters.Fcs.fsproj" />
     <ProjectReference Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Language.Adapters.Gdl\AIGuiders.Platform.Modeling.Language.Adapters.Gdl.fsproj" />
+    <ProjectReference Include="$(GuidersFSharpRoot)\src\AIGuiders.Platform.Modeling.Language.Adapters.Sql\AIGuiders.Platform.Modeling.Language.Adapters.Sql.fsproj" />
   </ItemGroup>
 
 </Project>

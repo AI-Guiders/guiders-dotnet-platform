@@ -14,4 +14,5 @@ public static class LanguageIds
     public const string Sql = Modeling.Language.LanguageIds.Sql;
     public const string SqlPostgres = Modeling.Language.LanguageIds.SqlPostgres;
     public const string SqlMssql = Modeling.Language.LanguageIds.SqlMssql;
+    public const string SqlSqlite = Modeling.Language.LanguageIds.SqlSqlite;
 }
