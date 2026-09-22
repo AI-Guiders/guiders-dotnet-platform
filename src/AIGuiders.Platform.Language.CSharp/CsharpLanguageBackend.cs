@@ -5,7 +5,7 @@ using AIGuiders.Platform.Modeling.Language;
 namespace AIGuiders.Platform.Language.CSharp;
 
 /// <summary>Activation/LRC stub until Roslyn adapter ships as planet extension.</summary>
-sealed class CsharpLanguageBackend : ILanguageBackend
+public sealed class CsharpLanguageBackend : ILanguageBackend
 {
     public string LanguageId => Modeling.Language.LanguageIds.Csharp;
 
