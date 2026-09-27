@@ -5,7 +5,7 @@ using AIGuiders.Platform.Modeling.LanguageIntelligence.Relations;
 namespace AIGuiders.Platform.Execution.LanguageIntelligence.Relations;
 
 /// <summary>
-/// Unified bracket wire resolve entry: Kind: RelationSpec + doc-scan F/M/L ingest (plan §10).
+/// Unified bracket wire resolve entry: Kind:CodeEdit / Kind:Nav RelationSpec only (ADR-0026).
 /// </summary>
 public static class BracketResolveBoundary
 {
@@ -21,12 +21,6 @@ public static class BracketResolveBoundary
             && CodeEditResolveProjection.TryFromRelationSpec(spec, out axes))
         {
             parsePath = "kind-spec";
-            return true;
-        }
-
-        if (RelationWireBoundary.TryParseDocScan(bracketOrInner, out axes, out _))
-        {
-            parsePath = "doc-scan";
             return true;
         }
 

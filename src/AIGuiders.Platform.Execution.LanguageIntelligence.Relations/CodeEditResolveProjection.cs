@@ -86,13 +86,20 @@ public static class CodeEditResolveProjection
             return true;
         }
 
+        var typeOpt = CodeEditWireEncoding.tryDecodeType(container);
+        var textOpt = CodeEditWireEncoding.tryDecodeText(container);
+        string? typeKey = OptionModule.IsSome(typeOpt) ? OptNonEmpty(OptionModule.GetValue(typeOpt)) : null;
+        string? textNeedle = OptionModule.IsSome(textOpt) ? OptNonEmpty(OptionModule.GetValue(textOpt)) : null;
+
         axes = new CodeEditResolveAxes(
             File: fileRef.Item.Value,
             MemberKey: string.IsNullOrWhiteSpace(symbol.Name) ? null : symbol.Name,
             LineStart: lineStart,
             LineEnd: lineEnd,
             ScopeKind: scopeKind,
-            ScopeIndex: scopeIndex);
+            ScopeIndex: scopeIndex,
+            TextNeedle: textNeedle,
+            TypeKey: typeKey);
         return true;
     }
 

@@ -24,19 +24,13 @@ public sealed class BracketResolveBoundaryTests
     }
 
     [Fact]
-    public void TryParseToAxes_doc_scan_still_ingests_legacy_fml_at_boundary()
+    public void TryParseToAxes_rejects_legacy_fml_shape()
     {
-        Assert.True(
+        Assert.False(
             BracketResolveBoundary.TryParseToAxes(
                 "[F:Program.cs; M:Foo; L:10]",
-                out var axes,
-                out var path),
-            path);
-
-        Assert.Equal("doc-scan", path);
-        Assert.Equal("Program.cs", axes.File);
-        Assert.Equal("Foo", axes.MemberKey);
-        Assert.Equal(10, axes.LineStart);
+                out _,
+                out _));
     }
 
     [Fact]
