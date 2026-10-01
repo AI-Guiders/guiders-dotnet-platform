@@ -19,6 +19,7 @@
 | [0065](./GUIDERS-ADR-0065-gdl-emit-operational-paths.md) | Accepted · In progress | GDL emit author vs consumer operational paths |
 | [0066](./GUIDERS-ADR-0066-code-center-federation-product.md) | Accepted · Phase 0 | Multi-projection edit host; TextEngine = TextSurface v0 |
 | [0067](./GUIDERS-ADR-0067-language-profile-federation-model.md) | Accepted · Phase 0 | Concept graph SSOT; SqlScript + dialect flavours (Studio) |
+| [0068](./GUIDERS-ADR-0068-everything-as-code-gdl-rails.md) | Accepted · Charter | EaC on GDL declare→emit→enforce; DashSpec vs Forge quarries; cross-enrichment |
 
 ## Related repos
 
