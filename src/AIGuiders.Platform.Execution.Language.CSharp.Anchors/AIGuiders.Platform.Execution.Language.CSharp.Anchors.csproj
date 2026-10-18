@@ -1,22 +1,43 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+
+
   <PropertyGroup>
+
+
 
     <RootNamespace>AIGuiders.Platform.Execution.Language.CSharp.Anchors</RootNamespace>
 
+
+
     <AssemblyName>AIGuiders.Platform.Execution.Language.CSharp.Anchors</AssemblyName>
+
+
 
     <PackageId>AIGuiders.Platform.Execution.Language.CSharp.Anchors</PackageId>
 
+
+
     <Description>Obsolete shim — types forwarded to Language.CSharp.Relations (federation ship-16).</Description>
+
+
 
   </PropertyGroup>
 
+
+
   <ItemGroup>
+
+
 
     <ProjectReference Include="..\AIGuiders.Platform.Execution.Language.CSharp.Relations\AIGuiders.Platform.Execution.Language.CSharp.Relations.csproj" />
 
+
+
   </ItemGroup>
 
+
+
 </Project>
-
+
+

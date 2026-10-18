@@ -43,4 +43,4 @@ public static class CatalogParser
         return new() { Document = document, Diagnostics = context.Diagnostics };
     }
 }
-
+
