@@ -17,6 +17,6 @@
     <ProjectReference Include="..\AIGuiders.Platform.Execution.Documentation.Correspondence.Resolve\AIGuiders.Platform.Execution.Documentation.Correspondence.Resolve.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Execution.Language.Adapters.Fcs\AIGuiders.Platform.Execution.Language.Adapters.Fcs.csproj" />
     <ProjectReference Include="..\AIGuiders.Platform.Execution.Language.CSharp.Relations\AIGuiders.Platform.Execution.Language.CSharp.Relations.csproj" />
-    <PackageReference Include="FSharp.Core" Version="10.1.401" />
+    <PackageReference Include="FSharp.Core" Version="11.0.101" />
   </ItemGroup>
 </Project>
